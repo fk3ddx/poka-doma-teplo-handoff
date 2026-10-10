@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import {lathe, tube, cyl, rboxGeo, boxGeo} from '../world/geo.js';
+import {buildHand} from './creature.js';
 
 // First-person held items, attached to the camera.
 export class Hands {
@@ -57,6 +58,20 @@ export class Hands {
       this.lap.position.set(0, -0.55, -0.45); this.lap.rotation.x = -1.25; this.lap.visible = false;
       camera.add(this.lap);
     }
+    // the thing's hands, for the death: they come in from the screen edges and grab the face
+    {
+      const skin = new THREE.MeshStandardMaterial({color: 0x4c483e, roughness: 0.6, envMapIntensity: 0.15});
+      const nail = new THREE.MeshStandardMaterial({color: 0x140c08, roughness: 0.25});
+      this.claws = [];
+      for (const s of [-1, 1]) {
+        const h = buildHand(skin, nail, s, 1.9); h.scale.setScalar(0.75);
+        const g = new THREE.Group(); g.add(h); g.visible = false; camera.add(g);
+        const fore = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.035, 0.9, 10), skin); fore.position.y = 0.45; h.add(fore);
+        h.traverse(o => { if (o.isMesh) o.renderOrder = 6; });
+        this.claws.push({g, h, s});
+      }
+      this.claw = 0;
+    }
     for (const it of Object.values(this.items)) { it.visible = false; this.root.add(it); it.traverse(o => { if (o.isMesh) { o.renderOrder = 5; } }); }
     this.charge = 0; this.squeezeT = 0;
   }
@@ -64,12 +79,21 @@ export class Hands {
     for (const [k, it] of Object.entries(this.items)) it.visible = k === name;
     this.current = name;
     this.blend = 0;
-    if (name !== 'flashlight') { this.spot.intensity = 0; this.spot.visible = false; }
+    if (name !== 'flashlight') { this.spot.intensity = 0; this.spot.shadow.autoUpdate = false; }
   }
   squeeze() { this.charge = Math.min(1, this.charge + 0.34); this.squeezeT = 0.18; }
   get lightOn() { return this.current === 'flashlight' && this.charge > 0.02; }
   update(dt, moving) {
     this.t += dt;
+    // claws: 0 hidden, 1 gripping the face
+    for (const c of this.claws) {
+      const k = this.claw;
+      c.g.visible = k > 0.01;
+      const ease = 1 - Math.pow(1 - Math.min(1, k), 3);
+      c.g.position.set(c.s * (0.62 - ease * 0.3), 0.04 + c.s * 0.03 + Math.sin(this.t * 40) * 0.006 * ease, -0.3);
+      c.g.rotation.set(0.25, c.s * 0.5, -c.s * (Math.PI / 2 - 0.25 + ease * 0.15));
+      c.h.curl(0.15 + ease * 0.75 + Math.sin(this.t * 30 + c.s) * 0.05 * ease);
+    }
     this.blend = Math.min(1, this.blend + dt * 3);
     const it = this.current ? this.items[this.current] : null;
     this.root.position.y = (1 - this.blend) * -0.25 + Math.sin(this.t * 1.3) * 0.003 + (moving ? Math.sin(this.t * 9) * 0.006 : 0);
@@ -87,7 +111,7 @@ export class Hands {
       const flick = this.charge < 0.25 ? (0.6 + Math.random() * 0.4) : 1;
       const k = Math.pow(this.charge, 0.6) * flick;
       this.spot.intensity = 20 * k;
-      this.spot.visible = k > 0.01;
+      this.spot.shadow.autoUpdate = k > 0.01;
       this.lens.material.emissiveIntensity = 2.5 * k;
     }
   }

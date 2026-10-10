@@ -123,7 +123,7 @@ function sodiumLamp(B, scene, M, x, z, gy, glowTex, ry = 0) {
   halo.scale.set(5, 5, 1); halo.position.set(hx, gy + 7.7, hz); scene.add(halo);
   const l = new THREE.SpotLight(0xff9a40, 260, 26, 0.95, 0.7, 1.6);
   l.position.set(hx, gy + 7.7, hz); l.target.position.set(hx, gy, hz); scene.add(l, l.target);
-  return {lens, halo, light: l, mat: lampMat};
+  return {lens, halo, light: l, mat: lampMat, base: l.intensity};
 }
 
 function glowTexture() {

@@ -22,6 +22,9 @@ add(S.EAR_VOICE, 'irina', 1.35);
 for (const l of S.CALL_END) if (l.text) add(l.text);
 for (const t of S.ANNOUNCE) add(t, 'denis', 1.08);
 add(S.BALCONY_VOICE, 'irina', 1.35);
+add(S.FAKE_MEMORY, 'irina', 1.3);
+for (const t of S.GRANDMA_END) add(t, 'irina', 1.15);
+for (const t of S.SEARCH_VOICE) add(t, 'irina', 1.45);
 
 export function slug(text) {
   let h = 2166136261;

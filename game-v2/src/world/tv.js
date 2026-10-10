@@ -45,7 +45,7 @@ export class TV {
     add(cyl(0.025, 0.03, 0.02, 12), std(0x1a1a1a, 0.5), 0.15, H + 0.01, -0.05);
     for (const s of [-1, 1]) { const a = add(cyl(0.003, 0.002, 0.45, 5), M.chrome, 0.15 + s * 0.1, H + 0.2, -0.05); a.rotation.z = -s * 0.5; }
     // light
-    this.light = new THREE.PointLight(0x9fb8ff, 0, 5, 2);
+    this.light = new THREE.PointLight(0x9fb8ff, 0, 7, 1.6);
     this.light.position.set(-0.08, H / 2, D / 2 + 0.35);
     g.add(this.light);
     this.lightBase = 3.2;
@@ -54,7 +54,8 @@ export class TV {
     this.power = true;
   }
 
-  setMode(m) { this.mode = m; this.t = 0; this.frame = 0; }
+  setMode(m) { this.mode = m; this.t = 0; this.frame = 0; if (this.screenMat.emissiveMap !== this.tex) { this.screenMat.emissiveMap = this.tex; this.screenMat.needsUpdate = true; } }
+  setFeed(texture) { this.mode = 'feed'; this.screenMat.emissiveMap = texture; this.screenMat.needsUpdate = true; }
   get on() { return this.mode !== 'off'; }
 
   update(dt) {
@@ -63,6 +64,7 @@ export class TV {
     const target = powered ? 1 : 0;
     this.screenMat.emissiveIntensity += (target * 1.15 - this.screenMat.emissiveIntensity) * Math.min(1, dt * (target ? 3 : 12));
     if (!powered) { this.light.intensity = 0; return; }
+    if (this.mode === 'feed') { this.light.color.setRGB(0.6, 0.65, 0.75); this.light.intensity = this.lightBase * 2.6 * (0.85 + Math.random() * 0.15); return; }
     this.frame += dt;
     if (this.frame < 1 / 18) return;
     this.frame = 0;

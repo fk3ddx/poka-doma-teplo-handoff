@@ -143,8 +143,13 @@ export function buildDoors(scene, col, M) {
   d.kitchen = new Door({scene, col, name: 'kitchen', hinge: new THREE.Vector3(6.9, 0, 2.95), closedRot: 0, openDelta: Math.PI / 2 * 0.9, width: 0.68, build: interiorLeaf(M, {glass: true, pattern: true}), colBox: [6.9, 2.9, 7.6, 3.0], startOpen: 0.95});
   d.bath = new Door({scene, col, name: 'bath', hinge: new THREE.Vector3(4.65, 0, 5.6), closedRot: Math.PI / 2, openDelta: Math.PI / 2 * 0.9, width: 0.68, build: interiorLeaf(M), colBox: [4.6, 4.9, 4.7, 5.6]});
   d.bath.locked = true;
-  d.front = new Door({scene, col, name: 'front', hinge: new THREE.Vector3(7.62, 0, 6.08), closedRot: 0, openDelta: Math.PI / 2 * 0.85, width: 0.86, height: 2.02, thick: 0.065, build: frontLeaf(M), colBox: [7.6, 6.0, 8.5, 6.3]});
+  d.front = new Door({scene, col, name: 'front', hinge: new THREE.Vector3(7.6, 0, 6.08), closedRot: 0, openDelta: Math.PI / 2 * 0.85, width: 0.9, height: 2.06, thick: 0.065, build: frontLeaf(M), colBox: [7.6, 6.0, 8.5, 6.3]});
   d.front.locked = true;
   d.balcony = new Door({scene, col, name: 'balcony', hinge: new THREE.Vector3(5.55, 0, -0.06), closedRot: Math.PI, openDelta: Math.PI / 2 * 0.95, width: 0.75, height: 2.28, thick: 0.05, build: balconyLeaf(M), colBox: [4.8, -0.35, 5.55, 0], startOpen: 0.16});
+  // door stops (притвор) on the inside of the entrance: no light leaks around the leaf
+  const stop = M.doorPaint;
+  for (const [w, h, x, y] of [[0.04, 2.08, 7.59, 1.04], [0.04, 2.08, 8.51, 1.04], [0.96, 0.04, 8.05, 2.06]]) {
+    const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, 0.05), stop); m.position.set(x, y, 6.03); m.castShadow = true; scene.add(m);
+  }
   return d;
 }

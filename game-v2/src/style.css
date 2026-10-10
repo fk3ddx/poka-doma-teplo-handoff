@@ -78,3 +78,14 @@ html, body { margin: 0; height: 100%; overflow: hidden; background: #000; color:
 
 #fps { position: absolute; right: 10px; top: 8px; font-size: 12px; color: #9f9; text-shadow: 0 0 3px #000; display: none; }
 #fps.on { display: block; }
+
+#hideview { position: absolute; inset: 0; opacity: 0; transition: opacity .4s; pointer-events: none; }
+#hideview.on { opacity: 1; }
+#hideview.wardrobe { background: linear-gradient(90deg, #050302 0 46%, rgba(0,0,0,.35) 47.5%, rgba(0,0,0,0) 48.5% 51.5%, rgba(0,0,0,.35) 52.5%, #050302 54% 100%); }
+#hideview.bed { background: linear-gradient(180deg, #030201 0 30%, rgba(10,6,4,.92) 30% 34%, #030201 34% 40%, rgba(10,6,4,.9) 40% 43%, rgba(0,0,0,.6) 43% 47%, rgba(0,0,0,0) 52%), linear-gradient(0deg, rgba(0,0,0,.7) 0 6%, rgba(0,0,0,0) 14%); }
+#hideview.table { background: repeating-linear-gradient(90deg, rgba(150,40,35,.95) 0 18px, rgba(230,220,200,.95) 18px 36px) top / 100% 30% no-repeat, linear-gradient(180deg, rgba(0,0,0,0) 30%, rgba(0,0,0,.5) 32%, rgba(0,0,0,0) 40%); }
+#breath { position: absolute; left: 50%; bottom: 13%; width: 240px; height: 6px; margin-left: -120px; background: rgba(255,255,255,.12); border-radius: 3px; opacity: 0; transition: opacity .3s; }
+#breath.on { opacity: 1; }
+#breath .fill { height: 100%; width: 100%; background: #d8d0c0; border-radius: 3px; transition: background .2s; }
+#breath.holding .fill { background: #7ab0d8; }
+#breath.low .fill { background: #c03028; }

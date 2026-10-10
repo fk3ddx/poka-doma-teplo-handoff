@@ -21,12 +21,17 @@ const FilmShader = {
     uFear: {value: 0},          // 0..1 tension: desaturate + tighter vignette
     uWarm: {value: 1},          // grading warmth
     uFish: {value: 0},          // peephole lens
+    uGore: {value: 0},          // blood over the lens
+    uTear: {value: 0},          // face being ripped apart
+    uRed: {value: 0},           // red-out
   },
   vertexShader: `varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }`,
   fragmentShader: `
-    uniform sampler2D tDiffuse; uniform float uTime, uVhs, uBright, uRewind, uGlitch, uFear, uWarm, uFish; uniform vec2 uRes;
+    uniform sampler2D tDiffuse; uniform float uTime, uVhs, uBright, uRewind, uGlitch, uFear, uWarm, uFish, uGore, uTear, uRed; uniform vec2 uRes;
     varying vec2 vUv;
     float hash(vec2 p){ p = fract(p*vec2(123.34, 456.21)); p += dot(p, p+45.32); return fract(p.x*p.y); }
+    float vnoise(vec2 p){ vec2 i=floor(p), f=fract(p); f=f*f*(3.0-2.0*f); return mix(mix(hash(i),hash(i+vec2(1,0)),f.x),mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),f.x),f.y); }
+    float fbm2(vec2 p){ float v=0.0,a=0.5; for(int i=0;i<5;i++){ v+=a*vnoise(p); p*=2.03; a*=0.5; } return v; }
     float noise(float x){ float i=floor(x); float f=fract(x); return mix(hash(vec2(i,0.)), hash(vec2(i+1.,0.)), smoothstep(0.,1.,f)); }
     vec3 sampleSoft(vec2 uv, float spread){
       vec2 px = spread / uRes;
@@ -61,6 +66,17 @@ const FilmShader = {
         jit += rb * uRewind * 0.05;
       }
       uv.x += jit;
+      // face ripped apart: the image splits along a jagged seam, halves pulled outward
+      float seam = 0.0, fleshMask = 0.0;
+      if (uTear > 0.0) {
+        float jag = (vnoise(vec2(uv.y * 18.0, 3.0)) - 0.5) * 0.06 + (vnoise(vec2(uv.y * 70.0, 9.0)) - 0.5) * 0.015;
+        float dx = uv.x - 0.5 - jag;
+        float gap = uTear * 0.28 * (0.75 + 0.25 * sin(uv.y * 3.14159));
+        fleshMask = 1.0 - smoothstep(gap * 0.8, gap, abs(dx));
+        seam = smoothstep(gap + 0.06, gap, abs(dx)) * (1.0 - fleshMask);
+        uv.x = 0.5 + jag + sign(dx) * max(0.0, abs(dx) - gap);
+        uv.y += sign(dx) * uTear * 0.03 * sin(uv.y * 6.0);
+      }
       // chroma bleed
       float ca = (0.0012 * v + uGlitch*0.012 + uRewind*0.006);
       vec3 col;
@@ -95,6 +111,29 @@ const FilmShader = {
         col += step(0.985, hash(vec2(line*0.37, floor(t*50.)))) * uRewind * 0.6;
       }
       if (uFish > 0.0) col = mix(col, col * vec3(0.95, 1.0, 0.85), uFish) * fishMask;
+      // torn skin edges and raw flesh in the gap
+      if (uTear > 0.0) {
+        float fib = vnoise(vec2(vUv.x * 60.0, vUv.y * 6.0));
+        vec3 flesh = mix(vec3(0.22, 0.01, 0.02), vec3(0.55, 0.06, 0.06), fib) * (0.6 + 0.4 * vnoise(vUv * 12.0));
+        flesh += vec3(0.5, 0.35, 0.3) * smoothstep(0.85, 0.95, vnoise(vUv * vec2(14.0, 60.0))) * 0.4; // fat/tendon strands
+        col = mix(col, col * vec3(0.5, 0.12, 0.1), seam * 0.9);
+        col = mix(col, flesh, fleshMask);
+      }
+      // blood over the lens: splatter that spreads, then drips running down
+      if (uGore > 0.0) {
+        float b = fbm2(vUv * vec2(3.5, 2.5) + 7.3);
+        float edge = length((vUv - 0.5) * vec2(1.2, 1.0));
+        float splat = smoothstep(1.2 - uGore * 0.75, 1.24 - uGore * 0.75, b * 0.6 + edge * 0.95);
+        float colId = floor(vUv.x * 46.0);
+        float dl = hash(vec2(colId, 1.7)) * uGore * 1.4;
+        float drip = step(1.0 - dl, 1.0 - vUv.y + 0.0) * step(0.55, hash(vec2(colId, 4.1)));
+        drip *= smoothstep(0.5, 0.2, abs(fract(vUv.x * 46.0) - 0.5));
+        float blood = clamp(splat + drip, 0.0, 1.0);
+        float sh = vnoise(vUv * 9.0) * 0.7 + vnoise(vUv * 31.0) * 0.3;
+        vec3 bc = mix(vec3(0.16, 0.0, 0.01), vec3(0.45, 0.02, 0.03), sh) + vec3(0.25) * step(0.97, sh) * blood;
+        col = mix(col, bc, blood * 0.92);
+      }
+      if (uRed > 0.0) col = mix(col, vec3(dot(col, vec3(0.6, 0.3, 0.1)), 0.0, 0.0) * 1.2, uRed);
       gl_FragColor = vec4(col, 1.0);
     }`,
 };

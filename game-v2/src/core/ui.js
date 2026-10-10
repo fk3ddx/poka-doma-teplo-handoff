@@ -98,6 +98,16 @@ export class UI {
     this.el.flash.style.transition = 'none'; this.el.flash.style.opacity = 1;
     requestAnimationFrame(() => { this.el.flash.style.transition = `opacity ${ms}ms`; this.el.flash.style.opacity = 0; });
   }
+  hideOverlay(kind) {
+    const el = document.getElementById('hideview');
+    el.className = kind ? 'on ' + kind : '';
+  }
+  breath(v, holding) {
+    const el = document.getElementById('breath');
+    if (v === null) { el.className = ''; return; }
+    el.className = 'on' + (holding ? ' holding' : '') + (v < 0.25 ? ' low' : '');
+    el.firstElementChild.style.width = (v * 100).toFixed(0) + '%';
+  }
   eyes(closed, warm = false) {
     this.el.eyelids.classList.toggle('closed', closed);
     this.el.eyelids.classList.toggle('warm', warm);

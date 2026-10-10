@@ -1,6 +1,9 @@
 import * as THREE from 'three';
 import * as S from './script.js';
 import {spots, rooms} from '../world/layout.js';
+import {PHASE_LIGHT} from '../world/phases.js';
+import {tube} from '../world/geo.js';
+import {LAYER_FEED, setLayerDeep} from './scares.js';
 
 const V = (x, y, z) => new THREE.Vector3(x, y, z);
 const ARMCHAIR_SEAT = {pos: V(3.33, 0.98, 0.8), yaw: -1.914, pitch: -0.22, yawRange: 1.5};
@@ -13,6 +16,11 @@ const NODES = {
   balcony: V(5.17, 0, -0.85), balconyDoor: V(5.17, 0, 0.35), living: V(4.7, 0, 2.0), livingS: V(5.0, 0, 3.6), livingDoor: V(5.65, 0, 4.45),
   hallB: V(5.65, 0, 5.25), hallA: V(7.6, 0, 4.9), front: V(8.05, 0, 5.6), kitchenDoor: V(7.25, 0, 2.95), kitchen: V(7.6, 0, 1.6),
   bedroomDoor: V(2.85, 0, 3.75), bedroom: V(1.6, 0, 2.6),
+};
+const HIDE = {
+  wardrobe: {name: 'шифоньер', cam: V(2.56, 1.42, 2.3), yaw: Math.PI / 2, pitch: -0.05, front: V(1.85, 0, 2.3), exit: V(2.0, 0, 2.3), overlay: 'wardrobe'},
+  bed: {name: 'кровать', cam: V(0.62, 0.24, 3.15), yaw: -Math.PI / 2, pitch: 0.05, front: V(1.45, 0, 3.0), exit: V(1.4, 0, 3.1), overlay: 'bed'},
+  table: {name: 'стол', cam: V(6.95, 0.42, 0.85), yaw: -Math.PI / 2, pitch: 0.0, front: V(7.6, 0, 0.9), exit: V(7.5, 0, 1.7), overlay: 'table'},
 };
 const EDGES = [['balcony', 'balconyDoor'], ['balconyDoor', 'living'], ['living', 'livingS'], ['livingS', 'livingDoor'], ['livingDoor', 'hallB'], ['hallB', 'hallA'], ['hallA', 'front'], ['hallA', 'kitchenDoor'], ['kitchenDoor', 'kitchen'], ['livingS', 'bedroomDoor'], ['bedroomDoor', 'bedroom'], ['living', 'bedroomDoor']];
 
@@ -35,6 +43,11 @@ export class Game {
     this.creatureActive = false;
     this.film = this.renderer.film.uniforms;
     this.faceLight = new THREE.PointLight(0xffd0b0, 0, 2.5, 2); this.scene.add(this.faceLight);
+    this.memory = [];   // hiding places used in earlier loops — the thing remembers them too
+    this.hidden = null; this.breath = 1; this.holding = false; this.gaspT = 0;
+    // grandpa's belt tying the balcony handle to the radiator riser
+    this.beltMesh = new THREE.Mesh(tube([[4.86, 1.05, -0.02], [4.7, 0.95, 0.06], [4.47, 0.72, 0.07]], 0.012, 10, 6), new THREE.MeshStandardMaterial({color: 0x2a1a10, roughness: 0.5}));
+    this.beltMesh.visible = false; this.scene.add(this.beltMesh);
     this.setupInteractions();
     this.audio.roomOf = (x, z) => roomOf(x, z);
   }
@@ -130,7 +143,7 @@ export class Game {
     // TV
     I.add({obj: W.tv.group, prompt: () => W.tv.on ? 'Выключить телевизор' : 'Включить телевизор', enabled: () => g.phase === 'warm' || g.phase === 'end', action: () => g.tvToggle()});
     // switches
-    const sw = (obj, light, pos) => I.add({obj, prompt: 'Выключатель', action: () => { const on = g.lights.toggle(light); obj.userData.set(on); g.audio.switchClick(pos); g.renderer.markShadows(2); g.onSwitch(light, on); }});
+    const sw = (obj, light, pos) => I.add({obj, prompt: 'Выключатель', action: () => { const on = g.lights.toggle(light); obj.userData.set(on); g.audio.switchClick(pos); g.onSwitch(light, on); }});
     sw(W.switchKitchen, 'kitchen', W.switchKitchen.position);
     sw(W.switchLiving, 'living', W.switchLiving.position);
     sw(W.switchHall, 'hall', W.switchHall.position);
@@ -144,7 +157,13 @@ export class Game {
     I.proxy(this.scene, 6.62, 1.58, 1.6, 0.05, 0.35, 0.22, {prompt: 'Календарь', action: () => g.say(S.THOUGHTS.calendar)});
     I.proxy(this.scene, 8.48, 0.65, 2.55, 0.62, 1.2, 0.62, {prompt: 'Холодильник', action: () => g.say(g.lights.mains ? S.THOUGHTS.fridge : S.THOUGHTS.fridgeOff)});
     I.proxy(this.scene, 6.65, 1.62, 1.0, 0.1, 0.18, 0.28, {prompt: 'Радиоточка', action: () => g.say(S.THOUGHTS.radio)});
-    I.proxy(this.scene, 2.52, 1.0, 2.3, 0.5, 1.8, 1.0, {prompt: 'Шифоньер', action: () => g.say(S.THOUGHTS.wardrobe)});
+    I.proxy(this.scene, 2.52, 1.0, 2.3, 0.5, 1.8, 1.0, {prompt: () => g.canHide ? 'Спрятаться в шифоньер' : (g.loop >= 1 && g.phase === 'event' && !g.flags.belt ? 'Взять дедов ремень' : 'Шифоньер'), action: () => {
+      if (g.canHide) return g.hide('wardrobe');
+      if (g.loop >= 1 && g.phase === 'event' && !g.flags.belt) { g.flags.belt = true; g.audio.creak(V(2.5, 1, 2.3), 0.15, 0.6, 300); g.say(S.THOUGHTS.belt); return; }
+      g.say(S.THOUGHTS.wardrobe);
+    }});
+    I.proxy(this.scene, 0.52, 0.35, 3.3, 0.95, 0.5, 2.0, {prompt: 'Залезть под кровать', enabled: () => g.canHide && !g.hidden, action: () => g.hide('bed')});
+    I.proxy(this.scene, 6.92, 0.55, 0.85, 0.66, 0.4, 0.96, {prompt: 'Спрятаться под стол', enabled: () => g.canHide && !g.hidden, action: () => g.hide('table')});
     I.proxy(this.scene, 6.25, 1.27, 0.75, 0.4, 0.9, 0.9, {prompt: 'Сервант', action: () => g.say(S.THOUGHTS.sideboard)});
     I.add({obj: W.livingClock.group, prompt: 'Часы', action: () => g.say(`${g.timeStr()}. ${g.clockComment()}`)});
     I.add({obj: W.kitchenClock.group, prompt: 'Часы', action: () => g.say(`${g.timeStr()}. ${g.clockComment()}`)});
@@ -165,7 +184,7 @@ export class Game {
   async newGame() {
     this.abort();
     const tok = this.token;
-    this.phase = 'intro'; this.loop = 0; this.deaths = 0; this.flags = {};
+    this.phase = 'intro'; this.loop = 0; this.deaths = 0; this.flags = {}; this.memory = []; this.endingDeath = false;
     this.resetWorld();
     this.player.canMove = false; this.ui.crosshair(false);
     this.ui.fade(1, 0);
@@ -297,7 +316,7 @@ export class Game {
     let res = -1;
     if (kind === 'call0') { this.done('phone'); res = await this.dialogue(S.CALL0); this.afterCall0(); }
     else if (kind === 'call1') { res = await this.dialogue(S.call1(this.loop, this.world.doors.balcony.target < 0.02, this.flags.flashlight)); this.flags.call1Done = true; }
-    else if (kind === 'fake') { this.flags.fakeAnswered = true; await this.dialogue(S.FAKE_CALL); }
+    else if (kind === 'fake') { this.flags.fakeAnswered = true; await this.dialogue(this.flags.tied ? [{who: 'Бабушка', text: S.FAKE_MEMORY, strange: true}, ...S.FAKE_CALL.slice(1)] : S.FAKE_CALL); }
     else if (kind === 'code') { await this.wait(0.6); this.audio.busyTone(1.5); }
     else if (kind === 'call2') { await this.dialogue(S.call2(this.loop)); this.flags.call2Done = true; }
     else if (kind === 'end') { await this.dialogue(S.CALL_END); this.flags.endCall = true; }
@@ -362,7 +381,16 @@ export class Game {
   }
   balconyToggle() {
     const d = this.world.doors.balcony, p = V(5.17, 1, -0.1);
-    if (d.target > 0.05) { d.setTarget(0, 1.4); setTimeout(() => { this.audio.doorClose(p, 0.4); this.audio.click(p, 2200, 0.3); }, 500); if (this.phase === 'warm') this.say(S.THOUGHTS.balconyClosed); }
+    if (this.flags.tied) { this.say(S.THOUGHTS.tied); return; }
+    if (d.target > 0.05) {
+      d.setTarget(0, 1.4); setTimeout(() => { this.audio.doorClose(p, 0.4); this.audio.click(p, 2200, 0.3); }, 500);
+      if (this.flags.belt) { this.flags.tied = true; setTimeout(() => { this.beltMesh.visible = true; this.audio.creak(p, 0.12, 0.5, 500); this.say(S.THOUGHTS.tied); }, 900); }
+      else if (this.phase === 'event' || this.loop === 0) {
+        // the latch is broken: the wind pushes it open again
+        const tok = this.token;
+        setTimeout(() => { if (this.alive(tok) && !this.flags.tied) { d.setTarget(0.35, 0.6); this.audio.creak(p, 0.25, 1.2, 220); this.audio.fade('wind', 0.32, 1); this.say(S.THOUGHTS.latchBroken); } }, 2600);
+      } else this.say(S.THOUGHTS.balconyClosed);
+    }
     else { d.setTarget(0.85, 1.2); this.audio.doorOpen(p, 0.25); this.say(S.THOUGHTS.balconyOpen); }
     setTimeout(() => this.updateBalconyAudio(), 600);
   }
@@ -400,7 +428,7 @@ export class Game {
     const opp = this.world.opposite;
     opp.info.forEach((w, i) => { if (w.origLit === undefined) w.origLit = w.lit; opp.set(i, on && w.origLit); });
     opp.set(this.world.valyaWindow, on);
-    for (const l of this.world.streetLamps) { l.light.visible = on; l.halo.visible = on; l.mat.color.set(on ? 0xffa040 : 0x111111); }
+    for (const l of this.world.streetLamps) { l.light.intensity = on ? l.base : 0; l.halo.visible = on; l.mat.color.set(on ? 0xffa040 : 0x111111); }
   }
 
   async continueFromCheckpoint() {
@@ -436,6 +464,9 @@ export class Game {
   }
   restore() {
     if (!this.snap) this.snapshot();
+    this.flags.belt = false; this.flags.tied = false; this.beltMesh.visible = false;
+    this.unhide(true); this.canHide = false;
+    this.world.doors.bath.snap(0); this.world.doors.bath.locked = true;
     const d = this.world.doors, s = this.snap;
     d.balcony.snap(s.balcony); d.front.snap(0); d.front.locked = s.frontLocked;
     d.kitchen.snap(s.kitchenDoor); d.living.snap(s.livingDoor); d.bedroom.snap(s.bedroomDoor);
@@ -451,7 +482,8 @@ export class Game {
     this.abort();
     const tok = this.token;
     this.phase = 'event';
-    if (first) { this.snapshot(); this.ui.clearObjectives(); try { localStorage.setItem('atk-zap-checkpoint-v1', JSON.stringify({snap: this.snap, loop: this.loop, deaths: this.deaths, flags: {flashlight: !!this.flags.flashlight, slippers: true, tea: true}})); } catch (e) {} }
+    this.ui.clearObjectives();
+    if (first) { this.snapshot(); try { localStorage.setItem('atk-zap-checkpoint-v1', JSON.stringify({snap: this.snap, loop: this.loop, deaths: this.deaths, flags: {flashlight: !!this.flags.flashlight, slippers: true, tea: true}})); } catch (e) {} }
     else this.restore();
     const W = this.world, A = this.audio;
     // reset event state
@@ -465,7 +497,8 @@ export class Game {
     this.hands.hold('tea'); this.hands.charge = 0;
     this.eyesClosed = false; this.ui.eyes(false);
     this.clock = 21 * 60 + 59 + 40 / 60; this.clockRate = 1 / 60;
-    W.tv.setMode(this.loop >= 2 ? 'face' : 'concert'); A.music(TV_POS);
+    if (this.loop === 0) { W.tv.setMode('concert'); A.music(TV_POS); }
+    else { W.tv.setMode(this.loop >= 2 ? 'face' : 'static'); A.tvStatic(TV_POS); }
     this.film.uFear.value = 0;
     this.renderer.markShadows(3);
     this.player.canMove = true;
@@ -473,7 +506,7 @@ export class Game {
 
     // --- 22:00 time signal
     await this.wait(first ? 4 : 2); if (!this.alive(tok)) return;
-    A.stop('music', 0.2); W.tv.setMode('clock'); A.pips(TV_POS); A.pips(W.radioPos);
+    A.stop('music', 0.2); A.stop('tvstatic', 0.1); W.tv.setMode('clock'); A.pips(TV_POS); A.pips(W.radioPos);
     await this.wait(6.2); if (!this.alive(tok)) return;
     this.clock = 22 * 60; this.clockRate = 1 / 24;
     W.tv.setMode('testcard'); W.tv.crawl = S.CRAWL; W.tv.crawlT = 0; A.tvTone(TV_POS);
@@ -498,6 +531,8 @@ export class Game {
     A.drone('drone', 0.05, 38);
     await this.wait(2.5); if (!this.alive(tok)) return;
     if (!this.flags.flashlight) this.say(S.THOUGHTS.dark); else if (this.hands.current !== 'flashlight') this.ui.hint('<span class="key">F</span> — фонарь', 5000);
+    if (this.loop >= 1) this.parallel(this.tvFeedScare(tok));
+    if (this.loop >= 2) this.parallel(this.hangedScare(tok));
     // --- 22:05 knocking at the door
     await this.wait(9); if (!this.alive(tok)) return;
     this.creature.show(8.05, 0, 6.95, Math.PI); // on the landing, facing the door
@@ -511,7 +546,8 @@ export class Game {
     // --- 22:07 balcony
     await this.wait(8); if (!this.alive(tok)) return;
     this.creatureAt = 'balcony';
-    if (W.doors.balcony.target > 0.02) { await this.balconyEntry(tok); return; }
+    if (this.loop === 0 && W.doors.balcony.target < 0.05) W.doors.balcony.setTarget(0.4, 2);
+    if (!this.flags.tied) { await this.balconyEntry(tok); return; }
     await this.balconyVisit(tok); if (!this.alive(tok)) return;
     // --- 22:08 real call (code)
     await this.wait(6); if (!this.alive(tok)) return;
@@ -523,7 +559,7 @@ export class Game {
     await this.until(() => (this.ringing !== 'call2' && !this.inCall)); if (!this.alive(tok)) return;
     // --- 22:10 it is inside
     await this.wait(3); if (!this.alive(tok)) return;
-    await this.insidePhase(tok); if (!this.alive(tok)) return;
+    await this.hidePhase(tok); if (!this.alive(tok)) return;
     // --- survived
     await this.ending(tok);
   }
@@ -548,7 +584,7 @@ export class Game {
       await this.wait(1.6); if (!this.alive(tok)) return;
       if (f === 3) { opp.set(this.world.valyaWindow, false); }
     }
-    for (const l of this.world.streetLamps) { l.light.visible = false; l.halo.visible = false; l.mat.color.set(0x111111); A.click(l.lens.position, 300, 0.4); await this.wait(0.9); if (!this.alive(tok)) return; }
+    for (const l of this.world.streetLamps) { l.light.intensity = 0; l.halo.visible = false; l.mat.color.set(0x111111); A.click(l.lens.position, 300, 0.4); await this.wait(0.9); if (!this.alive(tok)) return; }
     for (const s of this.world.chimneyLights) s.visible = false;
     this.world.farLights.visible = false; this.world.ourFacadeWindows.visible = false;
   }
@@ -659,182 +695,297 @@ export class Game {
     return ra !== rb && !(ra.startsWith('hall') && rb.startsWith('hall'));
   }
 
-  async insidePhase(tok) {
-    const A = this.audio;
+  // ---------- hiding ----------
+  hide(spot) {
+    if (this.hidden) return;
+    const h = HIDE[spot];
+    this.hidden = spot;
+    this.player.sit({pos: h.cam, yaw: h.yaw, pitch: h.pitch, yawRange: 0.55});
+    this.player.sitT = 0.6;
+    this.audio.creak(h.cam, 0.12, 0.5, spot === 'wardrobe' ? 260 : 600);
+    this.ui.hideOverlay(h.overlay);
+    this.ui.hint('<span class="key">Пробел</span> — не дышать · <span class="key">E</span> — вылезти', 0);
+    this.hands.hold(null);
+    this.say(S.THOUGHTS.hide, 1800);
+  }
+  unhide(silent = false) {
+    if (!this.hidden) return;
+    const h = HIDE[this.hidden];
+    this.hidden = null; this.holding = false;
+    this.ui.hideOverlay(null); this.ui.breath(null);
+    if (!silent) { this.player.stand(h.exit.x, h.exit.z, h.yaw); this.audio.creak(h.cam, 0.1, 0.4, 400); this.ui.hideHint(); }
+  }
+
+  async hidePhase(tok) {
+    const A = this.audio, C = this.creature, W = this.world;
     this.creatureAt = 'inside';
-    this.flags.insideNow = true;
-    if (!this.flags.eyesTaught) this.ui.hint('Удерживайте <span class="key">C</span> — закрыть глаза', 0);
-    // it appears far from the player, as if it was always there
-    const spawns = [V(8.05, 0, 5.55), V(1.4, 0, 2.2), V(7.9, 0, 0.8), V(4.6, 0, 0.6)];
-    const sp = spawns.reduce((b, p) => Math.hypot(p.x - this.pos.x, p.z - this.pos.z) > Math.hypot(b.x - this.pos.x, b.z - this.pos.z) ? p : b);
-    this.creature.show(sp.x, 0, sp.z, Math.PI);
-    A.creak(V(sp.x, 1, sp.z), 0.25, 1.2, 180);
-    A.drone('drone', 0.1, 36);
+    this.canHide = true;
+    this.ui.hint('Спрятаться: <span class="key">E</span> у шифоньера, кровати или кухонного стола', 9000);
+    // the jammed bathroom door opens by itself
+    await this.wait(3); if (!this.alive(tok)) return;
+    W.doors.bath.locked = false; W.doors.bath.setTarget(0.9, 0.35);
+    A.creak(V(4.65, 1, 5.25), 0.35, 2.5, 170);
+    A.drone('drone', 0.1, 33);
     this.film.uFear.value = 0.6;
-    const t0 = performance.now();
-    let fakeSaid = false, ended = false;
-    this.parallel((async () => {
-      await this.wait(3);
-      while (this.alive(tok) && !ended) { A.breathOut(this.creature.pos.clone().setY(1.8), 0.08, 1.6); await this.wait(2.4 + Math.random()); }
-    })());
-    // timeline while hunting: fake voice at 24s, real end at 36s
-    this.parallel((async () => {
-      await this.wait(24); if (!this.alive(tok)) return;
-      if (this.eyesClosed) { const ear = this.camera.position.clone().add(new THREE.Vector3(Math.cos(this.player.yaw) * 0.25, 0, -Math.sin(this.player.yaw) * 0.25)); if (!A.voice(S.EAR_VOICE, 'ear', ear)) A.murmur(ear, 2.2, {pitch: 215, v: 0.18}); this.ui.subtitle('Бабушка?', S.EAR_VOICE, 3600, 'strange'); fakeSaid = true; }
-    })());
-    // hunting: slower, it lingers near the player when eyes are closed
-    let reached = false;
-    const huntTok = tok;
-    const stopAt = 36;
-    const t1 = this.elapsedEvent = 0;
-    const startClock = performance.now();
-    let elapsed = 0;
-    while (this.alive(tok) && elapsed < stopAt) {
-      const dist = Math.hypot(this.creature.pos.x - this.pos.x, this.creature.pos.z - this.pos.z);
-      if (this.eyesClosed && dist < 1.6) {
-        // stands right in front of the face, breathing. Do not open.
-        this.creature.walking = false;
-        const f = this.player.forward(); f.y = 0; f.normalize();
-        const target = this.pos.clone().addScaledVector(f, 0.55);
-        this.creature.pos.lerp(V(target.x, 0, target.z), 0.2);
-        this.creature.faceTo(this.pos, 1);
-        reached = true;
-      } else if (!this.eyesClosed && dist < 1.15) {
-        this.die(reached ? 'eyes' : 'look'); return;
-      } else {
-        const path = this.pathTo(this.creature.pos, this.pos);
-        this.creature.walkPath(path, this.eyesClosed ? 0.55 : 0.9);
-      }
-      if (!this.eyesClosed && reached) { this.die('eyes'); return; }
-      await this.wait(0.25); elapsed += 0.25;
+    await this.wait(2.5); if (!this.alive(tok)) return;
+    C.show(3.6, 0, 5.25, Math.PI / 2); C.lookAt = null; C.twist = 0;
+    C.walkPath([V(4.3, 0, 5.25), V(5.3, 0, 5.25)], 0.55);
+    this.creatureActive = true;
+    // a few seconds of grace, then it hunts anyone who is not hidden
+    for (let t = 0; t < 12 && !this.hidden; t += 0.25) { await this.wait(0.25); if (!this.alive(tok)) return; }
+    if (!this.hidden) { await this.hunt(tok, 1.1, null, 'found'); return; }
+    const mine = this.hidden;
+    let voiceI = 0;
+    const say = () => { const t = S.SEARCH_VOICE[voiceI++ % S.SEARCH_VOICE.length]; if (!A.voice(t, 'door', C.pos.clone().setY(1.8))) A.whisper(C.pos.clone().setY(1.8), 1.6, 0.3); this.ui.subtitle('', t, 2600, 'strange'); };
+    // it checks every place you hid in before, most recent first
+    const order = [...this.memory].reverse().filter((v, i, a) => a.indexOf(v) === i);
+    for (const spot of order) {
+      if (!this.alive(tok)) return;
+      if (!this.hidden) { await this.hunt(tok, 1.2, null, 'look'); return; }
+      const h = HIDE[spot];
+      say();
+      C.walkPath(this.pathTo(C.pos, h.front).concat([h.front]), 0.9);
+      await this.until(() => !C.walking); if (!this.alive(tok)) return;
+      C.faceTo(h.cam); C.reachTarget = 1; C.jawTarget = 0.4;
+      A.creak(h.cam, 0.3, 0.8, 200);
+      await this.wait(1.6); if (!this.alive(tok)) return;
+      if (this.hidden === spot) { this.die('remembered'); return; }
+      C.reachTarget = 0; C.jawTarget = 0;
+      await this.wait(0.8);
     }
     if (!this.alive(tok)) return;
-    ended = true;
-    // power returns: fridge hum first, then warmth through the eyelids
-    this.creature.hide(); this.creatureActive = false;
+    // then it comes to where you are, and listens
+    const h = HIDE[mine];
+    if (this.memory.length === 0) say();
+    C.walkPath(this.pathTo(C.pos, h.front).concat([h.front]), 0.7);
+    await this.until(() => !C.walking || !this.hidden); if (!this.alive(tok)) return;
+    if (!this.hidden) { this.die('look'); return; }
+    C.faceTo(h.cam); C.lookAt = h.cam.clone(); C.twist = 0;
+    A.heartbeat(0.6); setTimeout(() => A.heartbeat(0.6), 700);
+    if (!this.holding) this.say('Оно рядом. Не дыши.', 1800);
+    // breath check: must hold breath the whole time it stands there
+    for (let t = 0; t < 6; t += 0.2) {
+      if (!this.alive(tok)) return;
+      if (!this.hidden) { this.die('look'); return; }
+      if (t > 2.0 && !this.holding) { this.die('breath'); return; }
+      if (Math.random() < 0.15) A.breathOut(C.headWorld(), 0.12, 1.2);
+      if (t > 2.6 && t < 2.9) { C.twist = Math.PI * 0.9; A.crack(A.now, 0.5); }   // the neck turns all the way round
+      if (t > 4.4 && t < 4.7) C.twist = 0;
+      await this.wait(0.2);
+    }
+    if (!this.alive(tok)) return;
+    // it leaves
+    C.lookAt = null;
+    C.walkPath(this.pathTo(C.pos, V(4.0, 0, 5.25)).concat([V(3.5, 0, 5.25)]), 0.8);
+    await this.wait(5); if (!this.alive(tok)) return;
+    C.hide(); this.creatureActive = false;
+    W.doors.bath.setTarget(0, 2); setTimeout(() => A.doorClose(V(4.65, 1, 5.25), 0.6), 400); W.doors.bath.locked = true;
+    this.memory.push(mine);
     A.stop('drone', 2);
+    await this.wait(3); if (!this.alive(tok)) return;
     A.powerUp(); A.fridge(V(8.48, 0.8, 2.55));
-    this.lights.setMains(true); this.renderer.markShadows(3);
-    this.ui.eyes(this.eyesClosed, true);
+    this.lights.setMains(true);
     A.clock(V(4.75, 1.65, 4.35), 'clock');
     this.film.uFear.value = 0.2;
-    await this.wait(1);
+    this.canHide = false;
     this.ui.hideHint();
-  }
-
-  async ending(tok) {
-    const W = this.world, A = this.audio;
-    this.phase = 'end';
-    await this.until(() => !this.eyesClosed); if (!this.alive(tok)) return;
-    this.setOppositeLights(true);
-    for (const s of W.chimneyLights) s.visible = true;
-    W.farLights.visible = true; W.ourFacadeWindows.visible = true;
-    W.tv.power = true; W.tv.setMode('testcard'); W.tv.crawl = 'АТАКА ЗАВЕРШЕНА. ПРОВЕРЬТЕ: ВСЁ ЛИ ВЫ ПОМНИТЕ?'; W.tv.crawlT = 0; A.tvTone(TV_POS);
-    await this.wait(3); if (!this.alive(tok)) return;
-    await this.say('Свет. Холодильник гудит. Всё?');
-    await this.wait(2); if (!this.alive(tok)) return;
-    this.ringing = 'code'; A.phoneRingOnce(PHONE_POS, 2);
-    await this.wait(8.5); if (!this.alive(tok)) return;
-    this.startRing('end');
-    await this.until(() => this.flags.endCall); if (!this.alive(tok)) return;
     await this.wait(2);
-    await this.say('Пять минут.');
-    A.stop('tvtone');
-    W.tv.setMode('off');
-    await this.wait(9); if (!this.alive(tok)) return;
-    A.doorbell(V(8.05, 2.2, 5.97));
-    await this.wait(2.5);
-    await this.say('Бабушка?');
-    await this.wait(1.2);
-    A.doorbell(V(8.05, 2.2, 5.97));
-    await this.wait(1.6);
-    // cut
-    this.ui.fade(1, 0); A.stop('fridge', 0.05); A.stop('clock', 0.05); A.stop('wind', 0.05);
-    this.player.canMove = false;
-    await this.ui.card(['Конец пролога', `Смертей: ${this.deaths}`, 'Ты помнишь всё?'], {hold: 4000, gap: 1500, cls: ['big', 'small', '']});
-    this.phase = 'credits';
-    this.onEnd?.();
   }
 
-  // ---------- death & rewind ----------
+  // ---------- scares ----------
+  async tvFeedScare(tok) {
+    const W = this.world, C = this.creature, F = this.feed;
+    await this.wait(1.5); if (!this.alive(tok) || this.inCall) return;
+    // the TV switches on by itself: a picture of the armchair — you sitting in it, and her behind you
+    W.tv.power = true; W.tv.setFeed(F.rt.texture);
+    F.aim(V(5.95, 1.15, 1.8), V(3.3, 0.85, 0.8));
+    this.selfDummy.visible = true;
+    C.show(2.98, 0, 0.62, Math.atan2(0.94, 0.34)); setLayerDeep(C.group, LAYER_FEED); C.lookAt = null; C.twist = 0;
+    F.active = true;
+    this.audio.tvStatic(TV_POS); this.audio.fade('tvstatic', 0.03, 0.2);
+    let said = false;
+    for (let t = 0; t < 6.5; t += 0.25) {
+      await this.wait(0.25); if (!this.alive(tok)) break;
+      if (!said && this.lookingAt(TV_POS, 0.85)) { said = true; this.say(S.THOUGHTS.tvSelf, 2600); }
+      if (t > 4.2) C.twist = -0.8;   // it turns to look at the camera
+    }
+    F.active = false; this.selfDummy.visible = false;
+    C.hide(); setLayerDeep(C.group, 0);
+    W.tv.setMode('static'); this.audio.fade('tvstatic', 0.08, 0.1);
+    setTimeout(() => { W.tv.power = false; this.audio.stop('tvstatic', 0.05); }, 400);
+  }
+
+  async hangedScare(tok) {
+    const H = this.hanged, A = this.audio;
+    H.place(1.45, 2.5);
+    await this.until(() => this.near(V(2.6, 0, 3.7), 1.6) && this.lookingAt(V(1.45, 1.5, 2.5), 0.85));
+    if (!this.alive(tok)) return;
+    const k = this.hands.charge; this.hands.charge = 0.05;
+    await this.wait(0.25);
+    H.group.visible = true; H.props.visible = true;
+    this.hands.charge = Math.max(k, 0.9);
+    A.sting(0.7); this.say(S.THOUGHTS.hanged, 2500);
+    this.film.uGlitch.value = 0.25;
+    for (let t = 0; t < 1.8; t += 0.05) { H.group.rotation.y = Math.sin(t * 2) * 0.15; if (Math.random() < 0.2) A.creak(V(1.45, 2.3, 2.5), 0.2, 0.3, 120); await this.wait(0.05); }
+    this.film.uGlitch.value = 0;
+    this.hands.charge = 0.02; await this.wait(0.3); this.hands.charge = Math.max(k, 0.6);
+    H.group.visible = false;   // the stool and the slipper stay
+  }
+
+  // ---------- death: it grabs your face and tears it off ----------
   async die(kind) {
     if (this.phase !== 'event' && this.phase !== 'end') return;
     this.abort();
-    const tok = this.token;
     this.phase = 'death';
     this.deaths++;
-    const A = this.audio, C = this.creature;
+    const A = this.audio, C = this.creature, F = this.film;
     this.stopRing(); this.inCall = false; this.ui.hideSubtitle(); this.ui.hideHint();
     this.eyesClosed = false; this.ui.eyes(false);
+    this.unhide(true); this.canHide = false;
     this.player.canMove = false;
-    if (this.player.seated) this.player.stand(this.player.seated.pos.x + 0.4, this.player.seated.pos.z + 0.3);
-    // place it in front of the face if not already close
+    const cam = this.camera.position.clone();
     const f = this.player.forward(); f.y = 0; f.normalize();
-    const cam = this.camera.position;
-    if (!C.visible || C.pos.distanceTo(V(cam.x, C.pos.y, cam.z)) > 2.2) C.show(cam.x + f.x * 1.3, kind === 'window' ? -0.15 : 0, cam.z + f.z * 1.3, 0);
-    C.walking = false; C.faceTo(V(cam.x, 0, cam.z)); C.lookAt = cam.clone();
-    const face = V(C.pos.x, C.pos.y + 1.95, C.pos.z);
-    this.player.forced = {target: face, speed: 10};
-    A.sting(0.9); A.heartbeat(0.5);
-    const faceLight = this.faceLight; faceLight.intensity = 1.6;
-    this.film.uFear.value = 1;
-    const tStart = performance.now();
-    await new Promise(r => {
-      const step = () => {
-        const k = (performance.now() - tStart) / 650;
-        this.film.uGlitch.value = Math.min(1, k * 1.2);
-        const target = V(cam.x + (C.pos.x - cam.x) * 0.2, C.pos.y, cam.z + (C.pos.z - cam.z) * 0.2);
-        C.pos.lerp(V(target.x, C.pos.y, target.z), 0.12);
-        this.player.forced.target.set(C.pos.x, C.pos.y + 1.95, C.pos.z);
-        faceLight.position.set((C.pos.x + cam.x) / 2, C.pos.y + 1.9, (C.pos.z + cam.z) / 2);
-        this.player.shake = 1;
-        if (k < 1) requestAnimationFrame(step); else r();
-      };
-      step();
+    setLayerDeep(C.group, 0);
+    if (!C.visible || C.pos.distanceTo(V(cam.x, C.pos.y, cam.z)) > 2.4) C.show(cam.x + f.x * 1.4, kind === 'window' ? -0.15 : 0, cam.z + f.z * 1.4, 0);
+    if (!this.endingDeath) C.setDisguise(false);
+    C.walking = false; C.faceTo(V(cam.x, 0, cam.z)); C.lookAt = cam.clone(); C.twist = 0;
+    this.player.seated = null;
+    this.player.forced = {target: C.headWorld(), speed: 14};
+    this.faceLight.intensity = 0.7; this.faceLight.color.set(0xff8a70);
+    this.hands.hold(null);
+    F.uFear.value = 1;
+    const anim = (ms, fn) => new Promise(r => { const t0 = performance.now(); const step = () => { const k = Math.min(1, (performance.now() - t0) / ms); fn(k); if (k < 1) requestAnimationFrame(step); else r(); }; step(); });
+    // 1. lunge, jaw dropping
+    A.shriek(1.1, 0.7); A.sting(0.8);
+    C.jawTarget = 1; C.reachTarget = 1;
+    const start = C.pos.clone();
+    await anim(420, k => {
+      const target = V(cam.x - f.x * 0.0 + (start.x - cam.x) * 0.28, C.pos.y, cam.z + (start.z - cam.z) * 0.28);
+      C.pos.lerpVectors(start, target, k * k);
+      this.player.forced.target.copy(C.headWorld());
+      this.faceLight.position.lerpVectors(cam, C.headWorld(), 0.5);
+      this.player.shake = 0.6 + k;
+      F.uGlitch.value = k * 0.4;
     });
-    this.ui.flash(200);
+    // 2. hands on the face
+    A.scream(2.2, 0.35); A.heartbeat(0.7);
+    await anim(450, k => { this.hands.claw = k; this.player.shake = 1.4; F.uGlitch.value = 0.3; });
+    // 3. the skin goes
+    A.rip(1.7, 0.85);
+    await anim(1700, k => { F.uTear.value = Math.pow(k, 1.3); F.uGore.value = Math.min(1, k * 1.2); this.player.shake = 1.6; this.player.pitch += (Math.random() - 0.5) * 0.02; F.uGlitch.value = 0.15 + Math.random() * 0.2; });
+    // 4. blood runs down, vision fails
+    this.hands.claw = 0.85;
+    await anim(1300, k => { F.uRed.value = k * 0.8; F.uGore.value = 1; F.uBright.value = 1 - k * 0.7; });
     this.ui.fade(1, 0);
-    faceLight.intensity = 0;
-    this.film.uGlitch.value = 0;
-    this.player.forced = null;
-    C.hide();
+    F.uTear.value = 0; F.uGore.value = 0; F.uRed.value = 0; F.uGlitch.value = 0; F.uBright.value = this.brightness ?? 1;
+    this.hands.claw = 0; this.faceLight.intensity = 0;
+    this.player.forced = null; C.hide();
     for (const k of Object.keys(A.loops)) if (k !== 'wind') A.stop(k, 0.05);
-    await sleepReal(1400);
-    // time label
+    A.heartbeat(0.4); await sleepReal(900); A.heartbeat(0.25); await sleepReal(1300);
+    if (this.endingDeath) { this.finalCard(); return; }
     const mem = S.DEATH_MEMORY[kind] ?? S.DEATH_MEMORY.look;
     await this.ui.card([this.timeStr()], {hold: 600, gap: 400, cls: ['big']});
-    // rewind: show the room under heavy tape distortion and spin the clocks back
+    // rewind to 21:59:40
     this.loop++;
-    this.applyLoopChanges(this.loop);
     this.restore();
-    this.player.sit(ARMCHAIR_SEAT);
+    this.applyLoopChanges(this.loop);
+    this.player.sit(ARMCHAIR_SEAT); this.player.sitT = 1;
     this.hands.hold(null);
     this.world.tv.power = true; this.world.tv.setMode('static');
-    this.film.uRewind.value = 1; this.film.uFear.value = 0.2;
+    F.uRewind.value = 1; F.uFear.value = 0.2;
     this.renderer.markShadows(3);
     A.rewind(3.2);
     this.rewindingClock = true;
     this.ui.fade(0, 250);
     const r0 = performance.now();
-    await new Promise(r => { const step = () => { const k = (performance.now() - r0) / 3200; this.film.uRewind.value = 1 - Math.pow(k, 3) * 0.6; this.clock -= 0.35; if (k < 1) requestAnimationFrame(step); else r(); }; step(); });
+    await new Promise(r => { const step = () => { const k = (performance.now() - r0) / 3200; F.uRewind.value = 1 - Math.pow(k, 3) * 0.6; this.clock -= 0.35; if (k < 1) requestAnimationFrame(step); else r(); }; step(); });
     this.rewindingClock = false;
-    this.film.uRewind.value = 0;
+    F.uRewind.value = 0;
     this.ui.flash(150);
     this.startEvent(false);
     await sleepReal(1500);
     this.say(mem[0], 3600);
     await sleepReal(4000);
-    this.say(mem[1], 3600);
+    this.say(mem[1], 4200);
+    const ph = Math.min(3, this.loop);
+    if (ph >= 1) { await sleepReal(4600); this.say([null, S.THOUGHTS.cold, S.THOUGHTS.rot, S.THOUGHTS.nightmare][ph], 3200); }
   }
 
-  // P.T.-style: the flat is subtly different after each death
-  applyLoopChanges(loop) {
-    const W = this.world;
-    this.flags.clockBackwards = loop >= 1;
-    if (W.extraDoor) W.extraDoor.visible = loop >= 3;
-    if (W.livingClock) W.livingClock.pend.visible = loop < 2;
-    this.lights.set('lampada', loop < 4);
+  async finalCard() {
+    this.phase = 'credits';
+    this.player.canMove = false;
+    await this.ui.card(['Конец пролога', `Смертей: ${this.deaths}`, 'Это был не последний раз.'], {hold: 4500, gap: 1500, cls: ['big', 'small', '']});
+    this.onEnd?.();
   }
+
+  // P.T.-style: the flat decays after every death. 0 warm, 1 cold, 2 rot, 3 nightmare
+  applyLoopChanges(loop) {
+    const W = this.world, ph = Math.min(3, loop), L = PHASE_LIGHT[ph];
+    this.flags.clockBackwards = loop >= 1;
+    if (W.extraDoor) W.extraDoor.visible = ph >= 2;
+    if (W.livingClock) W.livingClock.pend.visible = ph < 2;
+    this.lights.set('lampada', ph < 3);
+    this.phases?.set(ph);
+    for (const [name, f] of Object.entries(this.lights.fixtures)) {
+      if (name === 'lampada') continue;
+      f.base0 ??= f.base; f.color0 ??= f.light.color.clone();
+      f.base = f.base0 * L.k;
+      if (L.color) f.light.color.copy(f.color0).lerp(new THREE.Color(L.color), L.mix ?? 0.6); else f.light.color.copy(f.color0);
+      this.lights.apply(f);
+    }
+    for (const f of Object.values(this.lights.fixtures)) for (const {m} of f.mats) { m.userData.em0 ??= m.emissive.clone(); m.emissive.copy(m.userData.em0); if (L.color) m.emissive.lerp(new THREE.Color(L.color), (L.mix ?? 0.6) * 0.8); }
+    const M = this.world.M;
+    for (const k of ['wallLiving', 'wallBedroom', 'wallHall', 'kitchenWall', 'ceiling']) { const m = M[k]; m.userData.c0 ??= m.color.clone(); m.color.copy(m.userData.c0); if (L.wall) m.color.multiply(new THREE.Color(L.wall)); }
+    this.lights.set('red', ph >= 3);
+    this.lights.envOn = L.env; this.scene.environmentIntensity = this.lights.mains ? L.env : 0.02;
+    this.scene.fog.color.set(L.fog);
+    this.film.uWarm.value = ph === 0 ? 1 : ph === 3 ? 0.3 : 0;
+    this.hanged?.props && (this.hanged.props.visible = ph >= 3);
+    if (ph >= 2) this.audio.drone('flies', 0.015, 180);
+  }
+
+  async ending(tok) {
+    const W = this.world, A = this.audio, C = this.creature;
+    this.phase = 'end';
+    this.setOppositeLights(true);
+    for (const s of W.chimneyLights) s.visible = true;
+    W.farLights.visible = true; W.ourFacadeWindows.visible = true;
+    W.tv.power = true; W.tv.setMode('testcard'); W.tv.crawl = 'АТАКА ЗАВЕРШЕНА. ПРОВЕРЬТЕ: ВСЁ ЛИ ВЫ ПОМНИТЕ?'; W.tv.crawlT = 0; A.tvTone(TV_POS);
+    await this.wait(2); if (!this.alive(tok)) return;
+    await this.say('Свет. Холодильник гудит. Всё?');
+    this.ringing = 'code'; A.phoneRingOnce(PHONE_POS, 2);
+    await this.wait(8.5); if (!this.alive(tok)) return;
+    this.startRing('end');
+    await this.until(() => this.flags.endCall); if (!this.alive(tok)) return;
+    await this.wait(1.5);
+    await this.say('Пять минут.');
+    A.stop('tvtone'); W.tv.setMode('off');
+    await this.wait(7); if (!this.alive(tok)) return;
+    // she has her own key
+    A.doorbell(V(8.05, 2.2, 5.97));
+    await this.wait(2.2); if (!this.alive(tok)) return;
+    A.lockTurn(V(8.05, 1, 6.15));
+    await this.wait(1.2); if (!this.alive(tok)) return;
+    W.doors.front.locked = false; W.doors.front.setTarget(0.8, 0.8); A.doorOpen(V(8.05, 1, 6.15), 0.3);
+    C.show(8.05, 0, 6.6, Math.PI); C.setDisguise(true); C.lookAt = this.camera.position;
+    await this.say('Бабушка!', 1500);
+    C.walkPath(this.pathTo(C.pos, this.pos), 0.6);
+    const voice = t => { if (!A.voice(t, 'door', C.headWorld())) A.murmur(C.headWorld(), 1.5, {pitch: 220, v: 0.15}); this.ui.subtitle('Бабушка', t, 2600); };
+    voice(S.GRANDMA_END[0]);
+    await this.until(() => Math.hypot(C.pos.x - this.pos.x, C.pos.z - this.pos.z) < 1.3 || !this.alive(tok)); if (!this.alive(tok)) return;
+    C.walking = false;
+    this.player.canMove = false; this.player.forced = {target: C.headWorld(), speed: 4};
+    await this.wait(1.2); if (!this.alive(tok)) return;
+    voice(S.GRANDMA_END[1]);
+    await this.wait(2.4); if (!this.alive(tok)) return;
+    // the face slides, the body unfolds to its real height
+    this.film.uGlitch.value = 0.6; A.crack(A.now, 0.7); A.crack(A.now + 0.15, 0.6);
+    await this.wait(0.25);
+    C.setDisguise(false); this.film.uGlitch.value = 0;
+    this.endingDeath = true;
+    this.die('ending');
+  }
+
 
   // ---------- peephole ----------
   peep() {
@@ -901,21 +1052,35 @@ export class Game {
       if (inp.hit('KeyE') || inp.hit('Escape')) { this.unpeep(); inp.pressed.delete('KeyE'); }
       return;
     }
+    // hiding: E leaves, Space holds the breath
+    if (this.hidden) {
+      if (inp.hit('KeyE') && !this.inCall) { this.unhide(); inp.pressed.delete('KeyE'); }
+      const want = inp.down('Space') && this.gaspT <= 0;
+      if (want && !this.holding) this.audio.breathIn(null, 0.06, 0.5);
+      if (!want && this.holding) { this.audio.breathOut(null, this.breath < 0.25 ? 0.25 : 0.1, 1.0); }
+      this.holding = want;
+      if (this.holding) { this.breath -= dt / 13; if (this.breath <= 0) { this.breath = 0; this.holding = false; this.gaspT = 1.6; this.audio.breathIn(null, 0.35, 0.6); } }
+      else { this.breath = Math.min(1, this.breath + dt / 5); this.gaspT -= dt; }
+      this.ui.breath(this.breath, this.holding);
+    }
     // stand up from armchair
-    if (this.player.seated && this.player.canMove && !this.inCall && (inp.hit('KeyW') || inp.hit('KeyA') || inp.hit('KeyS') || inp.hit('KeyD') || inp.hit('Space')) && !this.eyesClosed) {
+    if (this.player.seated && !this.hidden && this.player.canMove && !this.inCall && (inp.hit('KeyW') || inp.hit('KeyA') || inp.hit('KeyS') || inp.hit('KeyD') || inp.hit('Space'))) {
       this.player.stand(3.75, 1.35, this.player.yaw);
       this.ui.hideHint();
       if (this.flags.restReady) this.flags.restReady = false;
     }
-    // eyes
-    const wantClosed = inp.down('KeyC') && this.player.canMove && !this.inCall && (this.phase === 'event' || this.phase === 'end' || this.flags.restReady);
-    if (wantClosed !== this.eyesClosed) {
-      this.eyesClosed = wantClosed; this.ui.eyes(wantClosed, this.lights.mains && this.phase !== 'event');
-      if (wantClosed) { this.flags.eyesTaught = true; this.audio.breathIn(null, 0.05, 0.8); }
-    }
+    // resting in the armchair in the warm evening (hold C) — the only use left for closing the eyes
+    const wantClosed = inp.down('KeyC') && this.flags.restReady && this.player.canMove && !this.inCall;
+    if (wantClosed !== this.eyesClosed) { this.eyesClosed = wantClosed; this.ui.eyes(wantClosed, true); if (wantClosed) this.audio.breathIn(null, 0.05, 0.8); }
     this.player.frozen = this.eyesClosed;
     if (this.eyesClosed) this.eyesHeld += dt; else this.eyesHeld = 0;
-    if (this.flags.restReady && this.eyesHeld > 2.2) this.rest();
+    if (this.flags.restReady && this.eyesHeld > 2.2) { this.eyesClosed = false; this.ui.eyes(false); this.rest(); }
+    // P.T.: in the nightmare phase the front door leads back into the flat
+    if (this.phase === 'event' && this.loop >= 3 && this.pos.z > 6.5 && !this.flags.looping) {
+      this.flags.looping = true;
+      this.film.uGlitch.value = 0.8; this.audio.rewind(0.6);
+      setTimeout(() => { this.player.teleport(8.05, 4.6, 0, 0); this.world.doors.front.snap(0); this.film.uGlitch.value = 0; this.say(S.THOUGHTS.loopDoor); this.flags.looping = false; }, 350);
+    }
     // flashlight
     if (inp.hit('KeyF') && this.flags.flashlight && !this.inCall) {
       if (this.hands.current !== 'flashlight') this.hands.hold('flashlight');

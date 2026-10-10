@@ -34,14 +34,16 @@ export class Lights {
     const powered = on && (!f.mains || this.mains);
     const k = powered ? f.mul : 0;
     f.light.intensity = f.base * k;
-    f.light.visible = f.light.castShadow ? k > 0.001 : true;
+    // never toggle .visible: changing the light count recompiles every material
+    if (f.light.castShadow && (f.lastK > 0.001) !== (k > 0.001)) f.light.shadow.needsUpdate = true;
+    f.lastK = k;
     for (const {m, e} of f.mats) m.emissiveIntensity = e * k * f.emissive;
   }
   set(name, on) { const f = this.fixtures[name]; if (!f) return; f.on = on; this.apply(f); for (const g of Object.values(this.fixtures)) if (g.link === name) this.apply(g); }
   toggle(name) { const f = this.fixtures[name]; this.set(name, !f.on); return f.on; }
   setMulAll(k) { for (const f of Object.values(this.fixtures)) { f.mul = k; this.apply(f); } }
   isOn(name) { const f = this.fixtures[name]; return f.on && (!f.mains || this.mains); }
-  setMains(on) { this.mains = on; for (const f of Object.values(this.fixtures)) this.apply(f); this.scene.environmentIntensity = on ? 0.18 : 0.02; }
+  setMains(on) { this.mains = on; for (const f of Object.values(this.fixtures)) this.apply(f); this.scene.environmentIntensity = on ? (this.envOn ?? 0.18) : 0.02; }
   setMul(name, k) { const f = this.fixtures[name]; f.mul = k; this.apply(f); }
   update(dt, t) {
     for (const f of Object.values(this.fixtures)) {

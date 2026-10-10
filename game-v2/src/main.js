@@ -18,6 +18,8 @@ import {setAniso} from './world/materials.js';
 import {Game, roomOf} from './game/game.js';
 import {Creature} from './game/creature.js';
 import {Hands} from './game/hands.js';
+import {buildPhases} from './world/phases.js';
+import {buildHanged, buildSelf, Feed} from './game/scares.js';
 
 const params = new URLSearchParams(location.search);
 const $ = id => document.getElementById(id);
@@ -60,11 +62,16 @@ lights.add('fillKitchen', {pos: new THREE.Vector3(7.7, 1.2, 1.4), intensity: 1.2
 lights.add('hall', {pos: new THREE.Vector3(7.7, 2.3, 4.6), intensity: 6, mats: [world.hallLamp.mat]});
 lights.add('night', {pos: world.nightLamp.pos, intensity: 2.2, mats: [world.nightLamp.mat]});
 lights.add('lampada', {pos: world.lampada.pos, color: 0xff3a1a, intensity: 0.8, distance: 2.6, mains: false, mats: [world.lampada.mat]});
+lights.add('red', {pos: new THREE.Vector3(6.0, 2.2, 3.4), color: 0xff1a0a, intensity: 3.5, distance: 9, mains: false, on: false});
 lights.add('landing', {pos: world.landingBulb.pos, color: 0xffc27a, intensity: 4.5, shadow: true, mats: [world.landingBulb.mat], mains: false});
 
 const creature = new Creature(scene);
 const hands = new Hands(camera, scene);
-const game = new Game({renderer, scene, camera, player, input, ui, audio, inter, world, lights, creature, hands, col});
+const phases = buildPhases(world);
+const hanged = buildHanged(scene, creature.faceMats.grandma);
+const selfDummy = buildSelf(scene, 3.45, 0.3, 0.85, Math.atan2(0.94, 0.34)); selfDummy.visible = false;
+const feed = new Feed(renderer.r, scene);
+const game = new Game({renderer, scene, camera, player, input, ui, audio, inter, world, lights, creature, hands, col, phases, hanged, selfDummy, feed});
 window.__game = game;
 
 // mirror reflection: bake the hallway once into a cube map
@@ -92,7 +99,7 @@ player.onStep = (p, run) => {
 // ---- options UI
 function applyOpts() {
   input.sens = opts.sens; audio.setVolume(opts.vol);
-  renderer.film.uniforms.uBright.value = opts.bright; renderer.film.uniforms.uVhs.value = opts.vhs;
+  renderer.film.uniforms.uBright.value = opts.bright; if (typeof game !== 'undefined') game.brightness = opts.bright; renderer.film.uniforms.uVhs.value = opts.vhs;
   player.bobEnabled = opts.bob;
   if (renderer.quality !== opts.quality) renderer.setQuality(opts.quality);
   localStorage.setItem(OPT_KEY, JSON.stringify(opts));
@@ -137,13 +144,19 @@ if (shot) {
   world.tv.setMode(params.get('tv') || 'concert');
   lights.set('kitchen', params.get('kl') === '1');
   if (params.get('dark') === '1') { lights.setMains(false); world.tv.power = false; game.setOppositeLights(false); }
-  if (params.get('creature')) { const [cx, cz, cr] = params.get('creature').split(',').map(Number); creature.show(cx, 0, cz, cr * Math.PI / 180); }
+  if (params.get('creature')) { const [cx, cz, cr] = params.get('creature').split(',').map(Number); creature.show(cx, 0, cz, cr * Math.PI / 180); if (params.get('jaw')) { creature.jawTarget = creature.jawOpen = +params.get('jaw'); } if (params.get('reach')) creature.reachTarget = creature.reach = 1; creature.lookAt = camera.position; }
   if (params.get('hold')) { hands.hold(params.get('hold')); }
   if (params.get('hold') === 'flashlight') { hands.charge = 1; hands.update(0.01, false); }
   hands.blend = 1;
   for (let i = 0; i < 6; i++) world.tv.update(0.2);
   if (params.get('fish') === '1') game.film.uFish.value = 1;
+  for (const k of ['gore', 'tear', 'red']) if (params.get(k)) game.film['u' + k[0].toUpperCase() + k.slice(1)].value = +params.get(k);
+  if (params.get('claw')) { hands.claw = +params.get('claw'); }
+  if (params.get('jaw')) { creature.jawTarget = creature.jawOpen = +params.get('jaw'); creature.reachTarget = creature.reach = 1; }
   if (params.get('balc')) world.doors.balcony.snap(+params.get('balc'));
+  if (params.get('phase')) game.applyLoopChanges(+params.get('phase'));
+  if (params.get('disguise')) creature.setDisguise(true);
+  if (params.get('hanged')) { hanged.place(1.45, 2.5); hanged.group.visible = true; hanged.props.visible = true; }
   if (params.get('sit')) { player.sit({pos: new THREE.Vector3(3.33, 0.98, 0.8), yaw: -1.914, pitch: -0.22, yawRange: 1.5}); player.sitT = 1; }
   window.__shotMode = true;
 } else {
@@ -189,6 +202,7 @@ function frame(now) {
     world.sleet.uniforms.uTime.value = t;
     for (const s of world.chimneyLights) s.material.opacity = (Math.sin(t * 2) > 0 ? 0.85 : 0.15);
     world.landingHalo.visible = lights.isOn('landing');
+    { const k = lights.isOn('hall') ? 1 : lights.mains ? 0.25 : 0.03; for (const m of world.mirrorMats) m.envMapIntensity = k; }
     if (!lights.mains && lights.fixtures.landing.flicker <= 0 && Math.random() < 0.004) lights.flicker('landing', 0.4 + Math.random() * 0.6);
     world.lampada.flame.scale.set(1 + Math.random() * 0.15, 2 + Math.random() * 0.4, 1);
     if (lights.fixtures.lampada.light.visible) lights.fixtures.lampada.light.intensity = 0.6 * (0.85 + Math.random() * 0.25);
@@ -205,6 +219,7 @@ function frame(now) {
     }
     fpsAcc = 0; fpsN = 0;
   }
+  feed.render();
   renderer.render(dt, t);
   if (!mirrorBaked && frames === 2) { cubeCam.update(renderer.r, scene); mirrorBaked = true; }
   input.endFrame();

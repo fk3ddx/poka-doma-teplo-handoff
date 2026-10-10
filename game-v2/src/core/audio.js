@@ -230,6 +230,44 @@ export class Audio {
     }
     const n = this.noiseSrc(this.noiseBuf, false), g = this.gain(0); n.connect(g).connect(o.input); this.env(g, t, 0.002, v * 0.5, 0.5); n.start(t); n.stop(t + 0.7);
   }
+  // wet tearing skin: clustered crackle bursts swept through a resonant band, plus low squelch
+  rip(dur = 1.6, v = 0.8) {
+    if (!this.started) return; const t0 = this.now, o = this.spatial(null, {verb: 0.2});
+    const n = this.noiseSrc(this.noiseBuf, false), bp = this.filter('bandpass', 900, 3), g = this.gain(0);
+    bp.frequency.setValueAtTime(500, t0); bp.frequency.exponentialRampToValueAtTime(3200, t0 + dur * 0.7); bp.frequency.exponentialRampToValueAtTime(700, t0 + dur);
+    n.connect(bp).connect(g).connect(o.input);
+    for (let i = 0; i < dur * 38; i++) { const tt = t0 + i / 38 + Math.random() * 0.02; g.gain.setValueAtTime(v * (0.3 + Math.random() * 0.9), tt); g.gain.setTargetAtTime(0.0001, tt + 0.004, 0.012); }
+    n.start(t0); n.stop(t0 + dur + 0.1);
+    for (let i = 0; i < 6; i++) {
+      const tt = t0 + Math.random() * dur, sq = this.noiseSrc(this.brownBuf, false), lp = this.filter('lowpass', 400, 4), sg = this.gain(0);
+      lp.frequency.setValueAtTime(600, tt); lp.frequency.exponentialRampToValueAtTime(120, tt + 0.25);
+      sq.connect(lp).connect(sg).connect(o.input); this.env(sg, tt, 0.01, v * 0.9, 0.3); sq.start(tt); sq.stop(tt + 0.4);
+    }
+    for (let i = 0; i < 4; i++) { const tt = t0 + 0.1 + Math.random() * dur * 0.8; this.crack(tt, v * 0.6); }
+  }
+  crack(t, v = 0.5) {
+    const o = this.spatial(null, {verb: 0.1}), n = this.noiseSrc(this.noiseBuf, false), hp = this.filter('highpass', 1800), g = this.gain(0);
+    n.connect(hp).connect(g).connect(o.input); this.env(g, t, 0.001, v, 0.05); n.start(t); n.stop(t + 0.1);
+  }
+  // choked scream of the hero (formant 'a' through distortion), cut off
+  scream(dur = 1.4, v = 0.35) {
+    if (!this.started) return; const t = this.now, o = this.spatial(null, {verb: 0.25});
+    const src = this.osc('sawtooth', 320), g = this.gain(0);
+    const f1 = this.filter('bandpass', 850, 5), f2 = this.filter('bandpass', 1350, 6), mix = this.gain(1);
+    const sh = this.ctx.createWaveShaper(); const c = new Float32Array(256); for (let i = 0; i < 256; i++) { const x = i / 128 - 1; c[i] = Math.tanh(x * 4); } sh.curve = c;
+    src.connect(f1); src.connect(f2); f1.connect(mix); f2.connect(mix); mix.connect(sh).connect(g).connect(o.input);
+    const vib = this.osc('sine', 9), vg = this.gain(25); vib.connect(vg).connect(src.frequency);
+    src.frequency.setValueAtTime(260, t); src.frequency.linearRampToValueAtTime(420, t + 0.25); src.frequency.linearRampToValueAtTime(300, t + dur);
+    g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(v, t + 0.08); g.gain.setValueAtTime(v, t + dur - 0.1); g.gain.linearRampToValueAtTime(0.0001, t + dur);
+    src.start(t); vib.start(t); src.stop(t + dur + 0.05); vib.stop(t + dur + 0.05);
+  }
+  // the thing's shriek: detuned saws + noise, pitch dive
+  shriek(dur = 1.2, v = 0.6) {
+    if (!this.started) return; const t = this.now, o = this.spatial(null, {verb: 0.5});
+    for (const f of [520, 553, 781, 1180]) { const s = this.osc('sawtooth', f), g = this.gain(0), bp = this.filter('bandpass', f * 1.5, 2); s.frequency.exponentialRampToValueAtTime(f * 0.45, t + dur); s.connect(bp).connect(g).connect(o.input); this.env(g, t, 0.01, v * 0.18, dur); s.start(t); s.stop(t + dur + 0.1); }
+    const n = this.noiseSrc(this.noiseBuf, false), bp = this.filter('bandpass', 2500, 1), g = this.gain(0); n.connect(bp).connect(g).connect(o.input); this.env(g, t, 0.005, v * 0.5, dur * 0.8); n.start(t); n.stop(t + dur);
+  }
+
   rewind(dur = 3.2) {
     if (!this.started) return; const t = this.now;
     const o = this.spatial(null, {verb: 0});

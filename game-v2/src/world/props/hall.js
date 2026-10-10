@@ -68,12 +68,12 @@ function hallway(ctx) {
   B.add(rboxGeo(1.0, 0.02, 0.28, 0.005), wood, 0, 1.92, 0.14);
   // fur hat on shelf
   B.add(new THREE.SphereGeometry(0.11, 16, 10, 0, Math.PI * 2, 0, Math.PI / 2), std(0x4a3a2c, 1), 0.25, 1.93, 0.14);
-  // grandma's coat (draped shape)
-  const coat = lathe([[0, 0], [0.04, 0], [0.16, -0.1], [0.2, -0.5], [0.24, -1.05], [0.0, -1.05]], 14); coat.scale(1, 1, 0.45);
-  B.add(coat, std(0x3e2b22, 1), -0.2, 1.72, 0.14);
-  B.add(coat, std(0x2c3036, 1), 0.2, 1.72, 0.13);
-  // shawl and string bag
-  B.add(foldedPlane(0.3, 0.6, 3, 0.02, 12, 6), M.jacquard, 0.4, 1.4, 0.07);
+  // coats hanging by their loops: folded cloth body, sleeves, collar, buttons
+  const woolA = fabricMat(M, 0x9a8a80), woolB = fabricMat(M, 0x6a7080);
+  hangingCoat(B, woolA, -0.22, 1.73, 0.13, 0, 1.0);
+  hangingCoat(B, woolB, 0.2, 1.73, 0.12, 1, 0.92);
+  // knitted shawl over the second hook and a string bag
+  B.add(foldedPlane(0.26, 0.7, 5, 0.025, 14, 10), M.jacquard, 0.42, 1.36, 0.06, 0, 0.04, 0.03);
   B.add(new THREE.TorusGeometry(0.1, 0.004, 4, 16), std(0x6a7a3a, 0.8), -0.42, 1.55, 0.05);
   // shoe shelf
   B.add(rboxGeo(0.9, 0.04, 0.3, 0.006), wood, 0, 0.35, 0.15);
@@ -81,9 +81,17 @@ function hallway(ctx) {
   for (const s of [-1, 1]) B.add(rboxGeo(0.03, 0.34, 0.3, 0.004), wood, s * 0.44, 0.2, 0.15);
   // slippers
   const slip = std(0x6a2a24, 1);
-  for (const [sx, sz] of [[-0.3, 0.12], [-0.22, 0.12], [0.1, 0.13], [0.18, 0.13]]) { const sg = new THREE.CapsuleGeometry(0.035, 0.18, 4, 8); sg.rotateX(Math.PI / 2); sg.scale(1, 0.5, 1); B.add(sg, slip, sx, 0.385, sz); }
+  const sole = std(0x2a1c16, 0.9);
+  for (const [sx, sz, r] of [[-0.3, 0.13, 0.05], [-0.2, 0.13, -0.04], [0.12, 0.14, 0.08], [0.22, 0.14, 0.0]]) {
+    B.push(sx, 0.372, sz, r);
+    B.add(rboxGeo(0.085, 0.018, 0.25, 0.008), sole, 0, 0, 0);
+    const cap = new THREE.SphereGeometry(0.05, 12, 8, 0, Math.PI * 2, 0, Math.PI / 2); cap.scale(0.9, 0.6, 1.5);
+    B.add(cap, slip, 0, 0.008, 0.045);
+    B.add(new THREE.TorusGeometry(0.03, 0.006, 6, 12, Math.PI), std(0xd8c8a8, 1), 0, 0.03, -0.01, 0, 0, Math.PI / 2 + Math.PI / 2);
+    B.pop();
+  }
   B.pop();
-  ctx.placeModel('rubber_boots', {child: 'rubber_boots_l', height: 0.38}, 8.62, 0.07, 4.8, -Math.PI / 2 + 0.2);
+  ctx.placeModel('rubber_boots', {child: 'rubber_boots_l', height: 0.38}, 8.6, 0, 4.4, -Math.PI / 2 + 0.25);
   ctx.col.addBox(8.48, 4.65, 8.8, 5.65, {y1: 0.4});
   ctx.coatHooks = new THREE.Vector3(8.75, 1.65, 5.35);
   ctx.shoeShelf = new THREE.Vector3(8.6, 0.3, 5.1);
@@ -184,6 +192,36 @@ function bedroom(ctx) {
   const rt = T.carpet('floor');
   B.add(rboxGeo(0.9, 0.006, 1.6, 0.002), new THREE.MeshStandardMaterial({map: rt.map, roughness: 1}), 1.5, 0.003, 3.1, 0, 0, 0, {cast: false});
   ctx.switchBedroom = lightSwitch(scene, M, 2.79, 1.5, 3.2, -Math.PI / 2);
+}
+
+function fabricMat(M, color) {
+  const m = M.jacquard.clone(); m.color = new THREE.Color(color); return m;
+}
+// coat on a hook: open lathe body with vertical folds, flattened, plus sleeves, collar, buttons
+function hangingCoat(B, mat, x, y, z, seed, len = 1.0) {
+  const prof = [[0.015, 0], [0.06, -0.03], [0.16, -0.09], [0.2, -0.16], [0.19, -0.4], [0.2, -0.7], [0.23, -len]];
+  const g = new THREE.LatheGeometry(prof.map(p => new THREE.Vector2(p[0], p[1])), 28);
+  const p = g.attributes.position;
+  for (let i = 0; i < p.count; i++) {
+    const px = p.getX(i), py = p.getY(i), pz = p.getZ(i);
+    const a = Math.atan2(pz, px), r = Math.hypot(px, pz);
+    const fold = 1 + Math.sin(a * 7 + seed * 2 + py * 2) * 0.05 * Math.min(1, -py * 2) + Math.sin(a * 13 + seed) * 0.015;
+    p.setXYZ(i, Math.cos(a) * r * fold, py, Math.sin(a) * r * fold * 0.42);
+  }
+  g.computeVertexNormals();
+  const m2 = mat.clone(); m2.side = THREE.DoubleSide;
+  B.add(g, m2, x, y, z);
+  // sleeves hanging along the sides, slightly in front
+  for (const s of [-1, 1]) {
+    B.add(tube([[x + s * 0.17, y - 0.14, z + 0.03], [x + s * 0.2, y - 0.4, z + 0.06], [x + s * 0.18, y - 0.66, z + 0.07]], 0.045, 10, 8), mat, 0, 0, 0);
+    B.add(new THREE.CylinderGeometry(0.047, 0.047, 0.05, 10), std(0x2a2018, 1), x + s * 0.18, y - 0.68, z + 0.07);
+  }
+  // fur collar + buttons
+  const collar = new THREE.TorusGeometry(0.1, 0.035, 8, 18, Math.PI * 1.3); collar.scale(1.3, 1, 0.6);
+  B.add(collar, std(0x3a2e24, 1), x, y - 0.08, z + 0.02, 0, Math.PI / 2 - 0.2, Math.PI * 0.85);
+  for (let i = 0; i < 4; i++) B.add(new THREE.SphereGeometry(0.011, 8, 6), std(0x1a1410, 0.4), x + 0.02, y - 0.25 - i * 0.16, z + 0.09);
+  // hanging loop on the hook
+  B.add(new THREE.TorusGeometry(0.02, 0.003, 4, 10), std(0x1a1410, 0.8), x, y + 0.01, z - 0.03);
 }
 
 function iconTex() {
