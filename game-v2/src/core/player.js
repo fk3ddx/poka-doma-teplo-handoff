@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-const EYE = 1.63;
+const EYE = 1.52;
 
 export class Player {
   constructor(camera, input, collision) {
@@ -26,7 +26,7 @@ export class Player {
     this.floorY = this.pos.y;
   }
 
-  sit(s) { this.seated = s; this.yaw = s.yaw; this.pitch = s.pitch ?? 0; }
+  sit(s) { this.sitFrom = this.eyePos(); this.sitT = 0; this.seated = s; this.yaw = s.yaw; this.pitch = s.pitch ?? 0; }
   stand(x, z, yaw) { this.seated = null; this.teleport(x, z, yaw ?? this.yaw, 0); }
 
   update(dt) {
@@ -89,11 +89,15 @@ export class Player {
   }
 
   eyePos() {
-    if (this.seated) return this.seated.pos.clone();
+    if (this.seated) {
+      if (this.sitFrom && this.sitT < 1) { const k = this.sitT * this.sitT * (3 - 2 * this.sitT); return this.sitFrom.clone().lerp(this.seated.pos, k); }
+      return this.seated.pos.clone();
+    }
     return new THREE.Vector3(this.pos.x, this.pos.y + this.eyeY, this.pos.z);
   }
 
   applyCamera(dt) {
+    if (this.seated && this.sitT < 1) this.sitT = Math.min(1, (this.sitT ?? 0) + dt * 1.8);
     const e = this.eyePos();
     const amp = this.bobEnabled ? this.bobAmp : 0;
     const by = Math.sin(this.bobT * 2) * 0.022 * amp;

@@ -3,7 +3,7 @@ import * as S from './script.js';
 import {spots, rooms} from '../world/layout.js';
 
 const V = (x, y, z) => new THREE.Vector3(x, y, z);
-const ARMCHAIR_SEAT = {pos: V(3.5, 1.12, 0.9), yaw: -1.914, pitch: -0.08, yawRange: 1.5};
+const ARMCHAIR_SEAT = {pos: V(3.33, 0.98, 0.8), yaw: -1.914, pitch: -0.22, yawRange: 1.5};
 const TV_POS = V(6.1, 0.85, 1.8);
 const PHONE_POS = V(6.82, 0.85, 3.7);
 const DOOR_OUT = V(8.05, 1.5, 6.5);
@@ -142,7 +142,7 @@ export class Game {
     I.proxy(this.scene, 0.16, 1.9, 0.16, 0.3, 0.35, 0.3, {prompt: 'Лампадка', action: () => g.say(S.THOUGHTS.lampada)});
     I.proxy(this.scene, 0.03, 1.6, 3.4, 0.06, 0.45, 0.35, {prompt: 'Портрет', action: () => g.say(S.THOUGHTS.portrait)});
     I.proxy(this.scene, 6.62, 1.58, 1.6, 0.05, 0.35, 0.22, {prompt: 'Календарь', action: () => g.say(S.THOUGHTS.calendar)});
-    I.proxy(this.scene, 8.48, 0.75, 2.55, 0.62, 1.4, 0.62, {prompt: 'Холодильник', action: () => g.say(g.lights.mains ? S.THOUGHTS.fridge : S.THOUGHTS.fridgeOff)});
+    I.proxy(this.scene, 8.48, 0.65, 2.55, 0.62, 1.2, 0.62, {prompt: 'Холодильник', action: () => g.say(g.lights.mains ? S.THOUGHTS.fridge : S.THOUGHTS.fridgeOff)});
     I.proxy(this.scene, 6.65, 1.62, 1.0, 0.1, 0.18, 0.28, {prompt: 'Радиоточка', action: () => g.say(S.THOUGHTS.radio)});
     I.proxy(this.scene, 2.52, 1.0, 2.3, 0.5, 1.8, 1.0, {prompt: 'Шифоньер', action: () => g.say(S.THOUGHTS.wardrobe)});
     I.proxy(this.scene, 6.25, 1.27, 0.75, 0.4, 0.9, 0.9, {prompt: 'Сервант', action: () => g.say(S.THOUGHTS.sideboard)});
@@ -921,7 +921,6 @@ export class Game {
       if (this.hands.current !== 'flashlight') this.hands.hold('flashlight');
       this.hands.squeeze(); this.audio.click(this.camera.position, 500, 0.12); this.audio.creak(this.camera.position, 0.05, 0.12, 900);
     }
-    if (this.hands.lightOn) this.renderer.markShadows();
     // creature footsteps
     // fear vignette eases
     if (this.phase === 'event' && this.creatureActive) this.player.shake = Math.max(this.player.shake, 0.15);

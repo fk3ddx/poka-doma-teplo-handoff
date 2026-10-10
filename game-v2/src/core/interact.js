@@ -24,8 +24,10 @@ export class Interactions {
     return this.add({...def, obj: m});
   }
   occluded(origin, dir, dist) {
+    const hx = origin.x + dir.x * dist, hy = origin.y + dir.y * dist, hz = origin.z + dir.z * dist, m = 0.08;
     for (const b of this.col.boxes) {
       if (!b.on || b.noOcclude) continue;
+      if ((b.y1 ?? 2.5) < 2.3 && hx > b.x0 - m && hx < b.x1 + m && hz > b.z0 - m && hz < b.z1 + m && hy > (b.y0 ?? 0) - m && hy < (b.y1 ?? 2.5) + m) continue;
       const y0 = b.y0 ?? 0, y1 = b.y1 ?? 2.5;
       let tmin = 0, tmax = dist;
       for (const [o, d, lo, hi] of [[origin.x, dir.x, b.x0, b.x1], [origin.y, dir.y, y0, y1], [origin.z, dir.z, b.z0, b.z1]]) {

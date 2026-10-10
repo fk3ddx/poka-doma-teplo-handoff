@@ -98,6 +98,7 @@ function fridge(ctx) {
   const box = new THREE.Group();
   const mb = new THREE.Mesh(boxGeo(0.05, 0.015, 0.036), new THREE.MeshStandardMaterial({map: T.label('СПИЧКИ', {w: 128, h: 96, bg: '#c8a24a', fg: '#3a1d10', font: 'bold 22px PT Serif, serif'}), roughness: 0.8}));
   box.add(mb); box.position.set(8.4, 1.43, 2.5); box.rotation.y = 0.4;
+  const hit = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.08, 0.14), new THREE.MeshBasicMaterial({visible: false})); box.add(hit);
   ctx.scene.add(box);
   ctx.matches = box;
 }

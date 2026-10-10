@@ -21,6 +21,7 @@ export class Lights {
       l.shadow.bias = bias; l.shadow.normalBias = 0.02;
       l.shadow.camera.near = 0.05; l.shadow.camera.far = distance;
       l.shadow.radius = 3;
+      l.shadow.autoUpdate = false; l.shadow.needsUpdate = true;
     }
     this.scene.add(l);
     const f = {light: l, base: intensity, mats: mats.map(m => ({m, e: m.emissiveIntensity ?? 1, col: m.emissive?.clone()})), on, mains, flicker: 0, mul: 1, emissive, link};

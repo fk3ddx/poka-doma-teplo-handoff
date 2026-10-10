@@ -12,8 +12,8 @@ export class TV {
     const W = 0.74, H = 0.56, D = 0.4;
     add(rboxGeo(W, H, D, 0.015), wood, 0, H / 2, 0);
     // rear CRT housing
-    const back = new THREE.CylinderGeometry(0.12, 0.2, 0.2, 4, 1); back.rotateX(Math.PI / 2); back.rotateZ(Math.PI / 4); back.scale(1.3, 1, 1);
-    add(back, std(0x2a221c, 0.7), -0.04, H / 2 + 0.01, -D / 2 - 0.09);
+    const back = new THREE.CylinderGeometry(0.12, 0.2, 0.12, 4, 1); back.rotateX(Math.PI / 2); back.rotateZ(Math.PI / 4); back.scale(1.3, 1, 1);
+    add(back, std(0x2a221c, 0.7), -0.04, H / 2 + 0.01, -D / 2 - 0.055);
     // front panel
     add(rboxGeo(W - 0.03, H - 0.03, 0.012, 0.006), std(0x1c1a18, 0.5), 0, H / 2, D / 2);
     // screen bezel (rounded)

@@ -108,8 +108,8 @@ export class Renderer {
     r.toneMappingExposure = 1.0;
     r.shadowMap.enabled = true;
     r.shadowMap.type = THREE.PCFSoftShadowMap;
-    r.shadowMap.autoUpdate = false;
-    this.shadowFrames = 3;
+    r.shadowMap.autoUpdate = true;   // per-light control below
+    this.shadowFrames = 3; this.shadowNear = null;
     this.scale = 0.75;
     this.quality = 'medium';
   }
@@ -156,10 +156,24 @@ export class Renderer {
     this.camera.aspect = w / h; this.camera.updateProjectionMatrix();
   }
 
-  markShadows(frames = 1) { this.shadowFrames = Math.max(this.shadowFrames, frames); }
+  // static lights (shadow.autoUpdate=false) redraw their shadow maps only when marked.
+  // pos: only lights within 6 m of it (moving creature, door).
+  markShadows(frames = 1, pos = null) {
+    if (pos) { this.shadowNear = pos; this.shadowNearFrames = Math.max(this.shadowNearFrames ?? 0, frames); }
+    else this.shadowFrames = Math.max(this.shadowFrames, frames);
+  }
+  applyShadowMarks() {
+    const all = this.shadowFrames > 0, near = (this.shadowNearFrames ?? 0) > 0;
+    if (!all && !near) return;
+    this.scene.traverseVisible(o => {
+      if (!o.isLight || !o.castShadow || o.shadow.autoUpdate) return;
+      if (all || o.position.distanceTo(this.shadowNear) < 6) o.shadow.needsUpdate = true;
+    });
+    if (all) this.shadowFrames--; if (near) this.shadowNearFrames--;
+  }
 
   render(dt, t) {
-    if (this.shadowFrames > 0) { this.r.shadowMap.needsUpdate = true; this.shadowFrames--; }
+    this.applyShadowMarks();
     this.film.uniforms.uTime.value = t;
     this.composer.render(dt);
   }

@@ -75,3 +75,6 @@ html, body { margin: 0; height: 100%; overflow: hidden; background: #000; color:
 .options input[type=range] { width: 200px; accent-color: #c9a25e; }
 .options select { font-family: inherit; background: #111; color: #eee; border: 1px solid #444; padding: 4px; }
 #menu-buttons { display: flex; flex-direction: column; gap: 12px; align-items: center; }
+
+#fps { position: absolute; right: 10px; top: 8px; font-size: 12px; color: #9f9; text-shadow: 0 0 3px #000; display: none; }
+#fps.on { display: block; }

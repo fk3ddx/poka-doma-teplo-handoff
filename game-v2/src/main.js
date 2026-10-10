@@ -98,6 +98,7 @@ function applyOpts() {
   localStorage.setItem(OPT_KEY, JSON.stringify(opts));
 }
 const bind = (id, key, parse = parseFloat) => { const el = $(id); if (el.type === 'checkbox') el.checked = opts[key]; else el.value = opts[key]; el.oninput = el.onchange = () => { opts[key] = el.type === 'checkbox' ? el.checked : parse(el.value); applyOpts(); }; };
+const qSel = $('opt-quality'); qSel.addEventListener('change', () => { opts.userQuality = true; applyOpts(); });
 bind('opt-sens', 'sens'); bind('opt-vol', 'vol'); bind('opt-bright', 'bright'); bind('opt-vhs', 'vhs'); bind('opt-quality', 'quality', v => v); bind('opt-bob', 'bob');
 applyOpts();
 
@@ -143,6 +144,7 @@ if (shot) {
   for (let i = 0; i < 6; i++) world.tv.update(0.2);
   if (params.get('fish') === '1') game.film.uFish.value = 1;
   if (params.get('balc')) world.doors.balcony.snap(+params.get('balc'));
+  if (params.get('sit')) { player.sit({pos: new THREE.Vector3(3.33, 0.98, 0.8), yaw: -1.914, pitch: -0.22, yawRange: 1.5}); player.sitT = 1; }
   window.__shotMode = true;
 } else {
   // living-room backdrop behind the menu
@@ -167,7 +169,7 @@ if (!shot) {
 }
 
 // ---- loop
-let last = performance.now(), t = 0, frames = 0;
+let last = performance.now(), t = 0, frames = 0, fpsAcc = 0, fpsN = 0;
 function frame(now) {
   const fixed = window.__fixedDt;
   const dt = fixed ?? Math.max(0, Math.min(0.05, (now - last) / 1000)); last = now; t += dt;
@@ -177,11 +179,12 @@ function frame(now) {
     if (!window.__shotMode) game.update(dt);
     if (!game.peeping && !game.noteOpen && !game.inCall && game.phase !== 'death' && !window.__shotMode) inter.update(); else ui.setPrompt(null);
     lights.update(dt, t);
-    for (const d of Object.values(world.doors)) if (d.update(dt)) renderer.markShadows();
+    for (const d of Object.values(world.doors)) if (d.update(dt)) renderer.markShadows(1, d.pivot.position);
     creature.update(dt, p => audio.step(new THREE.Vector3(p.x, 0.05, p.z), surfaceAt(p.x, p.z), 0.3, true));
-    if (creature.visible) renderer.markShadows();
+    if (creature.visible && (creature.walking || frames % 4 === 0)) renderer.markShadows(1, creature.pos);
     if (window.__shotMode && hands.current === 'flashlight') { hands.charge = 1; hands.blend = 1; }
     hands.update(dt, player.bobAmp > 0.2);
+    hands.lap.visible = !!player.seated && (player.sitT ?? 1) > 0.6;
     world.tv.update(dt);
     world.sleet.uniforms.uTime.value = t;
     for (const s of world.chimneyLights) s.material.opacity = (Math.sin(t * 2) > 0 ? 0.85 : 0.15);
@@ -190,6 +193,17 @@ function frame(now) {
     world.lampada.flame.scale.set(1 + Math.random() * 0.15, 2 + Math.random() * 0.4, 1);
     if (lights.fixtures.lampada.light.visible) lights.fixtures.lampada.light.intensity = 0.6 * (0.85 + Math.random() * 0.25);
     audio.updateListener(camera);
+  }
+  // FPS meter (F3) and automatic quality step-down when the machine can't keep up
+  fpsAcc += dt; fpsN++;
+  if (input.hit('F3')) $('fps').classList.toggle('on');
+  if (fpsAcc >= 3) {
+    const fps = fpsN / fpsAcc; $('fps').textContent = `${fps.toFixed(0)} fps · ${renderer.quality}`;
+    if (started && !game.paused && !opts.userQuality && fps < 32 && renderer.quality !== 'low') {
+      opts.quality = renderer.quality === 'high' ? 'medium' : 'low'; applyOpts(); qSel.value = opts.quality;
+      ui.hint('Качество снижено для плавности (Настройки → Качество)', 4000);
+    }
+    fpsAcc = 0; fpsN = 0;
   }
   renderer.render(dt, t);
   if (!mirrorBaked && frames === 2) { cubeCam.update(renderer.r, scene); mirrorBaked = true; }

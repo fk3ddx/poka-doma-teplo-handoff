@@ -45,6 +45,18 @@ export class Hands {
       g.position.set(0.15, -0.17, -0.3); g.rotation.set(0.05, 0.05, 0);
       this.items.flashlight = g;
     }
+    {
+      const c = document.createElement('canvas'); c.width = c.height = 128; const x = c.getContext('2d');
+      x.fillStyle = '#4e6b5a'; x.fillRect(0, 0, 128, 128);
+      for (let i = 0; i < 128; i += 32) { x.fillStyle = 'rgba(200,190,150,0.45)'; x.fillRect(i, 0, 8, 128); x.fillRect(0, i, 128, 8); x.fillStyle = 'rgba(120,40,30,0.4)'; x.fillRect(i + 14, 0, 3, 128); x.fillRect(0, i + 14, 128, 3); }
+      const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(2, 2);
+      const g = new THREE.PlaneGeometry(0.9, 0.7, 12, 8); const p = g.attributes.position;
+      for (let i = 0; i < p.count; i++) { const px = p.getX(i), py = p.getY(i); p.setZ(i, Math.sin(px * 9) * 0.015 - px * px * 0.5 + Math.sin(py * 7 + px * 3) * 0.01); }
+      g.computeVertexNormals();
+      this.lap = new THREE.Mesh(g, new THREE.MeshStandardMaterial({map: t, roughness: 1, side: THREE.DoubleSide}));
+      this.lap.position.set(0, -0.55, -0.45); this.lap.rotation.x = -1.25; this.lap.visible = false;
+      camera.add(this.lap);
+    }
     for (const it of Object.values(this.items)) { it.visible = false; this.root.add(it); it.traverse(o => { if (o.isMesh) { o.renderOrder = 5; } }); }
     this.charge = 0; this.squeezeT = 0;
   }
@@ -52,7 +64,7 @@ export class Hands {
     for (const [k, it] of Object.entries(this.items)) it.visible = k === name;
     this.current = name;
     this.blend = 0;
-    if (name !== 'flashlight') this.spot.intensity = 0;
+    if (name !== 'flashlight') { this.spot.intensity = 0; this.spot.visible = false; }
   }
   squeeze() { this.charge = Math.min(1, this.charge + 0.34); this.squeezeT = 0.18; }
   get lightOn() { return this.current === 'flashlight' && this.charge > 0.02; }
@@ -75,6 +87,7 @@ export class Hands {
       const flick = this.charge < 0.25 ? (0.6 + Math.random() * 0.4) : 1;
       const k = Math.pow(this.charge, 0.6) * flick;
       this.spot.intensity = 20 * k;
+      this.spot.visible = k > 0.01;
       this.lens.material.emissiveIntensity = 2.5 * k;
     }
   }

@@ -40,7 +40,7 @@ export function buildWorld(scene, col, extra = {}) {
     g.traverse(o => { if (o.isMesh) o.castShadow = true; });
     ctx.extraDoor = g;
   }
-  ctx.tv = new TV(scene, M, {x: 6.27, y: 0.565, z: 1.8, ry: -Math.PI / 2});
+  ctx.tv = new TV(scene, M, {x: 6.17, y: 0.565, z: 1.8, ry: -Math.PI / 2});
   batch.build(statics);
   buildExterior(ctx);
   return ctx;

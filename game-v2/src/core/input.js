@@ -11,12 +11,14 @@ export class Input {
     addEventListener('keydown', e => {
       if (e.repeat) return;
       this.keys.add(e.code); this.pressed.add(e.code);
-      if (['Space', 'Tab'].includes(e.code)) e.preventDefault();
+      if (['Space', 'Tab', 'F3'].includes(e.code)) e.preventDefault();
     });
     addEventListener('keyup', e => this.keys.delete(e.code));
     addEventListener('blur', () => this.keys.clear());
     addEventListener('mousemove', e => {
       if (!this.locked) return;
+      // Chrome/Windows pointer-lock bug: occasional huge bogus jumps -> drop them
+      if (Math.abs(e.movementX) > 220 || Math.abs(e.movementY) > 220) return;
       this.dx += e.movementX; this.dy += e.movementY;
     });
     addEventListener('mousedown', e => { if (this.locked && e.button === 0) { this.mouseDown = true; this.clicked = true; } if (this.locked && e.button === 2) this.pressed.add('Mouse2'); });
@@ -27,7 +29,10 @@ export class Input {
       this.onLockChange?.(this.locked);
     });
   }
-  lock() { this.canvas.requestPointerLock?.()?.catch?.(() => {}); }
+  lock() {
+    const p = this.canvas.requestPointerLock?.({unadjustedMovement: true});
+    p?.catch?.(() => this.canvas.requestPointerLock?.()?.catch?.(() => {}));
+  }
   unlock() { document.exitPointerLock?.(); }
   down(code) { return this.keys.has(code); }
   hit(code) { return this.pressed.has(code); }

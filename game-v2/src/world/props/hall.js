@@ -228,6 +228,7 @@ function landing(ctx) {
       B.add(planeGeo(w, CEIL - 1.5, 1), M.stairWhite, mx, 1.5 + (CEIL - 1.5) / 2, 0, 0, 0, 0, {cast: false});
       B.add(boxGeo(w, 0.02, 0.004), std(0x2a3a2a, 0.5), mx, 1.5, 0.002, 0, 0, 0, {cast: false});
     }
+    B.add(planeGeo(len, 3.0, 1), M.stairGreen, 0, -1.5, 0, 0, 0, 0, {cast: false});
     B.pop();
   };
   // north wall (our facade side) faces +z: our door 7.6..8.5, neighbour door 9.4..10.25
@@ -237,6 +238,9 @@ function landing(ctx) {
   wallSeg(10.4, 12.0, 10.4, 6.3, -Math.PI / 2);
   wallSeg(10.4, 12.0, 6.0, 12.0, Math.PI);
   B.add(planeGeo(4.4, 5.7, 1), M.stairWhite, 8.2, CEIL, 9.15, 0, Math.PI / 2, 0, {cast: false});
+  // stairwell below our landing: edge of the landing slab and the 4th-floor landing
+  B.add(planeGeo(2.9, 2.85, 1), M.stairGreen, 7.45, -1.42, 8.0, 0, 0, 0, {cast: false});
+  B.add(planeGeo(4.4, 5.7, 1), tileMat, 8.2, -2.7, 9.15, 0, -Math.PI / 2, 0, {cast: false});
   col.addBox(5.7, 6.3, 6.0, 12, {});
   col.addBox(10.4, 6.3, 10.7, 12, {});
   // neighbour doors
