@@ -1,0 +1,194 @@
+[
+  {
+    "id": "jug_01",
+    "type": "model",
+    "license": "CC0",
+    "source": "https://polyhaven.com/a/jug_01"
+  },
+  {
+    "id": "tea_set_01",
+    "type": "model",
+    "license": "CC0",
+    "source": "https://polyhaven.com/a/tea_set_01"
+  },
+  {
+    "id": "pot_enamel_01",
+    "type": "model",
+    "license": "CC0",
+    "source": "https://polyhaven.com/a/pot_enamel_01"
+  },
+  {
+    "id": "russian_food_cans_01",
+    "type": "model",
+    "license": "CC0",
+    "source": "https://polyhaven.com/a/russian_food_cans_01"
+  },
+  {
+    "id": "old_bed_frame",
+    "type": "model",
+    "license": "CC0",
+    "source": "https://polyhaven.com/a/old_bed_frame"
+  },
+  {
+    "id": "alarm_clock_01",
+    "type": "model",
+    "license": "CC0",
+    "source": "https://polyhaven.com/a/alarm_clock_01"
+  },
+  {
+    "id": "rubber_boots",
+    "type": "model",
+    "license": "CC0",
+    "source": "https://polyhaven.com/a/rubber_boots"
+  },
+  {
+    "id": "potted_plant_01",
+    "type": "model",
+    "license": "CC0",
+    "source": "https://polyhaven.com/a/potted_plant_01"
+  },
+  {
+    "id": "potted_plant_04",
+    "type": "model",
+    "license": "CC0",
+    "source": "https://polyhaven.com/a/potted_plant_04"
+  },
+  {
+    "id": "vintage_suitcase",
+    "type": "model",
+    "license": "CC0",
+    "source": "https://polyhaven.com/a/vintage_suitcase"
+  },
+  {
+    "id": "wicker_basket_01",
+    "type": "model",
+    "license": "CC0",
+    "source": "https://polyhaven.com/a/wicker_basket_01"
+  },
+  {
+    "id": "mantel_clock_01",
+    "type": "model",
+    "license": "CC0",
+    "source": "https://polyhaven.com/a/mantel_clock_01"
+  },
+  {
+    "id": "postcard_set_01",
+    "type": "model",
+    "license": "CC0",
+    "source": "https://polyhaven.com/a/postcard_set_01"
+  },
+  {
+    "id": "street_lamp_02",
+    "type": "model",
+    "license": "CC0",
+    "source": "https://polyhaven.com/a/street_lamp_02"
+  },
+  {
+    "id": "covered_car",
+    "type": "model",
+    "license": "CC0",
+    "source": "https://polyhaven.com/a/covered_car"
+  },
+  {
+    "id": "herringbone_parquet",
+    "type": "texture",
+    "license": "CC0",
+    "source": "https://polyhaven.com/a/herringbone_parquet"
+  },
+  {
+    "id": "old_linoleum_flooring_01",
+    "type": "texture",
+    "license": "CC0",
+    "source": "https://polyhaven.com/a/old_linoleum_flooring_01"
+  },
+  {
+    "id": "linoleum_brown",
+    "type": "texture",
+    "license": "CC0",
+    "source": "https://polyhaven.com/a/linoleum_brown"
+  },
+  {
+    "id": "painted_concrete",
+    "type": "texture",
+    "license": "CC0",
+    "source": "https://polyhaven.com/a/painted_concrete"
+  },
+  {
+    "id": "curly_teddy_checkered",
+    "type": "texture",
+    "license": "CC0",
+    "source": "https://polyhaven.com/a/curly_teddy_checkered"
+  },
+  {
+    "id": "fabric_pattern_07",
+    "type": "texture",
+    "license": "CC0",
+    "source": "https://polyhaven.com/a/fabric_pattern_07"
+  },
+  {
+    "id": "floral_jacquard",
+    "type": "texture",
+    "license": "CC0",
+    "source": "https://polyhaven.com/a/floral_jacquard"
+  },
+  {
+    "id": "caban",
+    "type": "texture",
+    "license": "CC0",
+    "source": "https://polyhaven.com/a/caban"
+  },
+  {
+    "id": "lacquered_cherry_wood",
+    "type": "texture",
+    "license": "CC0",
+    "source": "https://polyhaven.com/a/lacquered_cherry_wood"
+  },
+  {
+    "id": "walnut_veneer",
+    "type": "texture",
+    "license": "CC0",
+    "source": "https://polyhaven.com/a/walnut_veneer"
+  },
+  {
+    "id": "kitchen_wood",
+    "type": "texture",
+    "license": "CC0",
+    "source": "https://polyhaven.com/a/kitchen_wood"
+  },
+  {
+    "id": "grey_plaster",
+    "type": "texture",
+    "license": "CC0",
+    "source": "https://polyhaven.com/a/grey_plaster"
+  },
+  {
+    "id": "asphalt_02",
+    "type": "texture",
+    "license": "CC0",
+    "source": "https://polyhaven.com/a/asphalt_02"
+  },
+  {
+    "id": "brown_mud_leaves_01",
+    "type": "texture",
+    "license": "CC0",
+    "source": "https://polyhaven.com/a/brown_mud_leaves_01"
+  },
+  {
+    "id": "concrete_panels",
+    "type": "texture",
+    "license": "CC0",
+    "source": "https://polyhaven.com/a/concrete_panels"
+  },
+  {
+    "id": "painted_plaster_wall",
+    "type": "texture",
+    "license": "CC0",
+    "source": "https://polyhaven.com/a/painted_plaster_wall"
+  },
+  {
+    "id": "green_metal_rust",
+    "type": "texture",
+    "license": "CC0",
+    "source": "https://polyhaven.com/a/green_metal_rust"
+  }
+]

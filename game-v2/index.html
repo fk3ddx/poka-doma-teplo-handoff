@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Атака на запоминание — Пролог</title>
+</head>
+<body>
+<canvas id="view"></canvas>
+
+<div id="ui">
+  <div id="crosshair"></div>
+  <div id="prompt"></div>
+  <div id="objective"><div class="label">Задача</div><div id="objective-list"></div></div>
+  <div id="thought"></div>
+  <div id="subtitle"><div id="sub-name"></div><div id="sub-text"></div></div>
+  <div id="choices"></div>
+  <div id="hint"></div>
+  <div id="eyelids"><div class="lid top"></div><div class="lid bottom"></div></div>
+  <div id="fade"></div>
+  <div id="flash"></div>
+  <div id="card"></div>
+  <div id="note"><div class="paper"><div id="note-text"></div><div class="close">[E] — убрать</div></div></div>
+</div>
+
+<div id="menu" class="screen visible">
+  <div class="menu-inner">
+    <div class="title">АТАКА НА&nbsp;ЗАПОМИНАНИЕ</div>
+    <div class="subtitle">пролог · у&nbsp;бабушки</div>
+    <div id="loading">загрузка<span id="load-pct"></span></div>
+    <div id="menu-buttons" class="hidden">
+      <button id="btn-start">Начать</button>
+      <button id="btn-continue" class="hidden">Продолжить</button>
+      <button id="btn-options">Настройки</button>
+    </div>
+    <div class="menu-foot">Наушники рекомендуются · мышь — смотреть · WASD — идти · E / ЛКМ — действие · Shift — быстрее · C — закрыть глаза · F — фонарь</div>
+  </div>
+</div>
+
+<div id="pause" class="screen">
+  <div class="menu-inner">
+    <div class="title small">пауза</div>
+    <button id="btn-resume">Продолжить</button>
+    <button id="btn-options2">Настройки</button>
+    <button id="btn-restart">Начать заново</button>
+  </div>
+</div>
+
+<div id="options" class="screen">
+  <div class="menu-inner options">
+    <div class="title small">настройки</div>
+    <label>Чувствительность мыши <input id="opt-sens" type="range" min="0.2" max="3" step="0.05" value="1"></label>
+    <label>Громкость <input id="opt-vol" type="range" min="0" max="1" step="0.01" value="0.8"></label>
+    <label>Яркость <input id="opt-bright" type="range" min="0.6" max="1.6" step="0.01" value="1"></label>
+    <label>Плёнка (VHS) <input id="opt-vhs" type="range" min="0" max="1" step="0.01" value="0.6"></label>
+    <label>Качество
+      <select id="opt-quality"><option value="low">низкое</option><option value="medium" selected>среднее</option><option value="high">высокое</option></select>
+    </label>
+    <label class="check"><input id="opt-bob" type="checkbox" checked> Покачивание камеры</label>
+    <button id="btn-options-back">Назад</button>
+  </div>
+</div>
+
+<script type="module" src="/src/main.js"></script>
+</body>
+</html>
