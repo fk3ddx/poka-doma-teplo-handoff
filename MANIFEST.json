@@ -1,0 +1,1277 @@
+{
+  "package": "Full game project handoff",
+  "created_at_utc": "2026-10-10T15:59:40.731056+00:00",
+  "user_acceptance": "Rejected by user; preserved for another agent",
+  "project_file_count": 158,
+  "additional_file_count": 22,
+  "total_payload_files": 180,
+  "markdown_files": 21,
+  "payload_bytes": 144560942,
+  "unavailable_additional_paths": [],
+  "exclusions": [
+    "This output ZIP and its checksum sidecar only"
+  ],
+  "manifest_note": "Manifest does not hash itself. The archive checksum is provided alongside the ZIP.",
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "bytes": 387,
+      "sha256": "7abb5e92a4e4e0be8c277c87a92b8c474c0f106d92173cdb74ee5ed2270ed2be",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\AGENTS.md"
+    },
+    {
+      "path": "build-handoff.py",
+      "bytes": 4217,
+      "sha256": "e37377c967577eaf8105524d109d4bee8c190c4bb2e8ef969f0019c7b5719a9e",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\build-handoff.py"
+    },
+    {
+      "path": "horror-project/01-brief.md",
+      "bytes": 6196,
+      "sha256": "9a5a4848e67fc2c27435ebe495ca06ccb3babe35d4be9a7f4429f53531abc1ec",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\01-brief.md"
+    },
+    {
+      "path": "horror-project/02-research-horror.md",
+      "bytes": 15065,
+      "sha256": "a1b8d9015a6f80e983fb03feafcada941fee3c33095e151f29479882cdef5830",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\02-research-horror.md"
+    },
+    {
+      "path": "horror-project/03-research-ps1.md",
+      "bytes": 11721,
+      "sha256": "6bb91cf1aafc679e45d13c66d20d1e687de2d0731c518caa17ae41756a8a1e54",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\03-research-ps1.md"
+    },
+    {
+      "path": "horror-project/04-memory-attacks.md",
+      "bytes": 11676,
+      "sha256": "0264069c3b240184e5574362c9b911ae81290e4f9b517475219480135322c47b",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\04-memory-attacks.md"
+    },
+    {
+      "path": "horror-project/05-concepts.md",
+      "bytes": 9818,
+      "sha256": "f3a9e387f360bdbad9ba56f809d0de1bf6f82d60558060b3895a5b5cd6612d59",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\05-concepts.md"
+    },
+    {
+      "path": "horror-project/06-production-plan.md",
+      "bytes": 13197,
+      "sha256": "aa3e44bf10609c04473367b1bf5e3475fee6d4d10a97d847073c58d82863297c",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\06-production-plan.md"
+    },
+    {
+      "path": "horror-project/07-prototype.md",
+      "bytes": 9287,
+      "sha256": "de5b7b5cdce9fe72a8cc85f9ba291a14d9ef84d3ee1725ac2f9508eb3de16e0b",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\07-prototype.md"
+    },
+    {
+      "path": "horror-project/08-decisions.md",
+      "bytes": 8160,
+      "sha256": "b3711f6c57bca2e7564162ea13390439952efacba234676de096ed0f66b2a516",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\08-decisions.md"
+    },
+    {
+      "path": "horror-project/09-sources.md",
+      "bytes": 7560,
+      "sha256": "5d22fcf7b15f6930deed1f94de055497f1bf171075d7aee76b04dd81169de46d",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\09-sources.md"
+    },
+    {
+      "path": "horror-project/10-visual-research.md",
+      "bytes": 10858,
+      "sha256": "50348b38a4a6449ddaf6a97337fbd53039350017a9f3e3e04ef2c5fc72523cdc",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\10-visual-research.md"
+    },
+    {
+      "path": "horror-project/11-build-status.md",
+      "bytes": 8678,
+      "sha256": "64cbf7396b588182c163af454bd203a880260565a4e690a9082206ef850012eb",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\11-build-status.md"
+    },
+    {
+      "path": "horror-project/AGENTS.md",
+      "bytes": 1436,
+      "sha256": "b4cae475ef76579ecbf2b5cefa79aa65d4f679e07b1a425341371f279c06a0c8",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\AGENTS.md"
+    },
+    {
+      "path": "horror-project/art/concepts/A-second-player.png",
+      "bytes": 1983214,
+      "sha256": "536558922416771cb420bd1597d4e78e4e3230e1d81a05628e18bfb60cc8fc4e",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\art\\concepts\\A-second-player.png"
+    },
+    {
+      "path": "horror-project/art/concepts/A2-winter-kitchen.png",
+      "bytes": 2174224,
+      "sha256": "f614ed9183f108138fc110ede891696c126ff279abab4223825446591b0ca6cc",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\art\\concepts\\A2-winter-kitchen.png"
+    },
+    {
+      "path": "horror-project/art/concepts/A3-grey-kitchen.png",
+      "bytes": 1917842,
+      "sha256": "abca08136c8eb005107b3f7497426630fc47ae19b818b5685022084820b40a36",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\art\\concepts\\A3-grey-kitchen.png"
+    },
+    {
+      "path": "horror-project/art/concepts/A4-warm-kitchen.png",
+      "bytes": 1907103,
+      "sha256": "6f837b782ceab22199a585b3726615faf0a43ebefc20b1d391f68be7c253e3a4",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\art\\concepts\\A4-warm-kitchen.png"
+    },
+    {
+      "path": "horror-project/art/concepts/B-extra-landing.png",
+      "bytes": 1665127,
+      "sha256": "353f090c7a9db4b646afcc9a83643a4abd99e305b5fcff6c4a4d30cb862cd0bb",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\art\\concepts\\B-extra-landing.png"
+    },
+    {
+      "path": "horror-project/art/concepts/B2-fifth-floor-landing.png",
+      "bytes": 2346854,
+      "sha256": "31d1237d20c49284820c1399bda440459b4cd1394c2581faa1b4b0a72da07f2f",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\art\\concepts\\B2-fifth-floor-landing.png"
+    },
+    {
+      "path": "horror-project/art/concepts/B3-top-landing.png",
+      "bytes": 1922197,
+      "sha256": "da98536b1ed3ebbdc77ec176735d217f119f9949e15330d392db6c6a0b562b78",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\art\\concepts\\B3-top-landing.png"
+    },
+    {
+      "path": "horror-project/art/concepts/C-house-next-door.png",
+      "bytes": 1844054,
+      "sha256": "d7954987cf7a06d98832cc6eb1dba2bc40496e91a79caad83fa8ba34d5f87a68",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\art\\concepts\\C-house-next-door.png"
+    },
+    {
+      "path": "horror-project/art/concepts/C2-autumn-living-room.png",
+      "bytes": 2425509,
+      "sha256": "693ceb977f2f2d4363fcf69ff396d9f63a9b15472794ef17544b68c976f37d63",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\art\\concepts\\C2-autumn-living-room.png"
+    },
+    {
+      "path": "horror-project/art/concepts/C3-last-evening.png",
+      "bytes": 2057309,
+      "sha256": "8f185fea36354b0c3085d52126c3cf1c743cfa5259d74dff88860b3c5f103cc8",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\art\\concepts\\C3-last-evening.png"
+    },
+    {
+      "path": "horror-project/art/concepts/C4-warm-living-room.png",
+      "bytes": 2325960,
+      "sha256": "045b4b0eb2b015d4dbaa494ac516ddf2b56ecee9d8d1be645d9d96e28af4dce4",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\art\\concepts\\C4-warm-living-room.png"
+    },
+    {
+      "path": "horror-project/art/concepts/D-thaw.png",
+      "bytes": 2035358,
+      "sha256": "b2128f8ca0f33b4b6963cd043a62d6ae4531a7c4b437b011799241cbd3023b9c",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\art\\concepts\\D-thaw.png"
+    },
+    {
+      "path": "horror-project/art/concepts/D2-spring-balcony.png",
+      "bytes": 2592075,
+      "sha256": "3fe0e9d4d8c680899adda8e5222bba6d45ec17730521040e6a43b76d3ceab475",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\art\\concepts\\D2-spring-balcony.png"
+    },
+    {
+      "path": "horror-project/art/concepts/D3-fog-balcony.png",
+      "bytes": 2236342,
+      "sha256": "12ed0133fbc771e6e4fbc93a7f8fbf2feafc0bb8544e35c07dfc547d300cdd0c",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\art\\concepts\\D3-fog-balcony.png"
+    },
+    {
+      "path": "horror-project/art/concepts/E-save-room.png",
+      "bytes": 1975696,
+      "sha256": "b7f4b09697683c322915f81048803da5c43f12275626314abe68d2abea7b2643",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\art\\concepts\\E-save-room.png"
+    },
+    {
+      "path": "horror-project/art/concepts/E2-brick-attic-night.png",
+      "bytes": 2220054,
+      "sha256": "88c28c387fde87cd6aa1afd5322a1dcbc4e9d0a2d66c4b42453bd360defa4311",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\art\\concepts\\E2-brick-attic-night.png"
+    },
+    {
+      "path": "horror-project/art/concepts/E3-ceiling-footsteps.png",
+      "bytes": 1901265,
+      "sha256": "5ac53b9233237837ab5119e493b1f12a2d47e4e5119a28cd3ee3e5699eef5017",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\art\\concepts\\E3-ceiling-footsteps.png"
+    },
+    {
+      "path": "horror-project/art/concepts/E4-warm-bedroom.png",
+      "bytes": 2105268,
+      "sha256": "62d68c594f79a313f4bed0569822e41a708517bbda8da6f51b6a67fdde240c8e",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\art\\concepts\\E4-warm-bedroom.png"
+    },
+    {
+      "path": "horror-project/art/PROMPTS.md",
+      "bytes": 35582,
+      "sha256": "a860a6331e5d7f71cafea2c1414f80da3d8a4c88f8d19045cd7bca1905614f51",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\art\\PROMPTS.md"
+    },
+    {
+      "path": "horror-project/art/references/user-fears-to-fathom.png",
+      "bytes": 2016212,
+      "sha256": "96bd6401b43eebd330326f22aea7c294c6c194249af075762f4baed21085e815",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\art\\references\\user-fears-to-fathom.png"
+    },
+    {
+      "path": "horror-project/builds/Poka-doma-teplo-prologue-0.5.zip",
+      "bytes": 20437182,
+      "sha256": "3374940fb639b94dc2e34768c8aee280a36d4474c8e50568ac26b1763e1bcdbd",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\builds\\Poka-doma-teplo-prologue-0.5.zip"
+    },
+    {
+      "path": "horror-project/game/assets/CoffeeTable_01/CoffeeTable_01.bin",
+      "bytes": 394920,
+      "sha256": "1b047e37723ad62b6a204465b22b9fd40936957cee255f20ee65312db227fb11",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\CoffeeTable_01\\CoffeeTable_01.bin"
+    },
+    {
+      "path": "horror-project/game/assets/CoffeeTable_01/model.gltf",
+      "bytes": 3182,
+      "sha256": "c0b7ce378fc13886c220236941b4d258389d252e337297dc89505b80e43617fb",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\CoffeeTable_01\\model.gltf"
+    },
+    {
+      "path": "horror-project/game/assets/CoffeeTable_01/textures/CoffeeTable_01_arm_1k.jpg",
+      "bytes": 194521,
+      "sha256": "b8d7dfe15a11ba361919840f00f360d1133f985ff4321b2e891cf941eb5b51c0",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\CoffeeTable_01\\textures\\CoffeeTable_01_arm_1k.jpg"
+    },
+    {
+      "path": "horror-project/game/assets/CoffeeTable_01/textures/CoffeeTable_01_diff_1k.jpg",
+      "bytes": 196775,
+      "sha256": "170967df5c50342bb5f0273d1fb99f22cef80a0e7f50264e16dec75d1b2830ba",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\CoffeeTable_01\\textures\\CoffeeTable_01_diff_1k.jpg"
+    },
+    {
+      "path": "horror-project/game/assets/CoffeeTable_01/textures/CoffeeTable_01_nor_gl_1k.jpg",
+      "bytes": 168414,
+      "sha256": "0aa55f510be698c7c0e2c0c2deff2a4e892a9343da98bb901daa84e104883de7",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\CoffeeTable_01\\textures\\CoffeeTable_01_nor_gl_1k.jpg"
+    },
+    {
+      "path": "horror-project/game/assets/electric_stove/electric_stove.bin",
+      "bytes": 462956,
+      "sha256": "66f210539346b8f339b7519664ad6fa9b74d0932d8445b6b7e40eabcb40cd4f9",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\electric_stove\\electric_stove.bin"
+    },
+    {
+      "path": "horror-project/game/assets/electric_stove/model.gltf",
+      "bytes": 31234,
+      "sha256": "3be4d1b9ec0ead3c41ea8ef09d61e3b7611b69cbeea26a40ea87355acb0b3c55",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\electric_stove\\model.gltf"
+    },
+    {
+      "path": "horror-project/game/assets/electric_stove/textures/electric_stove_arm_1k.jpg",
+      "bytes": 677547,
+      "sha256": "8ca9f3f56a8e4ba6f67b6748af09aed2b02bf76c451a71ee962374e52e0b4aa2",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\electric_stove\\textures\\electric_stove_arm_1k.jpg"
+    },
+    {
+      "path": "horror-project/game/assets/electric_stove/textures/electric_stove_diff_1k.jpg",
+      "bytes": 446916,
+      "sha256": "61bc269714bf37f2bf057c113c17664e224c998c78ea50f1ed85b5d2e6f2e938",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\electric_stove\\textures\\electric_stove_diff_1k.jpg"
+    },
+    {
+      "path": "horror-project/game/assets/electric_stove/textures/electric_stove_nor_gl_1k.jpg",
+      "bytes": 427043,
+      "sha256": "66a2f47cd0f218dc4650927e11c169b438251521b4efc556f031aa3a3b57c4f6",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\electric_stove\\textures\\electric_stove_nor_gl_1k.jpg"
+    },
+    {
+      "path": "horror-project/game/assets/polyhaven-manifest.json",
+      "bytes": 2224,
+      "sha256": "b6c535c8880569164bc97a797124707e7d0d4554cd3fec8c1bd2c890cee5dd4b",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\polyhaven-manifest.json"
+    },
+    {
+      "path": "horror-project/game/assets/potted_plant_02/model.gltf",
+      "bytes": 6653,
+      "sha256": "c533dcce0d1aa4379eb7db04601a04983f8df2422b28578de922655a416e64a9",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\potted_plant_02\\model.gltf"
+    },
+    {
+      "path": "horror-project/game/assets/potted_plant_02/potted_plant_02.bin",
+      "bytes": 1852244,
+      "sha256": "9c9812482c78a59789ed32fa842b4cbd9365e09c900c31ebb998e5efe627fe97",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\potted_plant_02\\potted_plant_02.bin"
+    },
+    {
+      "path": "horror-project/game/assets/potted_plant_02/textures/potted_plant_02_leaves_diff_1k.jpg",
+      "bytes": 167700,
+      "sha256": "3643dce6e6c0a9f40129bd837ec1a11802e8f43ea43cb29e58219d82e0ac632b",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\potted_plant_02\\textures\\potted_plant_02_leaves_diff_1k.jpg"
+    },
+    {
+      "path": "horror-project/game/assets/potted_plant_02/textures/potted_plant_02_leaves_nor_gl_1k.jpg",
+      "bytes": 127232,
+      "sha256": "e0fe090ff7a511729c9bbe59df7288b400430fdab178529443dec75e0f06007d",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\potted_plant_02\\textures\\potted_plant_02_leaves_nor_gl_1k.jpg"
+    },
+    {
+      "path": "horror-project/game/assets/potted_plant_02/textures/potted_plant_02_leaves_rough_1k.jpg",
+      "bytes": 102396,
+      "sha256": "ac8959f70c0e91e77f3cd6fd3f73578b8aed64ac6c33fc34ac027a4e88276960",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\potted_plant_02\\textures\\potted_plant_02_leaves_rough_1k.jpg"
+    },
+    {
+      "path": "horror-project/game/assets/potted_plant_02/textures/potted_plant_02_pot_diff_1k.jpg",
+      "bytes": 155244,
+      "sha256": "684949bf24821d7e951d46915366b5a388d2e4ccaaa9d5284e718c83604705e9",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\potted_plant_02\\textures\\potted_plant_02_pot_diff_1k.jpg"
+    },
+    {
+      "path": "horror-project/game/assets/potted_plant_02/textures/potted_plant_02_pot_nor_gl_1k.jpg",
+      "bytes": 108343,
+      "sha256": "981a68721c8b7b9ac26b96d0210334599d5e8f529362f505082c071a0a58e86c",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\potted_plant_02\\textures\\potted_plant_02_pot_nor_gl_1k.jpg"
+    },
+    {
+      "path": "horror-project/game/assets/potted_plant_02/textures/potted_plant_02_pot_rough_1k.jpg",
+      "bytes": 114886,
+      "sha256": "4e92ad8ee0f098050785d9a025e2c5a7d55bc7a7f7e1916cc7627fc7824a938f",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\potted_plant_02\\textures\\potted_plant_02_pot_rough_1k.jpg"
+    },
+    {
+      "path": "horror-project/game/assets/rug-v2.png",
+      "bytes": 4067747,
+      "sha256": "f56799fa7ba45826095139754d5cabd06c35f6aa7eb0e41f16b0425c8201a14d",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\rug-v2.png"
+    },
+    {
+      "path": "horror-project/game/assets/SchoolChair_01/model.gltf",
+      "bytes": 2695,
+      "sha256": "1db6aca4bf379c2d568b2068492dcfcda15d764c0c3d98a970055af25b46281e",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\SchoolChair_01\\model.gltf"
+    },
+    {
+      "path": "horror-project/game/assets/SchoolChair_01/SchoolChair_01.bin",
+      "bytes": 134912,
+      "sha256": "7d64d556ba88d3962778085b9a190f1adb0d84e667bca8ef032c0ae34b31a9fe",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\SchoolChair_01\\SchoolChair_01.bin"
+    },
+    {
+      "path": "horror-project/game/assets/SchoolChair_01/textures/SchoolChair_01_arm_1k.jpg",
+      "bytes": 104994,
+      "sha256": "ff773eb01c9d59130dc3cc0274951ac626d73fa1b2f7eee519af4ca80835568b",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\SchoolChair_01\\textures\\SchoolChair_01_arm_1k.jpg"
+    },
+    {
+      "path": "horror-project/game/assets/SchoolChair_01/textures/SchoolChair_01_diff_1k.jpg",
+      "bytes": 52590,
+      "sha256": "f10ae4dbddfb056ef716770ebd96e0eff0aa6f0b5ad0f263ff51c5cade6e1d8f",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\SchoolChair_01\\textures\\SchoolChair_01_diff_1k.jpg"
+    },
+    {
+      "path": "horror-project/game/assets/SchoolChair_01/textures/SchoolChair_01_nor_gl_1k.jpg",
+      "bytes": 189532,
+      "sha256": "4ee930562ad26e8c98af75e8aa6577d01cb56f6d22628f4e95c385e5364f0623",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\SchoolChair_01\\textures\\SchoolChair_01_nor_gl_1k.jpg"
+    },
+    {
+      "path": "horror-project/game/assets/Sofa_01/model.gltf",
+      "bytes": 2636,
+      "sha256": "dc9d331a24fc8994606ae5a283826cb28feb3166782f59d006d0f10cc92cc830",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\Sofa_01\\model.gltf"
+    },
+    {
+      "path": "horror-project/game/assets/Sofa_01/Sofa_01.bin",
+      "bytes": 111264,
+      "sha256": "c8af86de6db09a6d49703e0e51cf8acafa23fb2ee945e66a48225dced3a154e1",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\Sofa_01\\Sofa_01.bin"
+    },
+    {
+      "path": "horror-project/game/assets/Sofa_01/textures/Sofa_01_arm_1k.jpg",
+      "bytes": 114593,
+      "sha256": "fc5db69e4cf5cf9f881b2d134fae69c4e3b1a96378f131752ef48060bf0c5e39",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\Sofa_01\\textures\\Sofa_01_arm_1k.jpg"
+    },
+    {
+      "path": "horror-project/game/assets/Sofa_01/textures/Sofa_01_diff_1k.jpg",
+      "bytes": 134925,
+      "sha256": "1772047e7887a9ec44878e0720eda0829abfa744dec6ca03b492a31c4dc51cab",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\Sofa_01\\textures\\Sofa_01_diff_1k.jpg"
+    },
+    {
+      "path": "horror-project/game/assets/Sofa_01/textures/Sofa_01_nor_gl_1k.jpg",
+      "bytes": 154517,
+      "sha256": "1d89009f9fba3b6967d63cb718606b3049d2423bc031da12ee228718a0571e84",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\Sofa_01\\textures\\Sofa_01_nor_gl_1k.jpg"
+    },
+    {
+      "path": "horror-project/game/assets/Television_01/model.gltf",
+      "bytes": 2933,
+      "sha256": "ef4376366ea956519c1a1d06146a8e8cc2bb0fcbd5c6b9f919a54ce31d05d530",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\Television_01\\model.gltf"
+    },
+    {
+      "path": "horror-project/game/assets/Television_01/Television_01.bin",
+      "bytes": 90548,
+      "sha256": "fc32dd3e6722cfa093910d8b5b4e6173b0c92a13d58b55b8e9c6007a9218b0a0",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\Television_01\\Television_01.bin"
+    },
+    {
+      "path": "horror-project/game/assets/Television_01/textures/Television_01_arm_1k.jpg",
+      "bytes": 190774,
+      "sha256": "b55594884fec13e47e22d1fdc3c89a528728454f65a7c26b482d9f3ec9200015",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\Television_01\\textures\\Television_01_arm_1k.jpg"
+    },
+    {
+      "path": "horror-project/game/assets/Television_01/textures/Television_01_diff_1k.jpg",
+      "bytes": 102231,
+      "sha256": "38e45263d115ab2832a4a2e99f93f03ff5f49c0aa0d5256528677a77c3ca4568",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\Television_01\\textures\\Television_01_diff_1k.jpg"
+    },
+    {
+      "path": "horror-project/game/assets/Television_01/textures/Television_01_nor_gl_1k.jpg",
+      "bytes": 144808,
+      "sha256": "289519da9f2fa5aeca0246bbb6d42ea1b03e5f54865d8881d3b1e0b3116d300f",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\Television_01\\textures\\Television_01_nor_gl_1k.jpg"
+    },
+    {
+      "path": "horror-project/game/assets/vintage_cabinet_01/model.gltf",
+      "bytes": 22562,
+      "sha256": "ce66c642cb13ba11bf7cde72bb58ad465dce1909dbef8a22dd55b28d857c1848",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\vintage_cabinet_01\\model.gltf"
+    },
+    {
+      "path": "horror-project/game/assets/vintage_cabinet_01/textures/vintage_cabinet_01_a_arm_1k.jpg",
+      "bytes": 157915,
+      "sha256": "0f5970977780b6dbb202f1371777b7b616dee9da7e01760eee306c2202ffeb17",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\vintage_cabinet_01\\textures\\vintage_cabinet_01_a_arm_1k.jpg"
+    },
+    {
+      "path": "horror-project/game/assets/vintage_cabinet_01/textures/vintage_cabinet_01_a_diff_1k.jpg",
+      "bytes": 119782,
+      "sha256": "06453bb3e2811147a7558914437c20042f3f5c21b9c4f1d3488bdfe94f25f03f",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\vintage_cabinet_01\\textures\\vintage_cabinet_01_a_diff_1k.jpg"
+    },
+    {
+      "path": "horror-project/game/assets/vintage_cabinet_01/textures/vintage_cabinet_01_a_nor_gl_1k.jpg",
+      "bytes": 109236,
+      "sha256": "08d64582202f32c8f2250ee2061dc870678ac694206f9b4edf2acd11e33323a4",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\vintage_cabinet_01\\textures\\vintage_cabinet_01_a_nor_gl_1k.jpg"
+    },
+    {
+      "path": "horror-project/game/assets/vintage_cabinet_01/textures/vintage_cabinet_01_a_rough_1k.jpg",
+      "bytes": 133697,
+      "sha256": "a641d1ac6b43ca25eb1b26e631057b79c3f2ab1b39a3460a5894b5c3dd22b420",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\vintage_cabinet_01\\textures\\vintage_cabinet_01_a_rough_1k.jpg"
+    },
+    {
+      "path": "horror-project/game/assets/vintage_cabinet_01/textures/vintage_cabinet_01_b_diff_1k.jpg",
+      "bytes": 124307,
+      "sha256": "81967dbb387b205b2aa6f253165c8c44f60cdf5e57d9ceebf230fef21569b33a",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\vintage_cabinet_01\\textures\\vintage_cabinet_01_b_diff_1k.jpg"
+    },
+    {
+      "path": "horror-project/game/assets/vintage_cabinet_01/textures/vintage_cabinet_01_b_nor_gl_1k.jpg",
+      "bytes": 52162,
+      "sha256": "c9580fbf1f69d7bc23817216e2954c713c87aceb5c4f04b9b1a5233c2cf2ce7b",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\vintage_cabinet_01\\textures\\vintage_cabinet_01_b_nor_gl_1k.jpg"
+    },
+    {
+      "path": "horror-project/game/assets/vintage_cabinet_01/textures/vintage_cabinet_01_b_rough_1k.jpg",
+      "bytes": 155539,
+      "sha256": "1f11ec7fdea1b6a9ce7ea8a3d2110f944860aeb72dce4d017b8d2880582dfb20",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\vintage_cabinet_01\\textures\\vintage_cabinet_01_b_rough_1k.jpg"
+    },
+    {
+      "path": "horror-project/game/assets/vintage_cabinet_01/vintage_cabinet_01.bin",
+      "bytes": 1995776,
+      "sha256": "407c58be2c5efb1d41d549fcff6a57d18d025033803dcb241e57349dd65bcf60",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\vintage_cabinet_01\\vintage_cabinet_01.bin"
+    },
+    {
+      "path": "horror-project/game/assets/vintage_electric_kettle/model.gltf",
+      "bytes": 4801,
+      "sha256": "c03d2ef0e9f46eb06a1ccef6ff78d7baf83e76808e31d7016505e3ee0a416859",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\vintage_electric_kettle\\model.gltf"
+    },
+    {
+      "path": "horror-project/game/assets/vintage_electric_kettle/textures/vintage_electric_kettle_arm_1k.jpg",
+      "bytes": 756927,
+      "sha256": "ff683e24348d6319edf7bd5a14659a846d3008ae614bf966d4db23fc156b5e0c",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\vintage_electric_kettle\\textures\\vintage_electric_kettle_arm_1k.jpg"
+    },
+    {
+      "path": "horror-project/game/assets/vintage_electric_kettle/textures/vintage_electric_kettle_diff_1k.jpg",
+      "bytes": 584337,
+      "sha256": "eee3052a610f24055f7b25749cfaf64016a5621afcff931fe513ab62c0a829f3",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\vintage_electric_kettle\\textures\\vintage_electric_kettle_diff_1k.jpg"
+    },
+    {
+      "path": "horror-project/game/assets/vintage_electric_kettle/textures/vintage_electric_kettle_nor_gl_1k.jpg",
+      "bytes": 624432,
+      "sha256": "7723e22b77b73c6cc20d2593849d56cc64ee5c8e54bacf3bf8b2f4dd4f2ffaf0",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\vintage_electric_kettle\\textures\\vintage_electric_kettle_nor_gl_1k.jpg"
+    },
+    {
+      "path": "horror-project/game/assets/vintage_electric_kettle/vintage_electric_kettle.bin",
+      "bytes": 416612,
+      "sha256": "6be39ebc1893feaef3aa05bec6d2bf069af65fec0c1500422aaedf14357dab59",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\vintage_electric_kettle\\vintage_electric_kettle.bin"
+    },
+    {
+      "path": "horror-project/game/assets/wall_clock/model.gltf",
+      "bytes": 9008,
+      "sha256": "4e67385443e808bc709c054c1de5be1e83d4bf07eb0893884c301fec0bae8bc6",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\wall_clock\\model.gltf"
+    },
+    {
+      "path": "horror-project/game/assets/wall_clock/textures/wall_clock_arm_1k.jpg",
+      "bytes": 444044,
+      "sha256": "c78aabec7bb4af4fd6818be1099523e59bf12d88c872530b2260cdea08d81968",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\wall_clock\\textures\\wall_clock_arm_1k.jpg"
+    },
+    {
+      "path": "horror-project/game/assets/wall_clock/textures/wall_clock_diff_1k.jpg",
+      "bytes": 366683,
+      "sha256": "012bfc3ceecd5e35679fe5764e33b6d1b8a631ad4fc9f5b267af25ad10468672",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\wall_clock\\textures\\wall_clock_diff_1k.jpg"
+    },
+    {
+      "path": "horror-project/game/assets/wall_clock/textures/wall_clock_glass_arm_1k.jpg",
+      "bytes": 376244,
+      "sha256": "42804955958b3d0fdc1da8d4c4e8e909b04f659ae1b02911e148abe0741b8b84",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\wall_clock\\textures\\wall_clock_glass_arm_1k.jpg"
+    },
+    {
+      "path": "horror-project/game/assets/wall_clock/textures/wall_clock_nor_gl_1k.jpg",
+      "bytes": 236489,
+      "sha256": "6138946e055828e92d5e0d8d50c75e3d2da0ea789dd6512b30f85f0e18435d00",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\wall_clock\\textures\\wall_clock_nor_gl_1k.jpg"
+    },
+    {
+      "path": "horror-project/game/assets/wall_clock/wall_clock.bin",
+      "bytes": 132412,
+      "sha256": "61d9fe03e871508230160de546ef505f3f4405b1e82c167536945a483a8bb639",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\wall_clock\\wall_clock.bin"
+    },
+    {
+      "path": "horror-project/game/assets/wallpaper-v2.png",
+      "bytes": 2824409,
+      "sha256": "744406fa9b7f7694e4c4734e40f984def8e7b8b3269e17e88c975704af87b0b4",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\wallpaper-v2.png"
+    },
+    {
+      "path": "horror-project/game/assets/wood_floor_worn/Diffuse.jpg",
+      "bytes": 629271,
+      "sha256": "db386853009b92b9edd7255b35c9f7b0d4b7de16837a7a9da8422148754bc758",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\wood_floor_worn\\Diffuse.jpg"
+    },
+    {
+      "path": "horror-project/game/assets/wood_floor_worn/nor_gl.jpg",
+      "bytes": 636603,
+      "sha256": "f428496e5d6c726d17d9ecea29c0acd8660348630acf791cea7bdd7f3c6e262b",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\wood_floor_worn\\nor_gl.jpg"
+    },
+    {
+      "path": "horror-project/game/assets/wood_floor_worn/Rough.jpg",
+      "bytes": 290570,
+      "sha256": "9d7492db1197f1386466dfd7dd43f692446166c1433ddeebf66c10e8b226a6d0",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\wood_floor_worn\\Rough.jpg"
+    },
+    {
+      "path": "horror-project/game/assets/wood_table_001/Diffuse.jpg",
+      "bytes": 215573,
+      "sha256": "460dd08d240f4a1f02982415048c3c5c200f385db212da18dc7e2df68bf4d0be",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\wood_table_001\\Diffuse.jpg"
+    },
+    {
+      "path": "horror-project/game/assets/wood_table_001/nor_gl.jpg",
+      "bytes": 51927,
+      "sha256": "9bf7ddf5721e225c20290f1772ae37f9bdfd49658f6d458259eb794e2149d3cf",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\wood_table_001\\nor_gl.jpg"
+    },
+    {
+      "path": "horror-project/game/assets/wood_table_001/Rough.jpg",
+      "bytes": 237261,
+      "sha256": "a2ca9ae89dfe7b8e2e5e92f0aa43467845417de8a50205b5852ef0d57c7624f9",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\wood_table_001\\Rough.jpg"
+    },
+    {
+      "path": "horror-project/game/assets/WoodenChair_01/model.gltf",
+      "bytes": 2705,
+      "sha256": "d7139c63be77bb91ceb25cb38733008156bf93d2299a6ca4673ea3c49f5fdec6",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\WoodenChair_01\\model.gltf"
+    },
+    {
+      "path": "horror-project/game/assets/WoodenChair_01/textures/WoodenChair_01_arm_1k.jpg",
+      "bytes": 169084,
+      "sha256": "ab1ef5b47cfe96cb11f380310d9b6efe458f14bccf4540a45c350919c0c1232c",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\WoodenChair_01\\textures\\WoodenChair_01_arm_1k.jpg"
+    },
+    {
+      "path": "horror-project/game/assets/WoodenChair_01/textures/WoodenChair_01_diff_1k.jpg",
+      "bytes": 147990,
+      "sha256": "4deb2125ad6e7dc17597db40be4f01c09a4d7c3b991ea0c269836f864aa67301",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\WoodenChair_01\\textures\\WoodenChair_01_diff_1k.jpg"
+    },
+    {
+      "path": "horror-project/game/assets/WoodenChair_01/textures/WoodenChair_01_nor_gl_1k.jpg",
+      "bytes": 213336,
+      "sha256": "ddf8d239f1381a8c9407b1af5508b8b9b178b72228ff39f8dcc2feae5cb47e66",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\WoodenChair_01\\textures\\WoodenChair_01_nor_gl_1k.jpg"
+    },
+    {
+      "path": "horror-project/game/assets/WoodenChair_01/WoodenChair_01.bin",
+      "bytes": 546416,
+      "sha256": "d36a4fb77139769e17301904dd9fe45a19e29f01273e587bf4e7478d687a016e",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\assets\\WoodenChair_01\\WoodenChair_01.bin"
+    },
+    {
+      "path": "horror-project/game/ASSETS.md",
+      "bytes": 4105,
+      "sha256": "d39e8436925ab821ea456cd94cde8b5927eb36d4a4d80a9cbaa96c7cee8fd9ca",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\ASSETS.md"
+    },
+    {
+      "path": "horror-project/game/audio.js",
+      "bytes": 2418,
+      "sha256": "8d5ade38c7725e4cb0c423be6edb6486f5ca104ee2879d2d8c2de680c75c0104",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\audio.js"
+    },
+    {
+      "path": "horror-project/game/domestic.js",
+      "bytes": 7292,
+      "sha256": "0dec49e0fed39a6ef1245788c67c8bca0478a1bddca3d2a456f422e5c92f3dd0",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\domestic.js"
+    },
+    {
+      "path": "horror-project/game/index.html",
+      "bytes": 5115,
+      "sha256": "9df73594c560db1fcba462eb7cb090f79f76878df12cc61c7941444c129130a5",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\index.html"
+    },
+    {
+      "path": "horror-project/game/launch.ps1",
+      "bytes": 1766,
+      "sha256": "4ab12b03673be237276f0b55e0b3a41eace60a0833c18da8392a091dec1f8ea8",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\launch.ps1"
+    },
+    {
+      "path": "horror-project/game/main.js",
+      "bytes": 21949,
+      "sha256": "64e3621f0f56035436656333620b7509cd6af6a9f2782d8c54bd5717302d6070",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\main.js"
+    },
+    {
+      "path": "horror-project/game/package.json",
+      "bytes": 152,
+      "sha256": "3d99c07794cca2736a8a166593f5f7688ad461325767cd14e1c5fe86d5a6df90",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\package.json"
+    },
+    {
+      "path": "horror-project/game/qa/01-menu.png",
+      "bytes": 782212,
+      "sha256": "f797d96b7cab06ea5eaadb63be2832aa303397d971016cc2c2e85256730f042f",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\qa\\01-menu.png"
+    },
+    {
+      "path": "horror-project/game/qa/02-start.png",
+      "bytes": 426205,
+      "sha256": "160838ed3f0500c9372309555fc4b9bd0be8c701b5ba019232ccea8529b79bd7",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\qa\\02-start.png"
+    },
+    {
+      "path": "horror-project/game/qa/03-current-living-vhs.png",
+      "bytes": 1520702,
+      "sha256": "ec21e29dd708535bc2be509c8e295a098deac69c9721786857c85ef5d8c295d2",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\qa\\03-current-living-vhs.png"
+    },
+    {
+      "path": "horror-project/game/qa/03-window.png",
+      "bytes": 469952,
+      "sha256": "df1b5634db445b6b61d73827c853303dd15ac6a709536511ac2848921dc205b3",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\qa\\03-window.png"
+    },
+    {
+      "path": "horror-project/game/qa/04-kitchen.png",
+      "bytes": 248466,
+      "sha256": "a2ef50bc3f29b87f129190d9fbf83891b7f8c2aa81530e80fb90c4df01032a05",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\qa\\04-kitchen.png"
+    },
+    {
+      "path": "horror-project/game/qa/05-attack.png",
+      "bytes": 294827,
+      "sha256": "49a887c5e31839823ea222b1346bdde56fff5612d1c6287c3a6760045169742b",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\qa\\05-attack.png"
+    },
+    {
+      "path": "horror-project/game/qa/06-changed-hall.png",
+      "bytes": 235686,
+      "sha256": "071bfb5cf81d2849383ed389d4ba0736240cabde14bd4ac3fe1392cd4d101d25",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\qa\\06-changed-hall.png"
+    },
+    {
+      "path": "horror-project/game/qa/07-ending.png",
+      "bytes": 37981,
+      "sha256": "d007b0f150b9e1eebc6209ce42edb6567a15b8588c75f8262054e0e83d5c4ceb",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\qa\\07-ending.png"
+    },
+    {
+      "path": "horror-project/game/qa/browser-results.json",
+      "bytes": 715,
+      "sha256": "ca8c3acb2c5beff1ebf40a4fea38a8537f71cec2c38389b814d2e64d57fba4ba",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\qa\\browser-results.json"
+    },
+    {
+      "path": "horror-project/game/qa/v2-kitchen.png",
+      "bytes": 1483136,
+      "sha256": "35d74d83ef7b979f001eb2228633fad1fcf4cfeb523eef13ca802fc7b0fd4b5d",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\qa\\v2-kitchen.png"
+    },
+    {
+      "path": "horror-project/game/qa/v2-living.png",
+      "bytes": 1446529,
+      "sha256": "3053e88cc3f797918d3ff47cabc908967d0959b81262cee062fb1a510b1f4f0b",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\qa\\v2-living.png"
+    },
+    {
+      "path": "horror-project/game/qa/v2-sofa.png",
+      "bytes": 1477951,
+      "sha256": "48ccd4368737023c2caa58f6dff8ef168dd78b8facff46b248b5c1e1ec671e27",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\qa\\v2-sofa.png"
+    },
+    {
+      "path": "horror-project/game/qa/v2-window.png",
+      "bytes": 1275938,
+      "sha256": "048f06b525fb1462d4d4ee016af6e5153a4e306e405583bd0736e7632c74ef35",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\qa\\v2-window.png"
+    },
+    {
+      "path": "horror-project/game/qa-panel.js",
+      "bytes": 1791,
+      "sha256": "63973f9e5a9a6155f7c9423699fd1a166e81609fe04d3a717ba34fd4ac8e48f3",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\qa-panel.js"
+    },
+    {
+      "path": "horror-project/game/README.md",
+      "bytes": 5639,
+      "sha256": "7a9c77a14d98c6b0223dfe7edf45841162b7e8d1921a1e5205ac5164e4ffe98b",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\README.md"
+    },
+    {
+      "path": "horror-project/game/server.mjs",
+      "bytes": 1270,
+      "sha256": "7159d39b9480419a61b1c7bdd2d2fc62e04c14755ea38093e56562f0260dae0a",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\server.mjs"
+    },
+    {
+      "path": "horror-project/game/START.cmd",
+      "bytes": 106,
+      "sha256": "0367b112e8e89b7b5d6ac86c4c7c2e3d570ff76e4b2213b79a8e3e68565b9340",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\START.cmd"
+    },
+    {
+      "path": "horror-project/game/story.js",
+      "bytes": 5868,
+      "sha256": "a3bb22515cfe4c157b7bb29578b880c1e3e51a47d547201cc35fc8c7fd9f0a30",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\story.js"
+    },
+    {
+      "path": "horror-project/game/style.css",
+      "bytes": 6605,
+      "sha256": "2c5edfe814a1f62836c36c028144b530d8fad9c2987d9676946a4b2ee9f7c96d",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\style.css"
+    },
+    {
+      "path": "horror-project/game/tests/browser.cjs",
+      "bytes": 5631,
+      "sha256": "38ab66817e24282f2ba68019b8931ef5a5700b6f488769492b58022a615ace5d",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\tests\\browser.cjs"
+    },
+    {
+      "path": "horror-project/game/tests/story.test.mjs",
+      "bytes": 2367,
+      "sha256": "e5bd15854aba416ed84724ac4147130cdfe60d205b353caed48302d8e85b4ccd",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\tests\\story.test.mjs"
+    },
+    {
+      "path": "horror-project/game/tests/visual.cjs",
+      "bytes": 1275,
+      "sha256": "c1b9dc08318623a28b12b3fccfd02bc4adab1e5e9158b9fe5ef550113093d93d",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\tests\\visual.cjs"
+    },
+    {
+      "path": "horror-project/game/tools/fetch-assets.ps1",
+      "bytes": 2452,
+      "sha256": "43e1933c323257090b7c0afe249005c300022d8e7d0d897207f0dc1c0a9c8e79",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\tools\\fetch-assets.ps1"
+    },
+    {
+      "path": "horror-project/game/vendor/addons/geometries/RoundedBoxGeometry.js",
+      "bytes": 6476,
+      "sha256": "c1b7c9bd2cddff2e3f3a0723f618a3d364a47450e3d25771d21faed88410bec8",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\vendor\\addons\\geometries\\RoundedBoxGeometry.js"
+    },
+    {
+      "path": "horror-project/game/vendor/addons/loaders/GLTFLoader.js",
+      "bytes": 114739,
+      "sha256": "67ac5551fdafa6e349bd80c8f8e5e39c136d6b2fb1ad647db9abb21dc86f9e4a",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\vendor\\addons\\loaders\\GLTFLoader.js"
+    },
+    {
+      "path": "horror-project/game/vendor/addons/math/SimplexNoise.js",
+      "bytes": 15154,
+      "sha256": "dd1f3c42c1bc9fa1b76c1c0796d352521accf0a3a95cc7d0caf479abc5a444a2",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\vendor\\addons\\math\\SimplexNoise.js"
+    },
+    {
+      "path": "horror-project/game/vendor/addons/postprocessing/EffectComposer.js",
+      "bytes": 8477,
+      "sha256": "4b8c855f28eed2570bed898adc0ab89c585a8a281ecb6d905c09d00697f9f50a",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\vendor\\addons\\postprocessing\\EffectComposer.js"
+    },
+    {
+      "path": "horror-project/game/vendor/addons/postprocessing/MaskPass.js",
+      "bytes": 4694,
+      "sha256": "7cd08eee9d5d6f5578beaddbdcbe9c384f6873810af27f22ab7db3ceeb127aa3",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\vendor\\addons\\postprocessing\\MaskPass.js"
+    },
+    {
+      "path": "horror-project/game/vendor/addons/postprocessing/OutputPass.js",
+      "bytes": 4029,
+      "sha256": "f5b81c96e76b6b28b4b3ba8c41c4aeb982b1e03f3d82883242d951b2ab082fa2",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\vendor\\addons\\postprocessing\\OutputPass.js"
+    },
+    {
+      "path": "horror-project/game/vendor/addons/postprocessing/Pass.js",
+      "bytes": 4218,
+      "sha256": "444b409c235ead986893c472e720da1b779a56985c7d10b279c7944b52bd61c5",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\vendor\\addons\\postprocessing\\Pass.js"
+    },
+    {
+      "path": "horror-project/game/vendor/addons/postprocessing/RenderPass.js",
+      "bytes": 4112,
+      "sha256": "fd91229aacc5830e3984b0f2bdefcf566163ea028f4c1f1ab233fa6665a133ac",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\vendor\\addons\\postprocessing\\RenderPass.js"
+    },
+    {
+      "path": "horror-project/game/vendor/addons/postprocessing/ShaderPass.js",
+      "bytes": 3228,
+      "sha256": "e2500a5913b26bbf5148ceaae644c6edcff06a18b01494ee37bf856353d2ab9d",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\vendor\\addons\\postprocessing\\ShaderPass.js"
+    },
+    {
+      "path": "horror-project/game/vendor/addons/postprocessing/SSAOPass.js",
+      "bytes": 13443,
+      "sha256": "59944f833d10330f6bdd205260ad06a8ef2bd12a115e4101d81578b249627e3f",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\vendor\\addons\\postprocessing\\SSAOPass.js"
+    },
+    {
+      "path": "horror-project/game/vendor/addons/postprocessing/UnrealBloomPass.js",
+      "bytes": 14388,
+      "sha256": "d92742959879b461f25348b2abddc7ca0d48527e7718340bcfa29fa771e2799a",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\vendor\\addons\\postprocessing\\UnrealBloomPass.js"
+    },
+    {
+      "path": "horror-project/game/vendor/addons/shaders/CopyShader.js",
+      "bytes": 729,
+      "sha256": "a33057d5ac91c43304c186ac0e8816e62bb2ed471d3a00ff3018dfd5c0389718",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\vendor\\addons\\shaders\\CopyShader.js"
+    },
+    {
+      "path": "horror-project/game/vendor/addons/shaders/LuminosityHighPassShader.js",
+      "bytes": 1291,
+      "sha256": "5044f780b6e6cf863947f64c36fe1587132f7fbe395ada863cd1e5f0388dcf1e",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\vendor\\addons\\shaders\\LuminosityHighPassShader.js"
+    },
+    {
+      "path": "horror-project/game/vendor/addons/shaders/OutputShader.js",
+      "bytes": 1876,
+      "sha256": "353479f77a8d7e2629d49ccac9fc2f5dbfdda5442e0adf867b00377a2fcb0cb2",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\vendor\\addons\\shaders\\OutputShader.js"
+    },
+    {
+      "path": "horror-project/game/vendor/addons/shaders/SSAOShader.js",
+      "bytes": 6826,
+      "sha256": "57ec7cc10ad3b6a8aafa97be21eca12972c5597ebc3023de1b37102a56c6b23b",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\vendor\\addons\\shaders\\SSAOShader.js"
+    },
+    {
+      "path": "horror-project/game/vendor/addons/utils/BufferGeometryUtils.js",
+      "bytes": 35539,
+      "sha256": "fda7e946b8e0b5ab39b779206589e7a1079a22eb24efb89d7223e03fdfb1f751",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\vendor\\addons\\utils\\BufferGeometryUtils.js"
+    },
+    {
+      "path": "horror-project/game/vendor/LICENSE-three.txt",
+      "bytes": 1081,
+      "sha256": "bfe119ea4fd413f5f7ca3fcd63adb0c4a073ed39daa2fe7d3e6b769e21272601",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\vendor\\LICENSE-three.txt"
+    },
+    {
+      "path": "horror-project/game/vendor/three.core.js",
+      "bytes": 1403455,
+      "sha256": "eb077d2417f61d3e6d9264c317cabc4ea35769ed6b0ab533067292a550784c20",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\vendor\\three.core.js"
+    },
+    {
+      "path": "horror-project/game/vendor/three.module.js",
+      "bytes": 603113,
+      "sha256": "c8211c69345d2e9949dc7a8ac969380497aa0600a5a8ac6a459c8cd02dd9cb8a",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\vendor\\three.module.js"
+    },
+    {
+      "path": "horror-project/game/vhs.js",
+      "bytes": 1384,
+      "sha256": "1388d7bdd4ee5888b82592e56f3a05125fa069a2516aee1443220dfedc2bd7ea",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\vhs.js"
+    },
+    {
+      "path": "horror-project/game/world.js",
+      "bytes": 35049,
+      "sha256": "6d51210177d2325341aa175bfca62cc4b7c1f2f38a7f1303cfc5b4b8bb2330eb",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\game\\world.js"
+    },
+    {
+      "path": "horror-project/HANDOFF.md",
+      "bytes": 12398,
+      "sha256": "3c0aaafe53311ae0a8c444ea6140fab64aed288b316e156e7f9ed6b1725ed041",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\HANDOFF.md"
+    },
+    {
+      "path": "horror-project/MEMORY.md",
+      "bytes": 11061,
+      "sha256": "2c7384130aded0ea3b6ce4a2e8fd417a118fc3f3c35ab3bf52a3ab987cf35719",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\MEMORY.md"
+    },
+    {
+      "path": "horror-project/README.md",
+      "bytes": 5947,
+      "sha256": "c9d12bbca1507bfdd41c0c7f5e0b93938e1bc995a174c7ebe7c6c242d3ecc451",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\README.md"
+    },
+    {
+      "path": "horror-project/USER-CONTEXT.md",
+      "bytes": 11800,
+      "sha256": "2b00be98c3d030c13fc3b13ac8b370d9b483d7cb384522a94f3896af52470e88",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\horror-project\\USER-CONTEXT.md"
+    },
+    {
+      "path": "START-HERE.md",
+      "bytes": 3508,
+      "sha256": "a972be5683be7206cbf6b365612c08d64d17adb330e855038a0307f3f5308a87",
+      "kind": "project",
+      "original_path": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\START-HERE.md"
+    },
+    {
+      "path": "additional-materials/generated-originals/exec-0be718ba-bf90-4553-bddf-21b27446f43a.png",
+      "bytes": 2035358,
+      "sha256": "b2128f8ca0f33b4b6963cd043a62d6ae4531a7c4b437b011799241cbd3023b9c",
+      "kind": "generated-original",
+      "original_path": "C:\\Users\\User\\.codex\\generated_images\\01a12619-054a-7b43-af10-11952a2ab009\\exec-0be718ba-bf90-4553-bddf-21b27446f43a.png"
+    },
+    {
+      "path": "additional-materials/generated-originals/exec-21a0706e-bf97-4f0b-979f-d463a2676054.png",
+      "bytes": 2592075,
+      "sha256": "3fe0e9d4d8c680899adda8e5222bba6d45ec17730521040e6a43b76d3ceab475",
+      "kind": "generated-original",
+      "original_path": "C:\\Users\\User\\.codex\\generated_images\\01a12619-054a-7b43-af10-11952a2ab009\\exec-21a0706e-bf97-4f0b-979f-d463a2676054.png"
+    },
+    {
+      "path": "additional-materials/generated-originals/exec-2497484d-4b4e-4874-b86b-04ab942f212c.png",
+      "bytes": 1907103,
+      "sha256": "6f837b782ceab22199a585b3726615faf0a43ebefc20b1d391f68be7c253e3a4",
+      "kind": "generated-original",
+      "original_path": "C:\\Users\\User\\.codex\\generated_images\\01a12619-054a-7b43-af10-11952a2ab009\\exec-2497484d-4b4e-4874-b86b-04ab942f212c.png"
+    },
+    {
+      "path": "additional-materials/generated-originals/exec-25f686cd-c01f-49bd-8cf7-b4c3331af489.png",
+      "bytes": 4067747,
+      "sha256": "f56799fa7ba45826095139754d5cabd06c35f6aa7eb0e41f16b0425c8201a14d",
+      "kind": "generated-original",
+      "original_path": "C:\\Users\\User\\.codex\\generated_images\\01a12619-054a-7b43-af10-11952a2ab009\\exec-25f686cd-c01f-49bd-8cf7-b4c3331af489.png"
+    },
+    {
+      "path": "additional-materials/generated-originals/exec-37fd595a-629b-4841-8ea1-a747de72ed03.png",
+      "bytes": 1983214,
+      "sha256": "536558922416771cb420bd1597d4e78e4e3230e1d81a05628e18bfb60cc8fc4e",
+      "kind": "generated-original",
+      "original_path": "C:\\Users\\User\\.codex\\generated_images\\01a12619-054a-7b43-af10-11952a2ab009\\exec-37fd595a-629b-4841-8ea1-a747de72ed03.png"
+    },
+    {
+      "path": "additional-materials/generated-originals/exec-496edec0-920a-4ae4-a9ae-6633730d529b.png",
+      "bytes": 2220054,
+      "sha256": "88c28c387fde87cd6aa1afd5322a1dcbc4e9d0a2d66c4b42453bd360defa4311",
+      "kind": "generated-original",
+      "original_path": "C:\\Users\\User\\.codex\\generated_images\\01a12619-054a-7b43-af10-11952a2ab009\\exec-496edec0-920a-4ae4-a9ae-6633730d529b.png"
+    },
+    {
+      "path": "additional-materials/generated-originals/exec-52fcad4e-3b52-47e8-a5aa-74a398461b74.png",
+      "bytes": 1917842,
+      "sha256": "abca08136c8eb005107b3f7497426630fc47ae19b818b5685022084820b40a36",
+      "kind": "generated-original",
+      "original_path": "C:\\Users\\User\\.codex\\generated_images\\01a12619-054a-7b43-af10-11952a2ab009\\exec-52fcad4e-3b52-47e8-a5aa-74a398461b74.png"
+    },
+    {
+      "path": "additional-materials/generated-originals/exec-55aff399-f042-40aa-854f-be3be5ce9e08.png",
+      "bytes": 1975696,
+      "sha256": "b7f4b09697683c322915f81048803da5c43f12275626314abe68d2abea7b2643",
+      "kind": "generated-original",
+      "original_path": "C:\\Users\\User\\.codex\\generated_images\\01a12619-054a-7b43-af10-11952a2ab009\\exec-55aff399-f042-40aa-854f-be3be5ce9e08.png"
+    },
+    {
+      "path": "additional-materials/generated-originals/exec-5d5f7ebd-97a0-45c5-aee4-e9013f4b3630.png",
+      "bytes": 2174224,
+      "sha256": "f614ed9183f108138fc110ede891696c126ff279abab4223825446591b0ca6cc",
+      "kind": "generated-original",
+      "original_path": "C:\\Users\\User\\.codex\\generated_images\\01a12619-054a-7b43-af10-11952a2ab009\\exec-5d5f7ebd-97a0-45c5-aee4-e9013f4b3630.png"
+    },
+    {
+      "path": "additional-materials/generated-originals/exec-984ed5aa-0d65-495f-a9d5-9c9548d03fe0.png",
+      "bytes": 1844054,
+      "sha256": "d7954987cf7a06d98832cc6eb1dba2bc40496e91a79caad83fa8ba34d5f87a68",
+      "kind": "generated-original",
+      "original_path": "C:\\Users\\User\\.codex\\generated_images\\01a12619-054a-7b43-af10-11952a2ab009\\exec-984ed5aa-0d65-495f-a9d5-9c9548d03fe0.png"
+    },
+    {
+      "path": "additional-materials/generated-originals/exec-9cae81ec-981e-4f50-8430-d18337ce668e.png",
+      "bytes": 1922197,
+      "sha256": "da98536b1ed3ebbdc77ec176735d217f119f9949e15330d392db6c6a0b562b78",
+      "kind": "generated-original",
+      "original_path": "C:\\Users\\User\\.codex\\generated_images\\01a12619-054a-7b43-af10-11952a2ab009\\exec-9cae81ec-981e-4f50-8430-d18337ce668e.png"
+    },
+    {
+      "path": "additional-materials/generated-originals/exec-aaf1424d-5af3-4cff-86e1-f665c7395bad.png",
+      "bytes": 2057309,
+      "sha256": "8f185fea36354b0c3085d52126c3cf1c743cfa5259d74dff88860b3c5f103cc8",
+      "kind": "generated-original",
+      "original_path": "C:\\Users\\User\\.codex\\generated_images\\01a12619-054a-7b43-af10-11952a2ab009\\exec-aaf1424d-5af3-4cff-86e1-f665c7395bad.png"
+    },
+    {
+      "path": "additional-materials/generated-originals/exec-c2e9e3c3-ec28-415e-84e7-2c771e2088b2.png",
+      "bytes": 1665127,
+      "sha256": "353f090c7a9db4b646afcc9a83643a4abd99e305b5fcff6c4a4d30cb862cd0bb",
+      "kind": "generated-original",
+      "original_path": "C:\\Users\\User\\.codex\\generated_images\\01a12619-054a-7b43-af10-11952a2ab009\\exec-c2e9e3c3-ec28-415e-84e7-2c771e2088b2.png"
+    },
+    {
+      "path": "additional-materials/generated-originals/exec-c617cfce-c0a5-4346-8fb8-d94d9b69c59d.png",
+      "bytes": 2425509,
+      "sha256": "693ceb977f2f2d4363fcf69ff396d9f63a9b15472794ef17544b68c976f37d63",
+      "kind": "generated-original",
+      "original_path": "C:\\Users\\User\\.codex\\generated_images\\01a12619-054a-7b43-af10-11952a2ab009\\exec-c617cfce-c0a5-4346-8fb8-d94d9b69c59d.png"
+    },
+    {
+      "path": "additional-materials/generated-originals/exec-c9350640-e25d-4c55-b95d-f6aaa07c66ae.png",
+      "bytes": 2105268,
+      "sha256": "62d68c594f79a313f4bed0569822e41a708517bbda8da6f51b6a67fdde240c8e",
+      "kind": "generated-original",
+      "original_path": "C:\\Users\\User\\.codex\\generated_images\\01a12619-054a-7b43-af10-11952a2ab009\\exec-c9350640-e25d-4c55-b95d-f6aaa07c66ae.png"
+    },
+    {
+      "path": "additional-materials/generated-originals/exec-cd14661a-e508-4713-b705-b3f19b8f5a52.png",
+      "bytes": 1901265,
+      "sha256": "5ac53b9233237837ab5119e493b1f12a2d47e4e5119a28cd3ee3e5699eef5017",
+      "kind": "generated-original",
+      "original_path": "C:\\Users\\User\\.codex\\generated_images\\01a12619-054a-7b43-af10-11952a2ab009\\exec-cd14661a-e508-4713-b705-b3f19b8f5a52.png"
+    },
+    {
+      "path": "additional-materials/generated-originals/exec-d836b667-2ac7-42cc-b37d-ba7f5301d906.png",
+      "bytes": 2824409,
+      "sha256": "744406fa9b7f7694e4c4734e40f984def8e7b8b3269e17e88c975704af87b0b4",
+      "kind": "generated-original",
+      "original_path": "C:\\Users\\User\\.codex\\generated_images\\01a12619-054a-7b43-af10-11952a2ab009\\exec-d836b667-2ac7-42cc-b37d-ba7f5301d906.png"
+    },
+    {
+      "path": "additional-materials/generated-originals/exec-de3d5573-1375-421e-abe0-4ee028913bc9.png",
+      "bytes": 2236342,
+      "sha256": "12ed0133fbc771e6e4fbc93a7f8fbf2feafc0bb8544e35c07dfc547d300cdd0c",
+      "kind": "generated-original",
+      "original_path": "C:\\Users\\User\\.codex\\generated_images\\01a12619-054a-7b43-af10-11952a2ab009\\exec-de3d5573-1375-421e-abe0-4ee028913bc9.png"
+    },
+    {
+      "path": "additional-materials/generated-originals/exec-eed3851d-b1bb-46d4-8f64-96f15521f3a4.png",
+      "bytes": 2346854,
+      "sha256": "31d1237d20c49284820c1399bda440459b4cd1394c2581faa1b4b0a72da07f2f",
+      "kind": "generated-original",
+      "original_path": "C:\\Users\\User\\.codex\\generated_images\\01a12619-054a-7b43-af10-11952a2ab009\\exec-eed3851d-b1bb-46d4-8f64-96f15521f3a4.png"
+    },
+    {
+      "path": "additional-materials/generated-originals/exec-f469723b-e13c-4f31-bb65-9bc260710948.png",
+      "bytes": 2325960,
+      "sha256": "045b4b0eb2b015d4dbaa494ac516ddf2b56ecee9d8d1be645d9d96e28af4dce4",
+      "kind": "generated-original",
+      "original_path": "C:\\Users\\User\\.codex\\generated_images\\01a12619-054a-7b43-af10-11952a2ab009\\exec-f469723b-e13c-4f31-bb65-9bc260710948.png"
+    },
+    {
+      "path": "additional-materials/user-attachments/codex-clipboard-73cf9212-14ee-4a7a-acda-ad27d1c5789d.png",
+      "bytes": 2016212,
+      "sha256": "96bd6401b43eebd330326f22aea7c294c6c194249af075762f4baed21085e815",
+      "kind": "user-attachment",
+      "original_path": "C:\\Users\\User\\AppData\\Local\\Temp\\codex-clipboard-73cf9212-14ee-4a7a-acda-ad27d1c5789d.png"
+    },
+    {
+      "path": "additional-materials/user-attachments/codex-clipboard-441eeec0-0006-443e-937a-27703b3a822b.png",
+      "bytes": 1640085,
+      "sha256": "05a6fc5fea3d2eac93d5b6cf2d7892d91b51f270880d1f27501737358bd933cb",
+      "kind": "user-attachment",
+      "original_path": "C:\\Users\\User\\AppData\\Local\\Temp\\codex-clipboard-441eeec0-0006-443e-937a-27703b3a822b.png"
+    }
+  ]
+}

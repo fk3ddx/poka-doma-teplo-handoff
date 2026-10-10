@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="ru">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Пока дома тепло — пролог</title><link rel="icon" href="data:,"><link rel="stylesheet" href="style.css"></head>
+<body>
+<canvas id="game" aria-label="Игра от первого лица"></canvas>
+<div id="film" aria-hidden="true"></div><div id="vignette" aria-hidden="true"></div><div id="fade" aria-hidden="true"></div>
+<main id="menu" class="overlay">
+ <div class="menu-panel"><div class="eyebrow">НЕБОЛЬШАЯ ИСТОРИЯ О ВОЗВРАЩЕНИИ</div><h1>Пока<br><em>дома тепло</em></h1><div class="rule"></div><p class="deck">Пятый этаж. Мокрый снег.<br>Вечер, который никак не закончится.</p>
+ <button id="start">Остаться на вечер <span>→</span></button><button id="continue" class="secondary" hidden>Продолжить вечер</button><button id="settings-open" class="text-button">Настройки</button>
+ <p class="menu-foot">ПРОЛОГ · 8–12 МИНУТ В ВАШЕМ ТЕМПЕ<br><small>Лучше в наушниках. Можно поставить на паузу в любой момент.</small></p></div>
+ <div class="chapter-mark">01 <span>НОЯБРЬ</span></div>
+</main>
+<div id="hud" hidden><div id="chapter"><span>ПЯТЫЙ ЭТАЖ</span><small id="time-label">22:06</small></div><div id="objective"></div><div id="crosshair">·</div><div id="prompt"></div><div id="subtitle" aria-live="polite"></div><div id="controls">W A S D — ходить &nbsp; · &nbsp; мышь — смотреть &nbsp; · &nbsp; E — действие &nbsp; · &nbsp; Esc — пауза</div><div id="save-hint"></div></div>
+<section id="pause" class="overlay centered" hidden><div class="card"><div class="eyebrow">ВЕЧЕР ПОДОЖДЁТ</div><h2>Пауза</h2><button id="resume">Вернуться в квартиру</button><button id="pause-settings" class="secondary">Настройки</button><button id="to-menu" class="text-button">Главное меню</button><p class="muted">История сохраняется на границах сцен.</p></div></section>
+<section id="settings" class="overlay centered" hidden><div class="card"><div class="eyebrow">ПОД СВОЙ ВЕЧЕР</div><h2>Настройки</h2><label>Громкость <input id="volume" type="range" min="0" max="1" step="0.05" value="0.5"></label><label>Чувствительность <input id="sensitivity" type="range" min="0.4" max="2" step="0.1" value="1"></label><label>Яркость <input id="brightness" type="range" min="0.65" max="1.5" step="0.05" value="1"></label><label>Качество <select id="quality"><option value="low">Мягкое ретро</option><option value="high" selected>Чётче</option></select></label><label class="check"><input type="checkbox" id="vhs" checked> Лёгкий VHS</label><label class="check"><input type="checkbox" id="grain"> Дополнительное зерно</label><label class="check"><input type="checkbox" id="bob"> Покачивание при ходьбе</label><button id="settings-close">Готово</button></div></section>
+<section id="reader" class="overlay centered" hidden><article class="paper"><div class="eyebrow" id="reader-type">ЗАПИСКА НА СТОЛЕ</div><h2 id="reader-title"></h2><div id="reader-body"></div><button id="reader-close">Положить на место <span>E</span></button></article></section>
+<section id="dialog" hidden><div class="dialog-name" id="dialog-name"></div><div id="dialog-text"></div><button id="dialog-next">Дальше <span>E</span></button></section>
+<section id="handheld" class="overlay centered" hidden><div class="portable"><div class="portable-title">КАРМАННЫЙ МИР</div><canvas id="mini" width="480" height="272"></canvas><p>← → / A D — поймать падающую звезду</p><button id="handheld-close">Вернуться в комнату <span>E</span></button></div></section>
+<section id="ending" class="overlay centered" hidden><div class="end-card"><div class="eyebrow">КОНЕЦ ПРОЛОГА</div><h2>Я помнил,<br>что будет дальше.</h2><p>Но квартира уже была другой.</p><div class="rule"></div><p class="muted">Пока дома тепло<br>Первая играбельная глава</p><button id="ending-explore">Остаться в квартире</button><button id="ending-restart" class="text-button">Начать новый вечер</button></div></section>
+<div id="boot-error" class="overlay centered" hidden><div class="card"><h2>Не удалось открыть квартиру</h2><p id="error-message"></p><button onclick="location.reload()">Попробовать снова</button></div></div>
+<script type="importmap">{"imports":{"three":"./vendor/three.module.js","three/addons/":"./vendor/addons/"}}</script>
+<script type="module" src="main.js"></script>
+</body></html>

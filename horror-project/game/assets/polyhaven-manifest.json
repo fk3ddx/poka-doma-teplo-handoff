@@ -1,0 +1,98 @@
+[
+  {
+    "id": "CoffeeTable_01",
+    "type": "gltf",
+    "resolution": "1k",
+    "license": "CC0",
+    "source": "https://polyhaven.com/a/CoffeeTable_01",
+    "used": true
+  },
+  {
+    "id": "electric_stove",
+    "type": "gltf",
+    "resolution": "1k",
+    "license": "CC0",
+    "source": "https://polyhaven.com/a/electric_stove",
+    "used": true
+  },
+  {
+    "id": "potted_plant_02",
+    "type": "gltf",
+    "resolution": "1k",
+    "license": "CC0",
+    "source": "https://polyhaven.com/a/potted_plant_02",
+    "used": true
+  },
+  {
+    "id": "SchoolChair_01",
+    "type": "gltf",
+    "resolution": "1k",
+    "license": "CC0",
+    "source": "https://polyhaven.com/a/SchoolChair_01",
+    "used": true
+  },
+  {
+    "id": "Sofa_01",
+    "type": "gltf",
+    "resolution": "1k",
+    "license": "CC0",
+    "source": "https://polyhaven.com/a/Sofa_01",
+    "used": true
+  },
+  {
+    "id": "Television_01",
+    "type": "gltf",
+    "resolution": "1k",
+    "license": "CC0",
+    "source": "https://polyhaven.com/a/Television_01",
+    "used": true
+  },
+  {
+    "id": "vintage_cabinet_01",
+    "type": "gltf",
+    "resolution": "1k",
+    "license": "CC0",
+    "source": "https://polyhaven.com/a/vintage_cabinet_01",
+    "used": true
+  },
+  {
+    "id": "vintage_electric_kettle",
+    "type": "gltf",
+    "resolution": "1k",
+    "license": "CC0",
+    "source": "https://polyhaven.com/a/vintage_electric_kettle",
+    "used": true
+  },
+  {
+    "id": "wall_clock",
+    "type": "gltf",
+    "resolution": "1k",
+    "license": "CC0",
+    "source": "https://polyhaven.com/a/wall_clock",
+    "used": true
+  },
+  {
+    "id": "wood_floor_worn",
+    "type": "texture",
+    "resolution": "1k",
+    "license": "CC0",
+    "source": "https://polyhaven.com/a/wood_floor_worn",
+    "used": true
+  },
+  {
+    "id": "wood_table_001",
+    "type": "texture",
+    "resolution": "1k",
+    "license": "CC0",
+    "source": "https://polyhaven.com/a/wood_table_001",
+    "used": true
+  },
+  {
+    "id": "WoodenChair_01",
+    "type": "gltf",
+    "resolution": "1k",
+    "license": "CC0",
+    "source": "https://polyhaven.com/a/WoodenChair_01",
+    "used": false
+  }
+]

@@ -1,0 +1,6 @@
+const {createRequire}=require('node:module');const fs=require('node:fs');const path=require('node:path');
+const {chromium}=createRequire('C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/package.json')('playwright');
+(async()=>{const b=await chromium.launch({headless:true,executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',args:['--enable-unsafe-swiftshader']});const p=await b.newPage({viewport:{width:1440,height:900}});let errs=[];p.on('pageerror',e=>errs.push(String(e)));p.on('console',m=>{if(m.type()==='error')errs.push(m.text().slice(0,500));});await p.goto('http://127.0.0.1:4177/?debug=1');await p.waitForFunction(()=>window.__game);await p.click('#start');await p.waitForTimeout(1700);
+ await p.screenshot({path:path.resolve(__dirname,'../qa/v2-living.png')});
+ for(const [name,pose] of [['sofa',[-1.2,-2.4,1.15,-.05]],['kitchen',[3.1,-.25,-.4,-.03]],['window',[-3.25,-3.7,0,-.25]]]){await p.evaluate(v=>window.__game.pose(...v),pose);await p.waitForTimeout(300);await p.screenshot({path:path.resolve(__dirname,'../qa/v2-'+name+'.png')});}
+ console.log(JSON.stringify({errs,state:await p.evaluate(()=>window.__game.state)}));await b.close();})().catch(e=>{console.error(e);process.exit(1)});

@@ -1,0 +1,46 @@
+{
+  "passed": true,
+  "checks": [
+    "startup",
+    "coffee E",
+    "note E",
+    "collision",
+    "phone dialogue",
+    "window",
+    "doorbell",
+    "neighbor",
+    "kitchen door",
+    "walk doorway",
+    "tap",
+    "death",
+    "rewind",
+    "survival",
+    "changed space",
+    "ending",
+    "pause",
+    "save restore"
+  ],
+  "errors": [],
+  "state": {
+    "mode": "play",
+    "stage": "free",
+    "elapsed": 0.08,
+    "flags": {
+      "coffee": true,
+      "note": true,
+      "phone": true,
+      "window": true,
+      "tap": true
+    },
+    "loop": 1,
+    "position": [
+      -4.02,
+      1.58,
+      0.15
+    ],
+    "doorClosed": true,
+    "transition": false,
+    "drawCalls": 1,
+    "triangles": 1
+  }
+}

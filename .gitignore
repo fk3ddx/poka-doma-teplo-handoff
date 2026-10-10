@@ -1,0 +1,5 @@
+horror-project/game/run/
+node_modules/
+.env
+.env.*
+*.log
