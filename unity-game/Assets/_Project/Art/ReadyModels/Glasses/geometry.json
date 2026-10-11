@@ -1,0 +1,22 @@
+{
+  "scope": "FBX export and dimensions; no Unity import/render acceptance",
+  "source_width_units": 1.4714000225067139,
+  "uniform_scale": 0.09514747713642992,
+  "blender_axes": "X/Y horizontal; Z up",
+  "min": [
+    -0.07000000029802322,
+    -0.05562321096658707,
+    0.0
+  ],
+  "max": [
+    0.07000000029802322,
+    0.055623218417167664,
+    0.04118933901190758
+  ],
+  "size": [
+    0.14000000059604645,
+    0.11124642938375473,
+    0.04118933901190758
+  ],
+  "triangles": 4396
+}

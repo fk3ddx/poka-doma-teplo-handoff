@@ -1,0 +1,24 @@
+{
+  "license": "CC0",
+  "author": "MRT in original header; MargaretToigo in MakeHuman pack listing",
+  "source": "https://static.makehumancommunity.org/assets/assetpacks/glasses01.html",
+  "files": [
+    {
+      "file": "roundglasses_leopard.obj",
+      "sha256": "935127050c0e3b21ea016f05dfc8e5f9436b07730c5ab4dfccec619aff6743b7"
+    },
+    {
+      "file": "roundglasses_leopard.mhmat",
+      "sha256": "79371be023e3fdd432b23692dd410d8cfc59e2243018d05867a6ab2886db152b"
+    },
+    {
+      "file": "Glasses-leopard.png",
+      "sha256": "78b765a22ab13d00cc6b4ea9cc9fb8991c8e09284d68d441180190bf63e40331"
+    },
+    {
+      "file": "toigo_round_glasses_leopard.mhclo",
+      "sha256": "fd2131cdc76e054f5bd0d4db17f49fedc7989b5af3b9bf6226b3edd2deb6ef23"
+    }
+  ],
+  "scope": "Standalone bedside prop only; not a change to accepted Katcho character"
+}

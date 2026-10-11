@@ -1,0 +1,142 @@
+{
+  "scope": "C# compile only; no Unity import, editor, game window, visual or gameplay test",
+  "source_response_file": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\Library\\Bee\\artifacts\\1900b0aE.dag\\Ataka.Editor.rsp",
+  "source_response_sha256": "221abeee56777dd904f882b64e249dac9fd908bafebeab7b7480ec232c502966",
+  "exit_code": 0,
+  "local_runtime_reference": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\QA\\NoWindowCompile\\Ataka.Runtime\\Ataka.Runtime.ref.dll",
+  "sources": [
+    {
+      "path": "Assets/_Project/Editor/ApartmentArtBuilder.cs",
+      "sha256": "7dd379c040f3969f2e0f88f589bd1c025d70e1f3990ee0e14c16af9589aed69c"
+    },
+    {
+      "path": "Assets/_Project/Editor/ApartmentAtmosphere.cs",
+      "sha256": "82cd78a7567e85f5bb225a50d1651218238fcf4102f8ab6dde0c0720826b4b51"
+    },
+    {
+      "path": "Assets/_Project/Editor/ApartmentCeilingFinish.cs",
+      "sha256": "c01713cae92be9957127f39cea4ef451889c74cdb448c23410222c908d91dbcc"
+    },
+    {
+      "path": "Assets/_Project/Editor/ApartmentCourtyard.cs",
+      "sha256": "de7a7dda86e8dbf3b56af65f0c301aa5d091c1fcc4aea65f9eb58d0be33a6189"
+    },
+    {
+      "path": "Assets/_Project/Editor/ApartmentDomesticMaterials.cs",
+      "sha256": "a40722a3ee3f0e3084f02253989c1f3b8d800472a0ff5dfb9446a98ee0d86a8b"
+    },
+    {
+      "path": "Assets/_Project/Editor/ApartmentExteriorFog.cs",
+      "sha256": "34f61b4488ebc603e0df947e0889461307eecf3017957db878a4c7c175a454b2"
+    },
+    {
+      "path": "Assets/_Project/Editor/ApartmentFacades.cs",
+      "sha256": "7c6036407c1cda00df7c4387e2c90f9bab0aa1f066dba2543aa9531962475584"
+    },
+    {
+      "path": "Assets/_Project/Editor/ApartmentFinishing.cs",
+      "sha256": "76aaa173040f58941268aeda717dd5943764ff83d4289bab33a9dc0341e9cd47"
+    },
+    {
+      "path": "Assets/_Project/Editor/ApartmentKitchenCurtain.cs",
+      "sha256": "38bc14de1e50b9818635a7426de1fb9f1faeb70e5de10a8796e2c18a0a3da060"
+    },
+    {
+      "path": "Assets/_Project/Editor/ApartmentLightBaker.cs",
+      "sha256": "97d1a551606519b0a109cda0a1aeaa698271f40e3e51fe4f110fa9278666affa"
+    },
+    {
+      "path": "Assets/_Project/Editor/ApartmentMaterialPolish.cs",
+      "sha256": "b3551b4b9c3b15685f94b7074c049bf6123a8b6706e66092258cd8019106815f"
+    },
+    {
+      "path": "Assets/_Project/Editor/ApartmentMeshSource.cs",
+      "sha256": "a7df3078e4a12045160c94b8eeb3747bc85fbba5aae59b19e0d2eb1e8ad0dd8e"
+    },
+    {
+      "path": "Assets/_Project/Editor/ApartmentOpalLighting.cs",
+      "sha256": "29e45b0e040bff92c633b3f198f02c092d689e8a1da462bcc08fafd607a88e36"
+    },
+    {
+      "path": "Assets/_Project/Editor/ApartmentPersonalMaterials.cs",
+      "sha256": "515d68bc05374217a24b03c25cadda362c9bd9b4b96968d7a4c74205d86d0fa4"
+    },
+    {
+      "path": "Assets/_Project/Editor/ApartmentRoomProbes.cs",
+      "sha256": "cec1752d8847f926fa287200de789281cb40a9d87dcf45c07ccab16e249b009f"
+    },
+    {
+      "path": "Assets/_Project/Editor/ApartmentSeating.cs",
+      "sha256": "ef8a892c926c293748f75d583df171c7b9f8428b87f2f23d39d1d831d38161c0"
+    },
+    {
+      "path": "Assets/_Project/Editor/ApartmentStaircase.cs",
+      "sha256": "e2a5c5ce0d677b0d35501f8690e69771778d8a278576253f7ff9f2f2b0142a6b"
+    },
+    {
+      "path": "Assets/_Project/Editor/ApartmentTelevision.cs",
+      "sha256": "8c206ba913fe358de179ca01edefafc3d85d5e87906e3e0a5b6547f50ace4653"
+    },
+    {
+      "path": "Assets/_Project/Editor/ApartmentWeather.cs",
+      "sha256": "f222b0f64e5402f8652c31fca6f322712bf0e56f3ba4f3a472167f7aa97c1f73"
+    },
+    {
+      "path": "Assets/_Project/Editor/BedroomArt05.cs",
+      "sha256": "d23005ea4b0fe7f036cd5296a0617ee3c05b939022116f9a11e96d84e2a7418b"
+    },
+    {
+      "path": "Assets/_Project/Editor/BedroomArt06.cs",
+      "sha256": "6d574149c67061d8ad728d9b2d2f31c1864ec687b9ae68354454e476292794f0"
+    },
+    {
+      "path": "Assets/_Project/Editor/BedroomBedInstaller.cs",
+      "sha256": "ba61cb7491c093f2d7a600faf4c4d0a84ff47b1b4397663dcad8c6cd528c48dd"
+    },
+    {
+      "path": "Assets/_Project/Editor/BedroomLayoutRevision.cs",
+      "sha256": "abb81081be1618bc470eb14192af9eeb138681664014437600659a4c737f4e82"
+    },
+    {
+      "path": "Assets/_Project/Editor/BedroomReadyProps.cs",
+      "sha256": "8a8c9691df40b22f334569fc1bc9280ff4cb174163d5fb2981c515f4b45eedfe"
+    },
+    {
+      "path": "Assets/_Project/Editor/KatchoGrannyBuilder.cs",
+      "sha256": "3bfdce44d6d6104dc08337257b4251449703a45ea9182f9f7122268bbf53f914"
+    },
+    {
+      "path": "Assets/_Project/Editor/LightLabBuilder.cs",
+      "sha256": "a5597fbb3bfc97ab84f190f28783fe5f8b2e24b78ed26c08b868a72cae5f7938"
+    },
+    {
+      "path": "Assets/_Project/Editor/MilestoneBuilder.cs",
+      "sha256": "60a025ecd7f8256fa46b0a38577d939be0e35ff81b7c4dcb122957bc3cc55c66"
+    },
+    {
+      "path": "Assets/_Project/Editor/NinaPreviewBuilder.cs",
+      "sha256": "7a5c882edd4abc9d5cd233ce8e5f0d5bbeb3ce20b801b390eb1e78afa54bb9da"
+    },
+    {
+      "path": "Assets/_Project/Editor/NinaScenarioInstaller.cs",
+      "sha256": "6ad4ee5c35c62dda55fe08819406b6e3326cfdc40130329acea52743e0f29e19"
+    },
+    {
+      "path": "Assets/_Project/Editor/RealSizeAudit.cs",
+      "sha256": "54461b66c75fc9e32586d2d9a0a6ebc7d9f19b81abd463b3b54698568d8564b8"
+    },
+    {
+      "path": "Assets/_Project/Editor/ScenarioAudioBuilder.cs",
+      "sha256": "01e67a741283478fa6957dbc613bc4e10a2f86bf33b40b1012bf43d2e808c49b"
+    },
+    {
+      "path": "Assets/_Project/Editor/ScenarioBuilder.cs",
+      "sha256": "6952f52c61144b22eed9e8a84ed255d83f3ac17ca7ef046b4aa10d38d54a9899"
+    },
+    {
+      "path": "Assets/_Project/Editor/ScenarioReadyArt.cs",
+      "sha256": "c289ea8c8c35001683ebddaddc1895bef28985f6850d4872d9a0994c8acf054c"
+    }
+  ],
+  "utc": "2026-10-11T21:02:47.778469+00:00"
+}
