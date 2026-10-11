@@ -9,7 +9,7 @@ namespace Ataka.Editor {
  public static class BedroomLayoutRevision {
   public static readonly Vector3 OldCenter=new Vector3(2.05f,0,4.07f);
   public static void Relocate(FlatBindings flat){
-   if(flat.wardrobe.parent.name=="Wardrobe side-wall placement")return;
+   if(flat.wardrobe.parent.name=="Wardrobe side-wall placement"){flat.wardrobe.parent.position=ScenarioLayout.Wardrobe;flat.slipper.transform.position=ScenarioLayout.WardrobeSlipper;return;}
    var holder=new GameObject("Wardrobe side-wall placement").transform;holder.SetParent(flat.apartment,false);holder.position=OldCenter;
    flat.wardrobe.SetParent(holder,true);
    foreach(var hinge in flat.wardrobeLeaves)hinge.parent.SetParent(holder,true);

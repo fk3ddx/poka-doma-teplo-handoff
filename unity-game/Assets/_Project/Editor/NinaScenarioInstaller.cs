@@ -17,10 +17,12 @@ namespace Ataka.Editor {
    animation.clip.SampleAnimation(animation.gameObject,0);
    foreach(string side in new[]{"L","R"}){
     var upper=Bone(actor,"Arm_Upper."+side);var lower=Bone(actor,"Arm_Lower."+side);var hand=Bone(actor,"Hand."+side);
-    Aim(upper,lower,new Vector3(side=="L"?-.25f:.25f,-1,.02f));Aim(lower,hand,new Vector3(0,-1,.05f));
+    Aim(upper,lower,new Vector3(side=="L"?-.364f:.364f,-1,.17f));Aim(lower,hand,new Vector3(0,-1,.24f));
    }
-   foreach(string side in new[]{"L","R"}){var foot=Bone(actor,"Foot."+side);foot.rotation=Quaternion.AngleAxis(25,Vector3.right)*foot.rotation;}
-   var head=Bone(actor,"Head");head.rotation=Quaternion.AngleAxis(32,Vector3.forward)*Quaternion.AngleAxis(20,Vector3.right)*head.rotation;
+   foreach(string side in new[]{"L","R"}){var foot=Bone(actor,"Foot."+side);foot.rotation=Quaternion.AngleAxis(55,Vector3.right)*foot.rotation;}
+   foreach(string side in new[]{"L","R"}){var knee=Bone(actor,"Leg_Lower."+side);knee.rotation=Quaternion.AngleAxis(-8,Vector3.right)*knee.rotation;}
+   var rightFoot=Bone(actor,"Foot.R");rightFoot.rotation=Quaternion.AngleAxis(10,Vector3.up)*rightFoot.rotation;rightFoot.position+=Vector3.down*.02f;
+   var head=Bone(actor,"Head");head.rotation=Quaternion.AngleAxis(32,Vector3.forward)*Quaternion.AngleAxis(38,Vector3.right)*head.rotation;
    var clip=new AnimationClip{legacy=true,name="Nina_Hang",wrapMode=WrapMode.ClampForever};
    foreach(var bone in animation.GetComponentsInChildren<Transform>(true)){
     if(bone==animation.transform)continue;
@@ -52,7 +54,7 @@ namespace Ataka.Editor {
   }
   public static void InstallAndBuild(){
    var scene=EditorSceneManager.OpenScene("Assets/_Project/Scenario/Flat.unity");var flat=UnityEngine.Object.FindFirstObjectByType<FlatBindings>();
-   var previous=flat.grandmother;flat.grandmother=CreateActor();UnityEngine.Object.DestroyImmediate(previous);EditorUtility.SetDirty(flat);
+   BedroomLayoutRevision.Relocate(flat);var previous=flat.grandmother;flat.grandmother=CreateActor();UnityEngine.Object.DestroyImmediate(previous);EditorUtility.SetDirty(flat);
    AssetDatabase.SaveAssets();EditorSceneManager.SaveScene(scene);
    Directory.CreateDirectory("../QA/NinaIntegration");
    var pose=flat.grandmother.GetComponent<NinaHangingPose>();pose.Evaluate(3.6f,new Vector3(3.25f,1.55f,3.6f));

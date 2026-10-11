@@ -14,10 +14,10 @@ namespace Ataka.Scenario {
   void HeadAt(Transform actor,Vector3 point){var animator=actor.GetComponent<Animator>();var bone=animator.GetBoneTransform(HumanBodyBones.Head);actor.position+=point-bone.position;}
   public void BalconyWaiting(){flat.guest.SetActive(true);var g=flat.guest.transform;g.localScale=guestScale;g.rotation=Quaternion.Euler(0,0,180);HeadAt(g,new Vector3(5.175f,1.8f,-.3f));}
   public float screenBlack,screenRed,screenWhite;Quaternion startHead,chaseStartRotation,chaseTargetRotation;Vector3 startGuest,startHeadPosition;bool fired;float lastTime;Vector3 guestScale;
-  void Awake(){guestScale=flat.guest.transform.localScale;}
+  void Awake(){guestScale=flat.guest.transform.localScale;var suspension=gameObject.AddComponent<HangingRope>();suspension.scene=this;}
   public void Cancel(){flat.player.lookDuringScene=false;flat.player.flashlight.transform.localRotation=Quaternion.identity;if(PlayingScene=="DeathShort")sound.BeginDeathRecovery();sound.EndDeathRecovery();PlayingScene=null;FrameTime=0;director.Stop();screenBlack=screenWhite=screenRed=0;flat.look.peephole=flat.look.disruption=0;flat.player.control=true;flat.player.head.localPosition=Vector3.up*(flat.player.crouched?.94f:1.55f);if(leftHand)leftHand.gameObject.SetActive(false);if(rightHand)rightHand.gameObject.SetActive(false);flat.guest.SetActive(false);flat.grandmother.SetActive(false);}
   void PlaceHangingStool(){
-   var stool=flat.stool;stool.transform.SetPositionAndRotation(new Vector3(1.25f,0,2.55f),Quaternion.Euler(0,20,90));
+   var stool=flat.stool;stool.transform.SetPositionAndRotation(new Vector3(1.82f,0,2.12f),Quaternion.Euler(0,35,90));
    var rs=stool.GetComponentsInChildren<Renderer>();if(rs.Length==0)return;var bounds=rs[0].bounds;foreach(var r in rs)bounds.Encapsulate(r.bounds);
    stool.transform.position+=Vector3.up*(.004f-bounds.min.y);
   }
@@ -58,10 +58,10 @@ namespace Ataka.Scenario {
     flat.bedroom.open=true;flat.grandmother.SetActive(t<5);var grandmother=flat.grandmother.transform;var nina=flat.grandmother.GetComponent<NinaHangingPose>();nina.Evaluate(t,head.position);
     PlaceHangingStool();flat.slipper.transform.position=new Vector3(1.7f,.015f,2.6f);
     if(rope){rope.enabled=t<5;rope.SetPosition(0,new Vector3(1.65f,2.5f,2.3f));rope.SetPosition(1,nina.NeckPosition);}
-    var feet=nina.FeetPosition;var face=nina.FacePosition;
+    var feet=nina.FeetPosition-Vector3.up*.3f;var face=nina.NeckPosition-Vector3.up*.1f;
     p.lookDuringScene=t<2;
     if(t<2){p.flashlight.transform.rotation=Quaternion.RotateTowards(head.rotation,Quaternion.LookRotation(feet-p.flashlight.transform.position),12);}
-    else {p.flashlight.transform.localRotation=Quaternion.identity;Vector3 target=Vector3.Lerp(feet,face,Mathf.Clamp01((t-2)/1.5f));head.rotation=Quaternion.Slerp(head.rotation,Quaternion.LookRotation(target-head.position),1-Mathf.Exp(-7.67f*Time.deltaTime));}
+    else {p.flashlight.transform.localRotation=Quaternion.identity;Vector3 target=t>=5?new Vector3(1.7f,.1f,2.3f):Vector3.Lerp(feet,face,Mathf.Clamp01((t-2)/1.5f));head.rotation=Quaternion.Slerp(head.rotation,Quaternion.LookRotation(target-head.position),1-Mathf.Exp(-7.67f*Time.deltaTime));}
     p.flashlight.intensity=t>=4.5f&&t<4.9f?0:3;
     SoundAt(t,3.5f,"breath",grandmother.position);if(lastTime<4.5f&&t>=4.5f)sound.PlayClose("tinnitus",head.position);
     if(t>=5&&!fired){fired=true;sound.StopCue("rope");sound.StopCue("breath");sound.StopCue("tinnitus");loop.Thought("Нет. Нет-нет-нет…");}SoundAt(t,6,"latch",flat.carpet.transform.position);

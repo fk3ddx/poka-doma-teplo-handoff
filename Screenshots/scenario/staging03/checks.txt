@@ -1,0 +1,18 @@
+menu-to-play
+WALK (7.67, 0.01, 3.89) target=(7.65, 0.00, 3.80)
+PASS flashlight pickup
+PASS lap 5 entered
+PASS fifth bedroom locked before phone
+PASS fifth bedroom has 20cm ajar gap
+WALK (7.67, 0.01, 3.89) target=(7.65, 0.00, 3.80)
+WALK (7.88, 0.01, 5.24) target=(7.90, 0.00, 5.35)
+WALK (5.75, 0.01, 5.35) target=(5.65, 0.00, 5.35)
+WALK (5.66, 0.01, 3.72) target=(5.65, 0.00, 3.60)
+WALK (3.35, 0.02, 3.59) target=(3.25, 0.00, 3.60)
+PASS hanging door armed by E
+PASS opening bedroom does not start an occluded cutscene
+WALK (2.55, 0.01, 3.60) target=(2.45, 0.00, 3.60)
+PASS hanging starts after entering with clear line of sight
+WALK (2.41, 0.01, 3.60) target=(2.30, 0.00, 3.60)
+WALK (0.99, 0.01, 3.74) target=(0.90, 0.00, 3.75)
+PASS gate 5 released by event

@@ -1,5 +1,5 @@
 prefab=Assets/_Project/Art/Characters/KatchoGranny/NinaKatcho.prefab
 pose=Assets/_Project/Art/Characters/KatchoGranny/Nina_Hang.anim
-neck=(1.6500, 1.5500, 2.3000)
-feet=(1.7629, 0.3634, 2.4144)
+neck=(1.6627, 1.7200, 2.3000)
+feet=(1.7499, 0.5132, 2.3793)
 No character mesh/texture or accepted lighting changed.

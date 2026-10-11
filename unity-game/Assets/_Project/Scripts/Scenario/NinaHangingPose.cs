@@ -10,10 +10,12 @@ namespace Ataka.Scenario {
   public void Evaluate(float seconds,Vector3 viewer){
    animationPlayer.Stop();animationPlayer.enabled=false;
    hangingPose.SampleAnimation(animationPlayer.gameObject,0);
-   var anchor=new Vector3(1.65f,1.55f,2.3f);var toward=viewer-anchor;toward.y=0;
+   var anchor=new Vector3(1.65f,1.72f,2.3f);var toward=viewer-anchor;toward.y=0;
    if(toward.sqrMagnitude<.001f)toward=Vector3.forward;
    var front=Quaternion.LookRotation(toward);var away=Quaternion.LookRotation(-toward);
-   transform.rotation=Quaternion.Slerp(away,front,Mathf.SmoothStep(0,1,Mathf.Clamp01(seconds-3.5f)));
+   float turn=Mathf.Clamp01((seconds-3.5f)/1.4f);turn*=turn;
+   transform.rotation=Quaternion.AngleAxis(Mathf.Sin(seconds*Mathf.PI*2/7)*6,Vector3.up)*Quaternion.Slerp(away,front,turn);
+   anchor+=Vector3.right*(Mathf.Sin(seconds*Mathf.PI*2/3.1f)*.015f);
    // Rotate around the suspension point, so the rope stays attached to the neck.
    transform.position+=anchor-neck.position;
   }
