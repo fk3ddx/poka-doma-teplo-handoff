@@ -1,0 +1,21 @@
+{
+  "archive": "U:\\builds\\Ataka-bedroom06-rendered-win64.zip",
+  "bytes": 118351426,
+  "sha256": "26f610c40577f839798a0dca30c2374dcc2ea209ec390577bfdf9b645dd82dae",
+  "crc_verified": true,
+  "runtime_result": {
+    "passed": true,
+    "chase": false,
+    "headless": false,
+    "coreFinished": true,
+    "visualVerified": false,
+    "errors": 0,
+    "lap": 6,
+    "graphicsDevice": "Direct3D11",
+    "listenerVolume": 1.0
+  },
+  "runtime_sha256": "a4bca2da9ed4ec348d429655c2168267470f2aed0af716d75c451dd1c88582cd",
+  "rendered_frames": 69,
+  "audio_output_muted": true,
+  "visual_approval": false
+}

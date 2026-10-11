@@ -1,0 +1,17 @@
+{
+  "author": "mxc2 / Marcus-Indrek Simmer",
+  "source": "https://opengameart.org/content/pills-3d-models",
+  "license": "CC0-1.0",
+  "source_file_sha256": "ada09275b3fd85690fdb69da1de7484d04aafb32c61f172fc281e48e8b12b95c",
+  "size_blender_m": [
+    0.017999999225139618,
+    0.0067136879079043865,
+    0.0067136879079043865
+  ],
+  "triangles": 1920,
+  "materials": [
+    "Material.001",
+    "Material.002"
+  ],
+  "adaptation": "Original geometry/UV/material assignment preserved; uniformly scaled18mm capsule, rotated to lie flat, base at0. No medicine brand or invented interaction."
+}

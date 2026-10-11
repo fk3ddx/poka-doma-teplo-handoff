@@ -1,0 +1,8 @@
+    Renderer: Null Device
+Host type is not matching any asset type at Path Packages/com.unity.render-pipelines.core/Editor/Lighting/ProbeVolume/RenderingLayerMask/TraceRenderingLayerMask.urtshader.
+BEDROOM06_IMPORT_UNITS Ready CC0 water glass06 before=0,09999999 after=0,09999999 globalScale=1
+BEDROOM06_IMPORT_UNITS Ready CC0 bedside capsule06 0 before=0,006713688 after=0,006713688 globalScale=1
+BEDROOM06_IMPORT_UNITS Ready CC0 bedside capsule06 1 before=0,006713688 after=0,006713688 globalScale=1
+InvalidOperationException: Sequence contains no matching element
+executeMethod method Ataka.Editor.BedroomArt06.ApplyBedsideSmallProps threw exception.
+Exiting without the bug reporter. Application will terminate with return code 1

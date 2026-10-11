@@ -1,0 +1,21 @@
+{
+  "pid": 5188,
+  "command": [
+    "U:\\unity-game\\Builds\\ScenarioCore\\Ataka-Loop.exe",
+    "-screen-fullscreen",
+    "0",
+    "-screen-width",
+    "1280",
+    "-screen-height",
+    "720",
+    "-scenario-smoke",
+    "U:\\unity-game\\QA\\Bedroom06-rendered-final",
+    "-scenario-death-skip",
+    "-audio-capture",
+    "U:\\unity-game\\QA\\Bedroom06-rendered-final\\silent-mix.wav",
+    "-logFile",
+    "U:\\unity-game\\QA\\Bedroom06-rendered-final\\player.log"
+  ],
+  "runtime_sha256": "a4bca2da9ed4ec348d429655c2168267470f2aed0af716d75c451dd1c88582cd",
+  "scope": "Final actual GPU route after material-only alpha correction; silent listener capture"
+}

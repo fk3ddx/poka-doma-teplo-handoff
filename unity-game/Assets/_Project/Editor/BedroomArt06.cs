@@ -120,12 +120,12 @@ namespace Ataka.Editor {
    EditorUtility.SetDirty(dial);
 
   }
-  static void PlaceOnTable(GameObject prop,Vector2 center,Bounds tabletop){
-   var b=Measure(prop);prop.transform.position+=new Vector3(center.x-b.center.x,tabletop.max.y+.002f-b.min.y,center.y-b.center.z);
+  static void PlaceOnTable(GameObject prop,Vector2 center,Bounds tabletop,float supportGap=.002f){
+   var b=Measure(prop);prop.transform.position+=new Vector3(center.x-b.center.x,tabletop.max.y+supportGap-b.min.y,center.y-b.center.z);
    b=Measure(prop);const float margin=.01f;
    if(b.min.x<tabletop.min.x+margin||b.max.x>tabletop.max.x-margin||b.min.z<tabletop.min.z+margin||b.max.z>tabletop.max.z-margin)
     throw new Exception(prop.name+" does not fit the bedside surface with a 1cm edge margin; prop="+b+" table="+tabletop+"; do not squash the authored mesh");
-   if(Mathf.Abs(b.min.y-tabletop.max.y-.002f)>.001f)throw new Exception(prop.name+" has an invalid support height");
+   if(Mathf.Abs(b.min.y-tabletop.max.y-supportGap)>.001f)throw new Exception(prop.name+" has an invalid support height");
   }
   static void InstallSpectacles(FlatBindings flat){
    var table=flat.apartment.GetComponentsInChildren<Transform>().Single(t=>t.name=="TEMP Kenney nightstand at headboard");
@@ -141,12 +141,48 @@ namespace Ataka.Editor {
    if(clock&&Measure(clock.gameObject).Intersects(Measure(glasses)))throw new Exception("Clock and spectacles overlap; keep both at their authored scale");
    EditorUtility.SetDirty(m);
   }
+  static void InstallSmallProps(FlatBindings flat){
+   var table=flat.apartment.GetComponentsInChildren<Transform>().Single(t=>t.name=="TEMP Kenney nightstand at headboard");var surface=Measure(table.gameObject);
+   const string glassName="Ready CC0 water glass06";Remove(flat.apartment,glassName);
+   var glass=ReadyMeasured(Art+"ReadyModels/WaterGlass/BedsideWaterGlass.fbx",flat.apartment,glassName,.1f);
+   PrefabUtility.UnpackPrefabInstance(glass,PrefabUnpackMode.Completely,InteractionMode.AutomatedAction);
+   PlaceOnTable(glass,new Vector2(1.32f,.89f),surface,.0005f);
+   var gm=Lit("ReadyDrinkingGlass",new Color(.80f,.88f,.91f,.045f),.72f);Transparent(gm);gm.SetFloat("_Metallic",0);
+   var wm=Lit("ReadyDrinkingWater",new Color(.78f,.87f,.91f,.02f),.88f);Transparent(wm);wm.SetFloat("_Metallic",0);
+   foreach(var renderer in glass.GetComponentsInChildren<Renderer>()){
+    renderer.sharedMaterial=renderer.name.Contains("Water volume")?wm:gm;renderer.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;
+   }
+   var cream=Lit("ReadyCapsuleCream",new Color(.80f,.74f,.65f),.28f);var red=Lit("ReadyCapsuleRed",new Color(.55f,.035f,.025f),.30f);
+   var props=new System.Collections.Generic.List<GameObject>{glass};
+   for(int i=0;i<2;i++){
+    string name="Ready CC0 bedside capsule06 "+i;Remove(flat.apartment,name);
+    var pill=ReadyMeasured(Art+"ReadyModels/BedsidePills/ReadyCapsule.fbx",flat.apartment,name,.00671369f);
+    // A second import of this same source must not revert the first instance's name/material overrides.
+    PrefabUtility.UnpackPrefabInstance(pill,PrefabUnpackMode.Completely,InteractionMode.AutomatedAction);
+    pill.transform.rotation=Quaternion.Euler(0,i==0?18:-27,0)*pill.transform.rotation;
+    PlaceOnTable(pill,i==0?new Vector2(1.313f,1.07f):new Vector2(1.345f,1.099f),surface,.0001f);
+    foreach(var renderer in pill.GetComponentsInChildren<Renderer>())renderer.sharedMaterials=renderer.sharedMaterials.Select(m=>m&&m.name.Contains("002")?red:cream).ToArray();
+    props.Add(pill);
+   }
+   foreach(string name in new[]{"Ready Poly Haven bedside clock06","Ready CC0 bedside spectacles06"}){
+    var other=flat.apartment.Find(name);if(!other)throw new Exception("Expected existing bedside prop "+name);props.Add(other.gameObject);
+   }
+   for(int i=0;i<props.Count;i++)for(int j=i+1;j<props.Count;j++)if(Measure(props[i]).Intersects(Measure(props[j])))throw new Exception("Bedside overlap: "+props[i].name+" / "+props[j].name);
+   foreach(var mat in new[]{gm,wm,cream,red})EditorUtility.SetDirty(mat);
+  }
+  [MenuItem("Ataka/Bedroom06/Apply ready water glass and capsules only")]
+  public static void ApplyBedsideSmallProps(){
+   System.IO.Directory.CreateDirectory(Output);AssetDatabase.Refresh();
+   var scene=EditorSceneManager.OpenScene("Assets/_Project/Scenario/Flat.unity");var flat=UnityEngine.Object.FindFirstObjectByType<FlatBindings>();
+   InstallSmallProps(flat);WriteGeometryReport(flat);AssetDatabase.SaveAssets();EditorSceneManager.MarkSceneDirty(scene);EditorSceneManager.SaveScene(scene);
+   Debug.Log("BEDROOM06 Ready glass and capsules installed; measured support/overlap only, URP appearance still unverified.");
+  }
   [Serializable] class PlacedProp {public string name;public Vector3 min,max,size;}
   [Serializable] class PreparedArtReport {public string scope="Scene geometry only; not rendered or visually approved";public PlacedProp[] props;public float iconIntensity,iconInnerAngle,haloIntensity;}
   static void WriteGeometryReport(FlatBindings flat){
-   string[] names={"TEMP Kenney nightstand at headboard","Ready Poly Haven bedside clock06","Ready CC0 bedside spectacles06","Corner icon shelf","Approved lampada06"};
+   string[] names={"TEMP Kenney nightstand at headboard","Ready Poly Haven bedside clock06","Ready CC0 bedside spectacles06","Corner icon shelf","Approved lampada06","Ready CC0 water glass06","Ready CC0 bedside capsule06 0","Ready CC0 bedside capsule06 1"};
    var all=flat.apartment.GetComponentsInChildren<Transform>();var report=new PreparedArtReport();
-   report.props=names.Select(name=>{var t=all.Single(v=>v.name==name);var b=Measure(t.gameObject);return new PlacedProp{name=name,min=b.min,max=b.max,size=b.size};}).ToArray();
+   report.props=names.Select(name=>{var matches=all.Where(v=>v.name==name).ToArray();if(matches.Length!=1)throw new Exception("Geometry report expected one "+name+", found "+matches.Length+". Bedside names: "+string.Join(" | ",all.Select(v=>v.name).Where(n=>n.Contains("capsule")||n.Contains("Capsule")||n.Contains("glass"))));var t=matches[0];var b=Measure(t.gameObject);return new PlacedProp{name=name,min=b.min,max=b.max,size=b.size};}).ToArray();
    report.iconIntensity=flat.look.icon.intensity;report.iconInnerAngle=flat.look.icon.innerSpotAngle;report.haloIntensity=all.Single(v=>v.name=="Icon glass halo").GetComponent<Light>().intensity;
    System.IO.Directory.CreateDirectory("QA/Bedroom06Placement");System.IO.File.WriteAllText("QA/Bedroom06Placement/geometry.json",JsonUtility.ToJson(report,true));
   }
@@ -155,8 +191,8 @@ namespace Ataka.Editor {
   public static void ApplyPreparedArt(){
    System.IO.Directory.CreateDirectory(Output);AssetDatabase.Refresh();
    var scene=EditorSceneManager.OpenScene("Assets/_Project/Scenario/Flat.unity");var flat=UnityEngine.Object.FindFirstObjectByType<FlatBindings>();
-   InstallCorner(flat);InstallClock(flat);InstallSpectacles(flat);WriteGeometryReport(flat);AssetDatabase.SaveAssets();EditorSceneManager.MarkSceneDirty(scene);EditorSceneManager.SaveScene(scene);
-   Debug.Log("BEDROOM06 Prepared corner, clock and spectacles installed; visual review, shader compilation and gameplay checks still required. Water glass not installed.");
+   InstallCorner(flat);InstallClock(flat);InstallSpectacles(flat);InstallSmallProps(flat);WriteGeometryReport(flat);AssetDatabase.SaveAssets();EditorSceneManager.MarkSceneDirty(scene);EditorSceneManager.SaveScene(scene);
+   Debug.Log("BEDROOM06 Prepared corner, clock and spectacles installed; visual review, shader compilation and gameplay checks still required. Ready glass/capsules included; no visual acceptance.");
   }
 
  }

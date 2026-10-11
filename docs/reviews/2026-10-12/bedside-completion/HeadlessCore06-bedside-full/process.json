@@ -1,0 +1,22 @@
+{
+  "pid": 36068,
+  "command": [
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\Builds\\ScenarioCore\\Ataka-Loop.exe",
+    "-batchmode",
+    "-nographics",
+    "-silent-crashes",
+    "-job-worker-count",
+    "2",
+    "-scenario-headless",
+    "-scenario-smoke",
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\QA\\HeadlessCore06-bedside-full",
+    "-logFile",
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\QA\\HeadlessCore06-bedside-full\\player.log",
+    "-scenario-death-skip"
+  ],
+  "build_label": "HeadlessCore06-bedside-build",
+  "exe_sha256": "b7cca8b82003185f22644d0ee1c23b3640de1b996802d4f5d0501e287011afa6",
+  "runtime_sha256": "292971d95e2758314dc3e2d01f165db9d096c16b1ca420da0cd7584b75928284",
+  "utc": "2026-10-11T22:00:07.241500+00:00",
+  "scope": "Runtime mechanics, synthetic in-process input, muted listener, Null graphics. No visual or audible acceptance."
+}

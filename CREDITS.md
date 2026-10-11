@@ -51,3 +51,9 @@ Granny Katcho одобрена по авторскому превью («да н
 - Bedside spectacles06: MRT (original OBJ/MHCLO headers) / MargaretToigo (MakeHuman listing), [Glasses01](https://static.makehumancommunity.org/assets/assetpacks/glasses01.html), CC0. Original model and texture copied from previously downloaded pack; source hashes retained. Uniform14cm-width scale and bottom-center pivot only, no topology/UV redesign. Standalone furnishing prop; accepted Katcho character unchanged. Export tools/art/prepare_bedside_glasses.py.
 
 - Alarm Clock 01 follow-up12.10: original skinned meshes evaluated to rigid FBX, with pivots from original def_hours/def_minutes/def_seconds bones. No geometry/UV redesign. Original FBX retained; derivative uses the same CC0 license and authors. Imported height17.41554cm verified in Unity without graphics; artwork acceptance pending.
+
+
+### 12.10 — готовые стакан и капсулы на тумбочке
+- Drinking glass: DREAM_SEARCH_REPEAT, [Cups and bottles little pack](https://opengameart.org/content/cups-and-bottles-little-pack), CC0-1.0. Original VasoChico mesh retained, uniformly normalized10cm and bottom pivot; flat pane normals instead of smoothing across thin rim. Water VFX derived from original inner profile, not a remodeled vessel. Original Blender/SHA preserved; preparation script tools/art/prepare_bedside_water_glass.py.
+- Capsules: mxc2 / Marcus-Indrek Simmer, [Pills 3D Models](https://opengameart.org/content/pills-3d-models), CC0-1.0. Original complexPill FBX/OBJ and zip preserved. Geometry, UV and material regions retained; uniform18mm scale and flat orientation; two instances. No medicine brand or diagnosis. tools/art/prepare_bedside_pills.py.
+- Both installed and measured in Unity Null graphics. CPU standalone glass images demonstrate a normals issue/correction; they are not game screenshots or visual acceptance.

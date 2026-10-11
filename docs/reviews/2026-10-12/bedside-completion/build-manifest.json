@@ -1,0 +1,20 @@
+{
+  "archive": "U:\\builds\\Ataka-bedroom06-bedside-checked-win64.zip",
+  "bytes": 118350111,
+  "sha256": "abe4b178f78542d416019cf62b1b02f688a49e5b5ed076171c6dc5c1e4612494",
+  "crc_verified": true,
+  "runtime_assertions": 43,
+  "result": {
+    "passed": true,
+    "chase": false,
+    "headless": true,
+    "coreFinished": true,
+    "visualVerified": false,
+    "errors": 0,
+    "lap": 6,
+    "graphicsDevice": "Null",
+    "listenerVolume": 0.0
+  },
+  "visual_acceptance": false,
+  "previous_archive_preserved": "Ataka-bedroom06-runtime-checked-win64.zip"
+}

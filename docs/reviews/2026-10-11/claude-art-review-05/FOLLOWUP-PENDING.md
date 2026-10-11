@@ -15,3 +15,12 @@ Please review the new door math and art installer, particularly safe opening fee
 
 
 12.10 runtime update, still NOT SENT: door2 and full2 now passed in the actual Windows player using official batchmode/nographics, no sound/OS input. Full6laps+chase+death/restart/repeat-skip+clock winding+warm return. New bedside clock follows each lap. Camera sample at normal LateUpdate gap0 in the same corner frame. First probe crossed the warp early (QA bug), first full compared before camera LateUpdate (QA bug); failures preserved. See docs/reviews/2026-10-12/headless-runtime. No new screenshots, no visual acceptance; please review code and await actual art06 images when Dima's game is no longer interrupted.
+
+
+12.10 bedside update — STILL NOT SENT: ready CC0 glass10cm and two18mm capsules now installed with measured support/overlap checks. New Windows build passed all 43 full-route assertions, errors0/coreFinishedtrue, Null graphics/muted. Evidence/source licenses/CPU-only glass diagnostics: docs/reviews/2026-10-12/bedside-completion. Existing light/pose preserved. Actual Unity transparency/art06 screenshots and voice remain unreviewed; no GUI/focus workaround while Dima plays.
+
+
+12.10 rendered update — STILL NOT SENT: Dima now permits GUI again. Actual Direct3D11 full route passes43 checks/errors0,70 original frames;48 staged survey originals plus9 explicitly diagnostic frames. See docs/reviews/2026-10-12/bedroom06-rendered/overview.jpg and originals. Pillow darkness persists without lace and without normal maps, but flashlight reveals bright rounded cushions. Do not conclude lace is the primary cause. Bedside glass too cloudy; small alpha correction in progress, production light unchanged. Please review icon15, lace16/17, camera18, actual HangingVision1.1/5.1 and warm06. Previous Computer Use attempt could not verify browser URL and stopped; this remains an undelivered draft.
+
+
+Final rendered update — still NOT SENT: final-route now passes43 checks on Direct3D11 after glass/water alpha correction,69 original frames; standalone Windows ZIP CRC-verified. Concrete current review request: docs/reviews/2026-10-12/bedroom06-rendered/CLAUDE-REQUEST.md. Bedroom06 art/voice not accepted; no move to hallway until your review.

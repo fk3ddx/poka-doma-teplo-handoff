@@ -36,22 +36,34 @@ namespace Ataka.Scenario {
     V("14-bedroom-wardrobe-front-open",new Vector3(1.2f,.02f,1.8f),new Vector3(2.4f,1.1f,1.8f)),
     V("15-bedroom-icon-detail",new Vector3(.75f,.02f,1.0f),new Vector3(.23f,1.75f,.23f)),
     V("16-bedroom-bedding-detail",new Vector3(1.25f,.02f,1.8f),new Vector3(.5f,.9f,1.05f)),
-    V("17-bedroom-bedding-without-lace",new Vector3(1.25f,.02f,1.8f),new Vector3(.5f,.9f,1.05f))
+    V("17-bedroom-bedding-without-lace",new Vector3(1.25f,.02f,1.8f),new Vector3(.5f,.9f,1.05f)),
+    V("18-bedroom-bedside-detail",new Vector3(1.9f,.02f,1.65f),new Vector3(1.22f,.63f,1.0f))
    };
-   foreach(string mode in new[]{"lap1","warm-return"}){
+   bool materialProbe=Array.IndexOf(Environment.GetCommandLineArgs(),"-scenario-bed-probe")>=0;
+   var originals=new Dictionary<Renderer,Material[]>();var diagnosticMaterials=new List<Material>();
+   foreach(var r in flat.apartment.GetComponentsInChildren<Renderer>())if(r.name.StartsWith("Textile upright pillow")||r.name=="Textile mattress")originals.Add(r,r.sharedMaterials);
+   foreach(string mode in materialProbe?new[]{"lap1","diagnostic-no-normal","diagnostic-flashlight"}:new[]{"lap1","warm-return"}){
+    foreach(var pair in originals){
+     if(mode=="diagnostic-no-normal"){
+      var materials=new Material[pair.Value.Length];for(int i=0;i<materials.Length;i++){var m=new Material(pair.Value[i]);m.DisableKeyword("_NORMALMAP");m.SetFloat("_BumpScale",0);materials[i]=m;diagnosticMaterials.Add(m);}pair.Key.sharedMaterials=materials;
+     }else pair.Key.sharedMaterials=pair.Value;
+    }
     if(mode=="warm-return")flat.look.WarmReturn();else flat.look.Apply(FlatCondition.Familiar);
     foreach(var view in views){
+     if(materialProbe&&!view.file.StartsWith("16-")&&!view.file.StartsWith("17-")&&!view.file.StartsWith("18-"))continue;
      foreach(var r in laceRenderers)r.enabled=!view.file.StartsWith("17-");
      if(view.file.StartsWith("13-"))foreach(var h in flat.wardrobeLeaves)h.localRotation=Quaternion.identity;
      if(view.file.StartsWith("14-"))foreach(var h in flat.wardrobeLeaves)h.localRotation=Quaternion.Euler(0,95,0);
      var lens=loop.scenes.cine.Lens;lens.FieldOfView=view.fov;loop.scenes.cine.Lens=lens;
-     var direction=view.target-(view.feet+Vector3.up*1.55f);var angles=Quaternion.LookRotation(direction).eulerAngles;player.Place(view.feet,angles.y,Mathf.DeltaAngle(0,angles.x));player.flashlight.intensity=0;
+     var direction=view.target-(view.feet+Vector3.up*1.55f);var angles=Quaternion.LookRotation(direction).eulerAngles;player.Place(view.feet,angles.y,Mathf.DeltaAngle(0,angles.x));player.flashlight.intensity=mode=="diagnostic-flashlight"?2.0f:0;
      yield return new WaitForSecondsRealtime(.6f);yield return new WaitForEndOfFrame();
      string file=mode+"-"+view.file+".png";var image=ScreenCapture.CaptureScreenshotAsTexture();File.WriteAllBytes(Path.Combine(output,file),image.EncodeToPNG());Destroy(image);
      records.Add(new ViewRecord{file=file,mode=mode,feet=view.feet,target=view.target,fov=view.fov});
     }
    }
-   File.WriteAllText(Path.Combine(output,"survey.json"),JsonUtility.ToJson(new Report{views=records.ToArray()},true));Application.Quit();
+   foreach(var pair in originals)pair.Key.sharedMaterials=pair.Value;foreach(var m in diagnosticMaterials)Destroy(m);
+   var report=new Report{views=records.ToArray()};if(materialProbe)report.scope="Diagnostic ONLY: staged cameras16/17/18, normal lap1; then same lighting with textile normal maps disabled; then original materials with flashlight intensity2. Neither override is production art or an approved change. View17 hides lace.";
+   File.WriteAllText(Path.Combine(output,"survey.json"),JsonUtility.ToJson(report,true));Application.Quit();
   }
   static ViewRecord A(string id,float x,float z,float yaw,float pitch){var feet=new Vector3(x,.02f,z);return new ViewRecord{file=id,feet=feet,target=feet+Vector3.up*1.55f+Quaternion.Euler(-pitch,yaw+180,0)*Vector3.forward*2,fov=68};}
   static ViewRecord V(string id,Vector3 feet,Vector3 target)=>new ViewRecord{file=id,feet=feet,target=target};

@@ -1,0 +1,16 @@
+{
+  "source_object": "VasoChico",
+  "author": "DREAM_SEARCH_REPEAT",
+  "source_sha256": "236915e459ca99e1aad9e13f0b89197c8ff2b210efaa6d8944504622d4db0a1d",
+  "uniform_scale": 0.030966172757309767,
+  "glass_size_m": [
+    0.08310756022628032,
+    0.08310756760919123,
+    0.1
+  ],
+  "glass_triangles": 76,
+  "water_height_m": 0.064,
+  "water_triangles": 28,
+  "adaptation": "Recentered and uniformly scaled original glass to10cm; source40vertices/topology retained; flat pane normals instead of smoothing across the rim. Liquid effect from original inner-wall profile. No authored glass geometry remodelled.",
+  "limits": "Blender/source geometry only. URP transparency and actual game framing not verified."
+}
