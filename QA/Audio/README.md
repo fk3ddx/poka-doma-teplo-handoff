@@ -31,3 +31,6 @@ The first mix is too conservatively attenuated: source -9 dBFS plus cue/mixer/di
 - Prepared fridge is unused; no fridge/TV ambient was added to the first loops. Fly/drip/radio-winding details remain.
 - MP3 previews are not original lossless recordings; conversion to WAV does not improve source quality. Phone is Western Electric, chime candidate needs tail listening; wet pasta stands in for palm foley.
 - Existing visual blockers remain: black vestibules, hallway material discontinuity, temporary Guest model, rough collapse. Claude Entry-02 review saved separately.
+
+## Phone v2 follow-up
+Phone scream and breath now use the receiver band-pass; consecutive speech releases its preceding voice explicitly. Windows full smoke errors=0, 18/18 tests. See phone-v2-metrics.json and comparison/phone-v2-phone.wav. Peak active voices 14; suppressed starts 52, cause-by-cue diagnosis pending. No gain recalibration yet; not a final sound acceptance.

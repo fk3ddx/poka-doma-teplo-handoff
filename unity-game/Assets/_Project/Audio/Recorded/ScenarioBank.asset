@@ -51,6 +51,18 @@ MonoBehaviour:
     priority: 100
     spatial: 1
     loop: 0
+  - id: phone_shriek
+    clips:
+    - {fileID: 8300000, guid: a878ed0f09ed09b49a80dd5100df9fc3, type: 3}
+    bus: 4
+    gainDb: -8
+    pitchVariation: 0
+    minDistance: 1
+    maxDistance: 12
+    maxInstances: 1
+    priority: 20
+    spatial: 1
+    loop: 0
   - id: phone_breath
     clips:
     - {fileID: 8300000, guid: 98fa491b1a150a14f88e7f8b22a927d5, type: 3}

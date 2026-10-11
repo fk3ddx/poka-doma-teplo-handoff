@@ -61,7 +61,7 @@ namespace Ataka.Scenario {
    }
    if(Progress.Lap==6&&peepholeSeen)StartCoroutine(BeginChase());
   }
-  IEnumerator Phone(){Busy=true;yield return new WaitForSeconds(sound.Speak(true,flat.phone.position));Thought("…Это не я за дверью! Не открывай!..",sound.PhoneDuration);yield return new WaitForSeconds(sound.Speak(false,flat.phone.position));sound.Play("shriek",flat.phone.position);yield return new WaitForSeconds(1.2f);sound.PlayClose("phone_breath",flat.player.head.position);sound.Play("breath",flat.player.transform.position-flat.player.transform.forward-flat.player.transform.right*.5f);phoneAnswered=true;Busy=false;}
+  IEnumerator Phone(){Busy=true;yield return new WaitForSeconds(sound.Speak(true,flat.phone.position));Thought("…Это не я за дверью! Не открывай!..",sound.PhoneDuration);yield return new WaitForSeconds(sound.Speak(false,flat.phone.position));sound.PlayReceiver("phone_shriek");yield return new WaitForSeconds(1.2f);sound.PlayReceiver("phone_breath");sound.Play("breath",flat.player.transform.position-flat.player.transform.forward-flat.player.transform.right*.5f);phoneAnswered=true;Busy=false;}
   public IEnumerator Event(LapGate gate){
    if(Busy)yield break;Busy=true;LastEvent=gate.ToString();
    if(gate==LapGate.Wardrobe){foreach(var leaf in flat.wardrobeLeaves)leaf.localRotation=Quaternion.identity;sound.Play("wardrobe",flat.wardrobe.position);Thought("Здесь. Здесь она меня…");yield return new WaitForSeconds(.4f);}

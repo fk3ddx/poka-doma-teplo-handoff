@@ -26,15 +26,16 @@ namespace Ataka.Scenario {
    }
   }
   void Start(){if(phoneWarning){var data=new float[phoneWarning.samples*phoneWarning.channels];phoneWarning.GetData(data,0);int ch=phoneWarning.channels;for(int i=0;i<phoneWarning.samples/2;i++)for(int c=0;c<ch;c++){int a=i*ch+c,b=(phoneWarning.samples-1-i)*ch+c;float value=data[a];data[a]=data[b];data[b]=value;}reversedPhone=AudioClip.Create("Phone reversed",phoneWarning.samples,ch,phoneWarning.frequency,false);reversedPhone.SetData(data,0);}}
-  public float Speak(bool reversed,Vector3 position){StopCue("phone");var clip=reversed?reversedPhone:phoneWarning;if(!clip)return 0;var v=StartVoice(VoiceCue,clip,position,.5f,null,true,true);if(v!=null){v.low.cutoffFrequency=3400;v.high.cutoffFrequency=300;}return clip.length;}
+  public float Speak(bool reversed,Vector3 position){StopCue("phone");StopCue("phone_voice");var clip=reversed?reversedPhone:phoneWarning;if(!clip)return 0;var v=StartVoice(VoiceCue,clip,position,.5f,null,true,true);if(v!=null){v.low.cutoffFrequency=3400;v.high.cutoffFrequency=300;}return clip.length;}
   public void Grandmother(Vector3 position){if(!grandmotherKnock)return;var v=StartVoice(DoorVoiceCue,grandmotherKnock,position,.4f,null,false,false);if(v!=null)v.low.cutoffFrequency=1200;}
   readonly ScenarioSoundCue VoiceCue=new ScenarioSoundCue{id="phone_voice",bus=ScenarioBus.Voice,gainDb=-9,pitchVariation=0,spatial=false,maxInstances=1,priority=20};
   readonly ScenarioSoundCue DoorVoiceCue=new ScenarioSoundCue{id="door_voice",bus=ScenarioBus.Voice,gainDb=-6,pitchVariation=0,maxInstances=1,priority=20,minDistance=1,maxDistance=10};
   public void Play(string id,Vector3 position,float volume=.4f,Transform anchor=null){PlayInternal(id,position,volume,anchor,false);}
   public void PlayClose(string id,Vector3 position,float volume=.4f){PlayInternal(id,position,volume,null,true);}
-  void PlayInternal(string id,Vector3 position,float volume,Transform anchor,bool close){
-   if(!cues.TryGetValue(id,out var cue)||cue.clips==null||cue.clips.Length==0){if(missing.Add(id))Debug.LogWarning("Missing recorded sound: "+id);return;}
-   if(quiet&&!close)return;int index=ChooseClip(cue);StartVoice(cue,cue.clips[index],position,volume,anchor,close,close);
+  public void PlayReceiver(string id,float volume=.4f){var v=PlayInternal(id,listener.position,volume,null,true);if(v!=null){v.low.cutoffFrequency=3400;v.high.cutoffFrequency=300;}}
+  Voice PlayInternal(string id,Vector3 position,float volume,Transform anchor,bool close){
+   if(!cues.TryGetValue(id,out var cue)||cue.clips==null||cue.clips.Length==0){if(missing.Add(id))Debug.LogWarning("Missing recorded sound: "+id);return null;}
+   if(quiet&&!close)return null;int index=ChooseClip(cue);return StartVoice(cue,cue.clips[index],position,volume,anchor,close,close);
   }
   int ChooseClip(ScenarioSoundCue cue){int n=cue.clips.Length,index=UnityEngine.Random.Range(0,n);if(n>1&&lastClips.TryGetValue(cue.id,out var last)&&index==last)index=(index+1+UnityEngine.Random.Range(0,n-1))%n;lastClips[cue.id]=index;return index;}
   Voice StartVoice(ScenarioSoundCue cue,AudioClip clip,Vector3 position,float volume,Transform anchor,bool force2D,bool bypassQuiet){
@@ -70,7 +71,7 @@ namespace Ataka.Scenario {
     if(v.cue==null)continue;var s=v.source;if(!s.isPlaying){v.cue=null;continue;}if(v.anchor)s.transform.position=v.anchor.position;
     if(testObstruction&&s.spatialBlend>0){var d=s.transform.position-listener.position;float length=d.magnitude;v.obstructionTarget=length>.25f&&Physics.Raycast(listener.position,d.normalized,out var hit,length-.15f,~(1<<31),QueryTriggerInteraction.Ignore)&&(!v.anchor||!hit.transform.IsChildOf(v.anchor))?1:0;}
     v.occluded=Mathf.MoveTowards(v.occluded,v.obstructionTarget,Time.deltaTime/.15f);
-    if(v.cue.id!="phone_voice"&&v.cue.id!="door_voice")v.low.cutoffFrequency=Mathf.Lerp(v.low.cutoffFrequency,v.occluded>0?1800:22000,1-Mathf.Exp(-Time.deltaTime/ .15f));
+    if(!v.cue.id.StartsWith("phone_",StringComparison.Ordinal)&&v.cue.id!="door_voice")v.low.cutoffFrequency=Mathf.Lerp(v.low.cutoffFrequency,v.occluded>0?1800:22000,1-Mathf.Exp(-Time.deltaTime/ .15f));
     v.fade=Mathf.MoveTowards(v.fade,v.cue.loop&&!v.wanted?0:1,Time.deltaTime/.2f);
     float gain=v.bypassQuiet?1:worldGain;s.volume=v.baseGain*v.fade*gain*Mathf.Lerp(1,.5f,v.occluded);
     if(v.cue.loop&&!v.wanted&&v.fade<=0){s.Stop();v.cue=null;}
