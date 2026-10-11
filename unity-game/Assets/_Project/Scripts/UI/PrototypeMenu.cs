@@ -23,19 +23,29 @@ namespace Ataka
             if (session.Paused)
             {
                 GUI.Box(new Rect(0, 0, width, height), GUIContent.none);
-                GUILayout.BeginArea(new Rect(width / 2 - 255, height / 2 - 280, 510, 560), GUI.skin.box);
+                GUILayout.BeginArea(new Rect(width / 2 - 255, height / 2 - 315, 510, 630), GUI.skin.box);
                 GUILayout.Label("АТАКА НА ЗАПОМИНАНИЕ", title);
                 GUILayout.Label(milestoneDescription, text);
                 GUILayout.Space(15);
                 if (options)
                 {
+                    bool previousChanged=GUI.changed;GUI.changed=false;
+                    GUILayout.Label("Качество графики",text);
+                    session.settings.quality=(VisualQuality)GUILayout.SelectionGrid((int)session.settings.quality,new[]{"Высокое","Среднее","Низкое"},3,button);
+                    GUILayout.Label("Чёткость изображения",text);
+                    session.settings.rasterStyle=(RasterStyle)GUILayout.SelectionGrid((int)session.settings.rasterStyle,new[]{"Основной · 540","Чётко · 720","Ретро · 360"},3,button);
+                    GUILayout.Label("Лимит кадров",text);
+                    int[] limits={30,60,120,-1};
+                    int selected=System.Array.IndexOf(limits,session.settings.fpsLimit);
+                    session.settings.fpsLimit=limits[GUILayout.SelectionGrid(Mathf.Max(0,selected),new[]{"30","60","120","Без лимита"},4,button)];
                     GUILayout.Label("Чувствительность мыши", text);
                     session.settings.sensitivity = GUILayout.HorizontalSlider(session.settings.sensitivity, .025f, .25f);
                     GUILayout.Label("Поле зрения: " + Mathf.RoundToInt(session.settings.fieldOfView), text);
                     session.settings.fieldOfView = GUILayout.HorizontalSlider(session.settings.fieldOfView, 60, 90);
                     session.settings.invertY = GUILayout.Toggle(session.settings.invertY, "Инверсия Y");
                     session.settings.vhs = GUILayout.Toggle(session.settings.vhs, "Лёгкий VHS");
-                    session.ApplySettings();
+                    if(GUI.changed)session.ApplySettings();
+                    GUI.changed=previousChanged||GUI.changed;
                     if (GUILayout.Button("Назад", button)) { session.SaveSettings(); options = false; }
                 }
                 else

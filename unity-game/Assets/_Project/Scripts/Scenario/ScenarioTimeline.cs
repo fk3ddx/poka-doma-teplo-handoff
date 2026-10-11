@@ -1,0 +1,77 @@
+using System.Collections;
+using UnityEngine;
+using UnityEngine.Playables;
+using UnityEngine.Timeline;
+using Unity.Cinemachine;
+namespace Ataka.Scenario {
+ public sealed class ScenarioTimeline:MonoBehaviour {
+  public FlatBindings flat;public ScenarioSound sound;public LoopDirector loop;public PlayableDirector director;public CinemachineCamera cine;
+  public TimelineAsset underBed,balcony,television,hanging,peephole,death,chaseStart;
+  public CloseupHand leftHand,rightHand;
+  public LineRenderer rope;public Light landingLight;
+  public DeathVeil veil;int deathsViewed;float skipHeld;
+  public string PlayingScene{get;private set;}public float FrameTime{get;private set;}
+  void HeadAt(Transform actor,Vector3 point){var animator=actor.GetComponent<Animator>();var bone=animator.GetBoneTransform(HumanBodyBones.Head);actor.position+=point-bone.position;}
+  public void BalconyWaiting(){flat.guest.SetActive(true);var g=flat.guest.transform;g.localScale=guestScale;g.rotation=Quaternion.Euler(0,0,180);HeadAt(g,new Vector3(5.175f,1.8f,-.3f));}
+  public float screenBlack,screenRed,screenWhite;Quaternion startHead;Vector3 startGuest,startHeadPosition;bool fired;float lastTime;Vector3 guestScale;
+  void Awake(){guestScale=flat.guest.transform.localScale;}
+  public void Cancel(){director.Stop();screenBlack=screenWhite=screenRed=0;flat.look.peephole=flat.look.disruption=0;flat.player.control=true;flat.player.head.localPosition=Vector3.up*(flat.player.crouched?.94f:1.55f);if(leftHand)leftHand.gameObject.SetActive(false);if(rightHand)rightHand.gameObject.SetActive(false);flat.guest.SetActive(false);flat.grandmother.SetActive(false);}
+  public IEnumerator Play(string name){
+   PlayingScene=name;
+   var timeline=name=="UnderBed"?underBed:name=="BalconyPalm"?balcony:name=="Television"?television:name=="HangingVision"?hanging:name=="Peephole"?peephole:name=="DeathShort"?death:chaseStart;
+   flat.player.control=false;startHead=flat.player.head.localRotation;startHeadPosition=flat.player.head.localPosition;fired=false;lastTime=-1;screenBlack=screenRed=screenWhite=0;
+   var g=flat.guest.transform;flat.guest.GetComponent<ProxyPose>().Stand();g.position=flat.player.head.position+flat.player.head.forward*.65f-Vector3.up*1.6f;g.rotation=Quaternion.LookRotation(-flat.player.head.forward,Vector3.up);startGuest=g.position;
+   flat.guest.SetActive(false);flat.grandmother.SetActive(false);
+   director.playableAsset=timeline;foreach(var output in timeline.outputs)director.SetGenericBinding(output.sourceObject,this);
+   director.time=0;director.Play();skipHeld=0;while(director.state==PlayState.Playing){if(name=="DeathShort"&&deathsViewed>0){skipHeld=UnityEngine.InputSystem.Keyboard.current?.eKey.isPressed==true?skipHeld+Time.deltaTime:0;if(skipHeld>=.6f)break;}yield return null;}if(name=="DeathShort")deathsViewed++;
+   director.Stop();screenBlack=screenWhite=screenRed=0;if(leftHand)leftHand.gameObject.SetActive(false);if(rightHand)rightHand.gameObject.SetActive(false);flat.guest.SetActive(false);flat.grandmother.SetActive(false);flat.player.head.localRotation=startHead;flat.player.head.localPosition=startHeadPosition;flat.guest.transform.localScale=guestScale;
+   var lens=cine.Lens;lens.FieldOfView=65;cine.Lens=lens;flat.player.control=true;flat.player.flashlight.enabled=true;flat.look.peephole=0;if(landingLight)landingLight.intensity=0;if(rope)rope.enabled=false;if(veil)veil.At(-1);sound.quiet=false;PlayingScene=null;
+  }
+  void SoundAt(float t,float at,string id,Vector3 p){if(lastTime<at&&t>=at)sound.Play(id,p);}
+  public void Evaluate(string name,float t){
+   FrameTime=t;
+   var p=flat.player;var guest=flat.guest.transform;var head=p.head;
+   if(name=="UnderBed"){
+    flat.guest.SetActive(true);guest.localScale=guestScale;guest.rotation=Quaternion.Euler(90,180,0);HeadAt(guest,flat.bed.position);
+    if(t>=1){HeadAt(guest,Vector3.Lerp(flat.bed.position,head.position+head.forward*.25f,Mathf.Clamp01((t-1)*10)));screenWhite=Mathf.Max(0,1-(t-1)*5);SoundAt(t,1,"shriek",head.position);}
+   }else if(name=="BalconyPalm"){
+    BalconyWaiting();SoundAt(t,0,"impact",flat.balcony.position);
+    if(rightHand)rightHand.World(new Vector3(5.175f,1.3f,Mathf.Lerp(-.35f,-.015f,Mathf.Clamp01(t*10))),Vector3.up);
+   }else if(name=="Television"){
+    flat.televisionLight.intensity=0;SoundAt(t,0,"tick",flat.television.position);
+   }else if(name=="HangingVision"){
+    flat.bedroom.open=true;flat.grandmother.SetActive(t<5);var grandmother=flat.grandmother.transform;grandmother.position=new Vector3(1.4f,.45f,2.2f);grandmother.rotation=Quaternion.Euler(0,Mathf.Lerp(180,0,Mathf.Clamp01((t-3.5f)/1)),0);
+    flat.stool.transform.SetPositionAndRotation(new Vector3(1.65f,.22f,2.2f),Quaternion.Euler(0,20,90));flat.slipper.transform.position=new Vector3(1.2f,.015f,2.65f);
+    if(rope){rope.enabled=t<5;rope.SetPosition(0,new Vector3(1.4f,2.5f,2.2f));rope.SetPosition(1,new Vector3(1.4f,1.9f,2.2f));}
+    var feet=grandmother.position+Vector3.up*.1f;var face=grandmother.position+Vector3.up*1.5f;
+    Vector3 target=t<2?feet:Vector3.Lerp(feet,face,Mathf.Clamp01((t-2)/1.5f));head.rotation=Quaternion.Slerp(head.rotation,Quaternion.LookRotation(target-head.position),.12f);
+    p.flashlight.intensity=t>=4.5f&&t<4.9f?0:3;
+    SoundAt(t,0,"creak",grandmother.position);SoundAt(t,3.5f,"breath",grandmother.position);SoundAt(t,4.5f,"shriek",head.position);
+    if(t>=5&&!fired){fired=true;loop.Thought("Нет. Нет-нет-нет…");}SoundAt(t,6,"tick",flat.carpet.transform.position);
+   }else if(name=="Peephole"){
+    flat.look.peephole=1;
+    if(landingLight)landingLight.intensity=.7f;if(lastTime<0)sound.Grandmother(new Vector3(8.05f,1.8f,6.65f));
+    flat.guest.SetActive(true);guest.localScale=guestScale;guest.position=new Vector3(8.05f,0,6.65f);guest.rotation=Quaternion.Euler(0,t<3?0:Mathf.Lerp(0,180,Mathf.Clamp01((t-3)/1.5f)),0);
+    var lens=cine.Lens;lens.FieldOfView=85;cine.Lens=lens;
+    head.position=new Vector3(8.05f,1.5f,6.22f);head.rotation=Quaternion.Euler(0,0,0);
+    if(t>5)guest.position+=Vector3.back*Mathf.Min(.38f,(t-5)*.2f);SoundAt(t,0,"breath",guest.position);
+   }else if(name=="DeathShort"){
+    sound.quiet=true;if(veil)veil.At(t);
+    if(leftHand)leftHand.Frame(head,t);if(rightHand)rightHand.Frame(head,t);
+    flat.guest.SetActive(t<2.5f);guest.localScale=guestScale;guest.position=startGuest;HeadAt(guest,head.position+head.forward*.3f-Vector3.up*.07f);var lens=cine.Lens;lens.FieldOfView=Mathf.Lerp(70,55,Mathf.Clamp01(t/.08f));cine.Lens=lens;
+    head.localRotation=startHead*Quaternion.Euler(Mathf.Sin(t*55)*1.5f,Mathf.Cos(t*41)*1,0);
+    SoundAt(t,0,"breath",head.position);SoundAt(t,.3f,"creak",head.position);SoundAt(t,1,"impact",head.position);SoundAt(t,1.5f,"shriek",head.position);
+    screenRed=t>=1.5f?Mathf.Clamp01((t-1.5f)*2):0;screenBlack=t>=2.5f?1:0;
+   }else if(name=="ChaseStart"){
+    flat.entrance.open=true;SoundAt(t,0,"impact",flat.entrance.transform.position);SoundAt(t,.5f,"shriek",flat.entrance.transform.position);
+    head.localRotation=startHead*Quaternion.Euler(0,Mathf.SmoothStep(0,180,Mathf.Clamp01((t-.5f)/.4f)),0);
+   }
+   lastTime=t;
+  }
+  void OnGUI(){// Temporary full-frame cutscene masks; replaced by face-tear mesh before final character art approval.
+   if(screenWhite>0){GUI.color=new Color(1,1,1,screenWhite);GUI.DrawTexture(new Rect(0,0,Screen.width,Screen.height),Texture2D.whiteTexture);}
+   if(screenRed>0){GUI.color=new Color(.28f,0,0,screenRed*.85f);GUI.DrawTexture(new Rect(0,0,Screen.width,Screen.height),Texture2D.whiteTexture);}
+   if(screenBlack>0){GUI.color=new Color(0,0,0,screenBlack);GUI.DrawTexture(new Rect(0,0,Screen.width,Screen.height),Texture2D.whiteTexture);}GUI.color=Color.white;
+  }
+ }
+}

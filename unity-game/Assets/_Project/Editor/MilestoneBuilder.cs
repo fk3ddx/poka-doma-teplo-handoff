@@ -38,8 +38,8 @@ namespace Ataka.Editor
 
             Box("Bedroom floor", new Vector3(1.4f, -.09f, 2.2f), new Vector3(2.8f, .18f, 4.4f), floor);
             Box("Apartment floor", new Vector3(5.8f, -.09f, 3), new Vector3(6, .18f, 6), floor);
-            Box("Bedroom ceiling", new Vector3(1.4f, 2.59f, 2.2f), new Vector3(2.8f, .18f, 4.4f), ceiling);
-            Box("Apartment ceiling", new Vector3(5.8f, 2.59f, 3), new Vector3(6, .18f, 6), ceiling);
+            Box("Bedroom ceiling", new Vector3(1.4f, 2.59f, 2.2f), new Vector3(3.5f, .18f, 5.1f), ceiling);
+            Box("Apartment ceiling", new Vector3(5.8f, 2.59f, 3), new Vector3(6.7f, .18f, 6.7f), ceiling);
             Box("West exterior", new Vector3(-.175f, 1.25f, 2.2f), new Vector3(.35f, 2.5f, 4.75f), wall);
             Box("East exterior", new Vector3(8.975f, 1.25f, 3), new Vector3(.35f, 2.5f, 6.35f), wall);
             Box("Bedroom rear exterior", new Vector3(1.4f, 1.25f, 4.575f), new Vector3(2.8f, 2.5f, .35f), wall);
@@ -78,6 +78,7 @@ namespace Ataka.Editor
             Lamp("bedroom", new Vector3(1.4f, 2.25f, 2.1f), new Vector3(2.74f, 1.3f, 3), 1.3f);
             Lamp("hall", new Vector3(7.4f, 2.3f, 4.5f), new Vector3(8.72f, 1.3f, 5.5f), 1);
             Lamp("bath", new Vector3(3.7f, 2.25f, 5.2f), new Vector3(4.53f, 1.3f, 4.7f), .7f);
+            SealWallTops();
             Exterior();
             var actor = new GameObject("Player"); actor.layer = 2;
             actor.transform.position = new Vector3(7.4f, Floor + .02f, 5.25f);
@@ -105,6 +106,18 @@ namespace Ataka.Editor
             EditorBuildSettings.scenes = new[] { new EditorBuildSettingsScene(ScenePath, true) };
             AssetDatabase.SaveAssets();
             Debug.Log("M0_SCENE_GENERATED " + ScenePath);
+        }
+
+        static void SealWallTops()
+        {
+            // A 20mm overlap avoids exposed raster cracks at the ceiling/wall boundary.
+            foreach(var renderer in apartment.GetComponentsInChildren<MeshRenderer>())
+            {
+                if(renderer.sharedMaterial!=wall)continue;
+                var t=renderer.transform;float top=t.localPosition.y+t.localScale.y*.5f;
+                if(Mathf.Abs(top-2.5f)>.001f)continue;
+                t.localPosition+=Vector3.up*.01f;t.localScale+=Vector3.up*.02f;
+            }
         }
 
         static void ConfigureProject()

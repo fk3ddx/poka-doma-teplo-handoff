@@ -1,0 +1,1034 @@
+{
+  "Diffuse": {
+    "8k": {
+      "jpg": {
+        "size": 30226103,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/8k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_diff_8k.jpg",
+        "md5": "c21a2aa289d540eb751d3a957b02f889"
+      },
+      "png": {
+        "size": 79615604,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/8k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_diff_8k.png",
+        "md5": "dfa78297abd0217fa8d406924a5d7448"
+      },
+      "exr": {
+        "size": 66032556,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/8k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_diff_8k.exr",
+        "md5": "3162aa61523c75badc1f44e2899025d7"
+      }
+    },
+    "4k": {
+      "jpg": {
+        "size": 7770017,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/4k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_diff_4k.jpg",
+        "md5": "e915e3a6f3578214c949dd1a4ae80f61"
+      },
+      "png": {
+        "size": 17330550,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/4k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_diff_4k.png",
+        "md5": "8a03de5aab5cf6ab93f780adbd13a2ae"
+      },
+      "exr": {
+        "size": 16215437,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/4k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_diff_4k.exr",
+        "md5": "510c64101cbfc0b9d1c1eeea4e1049dc"
+      }
+    },
+    "2k": {
+      "jpg": {
+        "size": 2187674,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_diff_2k.jpg",
+        "md5": "7448374986003ef45729f9a32ac060ea"
+      },
+      "png": {
+        "size": 4648664,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/2k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_diff_2k.png",
+        "md5": "60765cfd47b334f271466529a1c1f202"
+      },
+      "exr": {
+        "size": 4575715,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/2k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_diff_2k.exr",
+        "md5": "e50824d0dab9ad4b85739213aee65d76"
+      }
+    },
+    "1k": {
+      "jpg": {
+        "size": 635877,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_diff_1k.jpg",
+        "md5": "12eaa27814638af877c35b8c32b7be81"
+      },
+      "png": {
+        "size": 1367400,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/1k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_diff_1k.png",
+        "md5": "60a59d4177b1f121081da35f8bf6b0be"
+      },
+      "exr": {
+        "size": 1351796,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/1k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_diff_1k.exr",
+        "md5": "29ad0db00f136040d1f683f63b1bf53c"
+      }
+    }
+  },
+  "nor_dx": {
+    "8k": {
+      "jpg": {
+        "size": 27744007,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/8k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_nor_dx_8k.jpg",
+        "md5": "4897b912e0b7a9baf055d6d3e53469f0"
+      },
+      "png": {
+        "size": 54360722,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/8k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_nor_dx_8k.png",
+        "md5": "87beddf6cb71b37ce0eefb69ac970343"
+      },
+      "exr": {
+        "size": 60833075,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/8k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_nor_dx_8k.exr",
+        "md5": "986313c6e363e616a62676c1913c5e23"
+      }
+    },
+    "4k": {
+      "jpg": {
+        "size": 7239227,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/4k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_nor_dx_4k.jpg",
+        "md5": "51e876471717c90fa63f0c51c2d2f427"
+      },
+      "png": {
+        "size": 14505414,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/4k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_nor_dx_4k.png",
+        "md5": "a443d9a2bccc271cebe38a608b35e70b"
+      },
+      "exr": {
+        "size": 14982096,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/4k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_nor_dx_4k.exr",
+        "md5": "8784cb4eff243e04da7c5b1121718cca"
+      }
+    },
+    "2k": {
+      "jpg": {
+        "size": 2036502,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_nor_dx_2k.jpg",
+        "md5": "7987823974249ea157ec8750a058d034"
+      },
+      "png": {
+        "size": 3840041,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/2k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_nor_dx_2k.png",
+        "md5": "95d9489cefaff223158d7bf55b48901f"
+      },
+      "exr": {
+        "size": 4136330,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/2k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_nor_dx_2k.exr",
+        "md5": "cf263ac8cb08420777d7a6cac5d38cb7"
+      }
+    },
+    "1k": {
+      "jpg": {
+        "size": 603006,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_nor_dx_1k.jpg",
+        "md5": "ce9e3b251b4d4af2bc7f9ebc9c2a5da3"
+      },
+      "png": {
+        "size": 1111653,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/1k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_nor_dx_1k.png",
+        "md5": "98c10fe93f50fe7e007c08dbacbe07b2"
+      },
+      "exr": {
+        "size": 1235130,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/1k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_nor_dx_1k.exr",
+        "md5": "c0f0037c5b1ee6cbaa1095da886673bb"
+      }
+    }
+  },
+  "nor_gl": {
+    "8k": {
+      "jpg": {
+        "size": 27747866,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/8k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_nor_gl_8k.jpg",
+        "md5": "5ffaf87f695d991cc718451e28713910"
+      },
+      "png": {
+        "size": 54361452,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/8k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_nor_gl_8k.png",
+        "md5": "4f578e07e6da6f774c39ea66ae3df044"
+      },
+      "exr": {
+        "size": 61176043,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/8k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_nor_gl_8k.exr",
+        "md5": "e6955addb8f9b8b9cab7594d73685113"
+      }
+    },
+    "4k": {
+      "jpg": {
+        "size": 7243448,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/4k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_nor_gl_4k.jpg",
+        "md5": "1dd7ead79fa677df6bb8681a1739ccc0"
+      },
+      "png": {
+        "size": 14505067,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/4k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_nor_gl_4k.png",
+        "md5": "e96d7510414844a12bd086b4b9c24815"
+      },
+      "exr": {
+        "size": 15149269,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/4k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_nor_gl_4k.exr",
+        "md5": "ed6102e4922535a0b7d1465cea4b724b"
+      }
+    },
+    "2k": {
+      "jpg": {
+        "size": 2034505,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_nor_gl_2k.jpg",
+        "md5": "1519e8b32f7c094de8e6aae3de68f856"
+      },
+      "png": {
+        "size": 3841306,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/2k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_nor_gl_2k.png",
+        "md5": "9afbf4136790d7b8dcc6dd8c2c350ef6"
+      },
+      "exr": {
+        "size": 4183130,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/2k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_nor_gl_2k.exr",
+        "md5": "ed86a30852911ec7681d74742f765e2e"
+      }
+    },
+    "1k": {
+      "jpg": {
+        "size": 602065,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_nor_gl_1k.jpg",
+        "md5": "b45fb7bba30b2c57dbdefed640302d5e"
+      },
+      "png": {
+        "size": 1111612,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/1k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_nor_gl_1k.png",
+        "md5": "b1031bbc76dba50eb5056af018dff485"
+      },
+      "exr": {
+        "size": 1244870,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/1k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_nor_gl_1k.exr",
+        "md5": "41a4a229a3efa0e708d98b07613208fc"
+      }
+    }
+  },
+  "blend": {
+    "8k": {
+      "blend": {
+        "include": {
+          "textures/vintage_grandfather_clock_01_rough_8k.exr": {
+            "size": 37953035,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/8k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_rough_8k.exr",
+            "md5": "2ccdc16760c416350fc659f0323b4f02"
+          },
+          "textures/vintage_grandfather_clock_01_diff_8k.jpg": {
+            "size": 30226103,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/8k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_diff_8k.jpg",
+            "md5": "c21a2aa289d540eb751d3a957b02f889"
+          },
+          "textures/vintage_grandfather_clock_01_nor_gl_8k.exr": {
+            "size": 61176043,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/8k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_nor_gl_8k.exr",
+            "md5": "e6955addb8f9b8b9cab7594d73685113"
+          },
+          "textures/vintage_grandfather_clock_01_metal_8k.exr": {
+            "size": 1547322,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/8k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_metal_8k.exr",
+            "md5": "2c98fea94ef363bb433ceb8a2ebc83fc"
+          }
+        },
+        "size": 580931,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/blend/8k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_8k.blend",
+        "md5": "8f806c4d1cbbe151a6112e4f31bff90b"
+      }
+    },
+    "4k": {
+      "blend": {
+        "include": {
+          "textures/vintage_grandfather_clock_01_nor_gl_4k.exr": {
+            "size": 15149269,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/4k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_nor_gl_4k.exr",
+            "md5": "ed6102e4922535a0b7d1465cea4b724b"
+          },
+          "textures/vintage_grandfather_clock_01_rough_4k.exr": {
+            "size": 10730266,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/4k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_rough_4k.exr",
+            "md5": "3f1c55c8b6971861595e91dd9faa125c"
+          },
+          "textures/vintage_grandfather_clock_01_diff_4k.jpg": {
+            "size": 7770017,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/4k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_diff_4k.jpg",
+            "md5": "e915e3a6f3578214c949dd1a4ae80f61"
+          },
+          "textures/vintage_grandfather_clock_01_metal_4k.exr": {
+            "size": 665247,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/4k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_metal_4k.exr",
+            "md5": "d6aa2cd2408e1152a3b1a3577ad346dc"
+          }
+        },
+        "size": 609210,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/blend/4k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_4k.blend",
+        "md5": "a0cf78521ff6be11293a575786e796ea"
+      }
+    },
+    "2k": {
+      "blend": {
+        "include": {
+          "textures/vintage_grandfather_clock_01_nor_gl_2k.exr": {
+            "size": 4183130,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/2k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_nor_gl_2k.exr",
+            "md5": "ed86a30852911ec7681d74742f765e2e"
+          },
+          "textures/vintage_grandfather_clock_01_rough_2k.exr": {
+            "size": 3167321,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/2k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_rough_2k.exr",
+            "md5": "6a2c6b2bced833371c7a0d857755f98a"
+          },
+          "textures/vintage_grandfather_clock_01_metal_2k.exr": {
+            "size": 271886,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/2k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_metal_2k.exr",
+            "md5": "5846aa8ffe886f4fbdabdcb7004ea6df"
+          },
+          "textures/vintage_grandfather_clock_01_diff_2k.jpg": {
+            "size": 2187674,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_diff_2k.jpg",
+            "md5": "7448374986003ef45729f9a32ac060ea"
+          }
+        },
+        "size": 601980,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/blend/2k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_2k.blend",
+        "md5": "c048f9396cdbeed8951aff8319832f45"
+      }
+    },
+    "1k": {
+      "blend": {
+        "include": {
+          "textures/vintage_grandfather_clock_01_metal_1k.exr": {
+            "size": 111915,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/1k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_metal_1k.exr",
+            "md5": "ca99d9c55b340057c7d623c1347229c2"
+          },
+          "textures/vintage_grandfather_clock_01_rough_1k.exr": {
+            "size": 981936,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/1k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_rough_1k.exr",
+            "md5": "21691ff74d897462133f1aa7a290032a"
+          },
+          "textures/vintage_grandfather_clock_01_nor_gl_1k.exr": {
+            "size": 1244870,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/1k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_nor_gl_1k.exr",
+            "md5": "41a4a229a3efa0e708d98b07613208fc"
+          },
+          "textures/vintage_grandfather_clock_01_diff_1k.jpg": {
+            "size": 635877,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_diff_1k.jpg",
+            "md5": "12eaa27814638af877c35b8c32b7be81"
+          }
+        },
+        "size": 589033,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/blend/1k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_1k.blend",
+        "md5": "4cfdb6190ec3a071e1fb30ea310bc8fd"
+      }
+    }
+  },
+  "gltf": {
+    "8k": {
+      "gltf": {
+        "include": {
+          "textures/vintage_grandfather_clock_01_nor_gl_8k.jpg": {
+            "size": 27747866,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/8k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_nor_gl_8k.jpg",
+            "md5": "5ffaf87f695d991cc718451e28713910"
+          },
+          "textures/vintage_grandfather_clock_01_arm_8k.jpg": {
+            "size": 30909148,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/8k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_arm_8k.jpg",
+            "md5": "5b323f530c185f5a504c44e6c4e1aad5"
+          },
+          "textures/vintage_grandfather_clock_01_diff_8k.jpg": {
+            "size": 30226103,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/8k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_diff_8k.jpg",
+            "md5": "c21a2aa289d540eb751d3a957b02f889"
+          },
+          "vintage_grandfather_clock_01.bin": {
+            "size": 337096,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/8k/vintage_grandfather_clock_01/vintage_grandfather_clock_01.bin",
+            "md5": "acaa3b0b8a422c99da9211f6ac4bbf2b"
+          }
+        },
+        "size": 8727,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/8k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_8k.gltf",
+        "md5": "d90017d4715a55c7c62f1747f601c11f"
+      }
+    },
+    "4k": {
+      "gltf": {
+        "include": {
+          "textures/vintage_grandfather_clock_01_diff_4k.jpg": {
+            "size": 7770017,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/4k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_diff_4k.jpg",
+            "md5": "e915e3a6f3578214c949dd1a4ae80f61"
+          },
+          "textures/vintage_grandfather_clock_01_arm_4k.jpg": {
+            "size": 8622737,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/4k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_arm_4k.jpg",
+            "md5": "60668f04704f7b7ebefa6f596496e4f4"
+          },
+          "textures/vintage_grandfather_clock_01_nor_gl_4k.jpg": {
+            "size": 7243448,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/4k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_nor_gl_4k.jpg",
+            "md5": "1dd7ead79fa677df6bb8681a1739ccc0"
+          },
+          "vintage_grandfather_clock_01.bin": {
+            "size": 337096,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/8k/vintage_grandfather_clock_01/vintage_grandfather_clock_01.bin",
+            "md5": "acaa3b0b8a422c99da9211f6ac4bbf2b"
+          }
+        },
+        "size": 8727,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/4k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_4k.gltf",
+        "md5": "332a66d03592397e1847a35f90ecbd02"
+      }
+    },
+    "2k": {
+      "gltf": {
+        "include": {
+          "textures/vintage_grandfather_clock_01_nor_gl_2k.jpg": {
+            "size": 2034505,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_nor_gl_2k.jpg",
+            "md5": "1519e8b32f7c094de8e6aae3de68f856"
+          },
+          "textures/vintage_grandfather_clock_01_arm_2k.jpg": {
+            "size": 2581760,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_arm_2k.jpg",
+            "md5": "9763544cdd5b87abcefa6dd2471c6bc8"
+          },
+          "vintage_grandfather_clock_01.bin": {
+            "size": 337096,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/8k/vintage_grandfather_clock_01/vintage_grandfather_clock_01.bin",
+            "md5": "acaa3b0b8a422c99da9211f6ac4bbf2b"
+          },
+          "textures/vintage_grandfather_clock_01_diff_2k.jpg": {
+            "size": 2187674,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_diff_2k.jpg",
+            "md5": "7448374986003ef45729f9a32ac060ea"
+          }
+        },
+        "size": 8727,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/2k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_2k.gltf",
+        "md5": "c8ec5677888133a546c50e82b784a783"
+      }
+    },
+    "1k": {
+      "gltf": {
+        "include": {
+          "textures/vintage_grandfather_clock_01_nor_gl_1k.jpg": {
+            "size": 602065,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_nor_gl_1k.jpg",
+            "md5": "b45fb7bba30b2c57dbdefed640302d5e"
+          },
+          "textures/vintage_grandfather_clock_01_arm_1k.jpg": {
+            "size": 773367,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_arm_1k.jpg",
+            "md5": "e0a4a2ae73049aed8d78b50f29d27a92"
+          },
+          "vintage_grandfather_clock_01.bin": {
+            "size": 337096,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/8k/vintage_grandfather_clock_01/vintage_grandfather_clock_01.bin",
+            "md5": "acaa3b0b8a422c99da9211f6ac4bbf2b"
+          },
+          "textures/vintage_grandfather_clock_01_diff_1k.jpg": {
+            "size": 635877,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_diff_1k.jpg",
+            "md5": "12eaa27814638af877c35b8c32b7be81"
+          }
+        },
+        "size": 8727,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/1k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_1k.gltf",
+        "md5": "cc83cd8bb893afb565f8c03d480d33bd"
+      }
+    }
+  },
+  "usd": {
+    "8k": {
+      "usd": {
+        "include": {
+          "textures/vintage_grandfather_clock_01_rough_8k.exr": {
+            "size": 37953035,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/8k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_rough_8k.exr",
+            "md5": "2ccdc16760c416350fc659f0323b4f02"
+          },
+          "textures/vintage_grandfather_clock_01_diff_8k.jpg": {
+            "size": 30226103,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/8k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_diff_8k.jpg",
+            "md5": "c21a2aa289d540eb751d3a957b02f889"
+          },
+          "textures/vintage_grandfather_clock_01_nor_gl_8k.exr": {
+            "size": 61176043,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/8k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_nor_gl_8k.exr",
+            "md5": "e6955addb8f9b8b9cab7594d73685113"
+          },
+          "textures/vintage_grandfather_clock_01_metal_8k.exr": {
+            "size": 1547322,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/8k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_metal_8k.exr",
+            "md5": "2c98fea94ef363bb433ceb8a2ebc83fc"
+          }
+        },
+        "size": 443473,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/usd/8k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_8k.usdc",
+        "md5": "91d32f3586bec7baa027e63b5ef57fe7"
+      }
+    },
+    "4k": {
+      "usd": {
+        "include": {
+          "textures/vintage_grandfather_clock_01_nor_gl_4k.exr": {
+            "size": 15149269,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/4k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_nor_gl_4k.exr",
+            "md5": "ed6102e4922535a0b7d1465cea4b724b"
+          },
+          "textures/vintage_grandfather_clock_01_rough_4k.exr": {
+            "size": 10730266,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/4k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_rough_4k.exr",
+            "md5": "3f1c55c8b6971861595e91dd9faa125c"
+          },
+          "textures/vintage_grandfather_clock_01_diff_4k.jpg": {
+            "size": 7770017,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/4k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_diff_4k.jpg",
+            "md5": "e915e3a6f3578214c949dd1a4ae80f61"
+          },
+          "textures/vintage_grandfather_clock_01_metal_4k.exr": {
+            "size": 665247,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/4k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_metal_4k.exr",
+            "md5": "d6aa2cd2408e1152a3b1a3577ad346dc"
+          }
+        },
+        "size": 443473,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/usd/4k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_4k.usdc",
+        "md5": "2bdf4751c1ac7bcbfd2a2bd35d2b85d7"
+      }
+    },
+    "2k": {
+      "usd": {
+        "include": {
+          "textures/vintage_grandfather_clock_01_nor_gl_2k.exr": {
+            "size": 4183130,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/2k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_nor_gl_2k.exr",
+            "md5": "ed86a30852911ec7681d74742f765e2e"
+          },
+          "textures/vintage_grandfather_clock_01_rough_2k.exr": {
+            "size": 3167321,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/2k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_rough_2k.exr",
+            "md5": "6a2c6b2bced833371c7a0d857755f98a"
+          },
+          "textures/vintage_grandfather_clock_01_metal_2k.exr": {
+            "size": 271886,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/2k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_metal_2k.exr",
+            "md5": "5846aa8ffe886f4fbdabdcb7004ea6df"
+          },
+          "textures/vintage_grandfather_clock_01_diff_2k.jpg": {
+            "size": 2187674,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_diff_2k.jpg",
+            "md5": "7448374986003ef45729f9a32ac060ea"
+          }
+        },
+        "size": 443473,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/usd/2k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_2k.usdc",
+        "md5": "d9eb9a74ac4e4278be0c438aaad4c269"
+      }
+    },
+    "1k": {
+      "usd": {
+        "include": {
+          "textures/vintage_grandfather_clock_01_metal_1k.exr": {
+            "size": 111915,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/1k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_metal_1k.exr",
+            "md5": "ca99d9c55b340057c7d623c1347229c2"
+          },
+          "textures/vintage_grandfather_clock_01_rough_1k.exr": {
+            "size": 981936,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/1k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_rough_1k.exr",
+            "md5": "21691ff74d897462133f1aa7a290032a"
+          },
+          "textures/vintage_grandfather_clock_01_nor_gl_1k.exr": {
+            "size": 1244870,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/1k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_nor_gl_1k.exr",
+            "md5": "41a4a229a3efa0e708d98b07613208fc"
+          },
+          "textures/vintage_grandfather_clock_01_diff_1k.jpg": {
+            "size": 635877,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_diff_1k.jpg",
+            "md5": "12eaa27814638af877c35b8c32b7be81"
+          }
+        },
+        "size": 443473,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/usd/1k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_1k.usdc",
+        "md5": "01d18404226d7810f334e172fdc5b7d7"
+      }
+    }
+  },
+  "Metal": {
+    "8k": {
+      "jpg": {
+        "size": 2552230,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/8k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_metal_8k.jpg",
+        "md5": "5cb96ac2a8c2d5b07fe4438319dc205d"
+      },
+      "png": {
+        "size": 804811,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/8k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_metal_8k.png",
+        "md5": "446d67f85fce6c8eede9ea133b1e46d8"
+      },
+      "exr": {
+        "size": 1547322,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/8k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_metal_8k.exr",
+        "md5": "2c98fea94ef363bb433ceb8a2ebc83fc"
+      }
+    },
+    "4k": {
+      "jpg": {
+        "size": 899240,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/4k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_metal_4k.jpg",
+        "md5": "b08a254af849540f6448739675366fb1"
+      },
+      "png": {
+        "size": 328325,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/4k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_metal_4k.png",
+        "md5": "55526ac3250a0192cc350482c2e97b32"
+      },
+      "exr": {
+        "size": 665247,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/4k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_metal_4k.exr",
+        "md5": "d6aa2cd2408e1152a3b1a3577ad346dc"
+      }
+    },
+    "2k": {
+      "jpg": {
+        "size": 359301,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_metal_2k.jpg",
+        "md5": "36a30c9f689997e1ad17263eeb1aad14"
+      },
+      "png": {
+        "size": 134424,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/2k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_metal_2k.png",
+        "md5": "c3dfee5bb54927aca414d9b213b82eb3"
+      },
+      "exr": {
+        "size": 271886,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/2k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_metal_2k.exr",
+        "md5": "5846aa8ffe886f4fbdabdcb7004ea6df"
+      }
+    },
+    "1k": {
+      "jpg": {
+        "size": 155124,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_metal_1k.jpg",
+        "md5": "a02dc202278d913e5a0a818fb415322e"
+      },
+      "png": {
+        "size": 55421,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/1k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_metal_1k.png",
+        "md5": "8caba58d0ee8c1b03725d280b0c6b9fc"
+      },
+      "exr": {
+        "size": 111915,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/1k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_metal_1k.exr",
+        "md5": "ca99d9c55b340057c7d623c1347229c2"
+      }
+    }
+  },
+  "opacity": {
+    "8k": {
+      "jpg": {
+        "size": 913167,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/8k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_opacity_8k.jpg",
+        "md5": "6a6233cdbcfd43c417ab39a2f890c9d5"
+      },
+      "png": {
+        "size": 233284,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/8k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_opacity_8k.png",
+        "md5": "e2385bbcf5c4f82ffaafd5eeafcd505a"
+      },
+      "exr": {
+        "size": 490825,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/8k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_opacity_8k.exr",
+        "md5": "0ea5085d066bf579644457f25203bf8d"
+      }
+    },
+    "4k": {
+      "jpg": {
+        "size": 241156,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/4k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_opacity_4k.jpg",
+        "md5": "33f2174cf03f423acf13e32e9f4053fe"
+      },
+      "png": {
+        "size": 76912,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/4k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_opacity_4k.png",
+        "md5": "21e25f93ec8eca1d22a6e69d74176a67"
+      },
+      "exr": {
+        "size": 153234,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/4k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_opacity_4k.exr",
+        "md5": "37408e4742481303a909b2d948cef674"
+      }
+    },
+    "2k": {
+      "jpg": {
+        "size": 65096,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_opacity_2k.jpg",
+        "md5": "d2ddca8f3b889cfa7ea6e2a88ae9ebbe"
+      },
+      "png": {
+        "size": 24989,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/2k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_opacity_2k.png",
+        "md5": "23f1b8e62bcd1c4ed832d3fe4643788d"
+      },
+      "exr": {
+        "size": 47906,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/2k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_opacity_2k.exr",
+        "md5": "6fe911a6ec3058eb9c03c0fa7b23bfa7"
+      }
+    },
+    "1k": {
+      "jpg": {
+        "size": 18249,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_opacity_1k.jpg",
+        "md5": "6a8195356dd42e05f6c9481dea433d4a"
+      },
+      "png": {
+        "size": 9026,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/1k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_opacity_1k.png",
+        "md5": "eeb6885352ff0245e880264724f790cd"
+      },
+      "exr": {
+        "size": 15981,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/1k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_opacity_1k.exr",
+        "md5": "0156afa4c6dd41029a87a3c411c185ea"
+      }
+    }
+  },
+  "arm": {
+    "8k": {
+      "jpg": {
+        "size": 30909148,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/8k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_arm_8k.jpg",
+        "md5": "5b323f530c185f5a504c44e6c4e1aad5"
+      },
+      "png": {
+        "size": 51951199,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/8k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_arm_8k.png",
+        "md5": "b3c2574407f1e6b5e2d72351cc7d6ac7"
+      },
+      "exr": {
+        "size": 66431210,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/8k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_arm_8k.exr",
+        "md5": "ffffa7c9f75b6dcfec8303bc906cc27a"
+      }
+    },
+    "4k": {
+      "jpg": {
+        "size": 8622737,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/4k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_arm_4k.jpg",
+        "md5": "60668f04704f7b7ebefa6f596496e4f4"
+      },
+      "png": {
+        "size": 14387321,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/4k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_arm_4k.png",
+        "md5": "dfe284fb13e7ebf9f1e68ca728d62080"
+      },
+      "exr": {
+        "size": 18170117,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/4k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_arm_4k.exr",
+        "md5": "a3b363ca148f17a23e7a8b062597fc87"
+      }
+    },
+    "2k": {
+      "jpg": {
+        "size": 2581760,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_arm_2k.jpg",
+        "md5": "9763544cdd5b87abcefa6dd2471c6bc8"
+      },
+      "png": {
+        "size": 3784210,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/2k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_arm_2k.png",
+        "md5": "04def1a39782393e90857ae667f83188"
+      },
+      "exr": {
+        "size": 5546343,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/2k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_arm_2k.exr",
+        "md5": "72be68af9d47d4d456efd0b96b9c0189"
+      }
+    },
+    "1k": {
+      "jpg": {
+        "size": 773367,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_arm_1k.jpg",
+        "md5": "e0a4a2ae73049aed8d78b50f29d27a92"
+      },
+      "png": {
+        "size": 1086556,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/1k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_arm_1k.png",
+        "md5": "ed31d55544184de0b65abba38dfaa8a3"
+      },
+      "exr": {
+        "size": 1702648,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/1k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_arm_1k.exr",
+        "md5": "1d280d867660b98838c5cd521d0a91fb"
+      }
+    }
+  },
+  "fbx": {
+    "8k": {
+      "fbx": {
+        "include": {
+          "textures/vintage_grandfather_clock_01_rough_8k.exr": {
+            "size": 37953035,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/8k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_rough_8k.exr",
+            "md5": "2ccdc16760c416350fc659f0323b4f02"
+          },
+          "textures/vintage_grandfather_clock_01_diff_8k.jpg": {
+            "size": 30226103,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/8k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_diff_8k.jpg",
+            "md5": "c21a2aa289d540eb751d3a957b02f889"
+          },
+          "textures/vintage_grandfather_clock_01_nor_gl_8k.exr": {
+            "size": 61176043,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/8k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_nor_gl_8k.exr",
+            "md5": "e6955addb8f9b8b9cab7594d73685113"
+          },
+          "textures/vintage_grandfather_clock_01_metal_8k.exr": {
+            "size": 1547322,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/8k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_metal_8k.exr",
+            "md5": "2c98fea94ef363bb433ceb8a2ebc83fc"
+          }
+        },
+        "size": 362924,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/fbx/8k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_8k.fbx",
+        "md5": "2dfcca04c02ad003c992dfde9ea7eab0"
+      }
+    },
+    "4k": {
+      "fbx": {
+        "include": {
+          "textures/vintage_grandfather_clock_01_nor_gl_4k.exr": {
+            "size": 15149269,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/4k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_nor_gl_4k.exr",
+            "md5": "ed6102e4922535a0b7d1465cea4b724b"
+          },
+          "textures/vintage_grandfather_clock_01_rough_4k.exr": {
+            "size": 10730266,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/4k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_rough_4k.exr",
+            "md5": "3f1c55c8b6971861595e91dd9faa125c"
+          },
+          "textures/vintage_grandfather_clock_01_diff_4k.jpg": {
+            "size": 7770017,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/4k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_diff_4k.jpg",
+            "md5": "e915e3a6f3578214c949dd1a4ae80f61"
+          },
+          "textures/vintage_grandfather_clock_01_metal_4k.exr": {
+            "size": 665247,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/4k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_metal_4k.exr",
+            "md5": "d6aa2cd2408e1152a3b1a3577ad346dc"
+          }
+        },
+        "size": 362924,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/fbx/4k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_4k.fbx",
+        "md5": "cebfa7ba9c010c4ad4d04fe7253a6765"
+      }
+    },
+    "2k": {
+      "fbx": {
+        "include": {
+          "textures/vintage_grandfather_clock_01_nor_gl_2k.exr": {
+            "size": 4183130,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/2k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_nor_gl_2k.exr",
+            "md5": "ed86a30852911ec7681d74742f765e2e"
+          },
+          "textures/vintage_grandfather_clock_01_rough_2k.exr": {
+            "size": 3167321,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/2k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_rough_2k.exr",
+            "md5": "6a2c6b2bced833371c7a0d857755f98a"
+          },
+          "textures/vintage_grandfather_clock_01_metal_2k.exr": {
+            "size": 271886,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/2k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_metal_2k.exr",
+            "md5": "5846aa8ffe886f4fbdabdcb7004ea6df"
+          },
+          "textures/vintage_grandfather_clock_01_diff_2k.jpg": {
+            "size": 2187674,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_diff_2k.jpg",
+            "md5": "7448374986003ef45729f9a32ac060ea"
+          }
+        },
+        "size": 362924,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/fbx/2k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_2k.fbx",
+        "md5": "56b76b118329729ccd5804928adfaff6"
+      }
+    },
+    "1k": {
+      "fbx": {
+        "include": {
+          "textures/vintage_grandfather_clock_01_metal_1k.exr": {
+            "size": 111915,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/1k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_metal_1k.exr",
+            "md5": "ca99d9c55b340057c7d623c1347229c2"
+          },
+          "textures/vintage_grandfather_clock_01_rough_1k.exr": {
+            "size": 981936,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/1k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_rough_1k.exr",
+            "md5": "21691ff74d897462133f1aa7a290032a"
+          },
+          "textures/vintage_grandfather_clock_01_nor_gl_1k.exr": {
+            "size": 1244870,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/1k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_nor_gl_1k.exr",
+            "md5": "41a4a229a3efa0e708d98b07613208fc"
+          },
+          "textures/vintage_grandfather_clock_01_diff_1k.jpg": {
+            "size": 635877,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_diff_1k.jpg",
+            "md5": "12eaa27814638af877c35b8c32b7be81"
+          }
+        },
+        "size": 362924,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/fbx/1k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_1k.fbx",
+        "md5": "81f707dbd76ac6444293faeddbc43ab9"
+      }
+    }
+  },
+  "AO": {
+    "8k": {
+      "jpg": {
+        "size": 20983262,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/8k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_ao_8k.jpg",
+        "md5": "c2429d28c3ea2cb139153b3be0e565f2"
+      },
+      "png": {
+        "size": 20507320,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/8k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_ao_8k.png",
+        "md5": "70961fd9a017e123bf2a184b4447be08"
+      },
+      "exr": {
+        "size": 31782144,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/8k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_ao_8k.exr",
+        "md5": "ddd5ac5beceb8145958f885a0c20fa56"
+      }
+    },
+    "4k": {
+      "jpg": {
+        "size": 5103503,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/4k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_ao_4k.jpg",
+        "md5": "d485a3507e29d94804b64b6e0b007d8b"
+      },
+      "png": {
+        "size": 5359900,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/4k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_ao_4k.png",
+        "md5": "e54c39483a4bd9b312a2a4e1674be23b"
+      },
+      "exr": {
+        "size": 8879357,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/4k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_ao_4k.exr",
+        "md5": "23f58eeaa47a57038ff923fdb8cbcc69"
+      }
+    },
+    "2k": {
+      "jpg": {
+        "size": 1413598,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_ao_2k.jpg",
+        "md5": "0374001f1b59c180f46ae6e9189608b7"
+      },
+      "png": {
+        "size": 1232890,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/2k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_ao_2k.png",
+        "md5": "529b061fea978aa5c72088627f139941"
+      },
+      "exr": {
+        "size": 2343892,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/2k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_ao_2k.exr",
+        "md5": "19d9a152bbae5a7f5c5402c41b5df8cf"
+      }
+    },
+    "1k": {
+      "jpg": {
+        "size": 432627,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_ao_1k.jpg",
+        "md5": "0645ca196edb471b5847d36cd0fd869b"
+      },
+      "png": {
+        "size": 333808,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/1k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_ao_1k.png",
+        "md5": "f58e24282981403aa6d0d7cf8d291ec8"
+      },
+      "exr": {
+        "size": 680047,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/1k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_ao_1k.exr",
+        "md5": "fbb7fad7e827d2b5903a2069a3cd7c48"
+      }
+    }
+  },
+  "Rough": {
+    "8k": {
+      "jpg": {
+        "size": 24350628,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/8k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_rough_8k.jpg",
+        "md5": "13fb6f017146d837bb1aadec67f0c9f8"
+      },
+      "png": {
+        "size": 23294303,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/8k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_rough_8k.png",
+        "md5": "a1609b15d0f2d110bdffafc7f8fbbbcd"
+      },
+      "exr": {
+        "size": 37953035,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/8k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_rough_8k.exr",
+        "md5": "2ccdc16760c416350fc659f0323b4f02"
+      }
+    },
+    "4k": {
+      "jpg": {
+        "size": 6813572,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/4k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_rough_4k.jpg",
+        "md5": "bcc8cf6e0d598bb5da4957087ae84154"
+      },
+      "png": {
+        "size": 6326876,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/4k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_rough_4k.png",
+        "md5": "b028347aaf1839a829834da3f7095b26"
+      },
+      "exr": {
+        "size": 10730266,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/4k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_rough_4k.exr",
+        "md5": "3f1c55c8b6971861595e91dd9faa125c"
+      }
+    },
+    "2k": {
+      "jpg": {
+        "size": 2057243,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_rough_2k.jpg",
+        "md5": "36b7836da80d79cf7be06cfb42e21282"
+      },
+      "png": {
+        "size": 1820322,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/2k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_rough_2k.png",
+        "md5": "981601b21e3d09944a1497c60f3647aa"
+      },
+      "exr": {
+        "size": 3167321,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/2k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_rough_2k.exr",
+        "md5": "6a2c6b2bced833371c7a0d857755f98a"
+      }
+    },
+    "1k": {
+      "jpg": {
+        "size": 613713,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_rough_1k.jpg",
+        "md5": "54b4224151386a7c1824a564c1155a3f"
+      },
+      "png": {
+        "size": 538086,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/1k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_rough_1k.png",
+        "md5": "e7a0419adee8ab777e8dcc90cfc124b2"
+      },
+      "exr": {
+        "size": 981936,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/1k/vintage_grandfather_clock_01/vintage_grandfather_clock_01_rough_1k.exr",
+        "md5": "21691ff74d897462133f1aa7a290032a"
+      }
+    }
+  }
+}

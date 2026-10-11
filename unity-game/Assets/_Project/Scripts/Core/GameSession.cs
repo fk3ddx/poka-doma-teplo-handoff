@@ -14,6 +14,8 @@ namespace Ataka
         public bool invertY;
         public bool vhs = true;
         public int fpsLimit = 60;
+        public VisualQuality quality = VisualQuality.High;
+        public RasterStyle rasterStyle = RasterStyle.Standard;
     }
 
     public sealed class GameSession : MonoBehaviour
@@ -37,6 +39,7 @@ namespace Ataka
         float noticeUntil;
         Vector3 initialPosition;
         float initialYaw;
+        public RuntimeQuality Quality {get;private set;}
         string SettingsPath => Path.Combine(Application.persistentDataPath, "settings-m0.json");
 
         void Start()
@@ -46,8 +49,8 @@ namespace Ataka
             initialPosition = player.transform.position;
             initialYaw = player.transform.eulerAngles.y;
             store = new CheckpointStore(Path.Combine(Application.persistentDataPath, checkpointFile));
-            try { if (File.Exists(SettingsPath)) settings = JsonUtility.FromJson<GameSettings>(File.ReadAllText(SettingsPath)) ?? new GameSettings(); }
-            catch (Exception e) when (e is IOException || e is ArgumentException) { Notify("Настройки сброшены: файл повреждён."); }
+            settings = GameSettingsStore.Load(SettingsPath);
+            Quality = gameObject.AddComponent<RuntimeQuality>();
             ApplySettings();
             SetPaused(true);
         }
@@ -134,8 +137,8 @@ namespace Ataka
 
         public void ApplySettings()
         {
-            settings.sensitivity = Mathf.Clamp(settings.sensitivity, .025f, .25f);
-            settings.fieldOfView = Mathf.Clamp(settings.fieldOfView, 60, 90);
+            GameSettingsStore.Validate(settings);
+            if(Quality!=null)Quality.Apply(settings.quality, settings.rasterStyle);
             player.sensitivity = settings.sensitivity;
             player.invertY = settings.invertY;
             player.view.fieldOfView = settings.fieldOfView;
@@ -147,7 +150,7 @@ namespace Ataka
         public void SaveSettings()
         {
             ApplySettings();
-            try { Directory.CreateDirectory(Application.persistentDataPath); File.WriteAllText(SettingsPath, JsonUtility.ToJson(settings, true)); }
+            try { GameSettingsStore.Save(SettingsPath,settings); }
             catch (IOException e) { Notify("Не удалось сохранить настройки"); Debug.LogException(e); }
         }
         public void Notify(string text) { Notice = text; noticeUntil = Time.unscaledTime + 4; }

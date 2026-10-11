@@ -14,11 +14,19 @@ namespace Ataka {
   readonly Plane[] frustum=new Plane[6];
   UniversalRenderPipeline.SingleCameraRequest request;
   float nextFrame;
+  int resolution=512;float frequency=10;
+  public int Resolution=>resolution;public float Frequency=>frequency;
+  public RenderTexture ReflectionTexture=>texture;
+  public void Configure(int size,float hz){
+   size=Mathf.Clamp(size,128,1024);frequency=Mathf.Clamp(hz,1,30);
+   if(resolution==size)return;resolution=size;
+   if(texture!=null){texture.Release();texture.width=size;texture.height=size;texture.Create();nextFrame=0;}
+  }
   void Start(){
    surface=GetComponent<Renderer>();original=surface.sharedMaterial;
    if(reflectionShader==null){enabled=false;return;}
    var session=FindFirstObjectByType<GameSession>();source=session!=null?session.player.view:Camera.main;
-   texture=new RenderTexture(512,512,24,RenderTextureFormat.ARGBHalf){name="Mirror reflection",hideFlags=HideFlags.DontSave,antiAliasing=1};texture.Create();
+   texture=new RenderTexture(resolution,resolution,24,RenderTextureFormat.ARGBHalf){name="Mirror reflection",hideFlags=HideFlags.DontSave,antiAliasing=1};texture.Create();
    material=new Material(reflectionShader){hideFlags=HideFlags.DontSave};material.SetTexture("_ReflectionTex",texture);surface.sharedMaterial=material;
    var go=new GameObject("Mirror view"){hideFlags=HideFlags.HideAndDontSave};reflection=go.AddComponent<Camera>();reflection.enabled=false;
    request=new UniversalRenderPipeline.SingleCameraRequest{destination=texture};
@@ -28,7 +36,7 @@ namespace Ataka {
    Vector3 p=surface.bounds.center,n=normal.normalized;
    if(Vector3.Dot(source.transform.position-p,n)<.04f||Vector3.Distance(source.transform.position,p)>5)return;
    GeometryUtility.CalculateFrustumPlanes(source,frustum);if(!GeometryUtility.TestPlanesAABB(frustum,surface.bounds))return;
-   nextFrame=Time.unscaledTime+.1f;
+   nextFrame=Time.unscaledTime+1f/frequency;
    reflection.CopyFrom(source);reflection.enabled=false;reflection.cameraType=CameraType.Reflection;reflection.targetTexture=texture;reflection.cullingMask=source.cullingMask&~(1<<30);reflection.useOcclusionCulling=false;reflection.allowMSAA=false;
    var data=reflection.GetUniversalAdditionalCameraData();data.renderPostProcessing=false;data.renderShadows=false;data.requiresColorOption=CameraOverrideOption.Off;data.requiresDepthOption=CameraOverrideOption.On;data.volumeLayerMask=0;
    float d=-Vector3.Dot(n,p);Matrix4x4 r=Matrix4x4.identity;

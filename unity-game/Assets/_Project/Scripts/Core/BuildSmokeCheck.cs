@@ -29,7 +29,7 @@ namespace Ataka
         IEnumerator Start()
         {
             Directory.CreateDirectory(output);
-            deadline = Time.realtimeSinceStartup + 90;
+            deadline = Time.realtimeSinceStartup + 150;
             Application.runInBackground = true;
             yield return null;
             var session = FindFirstObjectByType<GameSession>();
@@ -43,6 +43,7 @@ namespace Ataka
                 var snow=GameObject.Find("Windblown wet snow");
                 if(snow==null||snow.GetComponent<ParticleSystem>()==null)Debug.LogError("Smoke: exterior weather component missing");
             }
+            session.settings.quality=VisualQuality.High;session.settings.fpsLimit=60;session.settings.fieldOfView=70;session.ApplySettings();
             yield return Capture("01-menu");
             session.NewGame();
             // Let the ordinary four-second controls notice expire before comparative frames.
@@ -61,6 +62,11 @@ namespace Ataka
             {
                 session.player.Restore(new Vector3(3.88f,11.72f,3.0f),125,6,false);
                 yield return Capture("06-cabinet-tv");
+                Directory.CreateDirectory(Path.Combine(output,"props"));
+                session.player.Restore(new Vector3(5.10f,11.72f,1.96f),90,36,false);
+                yield return Capture("props/television-front");
+                session.player.Restore(new Vector3(5.05f,11.72f,2.67f),127,32,false);
+                yield return Capture("props/television-side");
                 session.player.Restore(new Vector3(2.25f,11.72f,3.50f),205,8,false);
                 yield return Capture("07-bedroom");
                 session.player.Restore(new Vector3(2.15f,11.72f,1.50f),185,32,false);
@@ -149,8 +155,35 @@ namespace Ataka
                 foreach(var fog in fogs)fog.enabled=true;Application.targetFrameRate=previousFps;
                 File.WriteAllText(Path.Combine(output,"fog-performance.json"),JsonUtility.ToJson(fogReport,true));
             }
+            yield return QualityProfiles(session);
             Finish();
         }
+        IEnumerator QualityProfiles(GameSession session)
+        {
+            var report=new QualityReport();var prior=session.settings.quality;int priorFps=session.settings.fpsLimit;
+            var positions=new[]{new Vector3(5.8f,11.72f,3.7f),new Vector3(7.75f,11.72f,3.55f),new Vector3(5.20f,11.72f,-.65f)};
+            var yaws=new[]{215f,0f,190f};var pitches=new[]{3f,5f,30f};var names=new[]{"living","mirror","courtyard"};
+            Directory.CreateDirectory(Path.Combine(output,"quality"));
+            foreach(var mode in new[]{VisualQuality.High,VisualQuality.Medium,VisualQuality.Low}){
+                session.settings.quality=mode;session.settings.fpsLimit=-1;
+                float start=Time.realtimeSinceStartup;session.ApplySettings();yield return null;
+                report.switches.Add(new QualitySwitch{mode=mode.ToString(),firstFrameMs=(Time.realtimeSinceStartup-start)*1000});
+                for(int view=0;view<positions.Length;view++){
+                    session.player.Restore(positions[view],yaws[view],pitches[view],false);
+                    for(int i=0;i<60;i++)yield return null;
+                    var samples=new float[180];float total=0;
+                    for(int i=0;i<samples.Length;i++){yield return null;samples[i]=Time.unscaledDeltaTime*1000;total+=samples[i];}Array.Sort(samples);
+                    report.views.Add(new QualityView{mode=mode.ToString(),view=names[view],renderScale=session.Quality.Pipeline.renderScale,meanMs=total/samples.Length,p95Ms=samples[170],maxMs=samples[179]});
+                    yield return Capture("quality/"+mode+"-"+names[view]);
+                }
+            }
+            session.settings.quality=prior;session.settings.fpsLimit=priorFps;session.ApplySettings();
+            File.WriteAllText(Path.Combine(output,"quality-performance.json"),JsonUtility.ToJson(report,true));
+        }
+        [Serializable] sealed class QualityReport {public int samplesPerView=180,targetFps=-1;public System.Collections.Generic.List<QualityView> views=new System.Collections.Generic.List<QualityView>();public System.Collections.Generic.List<QualitySwitch> switches=new System.Collections.Generic.List<QualitySwitch>();}
+        [Serializable] sealed class QualityView {public string mode,view;public float renderScale,meanMs,p95Ms,maxMs;}
+        [Serializable] sealed class QualitySwitch {public string mode;public float firstFrameMs;}
+
         [Serializable] sealed class FogResult {public int targetFps=-1,samplesPerMode=240;public float onMeanMs,onP95Ms,onMaxMs,offMeanMs,offP95Ms,offMaxMs;}
 
         IEnumerator Capture(string name)

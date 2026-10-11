@@ -71,3 +71,11 @@ M1 0.2.8: растения — авторские процедурные мод�
 
 
 M1 0.2.9: собственный CourtyardLightFog.shader и интеграция. API-источники Unity6.3 указаны в M1-EXTERIOR-FOG.md. Новых сторонних ассетов/изображений нет.
+
+
+## Подготовка кухонного среза по VIBE, 2026-10-11 (не в билде)
+
+- Poly Haven, Overcast Soil (Pure Sky), CC0: https://polyhaven.com/a/overcast_soil_puresky . 2K HDR в AssetStaging/CC0, MD5 сверен с API files.json. Для пасмурного неба; ещё не внедрён.
+- ambientCG, Plaster004, CC0: https://ambientcg.com/view?id=Plaster004 . 2K-JPG архив, проверка ZIP CRC и SHA256 в SOURCE.json. Штукатурка для оболочки; ещё не внедрена. Лицензия: https://docs.ambientcg.com/license/ .
+- Old Soviet Apartment vol.1 пока только рекомендован, не приобретён/не импортирован. Не отмечать его как использованный до получения.
+- Старые записи про авторские процедурные предметы выше описывают исторические версии; для нового среза такой способ создания реквизита запрещён.

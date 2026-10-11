@@ -37,19 +37,19 @@ public static partial class ApartmentArtBuilder {
    Reproject(r);
    if(r.GetComponentInParent<Interactable>()==null)Static(r.gameObject);
   }
-  ImportAuthoredMeshes();AddModel("ceramic_vase_01",new Vector3(6.13f,1.24f,2.05f),0,.23f);
+  CreateTelevisionMaterial();ImportAuthoredMeshes();AddModel("ceramic_vase_01",new Vector3(6.13f,1.24f,2.05f),0,.23f);
   TrimAndWindows();Yard();Lighting();Atmosphere();Staircase();Finishing();OpalLighting();WhitewashedCeilings();Seating();PersonalPhotos();ExteriorFog();
   var session=Object.FindFirstObjectByType<GameSession>();session.checkpointFile="checkpoint-m1.json";session.player.transform.position=new Vector3(5.1f,Floor+.02f,3.2f);session.player.transform.rotation=Quaternion.Euler(0,215,0);
   session.GetComponent<PrototypeMenu>().milestoneDescription="M1 · художественная квартира — рабочая версия\nЗал, кухня и бытовые детали. Сюжетный пролог ещё в разработке.";
   session.player.view.farClipPlane=240;session.player.view.backgroundColor=C(.095f,.12f,.14f);
-  PlayerSettings.productName="Атака на запоминание";PlayerSettings.bundleVersion="0.2.10-dev";
+  PlayerSettings.productName="Атака на запоминание";PlayerSettings.bundleVersion="0.2.11-dev";
   EditorSceneManager.SaveScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene(),ScenePath);EditorBuildSettings.scenes=new[]{new EditorBuildSettingsScene(ScenePath,true),new EditorBuildSettingsScene(MilestoneBuilder.ScenePath,true)};AssetDatabase.SaveAssets();Debug.Log("M1_SCENE_GENERATED");
  }
  static void Static(GameObject go)=>GameObjectUtility.SetStaticEditorFlags(go,StaticEditorFlags.ContributeGI|StaticEditorFlags.BatchingStatic|StaticEditorFlags.ReflectionProbeStatic);
  static void ImportTextures(){
   foreach(string file in Directory.GetFiles(Root+"/Art","*",SearchOption.AllDirectories)){
    if(!file.EndsWith(".jpg")&&!file.EndsWith(".png"))continue;var t=AssetImporter.GetAtPath(file.Replace('\\','/')) as TextureImporter;if(t==null)continue;
-   bool normal=file.Contains("nor_gl"),data=normal||file.Contains("Rough")||file.Contains("smoothness")||file.Contains("/AO.");t.textureType=normal?TextureImporterType.NormalMap:TextureImporterType.Default;t.sRGBTexture=!data;t.maxTextureSize=2048;t.anisoLevel=4;t.wrapMode=TextureWrapMode.Repeat;t.isReadable=file.Contains("Rough");t.SaveAndReimport();
+   bool normal=file.Contains("nor_gl"),data=normal||file.Contains("Rough")||file.Contains("smoothness")||file.Contains("/Metal.")||file.Contains("/AO.");t.textureType=normal?TextureImporterType.NormalMap:TextureImporterType.Default;t.sRGBTexture=!data;t.maxTextureSize=file.Contains("/Television_01/")?1024:2048;t.anisoLevel=4;t.wrapMode=TextureWrapMode.Repeat;t.isReadable=file.Contains("Rough");t.SaveAndReimport();
   }
   foreach(string f in Directory.GetFiles(Root+"/Art/CC0","*.fbx",SearchOption.AllDirectories)){var imp=(ModelImporter)AssetImporter.GetAtPath(f.Replace('\\','/'));imp.materialImportMode=ModelImporterMaterialImportMode.None;imp.generateSecondaryUV=true;imp.SaveAndReimport();}
  }
@@ -87,7 +87,8 @@ public static partial class ApartmentArtBuilder {
   var drawerRoot=new GameObject("Working hall drawer");drawerRoot.transform.SetParent(art,false);
   var drawer=drawerRoot.AddComponent<SlidingDrawer>();drawer.persistentId="hall-drawer";drawer.label="ящик трюмо";drawer.movingPart=drawerRoot.transform;drawer.closedLocalPosition=Vector3.zero;
   drawer.envelope=drawerRoot.AddComponent<BoxCollider>();drawer.envelope.center=new Vector3(6.956f,.66f,5.71f);drawer.envelope.size=new Vector3(.51f,.20f,.34f);
-  foreach(var d in data.meshes){
+  var tvData=JsonUtility.FromJson<MeshSet>(File.ReadAllText(Root+"/Art/CC0/Television_01/Television.meshdata.json"));
+  foreach(var d in data.meshes.Concat(tvData.meshes)){
    string path=Root+"/Art/M1Meshes/"+d.name+".asset";var mesh=AssetDatabase.LoadAssetAtPath<Mesh>(path);if(mesh==null){mesh=new Mesh();AssetDatabase.CreateAsset(mesh,path);}else mesh.Clear();mesh.name=d.name;mesh.indexFormat=IndexFormat.UInt32;
    var v=new Vector3[d.vertices.Length/3];var n=new Vector3[v.Length];var uv=new Vector2[v.Length];for(int i=0;i<v.Length;i++){v[i]=new Vector3(d.vertices[i*3],d.vertices[i*3+1],d.vertices[i*3+2]);n[i]=new Vector3(d.normals[i*3],d.normals[i*3+1],d.normals[i*3+2]);uv[i]=new Vector2(d.uv[i*2],d.uv[i*2+1]);}
    // Project tulle across its full width/height, independent of each pleat's facing.

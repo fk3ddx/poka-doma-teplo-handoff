@@ -1,7 +1,19 @@
 {
   "name": "Ataka.EditModeTests",
-  "references": ["Ataka.Runtime", "Ataka.Editor"],
-  "includePlatforms": ["Editor"],
-  "optionalUnityReferences": ["TestAssemblies"],
-  "defineConstraints": ["UNITY_INCLUDE_TESTS"]
+  "references": [
+    "Ataka.Runtime",
+    "Ataka.Editor",
+    "Unity.Timeline",
+    "Unity.Cinemachine",
+    "Unity.ugui"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ],
+  "defineConstraints": [
+    "UNITY_INCLUDE_TESTS"
+  ]
 }

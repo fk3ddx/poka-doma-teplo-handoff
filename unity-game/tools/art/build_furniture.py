@@ -209,7 +209,7 @@ def clock():
 # LIVING: actual dimensioned furniture, original passing clearances retained.
 unit('Sofa',sofa,(3.35,0,1.73),90)
 unit('Wall unit',wallunit,(6.24,0,1.92),-90)
-unit('CRT',tv,(6.14,.66,1.92),-90)
+# CRT replaced by Poly Haven Television_01; imported separately with original UVs.
 unit('Coffee table',table,(4.3,0,2.1))
 mug((4.42,.76,2.30))
 unit('Floor lamp',floorlamp,(5.78,0,.39))

@@ -10,6 +10,7 @@ namespace Ataka.Tests {
  public class ExteriorFogTests {
   [UnityTest] public IEnumerator YardVolumesFollowTheirLightsAndStayOutsideApartment(){
    yield return SceneManager.LoadSceneAsync("Apartment_M1");yield return null;
+   var session=Object.FindFirstObjectByType<GameSession>();session.settings.quality=VisualQuality.High;session.ApplySettings();yield return null;
    var volumes=Object.FindObjectsByType<LocalLightFog>(FindObjectsSortMode.None);
    Assert.AreEqual(6,volumes.Length);
    foreach(var volume in volumes){
