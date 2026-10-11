@@ -42,7 +42,7 @@ public static partial class ApartmentArtBuilder {
   var session=Object.FindFirstObjectByType<GameSession>();session.checkpointFile="checkpoint-m1.json";session.player.transform.position=new Vector3(5.1f,Floor+.02f,3.2f);session.player.transform.rotation=Quaternion.Euler(0,215,0);
   session.GetComponent<PrototypeMenu>().milestoneDescription="M1 · художественная квартира — рабочая версия\nЗал, кухня и бытовые детали. Сюжетный пролог ещё в разработке.";
   session.player.view.farClipPlane=240;session.player.view.backgroundColor=C(.095f,.12f,.14f);
-  PlayerSettings.productName="Атака на запоминание";PlayerSettings.bundleVersion="0.2.7-dev";
+  PlayerSettings.productName="Атака на запоминание";PlayerSettings.bundleVersion="0.2.8-dev";
   EditorSceneManager.SaveScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene(),ScenePath);EditorBuildSettings.scenes=new[]{new EditorBuildSettingsScene(ScenePath,true),new EditorBuildSettingsScene(MilestoneBuilder.ScenePath,true)};AssetDatabase.SaveAssets();Debug.Log("M1_SCENE_GENERATED");
  }
  static void Static(GameObject go)=>GameObjectUtility.SetStaticEditorFlags(go,StaticEditorFlags.ContributeGI|StaticEditorFlags.BatchingStatic|StaticEditorFlags.ReflectionProbeStatic);
@@ -78,11 +78,12 @@ public static partial class ApartmentArtBuilder {
   var glass=M("Glass",C(.11f,.16f,.16f),.9f);glass.SetFloat("_Surface",1);glass.SetFloat("_SrcBlend",(float)BlendMode.SrcAlpha);glass.SetFloat("_DstBlend",(float)BlendMode.OneMinusSrcAlpha);glass.SetFloat("_ZWrite",0);glass.color=new Color(.2f,.26f,.24f,.13f);glass.renderQueue=3000;glass.EnableKeyword("_SURFACE_TYPE_TRANSPARENT");
   M("Mirror",C(.46f,.50f,.48f),.65f,.6f);M("Paper",C(.69f,.63f,.48f),.04f);M("BookRed",C(.23f,.05f,.035f),.15f);M("BookGreen",C(.06f,.13f,.10f),.15f);M("BookTan",C(.37f,.26f,.15f),.1f);M("TVBrown",C(.17f,.09f,.045f),.25f);
   var tv=M("TVScreen",C(.18f,.27f,.24f),.65f);tv.EnableKeyword("_EMISSION");tv.SetColor("_EmissionColor",C(.12f,.21f,.17f));M("Terracotta",C(.31f,.15f,.09f),.07f);M("Leaf",C(.085f,.18f,.055f),.18f);M("DriedStem",C(.29f,.20f,.09f),.1f);M("Photo",C(.26f,.22f,.16f),.15f);M("KitchenPaint",C(.39f,.49f,.39f),.25f);M("GasYellow",C(.56f,.4f,.075f),.25f);
+  M("PetalRose",C(.55f,.09f,.075f),.15f);M("PetalDeep",C(.38f,.046f,.038f),.12f);M("LeafSoft",C(.105f,.205f,.062f),.16f);M("LeafVein",C(.15f,.24f,.085f),.10f);
   var shade=M("Shade",C(.73f,.57f,.36f),.1f);shade.SetFloat("_Cull",0);shade.EnableKeyword("_EMISSION");shade.SetColor("_EmissionColor",C(.25f,.13f,.055f));var bulb=M("Bulb",C(1,.75f,.45f));bulb.EnableKeyword("_EMISSION");bulb.SetColor("_EmissionColor",C(2,1.1f,.4f));
   Pbr(M("Concrete",C(.26f,.29f,.28f),.1f),"plastered_wall_02",.35f);M("Road",C(.055f,.065f,.07f),.48f);M("Snow",C(.35f,.39f,.39f),.05f);M("Bark",C(.09f,.10f,.085f),.05f);M("WindowDark",C(.015f,.027f,.036f),.55f);var win=M("WindowWarm",C(.22f,.16f,.075f));win.EnableKeyword("_EMISSION");win.SetColor("_EmissionColor",C(.25f,.16f,.07f));
  }
  static void ImportAuthoredMeshes(){
-  var data=JsonUtility.FromJson<MeshSet>(File.ReadAllText(Root+"/Art/Authored/ApartmentFurniture.meshdata.json"));
+  var data=JsonUtility.FromJson<MeshSet>(ReadAuthoredMeshJson());
   var drawerRoot=new GameObject("Working hall drawer");drawerRoot.transform.SetParent(art,false);
   var drawer=drawerRoot.AddComponent<SlidingDrawer>();drawer.persistentId="hall-drawer";drawer.label="ящик трюмо";drawer.movingPart=drawerRoot.transform;drawer.closedLocalPosition=Vector3.zero;
   drawer.envelope=drawerRoot.AddComponent<BoxCollider>();drawer.envelope.center=new Vector3(6.956f,.66f,5.71f);drawer.envelope.size=new Vector3(.51f,.20f,.34f);
@@ -98,7 +99,7 @@ public static partial class ApartmentArtBuilder {
    mesh.vertices=v;mesh.normals=n;mesh.uv=uv;mesh.triangles=d.triangles;mesh.RecalculateTangents();mesh.RecalculateBounds();Unwrapping.GenerateSecondaryUVSet(mesh);EditorUtility.SetDirty(mesh);
    bool isDrawer=d.name.StartsWith("HallDrawer_");
    var go=new GameObject(d.name);go.transform.SetParent(isDrawer?drawerRoot.transform:art,false);go.AddComponent<MeshFilter>().sharedMesh=mesh;go.AddComponent<MeshRenderer>().sharedMaterial=mats[d.material];
-   if(!isDrawer&&!new[]{"Glass","Curtain","Lace","Tulle","Bulb","Shade","ShadeBinding","DriedStem","Carpet"}.Contains(d.material))go.AddComponent<MeshCollider>().sharedMesh=mesh;
+   if(!isDrawer&&!new[]{"Glass","Curtain","Lace","Tulle","Bulb","Shade","ShadeBinding","DriedStem","Carpet","PetalRose","PetalDeep","LeafSoft","LeafVein"}.Contains(d.material))go.AddComponent<MeshCollider>().sharedMesh=mesh;
    if(!isDrawer&&!d.name.StartsWith("Yard_"))Static(go);
   }
  }

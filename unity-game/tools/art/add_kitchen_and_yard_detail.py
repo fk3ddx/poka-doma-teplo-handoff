@@ -61,10 +61,8 @@ curve('Basket handle',[(3.38,.875,4.18),(3.41,1.025,4.18),(3.58,1.025,4.18),(3.6
 for i in range(5):
  a=i*2.4;dx=.07*math.cos(a);dz=.07*math.sin(a);top=1.09+i*.018
  curve('Tulip stem',[(4.12,.88,1.87),(4.12+dx*.4,1.00,1.87+dz*.5),(4.12+dx,top,1.87+dz)],.003,'Leaf')
- for k in range(3):
-  b=k*math.tau/3
-  ellipsoid('Tulip petal',(4.12+dx+.01*math.cos(b),top+.022,1.87+dz+.01*math.sin(b)),(.016,.034,.014),'BookRed')
- leaf=ellipsoid('Tulip leaf',(4.12+dx*.9,1.01,1.87+dz*1.2),(.012,.065,.006),'Leaf');leaf.rotation_euler.y=a*.4
+ tulip_flower((4.12+dx,top-.012,1.87+dz),a,i)
+ tulip_blade((4.12+dx*.45,.98+i*.003,1.87+dz*.5),a,.12)
 
 current='Bathroom'
 # Compact activator washer in the free back-left corner, with thick plastic lid.

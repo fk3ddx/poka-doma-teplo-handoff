@@ -2,7 +2,7 @@
 Run blender -b -P tools/art/build_furniture.py -- <project directory>.
 Coordinates used by helpers: Unity x/y/z; Blender stores x/z/y.
 """
-import bpy, math, random, json, pathlib, sys
+import bpy, math, random, json, pathlib, sys, gzip
 from mathutils import Vector
 random.seed(731)
 ROOT=pathlib.Path(sys.argv[sys.argv.index('--')+1])
@@ -189,13 +189,10 @@ def curtain(x,width,z,top=2.39,bottom=.12,material='Curtain'):
  if material!='Tulle':
   mod=o.modifiers.new('Woven fabric thickness','SOLIDIFY');mod.thickness=.002
 
+exec(compile((ROOT/'tools/art/domestic_plants.py').read_text(encoding='utf-8-sig'), 'domestic_plants.py', 'exec'), globals())
+
 def plant(p):
- x,y,z=p;rod('Clay flower pot',(x,y,z),(x,y+.14,z),.062,'Terracotta',.088,24)
- rod('Earth',(x,y+.137,z),(x,y+.14,z),.08,'Coffee')
- for i in range(9):
-  a=i*2.4;h=random.uniform(.22,.39);dx=.14*math.cos(a);dz=.14*math.sin(a)
-  curve('Geranium stem',[(x,y+.13,z),(x+dx*.35,y+h,z+dz*.35),(x+dx,y+h-.04,z+dz)],.004,'Leaf')
-  o=ellipsoid('Geranium leaf',(x+dx,y+h-.04,z+dz),(.065,.01,.048),'Leaf');o.rotation_euler.x=random.uniform(-.5,.5)
+ domestic_geranium(p)
 
 def clock():
  box('Clock case',(0,1.57,0),(.34,.81,.16),'Wood',.02)
@@ -222,7 +219,7 @@ quad('Floor carpet',[(3.9,.012,.55),(5.75,.012,.55),(5.75,.012,3.5),(3.9,.012,3.
 curtain(3.25,.38,.09);curtain(4.47,.38,.09)
 curtain(3.85,1.10,-.035,2.35,.79,'Tulle')
 rod('Curtain rail',(3.02,2.42,.07),(4.74,2.42,.07),.017,'Wood')
-radiator(3.85,.02,1.12);plant((3.38,.885,-.07))
+radiator(3.85,.02,1.12);plant((3.415,.885,.025))
 # Glass vase and dried twigs.
 rod('Vase body',(4.12,.76,1.87),(4.12,.94,1.87),.047,'Crystal',.032,24)
 # Small framed pictures as physical frames; image inserts added in Unity.
@@ -269,7 +266,7 @@ rod('Yellow gas pipe',(8.76,.02,2.22),(8.76,2.5,2.22),.018,'GasYellow')
 rod('Gas elbow',(8.76,1.23,2.22),(8.48,1.23,2.22),.018,'GasYellow')
 box('Gas valve',(8.62,1.25,2.23),(.085,.022,.025),'BookRed')
 unit('Kitchen table',table,(7.72,0,.51))
-mug((7.60,.76,.62));plant((7.26,.89,-.1))
+mug((7.60,.76,.62));plant((7.315,.89,0))
 for stoolX,z in [(7.72,1.12),(8.48,2.59)]:
  box('Stool seat',(stoolX,.45,z),(.34,.038,.34),'WoodLight',.04)
  for dx in [-.13,.13]:
@@ -457,5 +454,5 @@ for room,objects in groups.items():
    chunk['triangles'].extend([start+2,start+1,start])
   ev.to_mesh_clear()
  result.extend(chunks.values())
-(OUT/'ApartmentFurniture.meshdata.json').write_text(json.dumps({'meshes':result},separators=(',',':')),encoding='utf8')
+(OUT/'ApartmentFurniture.meshdata.json.gz').write_bytes(gzip.compress(json.dumps({'meshes':result},separators=(',',':')).encode('utf8'),compresslevel=9,mtime=0))
 print('AUTHORED_MESHES',len(result),'TRIANGLES',sum(len(x['triangles'])//3 for x in result))

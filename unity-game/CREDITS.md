@@ -65,3 +65,6 @@ M1 0.2.6: штанга, кронштейны, кольца/клипсы и по�
 
 
 M1 0.2.7: разделение исходной авторской геометрии плафонов и материал OpalGlass — собственный Unity-рецепт ApartmentOpalLighting.cs. Новых сторонних ресурсов/ImageGen нет.
+
+
+M1 0.2.8: растения — авторские процедурные модели tools/art/domestic_plants.py. Описание формы пеларгонии: [Royal Horticultural Society](https://www.rhs.org.uk/plants/12407/pelargonium-zonale/details); изображения не копировались. Новых сторонних ассетов/ImageGen нет.

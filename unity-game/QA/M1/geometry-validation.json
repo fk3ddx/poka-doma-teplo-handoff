@@ -1,11 +1,112 @@
 {
-  "bytes": 98050575,
-  "meshes": 125,
-  "triangles": 479182,
-  "validation": "finite vertices/normals/UVs and in-range indices; not Unity runtime verification",
-  "discardedFirstExport": {
-    "bytes": 107154631,
-    "triangles": 526606,
-    "reason": "Excessive seam tessellation; over GitHub100MiB file cap. Permanent generator uses26 control points and resolution2 instead of104/resolution10."
+  "plainBytes": 103072424,
+  "compressedBytes": 13952376,
+  "plainSha256": "9e2fd698e401c736b3e0c3d7b40f061149490647ff89c7a8e0482bed4cac3a8e",
+  "compressedSha256": "afa9c6e9fef3482882687119e89f92119c7dd07c2089185c8f72a206134fe837",
+  "meshes": 133,
+  "triangles": 502522,
+  "validation": "Gzip round-trip byte-identical; finite positions/normals/UV and valid indices. Native rendering verified separately.",
+  "discardedFirstPlantExport": {
+    "bytes": 105783568,
+    "triangles": 514618,
+    "reason": "Above100MiB limit. Leaves reduced from6 to3 interior rings, edge sampling preserved. Export then migrated to lossless gzip to avoid future geometry compromises."
+  },
+  "plantBounds": {
+    "Living_LeafSoft": {
+      "min": [
+        3.23372,
+        0.98136,
+        -0.16102
+      ],
+      "max": [
+        4.22718,
+        1.22037,
+        1.95912
+      ]
+    },
+    "Living_LeafVein": {
+      "min": [
+        3.24129,
+        0.9823,
+        -0.15304
+      ],
+      "max": [
+        4.22715,
+        1.22046,
+        1.95787
+      ]
+    },
+    "Living_PetalRose": {
+      "min": [
+        3.3431,
+        1.0792,
+        -0.01345
+      ],
+      "max": [
+        4.22054,
+        1.32388,
+        1.95511
+      ]
+    },
+    "Living_PetalDeep": {
+      "min": [
+        3.34896,
+        1.07908,
+        -0.01862
+      ],
+      "max": [
+        4.21502,
+        1.32388,
+        1.95197
+      ]
+    },
+    "Kitchen_LeafSoft": {
+      "min": [
+        7.13367,
+        1.08633,
+        -0.18601
+      ],
+      "max": [
+        7.49643,
+        1.24852,
+        0.17525
+      ]
+    },
+    "Kitchen_LeafVein": {
+      "min": [
+        7.14129,
+        1.09929,
+        -0.17804
+      ],
+      "max": [
+        7.48899,
+        1.2476,
+        0.16812
+      ]
+    },
+    "Kitchen_PetalRose": {
+      "min": [
+        7.2431,
+        1.2856,
+        -0.03845
+      ],
+      "max": [
+        7.38409,
+        1.32888,
+        0.05288
+      ]
+    },
+    "Kitchen_PetalDeep": {
+      "min": [
+        7.24896,
+        1.2856,
+        -0.04362
+      ],
+      "max": [
+        7.38836,
+        1.32888,
+        0.04734
+      ]
+    }
   }
 }
