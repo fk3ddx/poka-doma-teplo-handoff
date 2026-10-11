@@ -64,5 +64,24 @@ namespace Ataka.Tests {
    }finally{if(setup.Length>0&&setup.All(s=>!string.IsNullOrEmpty(s.path)))EditorSceneManager.RestoreSceneManagerSetup(setup);else EditorSceneManager.NewScene(NewSceneSetup.EmptyScene);}
   }
 
+  [Test]public void ChaseEntryJoinsHallAndRigidShiftPreservesVisiblePoses(){
+   var setup=EditorSceneManager.GetSceneManagerSetup();
+   try{EditorSceneManager.OpenScene("Assets/_Project/Scenario/Flat.unity");var loop=Object.FindFirstObjectByType<LoopDirector>();var chase=loop.chase;var flat=loop.flat;
+    var flags=System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic;typeof(ChaseCorridor).GetMethod("Start",flags).Invoke(chase,null);
+    var before=flat.player.transform.position;var lightBefore=flat.look.warm.Select(l=>(l.intensity,l.color)).ToArray();chase.PrepareEntry();Physics.SyncTransforms();
+    Assert.That(flat.player.transform.position,Is.EqualTo(before),"Preparing chase must not teleport the player");
+    Assert.That(chase.Current.transform.position,Is.EqualTo(ChaseCorridor.EntryOrigin));Assert.That(Vector3.Distance(chase.Current.transform.forward,Vector3.left),Is.LessThan(.001f));
+    var left=chase.Current.transform.TransformPoint(new Vector3(-CorridorModule.HalfWidth,0,0));var right=chase.Current.transform.TransformPoint(new Vector3(CorridorModule.HalfWidth,0,0));
+    Assert.That(left.z,Is.EqualTo(4.5f).Within(.01f));Assert.That(right.z,Is.EqualTo(6f).Within(.01f));
+    var interior=new Bounds(new Vector3(2.17f,1.25f,5.25f),new Vector3(5.02f,2.4f,1.45f));
+    foreach(var c in flat.apartment.GetComponentsInChildren<Collider>())if(c.enabled)Assert.That(c.bounds.Intersects(interior),Is.False,"Old apartment collider blocks new hall: "+c.name);
+    var moduleOffsets=chase.pool.Select(m=>m.transform.position-flat.player.transform.position).ToArray();var guestOffset=flat.guest.transform.position-flat.player.transform.position;var rotation=flat.player.transform.rotation;
+    chase.ShiftIntoIsolatedSpace(Vector3.down*50);
+    for(int n=0;n<chase.pool.Length;n++)Assert.That(Vector3.Distance(moduleOffsets[n],chase.pool[n].transform.position-flat.player.transform.position),Is.LessThan(.001f));
+    Assert.That(Vector3.Distance(guestOffset,flat.guest.transform.position-flat.player.transform.position),Is.LessThan(.001f));Assert.That(Quaternion.Angle(rotation,flat.player.transform.rotation),Is.LessThan(.01f));
+    chase.Stop();for(int n=0;n<lightBefore.Length;n++){Assert.That(flat.look.warm[n].intensity,Is.EqualTo(lightBefore[n].intensity));Assert.That(flat.look.warm[n].color,Is.EqualTo(lightBefore[n].color));}
+   }finally{if(setup.Length>0&&setup.All(s=>!string.IsNullOrEmpty(s.path)))EditorSceneManager.RestoreSceneManagerSetup(setup);else EditorSceneManager.NewScene(NewSceneSetup.EmptyScene);}
+  }
+
  }
 }

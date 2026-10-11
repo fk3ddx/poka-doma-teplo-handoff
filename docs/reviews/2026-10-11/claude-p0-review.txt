@@ -1,0 +1,279 @@
+- heading "CloudCLI" [level=1]
+- button "Refresh projects and sessions (Ctrl+R)":
+- button "Create new project":
+- button "Hide sidebar":
+- link "Star 14.0k":
+  - /url: https://github.com/siteboon/claudecodeui
+  - generic: Star
+  - generic: 14.0k
+- button "Projects" [pressed]:
+  - generic: Projects
+- button "Conversations":
+  - generic: Conversations
+- button "Running sessions":
+- button "Archive only":
+- textbox "Search projects..."
+- text: Ctrl
+- generic: K
+- button "Основной проект 0 - ...e/claude/projects/main":
+  - generic "Add to favorites":
+  - generic "Основной проект"
+  - text: "0"
+  - generic "/home/claude/projects/main": "- ...e/claude/projects/main"
+  - generic "Rename project (F2)":
+  - generic "Remove project from sidebar (Delete)":
+- button "dima 1 - ...e/claude/projects/dima":
+  - generic "Add to favorites":
+  - generic "dima"
+  - text: "1"
+  - generic "/home/claude/projects/dima": "- ...e/claude/projects/dima"
+  - generic "Rename project (F2)":
+  - generic "Remove project from sidebar (Delete)":
+- button "New Session":
+  - text: New Session
+- button "Select":
+  - text: Select
+- 'link "Claude Загрузил: репозиторий на GitHub. 11m"':
+  - /url: /session/6cc564c9-d950-4679-8bcf-25470278b0ff
+  - img "Claude"
+  - 'generic "Загрузил: репозиторий на GitHub."'
+  - generic: 11m
+- 'button "Session options for Загрузил: репозиторий на GitHub."':
+- button "projects 1 - /home/claude/projects":
+  - generic "Add to favorites":
+  - generic "projects"
+  - text: "1"
+  - generic "/home/claude/projects": "- /home/claude/projects"
+  - generic "Rename project (F2)":
+  - generic "Remove project from sidebar (Delete)":
+- button "turbo 1 - .../claude/projects/turbo":
+  - generic "Add to favorites":
+  - generic "turbo"
+  - text: "1"
+  - generic "/home/claude/projects/turbo": "- .../claude/projects/turbo"
+  - generic "Rename project (F2)":
+  - generic "Remove project from sidebar (Delete)":
+- link "Report Issue":
+  - /url: https://github.com/siteboon/claudecodeui/issues/new
+  - generic: Report Issue
+- link "Join Community":
+  - /url: https://discord.gg/buxwujPNRE
+  - generic: Join Community
+- button "Settings":
+  - generic: Settings
+- link "CloudCLI v1.37.4 – Open Source":
+  - /url: https://github.com/siteboon/claudecodeui
+- separator "Resize sidebar"
+- banner:
+  - img "Claude"
+  - 'heading "Загрузил: репозиторий на GitHub." [level=2]'
+  - generic: dima
+  - status
+  - tablist "Workspace views":
+    - tab "Chat" [selected]:
+      - generic: Chat
+    - tab "Shell":
+    - tab "Files":
+    - tab "Source Control":
+- button "Export conversation":
+- generic: Showing 176 of 955 messages Scroll up to load more
+- heading "Ревью Codex @ 8c96d9f (переходы петли, дверь пятого круга, масштаб мебели)" [level=1]:
+  - text: Ревью
+  - code: Codex
+  - text: "@ 8c96d9f (переходы петли, дверь пятого круга, масштаб мебели)"
+- generic: "Посмотрел:"
+- list:
+  - strong: "код:"
+  - text: diff
+  - code: LoopDirector
+  - text: ","
+  - code: ScenarioDoor
+  - text: ","
+  - code: ChaseCorridor
+  - text: ","
+  - code: ScenarioBuilder
+  - text: ","
+  - code: ScenarioReadyArt
+  - text: ;
+  - strong: "тесты и прогоны:"
+  - text: новые тесты,
+  - code: QA/…/README.md
+  - text: ","
+  - code: checks.txt
+  - text: ","
+  - code: result.json
+  - text: ;
+  - strong: "кадры:"
+  - text: пары
+  - code: seam1–5-closed/mapped
+  - text: (сравнил по цифрам и глазами).
+- generic: Старт и конец погони, как договорились, вне этого ревью.
+- heading "Подтверждаю исправленным (код + кадры/тесты)" [level=2]
+- list:
+  - strong: Тамбуры одинаковые.
+  - text: "Пересчитал по генератору: обе рамки 1.05 м, дверь впереди на local +0.525, дверь сзади на −0.525. Петли после переноса совпадают: (0.45; 5.5) → (8.5; 6.03), (0.45; 4.45) → (8.5; 7.08). Скачка двери на 22 см больше нет. Тест"
+  - code: VestibuleDoorsMatch…
+  - text: проверяет и это, и все дочерние части попарно.
+  - strong: Двери открываются от игрока.
+  - text: Дверь вместо ковра — в спальню (
+  - code: direction=1
+  - text: ), входная — в прихожую (
+  - code: yaw 180
+  - text: ","
+  - code: direction=-1
+  - text: ). Тест прогоняет дугу с шагом 5° против зоны переноса.
+  - strong: Перенос
+  - text: ждёт фактического закрытия обеих створок (
+  - code: IsClosed
+  - text: ) и ещё 0.12 с.
+  - strong: "Пятый круг:"
+  - list:
+    - listitem: до звонка дверь спальни заперта и приоткрыта примерно на 14.5° — это около 20 см у свободного края створки 0.8 м;
+    - listitem: после звонка общий обработчик её не трогает, и E запускает только сцену;
+    - listitem: в smoke-прогоне есть проверки «locked before phone» и «20cm ajar gap».
+  - strong: Снимок рендереров и коллайдеров
+  - text: с неактивными объектами (
+  - code: GetComponentsInChildren(true)
+  - text: ). Повторный
+  - code: Begin
+  - text: его не затирает, скрытое полотно балконной двери после возврата остаётся скрытым. Тест есть.
+  - strong: Мысли гаснут и во время погони.
+  - strong:
+    - code: Build()
+    - text: возвращает
+  - text: режим окна, размеры экрана и графические API.
+  - strong: "Мебель — равномерный масштаб по высоте:"
+  - text: 0.85 / 0.85 / 0.45, стол больше не 0.162, книги на высоте 0.45.
+- heading "Блокер, подтверждённый кадром" [level=2]
+- strong: P1 — шов 5 → 6 виден
+- text: (
+- code: seam5-closed.png
+- text: →
+- code: seam5-mapped.png
+- text: "):"
+- list:
+  - strong: Сквозь стены тамбура проступает «ПОМНИ».
+  - text: Сразу после переноса крупные белые надписи висят в кадре.
+  - code: EnterLap(6)
+  - text: в момент переноса включает группу круга 6, а надписи — это TextMesh без проверки глубины (
+  - code: ScenarioBuilder.cs
+  - text: ","
+  - code: Label()
+  - text: ). Это тот же дефект №5 из первого ревью, теперь он ломает шов.
+  - strong: Кадр после переноса светлее.
+  - text: "Средняя яркость 12.5 → 15.7, примерно +25%: свет круга 6 применяется, пока игрок внутри тамбура. На швах 1–4 тоже прибавка около +1 из 12–18, это 6–8%."
+- strong: "Критерий:"
+- list:
+  - listitem: надписи — декаль или квад с текстурой и обычной проверкой глубины;
+  - listitem: в пустом тамбуре разница средней яркости между кадрами «до» и «после» не больше 3% на всех пяти швах;
+  - listitem: "проще всего изолировать свет тамбура: тени стен, без засветки снаружи, или отдельный тусклый свой источник."
+- text: Проверять тем же сравнением пар
+- code: seamN
+- text: ", что у тебя уже есть."
+- heading "P2" [level=2]
+- table:
+  - rowgroup:
+    - row "Где Что Критерий":
+      - columnheader "Где"
+      - columnheader "Что"
+      - columnheader "Критерий"
+  - rowgroup:
+    - 'row "ScenarioDoor.cs closedAngle не умножается на direction. У двери спальни direction=1, поэтому сейчас всё правильно, но на любой двери с -1 щель уйдёт в стену target = open ? direction*95 : direction*closedAngle"':
+      - cell "ScenarioDoor.cs":
+        - code: ScenarioDoor.cs
+      - cell "closedAngle не умножается на direction. У двери спальни direction=1, поэтому сейчас всё правильно, но на любой двери с -1 щель уйдёт в стену":
+        - code: closedAngle
+        - text: не умножается на
+        - code: direction
+        - text: . У двери спальни
+        - code: direction=1
+        - text: ", поэтому сейчас всё правильно, но на любой двери с"
+        - code: "-1"
+        - text: щель уйдёт в стену
+      - 'cell "target = open ? direction*95 : direction*closedAngle"':
+        - code: "target = open ? direction*95 : direction*closedAngle"
+    - row "ScenarioReadyArt.cs:21, 36 Поворачивается модель, а коллайдер — AABB в неповёрнутом корне. Для кресла под 150° невидимая коробка больше реального сиденья на ~30% Поворачивать корень, коллайдер считать по локальным границам модели":
+      - cell "ScenarioReadyArt.cs:21, 36":
+        - code: ScenarioReadyArt.cs:21, 36
+      - cell "Поворачивается модель, а коллайдер — AABB в неповёрнутом корне. Для кресла под 150° невидимая коробка больше реального сиденья на ~30%"
+      - cell "Поворачивать корень, коллайдер считать по локальным границам модели"
+    - 'row "SCENARIO.md Окончания строк сменились с CRLF на LF: 1538 строк в diff, а по существу изменилась одна (§10.1) .gitattributes с фиксированными окончаниями строк, чтобы ревью сценария было читаемым"':
+      - cell "SCENARIO.md":
+        - code: SCENARIO.md
+      - 'cell "Окончания строк сменились с CRLF на LF: 1538 строк в diff, а по существу изменилась одна (§10.1)"'
+      - cell ".gitattributes с фиксированными окончаниями строк, чтобы ревью сценария было читаемым":
+        - code: .gitattributes
+        - text: с фиксированными окончаниями строк, чтобы ревью сценария было читаемым
+    - row "Свет после погони WarmReturn вместо снимка света. Ты это честно отметил Закрыть вместе с P0 конца погони":
+      - cell "Свет после погони"
+      - cell "WarmReturn вместо снимка света. Ты это честно отметил":
+        - code: WarmReturn
+        - text: вместо снимка света. Ты это честно отметил
+      - cell "Закрыть вместе с P0 конца погони"
+- heading "Диме проверить вручную (Windows-билд)" [level=2]
+- list:
+  - strong: Три прохода подряд через каждый шов
+  - text: ", особенно 5 → 6 — после исправления надписей и света."
+  - strong: "Пятый круг:"
+  - text: щель в двери спальни видна, из неё красный свет лампадки; до звонка дверь не открывается, после звонка E сразу запускает сцену.
+- heading "Дальше" [level=2]
+- generic: "Следующий P0 — старт погони по плану (продолжение прихожей Б, вылет двери, Гостья, разворот к проходу, сдвиг в первом повороте) и конец погони (схлопывание без тёплого модуля, отход Гостьи, вспышка). Шов 5 → 6 советую закрыть до него или в том же коммите: старт погони начинается сразу после шестого круга."
+- button "Copy message":
+  - generic: MD
+- button "Select copy format":
+- generic "Answered by claude-opus-5-5": Opus
+- button "Choose File"
+- textbox "Type / for commands, @ for files, or ask Claude anything..."
+- button "Attach files":
+- button "Show token usage":
+  - generic: 799K
+  - generic: tokens
+- button "6":
+  - generic: "6"
+- button "Schedule this message" [disabled]:
+- button "Select model and reasoning effort":
+  - generic: Default (recommended)
+  - generic: · high
+- button "How should Claude actions be approved?":
+- button "Send" [disabled]:
+- button "Open settings panel":
+- heading "Quick Settings" [level=3]:
+  - text: Quick Settings
+- button "Pin panel open":
+- button "Close panel":
+- tablist "Quick Settings":
+  - tab "Settings" [selected]:
+    - text: Settings
+  - tab "Commands":
+    - text: Commands
+- tabpanel "Settings":
+  - heading "Appearance" [level=4]
+  - text: Dark Mode
+  - switch "Toggle dark mode":
+    - generic: Toggle dark mode
+  - text: Language
+  - combobox:
+    - option "English" [selected]
+    - option "Français"
+    - option "Español"
+    - option "한국어"
+    - option "简体中文"
+    - option "繁體中文"
+    - option "日本語"
+    - option "Русский"
+    - option "Deutsch"
+    - option "Türkçe"
+    - option "Italiano"
+    - option "Bahasa Indonesia"
+    - option "Čeština"
+    - option "עברית"
+    - option "Português (Brasil)"
+  - heading "Tool Display" [level=4]
+  - text: Show raw parameters
+  - checkbox "Show raw parameters"
+  - text: Show thinking
+  - checkbox "Show thinking" [checked]
+  - heading "Input Settings" [level=4]
+  - text: Send by Ctrl+Enter
+  - checkbox "Send by Ctrl+Enter"
+  - paragraph: When enabled, pressing Ctrl+Enter will send the message instead of just Enter. This is useful for IME users to avoid accidental sends.

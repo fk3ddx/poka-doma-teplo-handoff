@@ -18,7 +18,7 @@ namespace Ataka.Editor {
    var source=AssetDatabase.LoadAssetAtPath<GameObject>(Folder+"/"+id+".fbx");
    if(!source)throw new Exception("Missing prepared CC0 asset: "+id);
    var root=new GameObject("READY CC0 "+id);root.transform.SetParent(parent,false);
-   var model=(GameObject)PrefabUtility.InstantiatePrefab(source);model.transform.SetParent(root.transform,false);model.transform.localRotation=Quaternion.Euler(0,yaw,0);
+   var model=(GameObject)PrefabUtility.InstantiatePrefab(source);model.transform.SetParent(root.transform,false);model.transform.localRotation=Quaternion.identity;
    var renderers=model.GetComponentsInChildren<Renderer>();
    foreach(var r in renderers){var mats=r.sharedMaterials;for(int i=0;i<mats.Length;i++){
     var link=entry.materials.FirstOrDefault(x=>x.name==mats[i].name);
@@ -31,9 +31,9 @@ namespace Ataka.Editor {
    Bounds Bounds(){var b=renderers[0].bounds;foreach(var r in renderers)b.Encapsulate(r.bounds);return b;}
    var bounds=Bounds();float scale=entry.height/bounds.size.y;
    // Height in metres is authoritative; fitting a rotated AABB shrinks seats and makes table props float.
-   model.transform.localScale*=scale;bounds=Bounds();model.transform.position+=position-new Vector3(bounds.center.x,bounds.min.y,bounds.center.z);
-   // Collision follows the placed model, including rotation; never retain a larger invisible proxy.
-   bounds=Bounds();var solid=root.AddComponent<BoxCollider>();solid.center=root.transform.InverseTransformPoint(bounds.center);solid.size=bounds.size;
+   model.transform.localScale*=scale;bounds=Bounds();model.transform.position-=new Vector3(bounds.center.x,bounds.min.y,bounds.center.z);
+   // Compute collision in the unrotated root, then rotate the whole object: no enlarged world-AABB around angled chairs.
+   bounds=Bounds();var solid=root.AddComponent<BoxCollider>();solid.center=root.transform.InverseTransformPoint(bounds.center);solid.size=bounds.size;root.transform.localPosition=position;root.transform.localRotation=Quaternion.Euler(0,yaw,0);
    bounds=Bounds();Debug.Log("READY_ART_SCALE "+id+" metres="+bounds.size.ToString("F3")+" position="+position.ToString("F3"));
    return root;
   }

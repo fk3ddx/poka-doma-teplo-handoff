@@ -13,11 +13,12 @@ namespace Ataka.Scenario {
   public string PlayingScene{get;private set;}public float FrameTime{get;private set;}
   void HeadAt(Transform actor,Vector3 point){var animator=actor.GetComponent<Animator>();var bone=animator.GetBoneTransform(HumanBodyBones.Head);actor.position+=point-bone.position;}
   public void BalconyWaiting(){flat.guest.SetActive(true);var g=flat.guest.transform;g.localScale=guestScale;g.rotation=Quaternion.Euler(0,0,180);HeadAt(g,new Vector3(5.175f,1.8f,-.3f));}
-  public float screenBlack,screenRed,screenWhite;Quaternion startHead;Vector3 startGuest,startHeadPosition;bool fired;float lastTime;Vector3 guestScale;
+  public float screenBlack,screenRed,screenWhite;Quaternion startHead,chaseStartRotation,chaseTargetRotation;Vector3 startGuest,startHeadPosition;bool fired;float lastTime;Vector3 guestScale;
   void Awake(){guestScale=flat.guest.transform.localScale;}
   public void Cancel(){director.Stop();screenBlack=screenWhite=screenRed=0;flat.look.peephole=flat.look.disruption=0;flat.player.control=true;flat.player.head.localPosition=Vector3.up*(flat.player.crouched?.94f:1.55f);if(leftHand)leftHand.gameObject.SetActive(false);if(rightHand)rightHand.gameObject.SetActive(false);flat.guest.SetActive(false);flat.grandmother.SetActive(false);}
   public IEnumerator Play(string name){
    PlayingScene=name;
+   if(name=="ChaseStart"){chaseStartRotation=flat.player.head.rotation;var direction=ChaseCorridor.EntryOrigin-flat.player.head.position;direction.y=0;chaseTargetRotation=Quaternion.LookRotation(direction);}
    var timeline=name=="UnderBed"?underBed:name=="BalconyPalm"?balcony:name=="Television"?television:name=="HangingVision"?hanging:name=="Peephole"?peephole:name=="DeathShort"?death:chaseStart;
    flat.player.control=false;startHead=flat.player.head.localRotation;startHeadPosition=flat.player.head.localPosition;fired=false;lastTime=-1;screenBlack=screenRed=screenWhite=0;
    var g=flat.guest.transform;flat.guest.GetComponent<ProxyPose>().Stand();g.position=flat.player.head.position+flat.player.head.forward*.65f-Vector3.up*1.6f;g.rotation=Quaternion.LookRotation(-flat.player.head.forward,Vector3.up);startGuest=g.position;
@@ -25,6 +26,7 @@ namespace Ataka.Scenario {
    director.playableAsset=timeline;foreach(var output in timeline.outputs)director.SetGenericBinding(output.sourceObject,this);
    director.time=0;director.Play();skipHeld=0;while(director.state==PlayState.Playing){if(name=="DeathShort"&&deathsViewed>0){skipHeld=UnityEngine.InputSystem.Keyboard.current?.eKey.isPressed==true?skipHeld+Time.deltaTime:0;if(skipHeld>=.6f)break;}yield return null;}if(name=="DeathShort")deathsViewed++;
    director.Stop();screenBlack=screenWhite=screenRed=0;if(leftHand)leftHand.gameObject.SetActive(false);if(rightHand)rightHand.gameObject.SetActive(false);flat.guest.SetActive(false);flat.grandmother.SetActive(false);flat.player.head.localRotation=startHead;flat.player.head.localPosition=startHeadPosition;flat.guest.transform.localScale=guestScale;
+   if(name=="ChaseStart"){flat.player.transform.rotation=chaseTargetRotation;flat.player.pitch=0;flat.player.head.localRotation=Quaternion.identity;}
    var lens=cine.Lens;lens.FieldOfView=65;cine.Lens=lens;flat.player.control=true;flat.player.flashlight.enabled=true;flat.look.peephole=0;if(landingLight)landingLight.intensity=0;if(rope)rope.enabled=false;if(veil)veil.At(-1);sound.quiet=false;PlayingScene=null;
   }
   void SoundAt(float t,float at,string id,Vector3 p){if(lastTime<at&&t>=at)sound.Play(id,p);}
@@ -47,7 +49,7 @@ namespace Ataka.Scenario {
     Vector3 target=t<2?feet:Vector3.Lerp(feet,face,Mathf.Clamp01((t-2)/1.5f));head.rotation=Quaternion.Slerp(head.rotation,Quaternion.LookRotation(target-head.position),.12f);
     p.flashlight.intensity=t>=4.5f&&t<4.9f?0:3;
     SoundAt(t,0,"creak",grandmother.position);SoundAt(t,3.5f,"breath",grandmother.position);SoundAt(t,4.5f,"shriek",head.position);
-    if(t>=5&&!fired){fired=true;loop.Thought("Нет. Нет-нет-нет…");}SoundAt(t,6,"tick",flat.carpet.transform.position);
+    if(t>=5&&!fired){fired=true;loop.Thought("Нет. Нет-нет-нетвЂ¦");}SoundAt(t,6,"tick",flat.carpet.transform.position);
    }else if(name=="Peephole"){
     flat.look.peephole=1;
     if(landingLight)landingLight.intensity=.7f;if(lastTime<0)sound.Grandmother(new Vector3(8.05f,1.8f,6.65f));
@@ -63,8 +65,16 @@ namespace Ataka.Scenario {
     SoundAt(t,0,"breath",head.position);SoundAt(t,.3f,"creak",head.position);SoundAt(t,1,"impact",head.position);SoundAt(t,1.5f,"shriek",head.position);
     screenRed=t>=1.5f?Mathf.Clamp01((t-1.5f)*2):0;screenBlack=t>=2.5f?1:0;
    }else if(name=="ChaseStart"){
-    flat.entrance.open=true;SoundAt(t,0,"impact",flat.entrance.transform.position);SoundAt(t,.5f,"shriek",flat.entrance.transform.position);
-    head.localRotation=startHead*Quaternion.Euler(0,Mathf.SmoothStep(0,180,Mathf.Clamp01((t-.5f)/.4f)),0);
+    var leaf=flat.entrance.leaf;
+    if(landingLight){landingLight.color=new Color(1,.12f,.04f);landingLight.intensity=t>=2?.85f:0;}
+    float flight=Mathf.Clamp01((t-2)/.18f);
+    leaf.localRotation=t<2?Quaternion.Euler(0,Mathf.Sin(t*95)*2,0):Quaternion.Euler(90*flight,0,0);
+    leaf.localPosition=new Vector3(-.45f,-1+.04f*flight,.12f*flight);
+    if(t>=2){flat.guest.SetActive(true);guest.localScale=guestScale;guest.rotation=Quaternion.Euler(0,180,0);var at=new Vector3(8.05f,0,6.7f-Mathf.Clamp01((t-2.5f)/.1f)*.4f);guest.position=at;flat.guest.GetComponent<ProxyPose>().Crawl(at);}
+    SoundAt(t,.8f,"impact",flat.entrance.transform.position);SoundAt(t,1.3f,"impact",flat.entrance.transform.position);SoundAt(t,1.8f,"impact",flat.entrance.transform.position);SoundAt(t,2,"creak",flat.entrance.transform.position);SoundAt(t,2.5f,"shriek",flat.entrance.transform.position);
+    var doorLook=Quaternion.LookRotation(new Vector3(8.05f,.9f,6.7f)-head.position);
+    head.rotation=t<2.6f?Quaternion.Slerp(chaseStartRotation,doorLook,Mathf.Clamp01(t/.3f)):Quaternion.Slerp(doorLook,chaseTargetRotation,Mathf.SmoothStep(0,1,Mathf.Clamp01((t-2.6f)/.4f)));
+
    }
    lastTime=t;
   }

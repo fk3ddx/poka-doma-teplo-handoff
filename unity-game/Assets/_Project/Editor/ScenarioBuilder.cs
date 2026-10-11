@@ -49,7 +49,7 @@ namespace Ataka.Editor {
    var collider=g.AddComponent<BoxCollider>();var local=new Bounds(g.transform.InverseTransformPoint(b.center),Vector3.zero);foreach(var rr in rs){var mb=rr.GetComponent<MeshFilter>();if(mb)local.Encapsulate(g.transform.InverseTransformPoint(rr.bounds.min));local.Encapsulate(g.transform.InverseTransformPoint(rr.bounds.max));}collider.center=local.center;collider.size=local.size;
    return g;
   }
-  static TextMesh Label(string text,Vector3 pos,float scale,Transform parent=null){var t=Point("Text "+text,pos,parent);var l=t.gameObject.AddComponent<TextMesh>();l.text=text;l.fontSize=72;l.characterSize=scale;l.anchor=TextAnchor.MiddleCenter;l.color=new Color(.76f,.7f,.56f);return l;}
+  static TextMesh Label(string text,Vector3 pos,float scale,Transform parent=null){var t=Point("Text "+text,pos,parent);var l=t.gameObject.AddComponent<TextMesh>();l.text=text;l.fontSize=72;l.characterSize=scale;l.anchor=TextAnchor.MiddleCenter;l.color=new Color(.25f,.015f,.01f);l.font=Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");t.gameObject.AddComponent<ScenarioWallWriting>().shader=Shader.Find("Ataka/DepthText");return l;}
   static GameObject Haven(string id,Vector3 position,float height,Transform parent=null){
    string folder=Art+"/ScenarioProxies/PolyHaven/"+id;var src=AssetDatabase.LoadAssetAtPath<GameObject>(folder+"/"+id+".fbx");if(!src)throw new Exception("Missing CC0 model "+id);
    var g=(GameObject)PrefabUtility.InstantiatePrefab(src);g.name="Poly Haven "+id;g.transform.SetParent(parent?parent:shell,false);
@@ -108,15 +108,19 @@ namespace Ataka.Editor {
    Directory.CreateDirectory(Root);AssetDatabase.Refresh();Models();EditorSceneManager.NewScene(NewSceneSetup.EmptyScene,NewSceneMode.Single);
    wall=AssetDatabase.LoadAssetAtPath<Material>(Lab+"/Wall_plaster.mat");wood=AssetDatabase.LoadAssetAtPath<Material>(Lab+"/Wood.mat");floor=AssetDatabase.LoadAssetAtPath<Material>(Lab+"/Parquet.mat");fabric=AssetDatabase.LoadAssetAtPath<Material>(Lab+"/Linen.mat");metal=Tint("Metal",wall,new Color(.22f,.23f,.24f));
    shell=new GameObject("Flat geometry — SCENARIO section 1").transform;flat=new GameObject("Flat bindings").AddComponent<FlatBindings>();flat.apartment=shell;
-   Box("Continuous subfloor",new Vector3(4.4f,-.12f,3),new Vector3(9.5f,.24f,6.7f),floor);Box("Ceiling 2.5m",new Vector3(4.4f,2.6f,3),new Vector3(9.5f,.2f,6.7f),wall);
-   WallX("Exterior west",-.175f,-.35f,6.35f,.35f);WallX("Exterior east",8.975f,-.35f,6.35f,.35f);
+   // Split the west service-room band so the endless hall can replace it without coplanar floors.
+   foreach(var band in new[]{new Vector4(-.35f,9.15f,-.35f,4.5f),new Vector4(4.7f,9.15f,4.5f,6.35f),new Vector4(-.35f,4.7f,4.5f,6.35f)}){
+    var center=new Vector3((band.x+band.y)/2,0,(band.z+band.w)/2);var size=new Vector3(band.y-band.x,.24f,band.w-band.z);
+    Box("Continuous subfloor section",center+Vector3.down*.12f,size,floor);size.y=.2f;Box("Ceiling section 2.5m",center+Vector3.up*2.6f,size,wall);
+   }
+   WallX("Exterior west north",-.175f,-.35f,4.5f,.35f);WallX("Exterior west chase overlap",-.175f,4.5f,6.35f,.35f);WallX("Exterior east",8.975f,-.35f,6.35f,.35f);
    WallZ("Facade",0,8.8f,-.175f,.35f,new Vector4(.75f,2.05f,.85f,2.3f),new Vector4(3.25f,4.65f,.85f,2.3f),new Vector4(4.8f,5.55f,0,2),new Vector4(7.1f,8.3f,.85f,2.3f));
    WallZ("South",0,8.8f,6.175f,.35f,new Vector4(7.6f,8.5f,0,2.05f));
    WallX("Bedroom partition",2.85f,0,4.5f,.1f,new Vector4(3.35f,4.15f,0,2));WallX("Living east",6.55f,0,4.5f,.1f);
    WallZ("Bedroom south",0,2.9f,4.45f,.1f,new Vector4(.45f,1.35f,0,2.05f));WallZ("Living south",2.9f,6.5f,4.45f,.1f,new Vector4(5.25f,6.05f,0,2));
    WallZ("Kitchen south",6.6f,8.8f,2.95f,.1f,new Vector4(6.9f,7.6f,0,2));WallX("Bathroom east",4.65f,4.5f,6,.1f,new Vector4(4.9f,5.6f,0,2));WallX("Store east",2.85f,4.5f,6,.1f);
    flat.entrance=Door("Entrance60",new Vector3(8.05f,1,6.03f),.9f,180);flat.kitchen=Door("Kitchen door",new Vector3(7.25f,1,2.95f),.7f,0);flat.bath=Door("Bathroom door",new Vector3(4.65f,1,5.25f),.7f,90);flat.bedroom=Door("Bedroom door",new Vector3(2.85f,1,3.75f),.8f,90);flat.bedroom.open=true;
-   flat.entrance.direction=-1;
+   flat.entrance.direction=-1;flat.living=Door("Living frosted doorway — temporary leaf",new Vector3(5.65f,1,4.45f),.8f,0);flat.living.direction=1;flat.living.open=true;
    flat.carpet=Door("Carpet door",new Vector3(.9f,1,4.45f),.9f,0);flat.carpet.direction=1;
    flat.vestibuleInner=Door("Vestibule second closed door",new Vector3(.9f,1,5.5f),.9f,0);flat.vestibuleInner.locked=true;
    flat.sourceVestibule=Point("Source local frame",new Vector3(.9f,0,4.975f));flat.destinationVestibule=Point("Destination local frame",new Vector3(8.05f,0,6.555f));flat.destinationVestibule.rotation=Quaternion.Euler(0,180,0);
@@ -127,6 +131,7 @@ namespace Ataka.Editor {
     foreach(float z in new[]{-.525f,.525f})Box("Vestibule lintel",new Vector3(0,2.275f,z),new Vector3(1.1f,.45f,.05f),wood,frame);
    }
    var outerDoor=Door("Entry vestibule closed outer door",new Vector3(8.05f,1,7.08f),.9f,180);outerDoor.locked=true;
+   foreach(var frame in new[]{flat.sourceVestibule,flat.destinationVestibule,flat.carpet.transform,flat.vestibuleInner.transform,flat.entrance.transform,outerDoor.transform})foreach(var surface in frame.GetComponentsInChildren<Renderer>())surface.renderingLayerMask=2;
    foreach(var win in new[]{new Vector2(.75f,2.05f),new Vector2(3.25f,4.65f),new Vector2(7.1f,8.3f)}){float mid=(win.x+win.y)/2;foreach(float x in new[]{win.x,mid,win.y})Box("Window frame",new Vector3(x,1.575f,-.18f),new Vector3(.045f,1.45f,.16f),wood);foreach(float y in new[]{.85f,1.85f,2.3f})Box("Window transom",new Vector3(mid,y,-.18f),new Vector3(win.y-win.x,.045f,.16f),wood);Box("Window sill",new Vector3(mid,.82f,-.02f),new Vector3(win.y-win.x+.15f,.06f,.4f),wood);}
    flat.balcony=Point("Balcony interaction",ScenarioLayout.BalconyDoor);flat.balconyDoor=Door("Bound balcony door",ScenarioLayout.BalconyDoor,.75f,0);flat.balconyDoor.locked=true;
    flat.balconyDoor.leaf.GetComponentInChildren<Renderer>().enabled=false;
@@ -136,6 +141,8 @@ namespace Ataka.Editor {
    var glass=new Material(Shader.Find("Universal Render Pipeline/Lit"));glass.SetColor("_BaseColor",new Color(.35f,.46f,.52f,.14f));glass.SetFloat("_Surface",1);glass.SetFloat("_ZWrite",0);glass.SetFloat("_SrcBlend",5);glass.SetFloat("_DstBlend",10);glass.SetFloat("_Cull",0);glass.renderQueue=3000;glass.EnableKeyword("_SURFACE_TYPE_TRANSPARENT");glass=Save(glass,"BalconyGlass.mat");var pane=Box("Balcony glass",new Vector3(.375f,1.4f,0),new Vector3(.65f,1.13f,.008f),glass,flat.balconyDoor.leaf);pane.GetComponent<Renderer>().shadowCastingMode=ShadowCastingMode.Off;
    Box("Balcony slab",new Vector3(4.7f,-.1f,-.83f),new Vector3(3.5f,.2f,.95f),wall);Box("Balcony parapet",new Vector3(4.7f,.45f,-1.3f),new Vector3(3.5f,.9f,.15f),wall);
    Furnish();CreateLook();CreatePlayer();CreateEvents();CreateCorridor();
+   Physics.SyncTransforms();var overlap=new Bounds(new Vector3(2.1725f,1.25f,5.25f),new Vector3(5.045f,3,1.49f));
+   flat.chaseOverlapRenderers=flat.apartment.GetComponentsInChildren<Renderer>(true).Where(r=>r.bounds.Intersects(overlap)).ToArray();flat.chaseOverlapColliders=flat.apartment.GetComponentsInChildren<Collider>(true).Where(c=>c.bounds.Intersects(overlap)).ToArray();
    AssetDatabase.SaveAssets();EditorSceneManager.SaveScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene(),Root+"/Flat.unity");Debug.Log("SCENARIO_FLAT_GENERATED");
   }
   static void Furnish(){
@@ -143,7 +150,7 @@ namespace Ataka.Editor {
    Prop("cabinetBedDrawer",ScenarioLayout.Dresser,new Vector3(.55f,.8f,.85f),90);Prop("bathroomMirror",new Vector3(6.66f,.85f,3.7f),new Vector3(.05f,1.2f,.6f),90);
    flat.phone=Point("Phone interaction",new Vector3(7.05f,1,3.7f));Prop("radio",new Vector3(7.03f,.8f,3.7f),new Vector3(.25f,.15f,.2f));flat.torchPickup=Haven("signal_flashlight",new Vector3(7.15f,.86f,3.85f),.14f).transform;
    flat.clock=Clock(ScenarioLayout.Clock);Prop("lampWall",new Vector3(5.5f,1.95f,5.85f),new Vector3(.25f,.25f,.22f));
-   Prop("table",new Vector3(7.65f,0,.75f),new Vector3(1,.74f,.65f));Prop("stoolBar",new Vector3(7.15f,0,1.2f),new Vector3(.32f,.45f,.32f));flat.stool=Prop("stoolBar",new Vector3(5.05f,0,5.5f),new Vector3(.32f,.45f,.32f));
+   Prop("table",new Vector3(7.65f,0,.75f),new Vector3(1,.74f,.65f));Prop("stoolBar",new Vector3(7.15f,0,1.2f),new Vector3(.32f,.45f,.32f));flat.stool=Prop("stoolBar",new Vector3(5.5f,0,5.8f),new Vector3(.32f,.45f,.32f));
    Prop("kitchenStove",new Vector3(8.5f,0,1.7f),new Vector3(.55f,.85f,.6f),90);Prop("kitchenFridge",new Vector3(8.25f,0,2.55f),new Vector3(.6f,1.55f,.6f));Prop("kitchenSink",new Vector3(6.9f,0,1.6f),new Vector3(.6f,.85f,.9f),90);Prop("kitchenCabinetUpper",new Vector3(6.82f,1.5f,1.6f),new Vector3(.35f,.65f,.9f),90);
    Prop("radio",new Vector3(8.73f,1.45f,2),new Vector3(.1f,.28f,.35f),90);Prop("plantSmall1",new Vector3(7.35f,.85f,0),new Vector3(.2f,.35f,.2f));
    Prop("loungeSofa",new Vector3(3.42f,0,1.9f),new Vector3(.8f,.85f,1.9f),90);Prop("rugRectangle",new Vector3(4.65f,.005f,2.3f),new Vector3(2.4f,.02f,2.6f));
@@ -165,7 +172,7 @@ namespace Ataka.Editor {
   }
   static void CreateLook(){
    var renderer=Save(UnityEngine.Object.Instantiate(AssetDatabase.LoadAssetAtPath<UniversalRendererData>(Lab+"/LightLab_Renderer.asset")),"Scenario_Renderer.asset");var material=Save(new Material(Shader.Find("Ataka/ScenarioVHS")),"ScenarioVHS.mat");var features=renderer.rendererFeatures.ToArray();renderer.rendererFeatures.Clear();foreach(var source in features){var f=UnityEngine.Object.Instantiate(source);AssetDatabase.AddObjectToAsset(f,renderer);if(f is FullScreenPassRendererFeature full)full.passMaterial=material;renderer.rendererFeatures.Add(f);f.Create();}EditorUtility.SetDirty(renderer);
-   var pipe=Save(UnityEngine.Object.Instantiate(AssetDatabase.LoadAssetAtPath<UniversalRenderPipelineAsset>(Lab+"/LightLab_URP.asset")),"Scenario_URP.asset");var serialized=new SerializedObject(pipe);serialized.FindProperty("m_RendererDataList").GetArrayElementAtIndex(0).objectReferenceValue=renderer;serialized.ApplyModifiedPropertiesWithoutUndo();EditorUtility.SetDirty(pipe);
+   var pipe=Save(UnityEngine.Object.Instantiate(AssetDatabase.LoadAssetAtPath<UniversalRenderPipelineAsset>(Lab+"/LightLab_URP.asset")),"Scenario_URP.asset");var serialized=new SerializedObject(pipe);serialized.FindProperty("m_RendererDataList").GetArrayElementAtIndex(0).objectReferenceValue=renderer;serialized.FindProperty("m_SupportsLightLayers").boolValue=true;serialized.ApplyModifiedPropertiesWithoutUndo();EditorUtility.SetDirty(pipe);
    var volume=new GameObject("Scenario grade").AddComponent<Volume>();volume.isGlobal=true;volume.sharedProfile=AssetDatabase.LoadAssetAtPath<VolumeProfile>(Lab+"/LightLabVolume.asset");
    var lighting=new GameObject("Scenario lighting always active").transform;var look=lighting.gameObject.AddComponent<ScenarioLook>();look.pipeline=pipe;look.vhs=material;look.volume=volume;flat.look=look;
    var warm=new Color(1,.706f,.42f);look.warm=new[]{Lamp("HallA ceiling",new Vector3(7.7f,2.3f,4.5f),warm,.08f,3,lighting),Lamp("HallB sconce",new Vector3(5.5f,2,5.7f),warm,.08f,3,lighting),Lamp("Kitchen ceiling",new Vector3(7.7f,2.3f,1.5f),warm,0,3,lighting),Lamp("Living ceiling",new Vector3(4.7f,2.3f,2.1f),warm,0,4,lighting),Lamp("Floor lamp",new Vector3(3.1f,1.45f,.55f),warm,0,3.4f,lighting)};
@@ -178,7 +185,7 @@ namespace Ataka.Editor {
    var player=actor.AddComponent<ScenarioPlayer>();flat.player=player;var head=new GameObject("Head").transform;head.SetParent(actor.transform,false);head.localPosition=Vector3.up*1.55f;player.head=head;
    var cine=head.gameObject.AddComponent<CinemachineCamera>();var lens=cine.Lens;lens.FieldOfView=65;lens.NearClipPlane=.03f;lens.FarClipPlane=80;cine.Lens=lens;
    var cameraObject=new GameObject("Camera");cameraObject.tag="MainCamera";var camera=cameraObject.AddComponent<Camera>();camera.cullingMask=~(1<<31);camera.allowHDR=true;camera.backgroundColor=new Color(.012f,.02f,.03f);camera.clearFlags=CameraClearFlags.SolidColor;camera.GetUniversalAdditionalCameraData().renderPostProcessing=true;cameraObject.AddComponent<CinemachineBrain>();cameraObject.AddComponent<AudioListener>();player.view=camera;
-   player.flashlight=Lamp("Dynamo flashlight",Vector3.zero,new Color(1,.89f,.72f),0,11,head);player.flashlight.type=LightType.Spot;player.flashlight.spotAngle=50;player.flashlight.innerSpotAngle=24;
+   player.flashlight=Lamp("Dynamo flashlight",Vector3.zero,new Color(1,.89f,.72f),0,11,head);player.flashlight.type=LightType.Spot;player.flashlight.spotAngle=50;player.flashlight.innerSpotAngle=24;player.flashlight.GetUniversalAdditionalLightData().renderingLayers=(RenderingLayerMask)3u;
    var canvasObject=new GameObject("Subtitles before VHS");var canvas=canvasObject.AddComponent<Canvas>();canvas.renderMode=RenderMode.ScreenSpaceCamera;canvas.worldCamera=camera;canvas.planeDistance=.5f;canvasObject.AddComponent<CanvasScaler>().uiScaleMode=CanvasScaler.ScaleMode.ScaleWithScreenSize;
    var loop=new GameObject("LoopDirector").AddComponent<LoopDirector>();loop.flat=flat;loop.laps=new LapData[6];for(int i=0;i<6;i++){var lap=ScriptableObject.CreateInstance<LapData>();lap.number=i+1;lap.minute=7-i;lap.gate=(LapGate)i;lap.condition=(FlatCondition)i;loop.laps[i]=Save(lap,"Lap"+(i+1)+".asset");}
    Text TextLine(string name,float y){var g=new GameObject(name);g.transform.SetParent(canvas.transform,false);var text=g.AddComponent<Text>();text.font=Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");text.fontSize=20;text.alignment=TextAnchor.MiddleCenter;text.color=Color.white;var rect=text.rectTransform;rect.anchorMin=new Vector2(0,y);rect.anchorMax=new Vector2(1,y+.1f);rect.offsetMin=rect.offsetMax=Vector2.zero;return text;}
@@ -193,14 +200,14 @@ namespace Ataka.Editor {
    foreach(var root in new[]{tv.misha,tv.visitor})foreach(var child in root.GetComponentsInChildren<Transform>())child.gameObject.layer=31;
    tv.feed=new GameObject("Rubin camera").AddComponent<Camera>();tv.feed.depth=-10;tv.feed.nearClipPlane=.05f;tv.feed.farClipPlane=15;tv.feed.fieldOfView=65;tv.feed.backgroundColor=Color.black;tv.feed.clearFlags=CameraClearFlags.SolidColor;tv.feed.GetUniversalAdditionalCameraData();tv.feed.enabled=false;
   }
-  static void CreateEvents(){var s=UnityEngine.Object.FindFirstObjectByType<ScenarioTimeline>();s.underBed=Timeline("UnderBed","UnderBed",1.4f);s.balcony=Timeline("Balcony","BalconyPalm",1.2f);s.television=Timeline("Television","Television",.1f);s.hanging=Timeline("Hanging","HangingVision",6.1f);s.peephole=Timeline("Peephole","Peephole",7);s.death=Timeline("DeathShort","DeathShort",3.5f);s.chaseStart=Timeline("ChaseStart","ChaseStart",.95f);}
+  static void CreateEvents(){var s=UnityEngine.Object.FindFirstObjectByType<ScenarioTimeline>();s.underBed=Timeline("UnderBed","UnderBed",1.4f);s.balcony=Timeline("Balcony","BalconyPalm",1.2f);s.television=Timeline("Television","Television",.1f);s.hanging=Timeline("Hanging","HangingVision",6.1f);s.peephole=Timeline("Peephole","Peephole",7);s.death=Timeline("DeathShort","DeathShort",3.5f);s.chaseStart=Timeline("ChaseStart","ChaseStart",3f);}
   static void CreateCorridor(){
    var chase=UnityEngine.Object.FindFirstObjectByType<ChaseCorridor>();chase.pool=new CorridorModule[6];var old=shell;
    for(int i=0;i<6;i++){shell=new GameObject("Pooled corridor "+i).transform;shell.position=new Vector3(i*10,0,30);var module=shell.gameObject.AddComponent<CorridorModule>();
-    Box("Floor",new Vector3(0,-.1f,3),new Vector3(1.9f,.2f,6),floor);Box("Ceiling",new Vector3(0,2.6f,3),new Vector3(2.1f,.2f,6),wall);Box("Right",new Vector3(1,1.25f,3),new Vector3(.1f,2.5f,6),wood);Box("Left",new Vector3(-1,1.25f,2.05f),new Vector3(.1f,2.5f,4.1f),wood);
-    module.cornerCap=Box("Turn end cap",new Vector3(0,1.25f,6.05f),new Vector3(2.1f,2.5f,.1f),wood);module.straightLeftEnd=Box("Straight left end",new Vector3(-1,1.25f,5.05f),new Vector3(.1f,2.5f,1.9f),wood);
-    module.clock=Clock(new Vector3(-.83f,1.05f,3),shell);module.clock.transform.localRotation=Quaternion.Euler(0,-90,0);module.lamp=Lamp("Red sconce",new Vector3(-.4f,2.1f,3),Color.red,0,3.8f,shell);
-    var door=Door("Locked side door",new Vector3(.94f,1,3),.8f,90);door.locked=true;var text=Label("ПОМНИ",new Vector3(.92f,1.5f,4.5f),.04f,shell);text.transform.localRotation=Quaternion.Euler(0,90,0);
+    Box("Floor",new Vector3(0,-.1f,3),new Vector3(1.59f,.2f,6),floor);Box("Ceiling",new Vector3(0,2.6f,3),new Vector3(1.69f,.2f,6),wall);Box("Right",new Vector3(.795f,1.25f,3),new Vector3(.1f,2.5f,6),wood);Box("Left",new Vector3(-.795f,1.25f,2.255f),new Vector3(.1f,2.5f,4.51f),wood);
+    module.cornerCap=Box("Turn end cap",new Vector3(0,1.25f,6.05f),new Vector3(1.69f,2.5f,.1f),wood);module.straightLeftEnd=Box("Straight left end",new Vector3(-.795f,1.25f,5.255f),new Vector3(.1f,2.5f,1.49f),wood);
+    module.clock=Clock(new Vector3(-.63f,1.05f,3),shell);module.clock.transform.localRotation=Quaternion.Euler(0,-90,0);module.lamp=Lamp("Red sconce",new Vector3(-.4f,2.1f,3),Color.red,0,3.8f,shell);
+    var door=Door("Locked side door",new Vector3(.735f,1,3),.8f,90);door.locked=true;var text=Label("ПОМНИ",new Vector3(.72f,1.5f,4.5f),.04f,shell);text.transform.localRotation=Quaternion.Euler(0,90,0);
     module.surfaces=shell.GetComponentsInChildren<Renderer>();module.solids=shell.GetComponentsInChildren<Collider>();chase.pool[i]=module;
    }shell=old;
   }

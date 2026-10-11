@@ -210,6 +210,26 @@ MonoBehaviour:
     BlurQuality: 0
     Falloff: 100
     SampleCount: -1
+--- !u!114 &-2789094213220410440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b00045f12942b46c698459096c89274e, type: 3}
+  m_Name: Subtle VHS(Clone)(Clone)
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.FullScreenPassRendererFeature
+  m_Active: 1
+  injectionPoint: 600
+  fetchColorBuffer: 1
+  requirements: 4
+  passMaterial: {fileID: 2100000, guid: 34fec93af9526f649b85fb11cd88b6c8, type: 2}
+  passIndex: 0
+  bindDepthStencilAttachment: 0
+  m_Version: 1
 --- !u!114 &-2581591983159179462
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -301,8 +321,8 @@ MonoBehaviour:
     probeSamplingDebugTexture: {fileID: 0}
     probeVolumeBlendStatesCS: {fileID: 0}
   m_RendererFeatures:
-  - {fileID: 3620177808413704623}
-  - {fileID: -727144623437965512}
+  - {fileID: 163352758807740590}
+  - {fileID: -2789094213220410440}
   m_RendererFeatureMap: 
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 0}
@@ -331,6 +351,32 @@ MonoBehaviour:
   m_DepthTextureFormat: 0
   m_AccurateGbufferNormals: 0
   m_IntermediateTextureMode: 1
+--- !u!114 &163352758807740590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f62c9c65cf3354c93be831c8bc075510, type: 3}
+  m_Name: Contact ambient occlusion(Clone)(Clone)
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.ScreenSpaceAmbientOcclusion
+  m_Active: 1
+  m_Settings:
+    AOMethod: 0
+    Downsample: 1
+    AfterOpaque: 0
+    Source: 1
+    NormalSamples: 1
+    Intensity: 1
+    DirectLightingStrength: 0.25
+    Radius: 0.35
+    Samples: 1
+    BlurQuality: 0
+    Falloff: 100
+    SampleCount: -1
 --- !u!114 &867072335876636978
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -561,6 +607,26 @@ MonoBehaviour:
   passIndex: 0
   bindDepthStencilAttachment: 0
   m_Version: 1
+--- !u!114 &4179406408211250426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b00045f12942b46c698459096c89274e, type: 3}
+  m_Name: Subtle VHS(Clone)(Clone)
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.FullScreenPassRendererFeature
+  m_Active: 1
+  injectionPoint: 600
+  fetchColorBuffer: 1
+  requirements: 4
+  passMaterial: {fileID: 2100000, guid: 34fec93af9526f649b85fb11cd88b6c8, type: 2}
+  passIndex: 0
+  bindDepthStencilAttachment: 0
+  m_Version: 1
 --- !u!114 &4587502677819797978
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -653,6 +719,32 @@ MonoBehaviour:
   passIndex: 0
   bindDepthStencilAttachment: 0
   m_Version: 1
+--- !u!114 &7331674728300649721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f62c9c65cf3354c93be831c8bc075510, type: 3}
+  m_Name: Contact ambient occlusion(Clone)(Clone)
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.ScreenSpaceAmbientOcclusion
+  m_Active: 1
+  m_Settings:
+    AOMethod: 0
+    Downsample: 1
+    AfterOpaque: 0
+    Source: 1
+    NormalSamples: 1
+    Intensity: 1
+    DirectLightingStrength: 0.25
+    Radius: 0.35
+    Samples: 1
+    BlurQuality: 0
+    Falloff: 100
+    SampleCount: -1
 --- !u!114 &7353690074492093376
 MonoBehaviour:
   m_ObjectHideFlags: 0

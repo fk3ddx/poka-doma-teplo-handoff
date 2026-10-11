@@ -31,7 +31,7 @@ namespace Ataka.Scenario {
     Check(loop.Progress.CarpetDoorUnlocked,"gate "+lap+" released by event");yield return Press(Key.E);yield return new WaitForSeconds(.7f);yield return Walk(new Vector3(.9f,0,5.1f));yield return new WaitForSeconds(1);
     Look(loop.flat.entrance.transform.position);yield return Press(Key.E);yield return new WaitForSeconds(.7f);yield return Walk(new Vector3(8.05f,0,5.55f));
    }
-   if(!failed){yield return Walk(new Vector3(2.25f,0,3.6f));yield return Walk(new Vector3(5.65f,0,3.6f));yield return Walk(new Vector3(5.65f,0,5.35f));yield return Walk(new Vector3(8.05f,0,5.45f));Look(loop.flat.entrance.transform.position);yield return Press(Key.E);yield return WaitBusy();yield return Walk(new Vector3(8.05f,0,4.55f));yield return new WaitForSeconds(2);Check(loop.chase.Active,"chase entered");yield return Shot("chase-start");}
+   if(!failed){yield return Walk(new Vector3(2.25f,0,3.6f));yield return Walk(new Vector3(5.65f,0,3.6f));yield return Walk(new Vector3(5.65f,0,5.35f));yield return Walk(new Vector3(8.05f,0,5.45f));Look(loop.flat.entrance.transform.position);yield return Press(Key.E);yield return WaitBusy();float chaseDeadline=Time.realtimeSinceStartup+5;while(!loop.chase.Active&&Time.realtimeSinceStartup<chaseDeadline)yield return null;Check(loop.chase.Active,"chase entered");Check(player.transform.position.z<7&&player.transform.position.z>4,"chase starts in original hallway without visible teleport");yield return Shot("chase-start");}
    if(!failed)yield return ChaseRun();
    Finish();
   }
@@ -47,23 +47,24 @@ namespace Ataka.Scenario {
     }yield return null;
    }
   }
-  IEnumerator CaptureScenes(){var captured=new HashSet<string>();while(!loop.Finished){var scene=loop.scenes.PlayingScene;float t=loop.scenes.FrameTime;if(!string.IsNullOrEmpty(scene)){foreach(float at in new[]{.4f,1.1f,1.7f,2.6f,3.6f,4.6f,5.1f}){string key=scene+"-"+at.ToString("0.0",System.Globalization.CultureInfo.InvariantCulture);if(t>=at&&t<at+.1f&&!captured.Contains(key)){captured.Add(key);yield return Shot("scene-"+key);break;}}}yield return null;}}
+  IEnumerator CaptureScenes(){var captured=new HashSet<string>();while(!loop.Finished){var scene=loop.scenes.PlayingScene;float t=loop.scenes.FrameTime;if(!string.IsNullOrEmpty(scene)){foreach(float at in new[]{.4f,1.1f,1.7f,2.1f,2.4f,2.6f,2.9f,3.6f,4.6f,5.1f}){string key=scene+"-"+at.ToString("0.0",System.Globalization.CultureInfo.InvariantCulture);if(t>=at&&t<at+.1f&&!captured.Contains(key)){captured.Add(key);yield return Shot("scene-"+key);break;}}}yield return null;}}
   IEnumerator ChaseRun(){
    InputSystem.QueueStateEvent(keyboard,new KeyboardState());
    float elapsed=loop.chase.Progress.Elapsed;loop.Pause(true);yield return new WaitForSecondsRealtime(.5f);Check(Mathf.Abs(loop.chase.Progress.Elapsed-elapsed)<.01f,"pause freezes chase clock");loop.Pause(false);
-   int deaths=loop.chase.DeathCount;float deadline=Time.realtimeSinceStartup+12;
+   int deaths=loop.chase.DeathCount;float deadline=Time.realtimeSinceStartup+18;
    while(loop.chase.DeathCount==deaths||loop.chase.Ending){if(Time.realtimeSinceStartup>deadline){Check(false,"stall death restart timeout");yield break;}yield return null;}
    Check(loop.chase.Active&&loop.chase.Progress.Elapsed<.5f,"stall death restarts chase");
-   deadline=Time.realtimeSinceStartup+85;int startDeaths=loop.chase.DeathCount;
+   deadline=Time.realtimeSinceStartup+85;int startDeaths=loop.chase.DeathCount;bool cornerCaptured=false;yield return Shot("chase-hallway-entry");
    while(!loop.Finished&&!failed){
     if(Time.realtimeSinceStartup>deadline||loop.chase.DeathCount!=startDeaths){Check(false,"chase route failed at "+player.transform.position+" elapsed="+loop.chase.Progress.Elapsed);yield return Shot("FAILED-chase");yield break;}
+    if(!cornerCaptured&&player.transform.position.y < -30){cornerCaptured=true;yield return Shot("chase-first-corner");Check(Vector3.Distance(player.view.transform.position,player.head.position)<.03f,"camera follows rigid shift without a frame of lag");}
     var module=loop.chase.Current;var local=module.transform.InverseTransformPoint(player.transform.position);
     if(module.warm&&local.z>2.2f&&local.z<3.8f){
      InputSystem.QueueStateEvent(keyboard,new KeyboardState());Look(module.clock.transform.position);yield return Shot("warm-clock");Check(loop.chase.Progress.Elapsed>=42&&loop.chase.Progress.Elapsed<=50,"warm clock reached within 42–50s");
      InputSystem.QueueStateEvent(keyboard,new KeyboardState(Key.E));yield return new WaitForSeconds(2.15f);InputSystem.QueueStateEvent(keyboard,new KeyboardState());yield return null;yield return null;
-     Check(loop.chase.Progress.Wound,"clock wound by holding E two seconds");yield return Press(Key.E);float endDeadline=Time.realtimeSinceStartup+13;while(!loop.Finished&&Time.realtimeSinceStartup<endDeadline)yield return null;Check(loop.Finished,"ten strikes return to warm apartment");yield return Shot("core-end");yield break;
+     Check(loop.chase.Progress.Wound,"clock wound by holding E two seconds");yield return Press(Key.E);float endDeadline=Time.realtimeSinceStartup+13;while(!loop.Finished&&Time.realtimeSinceStartup<endDeadline){if(module.transform.localScale!=Vector3.one){Check(false,"warm module collapsed under player");break;}yield return null;}Check(loop.Finished,"ten strikes return to warm apartment");yield return new WaitForSecondsRealtime(.4f);yield return Shot("core-end");yield break;
     }
-    var localTarget=module.turn&&local.z>4.9f?new Vector3(-1.3f,0,5.05f):new Vector3(0,0,module.turn?5.08f:6.35f);
+    var localTarget=module.turn&&local.z>CorridorModule.CornerZ-.15f?new Vector3(-1.1f,0,CorridorModule.CornerZ):new Vector3(0,0,module.turn?CorridorModule.CornerZ+.03f:6.35f);
     var direction=module.transform.TransformPoint(localTarget)-player.transform.position;direction.y=0;player.transform.rotation=Quaternion.LookRotation(direction);player.pitch=0;
     InputSystem.QueueStateEvent(keyboard,new KeyboardState(Key.W,Key.F));yield return null;
    }
