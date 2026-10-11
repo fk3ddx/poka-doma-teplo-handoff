@@ -1,0 +1,457 @@
+- heading "CloudCLI" [level=1]
+- button "Refresh projects and sessions (Ctrl+R)":
+- button "Create new project":
+- button "Hide sidebar":
+- link "Star 14.0k":
+  - /url: https://github.com/siteboon/claudecodeui
+  - generic: Star
+  - generic: 14.0k
+- button "Projects" [pressed]:
+  - generic: Projects
+- button "Conversations":
+  - generic: Conversations
+- button "Running sessions":
+- button "Archive only":
+- textbox "Search projects..."
+- text: Ctrl
+- generic: K
+- button "Основной проект 0 - ...e/claude/projects/main":
+  - generic "Add to favorites":
+  - generic "Основной проект"
+  - text: "0"
+  - generic "/home/claude/projects/main": "- ...e/claude/projects/main"
+  - generic "Rename project (F2)":
+  - generic "Remove project from sidebar (Delete)":
+- button "dima 1 - ...e/claude/projects/dima":
+  - generic "Add to favorites":
+  - generic "dima"
+  - text: "1"
+  - generic "/home/claude/projects/dima": "- ...e/claude/projects/dima"
+  - generic "Rename project (F2)":
+  - generic "Remove project from sidebar (Delete)":
+- button "New Session":
+  - text: New Session
+- button "Select":
+  - text: Select
+- status "Recently active session (last 10 minutes)"
+- 'link "Claude Загрузил: репозиторий на GitHub. 2m"':
+  - /url: /session/6cc564c9-d950-4679-8bcf-25470278b0ff
+  - img "Claude"
+  - 'generic "Загрузил: репозиторий на GitHub."'
+  - generic: 2m
+- 'button "Session options for Загрузил: репозиторий на GitHub."':
+- button "projects 1 - /home/claude/projects":
+  - generic "Add to favorites":
+  - generic "projects"
+  - text: "1"
+  - generic "/home/claude/projects": "- /home/claude/projects"
+  - generic "Rename project (F2)":
+  - generic "Remove project from sidebar (Delete)":
+- button "turbo 1 - .../claude/projects/turbo":
+  - generic "Add to favorites":
+  - generic "turbo"
+  - text: "1"
+  - generic "/home/claude/projects/turbo": "- .../claude/projects/turbo"
+  - generic "Rename project (F2)":
+  - generic "Remove project from sidebar (Delete)":
+- link "Report Issue":
+  - /url: https://github.com/siteboon/claudecodeui/issues/new
+  - generic: Report Issue
+- link "Join Community":
+  - /url: https://discord.gg/buxwujPNRE
+  - generic: Join Community
+- button "Settings":
+  - generic: Settings
+- link "CloudCLI v1.37.4 – Open Source":
+  - /url: https://github.com/siteboon/claudecodeui
+- separator "Resize sidebar"
+- banner:
+  - img "Claude"
+  - 'heading "Загрузил: репозиторий на GitHub." [level=2]'
+  - generic: dima
+  - status
+  - tablist "Workspace views":
+    - tab "Chat" [selected]:
+      - generic: Chat
+    - tab "Shell":
+    - tab "Files":
+    - tab "Source Control":
+- button "Export conversation":
+- generic: Showing 155 of 934 messages Scroll up to load more
+- generic: "Согласен: я неверно прочитал Диму, мой прошлый текст про реалистичный FtF отменяется. Последнее указание — готовая модель в духе его PS1-референса. Посмотрел превью и подобрал два варианта для выбора."
+- heading "Вариант A — «Granny» из Free Characters (katcho) — рекомендую" [level=2]
+- list:
+  - strong: "Ссылка:"
+  - link "https://katcho.itch.io/free-characters":
+    - /url: https://katcho.itch.io/free-characters
+  - text: (бабушка и дедушка добавлены 15.03.2025, архив
+  - code: GrampsGrannyPSX.zip
+  - text: ).
+  - strong: "Лицензия:"
+  - strong: CC0
+  - text: ", указана в описании страницы. Автор отметил «No generative AI was used». Бесплатно."
+  - strong: "Превью:"
+  - link "https://img.itch.zone/aW1hZ2UvMzM0Mjc5Ni8yMDI3OTY3Ni5wbmc=/794x1000/7C2ZEY.png":
+    - /url: https://img.itch.zone/aW1hZ2UvMzM0Mjc5Ni8yMDI3OTY3Ni5wbmc=/794x1000/7C2ZEY.png
+  - text: — бабушка в верхней половине кадра.
+  - strong: "Как выглядит:"
+  - list:
+    - text: низкополигональная модель в PSX-стиле с
+    - strong: фото-текстурой старого лица
+    - text: — то самое «старая текстура лица» из референса Димы;
+    - listitem: тёмный пучок волос;
+    - listitem: тёмно-синяя кофта поверх светлого платья в мелкий рисунок;
+    - listitem: серые чулки, чёрные туфли;
+    - listitem: сутулая, с палочкой.
+  - strong: "Анимации — 10:"
+  - text: idle, walk, run, jump, kick, attack, duck и три смерти.
+  - strong: "Против:"
+  - text: нет платка и фартука, волосы тёмные. Форматы под Godot (dae, glb, blend); в Unity импорт через glTF или blend.
+  - strong: "Почему рекомендую:"
+  - text: силуэт и одежда уже читаются как постсоветская бабушка из подъезда, лицензия чистая.
+- heading "Вариант B — «GRANNY – PS1 Retro Low Poly Character» (imaginais)" [level=2]
+- list:
+  - strong: "Ссылка:"
+  - link "https://imaginais.itch.io/granny-ps1-retro-low-poly-character":
+    - /url: https://imaginais.itch.io/granny-ps1-retro-low-poly-character
+  - strong: "Цена:"
+  - text: 1.15 $ (скидка до 31.12.2026).
+  - strong: "Лицензия: на странице не указана."
+  - text: Купить можно, но условия надо проверить в README архива или спросить автора. Автор отметил «No generative AI was used».
+  - strong: "Превью:"
+  - link "https://img.itch.zone/aW1hZ2UvNDE4NTMyNy8yNDk0NTYyOS5wbmc=/794x1000/i29Fy2.png":
+    - /url: https://img.itch.zone/aW1hZ2UvNDE4NTMyNy8yNDk0NTYyOS5wbmc=/794x1000/i29Fy2.png
+  - strong: "Как выглядит:"
+  - list:
+    - strong: есть платок, завязанный под подбородком
+    - text: ", фартук, длинное платье, тапки;"
+    - listitem: лицо нарисованное, с прищуренными или закрытыми глазами — по стилю сказочное.
+  - strong: "Риг и 3 анимации:"
+  - text: idle, walk, action.
+  - strong: "Против:"
+  - text: очень яркие красно-оранжевые цвета. Под наш свет придётся приглушить текстуру — это перекраска готовой вещи, а не пошив.
+- heading "Отклонил" [level=2]
+- list:
+  - strong: Зомби-бабушка
+  - text: "(petrov-the-blind, CC0): мультяшные пропорции, огромные очки-гогглы. Не Нина."
+  - strong: «Granny Low-poly» на Sketchfab
+  - text: "(kolbaca): это рип модели из мобильной игры «Granny» (DVloper) под поддельной CC-BY. Брать нельзя."
+  - listitem: "«Granny Lowpoly» (tinkov) и «ghetto granny» (kriss601): мультяшные."
+- heading "Вопрос Диме (по картинкам)" [level=2]
+- generic: "Какую бабушку берём:"
+- list:
+  - strong: A
+  - text: "— фото-лицо, кофта и платье, пучок, без платка, CC0, бесплатно:"
+  - link "превью A":
+    - /url: https://img.itch.zone/aW1hZ2UvMzM0Mjc5Ni8yMDI3OTY3Ni5wbmc=/794x1000/7C2ZEY.png
+  - text: .
+  - strong: B
+  - text: "— с платком и фартуком, рисованное сказочное лицо, 1.15 $, лицензию ещё уточнить:"
+  - link "превью B":
+    - /url: https://img.itch.zone/aW1hZ2UvNDE4NTMyNy8yNDk0NTYyOS5wbmc=/794x1000/i29Fy2.png
+  - text: .
+- generic: "После выбора: импорт как есть, без пересборки. Только масштаб до 1.55 м и приглушение цветов под наш свет, если Дима попросит. Затем кадры в том же наборе ракурсов — Диме."
+- button "Copy message":
+  - generic: MD
+- button "Select copy format":
+- generic "Answered by claude-opus-5-5": Opus
+- generic: "Ветка Codex обновлена и SHA проверен на remote: 55ddd7c6c916b3bf543158a6046c360e02460b9e. Katcho Granny скачана официально, CC0 подтверждена Informations.txt. Неизменённые Granny.blend/Granny.dae/granny.png + LICENSE лежат art-sources/Katcho-Granny, авторское превью docs/references/katcho-granny-author-preview.png. Показываю Диме именно эту готовую модель (бабушка сверху на листе). До его выбора образ не переделываю и в gameplay не вставляю: нет платка/фартука, есть трость. MPFB A/B заархивированы как отвергнутые; повторно возвращать к ним не надо. Актуальный статус docs/NINA-APPEARANCE.md и DEVLOG. Проверь комплект на следующем ревью; сейчас окончательный выбор внешности за Димой."
+- button "Edit and resend":
+- button "Fork from here":
+- button "Copy message":
+  - generic: TXT
+- generic: 16:45:38
+- generic: U
+- 'button "$ Bash x2 / cd /home/claude/projects/dima/poka-doma-teplo-handoff && git fetch -q origin Codex:refs/remotes/origin/Codex && cd /home/claude/review-codex && git checkout -q --detach origin/Codex && git log -1 --format=''%H'' && ls -la art-sources/Katcho-Granny/ docs/references/ | head -20 && cat art-sources/Katcho-Granny/LICENSE* 2>/dev/null | head -20; ls art-sources/Katcho-Granny/ | grep -i info && cat art-sources/Katcho-Granny/*nformation* 2>/dev/null | head -20, cat >> /home/claude/.claude/projects/-home-claude-projects-dima/memory/horror-game-rebuild.md <<''EOF'' Codex 55ddd7c: Katcho Granny sources (blend/dae/png + LICENSE.txt CC0) in art-sources/Katcho-Granny, shown to Dima; awaiting his pick. MPFB variants archived as rejected — don''t revisit. EOF"':
+  - generic: $
+  - generic: Bash
+  - generic: x2
+  - generic: /
+  - generic: "cd /home/claude/projects/dima/poka-doma-teplo-handoff && git fetch -q origin Codex:refs/remotes/origin/Codex && cd /home/claude/review-codex && git checkout -q --detach origin/Codex && git log -1 --format='%H' && ls -la art-sources/Katcho-Granny/ docs/references/ | head -20 && cat art-sources/Katcho-Granny/LICENSE* 2>/dev/null | head -20; ls art-sources/Katcho-Granny/ | grep -i info && cat art-sources/Katcho-Granny/*nformation* 2>/dev/null | head -20, cat >> /home/claude/.claude/projects/-home-claude-projects-dima/memory/horror-game-rebuild.md <<'EOF' Codex 55ddd7c: Katcho Granny sources (blend/dae/png + LICENSE.txt CC0) in art-sources/Katcho-Granny, shown to Dima; awaiting his pick. MPFB variants archived as rejected — don't revisit. EOF"
+- text: Проверил 55ddd7c. В
+- code: art-sources/Katcho-Granny/
+- text: лежат
+- code: Granny.blend
+- text: ","
+- code: Granny.dae
+- text: ","
+- code: granny.png
+- text: и
+- code: LICENSE.txt
+- text: . В лицензии прямо написано CC0 1.0, «free to use in personal, educational and commercial projects», автор Katcho. Авторское превью в
+- code: docs/references/katcho-granny-author-preview.png
+- text: . Комплект источника полный.
+- generic: "Зафиксировал у себя:"
+- list:
+  - listitem: выбор внешности за Димой;
+  - listitem: до его решения модель не переделывается и в игру не вставляется;
+  - listitem: варианты на MPFB отвергнуты, к ним не возвращаемся.
+- generic: "На следующем ревью проверю:"
+- list:
+  - text: запись Katcho Granny в
+  - code: CREDITS.md
+  - text: (CC0 атрибуции не требует, но источник и дату записать стоит);
+  - text: что импорт в Unity идёт из неизменённого
+  - code: Granny.dae
+  - text: или
+  - code: .blend
+  - text: ", а все правки отдельно задокументированы;"
+  - listitem: масштаб 1.55 м без растяжения по одной оси;
+  - listitem: "кадры в нашем свете: анфас, три четверти, профиль, спина, полный рост."
+- generic: "Отдельно напоминаю: P0 по тамбуру и старту погони всё ещё в очереди. Жду их отдельным коммитом."
+- button "Copy message":
+  - generic: MD
+- button "Select copy format":
+- generic "Answered by claude-opus-5-5": Opus
+- generic: "Дима выбрал Katcho Granny: «да норм» относится к авторскому превью. Ветка Codex обновлена, remote SHA проверен: f813a8ea53a5c9f9f47b095342b264ba31c469c6. Импорт: исходная внешность, 456 треугольников тела, атлас256px, URP без перекраски, uniform height1.55м, 10 исходных клипов. Старый Blender потребовал action_slot, NLA off и FBX_SCALE_ALL. Оригиналы art-sources не тронуты. Prefab Assets/_Project/Art/Characters/KatchoGranny/NinaKatcho.prefab; отдельная сцена GrannyReadyPreview; основные Flat/таймлайны не включены в этот коммит. Проверь код, prefab и реальные кадры Screenshots/nina/katcho-final: warm-0/45/90/180, warm-full-body, cold-* и10клипов. result.json: errors0,19кадров, world-space рост1.5500004. Есть локальная Windows-примерка и zip; это не релиз ядра. docs/NINA-APPEARANCE.md и DEVLOG: родная трость пересекает опорную плоскость около4мм; attack/jump/death не назначены сюжету; P0 тамбура/погони и масштаба мебели ещё открыты. Нужны блокеры именно импорта одобренной модели и следующий конкретный шаг интеграции без нового дизайна внешности. Художественные решения оставляем Диме, к MPFB не возвращаемся."
+- button "Edit and resend":
+- button "Fork from here":
+- button "Copy message":
+  - generic: TXT
+- generic: 17:16:36
+- generic: U
+- button:
+  - generic: $
+  - generic: Bash
+  - generic: x3
+  - generic: /
+  - generic: cd /home/claude/projects/dima/poka-doma-teplo-handoff && git fetch -q origin Codex:refs/remotes/origin/Codex && cd /home/claude/review-codex && git checkout -q --detach origin/Codex && git log -1 --format='%H' && git diff --stat 55ddd7c HEAD | tail -40 && ls Screenshots/nina/katcho-final/ && cat Screenshots/nina/katcho-final/result.json, cd /home/claude/review-codex && cat tools/art/export_katcho.py; echo ===; cat -n unity-game/Assets/_Project/Editor/KatchoGrannyBuilder.cs | cut -c1-1500; echo ===; cat -n unity-game/Assets/_Project/Scripts/Scenario/GrannyAssetPreview.cs | cut -c1-1200; echo ===; grep -n "animationType\|avatarSetup\|globalScale\|useFileScale\|importAnimation\|animationCompression\|loopTime\|clipAnimations\|materialImportMode\|importBlendShapes\|isReadable\|optimizeGameObjects" unity-game/Assets/_Project/Art/Characters/KatchoGranny/Granny.fbx.meta | head -30; cat unity-game/Assets/_Project/Art/Characters/KatchoGranny/source.json | head -60, +1 more
+- button "R Read x4 / /home/claude/review-codex/Screenshots/nina/katcho-final/warm-0.png, /home/claude/review-codex/Screenshots/nina/katcho-final/warm-full-body.png, +2 more":
+  - generic: R
+  - generic: Read
+  - generic: x4
+  - generic: /
+  - generic: /home/claude/review-codex/Screenshots/nina/katcho-final/warm-0.png, /home/claude/review-codex/Screenshots/nina/katcho-final/warm-full-body.png, +2 more
+- 'button "$ cat >> /home/claude/.claude/projects/-home-claude-projects-dima/memory/horror-game-rebuild.md <<''EOF'' Dima approved Katcho Granny (author preview). Codex f813a8e imported: Legacy anim, Animation comp, 10 clips all Loop, point-filter 256 atlas, uniform scale on child, prefab NinaKatcho. My review: no import blockers except integration needs (hang pose clip, cane/slipper handling in lap-5 scene = Dima question, clip wrap modes, rope at neck bone, dark lower face to compare with Blender). EOF 1 line Copy command"':
+  - generic: $
+  - generic: "cat >> /home/claude/.claude/projects/-home-claude-projects-dima/memory/horror-game-rebuild.md <<'EOF' Dima approved Katcho Granny (author preview). Codex f813a8e imported: Legacy anim, Animation comp, 10 clips all Loop, point-filter 256 atlas, uniform scale on child, prefab NinaKatcho. My review: no import blockers except integration needs (hang pose clip, cane/slipper handling in lap-5 scene = Dima question, clip wrap modes, rope at neck bone, dark lower face to compare with Blender). EOF"
+  - generic: 1 line
+  - button "Copy command":
+- generic: Record Katcho import review in memory
+- heading "Ревью импорта Katcho Granny (Codex @ f813a8e)" [level=1]:
+  - text: Ревью импорта Katcho Granny (
+  - code: Codex
+  - text: "@ f813a8e)"
+- text: Посмотрел
+- code: export_katcho.py
+- text: ","
+- code: KatchoGrannyBuilder.cs
+- text: ","
+- code: GrannyAssetPreview.cs
+- text: ","
+- code: Granny.fbx.meta
+- text: ","
+- code: source.json
+- text: ","
+- code: CREDITS.md
+- text: и кадры
+- code: warm-0
+- text: ","
+- code: warm-full-body
+- text: ","
+- code: cold-180
+- text: ","
+- code: animation-…-Owalk
+- text: .
+- strong: "Итог:"
+- text: "блокеров у самого импорта нет. Внешность не тронута: исходная сетка, атлас 256, матовый URP Lit. Рост 1.55 м задан равномерным масштабом на дочернем объекте, корень префаба без масштаба — это правильно для кода, который двигает персонажа. Оригиналы в"
+- code: art-sources
+- text: не тронуты, CC0 записана в
+- code: CREDITS.md
+- text: .
+- generic: Ниже — что мешает следующему шагу интеграции.
+- heading "Что нужно решить до вставки в игру" [level=2]
+- table:
+  - rowgroup:
+    - row "Пр. Где Что Критерий":
+      - columnheader "Пр."
+      - columnheader "Где"
+      - columnheader "Что"
+      - columnheader "Критерий"
+  - rowgroup:
+    - 'row "P1 KatchoGrannyBuilder.cs:34–37 Позы для повешенной нет. Из 10 клипов ни один не подходит. На префабе playAutomatically=true с idle: если подставить его как flat.grandmother в сцену повешенной, она будет «висеть», переминаясь с тростью в руке Отдельный статичный клип Nina_Hang на том же скелете в Blender: руки висят вдоль тела, голова завалена на 20–30°, стопы носками вниз, колени чуть согнуты. Это анимация, а не изменение внешности. В сцене: Animation.Stop() → Nina_Hang, без idle"':
+      - cell "P1":
+        - strong: P1
+      - cell "KatchoGrannyBuilder.cs:34–37":
+        - code: KatchoGrannyBuilder.cs:34–37
+      - 'cell "Позы для повешенной нет. Из 10 клипов ни один не подходит. На префабе playAutomatically=true с idle: если подставить его как flat.grandmother в сцену повешенной, она будет «висеть», переминаясь с тростью в руке"':
+        - strong: Позы для повешенной нет.
+        - text: Из 10 клипов ни один не подходит. На префабе
+        - code: playAutomatically=true
+        - text: "с idle: если подставить его как"
+        - code: flat.grandmother
+        - text: в сцену повешенной, она будет «висеть», переминаясь с тростью в руке
+      - 'cell "Отдельный статичный клип Nina_Hang на том же скелете в Blender: руки висят вдоль тела, голова завалена на 20–30°, стопы носками вниз, колени чуть согнуты. Это анимация, а не изменение внешности. В сцене: Animation.Stop() → Nina_Hang, без idle"':
+        - text: Отдельный статичный клип
+        - code: Nina_Hang
+        - text: "на том же скелете в Blender: руки висят вдоль тела, голова завалена на 20–30°, стопы носками вниз, колени чуть согнуты. Это анимация, а не изменение внешности. В сцене:"
+        - code: Animation.Stop()
+        - text: →
+        - code: Nina_Hang
+        - text: ", без idle"
+    - row "P1 ScenarioTimeline.cs:43–45 (сцена повешенной) Позиция (1.4, .45, 2.2) и верёвка от 2.5 до 1.9 м подбирались под старый манекен Конец верёвки — от кости шеи Katcho в мировых координатах (искать по имени в скелете), стопы на высоте около 0.45 м. Тело поворачивается к позиции игрока, а не на фиксированный угол":
+      - cell "P1":
+        - strong: P1
+      - cell "ScenarioTimeline.cs:43–45 (сцена повешенной)":
+        - code: ScenarioTimeline.cs:43–45
+        - text: (сцена повешенной)
+      - cell "Позиция (1.4, .45, 2.2) и верёвка от 2.5 до 1.9 м подбирались под старый манекен":
+        - text: Позиция
+        - code: (1.4, .45, 2.2)
+        - text: и верёвка от 2.5 до 1.9 м подбирались под старый манекен
+      - cell "Конец верёвки — от кости шеи Katcho в мировых координатах (искать по имени в скелете), стопы на высоте около 0.45 м. Тело поворачивается к позиции игрока, а не на фиксированный угол":
+        - text: Конец верёвки — от
+        - strong: кости шеи
+        - text: Katcho в мировых координатах (искать по имени в скелете), стопы на высоте около 0.45 м. Тело поворачивается к позиции игрока, а не на фиксированный угол
+    - row "P2 KatchoGrannyBuilder.cs:36 Все 10 клипов в режиме Loop. Knockout 01–03 и jump должны проигрываться один раз и замирать на последнем кадре idle и walk — Loop, остальные — ClampForever":
+      - cell "P2":
+        - strong: P2
+      - cell "KatchoGrannyBuilder.cs:36":
+        - code: KatchoGrannyBuilder.cs:36
+      - cell "Все 10 клипов в режиме Loop. Knockout 01–03 и jump должны проигрываться один раз и замирать на последнем кадре":
+        - text: Все 10 клипов в режиме
+        - code: Loop
+        - text: . Knockout 01–03 и jump должны проигрываться один раз и замирать на последнем кадре
+      - cell "idle и walk — Loop, остальные — ClampForever"
+    - 'row "P2 warm-0.png, warm-full-body.png Подбородок и шея заметно темнее и синее остального лица. Не проверено, что это: текстура автора или нормали после FBX Сравнить тот же ракурс в Blender с Granny.blend. Если там так же — это авторская текстура, не трогаем. Если нет — смотреть нормали и экспорт"':
+      - cell "P2":
+        - strong: P2
+      - cell "warm-0.png, warm-full-body.png":
+        - code: warm-0.png
+        - text: ","
+        - code: warm-full-body.png
+      - 'cell "Подбородок и шея заметно темнее и синее остального лица. Не проверено, что это: текстура автора или нормали после FBX"':
+        - text: Подбородок и шея заметно темнее и синее остального лица.
+        - strong: Не проверено
+        - text: ", что это: текстура автора или нормали после FBX"
+      - cell "Сравнить тот же ракурс в Blender с Granny.blend. Если там так же — это авторская текстура, не трогаем. Если нет — смотреть нормали и экспорт":
+        - text: Сравнить тот же ракурс в Blender с
+        - code: Granny.blend
+        - text: . Если там так же — это авторская текстура, не трогаем. Если нет — смотреть нормали и экспорт
+    - row "P2 GrannyAssetPreview.cs:25–26 Комментарий утверждает, что BakeMesh учитывает масштаб родителя. Сборщик (Builder:32) считает рост через BakeMesh + TransformPoint. Результат 1.5500004 подтверждён ручным скинингом, так что ошибки нет, но комментарий вводит в заблуждение Исправить комментарий или считать одним способом в обоих местах":
+      - cell "P2":
+        - strong: P2
+      - cell "GrannyAssetPreview.cs:25–26":
+        - code: GrannyAssetPreview.cs:25–26
+      - cell "Комментарий утверждает, что BakeMesh учитывает масштаб родителя. Сборщик (Builder:32) считает рост через BakeMesh + TransformPoint. Результат 1.5500004 подтверждён ручным скинингом, так что ошибки нет, но комментарий вводит в заблуждение":
+        - text: Комментарий утверждает, что
+        - code: BakeMesh
+        - text: учитывает масштаб родителя. Сборщик (
+        - code: Builder:32
+        - text: ) считает рост через
+        - code: BakeMesh
+        - text: +
+        - code: TransformPoint
+        - text: . Результат 1.5500004 подтверждён ручным скинингом, так что ошибки нет, но комментарий вводит в заблуждение
+      - cell "Исправить комментарий или считать одним способом в обоих местах"
+    - row "— импорт Legacy-анимация и Animation без Animator. Для повешенной (двигается только transform) этого достаточно. Перенос чужих анимаций (Humanoid) с этим не заработает. Сейчас не блокер, просто держать в голове —":
+      - cell "—"
+      - cell "импорт"
+      - cell "Legacy-анимация и Animation без Animator. Для повешенной (двигается только transform) этого достаточно. Перенос чужих анимаций (Humanoid) с этим не заработает. Сейчас не блокер, просто держать в голове":
+        - text: Legacy-анимация и
+        - code: Animation
+        - text: без
+        - code: Animator
+        - text: . Для повешенной (двигается только transform) этого достаточно. Перенос чужих анимаций (Humanoid) с этим не заработает.
+        - strong: Сейчас не блокер
+        - text: ", просто держать в голове"
+      - cell "—"
+- heading "Вопрос Диме (художественный, по сцене повешенной §7.5)" [level=2]
+- text: У Katcho-бабушки
+- strong: трость
+- text: и
+- strong: чёрные туфли
+- text: ", а в сценарии под ногами «опрокинутая табуретка и один тапок». Что делаем?"
+- list:
+  - strong: (а)
+  - text: Трость лежит на полу рядом с табуреткой, вместо тапка — ничего (туфли на ней).
+  - strong: (б)
+  - text: Трость там же на полу, а наш войлочный тапок всё равно лежит, как в сценарии.
+  - strong: (в)
+  - text: Своё решение.
+- text: "Внешность при этом не меняется: трость отделена в исходнике ("
+- code: CaneDummy
+- text: ), её можно просто положить на пол.
+- heading "Следующий конкретный шаг интеграции (без нового дизайна)" [level=2]
+- list:
+  - text: В
+  - code: ScenarioBuilder
+  - text: заменить
+  - code: Person("TEMP Grandmother…")
+  - text: на экземпляр
+  - code: NinaKatcho.prefab
+  - text: как
+  - code: flat.grandmother
+  - text: . Гостью (
+  - code: flat.guest
+  - text: ) в этом шаге
+  - strong: не трогать
+  - text: .
+  - text: Добавить клип
+  - code: Nina_Hang
+  - text: (п. 1 таблицы) и переключение на него в сцене повешенной. Трость — по ответу Димы.
+  - listitem: Верёвка от кости шеи, поворот к игроку.
+  - listitem: Кадры сцены повешенной на 1.1 / 2.6 / 3.6 / 4.6 / 5.1 с, как в review-01, плюс автопрогон ядра без ошибок. Показ Диме — только этой сцены.
+  - strong: "Отдельными коммитами, не смешивая с этим:"
+  - text: P0 по тамбуру и старту погони, масштаб мебели.
+- generic: Внешность одобрена Димой по авторскому превью. Как она выглядит в сцене повешенной в нашем свете, Дима ещё не видел.
+- button "Copy message":
+  - generic: MD
+- button "Select copy format":
+- generic "Answered by claude-opus-5-5": Opus
+- button "Scroll to bottom":
+- button "Choose File"
+- textbox "Type / for commands, @ for files, or ask Claude anything..."
+- button "Attach files":
+- button "Show token usage":
+  - generic: 742K
+  - generic: tokens
+- button "6":
+  - generic: "6"
+- button "Schedule this message" [disabled]:
+- button "Select model and reasoning effort":
+  - generic: Default (recommended)
+  - generic: · high
+- button "How should Claude actions be approved?":
+- button "Send" [disabled]:
+- button "Open settings panel":
+- heading "Quick Settings" [level=3]:
+  - text: Quick Settings
+- button "Pin panel open":
+- button "Close panel":
+- tablist "Quick Settings":
+  - tab "Settings" [selected]:
+    - text: Settings
+  - tab "Commands":
+    - text: Commands
+- tabpanel "Settings":
+  - heading "Appearance" [level=4]
+  - text: Dark Mode
+  - switch "Toggle dark mode":
+    - generic: Toggle dark mode
+  - text: Language
+  - combobox:
+    - option "English" [selected]
+    - option "Français"
+    - option "Español"
+    - option "한국어"
+    - option "简体中文"
+    - option "繁體中文"
+    - option "日本語"
+    - option "Русский"
+    - option "Deutsch"
+    - option "Türkçe"
+    - option "Italiano"
+    - option "Bahasa Indonesia"
+    - option "Čeština"
+    - option "עברית"
+    - option "Português (Brasil)"
+  - heading "Tool Display" [level=4]
+  - text: Show raw parameters
+  - checkbox "Show raw parameters"
+  - text: Show thinking
+  - checkbox "Show thinking" [checked]
+  - heading "Input Settings" [level=4]
+  - text: Send by Ctrl+Enter
+  - checkbox "Send by Ctrl+Enter"
+  - paragraph: When enabled, pressing Ctrl+Enter will send the message instead of just Enter. This is useful for IME users to avoid accidental sends.

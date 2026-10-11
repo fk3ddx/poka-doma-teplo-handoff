@@ -22,8 +22,8 @@ namespace Ataka.Scenario {
    foreach(var clip in clips){clipIndex=Array.IndexOf(clips,clip);animationPlayer.Play(clip.name);var state=animationPlayer[clip.name];state.speed=0;state.normalizedTime=0;animationPlayer.Sample();var first=BakedVertices();state.normalizedTime=.45f;animationPlayer.Sample();var second=BakedVertices();float movement=0;for(int v=0;v<first.Length;v++)movement=Mathf.Max(movement,Vector3.Distance(first[v],second[v]));checks.Add(new ClipCheck{name=clip.name,seconds=clip.length,maxVertexMovement=movement});if(movement<.0001f){Debug.LogError("Animation has no deformation: "+clip.name);}yield return Shot("animation-"+clip.name.Replace('|','-'));state.speed=1;}
    File.WriteAllText(Path.Combine(output,"result.json"),JsonUtility.ToJson(new Result{errors=errors,captures=captures,standingHeight=measuredHeight,animations=checks.ToArray()},true));Application.Quit(errors==0?0:1);
   }
-  // Skin directly into world space: BakeMesh already includes parent scale in this importer setup.
-  // Applying TransformPoint to that snapshot double-counts scale and reports 1.34m instead of 1.55m.
+  // World-space QA uses bind poses directly instead of depending on BakeMesh scale conventions.
+  // The builder measures before resizing; this check runs after the final uniform scale is applied.
   Vector3[] WorldVertices(){var mesh=body.sharedMesh;var points=mesh.vertices;var weights=mesh.boneWeights;var binds=mesh.bindposes;var matrices=body.bones.Select((b,i)=>b.localToWorldMatrix*binds[i]).ToArray();for(int i=0;i<points.Length;i++){var p=points[i];var w=weights[i];points[i]=matrices[w.boneIndex0].MultiplyPoint3x4(p)*w.weight0+matrices[w.boneIndex1].MultiplyPoint3x4(p)*w.weight1+matrices[w.boneIndex2].MultiplyPoint3x4(p)*w.weight2+matrices[w.boneIndex3].MultiplyPoint3x4(p)*w.weight3;}return points;}
   Vector3[] BakedVertices(){var mesh=new Mesh();body.BakeMesh(mesh);var points=mesh.vertices;Destroy(mesh);return points;}
   void PlayIdle(){clipIndex=Array.FindIndex(clips,c=>c.name.EndsWith("Oidle"));animationPlayer.Play(clips[clipIndex].name);}
