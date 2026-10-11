@@ -1,3 +1,5 @@
+> **Последнее решение, 2026-10-11:** MPFB-бабушка отвергнута. Уже скачана готовая [Granny — Katcho](https://katcho.itch.io/free-characters), **$0, CC0**, оригиналы в art-sources/Katcho-Granny. Покупок не нужно. Unity-импорт и анимации пока не проверены. Авторское превью: docs/references/katcho-granny-author-preview.png. Нет платка/фартука — внешность нужно выбрать до дальнейших переделок. Остальные записи ниже — история поиска, не задание продолжать MPFB.
+
 # ASSET-SHOPPING — текущая художественная партия
 
 Обновлено 2026-10-11. Свет/VHS LightLab 0.1.1 принят; возобновлена замена временных моделей. Обязательные покупки: **0 USD**. Пользователю сейчас ничего покупать не нужно. Вход в Sketchfab уже выполнен, файлы скачаны агентом через официальный Download.
@@ -19,6 +21,13 @@
 
 Полный список адаптаций и авторство: CREDITS.md. Совет Claude не отменяет SCENARIO.md и прямые замечания Димы. Старый список дорогих покупок в docs/history не исполнять.
 
-### Одна недостающая загрузка для примерки
+### Получено для варианта B — покупать ничего не нужно
 
-- [Hijab, lam_m_zack](https://sketchfab.com/3d-models/hijab-ee50e01adc864ccc880caed9b5eb3bcb) — $0, CC BY 4.0. Только **основа ткани для адаптации**, ещё не русский платок. Chrome блокирует официальный Download GLB/OBJ (`ERR_BLOCKED_BY_CLIENT`), файл не получен. Если скачать вручную, положить оригинальный ZIP/GLB в `ImportInbox/`; покупка и пароль не нужны. Не требуется для запуска уже собранной примерки.
+| Ассет | Лицензия / цена | Состояние и риск |
+|---|---|---|
+| [Dress02: платье и фартук Elvaerwyn](https://static.makehumancommunity.org/assets/assetpacks/dress02.html) | CC-BY, $0 | Получены; готовая сетка адаптирована. Нужна окончательная застёжка халата. |
+| [Hats03: elvs_charity_veil1](https://static.makehumancommunity.org/assets/assetpacks/hats03.html) | CC-BY, $0 | Получена ткань для головы; пока нет узла под подбородком. |
+| [Glasses01: круглая оправа MRT / Toigo](https://static.makehumancommunity.org/assets/assetpacks/glasses01.html) | CC0, $0 | Получена; проверена видимость глаз. Цепочки нет. |
+| [Underwear04: CrudeHighSocks, Joel Palmius](https://static.makehumancommunity.org/assets/assetpacks/underwear04.html) | CC0, $0 | Получены; посадка в статической позе. |
+
+Sketchfab Hijab от lam_m_zack не получен из-за ERR_BLOCKED_BY_CLIENT. Он не используется; вручную скачивать его сейчас не требуется, готовая ткань MPFB уже получена.

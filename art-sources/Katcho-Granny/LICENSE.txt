@@ -1,0 +1,21 @@
+=========================================================================================
+License
+
+	Created/distributed by Katcho
+
+			------------------------------
+
+	License: (Creative Commons Zero, CC0)
+	http://creativecommons.org/publicdomain/zero/1.0/
+
+	This content is free to use in personal, educational and commercial projects.
+
+			------------------------------
+
+	https://katcho.itch.io/
+
+=========================================================================================
+Gimp Version 2.10.21
+
+=========================================================================================
+Blender Version 2.77

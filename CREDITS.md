@@ -13,4 +13,19 @@
 - **F_Kimono / Mindfront Kimono**, Mindfront — **CC0**, https://static.makehumancommunity.org/assets/assetpacks/dress01.html . Готовая одежда для примерки: подогнана MPFB, упрощена, материал затемнён. Не финальный цветочный халат.
 - **Optical glasses**, kwnet_at — **CC0**, https://static.makehumancommunity.org/assets/assetpacks/glasses01.html . Подогнаны к голове, упрощены, оправа затемнена в материале.
 
-Примерка Нины — художественный прототип, не принятая внешность. Платок/фартук/цепочка отсутствуют; исходник с параметрами и скелетом хранится локально в ImportInbox/MPFB. Анимации и деформации ещё не проверены.
+Примерка Нины — художественный прототип, не принятая внешность. В варианте A платок/фартук/цепочка отсутствуют; исходник с параметрами и скелетом хранится локально в ImportInbox/MPFB. Анимации и деформации ещё не проверены.
+
+
+### Примерка Нины, вариант B
+
+- **elvs_simple_60s_dress, elvs_ladies_apron**, Elvaerwyn — CC-BY, [Dress02](https://static.makehumancommunity.org/assets/assetpacks/dress02.html). Существующее платье удлинено, авторская цветочная текстура apron2 применена также к платью; сетки упрощены, фартук подогнан к платью. Не окончательный халат с застёжкой.
+- **elvs_charity_veil1**, Elvaerwyn — CC-BY, [Hats03](https://static.makehumancommunity.org/assets/assetpacks/hats03.html). Готовая ткань сужена у щёк, изменён тон материала. Пока это свободное покрытие головы, не окончательный платок с узлом.
+- **toigo_round_glasses_leopard**, Margaret Toigo / MRT (автор в mhclo: MRT) — CC0, [Glasses01](https://static.makehumancommunity.org/assets/assetpacks/glasses01.html). Упрощены; удалены непрозрачные линзы, оправа затемнена.
+- **joepal_crude_high_socks**, Joel Palmius — CC0, [Underwear04](https://static.makehumancommunity.org/assets/assetpacks/underwear04.html). Подогнаны MPFB, упрощены, экспортированы в FBX.
+
+Системная возрастная кожа, глаза, волосы и базовая анатомия — те же CC0 MakeHuman, что выше. В B изменены макропараметры и готовые morph targets, удалён хвост волос, восстановлено сглаживание нормалей. Это адаптация готовых авторских мешей. Лицензии одежды указаны как в исходных mhclo; номер версии CC-BY в этих заголовках не указан.
+
+
+### Готовая Granny Katcho — кандидат после отказа от MPFB
+
+[Free Characters](https://katcho.itch.io/free-characters), Katcho, CC0. Оригинальные Granny.blend, Granny.dae, granny.png не изменены, лицензия из архива сохранена рядом в art-sources/Katcho-Granny/LICENSE.txt. В игру пока не интегрированы. Иллюстрация docs/references/katcho-granny-author-preview.png — снимок авторского превью, не наш игровой кадр.

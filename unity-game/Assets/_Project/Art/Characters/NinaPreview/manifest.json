@@ -3,8 +3,8 @@
   "macro": {
     "gender": 0.0,
     "age": 0.9,
-    "muscle": 0.25,
-    "weight": 0.72,
+    "muscle": 0.15,
+    "weight": 0.88,
     "proportions": 0.5,
     "height": 0.35,
     "cupsize": 0.5,
@@ -87,24 +87,45 @@
       "roughness": 0.72
     },
     {
-      "name": "Nina.mindfront_kimono",
-      "texture": "Textures/F_Kimono_COL.png",
+      "name": "Nina.elvs_simple_60s_dress",
+      "texture": "Textures/apron2.png",
       "alphaClip": false,
       "greyscale": false,
       "roughness": 0.72
     },
     {
-      "name": "Nina.kwnet_at_optical_glasses",
-      "texture": "Textures/m_opticals01.png",
+      "name": "Nina.toigo_round_glasses_leopard",
+      "texture": "Textures/Glasses-leopard.png",
       "alphaClip": true,
+      "greyscale": false,
+      "roughness": 0.72
+    },
+    {
+      "name": "Nina.elvs_ladies_apron",
+      "texture": "Textures/apron2.png",
+      "alphaClip": false,
+      "greyscale": false,
+      "roughness": 0.72
+    },
+    {
+      "name": "Nina.elvs_charity_veil1",
+      "texture": "Textures/veiltexture1.png",
+      "alphaClip": false,
+      "greyscale": false,
+      "roughness": 0.72
+    },
+    {
+      "name": "Nina.joepal_crude_high_socks",
+      "texture": "Textures/CrudeHighSocksDiffuse.png",
+      "alphaClip": false,
       "greyscale": false,
       "roughness": 0.72
     }
   ],
   "temporary": [
-    "Mindfront kimono fitting robe; floral material and apron missing",
-    "ponytail01 hair visible until headscarf sourced",
+    "Ready 60s dress lengthened/retextured; robe fastening not finished",
+    "Ready veil adapted as head covering; tied chin knot not finished",
     "glasses have no chain",
-    "static preview, no approved facial animation or rig"
+    "static preview, animation and rig not approved"
   ]
 }

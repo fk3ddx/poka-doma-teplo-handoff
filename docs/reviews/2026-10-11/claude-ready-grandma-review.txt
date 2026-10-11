@@ -1,0 +1,69 @@
+Согласен: я неверно прочитал Диму, мой прошлый текст про реалистичный FtF отменяется. Последнее указание — готовая модель в духе его PS1-референса. Посмотрел превью и подобрал два варианта для выбора.
+Вариант A — «Granny» из Free Characters (katcho) — рекомендую
+Ссылка: https://katcho.itch.io/free-characters (бабушка и дедушка добавлены 15.03.2025, архив GrampsGrannyPSX.zip).
+Лицензия: CC0, указана в описании страницы. Автор отметил «No generative AI was used». Бесплатно.
+Превью: https://img.itch.zone/aW1hZ2UvMzM0Mjc5Ni8yMDI3OTY3Ni5wbmc=/794x1000/7C2ZEY.png — бабушка в верхней половине кадра.
+Как выглядит:
+низкополигональная модель в PSX-стиле с фото-текстурой старого лица — то самое «старая текстура лица» из референса Димы;
+тёмный пучок волос;
+тёмно-синяя кофта поверх светлого платья в мелкий рисунок;
+серые чулки, чёрные туфли;
+сутулая, с палочкой.
+Анимации — 10: idle, walk, run, jump, kick, attack, duck и три смерти.
+Против: нет платка и фартука, волосы тёмные. Форматы под Godot (dae, glb, blend); в Unity импорт через glTF или blend.
+Почему рекомендую: силуэт и одежда уже читаются как постсоветская бабушка из подъезда, лицензия чистая.
+Вариант B — «GRANNY – PS1 Retro Low Poly Character» (imaginais)
+Ссылка: https://imaginais.itch.io/granny-ps1-retro-low-poly-character
+Цена: 1.15 $ (скидка до 31.12.2026).
+Лицензия: на странице не указана. Купить можно, но условия надо проверить в README архива или спросить автора. Автор отметил «No generative AI was used».
+Превью: https://img.itch.zone/aW1hZ2UvNDE4NTMyNy8yNDk0NTYyOS5wbmc=/794x1000/i29Fy2.png
+Как выглядит:
+есть платок, завязанный под подбородком, фартук, длинное платье, тапки;
+лицо нарисованное, с прищуренными или закрытыми глазами — по стилю сказочное.
+Риг и 3 анимации: idle, walk, action.
+Против: очень яркие красно-оранжевые цвета. Под наш свет придётся приглушить текстуру — это перекраска готовой вещи, а не пошив.
+Отклонил
+Зомби-бабушка (petrov-the-blind, CC0): мультяшные пропорции, огромные очки-гогглы. Не Нина.
+«Granny Low-poly» на Sketchfab (kolbaca): это рип модели из мобильной игры «Granny» (DVloper) под поддельной CC-BY. Брать нельзя.
+«Granny Lowpoly» (tinkov) и «ghetto granny» (kriss601): мультяшные.
+Вопрос Диме (по картинкам)
+Какую бабушку берём:
+A — фото-лицо, кофта и платье, пучок, без платка, CC0, бесплатно: превью A.
+B — с платком и фартуком, рисованное сказочное лицо, 1.15 $, лицензию ещё уточнить: превью B.
+После выбора: импорт как есть, без пересборки. Только масштаб до 1.55 м и приглушение цветов под наш свет, если Дима попросит. Затем кадры в том же наборе ракурсов — Диме.
+MD
+Opus
+710K
+tokens
+6
+Default (recommended)
+· High
+Quick Settings
+Settings
+Commands
+APPEARANCE
+Dark Mode
+Toggle dark mode
+Language
+English
+Français
+Español
+한국어
+简体中文
+繁體中文
+日本語
+Русский
+Deutsch
+Türkçe
+Italiano
+Bahasa Indonesia
+Čeština
+עברית
+Português (Brasil)
+TOOL DISPLAY
+Show raw parameters
+Show thinking
+INPUT SETTINGS
+Send by Ctrl+Enter
+
+When enabled, pressing Ctrl+Enter will send the message instead of just Enter. This is useful for IME users to avoid accidental sends.
