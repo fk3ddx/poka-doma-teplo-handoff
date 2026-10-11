@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -21,8 +21,15 @@ namespace Ataka.Editor {
    for(int i=0;i<20;i++){
     var snow=GameObject.CreatePrimitive(PrimitiveType.Sphere);snow.name="Soft snow edge";snow.transform.SetParent(art,false);snow.transform.localPosition=new Vector3(-27+i*2.3f,-Floor+.03f,-25.7f+(float)rng.NextDouble()*.4f);snow.transform.localScale=new Vector3(1.6f+(float)rng.NextDouble()*1.4f,.18f+(float)rng.NextDouble()*.13f,.6f+(float)rng.NextDouble()*.5f);snow.GetComponent<Renderer>().sharedMaterial=mats["Snow"];Object.DestroyImmediate(snow.GetComponent<Collider>());
    }
-   foreach(var light in art.GetComponentsInChildren<Light>().Where(x=>x.name=="Courtyard pool")){light.intensity=18;light.range=16;}
-   mats["WindowWarm"].SetColor("_EmissionColor",C(1.8f,1.0f,.35f));
+   foreach(var light in art.GetComponentsInChildren<Light>().Where(x=>x.name=="Courtyard pool")){light.type=LightType.Spot;light.transform.localRotation=Quaternion.Euler(90,0,0);light.spotAngle=125;light.innerSpotAngle=65;light.intensity=38;light.range=22;}
+   var window=mats["WindowWarm"];window.globalIlluminationFlags=MaterialGlobalIlluminationFlags.None;window.SetColor("_EmissionColor",C(1.8f,1.0f,.35f));window.EnableKeyword("_EMISSION");EditorUtility.SetDirty(window);
+   var sodium=M("SodiumGlass",C(.58f,.39f,.15f));sodium.globalIlluminationFlags=MaterialGlobalIlluminationFlags.None;sodium.SetColor("_EmissionColor",C(4.0f,2.1f,.6f));sodium.EnableKeyword("_EMISSION");EditorUtility.SetDirty(sodium);
+   foreach(var fixture in art.GetComponentsInChildren<Renderer>().Where(x=>x.name=="Sodium lamp"))fixture.sharedMaterial=sodium;
+   foreach(var old in art.GetComponentsInChildren<Transform>().Where(x=>x.name=="Entrance warm pool"||x.name=="Entrance light glass").ToArray())Object.DestroyImmediate(old.gameObject);
+   foreach(float x in new[]{-20f,-6f,8f}){
+    var entrance=Point("Entrance warm pool",new Vector3(x,2.7f-Floor,-27.3f),C(1,.65f,.35f),8,7,false);entrance.type=LightType.Spot;entrance.spotAngle=115;entrance.innerSpotAngle=50;entrance.transform.localRotation=Quaternion.Euler(78,0,0);
+    Box("Entrance light glass",new Vector3(x,2.8f-Floor,-27.6f),new Vector3(.34f,.12f,.12f),"SodiumGlass",false);
+   }
    var pipeline=AssetDatabase.LoadAssetAtPath<UniversalRenderPipelineAsset>(Root+"/Settings/M0_URP.asset");var p=new SerializedObject(pipeline);p.FindProperty("m_AdditionalLightShadowsSupported").boolValue=true;p.FindProperty("m_SoftShadowsSupported").boolValue=true;p.FindProperty("m_AdditionalLightsShadowmapResolution").intValue=4096;p.FindProperty("m_AdditionalLightsPerObjectLimit").intValue=8;p.ApplyModifiedPropertiesWithoutUndo();EditorUtility.SetDirty(pipeline);
    var renderer=AssetDatabase.LoadAssetAtPath<UniversalRendererData>(Root+"/Settings/M0_Renderer.asset");var r=new SerializedObject(renderer);r.FindProperty("m_RenderingMode").intValue=(int)RenderingMode.ForwardPlus;r.ApplyModifiedPropertiesWithoutUndo();EditorUtility.SetDirty(renderer);
    foreach(var light in Object.FindObjectsByType<Light>(FindObjectsSortMode.None).Where(x=>x.type==LightType.Point&&x.shadows!=LightShadows.None)){

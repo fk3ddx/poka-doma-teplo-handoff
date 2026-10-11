@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Linq;
 using UnityEditor;
@@ -14,6 +14,7 @@ namespace Ataka.Editor {
    mats["Fabric"].color=C(.7f,.66f,.53f);
    // White undyed cotton: retain scanned weave normal/roughness, omit the yellow dyed albedo.
    foreach(string name in new[]{"Linen","Lace"}){var linen=M(name,C(.86f,.85f,.80f),.02f);Pbr(linen,"waffle_pique_cotton",3);linen.mainTexture=null;linen.SetFloat("_BumpScale",.24f);linen.SetFloat("_Smoothness",.06f);linen.SetFloat("_Cull",0);}
+   foreach(string wood in new[]{"Wood","WoodLight"}){var m=mats[wood];m.mainTextureScale=Vector2.one*.68f;m.SetFloat("_BumpScale",.17f);m.SetFloat("_Smoothness",.52f);m.color=wood=="Wood"?C(.56f,.59f,.63f):C(.72f,.70f,.63f);}
    M("Leather",C(.10f,.071f,.044f),.24f);M("ShadeBinding",C(.42f,.27f,.1f),.65f,.65f);
    M("Tile",C(.62f,.67f,.60f),.28f);M("Bread",C(.27f,.15f,.075f),.06f);
    var photo=M("FamilyPhoto",Color.white,.2f);photo.mainTexture=AssetDatabase.LoadAssetAtPath<Texture2D>(Root+"/Art/Textures/FamilyPhoto.png");photo.SetFloat("_Cull",0);

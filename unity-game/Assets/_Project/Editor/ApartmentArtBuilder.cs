@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,7 +42,7 @@ public static partial class ApartmentArtBuilder {
   var session=Object.FindFirstObjectByType<GameSession>();session.checkpointFile="checkpoint-m1.json";session.player.transform.position=new Vector3(5.1f,Floor+.02f,3.2f);session.player.transform.rotation=Quaternion.Euler(0,215,0);
   session.GetComponent<PrototypeMenu>().milestoneDescription="M1 · художественная квартира — рабочая версия\nЗал, кухня и бытовые детали. Сюжетный пролог ещё в разработке.";
   session.player.view.farClipPlane=240;session.player.view.backgroundColor=C(.095f,.12f,.14f);
-  PlayerSettings.productName="Атака на запоминание";PlayerSettings.bundleVersion="0.2.1-dev";
+  PlayerSettings.productName="Атака на запоминание";PlayerSettings.bundleVersion="0.2.2-dev";
   EditorSceneManager.SaveScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene(),ScenePath);EditorBuildSettings.scenes=new[]{new EditorBuildSettingsScene(ScenePath,true),new EditorBuildSettingsScene(MilestoneBuilder.ScenePath,true)};AssetDatabase.SaveAssets();Debug.Log("M1_SCENE_GENERATED");
  }
  static void Static(GameObject go)=>GameObjectUtility.SetStaticEditorFlags(go,StaticEditorFlags.ContributeGI|StaticEditorFlags.BatchingStatic|StaticEditorFlags.ReflectionProbeStatic);
@@ -86,6 +86,10 @@ public static partial class ApartmentArtBuilder {
    var v=new Vector3[d.vertices.Length/3];var n=new Vector3[v.Length];var uv=new Vector2[v.Length];for(int i=0;i<v.Length;i++){v[i]=new Vector3(d.vertices[i*3],d.vertices[i*3+1],d.vertices[i*3+2]);n[i]=new Vector3(d.normals[i*3],d.normals[i*3+1],d.normals[i*3+2]);uv[i]=new Vector2(d.uv[i*2],d.uv[i*2+1]);}
    // Project tulle across its full width/height, independent of each pleat's facing.
    if(d.material=="Tulle")for(int i=0;i<v.Length;i++)uv[i]=Mathf.Abs(n[i].y)>.5f?new Vector2(v[i].x,v[i].z):new Vector2(v[i].x,v[i].y);
+   if(d.material=="Wood"||d.material=="WoodLight")for(int i=0;i<v.Length;i++){
+    // Vertical boards follow the height; table surfaces retain horizontal grain.
+    if(Mathf.Abs(n[i].y)<.5f)uv[i]=new Vector2(uv[i].y,uv[i].x);
+   }
    mesh.vertices=v;mesh.normals=n;mesh.uv=uv;mesh.triangles=d.triangles;mesh.RecalculateTangents();mesh.RecalculateBounds();Unwrapping.GenerateSecondaryUVSet(mesh);EditorUtility.SetDirty(mesh);
    var go=new GameObject(d.name);go.transform.SetParent(art,false);go.AddComponent<MeshFilter>().sharedMesh=mesh;go.AddComponent<MeshRenderer>().sharedMaterial=mats[d.material];if(!new[]{"Glass","Curtain","Lace","Tulle","Bulb","Shade","ShadeBinding","DriedStem","Carpet"}.Contains(d.material))go.AddComponent<MeshCollider>().sharedMesh=mesh;if(!d.name.StartsWith("Yard_"))Static(go);
   }
@@ -135,7 +139,7 @@ public static partial class ApartmentArtBuilder {
   var renderer=AssetDatabase.LoadAssetAtPath<UniversalRendererData>(Root+"/Settings/M0_Renderer.asset");if(!renderer.rendererFeatures.Any(x=>x is ScreenSpaceAmbientOcclusion)){var ao=ScriptableObject.CreateInstance<ScreenSpaceAmbientOcclusion>();ao.name="Contact ambient occlusion";AssetDatabase.AddObjectToAsset(ao,renderer);renderer.rendererFeatures.Insert(0,ao);var so=new SerializedObject(ao);so.FindProperty("m_Settings.Intensity").floatValue=.85f;so.FindProperty("m_Settings.Radius").floatValue=.22f;so.FindProperty("m_Settings.Downsample").boolValue=true;so.ApplyModifiedPropertiesWithoutUndo();ao.Create();EditorUtility.SetDirty(renderer);}
   var volume=new GameObject("Apartment color and lens").AddComponent<Volume>();volume.isGlobal=true;string path=Root+"/Settings/M1_Volume.asset";var profile=AssetDatabase.LoadAssetAtPath<VolumeProfile>(path);if(profile==null){profile=ScriptableObject.CreateInstance<VolumeProfile>();AssetDatabase.CreateAsset(profile,path);}volume.sharedProfile=profile;
   if(!profile.TryGet<Tonemapping>(out var tone))tone=profile.Add<Tonemapping>();tone.mode.Override(TonemappingMode.ACES);if(!profile.TryGet<ColorAdjustments>(out var color))color=profile.Add<ColorAdjustments>();color.postExposure.Override(.15f);color.saturation.Override(-8);color.contrast.Override(6);if(!profile.TryGet<Bloom>(out var bloom))bloom=profile.Add<Bloom>();bloom.intensity.Override(.08f);bloom.threshold.Override(1.2f);if(!profile.TryGet<Vignette>(out var vignette))vignette=profile.Add<Vignette>();vignette.intensity.Override(.15f);vignette.smoothness.Override(.6f);EditorUtility.SetDirty(profile);
-  var probe=new GameObject("Living reflection probe").AddComponent<ReflectionProbe>();probe.transform.position=new Vector3(4.7f,Floor+1.2f,2.1f);probe.size=new Vector3(3.6f,2.5f,4.3f);probe.mode=ReflectionProbeMode.Realtime;probe.refreshMode=ReflectionProbeRefreshMode.OnAwake;probe.resolution=128;probe.boxProjection=true;probe.intensity=.65f;
+  RoomLightingProbes();
  }
  [MenuItem("Ataka/M1/Build Windows")]
  public static void Build(){Directory.CreateDirectory("Builds/M1");var report=BuildPipeline.BuildPlayer(new BuildPlayerOptions{scenes=new[]{ScenePath},locationPathName="Builds/M1/Ataka-M1.exe",target=BuildTarget.StandaloneWindows64,options=BuildOptions.Development});if(report.summary.result!=BuildResult.Succeeded)throw new Exception("M1 build failed "+report.summary.result);Debug.Log("M1_BUILD_SUCCESS "+report.summary.totalSize);}
