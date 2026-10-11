@@ -1,0 +1,344 @@
+- heading "CloudCLI" [level=1]
+- button "Refresh projects and sessions (Ctrl+R)":
+- button "Create new project":
+- button "Hide sidebar":
+- link "Star 14.0k":
+  - /url: https://github.com/siteboon/claudecodeui
+  - generic: Star
+  - generic: 14.0k
+- button "Projects" [pressed]:
+  - generic: Projects
+- button "Conversations":
+  - generic: Conversations
+- button "Running sessions":
+- button "Archive only":
+- textbox "Search projects..."
+- text: Ctrl
+- generic: K
+- button "Основной проект 0 - ...e/claude/projects/main":
+  - generic "Add to favorites":
+  - generic "Основной проект"
+  - text: "0"
+  - generic "/home/claude/projects/main": "- ...e/claude/projects/main"
+  - generic "Rename project (F2)":
+  - generic "Remove project from sidebar (Delete)":
+- button "dima 1 - ...e/claude/projects/dima":
+  - generic "Add to favorites":
+  - generic "dima"
+  - text: "1"
+  - generic "/home/claude/projects/dima": "- ...e/claude/projects/dima"
+  - generic "Rename project (F2)":
+  - generic "Remove project from sidebar (Delete)":
+- button "New Session":
+  - text: New Session
+- button "Select":
+  - text: Select
+- status "Recently active session (last 10 minutes)"
+- 'link "Claude Загрузил: репозиторий на GitHub. 1m"':
+  - /url: /session/6cc564c9-d950-4679-8bcf-25470278b0ff
+  - img "Claude"
+  - 'generic "Загрузил: репозиторий на GitHub."'
+  - generic: 1m
+- 'button "Session options for Загрузил: репозиторий на GitHub."':
+- button "projects 1 - /home/claude/projects":
+  - generic "Add to favorites":
+  - generic "projects"
+  - text: "1"
+  - generic "/home/claude/projects": "- /home/claude/projects"
+  - generic "Rename project (F2)":
+  - generic "Remove project from sidebar (Delete)":
+- button "turbo 1 - .../claude/projects/turbo":
+  - generic "Add to favorites":
+  - generic "turbo"
+  - text: "1"
+  - generic "/home/claude/projects/turbo": "- .../claude/projects/turbo"
+  - generic "Rename project (F2)":
+  - generic "Remove project from sidebar (Delete)":
+- link "Report Issue":
+  - /url: https://github.com/siteboon/claudecodeui/issues/new
+  - generic: Report Issue
+- link "Join Community":
+  - /url: https://discord.gg/buxwujPNRE
+  - generic: Join Community
+- button "Settings":
+  - generic: Settings
+- link "CloudCLI v1.37.4 – Open Source":
+  - /url: https://github.com/siteboon/claudecodeui
+- separator "Resize sidebar"
+- banner:
+  - img "Claude"
+  - 'heading "Загрузил: репозиторий на GitHub." [level=2]'
+  - generic: dima
+  - status
+  - tablist "Workspace views":
+    - tab "Chat" [selected]:
+      - generic: Chat
+    - tab "Shell":
+    - tab "Files":
+    - tab "Source Control":
+- button "Export conversation":
+- generic: Showing 160 of 939 messages Scroll up to load more
+- 'heading "Старт погони без телепорта: план по коду Codex @ 4b29089" [level=1]':
+  - text: "Старт погони без телепорта: план по коду"
+  - code: Codex
+  - text: "@ 4b29089"
+- text: "Код посмотрел:"
+- code: LoopDirector.cs:61, 79
+- text: ","
+- code: ChaseCorridor.cs:13–20
+- text: ","
+- code: ScenarioTimeline.cs:65–67
+- text: ","
+- code: CorridorModule.cs:12–13
+- text: ","
+- code: ScenarioBuilder.cs:110–116, 192–195
+- text: . Ничего не менял.
+- 'heading "Решение: вариант 1 — физически продолжить прихожую Б" [level=2]'
+- generic: "Вариант 2 (точная копия прихожей А, перенос в момент глазка) хуже по двум причинам:"
+- list:
+  - strong: Копию придётся держать в синхроне со всей квартирой.
+  - text: "Прихожая А — самая заставленная часть маршрута: трюмо, телефон, вешалка, щиток, дверь кухни, декали круга 6, красный свет. Как раз сейчас эти предметы меняются на настоящие, и любое расхождение между оригиналом и копией будет заметно."
+  - strong: Перезапуск после смерти
+  - text: тоже придётся строить в копии.
+- generic: У варианта 1 одна копия — сечение коридора Б, которое и так нужно модулям погони.
+- heading "1. Геометрия стыка" [level=2]
+- generic: "Прихожая Б: x 4.7–6.6, z 4.5–6.0 (ширина 1.5, потолок 2.5). Западный торец — стена ванной (x 4.6–4.7) с дверью. За ней по той же полосе z 4.5–6.0 идут ванная (x 2.9–4.6), кладовка (x 0–2.9) и тамбур двери вместо ковра."
+- strong: 1.1. Модули сечением ровно как прихожая Б, ширина w = 1.5
+- text: (сейчас стены на ±1 м,
+- code: ScenarioBuilder.cs:195
+- text: "):"
+- list:
+  - strong: "сечение и длина:"
+  - text: пол, потолок и стены в плоскостях local x = ±0.75, высота 2.5, длина L = 6;
+  - strong:
+    - text: поворот,
+    - code: CorridorModule.Next()
+    - text: ":"
+  - text: позиция
+  - code: TransformPoint(-w/2, 0, L-w/2)
+  - text: = (−0.75, 0, 5.25), разворот −90°;
+  - strong:
+    - text: поворот,
+    - code: Crossed()
+    - text: ":"
+  - code: local.x < -w/2 - .01f && local.z > L - w
+  - text: . Сейчас там −.95 / 5.05 — та же формула, но под ширину 1.9;
+  - strong: "материалы:"
+  - text: обои, пол, дорожка как в прихожей Б;
+  - strong: "часы:"
+  - text: на
+  - strong: правой
+  - text: стене (local +x). Это южная стена z ≈ 6.0, как у настоящих часов прихожей Б.
+- strong: "1.2. Модуль 0 стыкуется к торцу прихожей Б:"
+- text: позиция (4.7, 0, 5.25), поворот по Y = −90°. Тогда local +z = мир −x, local x ∈ [−0.75; 0.75] = мир z ∈ [4.5; 6.0]. Модули 0 и 1 — прямые, модуль 2 — первый поворот налево. Он оказывается около x ≈ −13, далеко за пределами дома.
+- strong:
+  - text: 1.3. Группа перекрытия
+  - code: ChaseOverlap
+  - text: .
+- text: Генератор (
+- code: ScenarioBuilder.cs:110–116
+- text: ) сейчас делает пол и потолок двумя сплошными коробками на всю квартиру. Их нужно
+- strong: разрезать
+- text: ", чтобы полоса x < 4.7, z 4.5–6.0 была отдельными объектами. Иначе пол и потолок модулей 0–1 совпадут с плоскостями квартиры и будут мерцать. В группу входят:"
+- list:
+  - listitem: куски пола и потолка этой полосы;
+  - code: Bathroom east
+  - text: с дверью ванной, вся ванная с предметами;
+  - code: Store east
+  - text: ", тамбур двери вместо ковра ("
+  - code: Carpet vestibule left/right
+  - text: ","
+  - code: Vestibule second closed door
+  - text: );
+  - text: кусок
+  - code: Exterior west
+  - text: на z 4.5–6.0;
+  - listitem: всё, чьи границы пересекают объём модулей 0–1. Проверять автотестом, а не списком вручную.
+- text: В группу
+- strong: не входят
+- text: "северная стена полосы (z 4.45, стены спальни и зала) и южная наружная (z 6.175): там стены модуля сами образуют коридор. Внутренние грани модулей должны лежать в z 4.5 и 6.0, то есть"
+- strong: не совпадать
+- text: с плоскостями стен квартиры. Если совпадают — сдвинуть стены модуля внутрь на 5 мм.
+- strong: 1.4. Дверной проём в зал
+- text: (северная стена прихожей Б, x 5.25–6.05). Сейчас он открытый (
+- code: Living south
+- text: ","
+- code: ScenarioBuilder.cs:115
+- text: ). В погоне игрок должен бежать только по маршруту (§10.1). Двери в генераторе нет, хотя по SCENARIO §1.2 она есть («со стеклом морозко»).
+- list:
+  - listitem: Добавить створку, на кругах открытую.
+  - text: В начале погони —
+  - strong: закрыта и заперта
+  - text: . Проём в этот момент вне поля зрения, см. п. 2.
+  - listitem: Невидимую стену-коллайдер не ставить.
+- heading "2. Последовательность «глазок → бег» (заменяет ChaseStart, около 3 с)" [level=2]:
+  - text: 2. Последовательность «глазок → бег» (заменяет
+  - code: ChaseStart
+  - text: ", около 3 с)"
+- list:
+  - text: Запуск —
+  - strong: по окончании сцены глазка
+  - text: ", а не при отходе на 1.25 м ("
+  - code: LoopDirector.cs:61
+  - text: ). Игрок в этот момент стоит у входной двери лицом к ней (+z). Управление выключено до конца последовательности.
+  - strong: t = 0.0
+  - text: "— в этот же кадр, пока коридор Б за спиной и вне кадра:"
+  - list:
+    - text: выключить
+    - code: ChaseOverlap
+    - text: ;
+    - listitem: поставить модули 0–5 от (4.7, 0, 5.25);
+    - listitem: закрыть дверь в зал.
+  - generic: "Проверка: прихожая Б в этот момент не попадает в поле зрения камеры — от точки у входа в направлении −x угол больше 90° от взгляда."
+  - strong: 0.0–0.8 с
+  - text: — ручка бешено дёргается (тряска створки), красная вспышка ламп.
+  - strong: 0.8 / 1.3 / 1.8 с
+  - text: "— три удара: лёгкая тряска камеры, побелка с притолоки."
+  - strong: 2.0 с
+  - text: — дверь
+  - strong: вылетает внутрь
+  - text: ": быстрый поворот и сдвиг створки, отлёт на 0.3–0.5 м. В проёме, на пороге (около 8.05, 0, 6.3),"
+  - strong: Гостья в форме В
+  - text: ": на четвереньках, голова вывернута."
+  - code: flat.guest.SetActive(true)
+  - text: +
+  - code: ProxyPose.Crawl
+  - text: . Сейчас
+  - code: Play()
+  - text: выключает её в
+  - code: ScenarioTimeline.cs:24
+  - text: ", а в ветке"
+  - code: ChaseStart
+  - text: никто не включает.
+  - strong: 2.0–2.5 с
+  - text: — пауза, рывок головы.
+  - strong: 2.5 с
+  - text: — визг, Гостья рывком сдвигается на 1 м к игроку.
+  - strong: 2.6–3.0 с
+  - text: — камера сама доворачивается
+  - strong: к прихожей Б
+  - text: ", то есть на −90° (налево, на −x). Сейчас +180° от текущего поворота ("
+  - code: ScenarioTimeline.cs:67
+  - text: ), это неправильно. Поворот считать как направление на точку (4.7, 1.55, 5.25), а не как фиксированный угол.
+  - strong: 3.0 с
+  - text: — управление включается,
+  - strong: с этого момента идёт таймер погони
+  - text: (тёплый модуль после 42 с бега). След Гостьи начинается от порога до игрока, дистанция 3–4 м.
+- generic: "Игрок бежит прямо на запад: стоит он в той же полосе z, что и прихожая Б. Через 3.35 м — настоящая прихожая Б с часами на 22:02, дальше модули 0 и 1, потом поворот."
+- heading "3. Уход от квартиры — внутри первого поворота (модуль 2)" [level=2]
+- text: Пока игрок внутри поворотного модуля (вид закрыт с обеих сторон), в одном
+- code: LateUpdate
+- text: ", до отрисовки:"
+- list:
+  - text: "Скрыть квартиру и двор: рендереры, коллайдеры"
+  - strong: и свет
+  - text: ", включая фонари двора. Восстанавливать"
+  - strong: сохранённые состояния
+  - text: ", а не"
+  - code: enabled=true
+  - text: (тот же баг с балконной дверью из первого ревью).
+  - strong: Жёстко сдвинуть всю систему на один вектор S
+  - text: ": живые модули, игрока ("
+  - code: CharacterController
+  - text: выключить → сдвинуть → включить), Гостью, точки следа,
+  - code: previous
+  - text: .
+  - list:
+    - listitem: "Куда сдвигать: изолированная точка, например на 50 м ниже всего (y −50). Рядом не должно быть ни света, ни геометрии."
+    - listitem: "Для игрока это невидимо: всё вокруг сдвинулось вместе с ним."
+    - text: CinemachineCamera стоит прямо на голове, так что камера едет вместе с ней. Если где-то есть демпфирование — сообщить Cinemachine о переносе (
+    - code: OnTargetObjectWarped
+    - text: ) или сбросить его на этот кадр.
+  - listitem: Дальше пул работает как сейчас, только в новой точке.
+- generic: Сдвиг нужен, чтобы модули после поворотов не проходили сквозь двор и его свет. Можно и не сдвигать, а только всё скрыть, но тогда фонари двора должны быть гарантированно выключены. Сдвиг надёжнее.
+- heading "4. Смерть в погоне и конец" [level=2]
+- list:
+  - strong: "Смерть:"
+  - text: вернуть сохранённые состояния квартиры и
+  - code: ChaseOverlap
+  - text: ", поставить игрока к входной двери и проиграть"
+  - strong: укороченный
+  - text: "вылет двери (около 1 с, с шага 5) → тот же физический старт. Это закрывает P2 из первого ревью (§10.5: перезапуск с момента вылета двери)."
+  - strong: "Конец (завод часов):"
+  - text: белая вспышка → вернуть квартиру → игрок в прихожую (
+  - code: FinishCore
+  - text: ). Перенос во время вспышки по SCENARIO допустим.
+- heading "5. Критерии приёмки" [level=2]
+- list:
+  - strong: "Видео:"
+  - text: "глазок → 5 с бега, затем первый поворот. Ни одного видимого скачка: стыки, пол и потолок без мерцания, свет без резких изменений."
+  - strong: "EditMode-тест:"
+  - text: модуль 0 совпадает с торцом прихожей Б (сечение 1.5 × 2.5, грани в z 4.5 / 6.0, начало x = 4.7, допуск 1 см). Объекты
+  - code: ChaseOverlap
+  - text: не пересекают ничего вне полосы.
+  - strong: "Тест сдвига:"
+  - text: взаимные позиции игрока, Гостьи, модулей и следа до и после S совпадают (1 мм). Поворот камеры не меняется (0.1°).
+  - listitem: В момент t = 0 прихожая Б и дверь в зал вне поля зрения камеры (проверка через frustum).
+  - text: После
+  - code: Stop()
+  - text: ", смерти и конца погони состояния всех рендереров, коллайдеров и света квартиры совпадают со снимком до погони."
+  - listitem: Гостья видна в проёме с 2.0 до 2.5 с. Камера в конце поворота смотрит на −x (допуск 5°).
+- heading "Вопросы Диме" [level=2]
+- list:
+  - strong: По этому плану — нет.
+  - text: "Всё в нём следует из SCENARIO §10.1 (вылет двери, Гостья в проёме, разворот, прихожая не кончается). Единственное новое — створка двери в зал: в SCENARIO §1.2 она есть, а генератор её пропустил."
+  - listitem: Вопрос про трость и тапок в сцене повешенной по-прежнему за Димой. На этот план он не влияет.
+- button "Copy message":
+  - generic: MD
+- button "Select copy format":
+- generic "Answered by claude-opus-5-5": Opus
+- button "Choose File"
+- textbox "Type / for commands, @ for files, or ask Claude anything..."
+- button "Attach files":
+- button "Show token usage":
+  - generic: 760K
+  - generic: tokens
+- button "6":
+  - generic: "6"
+- button "Schedule this message" [disabled]:
+- button "Select model and reasoning effort":
+  - generic: Default (recommended)
+  - generic: · high
+- button "How should Claude actions be approved?":
+- button "Send" [disabled]:
+- button "Open settings panel":
+- heading "Quick Settings" [level=3]:
+  - text: Quick Settings
+- button "Pin panel open":
+- button "Close panel":
+- tablist "Quick Settings":
+  - tab "Settings" [selected]:
+    - text: Settings
+  - tab "Commands":
+    - text: Commands
+- tabpanel "Settings":
+  - heading "Appearance" [level=4]
+  - text: Dark Mode
+  - switch "Toggle dark mode":
+    - generic: Toggle dark mode
+  - text: Language
+  - combobox:
+    - option "English" [selected]
+    - option "Français"
+    - option "Español"
+    - option "한국어"
+    - option "简体中文"
+    - option "繁體中文"
+    - option "日本語"
+    - option "Русский"
+    - option "Deutsch"
+    - option "Türkçe"
+    - option "Italiano"
+    - option "Bahasa Indonesia"
+    - option "Čeština"
+    - option "עברית"
+    - option "Português (Brasil)"
+  - heading "Tool Display" [level=4]
+  - text: Show raw parameters
+  - checkbox "Show raw parameters"
+  - text: Show thinking
+  - checkbox "Show thinking" [checked]
+  - heading "Input Settings" [level=4]
+  - text: Send by Ctrl+Enter
+  - checkbox "Send by Ctrl+Enter"
+  - paragraph: When enabled, pressing Ctrl+Enter will send the message instead of just Enter. This is useful for IME users to avoid accidental sends.

@@ -7,10 +7,15 @@ namespace Ataka.Scenario {
   public FlatBindings flat;public LoopDirector loop;public ScenarioSound sound;public ScenarioTimeline scenes;public CorridorModule[] pool;
   public bool Active{get;private set;}public ChaseProgress Progress{get;private set;}
   readonly List<CorridorModule> live=new List<CorridorModule>();readonly List<Vector3> trail=new List<Vector3>();
-  int next,deathCount;bool ending;float breathTimer;Vector3 previous;Renderer[] apartmentRenderers;Collider[] apartmentColliders;
+  int next,deathCount;bool ending;float breathTimer;Vector3 previous;Renderer[] apartmentRenderers;Collider[] apartmentColliders;bool[] rendererStates,colliderStates;bool apartmentHidden;
   public CorridorModule Current=>live.Count>2?live[2]:null;public int DeathCount=>deathCount;public bool Ending=>ending;
-  void Start(){apartmentRenderers=flat.apartment.GetComponentsInChildren<Renderer>();apartmentColliders=flat.apartment.GetComponentsInChildren<Collider>();foreach(var m in pool)m.Visible(false);}
-  void FlatVisible(bool value){foreach(var r in apartmentRenderers)r.enabled=value;foreach(var c in apartmentColliders)c.enabled=value;}
+  void Start(){apartmentRenderers=flat.apartment.GetComponentsInChildren<Renderer>(true);apartmentColliders=flat.apartment.GetComponentsInChildren<Collider>(true);foreach(var m in pool)m.Visible(false);}
+  void FlatVisible(bool value){
+   if(!value){if(apartmentHidden)return;rendererStates=new bool[apartmentRenderers.Length];colliderStates=new bool[apartmentColliders.Length];
+    for(int i=0;i<apartmentRenderers.Length;i++){rendererStates[i]=apartmentRenderers[i].enabled;apartmentRenderers[i].enabled=false;}
+    for(int i=0;i<apartmentColliders.Length;i++){colliderStates[i]=apartmentColliders[i].enabled;apartmentColliders[i].enabled=false;}apartmentHidden=true;
+   }else if(apartmentHidden){for(int i=0;i<apartmentRenderers.Length;i++)if(apartmentRenderers[i])apartmentRenderers[i].enabled=rendererStates[i];for(int i=0;i<apartmentColliders.Length;i++)if(apartmentColliders[i])apartmentColliders[i].enabled=colliderStates[i];apartmentHidden=false;}
+  }
   public void Stop(){StopAllCoroutines();foreach(var m in pool)m.Visible(false);if(apartmentRenderers!=null)FlatVisible(true);Active=false;ending=false;flat.player.chasing=false;flat.player.control=true;flat.guest.SetActive(false);}
   public void Begin(){
    Active=true;ending=false;Progress=new ChaseProgress();flat.player.chasing=true;FlatVisible(false);

@@ -37,6 +37,7 @@ namespace Ataka.Editor {
   static ScenarioDoor Door(string name,Vector3 pos,float width,float yaw){var t=Point(name,pos);t.localRotation=Quaternion.Euler(0,yaw,0);var door=t.gameObject.AddComponent<ScenarioDoor>();var hinge=Point("Hinge",new Vector3(-width/2,-1,0),t);Box("Architectural door leaf",new Vector3(width/2,1,0),new Vector3(width,2,.045f),wood,hinge);door.leaf=hinge;return door;}
   static Light Lamp(string name,Vector3 p,Color c,float intensity,float range,Transform parent=null){var t=Point(name,p,parent);var l=t.gameObject.AddComponent<Light>();l.type=LightType.Point;l.color=c;l.intensity=intensity;l.range=range;l.shadows=LightShadows.Soft;l.shadowBias=.035f;l.shadowNormalBias=.15f;return l;}
   static GameObject Prop(string id,Vector3 p,Vector3 size,float yaw=0){
+   var ready=ScenarioReadyArt.TryPlace(id,p,size,yaw,shell);if(ready)return ready;
    var source=AssetDatabase.LoadAssetAtPath<GameObject>(Art+"/ScenarioProxies/Kenney/"+id+".fbx");if(!source)throw new Exception("Missing ready-made proxy: "+id);
    var g=(GameObject)PrefabUtility.InstantiatePrefab(source);g.name="PROXY Kenney "+id;g.transform.SetParent(shell,false);g.transform.rotation=Quaternion.Euler(0,yaw,0)*g.transform.rotation;
    var rs=g.GetComponentsInChildren<Renderer>();var b=rs[0].bounds;foreach(var rr in rs)b.Encapsulate(rr.bounds);
@@ -114,14 +115,18 @@ namespace Ataka.Editor {
    WallX("Bedroom partition",2.85f,0,4.5f,.1f,new Vector4(3.35f,4.15f,0,2));WallX("Living east",6.55f,0,4.5f,.1f);
    WallZ("Bedroom south",0,2.9f,4.45f,.1f,new Vector4(.45f,1.35f,0,2.05f));WallZ("Living south",2.9f,6.5f,4.45f,.1f,new Vector4(5.25f,6.05f,0,2));
    WallZ("Kitchen south",6.6f,8.8f,2.95f,.1f,new Vector4(6.9f,7.6f,0,2));WallX("Bathroom east",4.65f,4.5f,6,.1f,new Vector4(4.9f,5.6f,0,2));WallX("Store east",2.85f,4.5f,6,.1f);
-   flat.entrance=Door("Entrance60",new Vector3(8.05f,1,6.03f),.9f,0);flat.kitchen=Door("Kitchen door",new Vector3(7.25f,1,2.95f),.7f,0);flat.bath=Door("Bathroom door",new Vector3(4.65f,1,5.25f),.7f,90);flat.bedroom=Door("Bedroom door",new Vector3(2.85f,1,3.75f),.8f,90);flat.bedroom.open=true;
+   flat.entrance=Door("Entrance60",new Vector3(8.05f,1,6.03f),.9f,180);flat.kitchen=Door("Kitchen door",new Vector3(7.25f,1,2.95f),.7f,0);flat.bath=Door("Bathroom door",new Vector3(4.65f,1,5.25f),.7f,90);flat.bedroom=Door("Bedroom door",new Vector3(2.85f,1,3.75f),.8f,90);flat.bedroom.open=true;
    flat.entrance.direction=-1;
-   flat.carpet=Door("Carpet door",new Vector3(.9f,1,4.45f),.9f,0);flat.carpet.direction=-1;
-   Box("Carpet vestibule left",new Vector3(.35f,1.25f,4.98f),new Vector3(.1f,2.5f,1.05f),wood);Box("Carpet vestibule right",new Vector3(1.45f,1.25f,4.98f),new Vector3(.1f,2.5f,1.05f),wood);
+   flat.carpet=Door("Carpet door",new Vector3(.9f,1,4.45f),.9f,0);flat.carpet.direction=1;
    flat.vestibuleInner=Door("Vestibule second closed door",new Vector3(.9f,1,5.5f),.9f,0);flat.vestibuleInner.locked=true;
-   flat.sourceVestibule=Point("Source local frame",new Vector3(.9f,.02f,5));flat.destinationVestibule=Point("Destination local frame",new Vector3(8.05f,.02f,6.75f));flat.destinationVestibule.rotation=Quaternion.Euler(0,180,0);
-   Box("Entry vestibule floor",new Vector3(8.05f,-.1f,6.75f),new Vector3(1.1f,.2f,1.2f),floor);Box("Entry vestibule ceiling",new Vector3(8.05f,2.6f,6.75f),new Vector3(1.1f,.2f,1.2f),wall);
-   Box("Entry vestibule west",new Vector3(7.5f,1.25f,6.75f),new Vector3(.1f,2.5f,1.2f),wood);Box("Entry vestibule east",new Vector3(8.6f,1.25f,6.75f),new Vector3(.1f,2.5f,1.2f),wood);Box("Entry vestibule closed outer door",new Vector3(8.05f,1,7.35f),new Vector3(1.1f,2,.1f),wood);
+   flat.sourceVestibule=Point("Source local frame",new Vector3(.9f,0,4.975f));flat.destinationVestibule=Point("Destination local frame",new Vector3(8.05f,0,6.555f));flat.destinationVestibule.rotation=Quaternion.Euler(0,180,0);
+   foreach(var frame in new[]{flat.sourceVestibule,flat.destinationVestibule}){
+    Box("Vestibule floor",new Vector3(0,-.045f,0),new Vector3(1.1f,.1f,1.05f),floor,frame);
+    Box("Vestibule ceiling",new Vector3(0,2.55f,0),new Vector3(1.1f,.1f,1.05f),wood,frame);
+    foreach(float x in new[]{-.5f,.5f})Box("Vestibule lining",new Vector3(x,1.25f,0),new Vector3(.1f,2.5f,1.05f),wood,frame);
+    foreach(float z in new[]{-.525f,.525f})Box("Vestibule lintel",new Vector3(0,2.275f,z),new Vector3(1.1f,.45f,.05f),wood,frame);
+   }
+   var outerDoor=Door("Entry vestibule closed outer door",new Vector3(8.05f,1,7.08f),.9f,180);outerDoor.locked=true;
    foreach(var win in new[]{new Vector2(.75f,2.05f),new Vector2(3.25f,4.65f),new Vector2(7.1f,8.3f)}){float mid=(win.x+win.y)/2;foreach(float x in new[]{win.x,mid,win.y})Box("Window frame",new Vector3(x,1.575f,-.18f),new Vector3(.045f,1.45f,.16f),wood);foreach(float y in new[]{.85f,1.85f,2.3f})Box("Window transom",new Vector3(mid,y,-.18f),new Vector3(win.y-win.x,.045f,.16f),wood);Box("Window sill",new Vector3(mid,.82f,-.02f),new Vector3(win.y-win.x+.15f,.06f,.4f),wood);}
    flat.balcony=Point("Balcony interaction",ScenarioLayout.BalconyDoor);flat.balconyDoor=Door("Bound balcony door",ScenarioLayout.BalconyDoor,.75f,0);flat.balconyDoor.locked=true;
    flat.balconyDoor.leaf.GetComponentInChildren<Renderer>().enabled=false;
@@ -141,11 +146,11 @@ namespace Ataka.Editor {
    Prop("table",new Vector3(7.65f,0,.75f),new Vector3(1,.74f,.65f));Prop("stoolBar",new Vector3(7.15f,0,1.2f),new Vector3(.32f,.45f,.32f));flat.stool=Prop("stoolBar",new Vector3(5.05f,0,5.5f),new Vector3(.32f,.45f,.32f));
    Prop("kitchenStove",new Vector3(8.5f,0,1.7f),new Vector3(.55f,.85f,.6f),90);Prop("kitchenFridge",new Vector3(8.25f,0,2.55f),new Vector3(.6f,1.55f,.6f));Prop("kitchenSink",new Vector3(6.9f,0,1.6f),new Vector3(.6f,.85f,.9f),90);Prop("kitchenCabinetUpper",new Vector3(6.82f,1.5f,1.6f),new Vector3(.35f,.65f,.9f),90);
    Prop("radio",new Vector3(8.73f,1.45f,2),new Vector3(.1f,.28f,.35f),90);Prop("plantSmall1",new Vector3(7.35f,.85f,0),new Vector3(.2f,.35f,.2f));
-   Prop("loungeSofa",new Vector3(3.32f,0,1.9f),new Vector3(.8f,.85f,1.9f),90);Prop("rugRectangle",new Vector3(4.65f,.005f,2.3f),new Vector3(2.4f,.02f,2.6f));
+   Prop("loungeSofa",new Vector3(3.42f,0,1.9f),new Vector3(.8f,.85f,1.9f),90);Prop("rugRectangle",new Vector3(4.65f,.005f,2.3f),new Vector3(2.4f,.02f,2.6f));
    Prop("bookcaseOpen",new Vector3(6.15f,0,1.55f),new Vector3(.55f,1.9f,.7f),-90);Prop("cabinetTelevision",new Vector3(6.15f,0,2.5f),new Vector3(.55f,.65f,1.1f),-90);Prop("bookcaseClosedDoors",new Vector3(6.15f,0,3.5f),new Vector3(.55f,1.9f,.6f),-90);
    flat.television=Point("TV interaction",ScenarioLayout.Television);Prop("televisionVintage",new Vector3(6.1f,.65f,2.5f),new Vector3(.45f,.45f,.6f),-90);
    flat.televisionScreen=Box("TV temporary screen",new Vector3(5.84f,.9f,2.5f),new Vector3(.015f,.3f,.4f),metal).GetComponent<Renderer>();
-   Prop("tableCoffee",new Vector3(4.7f,0,2.15f),new Vector3(.6f,.45f,.85f));Prop("books",new Vector3(4.7f,.45f,2.15f),new Vector3(.2f,.08f,.2f));Prop("loungeChair",new Vector3(3.5f,0,.6f),new Vector3(.75f,.85f,.75f),150);Prop("lampRoundFloor",new Vector3(3.1f,0,.55f),new Vector3(.35f,1.6f,.35f));
+   Prop("tableCoffee",new Vector3(4.7f,0,2.15f),new Vector3(.6f,.45f,.85f),90);Prop("books",new Vector3(4.7f,.45f,2.15f),new Vector3(.2f,.08f,.2f));Prop("loungeChair",new Vector3(3.5f,0,.6f),new Vector3(.75f,.85f,.75f),150);Prop("lampRoundFloor",new Vector3(3.1f,0,.55f),new Vector3(.35f,1.6f,.35f));
    flat.bed=Point("Under bed interaction",new Vector3(1.05f,.25f,2.2f));Prop("bedSingle",ScenarioLayout.Bed,new Vector3(.95f,.65f,1.9f));Prop("pillow",new Vector3(.6f,.65f,1.1f),new Vector3(.6f,.25f,.45f));Prop("cabinetBed",new Vector3(.4f,0,3.1f),new Vector3(.5f,.55f,.4f));
    flat.wardrobe=Prop("bookcaseClosedDoors",ScenarioLayout.Wardrobe,new Vector3(1,1.9f,.55f)).transform;
    flat.wardrobeLeaves=new[]{Door("Wardrobe left temporary leaf",new Vector3(1.8f,.95f,3.78f),.48f,0).leaf,Door("Wardrobe right temporary leaf",new Vector3(2.3f,.95f,3.78f),.48f,0).leaf};
@@ -200,9 +205,9 @@ namespace Ataka.Editor {
    }shell=old;
   }
   public static void Build(){
-   var old=GraphicsSettings.defaultRenderPipeline;var quality=QualitySettings.renderPipeline;var name=PlayerSettings.productName;
+   var old=GraphicsSettings.defaultRenderPipeline;var quality=QualitySettings.renderPipeline;var name=PlayerSettings.productName;var window=PlayerSettings.fullScreenMode;int width=PlayerSettings.defaultScreenWidth,height=PlayerSettings.defaultScreenHeight;var apis=PlayerSettings.GetGraphicsAPIs(BuildTarget.StandaloneWindows64);bool defaultApis=PlayerSettings.GetUseDefaultGraphicsAPIs(BuildTarget.StandaloneWindows64);
    try{var pipe=AssetDatabase.LoadAssetAtPath<UniversalRenderPipelineAsset>(Root+"/Scenario_URP.asset");GraphicsSettings.defaultRenderPipeline=pipe;QualitySettings.renderPipeline=pipe;PlayerSettings.productName="Атака — тест петли";PlayerSettings.fullScreenMode=FullScreenMode.Windowed;PlayerSettings.defaultScreenWidth=1280;PlayerSettings.defaultScreenHeight=720;PlayerSettings.SetUseDefaultGraphicsAPIs(BuildTarget.StandaloneWindows64,false);PlayerSettings.SetGraphicsAPIs(BuildTarget.StandaloneWindows64,new[]{GraphicsDeviceType.Direct3D11});Directory.CreateDirectory("Builds/ScenarioCore");var result=BuildPipeline.BuildPlayer(new BuildPlayerOptions{scenes=new[]{Root+"/Flat.unity"},target=BuildTarget.StandaloneWindows64,locationPathName="Builds/ScenarioCore/Ataka-Loop.exe",options=BuildOptions.Development});if(result.summary.result!=BuildResult.Succeeded)throw new Exception("Scenario build failed");Debug.Log("SCENARIO_BUILD_SUCCESS");}
-   finally{GraphicsSettings.defaultRenderPipeline=old;QualitySettings.renderPipeline=quality;PlayerSettings.productName=name;AssetDatabase.SaveAssets();}
+   finally{GraphicsSettings.defaultRenderPipeline=old;QualitySettings.renderPipeline=quality;PlayerSettings.productName=name;PlayerSettings.fullScreenMode=window;PlayerSettings.defaultScreenWidth=width;PlayerSettings.defaultScreenHeight=height;PlayerSettings.SetGraphicsAPIs(BuildTarget.StandaloneWindows64,apis);PlayerSettings.SetUseDefaultGraphicsAPIs(BuildTarget.StandaloneWindows64,defaultApis);AssetDatabase.SaveAssets();}
   }
   public static void GenerateAndBuild(){Generate();Build();}
  }

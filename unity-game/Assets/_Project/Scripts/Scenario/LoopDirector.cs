@@ -18,7 +18,7 @@ namespace Ataka.Scenario {
    Progress.RestoreCheckpoint(n);Busy=false;phoneAnswered=false;peepholeSeen=false;returning=false;clockThought=false;tvWatch=0;gateWait=0;
    flat.look.Apply(laps[n-1].condition);flat.clock.Show(Progress.ClockSeconds);flat.carpet.locked=true;flat.carpet.open=false;flat.entrance.open=false;flat.entrance.locked=true;
    if(flat.dressing)flat.dressing.Apply(n);
-   flat.bedroom.open=n!=5;flat.bedroom.locked=false;flat.kitchen.locked=flat.bath.locked=true;
+   flat.bedroom.open=n!=5;flat.bedroom.locked=n==5;flat.bedroom.closedAngle=n==5?Mathf.Asin(.2f/.8f)*Mathf.Rad2Deg:0;flat.kitchen.locked=flat.bath.locked=true;
    foreach(var d in flat.wardrobeLeaves)d.localRotation=Quaternion.Euler(0,n==1?95:0,0);
    for(int i=0;i<flat.conditionGroups.Length;i++)flat.conditionGroups[i].SetActive(i==n-1);
    flat.guest.SetActive(false);flat.grandmother.SetActive(false);flat.torchPickup.gameObject.SetActive(!flat.player.hasFlashlight);
@@ -32,12 +32,12 @@ namespace Ataka.Scenario {
   bool Looking(Transform t,float cosine=.86f)=>Vector3.Dot(flat.player.head.forward,(t.position-flat.player.head.position).normalized)>cosine;
   void Update(){
    if(Keyboard.current?.escapeKey.wasPressedThisFrame==true){Pause(!paused);return;}
-   if(paused||Finished||chase.Active)return;if(Time.time>thoughtUntil)subtitle.text="";prompt.text="";
+   if(Time.time>thoughtUntil)subtitle.text="";if(paused||Finished||chase.Active)return;prompt.text="";
    if(Busy)return;var p=flat.player;bool e=Keyboard.current?.eKey.wasPressedThisFrame==true;
    if(Progress.Lap==6&&!peepholeSeen){knockTimer+=Time.deltaTime;if(knockTimer>=(knockIndex<3?.7f:5)){knockTimer=0;if(knockIndex<3){sound.Play("knock",flat.entrance.transform.position);knockIndex++;if(knockIndex==3)sound.Grandmother(flat.entrance.transform.position);}else knockIndex=0;}}
    if(!p.hasFlashlight&&Near(flat.torchPickup)&&Looking(flat.torchPickup)){prompt.text="[E] Фонарик-«жучок»";if(e){p.hasFlashlight=true;flat.torchPickup.gameObject.SetActive(false);}}
    if(returning){flat.entrance.locked=false;if(p.transform.position.z<5.6f){flat.entrance.open=false;flat.entrance.locked=true;returning=false;}}
-   foreach(var door in new[]{flat.kitchen,flat.bath,flat.bedroom})if(Near(door.transform)&&Looking(door.transform)){prompt.text=door.locked?"[E] Закрыто":"[E] Дверь";if(e){door.Toggle();sound.Play("creak",door.transform.position);}}
+   foreach(var door in new[]{flat.kitchen,flat.bath,flat.bedroom})if(!(door==flat.bedroom&&Progress.Lap==5&&phoneAnswered)&&Near(door.transform)&&Looking(door.transform)){prompt.text=door.locked?"[E] Закрыто":"[E] Дверь";if(e){door.Toggle();sound.Play("creak",door.transform.position);}}
    if(Near(flat.clock.transform,2)&&Progress.Lap==2&&!clockThought){Thought("Часы идут назад. Это та же ночь. Только наоборот");clockThought=true;}
    if(Progress.Lap==1&&!Progress.EventComplete&&Vector3.Distance(p.transform.position,flat.wardrobe.position)<1.5f)StartCoroutine(Event(LapGate.Wardrobe));
    if(Progress.Lap==2&&!Progress.EventComplete){balconyTimer+=Time.deltaTime;if(balconyTimer>3){balconyTimer=0;sound.Play("breath",flat.bed.position);}if(Near(flat.bed,2)&&p.crouched&&Looking(flat.bed,.65f)){prompt.text="[E] Посмотреть под кровать";if(e)StartCoroutine(Event(LapGate.UnderBed));}}
@@ -53,7 +53,8 @@ namespace Ataka.Scenario {
     if(Progress.Lap==1&&gateWait>10&&!Progress.EventComplete){Thought("Закрыто. Что-то тут не так… шифоньер");gateWait=-1000;}
     if(Progress.Lap==2&&gateWait>20&&!Progress.EventComplete){Thought("Под кроватью… дышит");gateWait=-1000;}
    }
-   if(Progress.CarpetDoorUnlocked&&flat.sourceVestibule.InverseTransformPoint(p.transform.position).z>-.1f&&Vector3.Distance(p.transform.position,flat.sourceVestibule.position)<.4f)StartCoroutine(Warp());
+   var vestibuleLocal=flat.sourceVestibule.InverseTransformPoint(p.transform.position);
+   if(Progress.CarpetDoorUnlocked&&Mathf.Abs(vestibuleLocal.z)<=.16f&&Mathf.Abs(vestibuleLocal.x)<=.18f)StartCoroutine(Warp());
    if(Near(flat.entrance.transform,1.8f)&&Looking(flat.entrance.transform,.6f)){
     if(returning){prompt.text="[E] Открыть";if(e)flat.entrance.Toggle();}
     else if(Progress.Lap==6){prompt.text="[E] Глазок   [R] Открыть дверь";if(e&&!peepholeSeen)StartCoroutine(Event(LapGate.Peephole));if(Keyboard.current?.rKey.wasPressedThisFrame==true)StartCoroutine(Death(6));}
@@ -71,8 +72,10 @@ namespace Ataka.Scenario {
   IEnumerator Warp(){
    Busy=true;var p=flat.player;p.control=false;
    var pose=VestibuleMapping.Map(new Pose(p.transform.position,p.transform.rotation),flat.sourceVestibule,flat.destinationVestibule);
-   flat.carpet.open=false;flat.vestibuleInner.open=false;yield return new WaitForSeconds(.65f);
-   if(!Progress.CrossVestibule(!flat.carpet.open,!flat.vestibuleInner.open)){Busy=false;p.control=true;yield break;}
+   flat.carpet.open=false;flat.vestibuleInner.open=false;
+   yield return new WaitUntil(()=>flat.carpet.IsClosed&&flat.vestibuleInner.IsClosed);
+   yield return new WaitForSeconds(.12f); // Render the fully sealed chamber before mapping it.
+   if(!Progress.CrossVestibule(flat.carpet.IsClosed,flat.vestibuleInner.IsClosed)){Busy=false;p.control=true;yield break;}
    int n=Progress.Lap;EnterLap(n);p.Place(pose.position,pose.rotation.eulerAngles.y,p.pitch);p.control=true;returning=true;flat.entrance.locked=false;Busy=false;
   }
   public IEnumerator Death(int lap){Busy=true;yield return scenes.Play("DeathShort");flat.look.disruption=1;yield return new WaitForSeconds(1);flat.look.disruption=0;EnterLap(lap);flat.player.Place(ScenarioLayout.Spawn,180);Busy=false;}

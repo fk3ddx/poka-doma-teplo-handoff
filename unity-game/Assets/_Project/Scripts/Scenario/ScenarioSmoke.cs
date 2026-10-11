@@ -13,12 +13,12 @@ namespace Ataka.Scenario {
    Directory.CreateDirectory(output);Application.logMessageReceived+=Log;Application.runInBackground=true;Application.targetFrameRate=60;
    yield return new WaitForSecondsRealtime(2);loop=FindFirstObjectByType<LoopDirector>();player=loop.flat.player;player.automating=true;loop.testing=true;InputSystem.settings.backgroundBehavior=InputSettings.BackgroundBehavior.IgnoreFocus;keyboard=InputSystem.AddDevice<Keyboard>();
    yield return Shot("00-menu");loop.Pause(false);checks.Add("menu-to-play");
-   StartCoroutine(CaptureScenes());
+   StartCoroutine(CaptureScenes());StartCoroutine(CaptureVestibules());
    if(Array.IndexOf(Environment.GetCommandLineArgs(),"-scenario-chase-only")>=0){loop.chase.Begin();yield return ChaseRun();Finish();yield break;}
    yield return Walk(new Vector3(7.65f,0,3.8f));Look(loop.flat.torchPickup.position);yield return Press(Key.E);yield return new WaitForSeconds(.2f);Check(player.hasFlashlight,"flashlight pickup");yield return Shot("01-hall");
    for(int lap=1;lap<=6&&!failed;lap++){
     Check(loop.Progress.Lap==lap,"lap "+lap+" entered");
-    if(lap==5){yield return Walk(new Vector3(7.65f,0,3.8f));Look(loop.flat.phone.position);yield return Press(Key.E);yield return WaitBusy();}
+    if(lap==5){Check(loop.flat.bedroom.locked&&!loop.flat.bedroom.open,"fifth bedroom locked before phone");Check(Mathf.Abs(loop.flat.bedroom.closedAngle-Mathf.Asin(.2f/.8f)*Mathf.Rad2Deg)<.01f,"fifth bedroom has 20cm ajar gap");yield return Walk(new Vector3(7.65f,0,3.8f));Look(loop.flat.phone.position);yield return Press(Key.E);yield return WaitBusy();}
     yield return Walk(new Vector3(7.9f,0,5.35f));yield return Walk(new Vector3(5.65f,0,5.35f));yield return Shot("lap"+lap+"-clock");yield return Walk(new Vector3(5.65f,0,3.6f));
     if(lap==3){yield return Walk(new Vector3(5.25f,0,1.15f));yield return WaitBusy();yield return Walk(new Vector3(5.65f,0,3.6f));}
     if(lap==4){Look(loop.flat.television.position);yield return new WaitForSeconds(3.5f);yield return WaitBusy();}
@@ -34,6 +34,18 @@ namespace Ataka.Scenario {
    if(!failed){yield return Walk(new Vector3(2.25f,0,3.6f));yield return Walk(new Vector3(5.65f,0,3.6f));yield return Walk(new Vector3(5.65f,0,5.35f));yield return Walk(new Vector3(8.05f,0,5.45f));Look(loop.flat.entrance.transform.position);yield return Press(Key.E);yield return WaitBusy();yield return Walk(new Vector3(8.05f,0,4.55f));yield return new WaitForSeconds(2);Check(loop.chase.Active,"chase entered");yield return Shot("chase-start");}
    if(!failed)yield return ChaseRun();
    Finish();
+  }
+  IEnumerator CaptureVestibules(){
+   int captured=0;
+   while(!loop.Finished){var local=loop.flat.sourceVestibule.InverseTransformPoint(player.transform.position);
+    if(loop.Busy&&loop.Progress.Lap>captured&&string.IsNullOrEmpty(loop.scenes.PlayingScene)&&Mathf.Abs(local.z)<.18f&&Mathf.Abs(local.x)<.2f){
+     int lap=loop.Progress.Lap;captured=lap;
+     while(loop.Progress.Lap==lap&&!loop.flat.carpet.IsClosed)yield return null;
+     yield return Shot("seam"+lap+"-closed");
+     while(loop.Progress.Lap==lap&&loop.Busy)yield return null;
+     yield return Shot("seam"+lap+"-mapped");
+    }yield return null;
+   }
   }
   IEnumerator CaptureScenes(){var captured=new HashSet<string>();while(!loop.Finished){var scene=loop.scenes.PlayingScene;float t=loop.scenes.FrameTime;if(!string.IsNullOrEmpty(scene)){foreach(float at in new[]{.4f,1.1f,1.7f,2.6f,3.6f,4.6f,5.1f}){string key=scene+"-"+at.ToString("0.0",System.Globalization.CultureInfo.InvariantCulture);if(t>=at&&t<at+.1f&&!captured.Contains(key)){captured.Add(key);yield return Shot("scene-"+key);break;}}}yield return null;}}
   IEnumerator ChaseRun(){
