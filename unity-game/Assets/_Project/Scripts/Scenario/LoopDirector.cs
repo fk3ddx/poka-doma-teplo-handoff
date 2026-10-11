@@ -78,7 +78,7 @@ namespace Ataka.Scenario {
    if(!Progress.CrossVestibule(flat.carpet.IsClosed,flat.vestibuleInner.IsClosed)){Busy=false;p.control=true;yield break;}
    int n=Progress.Lap;EnterLap(n);p.Place(pose.position,pose.rotation.eulerAngles.y,p.pitch);p.control=true;returning=true;flat.entrance.locked=false;Busy=false;
   }
-  public IEnumerator Death(int lap){Busy=true;yield return scenes.Play("DeathShort");flat.look.disruption=1;yield return new WaitForSeconds(1);flat.look.disruption=0;EnterLap(lap);flat.player.Place(ScenarioLayout.Spawn,180);Busy=false;}
+  public IEnumerator Death(int lap){Busy=true;yield return scenes.Play("DeathShort");flat.look.disruption=1;yield return new WaitForSeconds(1);flat.look.disruption=0;EnterLap(lap);flat.player.Place(ScenarioLayout.Spawn,180);sound.EndDeathRecovery();Busy=false;}
   IEnumerator BeginChase(){Busy=true;chase.PrepareEntry();yield return scenes.Play("ChaseStart");chase.Begin();Busy=false;}
   public void FinishCore(){Finished=true;prompt.text=subtitle.text="";flat.player.chasing=false;foreach(var group in flat.conditionGroups)group.SetActive(false);if(flat.dressing)flat.dressing.Apply(1);flat.look.WarmReturn();flat.clock.Show(22*3600);flat.player.Place(ScenarioLayout.Spawn,180);Pause(true);}
   void OnGUI(){if(!paused)return;var r=new Rect((Screen.width-620)/2,(Screen.height-420)/2,620,420);GUI.Box(r,"");GUILayout.BeginArea(new Rect(r.x+25,r.y+20,r.width-50,r.height-40));

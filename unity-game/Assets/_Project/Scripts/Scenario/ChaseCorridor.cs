@@ -83,7 +83,7 @@ namespace Ataka.Scenario {
    if(relocate){relocate=false;ShiftIntoIsolatedSpace(Vector3.down*50);}
   }
   IEnumerator Death(){ending=true;deathCount++;yield return scenes.Play("DeathShort");flat.look.disruption=1;yield return new WaitForSeconds(1);
-   flat.look.disruption=0;flat.player.Place(new Vector3(8.05f,.02f,5.35f),0);PrepareEntry();yield return scenes.Play("ChaseStart");Begin();
+   flat.look.disruption=0;flat.player.Place(new Vector3(8.05f,.02f,5.35f),0);loop.sound.EndDeathRecovery();PrepareEntry();yield return scenes.Play("ChaseStart");Begin();
   }
   IEnumerator Complete(){
    ending=true;flat.player.control=false;var warm=Current;var collapsible=new List<CorridorModule>(live);collapsible.Remove(warm);collapsible.Sort((a,b)=>Vector3.Distance(b.transform.position,warm.transform.position).CompareTo(Vector3.Distance(a.transform.position,warm.transform.position)));

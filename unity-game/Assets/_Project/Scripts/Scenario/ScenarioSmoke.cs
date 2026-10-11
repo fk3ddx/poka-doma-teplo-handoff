@@ -54,13 +54,25 @@ namespace Ataka.Scenario {
    int deaths=loop.chase.DeathCount;float deadline=Time.realtimeSinceStartup+18;
    while(loop.chase.DeathCount==deaths||loop.chase.Ending){if(Time.realtimeSinceStartup>deadline){Check(false,"stall death restart timeout");yield break;}yield return null;}
    Check(loop.chase.Active&&loop.chase.Progress.Elapsed<.5f,"stall death restarts chase");
+   if(Array.IndexOf(Environment.GetCommandLineArgs(),"-scenario-death-skip")>=0){
+    int beforeSkip=loop.chase.DeathCount;float waitDeadline=Time.realtimeSinceStartup+18;
+    while(loop.scenes.PlayingScene!="DeathShort"&&Time.realtimeSinceStartup<waitDeadline)yield return null;
+    Check(loop.scenes.PlayingScene=="DeathShort","repeat death available for skip");
+    yield return new WaitForSeconds(.2f);float skipStarted=Time.time;
+    InputSystem.QueueStateEvent(keyboard,new KeyboardState(Key.E));
+    while(loop.scenes.PlayingScene=="DeathShort"&&Time.time-skipStarted<2)yield return null;
+    InputSystem.QueueStateEvent(keyboard,new KeyboardState());
+    Check(Time.time-skipStarted<1,"held E skips repeat death");
+    while(loop.chase.Ending&&Time.realtimeSinceStartup<waitDeadline)yield return null;
+    Check(loop.chase.DeathCount==beforeSkip+1&&!loop.chase.Ending,"skipped death restarts chase");
+   }
    deadline=Time.realtimeSinceStartup+85;int startDeaths=loop.chase.DeathCount;bool cornerCaptured=false;yield return Shot("chase-hallway-entry");
    while(!loop.Finished&&!failed){
     if(Time.realtimeSinceStartup>deadline||loop.chase.DeathCount!=startDeaths){Check(false,"chase route failed at "+player.transform.position+" elapsed="+loop.chase.Progress.Elapsed);yield return Shot("FAILED-chase");yield break;}
     if(!cornerCaptured&&player.transform.position.y < -30){cornerCaptured=true;yield return Shot("chase-first-corner");Check(Vector3.Distance(player.view.transform.position,player.head.position)<.03f,"camera follows rigid shift without a frame of lag");}
     var module=loop.chase.Current;var local=module.transform.InverseTransformPoint(player.transform.position);
     if(module.warm&&local.z>2.2f&&local.z<3.8f){
-     InputSystem.QueueStateEvent(keyboard,new KeyboardState());Look(module.clock.transform.position);yield return Shot("warm-clock");Check(loop.chase.Progress.Elapsed>=42&&loop.chase.Progress.Elapsed<=50,"warm clock reached within 42–50s");
+     InputSystem.QueueStateEvent(keyboard,new KeyboardState());Look(module.clock.transform.position);yield return Shot("warm-clock");Check(loop.chase.Progress.Elapsed>=42&&loop.chase.Progress.Elapsed<=50,"warm clock reached within 42вЂ“50s");
      InputSystem.QueueStateEvent(keyboard,new KeyboardState(Key.E));yield return new WaitForSeconds(2.15f);InputSystem.QueueStateEvent(keyboard,new KeyboardState());yield return null;yield return null;
      Check(loop.chase.Progress.Wound,"clock wound by holding E two seconds");yield return Press(Key.E);float endDeadline=Time.realtimeSinceStartup+13;while(!loop.Finished&&Time.realtimeSinceStartup<endDeadline){if(module.transform.localScale!=Vector3.one){Check(false,"warm module collapsed under player");break;}yield return null;}Check(loop.Finished,"ten strikes return to warm apartment");yield return new WaitForSecondsRealtime(.4f);yield return Shot("core-end");yield break;
     }

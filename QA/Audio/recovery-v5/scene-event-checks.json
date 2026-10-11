@@ -1,0 +1,228 @@
+{
+  "passed": true,
+  "scope": "Cue scheduling within 60ms and listener-mix sample peak; not listening acceptance or precise DSP onset",
+  "checks": [
+    {
+      "passed": true,
+      "name": "capture complete",
+      "evidence": {
+        "error": "",
+        "droppedSamples": 0,
+        "formatChanges": 0
+      }
+    },
+    {
+      "passed": true,
+      "name": "finite and below digital full scale",
+      "evidence": -5.257918510842304
+    },
+    {
+      "passed": true,
+      "name": "DeathShort exercised",
+      "evidence": 2
+    },
+    {
+      "passed": true,
+      "name": "DeathShort #1 expected completion/skip",
+      "evidence": {
+        "duration": 3.541333333333327,
+        "skipped": false
+      }
+    },
+    {
+      "passed": true,
+      "name": "DeathShort #1 breath once near 0s",
+      "evidence": [
+        0.0
+      ]
+    },
+    {
+      "passed": true,
+      "name": "DeathShort #1 finger_crack once near 0.3s",
+      "evidence": [
+        0.30000609159469604
+      ]
+    },
+    {
+      "passed": true,
+      "name": "DeathShort #1 palms once near 1s",
+      "evidence": [
+        1.0056304931640625
+      ]
+    },
+    {
+      "passed": true,
+      "name": "DeathShort #1 choked_cry once near 1s",
+      "evidence": [
+        1.0056304931640625
+      ]
+    },
+    {
+      "passed": true,
+      "name": "DeathShort #1 wet_tear once near 1.5s",
+      "evidence": [
+        1.5038799047470093
+      ]
+    },
+    {
+      "passed": true,
+      "name": "DeathShort #1 no mismatched shriek/door creak",
+      "evidence": []
+    },
+    {
+      "passed": true,
+      "name": "DeathShort #1 silence (2.65, 3.25)",
+      "evidence": {
+        "sample_peak_dbfs": -138.28352324287744,
+        "audio_seconds": [
+          106.08477083333334,
+          106.68477083333333
+        ]
+      }
+    },
+    {
+      "passed": true,
+      "name": "DeathShort #2 expected completion/skip",
+      "evidence": {
+        "duration": 0.8106666666666626,
+        "skipped": true
+      }
+    },
+    {
+      "passed": true,
+      "name": "DeathShort #2 breath once near 0s",
+      "evidence": [
+        0.0
+      ]
+    },
+    {
+      "passed": true,
+      "name": "DeathShort #2 finger_crack once near 0.3s",
+      "evidence": [
+        0.3000032901763916
+      ]
+    },
+    {
+      "passed": true,
+      "name": "DeathShort #2 palms not started after skip",
+      "evidence": []
+    },
+    {
+      "passed": true,
+      "name": "DeathShort #2 choked_cry not started after skip",
+      "evidence": []
+    },
+    {
+      "passed": true,
+      "name": "DeathShort #2 wet_tear not started after skip",
+      "evidence": []
+    },
+    {
+      "passed": true,
+      "name": "DeathShort #2 no mismatched shriek/door creak",
+      "evidence": []
+    },
+    {
+      "passed": true,
+      "name": "HangingVision exercised",
+      "evidence": 1
+    },
+    {
+      "passed": true,
+      "name": "HangingVision #1 expected completion/skip",
+      "evidence": {
+        "duration": 6.1440000000000055,
+        "skipped": false
+      }
+    },
+    {
+      "passed": true,
+      "name": "HangingVision #1 breath once near 3.5s",
+      "evidence": [
+        3.511906862258911
+      ]
+    },
+    {
+      "passed": true,
+      "name": "HangingVision #1 tinnitus once near 4.5s",
+      "evidence": [
+        4.514447212219238
+      ]
+    },
+    {
+      "passed": true,
+      "name": "HangingVision #1 latch once near 6s",
+      "evidence": [
+        6.01417350769043
+      ]
+    },
+    {
+      "passed": true,
+      "name": "HangingVision #1 no mismatched shriek/door creak",
+      "evidence": []
+    },
+    {
+      "passed": true,
+      "name": "HangingVision #1 silence (5.15, 5.75)",
+      "evidence": {
+        "sample_peak_dbfs": -240.0,
+        "audio_seconds": [
+          74.36354166666666,
+          74.96354166666667
+        ]
+      }
+    },
+    {
+      "passed": true,
+      "name": "death recovery exercised",
+      "evidence": 2
+    },
+    {
+      "passed": true,
+      "name": "recovery #1 lasts one second",
+      "evidence": 1.00266666666667
+    },
+    {
+      "passed": true,
+      "name": "recovery #1 stays silent after timeline exit",
+      "evidence": {
+        "peak_dbfs": -240.0,
+        "audio_seconds": [
+          107.13666666666667,
+          107.88933333333334
+        ]
+      }
+    },
+    {
+      "passed": true,
+      "name": "recovery #1 no restarted ambient/cues",
+      "evidence": []
+    },
+    {
+      "passed": true,
+      "name": "recovery #2 lasts one second",
+      "evidence": 1.00266666666667
+    },
+    {
+      "passed": true,
+      "name": "recovery #2 stays silent after timeline exit",
+      "evidence": {
+        "peak_dbfs": -240.0,
+        "audio_seconds": [
+          113.494,
+          114.24666666666667
+        ]
+      }
+    },
+    {
+      "passed": true,
+      "name": "recovery #2 no restarted ambient/cues",
+      "evidence": []
+    },
+    {
+      "passed": true,
+      "name": "outside-scene cues use -1 time",
+      "evidence": 356
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "a": {
+    "seconds": 7.976875,
+    "sample_rate": 24000,
+    "channels": 1,
+    "raw_sample_peak_dbfs": -0.00026507636037961915,
+    "raw_rms_dbfs": -12.573670002643203,
+    "audition_gain_db": -9.426329997356799,
+    "audition_rms_dbfs": -22.0,
+    "raw_sha256": "0fee8388b59b60638e217d7873e8f3122deb9fc6841d15d510be47a618801ca0"
+  },
+  "b": {
+    "seconds": 7.416875,
+    "sample_rate": 24000,
+    "channels": 1,
+    "raw_sample_peak_dbfs": -0.00026507636037961915,
+    "raw_rms_dbfs": -16.345109476560545,
+    "audition_gain_db": -5.6548905234394535,
+    "audition_rms_dbfs": -22.0,
+    "raw_sha256": "08e5ee14eec0990c718dcfcea073147dba395660c8ac2a83be621f37280fa0fe"
+  }
+}

@@ -6,7 +6,7 @@ namespace Ataka.Scenario {
  public sealed class ScenarioSound:MonoBehaviour {
   public Transform clock,listener;public bool paused;public float menace;
   public AudioClip phoneWarning,grandmotherKnock;public ScenarioSoundBank bank;
-  public bool quiet; public bool calibrating;AudioClip reversedPhone;LoopDirector loop;
+  public bool quiet; public bool DeathRecovery{get;private set;} public bool calibrating;AudioClip reversedPhone;LoopDirector loop;
   const int PoolSize=32;
   sealed class Voice {public AudioSource source;public AudioLowPassFilter low;public AudioHighPassFilter high;public ScenarioSoundCue cue;public Transform anchor;public bool wanted,bypassQuiet;public float baseGain,fade,occluded,obstructionTarget,tailGain=1,tailTarget=1,startedAt;}
   readonly Dictionary<string,ScenarioSoundCue> cues=new Dictionary<string,ScenarioSoundCue>();
@@ -61,13 +61,16 @@ namespace Ataka.Scenario {
    if(!cues.TryGetValue(id,out var cue)||cue.clips.Length==0)return;StartVoice(cue,cue.clips[ChooseClip(cue)],anchor?anchor.position:listener.position,anchor,false,false);
   }
   public void StopCue(string id){if(voices==null)return;foreach(var v in voices)if(v.cue!=null&&v.cue.id==id){v.source.Stop();v.cue=null;}}
-  public void ResetWorld(){if(voices!=null)foreach(var v in voices){v.source.Stop();v.cue=null;}quiet=false;worldGain=1;travel=0;hadFeet=false;}
+  // Scene-owned one-shots must not resume when its envelope is released.
+  public void BeginDeathRecovery(){DeathRecovery=true;foreach(var id in new[]{"breath","palms","finger_crack","choked_cry","wet_tear"})StopCue(id);}
+  public void EndDeathRecovery(){DeathRecovery=false;quiet=false;}
+  public void ResetWorld(){DeathRecovery=false;if(voices!=null)foreach(var v in voices){v.source.Stop();v.cue=null;}quiet=false;worldGain=1;travel=0;hadFeet=false;}
   public void ShiftWorld(Vector3 delta){if(voices!=null)foreach(var v in voices)if(v.cue!=null&&!v.anchor&&v.source.spatialBlend>0)v.source.transform.position+=delta;}
   void Update(){
    if(paused||!loop||!bank||!listener)return;
    if(!calibrating)foreach(var v in voices)if(v.cue!=null&&v.cue.loop)v.wanted=false;
    bool chase=loop.chase&&loop.chase.Active;bool death=loop.scenes.PlayingScene=="DeathShort";bool hanging=loop.scenes.PlayingScene=="HangingVision";float sceneTime=loop.scenes.FrameTime;
-   if(!calibrating&&!loop.Finished&&!death){
+   if(!calibrating&&!loop.Finished&&!death&&!DeathRecovery){
     if(chase){foreach(var module in loop.chase.pool)if(module.lamp.intensity>0&&(!loop.chase.Ending||module==loop.chase.Current))EnsureLoop("clock",module.clock.transform);if(!loop.chase.Ending){EnsureLoop("player_breath",listener);EnsureLoop("guest_breath",loop.flat.guest.transform);EnsureLoop("heartbeat",listener);}}
     else if(clock&&!hanging)EnsureLoop("clock",clock);
     if(!chase&&!hanging&&(loop.Progress.Lap==2||loop.Progress.Lap==3))EnsureLoop("wind",loop.flat.balcony);
@@ -85,6 +88,7 @@ namespace Ataka.Scenario {
     // Explicit foreground selection preserves the later latch without globally dropping Play calls.
     if(death)sceneGain=Mathf.Clamp01((2.5f-sceneTime)/.1f);
     if(hanging){bool foreground=v.cue.id=="rope"||v.cue.id=="breath"||v.cue.id=="tinnitus";sceneGain=foreground?Mathf.Clamp01((5-sceneTime)/.1f):v.cue.id=="latch"&&sceneTime>=6?1:Mathf.Clamp01(1-sceneTime/.05f);}
+    if(DeathRecovery)sceneGain=0;
     s.volume=v.baseGain*v.fade*gain*v.tailGain*Mathf.Lerp(1,.5f,v.occluded)*sceneGain;
     if(v.cue.loop&&!v.wanted&&v.fade<=0){s.Stop();v.cue=null;}
    }

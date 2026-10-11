@@ -1,0 +1,119 @@
+- 'heading "events-v4 (Codex @ 8bb1685): по сигналу и коду, без прослушивания" [level=2]'
+- text: "Смотрел только изменения событий:"
+- code: ScenarioTimeline.cs
+- text: (DeathShort, HangingVision),
+- code: sceneGain
+- text: в
+- code: ScenarioSound.cs
+- text: ", новые cue в"
+- code: ScenarioAudioBuilder.cs
+- text: ","
+- code: full-mix.json
+- text: и WAV
+- code: events-v4-death
+- text: /
+- code: events-v4-hanging
+- text: . Время сцены в WAV считаю по
+- code: start_seconds
+- text: из metrics. Звук выходит примерно на 0.1 с позже метки — это задержка аудиобуфера, и Codex это честно указал.
+- strong: "Совпадает с §7.4 / §7.5:"
+- list:
+  - strong: "Хруст пальцев:"
+  - text: 0.305. На огибающей пик −13 dBFS в 0.4 с сцены. Руки входят в кадр тоже в 0.3 (
+  - code: CloseupHand.cs:9
+  - text: ).
+  - strong: "Вскрик:"
+  - text: 1.007, длина клипа 0.406 с. Значит, он кончается около 1.41, то есть до 1.5, как в сценарии.
+  - strong: "Разрыв:"
+  - text: 1.511, длина 0.9 с. Он совпадает с лоскутом (
+  - code: DeathVeil.At
+  - text: 1.5–2.25) и с отрывом рук (1.5–2.2). Громкость гасится за 2.4–2.5. По WAV тишина начинается ровно в 2.5 сцены.
+  - strong: "Видение:"
+  - list:
+    - listitem: Пока сцена идёт, часы и ветер заглушены — в §7.5 там «Тишина, скрип верёвки».
+    - listitem: Вдох в 3.513.
+    - listitem: "Звон в 4.511: короткий тон ~6.1 кГц длиной 0.45 с, пик около −29 dBFS. Сам кончается к 5.0."
+    - listitem: С 5.0 до 5.9 — цифровой ноль. Замок в 6.013.
+  - listitem: Неверных shriek и creak в этих сценах нет.
+- strong: P1 — после смерти звук возвращается на чёрном экране.
+- list:
+  - strong: Причина в коде.
+  - text: В
+  - code: ScenarioSound.cs
+  - text: громкость сцены (
+  - code: sceneGain
+  - text: ) действует, только пока
+  - code: PlayingScene=="DeathShort"
+  - text: . Когда сцена кончается в 3.5,
+  - code: PlayingScene=null
+  - text: ", и"
+  - code: sceneGain
+  - text: "снова становится 1. При этом дыхание из t=0 ещё звучит:"
+  - code: guest_breath_00
+  - text: длится 3.9 с,
+  - code: _02
+  - text: — 3.7 с, вариант выбирается случайно.
+  - strong: В WAV.
+  - text: На 3.5–4.2 с сцены есть сигнал с пиком −37 dBFS, а экран там чёрный (
+  - code: disruption
+  - text: ). В это же время стартует
+  - code: cue:clock
+  - text: "(106.795), поэтому по одной огибающей я не могу сказать, что именно звучит: хвост дыхания, часы или оба. Codex, проверь по голосам."
+  - strong: Почему проверка не поймала.
+  - text: Окно тишины 2.65–3.25 этот участок не захватывает.
+  - strong: Пропуск по E
+  - text: (со второй смерти) — та же дыра. Сцена обрывается, например, на 0.8, и дыхание с хвостом вскрика продолжаются уже в ChaseStart.
+  - strong: Исправление.
+  - text: "При выходе из DeathShort, обычном и по пропуску, останавливать одноразовые звуки сцены: breath, palms, finger_crack, choked_cry, wet_tear. Это"
+  - code: StopCue
+  - text: ", как уже сделано в HangingVision на 5.0. Если часы после смерти — новая отдельная проблема, их решать отдельно."
+  - strong: Критерии.
+  - text: Тишина от 2.6 с сцены до
+  - code: Place
+  - text: в ChaseCorridor (≈4.5 с сцены). Отдельно проверить захват с пропуском по E.
+- strong: P2 — метки cue вне сцены.
+- text: Если cue стартует вне сцены, в
+- code: ScenarioAudioCapture.OnCue
+- text: пишется
+- code: timelineSeconds = FrameTime = 0.0
+- text: . Это выглядит как начало сцены. Должно быть −1, если
+- code: scene
+- text: пустая.
+- text: "Не проверял: щелчок от жёсткого"
+- code: StopCue
+- text: на 5.0 (по огибающим 50 мс его не видно, это вопрос на слух) и как это звучит в целом. Верёвка на 0.5–2.0 с идёт с пиками −60…−65 dBFS — это не изменения v4, но пусть Дима на слух скажет, слышна ли она.
+- heading "Голос бабушки" [level=2]
+- text: "Qwen3 VoiceDesign и Hume Octave — это генерация голоса по описанию, то есть тот же класс инструментов, что не прошёл по возрасту. Поэтому их больше не предлагаю. Common Voice (CC0) тоже проверил: в русском наборе нет дикторов старше 70 ("
+- link "датасет":
+  - /url: https://datacollective.mozillafoundation.org/datasets/cmj8u3prj00o9nxxbg5pbn88l
+- text: ).
+- generic: "Конкретные варианты:"
+- list:
+  - strong: MiniMax Audio, готовый голос «Spirited Narrator»
+  - text: — русский, Female, возрастная группа Elderly, в описании «Raspy». Это библиотечный голос, клонирование не нужно (
+  - link "страница с голосами":
+    - /url: https://www.minimax.io/audio/text-to-speech/russian
+  - text: ).
+  - list:
+    - listitem: "Без входа дают 5 пробных генераций. Этого хватит на две реплики: телефон и стук."
+    - listitem: Коммерческое использование, по сторонним обзорам, есть с тарифа Starter за $5/мес. Покупку решает Дима, не мы.
+    - listitem: "Что «Elderly» — это метка продавца. Я голос не слушал: может оказаться хриплой рассказчицей лет 50."
+  - strong: Fish Audio «бабушка» (8909db38…)
+  - text: "— Дима входит сам. Сначала открыть страницу модели: если это клон реального человека без указанного согласия, модель отпадает по нашему правилу. Бесплатный тариф там некоммерческий."
+  - strong: Живая пожилая женщина с согласием
+  - text: "— по возрасту самый надёжный вариант. Это бабушка или соседка, которая согласна: 2 реплики, телефон рядом, тихая комната, плюс письменное «разрешаю использовать в игре». Или на Kwork/fl.ru искать именно возраст исполнительницы, а не «озвучку голосом бабушки» — такие заказы обычно делают молодые актрисы, которые изображают старушку."
+- strong: "Вопрос Диме:"
+- text: сделать сухие пробы MiniMax «Spirited Narrator» на 5 бесплатных генерациях и сравнить на слух с Fish «бабушка»? Если оба не похожи на 70+, остаётся только живой голос.
+- generic: Репозиторий не трогал.
+- text: "Источники:"
+- link "MiniMax RU voices":
+  - /url: https://www.minimax.io/audio/text-to-speech/russian
+- text: ","
+- link "обзор тарифов MiniMax":
+  - /url: https://growwstacks.com/blog/free-ai-voice-generator-destroys-elevenlabs
+- text: ","
+- link "Hume Octave 2":
+  - /url: https://hume.ai/blog/octave-2-launch
+- text: ","
+- link "Common Voice RU 24.0":
+  - /url: https://datacollective.mozillafoundation.org/datasets/cmj8u3prj00o9nxxbg5pbn88l

@@ -3,6 +3,28 @@ using UnityEngine;
 using Ataka.Scenario;
 namespace Ataka.Tests {
  public sealed class ScenarioCoreTests {
+  [TestCase("record")][TestCase("not-started")][TestCase("stopping")][TestCase("format-change")][TestCase("overflow")]
+  public void QaCaptureSilencesDeviceEvenWhenRecordingCannotContinue(string state){
+   var host=new GameObject("silent-capture-test");var capture=host.AddComponent<ScenarioAudioCapture>();
+   var flags=System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic;
+   var type=typeof(ScenarioAudioCapture);
+   void Set(string key,object value)=>type.GetField(key,flags).SetValue(capture,value);
+   var data=new[]{.25f,-.5f,.75f,-.125f};var original=(float[])data.Clone();
+   try{
+    if(state!="not-started")Set("worker",new System.Threading.Thread(()=>{}));
+    if(state=="stopping")Set("stopping",true);
+    if(state=="format-change")Set("channels",1);
+    if(state=="overflow")Set("written",(long)(1<<20));
+    type.GetMethod("OnAudioFilterRead",flags).Invoke(capture,new object[]{data,2});
+    Assert.That(data,Is.All.Zero,"QA audio must never reach the device, including error/exit paths");
+    if(state=="record"){
+     var ring=(float[])type.GetField("ring",flags).GetValue(capture);
+     for(int i=0;i<original.Length;i++)Assert.That(ring[i],Is.EqualTo(original[i]),"Keep unmuted samples for the WAV writer");
+     Assert.That(type.GetField("written",flags).GetValue(capture),Is.EqualTo(4L));
+    }
+   }finally{Set("worker",null);Object.DestroyImmediate(host);}
+  }
+
   [Test] public void SixLapsRequireTheirOwnCompletedEventAndClosedVestibule(){
    var p=new LoopProgress();
    for(int lap=1;lap<=6;lap++){
