@@ -1,0 +1,77 @@
+menu-to-play
+WALK (7.67, 0.01, 3.89) target=(7.65, 0.00, 3.80)
+PASS flashlight pickup
+PASS lap 1 entered
+WALK (7.88, 0.01, 5.25) target=(7.90, 0.00, 5.35)
+WALK (5.75, 0.01, 5.35) target=(5.65, 0.00, 5.35)
+WALK (5.66, 0.01, 3.71) target=(5.65, 0.00, 3.60)
+WALK (3.36, 0.02, 3.60) target=(3.25, 0.00, 3.60)
+WALK (2.39, 0.01, 3.53) target=(2.30, 0.00, 3.60)
+WALK (1.01, 0.01, 3.71) target=(0.90, 0.00, 3.75)
+PASS gate 1 released by event
+WALK (8.04, 0.01, 6.81) target=(0.90, 0.00, 5.10)
+WALK (8.03, 0.01, 5.64) target=(8.05, 0.00, 5.55)
+PASS lap 2 entered
+WALK (7.94, 0.01, 5.43) target=(7.90, 0.00, 5.35)
+WALK (5.74, 0.01, 5.35) target=(5.65, 0.00, 5.35)
+WALK (5.66, 0.01, 3.71) target=(5.65, 0.00, 3.60)
+WALK (3.36, 0.02, 3.61) target=(3.25, 0.00, 3.60)
+WALK (2.39, 0.01, 3.53) target=(2.30, 0.00, 3.60)
+WALK (1.51, 0.01, 3.15) target=(1.40, 0.00, 3.10)
+UNDERBED crouch=True distance=1,265292 dot=1 prompt=[E] Посмотреть под кровать
+WALK (0.96, 0.01, 3.69) target=(0.90, 0.00, 3.75)
+PASS gate 2 released by event
+WALK (8.04, 0.02, 6.80) target=(0.90, 0.00, 5.10)
+WALK (8.03, 0.01, 5.64) target=(8.05, 0.00, 5.55)
+PASS lap 3 entered
+WALK (7.94, 0.01, 5.43) target=(7.90, 0.00, 5.35)
+WALK (5.74, 0.01, 5.35) target=(5.65, 0.00, 5.35)
+WALK (5.66, 0.01, 3.71) target=(5.65, 0.00, 3.60)
+WALK (5.26, 0.04, 1.24) target=(5.25, 0.00, 1.15)
+WALK (5.63, 0.04, 3.51) target=(5.65, 0.00, 3.60)
+WALK (3.37, 0.02, 3.60) target=(3.25, 0.00, 3.60)
+WALK (2.40, 0.01, 3.53) target=(2.30, 0.00, 3.60)
+WALK (0.98, 0.01, 3.72) target=(0.90, 0.00, 3.75)
+PASS gate 3 released by event
+WALK (8.04, 0.01, 6.80) target=(0.90, 0.00, 5.10)
+WALK (8.03, 0.01, 5.64) target=(8.05, 0.00, 5.55)
+PASS lap 4 entered
+WALK (7.94, 0.01, 5.43) target=(7.90, 0.00, 5.35)
+WALK (5.74, 0.01, 5.35) target=(5.65, 0.00, 5.35)
+WALK (5.66, 0.01, 3.72) target=(5.65, 0.00, 3.60)
+WALK (3.36, 0.02, 3.61) target=(3.25, 0.00, 3.60)
+WALK (2.39, 0.01, 3.53) target=(2.30, 0.00, 3.60)
+WALK (1.01, 0.01, 3.71) target=(0.90, 0.00, 3.75)
+PASS gate 4 released by event
+WALK (8.04, 0.01, 6.81) target=(0.90, 0.00, 5.10)
+WALK (8.03, 0.01, 5.64) target=(8.05, 0.00, 5.55)
+PASS lap 5 entered
+WALK (7.67, 0.01, 3.91) target=(7.65, 0.00, 3.80)
+WALK (7.89, 0.01, 5.26) target=(7.90, 0.00, 5.35)
+WALK (5.75, 0.01, 5.35) target=(5.65, 0.00, 5.35)
+WALK (5.66, 0.02, 3.69) target=(5.65, 0.00, 3.60)
+WALK (3.36, 0.02, 3.60) target=(3.25, 0.00, 3.60)
+WALK (2.39, 0.01, 3.53) target=(2.30, 0.00, 3.60)
+WALK (1.01, 0.01, 3.71) target=(0.90, 0.00, 3.75)
+PASS gate 5 released by event
+WALK (8.04, 0.01, 6.81) target=(0.90, 0.00, 5.10)
+WALK (8.03, 0.01, 5.64) target=(8.05, 0.00, 5.55)
+PASS lap 6 entered
+WALK (7.94, 0.01, 5.43) target=(7.90, 0.00, 5.35)
+WALK (5.74, 0.01, 5.35) target=(5.65, 0.00, 5.35)
+WALK (5.66, 0.01, 3.71) target=(5.65, 0.00, 3.60)
+WALK (3.36, 0.02, 3.61) target=(3.25, 0.00, 3.60)
+WALK (2.39, 0.01, 3.53) target=(2.30, 0.00, 3.60)
+WALK (0.98, 0.01, 3.72) target=(0.90, 0.00, 3.75)
+PASS sixth carpet stays locked
+WALK (2.15, 0.01, 3.54) target=(2.25, 0.00, 3.60)
+WALK (5.54, 0.04, 3.60) target=(5.65, 0.00, 3.60)
+WALK (5.64, 0.01, 5.26) target=(5.65, 0.00, 5.35)
+WALK (7.94, 0.01, 5.44) target=(8.05, 0.00, 5.45)
+WALK (0.00, 0.01, 42.25) target=(8.05, 0.00, 4.55)
+PASS chase entered
+PASS pause freezes chase clock
+PASS stall death restarts chase
+PASS warm clock reached within 42–50s
+PASS clock wound by holding E two seconds
+PASS ten strikes return to warm apartment
