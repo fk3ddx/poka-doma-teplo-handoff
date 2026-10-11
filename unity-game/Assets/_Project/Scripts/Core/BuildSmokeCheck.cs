@@ -39,6 +39,10 @@ namespace Ataka
                 foreach(var material in visibleMaterials.Where(m=>new[]{"WindowWarm","SodiumGlass","Bulb","Shade"}.Contains(m.name)))
                     if(!material.IsKeywordEnabled("_EMISSION"))Debug.LogError("Smoke: visible emissive material lost its shader keyword: "+material.name);
             }
+            if(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name=="Apartment_M1"){
+                var snow=GameObject.Find("Windblown wet snow");
+                if(snow==null||snow.GetComponent<ParticleSystem>()==null)Debug.LogError("Smoke: exterior weather component missing");
+            }
             yield return Capture("01-menu");
             session.NewGame();
             // Let the ordinary four-second controls notice expire before comparative frames.
@@ -74,6 +78,14 @@ namespace Ataka
                 yield return Capture("10-staircase");
                 session.player.Restore(new Vector3(5.20f,11.72f,-.65f),190,30,false);
                 yield return Capture("11-balcony-courtyard");
+                var seat=FindFirstObjectByType<ArmchairSeat>();
+                session.player.Restore(seat.exitAnchor.position,180,35,false);
+                seat.Interact(session);yield return new WaitForSecondsRealtime(.85f);
+                yield return Capture("16-seated-living");
+                session.player.pitch=45;session.player.view.transform.localRotation=Quaternion.Euler(45,0,0);
+                yield return Capture("17-seated-lap");
+                seat.Interact(session);yield return new WaitForSecondsRealtime(.85f);
+                if(session.player.Seat!=null)Debug.LogError("Smoke: failed to leave chair");
             }
             var pickups = FindObjectsByType<PickUp>(FindObjectsSortMode.None);
             foreach (var pickup in pickups) pickup.Interact(session);

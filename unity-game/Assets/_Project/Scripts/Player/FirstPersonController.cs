@@ -11,6 +11,7 @@ namespace Ataka
         public bool crouched;
         public bool inputEnabled;
         public bool invertY;
+        public ArmchairSeat Seat { get; internal set; }
         CharacterController body;
         PlayerControls controls;
         float verticalSpeed;
@@ -39,25 +40,31 @@ namespace Ataka
         void Update()
         {
             if (!inputEnabled || Time.timeScale == 0) return;
-            if (controls.Crouch.WasPressedThisFrame() && (!crouched || CanStand())) crouched = !crouched;
-            float targetHeight = crouched ? 1.08f : 1.7f;
-            body.height = targetHeight;
-            body.center = new Vector3(0, targetHeight / 2, 0);
-            var eye = view.transform.localPosition;
-            eye.y = Mathf.Lerp(eye.y, crouched ? .94f : 1.55f, 1 - Mathf.Exp(-14 * Time.deltaTime));
-            view.transform.localPosition = eye;
+            if (Seat == null)
+            {
+                if (controls.Crouch.WasPressedThisFrame() && (!crouched || CanStand())) crouched = !crouched;
+                float targetHeight = crouched ? 1.08f : 1.7f;
+                body.height = targetHeight;
+                body.center = new Vector3(0, targetHeight / 2, 0);
+                var eye = view.transform.localPosition;
+                eye.y = Mathf.Lerp(eye.y, crouched ? .94f : 1.55f, 1 - Mathf.Exp(-14 * Time.deltaTime));
+                view.transform.localPosition = eye;
+            }
 
             if (ignoreLookFrames > 0) ignoreLookFrames--;
-            else if (Cursor.lockState == CursorLockMode.Locked)
+            else if (Cursor.lockState == CursorLockMode.Locked && (Seat == null || !Seat.IsTransitioning))
             {
                 Vector2 mouse = controls.MouseLook.ReadValue<Vector2>();
                 // Discard focus/warp spikes, without making mouse speed depend on FPS.
                 if (mouse.sqrMagnitude > 36000000) mouse = Vector2.zero;
                 var look = mouse * sensitivity + controls.StickLook.ReadValue<Vector2>() * (120 * Time.deltaTime);
                 transform.Rotate(0, look.x, 0, Space.Self);
+                if (Seat != null) transform.rotation = Quaternion.Euler(0, Seat.Facing +
+                    Mathf.Clamp(Mathf.DeltaAngle(Seat.Facing, transform.eulerAngles.y), -75, 75), 0);
                 pitch = Mathf.Clamp(pitch - look.y * (invertY ? -1 : 1), -82, 82);
                 view.transform.localRotation = Quaternion.Euler(pitch, 0, 0);
             }
+            if (Seat != null) return;
             var axis = Vector2.ClampMagnitude(controls.Move.ReadValue<Vector2>(), 1);
             var movement = transform.right * axis.x + transform.forward * axis.y;
             float speed = crouched ? 1.15f : controls.Sprint.IsPressed() ? 3.5f : 2;
@@ -67,6 +74,7 @@ namespace Ataka
 
         public void Restore(Vector3 position, float yaw, float savedPitch, bool savedCrouch)
         {
+            if (Seat != null) Seat.Release();
             body.enabled = false;
             transform.SetPositionAndRotation(position, Quaternion.Euler(0, yaw, 0));
             pitch = Mathf.Clamp(savedPitch, -82, 82);

@@ -24,6 +24,7 @@ namespace Ataka
         public float yaw;
         public float pitch;
         public bool crouched;
+        public string seatedAt;
         public bool rewindUsed;
         public List<string> inventory = new List<string>();
         public List<ObjectState> objects = new List<ObjectState>();

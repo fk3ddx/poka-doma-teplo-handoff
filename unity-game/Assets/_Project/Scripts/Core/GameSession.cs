@@ -58,7 +58,7 @@ namespace Ataka
             if (Started && controls.Pause.WasPressedThisFrame()) SetPaused(!Paused);
             if (Paused) { Target = null; return; }
             if (Time.unscaledTime > noticeUntil) Notice = null;
-            Target = query.Resolve(new Ray(player.view.transform.position, player.view.transform.forward));
+            Target = player.Seat != null ? player.Seat : query.Resolve(new Ray(player.view.transform.position, player.view.transform.forward));
             if (Target != null && controls.Interact.WasPressedThisFrame()) Target.Interact(this);
         }
 
@@ -93,6 +93,7 @@ namespace Ataka
                 yaw = player.transform.eulerAngles.y,
                 pitch = player.pitch,
                 crouched = player.crouched,
+                seatedAt = player.Seat != null ? player.Seat.persistentId : null,
                 inventory = new List<string>(inventory)
             };
             foreach (var item in objects) state.objects.Add(new ObjectState(item.persistentId, item.Capture(), item.CaptureAuxiliary()));
@@ -123,6 +124,9 @@ namespace Ataka
             }
             Physics.SyncTransforms();
             player.Restore(state.position, state.yaw, state.pitch, state.crouched);
+            if (!string.IsNullOrEmpty(state.seatedAt))
+                foreach (var item in objects)
+                    if (item.persistentId == state.seatedAt && item is ArmchairSeat seat) { seat.Enter(player, true); break; }
             Started = true;
             SetPaused(false);
             Notify("Сохранение загружено");

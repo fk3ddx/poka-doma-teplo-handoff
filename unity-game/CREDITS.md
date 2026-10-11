@@ -50,3 +50,6 @@ Fears to Fathom: Norwood Hitchhike / Home Alone и From the Darkness служа�
 - Ящик, чаши и накидка — собственная геометрия tools/art/finish_domestic.py.
 - DistantWindowCurtain.png — оригинальный процедурный рисунок занавески, ApartmentMaterialPolish.cs.
 - comparison.zip содержит пять официальных кадров Steam только для атрибутированного сравнения; они не входят в игру и права на них принадлежат их авторам.
+
+
+M1 0.2.3: колени/плед — собственная процедурная геометрия ApartmentSeating.cs; SleetParticle.png — оригинальная процедурная маска мягкой частицы, ApartmentWeather.cs.

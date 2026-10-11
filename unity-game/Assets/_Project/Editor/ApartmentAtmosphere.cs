@@ -52,9 +52,7 @@ namespace Ataka.Editor {
    foreach(var p in new[]{new Vector3(2.914f,.32f,3.04f),new Vector3(6.487f,.32f,.6f),new Vector3(8.733f,1.02f,2.48f)}){
     Box("Old power socket",p,new Vector3(.033f,.085f,.09f),"Enamel",false);foreach(float z in new[]{-.016f,.016f})Box("Socket pin recess",p+new Vector3(-.018f,0,z),new Vector3(.005f,.008f,.008f),"Black",false);
    }
-   var snow=new GameObject("Windblown wet snow");snow.transform.SetParent(art,false);snow.transform.localPosition=new Vector3(4,8,-16);snow.transform.localRotation=Quaternion.Euler(90,0,0);var ps=snow.AddComponent<ParticleSystem>();var main=ps.main;main.startLifetime=5;main.startSpeed=4;main.startSize=new ParticleSystem.MinMaxCurve(.012f,.035f);main.startColor=new Color(.56f,.62f,.65f,.4f);main.maxParticles=1000;main.simulationSpace=ParticleSystemSimulationSpace.World;main.prewarm=true;
-   var emission=ps.emission;emission.rateOverTime=160;var shape=ps.shape;shape.shapeType=ParticleSystemShapeType.Box;shape.scale=new Vector3(40,26,1);var velocity=ps.velocityOverLifetime;velocity.enabled=true;velocity.space=ParticleSystemSimulationSpace.World;velocity.x=.8f;velocity.y=-.5f;
-   var renderer=snow.GetComponent<ParticleSystemRenderer>();var snowMat=new Material(Shader.Find("Universal Render Pipeline/Particles/Unlit"));string sp=Root+"/Art/M1Materials/Sleet.mat";var old=AssetDatabase.LoadAssetAtPath<Material>(sp);if(old==null){AssetDatabase.CreateAsset(snowMat,sp);old=snowMat;}renderer.sharedMaterial=old;renderer.renderMode=ParticleSystemRenderMode.Stretch;renderer.lengthScale=1.8f;renderer.velocityScale=.025f;
+   WeatherParticles();
   }
   static void Label(string text,Vector3 p,Quaternion rot,float size,Color color){
    string file;Vector2 dimensions;
