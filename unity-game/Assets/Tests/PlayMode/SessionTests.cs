@@ -9,13 +9,17 @@ using UnityEngine.TestTools;
 
 namespace Ataka.Tests
 {
+    [TestFixture("Apartment_M0")]
+    [TestFixture("Apartment_M1")]
     public class SessionTests
     {
+        readonly string scene;
+        public SessionTests(string scene){this.scene=scene;}
         GameSession session;
         [UnitySetUp] public IEnumerator Setup()
         {
             Time.timeScale = 1;
-            yield return SceneManager.LoadSceneAsync("Apartment_M0");
+            yield return SceneManager.LoadSceneAsync(scene);
             yield return null;
             session = Object.FindFirstObjectByType<GameSession>();
             Assert.NotNull(session);

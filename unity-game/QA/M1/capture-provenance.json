@@ -1,0 +1,17 @@
+{
+  "build": "Unity M1 0.2.0-dev",
+  "capture": "ScreenCapture.CaptureScreenshotAsTexture from Windows player; images unedited",
+  "files": {
+    "01-menu.png": "8e72860cc36f119bfff053e4383864f29a4449ccfc63d1db3a057bbda344e1d4",
+    "02-living.png": "6688538398175d3e778c134f94973cee46a1b40da02e67345939e35cef75d7e0",
+    "03-kitchen.png": "f354db58acd5fc4cf24a0f76f593ac37edc3b115e919876411d5c94a70afba5e",
+    "04-courtyard.png": "9d31b17f66a9350e660392f8562992fe6a3ae0867f985a6d59a87692476bcd00",
+    "05-lights-off.png": "63ad12a0be36f117d3047c7d690dcbc46098f9d61e4708a6b6dc1f6facc16a59",
+    "06-cabinet-tv.png": "5725722f178f5eabf0f301319ff5884aaee61aee0db6f9ab51f8b7feead94120",
+    "07-bedroom.png": "30f1a8001d722621e889a42b78b2d87f04a799d9e2905eaee85c30fde932a51c",
+    "08-hall.png": "84cd2ddbc7836484a2088cf48c1d021b2b28b599c1de67c8cce0f0e5a9b731ba",
+    "09-bathroom.png": "fddec0aa43c82296f522dfe7ccc7d96f15b1bc47bcc48f0122f4951d2881e035",
+    "10-staircase.png": "59b81c6538654604fdaaf3f85d1383be162868b2be5043d77e30500ad3e4f12b",
+    "11-balcony-courtyard.png": "de4ed11bcc96c1fb8eedffbaa93d959ab746465c02a8190593fefa2219dfa2f3"
+  }
+}

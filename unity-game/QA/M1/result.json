@@ -1,0 +1,13 @@
+{
+    "errors": 0,
+    "frames": 600,
+    "lightSwitchP95Ms": 16.669401168823243,
+    "lightSwitchMaxMs": 16.706298828125,
+    "meanFps": 59.70976257324219,
+    "slowestFrameMs": 41.351295471191409,
+    "p95FrameMs": 16.669401168823243,
+    "p99FrameMs": 16.68990135192871,
+    "gpu": "NVIDIA GeForce GTX 1650 SUPER",
+    "graphicsApi": "Direct3D12",
+    "unity": "6000.3.26f1"
+}

@@ -7,11 +7,15 @@ using UnityEngine;
 
 namespace Ataka.Tests
 {
+    [TestFixture(MilestoneBuilder.ScenePath)]
+    [TestFixture(ApartmentArtBuilder.ScenePath)]
     public class ApartmentTests
     {
+        readonly string scenePath;
+        public ApartmentTests(string scenePath) { this.scenePath=scenePath; }
         [SetUp] public void LoadScene()
         {
-            EditorSceneManager.OpenScene(MilestoneBuilder.ScenePath);
+            EditorSceneManager.OpenScene(scenePath);
             Physics.SyncTransforms();
         }
         [Test] public void PersistentIdsAreNonEmptyAndUnique()

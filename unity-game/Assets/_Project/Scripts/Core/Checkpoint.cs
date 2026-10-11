@@ -84,7 +84,7 @@ namespace Ataka
         static bool Finite(float value) => !float.IsNaN(value) && !float.IsInfinity(value);
         static bool Valid(Checkpoint value)
         {
-            if (value == null || value.schema != 1 || value.scene != "Apartment_M0" ||
+            if (value == null || value.schema != 1 || (value.scene != "Apartment_M0" && value.scene != "Apartment_M1") ||
                 value.inventory == null || value.objects == null ||
                 !Finite(value.position.x) || !Finite(value.position.y) || !Finite(value.position.z) ||
                 !Finite(value.yaw) || !Finite(value.pitch)) return false;

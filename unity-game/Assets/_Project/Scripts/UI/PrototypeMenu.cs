@@ -5,6 +5,7 @@ namespace Ataka
     public sealed class PrototypeMenu : MonoBehaviour
     {
         public GameSession session;
+        public string milestoneDescription = "M0 · проверка управления и планировки";
         bool options;
         GUIStyle text, title, button;
         void OnGUI()
@@ -24,7 +25,7 @@ namespace Ataka
                 GUI.Box(new Rect(0, 0, width, height), GUIContent.none);
                 GUILayout.BeginArea(new Rect(width / 2 - 255, height / 2 - 280, 510, 560), GUI.skin.box);
                 GUILayout.Label("АТАКА НА ЗАПОМИНАНИЕ", title);
-                GUILayout.Label("M0 · проверка управления и планировки\nТехнический каркас. Художественная версия квартиры — следующая веха.", text);
+                GUILayout.Label(milestoneDescription, text);
                 GUILayout.Space(15);
                 if (options)
                 {

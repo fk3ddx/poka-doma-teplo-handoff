@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -20,6 +20,9 @@ namespace Ataka
     {
         public FirstPersonController player;
         public Material vhsMaterial;
+        public string checkpointFile = "checkpoint-m0.json";
+        public Vector3 checkpointMin = new Vector3(-.1f,11.5f,-1.5f);
+        public Vector3 checkpointMax = new Vector3(9,14.3f,8.5f);
         public HashSet<string> inventory = new HashSet<string>();
         public GameSettings settings = new GameSettings();
         public bool Paused { get; private set; } = true;
@@ -42,7 +45,7 @@ namespace Ataka
             controls = player.GetComponent<PlayerControls>();
             initialPosition = player.transform.position;
             initialYaw = player.transform.eulerAngles.y;
-            store = new CheckpointStore(Path.Combine(Application.persistentDataPath, "checkpoint-m0.json"));
+            store = new CheckpointStore(Path.Combine(Application.persistentDataPath, checkpointFile));
             try { if (File.Exists(SettingsPath)) settings = JsonUtility.FromJson<GameSettings>(File.ReadAllText(SettingsPath)) ?? new GameSettings(); }
             catch (Exception e) when (e is IOException || e is ArgumentException) { Notify("Настройки сброшены: файл повреждён."); }
             ApplySettings();
@@ -89,6 +92,7 @@ namespace Ataka
         {
             var state = new Checkpoint
             {
+                scene = SceneManager.GetActiveScene().name,
                 position = player.transform.position,
                 yaw = player.transform.eulerAngles.y,
                 pitch = player.pitch,
@@ -109,8 +113,9 @@ namespace Ataka
         public void Load()
         {
             if (!store.TryLoad(out var state)) { Notify("Нет корректного сохранения"); return; }
-            if (state.position.x < -.1f || state.position.x > 9 || state.position.z < -1.5f || state.position.z > 8.5f ||
-                state.position.y < 11.5f || state.position.y > 14.3f)
+            if (state.scene != SceneManager.GetActiveScene().name) { Notify("Сохранение относится к другой версии квартиры"); return; }
+            if (state.position.x < checkpointMin.x || state.position.x > checkpointMax.x || state.position.z < checkpointMin.z || state.position.z > checkpointMax.z ||
+                state.position.y < checkpointMin.y || state.position.y > checkpointMax.y)
             { Notify("Сохранение содержит недопустимую позицию"); return; }
             inventory = new HashSet<string>(state.inventory);
             foreach (var item in objects)

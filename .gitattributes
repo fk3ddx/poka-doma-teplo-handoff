@@ -5,3 +5,9 @@ unity-game/**/*.meta whitespace=-blank-at-eol
 unity-game/**/*.asset whitespace=-blank-at-eol
 unity-game/**/*.unity whitespace=-blank-at-eol
 unity-game/**/*.mat whitespace=-blank-at-eol
+
+unity-game/**/*.jpg -text
+unity-game/**/*.wav -text
+unity-game/**/*.exr -text
+unity-game/**/*.blend -text
+unity-game/**/*.fbx -text

@@ -16,3 +16,7 @@ unity-game/.vs/
 unity-game/*.csproj
 unity-game/*.sln
 unity-game/*.slnx
+unity-game/Reference/
+
+unity-game/QA/M1-pass*/
+unity-game/tools/art/sources/*.blend1

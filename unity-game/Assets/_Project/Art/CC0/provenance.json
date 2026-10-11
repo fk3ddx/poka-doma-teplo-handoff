@@ -1,0 +1,322 @@
+[
+  {
+    "asset": "dark_wood",
+    "map": "Diffuse",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/dark_wood/dark_wood_diff_2k.jpg",
+    "md5": "f6e205a05ff7f1b45c675795b18ea0f5",
+    "license": "CC0-1.0",
+    "path": "Assets/_Project/Art/CC0/dark_wood/Diffuse.jpg"
+  },
+  {
+    "asset": "dark_wood",
+    "map": "nor_gl",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/dark_wood/dark_wood_nor_gl_2k.jpg",
+    "md5": "0b47748d5559eb91c1fe19b9394ef95f",
+    "license": "CC0-1.0",
+    "path": "Assets/_Project/Art/CC0/dark_wood/nor_gl.jpg"
+  },
+  {
+    "asset": "dark_wood",
+    "map": "Rough",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/dark_wood/dark_wood_rough_2k.jpg",
+    "md5": "e270e270d5feb0281bce7a49e801a64b",
+    "license": "CC0-1.0",
+    "path": "Assets/_Project/Art/CC0/dark_wood/Rough.jpg"
+  },
+  {
+    "asset": "dark_wood",
+    "map": "AO",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/dark_wood/dark_wood_ao_2k.jpg",
+    "md5": "ae5b9d0cbc931b35d99cd6610a72c8af",
+    "license": "CC0-1.0",
+    "path": "Assets/_Project/Art/CC0/dark_wood/AO.jpg"
+  },
+  {
+    "asset": "herringbone_parquet",
+    "map": "Diffuse",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/herringbone_parquet/herringbone_parquet_diff_2k.jpg",
+    "md5": "db8d7a22c17c38b62e536839f52ba037",
+    "license": "CC0-1.0",
+    "path": "Assets/_Project/Art/CC0/herringbone_parquet/Diffuse.jpg"
+  },
+  {
+    "asset": "herringbone_parquet",
+    "map": "nor_gl",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/herringbone_parquet/herringbone_parquet_nor_gl_2k.jpg",
+    "md5": "644ab77a483d74d0d1e8db9f9650566d",
+    "license": "CC0-1.0",
+    "path": "Assets/_Project/Art/CC0/herringbone_parquet/nor_gl.jpg"
+  },
+  {
+    "asset": "herringbone_parquet",
+    "map": "Rough",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/herringbone_parquet/herringbone_parquet_rough_2k.jpg",
+    "md5": "0662da93037a89dc2341dfa66602ce31",
+    "license": "CC0-1.0",
+    "path": "Assets/_Project/Art/CC0/herringbone_parquet/Rough.jpg"
+  },
+  {
+    "asset": "herringbone_parquet",
+    "map": "AO",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/herringbone_parquet/herringbone_parquet_ao_2k.jpg",
+    "md5": "2fa7ccfd135cc6b885a41e23c597e37f",
+    "license": "CC0-1.0",
+    "path": "Assets/_Project/Art/CC0/herringbone_parquet/AO.jpg"
+  },
+  {
+    "asset": "quatrefoil_jacquard_fabric",
+    "map": "Diffuse",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/quatrefoil_jacquard_fabric/quatrefoil_jacquard_fabric_diff_2k.jpg",
+    "md5": "1e3d6ff60bdf57bf4f8b92e17a287d62",
+    "license": "CC0-1.0",
+    "path": "Assets/_Project/Art/CC0/quatrefoil_jacquard_fabric/Diffuse.jpg"
+  },
+  {
+    "asset": "quatrefoil_jacquard_fabric",
+    "map": "nor_gl",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/quatrefoil_jacquard_fabric/quatrefoil_jacquard_fabric_nor_gl_2k.jpg",
+    "md5": "bc767ffca7912a0701a984724b715776",
+    "license": "CC0-1.0",
+    "path": "Assets/_Project/Art/CC0/quatrefoil_jacquard_fabric/nor_gl.jpg"
+  },
+  {
+    "asset": "quatrefoil_jacquard_fabric",
+    "map": "Rough",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/quatrefoil_jacquard_fabric/quatrefoil_jacquard_fabric_rough_2k.jpg",
+    "md5": "e2aec6e619a1886194a59830f2436af4",
+    "license": "CC0-1.0",
+    "path": "Assets/_Project/Art/CC0/quatrefoil_jacquard_fabric/Rough.jpg"
+  },
+  {
+    "asset": "plastered_wall_02",
+    "map": "Diffuse",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/plastered_wall_02/plastered_wall_02_diff_2k.jpg",
+    "md5": "927533b695ab50bbbdfeaf6f0519fa3f",
+    "license": "CC0-1.0",
+    "path": "Assets/_Project/Art/CC0/plastered_wall_02/Diffuse.jpg"
+  },
+  {
+    "asset": "plastered_wall_02",
+    "map": "nor_gl",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/plastered_wall_02/plastered_wall_02_nor_gl_2k.jpg",
+    "md5": "86090c056cc823f6e0125be0e05add82",
+    "license": "CC0-1.0",
+    "path": "Assets/_Project/Art/CC0/plastered_wall_02/nor_gl.jpg"
+  },
+  {
+    "asset": "plastered_wall_02",
+    "map": "Rough",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/plastered_wall_02/plastered_wall_02_rough_2k.jpg",
+    "md5": "346ae12db0d37287eb7df2be1848ab0e",
+    "license": "CC0-1.0",
+    "path": "Assets/_Project/Art/CC0/plastered_wall_02/Rough.jpg"
+  },
+  {
+    "asset": "mid_century_lounge_chair",
+    "map": "Diffuse",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/mid_century_lounge_chair/mid_century_lounge_chair_diff_2k.jpg",
+    "md5": "c6b759bcd7a6bbe10b440184943355bd",
+    "license": "CC0-1.0",
+    "path": "Assets/_Project/Art/CC0/mid_century_lounge_chair/Diffuse.jpg"
+  },
+  {
+    "asset": "mid_century_lounge_chair",
+    "map": "nor_gl",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/mid_century_lounge_chair/mid_century_lounge_chair_nor_gl_2k.jpg",
+    "md5": "fccce25a26792f315b2aaa548e1e175f",
+    "license": "CC0-1.0",
+    "path": "Assets/_Project/Art/CC0/mid_century_lounge_chair/nor_gl.jpg"
+  },
+  {
+    "asset": "mid_century_lounge_chair",
+    "map": "Rough",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/mid_century_lounge_chair/mid_century_lounge_chair_rough_2k.jpg",
+    "md5": "0789930e36aeecb597970a29d0b36cef",
+    "license": "CC0-1.0",
+    "path": "Assets/_Project/Art/CC0/mid_century_lounge_chair/Rough.jpg"
+  },
+  {
+    "asset": "mid_century_lounge_chair",
+    "map": "fbx",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Models/fbx/2k/mid_century_lounge_chair/mid_century_lounge_chair_2k.fbx",
+    "md5": "54e65f3caae9782378b35dde5c285fda",
+    "license": "CC0-1.0",
+    "path": "Assets/_Project/Art/CC0/mid_century_lounge_chair/fbx.fbx"
+  },
+  {
+    "asset": "book_encyclopedia_set_01",
+    "map": "fbx",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Models/fbx/2k/book_encyclopedia_set_01/book_encyclopedia_set_01_2k.fbx",
+    "md5": "ed8571f7ed741073bbeaf7f0d4b93af3",
+    "license": "CC0-1.0",
+    "path": "Assets/_Project/Art/CC0/book_encyclopedia_set_01/fbx.fbx"
+  },
+  {
+    "asset": "ceramic_vase_01",
+    "map": "Diffuse",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/ceramic_vase_01/ceramic_vase_01_diff_2k.jpg",
+    "md5": "1319c32a8430caff72d94c192657fa00",
+    "license": "CC0-1.0",
+    "path": "Assets/_Project/Art/CC0/ceramic_vase_01/Diffuse.jpg"
+  },
+  {
+    "asset": "ceramic_vase_01",
+    "map": "nor_gl",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/ceramic_vase_01/ceramic_vase_01_nor_gl_2k.jpg",
+    "md5": "2d27b76672cc0983b0ba6ccea8c1b2fd",
+    "license": "CC0-1.0",
+    "path": "Assets/_Project/Art/CC0/ceramic_vase_01/nor_gl.jpg"
+  },
+  {
+    "asset": "ceramic_vase_01",
+    "map": "Rough",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/ceramic_vase_01/ceramic_vase_01_rough_2k.jpg",
+    "md5": "722f0234591de73c647045075da070eb",
+    "license": "CC0-1.0",
+    "path": "Assets/_Project/Art/CC0/ceramic_vase_01/Rough.jpg"
+  },
+  {
+    "asset": "ceramic_vase_01",
+    "map": "fbx",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Models/fbx/2k/ceramic_vase_01/ceramic_vase_01_2k.fbx",
+    "md5": "9580b5bf2d7d753fb1490cde46b8fa49",
+    "license": "CC0-1.0",
+    "path": "Assets/_Project/Art/CC0/ceramic_vase_01/fbx.fbx"
+  },
+  {
+    "asset": "clay_plaster",
+    "map": "Diffuse",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/clay_plaster/clay_plaster_diff_2k.jpg",
+    "md5": "8e16660ba21ffad2e5fb93282b28015b",
+    "license": "CC0-1.0",
+    "path": "Assets/_Project/Art/CC0/clay_plaster/Diffuse.jpg"
+  },
+  {
+    "asset": "clay_plaster",
+    "map": "nor_gl",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/clay_plaster/clay_plaster_nor_gl_2k.jpg",
+    "md5": "f4f2819724ee89c7aaa189d11fd7cb88",
+    "license": "CC0-1.0",
+    "path": "Assets/_Project/Art/CC0/clay_plaster/nor_gl.jpg"
+  },
+  {
+    "asset": "clay_plaster",
+    "map": "Rough",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/clay_plaster/clay_plaster_rough_2k.jpg",
+    "md5": "0989adc153821c0cb94eb8c3c123a656",
+    "license": "CC0-1.0",
+    "path": "Assets/_Project/Art/CC0/clay_plaster/Rough.jpg"
+  },
+  {
+    "asset": "covered_car",
+    "map": "Diffuse",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/covered_car/covered_car_diff_2k.jpg",
+    "md5": "8407e04a1ab3a425a6f7369e8b80f340",
+    "license": "CC0-1.0",
+    "path": "Assets/_Project/Art/CC0/covered_car/Diffuse.jpg"
+  },
+  {
+    "asset": "covered_car",
+    "map": "nor_gl",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/covered_car/covered_car_nor_gl_2k.jpg",
+    "md5": "94fb37676d8235136a900b38ef1b9e83",
+    "license": "CC0-1.0",
+    "path": "Assets/_Project/Art/CC0/covered_car/nor_gl.jpg"
+  },
+  {
+    "asset": "covered_car",
+    "map": "Rough",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/covered_car/covered_car_rough_2k.jpg",
+    "md5": "bb47296932a50d1da8df3ec1e090a436",
+    "license": "CC0-1.0",
+    "path": "Assets/_Project/Art/CC0/covered_car/Rough.jpg"
+  },
+  {
+    "asset": "covered_car",
+    "map": "fbx",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Models/fbx/2k/covered_car/covered_car_2k.fbx",
+    "md5": "e4b535f54a828ab1bf74b160897a7723",
+    "license": "CC0-1.0",
+    "path": "Assets/_Project/Art/CC0/covered_car/fbx.fbx"
+  },
+  {
+    "asset": "painted_wooden_bench",
+    "map": "Diffuse",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/painted_wooden_bench/painted_wooden_bench_diff_2k.jpg",
+    "md5": "2b497deb0d615cae13454400672b724f",
+    "license": "CC0-1.0",
+    "path": "Assets/_Project/Art/CC0/painted_wooden_bench/Diffuse.jpg"
+  },
+  {
+    "asset": "painted_wooden_bench",
+    "map": "nor_gl",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/painted_wooden_bench/painted_wooden_bench_nor_gl_2k.jpg",
+    "md5": "02fe51467ced6a748de37c8563d3d543",
+    "license": "CC0-1.0",
+    "path": "Assets/_Project/Art/CC0/painted_wooden_bench/nor_gl.jpg"
+  },
+  {
+    "asset": "painted_wooden_bench",
+    "map": "Rough",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/painted_wooden_bench/painted_wooden_bench_rough_2k.jpg",
+    "md5": "57dc16aabb5886d3e947eadea1e668e8",
+    "license": "CC0-1.0",
+    "path": "Assets/_Project/Art/CC0/painted_wooden_bench/Rough.jpg"
+  },
+  {
+    "asset": "painted_wooden_bench",
+    "map": "fbx",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Models/fbx/2k/painted_wooden_bench/painted_wooden_bench_2k.fbx",
+    "md5": "2d243594a36303b54d94a2a23ecb86d4",
+    "license": "CC0-1.0",
+    "path": "Assets/_Project/Art/CC0/painted_wooden_bench/fbx.fbx"
+  },
+  {
+    "asset": "asphalt_02",
+    "map": "Diffuse",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/asphalt_02/asphalt_02_diff_2k.jpg",
+    "md5": "336af399fd98a39ab986d8b3bf73b4ff",
+    "license": "CC0-1.0",
+    "path": "Assets/_Project/Art/CC0/asphalt_02/Diffuse.jpg"
+  },
+  {
+    "asset": "asphalt_02",
+    "map": "nor_gl",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/asphalt_02/asphalt_02_nor_gl_2k.jpg",
+    "md5": "77ebd1cc0b020ccaa1c6b58f103d1f75",
+    "license": "CC0-1.0",
+    "path": "Assets/_Project/Art/CC0/asphalt_02/nor_gl.jpg"
+  },
+  {
+    "asset": "asphalt_02",
+    "map": "Rough",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/asphalt_02/asphalt_02_rough_2k.jpg",
+    "md5": "6fe669ab38640ef2009d6a28d1ad5ee9",
+    "license": "CC0-1.0",
+    "path": "Assets/_Project/Art/CC0/asphalt_02/Rough.jpg"
+  },
+  {
+    "asset": "asphalt_snow",
+    "map": "Diffuse",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/asphalt_snow/asphalt_snow_diff_2k.jpg",
+    "md5": "52429896df12af9545b12bea8cac35ff",
+    "license": "CC0-1.0",
+    "path": "Assets/_Project/Art/CC0/asphalt_snow/Diffuse.jpg"
+  },
+  {
+    "asset": "asphalt_snow",
+    "map": "nor_gl",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/asphalt_snow/asphalt_snow_nor_gl_2k.jpg",
+    "md5": "325042f93b37ebe31357dab198aeb5ba",
+    "license": "CC0-1.0",
+    "path": "Assets/_Project/Art/CC0/asphalt_snow/nor_gl.jpg"
+  },
+  {
+    "asset": "asphalt_snow",
+    "map": "Rough",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/asphalt_snow/asphalt_snow_rough_2k.jpg",
+    "md5": "f157efd2b007775325782b24e495ebf6",
+    "license": "CC0-1.0",
+    "path": "Assets/_Project/Art/CC0/asphalt_snow/Rough.jpg"
+  }
+]
