@@ -19,7 +19,7 @@ namespace Ataka.Editor {
    foreach(var r in controller.surfaces)GameObjectUtility.SetStaticEditorFlags(r.gameObject,GameObjectUtility.GetStaticEditorFlags(r.gameObject)&~StaticEditorFlags.BatchingStatic);
    controller.switches=UnityEngine.Object.FindObjectsByType<LampSwitch>(FindObjectsSortMode.None);
    controller.supplementary=UnityEngine.Object.FindObjectsByType<Light>(FindObjectsSortMode.None).Where(x=>x.name=="Floor lamp warm pool"||x.name=="CRT bounce").ToArray();
-   controller.glowingSurfaces=controller.surfaces.Where(x=>x.name=="Living_Shade"||x.name=="Living_Bulb"||x.name=="Living_TVScreen").ToArray();
+   controller.glowingSurfaces=controller.surfaces.Where(x=>x.name=="Living_Shade"||x.name=="Living_Opal"||x.name=="Living_Opal"||x.name=="Living_Bulb"||x.name=="Living_TVScreen").ToArray();
    controller.roomReflections=UnityEngine.Object.FindObjectsByType<ReflectionProbe>(FindObjectsSortMode.None).OrderBy(x=>x.name).ToArray();
    controller.reflectionSwitches=controller.roomReflections.Select(x=>controller.switches.Single(s=>s.persistentId=="lamp-"+(x.name.StartsWith("hall")?"hall":x.name.Split(' ')[0]))).ToArray();
    foreach(var probe in controller.roomReflections)probe.mode=ReflectionProbeMode.Baked;

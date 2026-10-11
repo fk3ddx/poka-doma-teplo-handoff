@@ -1,30 +1,25 @@
 {
   "nativeExitCode": 0,
-  "tests": "45 tests passed in pass18; pass20/21 are decorative non-colliding geometry and ceiling material changes, then rebaked warm/blackout maps/reflections and rebuilt. No runtime code changes; old tests not represented as a new test run.",
+  "tests": "24 EditMode +22 PlayMode pass22. Pass23 changed only Living_Opal shadowCastingMode to Off, then rebaked/rebuilt/native captured; no runtime behavior changes after tests.",
   "reviewedFrames": [
     "02-living",
     "03-kitchen",
     "05-lights-off",
-    "07-bedroom",
-    "16-seated-living",
-    "18-kitchen-window"
-  ],
-  "referencesInspected": [
-    "Reference/1517340-1.jpg (From the Darkness kitchen)",
-    "Reference/1671340-3.jpg (Fears to Fathom Home Alone kitchen)"
+    "16-seated-living"
   ],
   "findings": [
-    "Cafe curtain now has a painted rod, two brackets and screws, 13 rings/clips, and a heading tape following actual pleats. Frame18 and frame03 reviewed.",
-    "Brown bare-clay ceiling albedo replaced with whitewashed plaster; scanned normal remains at reduced strength. Only apartment ceiling and cornices changed, stairwell material unchanged.",
-    "Whitewash improves the separation of ceiling, wall and wood furniture; warm and blackout lighting/reflections rebaked.",
-    "Blackout frame05 remains dark; ceiling has no emission."
+    "Opal globes are evenly luminous rather than split into externally lit/shadowed wedges.",
+    "First pass22 produced opaque globe shadows on ceiling; visually rejected and not published. Pass23 disables shadow casting only for translucent emissive glass; these black blobs are absent.",
+    "Frame05 confirms opal emission is off during blackout.",
+    "Floor-lamp fabric retains its separate material and warm appearance."
   ],
   "remaining": [
-    "Ceiling hotspot near chandelier is pronounced; fixture emission and light placement need further review.",
-    "Flowers, leaves, ceramics and some fabrics still have generic forms/materials.",
-    "Curtain rings are small metallic geometry; motion shimmer and every-view transparency sorting not manually verified.",
-    "Outdoor light scattering, graphics profiles and human mouse/audio/comfort evaluation remain.",
-    "M1 not accepted, quality equality with Fears to Fathom not claimed."
+    "Pronounced ceiling light pool remains; lighting remains an approximation with one mixed fixture, not physically simulated transmission.",
+    "Plants, ceramics and fabrics still need individual detail.",
+    "Outdoor scattering, graphics presets and human input/audio/comfort review remain.",
+    "Prior isolated48ms light-switch spike did not recur here; no claim of a confirmed performance fix.",
+    "M1 is not accepted or proven visually equal to Fears to Fathom."
   ],
-  "performanceCaveat": "600 samples capped60: mean 59.997 FPS; main max 16.734ms; light-switch max 48.076ms is unresolved. Shutdown MemoryLeaks712428bytes; no leak-free assertion."
+  "referenceInspected": "Reference/1763050-5.jpg official Norwood Hitchhike window/interior light contrast, not a direct reference for this chandelier.",
+  "performanceCaveat": "600 samples capped60: mean59.996 FPS, main max16.828ms; light-switch max16.784ms. Shutdown MemoryLeaks706532B; no leak-free assertion."
 }
