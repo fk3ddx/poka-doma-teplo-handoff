@@ -44,3 +44,9 @@ Fears to Fathom: Norwood Hitchhike / Home Alone и From the Darkness служа�
 
 - `CrochetTulle.png`: авторский процедурный узор сетки и цветочных медальонов (`ApartmentDomesticMaterials.cs`), не скачанный орнамент.
 - Репродукция иконы: The Metropolitan Museum of Art, *Icon of the Virgin and Child, Hodegetria variant*, XIII век, object 831188, Public Domain / Open Access. https://www.metmuseum.org/art/collection/search/831188 . Исходное музейное изображение без перерисовки, метаданные API сохранены рядом с JPG. В квартире изображена современная домашняя репродукция. Исследовательский снимок оклада 205079 тоже Public Domain, в игровую сцену не включён.
+
+
+## Дополнение M1 0.2.2
+- Ящик, чаши и накидка — собственная геометрия tools/art/finish_domestic.py.
+- DistantWindowCurtain.png — оригинальный процедурный рисунок занавески, ApartmentMaterialPolish.cs.
+- comparison.zip содержит пять официальных кадров Steam только для атрибутированного сравнения; они не входят в игру и права на них принадлежат их авторам.

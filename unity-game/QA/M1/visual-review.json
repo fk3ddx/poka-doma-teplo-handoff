@@ -1,0 +1,22 @@
+{
+  "nativeExitCode": 0,
+  "framesReviewed": {
+    "01-menu.png": "fa001177c85a72102f3c72624537d620ca564edee9b06f8fdfb157465515301b",
+    "02-living.png": "2ef98ab39dc34ca17a357c3bc630bbc406b931777bb4c2f0fddc6325e4f14774",
+    "03-kitchen.png": "632405744be17f84dd1b51623ab024558843298b4a992f32ad2191aaca30e244",
+    "04-courtyard.png": "0f122fb9b7839cecd643965262f5487d40360f95947c92fa09749f1591361c9c",
+    "05-lights-off.png": "0b4d8d4fba6b0db329948a1cec137df5eb66e205554fd812af37f1e0295caea0",
+    "06-cabinet-tv.png": "dd5f6416adb0f64dbf388d2423396a507df765739364a8ede19b12bcf3c27133",
+    "07-bedroom.png": "ac6eff6a3bdb987f46d7cafc33f373a8ae11a6399e68e1c2c5af27746d81b3a9",
+    "08-hall.png": "d9b1eae3498a2b0c132a278e845414afa1954c148bdd2e2c04ebe2b8f4ab5ac2",
+    "09-bathroom.png": "8cd630a06cbcf2b7be43f408891cce827e7ba3848b5a8b47041b7ad3d81a6fa9",
+    "10-staircase.png": "688546d22cdbfd30e1cd5900b748dc84f4103dab9229ec5b6918b66c76274d84",
+    "11-balcony-courtyard.png": "ef4ee2142ed03dc2a193ba7e7ba1e40fe668de428c62ee3ae52034e57840f996",
+    "12-bedside-detail.png": "c12254a5aeda6fa20195c5016efb3576772f3a6fa066850b4a0ca0ac60057f98",
+    "13-bedroom-storage.png": "63a9e3e45071fea8925bf5237ab3046acc8d1ed3771e7c47ef09b53e93c1ba44",
+    "14-hall-drawer.png": "6e862768f083be9530249348abec91008a2b3f713d91a77df496ab4e2d52eab2",
+    "15-kitchen-sink.png": "71932a32f076697e16ee8a75841d43954ef631e993c88de6837e42dd4385d8f6"
+  },
+  "review": "All 15 unedited native frames visually inspected. Transparent crystal, textured lit windows, drawer and bowls verified. Preview only; NOT M1 acceptance or visual parity. Remaining: repeated wood, empty frames, stiff cloth, tulle moire, dark yard, overly uniform enamel.",
+  "shutdownTelemetryAllocatedMemory": 702408
+}

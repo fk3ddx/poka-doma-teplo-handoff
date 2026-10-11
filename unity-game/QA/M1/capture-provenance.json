@@ -1,19 +1,21 @@
 {
-  "build": "Unity M1 0.2.1-dev",
+  "build": "Unity M1 0.2.2-dev",
   "capture": "ScreenCapture.CaptureScreenshotAsTexture from Windows player; images unedited",
   "files": {
-    "01-menu.png": "4ff5af102f25f00feb1060a13f9d013651992f18ade8ca4f9022af990fd7a448",
-    "02-living.png": "76a3597527efb2e1e9afe9a18558237dfaf3a24563c91f9a9b168ce9143d7295",
-    "03-kitchen.png": "6822450a9bae8b59e09acd2798d333266482b2fc53ec82e601080d60fa2fadf0",
-    "04-courtyard.png": "aaad7ffcfed44e7522b94b260f1f52032073e0d1c5b637aaf8a1a5a6ea38e22f",
-    "05-lights-off.png": "41004d5b6dbbea0dd164eeb593f7eb2c34f6a72322300b5318f951ebebaf31f5",
-    "06-cabinet-tv.png": "dfb2b4be2aa1a75d08a715823d0fc23514daadaa396d3cd9038d32708459e685",
-    "07-bedroom.png": "f88d7d1710b5215ccdeaeea9e92431352ed7a2f1246b90367505a5223beed78c",
-    "08-hall.png": "033048871a8ba67d2cb053d316ba9f0915e0b3141d428907978fadc25577d66e",
-    "09-bathroom.png": "78c656813082289bb51002664a36874d051b43714eb93b6b54a5bc1817d80022",
-    "10-staircase.png": "4d174357cb87d8167b1ca604517df941e1d03614681c69c321182a47eef5ed93",
-    "11-balcony-courtyard.png": "4d56809067583863b27cf4ecd45fd59e3ca652550cfccce82b3cea84394b4cd3",
-    "12-bedside-detail.png": "09f24d338c812f5d327ef9d2fa808fa7366d5fb0120de0afff9a37d943f0e102",
-    "13-bedroom-storage.png": "23bfb5d61fb066b22d1df82a0d0122e3b4909fbcb78834bb61d3ec1b6afe2651"
+    "01-menu.png": "fa001177c85a72102f3c72624537d620ca564edee9b06f8fdfb157465515301b",
+    "02-living.png": "2ef98ab39dc34ca17a357c3bc630bbc406b931777bb4c2f0fddc6325e4f14774",
+    "03-kitchen.png": "632405744be17f84dd1b51623ab024558843298b4a992f32ad2191aaca30e244",
+    "04-courtyard.png": "0f122fb9b7839cecd643965262f5487d40360f95947c92fa09749f1591361c9c",
+    "05-lights-off.png": "0b4d8d4fba6b0db329948a1cec137df5eb66e205554fd812af37f1e0295caea0",
+    "06-cabinet-tv.png": "dd5f6416adb0f64dbf388d2423396a507df765739364a8ede19b12bcf3c27133",
+    "07-bedroom.png": "ac6eff6a3bdb987f46d7cafc33f373a8ae11a6399e68e1c2c5af27746d81b3a9",
+    "08-hall.png": "d9b1eae3498a2b0c132a278e845414afa1954c148bdd2e2c04ebe2b8f4ab5ac2",
+    "09-bathroom.png": "8cd630a06cbcf2b7be43f408891cce827e7ba3848b5a8b47041b7ad3d81a6fa9",
+    "10-staircase.png": "688546d22cdbfd30e1cd5900b748dc84f4103dab9229ec5b6918b66c76274d84",
+    "11-balcony-courtyard.png": "ef4ee2142ed03dc2a193ba7e7ba1e40fe668de428c62ee3ae52034e57840f996",
+    "12-bedside-detail.png": "c12254a5aeda6fa20195c5016efb3576772f3a6fa066850b4a0ca0ac60057f98",
+    "13-bedroom-storage.png": "63a9e3e45071fea8925bf5237ab3046acc8d1ed3771e7c47ef09b53e93c1ba44",
+    "14-hall-drawer.png": "6e862768f083be9530249348abec91008a2b3f713d91a77df496ab4e2d52eab2",
+    "15-kitchen-sink.png": "71932a32f076697e16ee8a75841d43954ef631e993c88de6837e42dd4385d8f6"
   }
 }
