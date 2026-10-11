@@ -1,0 +1,282 @@
+- heading "CloudCLI" [level=1]
+- button "Refresh projects and sessions (Ctrl+R)":
+- button "Create new project":
+- button "Hide sidebar":
+- link "Star 14.0k":
+  - /url: https://github.com/siteboon/claudecodeui
+  - generic: Star
+  - generic: 14.0k
+- button "Projects" [pressed]:
+  - generic: Projects
+- button "Conversations":
+  - generic: Conversations
+- button "Running sessions":
+- button "Archive only":
+- textbox "Search projects..."
+- text: Ctrl
+- generic: K
+- button "Основной проект 0 - ...e/claude/projects/main":
+  - generic "Add to favorites":
+  - generic "Основной проект"
+  - text: "0"
+  - generic "/home/claude/projects/main": "- ...e/claude/projects/main"
+  - generic "Rename project (F2)":
+  - generic "Remove project from sidebar (Delete)":
+- button "dima 1 - ...e/claude/projects/dima":
+  - generic "Add to favorites":
+  - generic "dima"
+  - text: "1"
+  - generic "/home/claude/projects/dima": "- ...e/claude/projects/dima"
+  - generic "Rename project (F2)":
+  - generic "Remove project from sidebar (Delete)":
+- button "New Session":
+  - text: New Session
+- button "Select":
+  - text: Select
+- status "Recently active session (last 10 minutes)"
+- 'link "Claude Загрузил: репозиторий на GitHub. <1m"':
+  - /url: /session/6cc564c9-d950-4679-8bcf-25470278b0ff
+  - img "Claude"
+  - 'generic "Загрузил: репозиторий на GitHub."'
+  - generic: <1m
+- 'button "Session options for Загрузил: репозиторий на GitHub."':
+- button "projects 1 - /home/claude/projects":
+  - generic "Add to favorites":
+  - generic "projects"
+  - text: "1"
+  - generic "/home/claude/projects": "- /home/claude/projects"
+  - generic "Rename project (F2)":
+  - generic "Remove project from sidebar (Delete)":
+- button "turbo 1 - .../claude/projects/turbo":
+  - generic "Add to favorites":
+  - generic "turbo"
+  - text: "1"
+  - generic "/home/claude/projects/turbo": "- .../claude/projects/turbo"
+  - generic "Rename project (F2)":
+  - generic "Remove project from sidebar (Delete)":
+- link "Report Issue":
+  - /url: https://github.com/siteboon/claudecodeui/issues/new
+  - generic: Report Issue
+- link "Join Community":
+  - /url: https://discord.gg/buxwujPNRE
+  - generic: Join Community
+- button "Settings":
+  - generic: Settings
+- link "CloudCLI v1.37.4 – Open Source":
+  - /url: https://github.com/siteboon/claudecodeui
+- separator "Resize sidebar"
+- banner:
+  - img "Claude"
+  - 'heading "Загрузил: репозиторий на GitHub." [level=2]'
+  - generic: dima
+  - status
+  - tablist "Workspace views":
+    - tab "Chat" [selected]:
+      - generic: Chat
+    - tab "Shell":
+    - tab "Files":
+    - tab "Source Control":
+- button "Export conversation":
+- generic: Showing 193 of 972 messages Scroll up to load more
+- generic: "Все поправки принимаю:"
+- list:
+  - strong: Холодильник и ТВ в кругах 1–3 — моя ошибка.
+  - text: По §14 в петле «мёртвая тишина + часы», бытовой фон возвращается только в конце погони. Снимаю их из таблицы.
+  - strong: Внутрь покадровых сцен §7 задержки не вставляем.
+  - text: Тишину готовим до триггера.
+  - strong: Лимитер.
+  - text: У
+  - code: Compressor
+  - text: в Unity нет упреждения, поэтому потолок −1 dBTP он не гарантирует. Нужен запас при нормализации исходников и проверка
+  - strong: записанного выхода
+  - text: через
+  - code: ebur128=peak=true
+  - text: . Мои децибелы — ориентиры после нормализации, а не значения
+  - code: AudioSource.volume
+  - text: .
+  - strong: Sonniss
+  - text: в публичный GitHub не кладём. Либо только локально и в
+  - code: .gitignore
+  - text: ", либо не используем вовсе."
+  - strong: Фильтр поиска — не проверка лицензии.
+  - text: Ниже каждая лицензия проверена на странице самого файла.
+- generic: "Твои P0 по звуку тоже верные:"
+- list:
+  - code: quiet
+  - text: должен глушить уже играющие звуки;
+  - listitem: дыхание в погоне не должно перезапускаться с наложением;
+  - text: голос в трубке после снятия должен звучать
+  - strong: у уха
+  - text: (2D), а не из аппарата.
+- generic: "Про Kenney: декодировать во float, ослабить на 3 дБ и только потом кодировать обратно — правильно."
+- strong: Одна рекомендация к пункту 1
+- text: ", решать тебе. Абсолютный цифровой ноль в наушниках звучит как «звук пропал», а не как «тихо в квартире». Можно держать комнатный тон"
+- strong: без различимых источников
+- text: на уровне около −50 LUFS, как шумовой пол, а не как быт. Если считаешь, что это расходится с §14, — не добавляй.
+- heading "Первые 8 файлов (лицензия проверена на странице файла, все CC0 1.0)" [level=2]
+- table:
+  - rowgroup:
+    - row "# Для чего (§) Файл Длит. Как использовать":
+      - columnheader "#"
+      - columnheader "Для чего (§)"
+      - columnheader "Файл"
+      - columnheader "Длит."
+      - columnheader "Как использовать"
+  - rowgroup:
+    - row "1 Телефон, круг 5 Old Rotary Phone Ringing – Western Electric Bell 500 (mycompasstv) 1:00 Вырезать 2–3 одиночные серии звонка с естественными паузами, без снятия трубки":
+      - cell "1"
+      - cell "Телефон, круг 5"
+      - cell "Old Rotary Phone Ringing – Western Electric Bell 500 (mycompasstv)":
+        - link "Old Rotary Phone Ringing – Western Electric Bell 500 (mycompasstv)":
+          - /url: https://freesound.org/people/mycompasstv/sounds/456433/
+      - cell "1:00"
+      - cell "Вырезать 2–3 одиночные серии звонка с естественными паузами, без снятия трубки"
+    - row "2 Тиканье часов (прихожая Б, модули погони) Tick-Tock – Pendulum Family Clock (Vrymaa) 1:21 Бесшовная петля 20–30 с; для модулей погони — то же с разными точками старта":
+      - cell "2"
+      - cell "Тиканье часов (прихожая Б, модули погони)"
+      - cell "Tick-Tock – Pendulum Family Clock (Vrymaa)":
+        - link "Tick-Tock – Pendulum Family Clock (Vrymaa)":
+          - /url: https://freesound.org/people/Vrymaa/sounds/797574/
+      - cell "1:21"
+      - cell "Бесшовная петля 20–30 с; для модулей погони — то же с разными точками старта"
+    - row "3 Бой часов, 10 ударов в конце погони 4_gustav_becker_westminster_hour (claudius9uk) 0:44 Только один удар часа после мелодии Westminster, с полным затуханием. Мелодию не использовать. Если удары накладываются хвостами — взять последний":
+      - cell "3"
+      - cell "Бой часов, 10 ударов в конце погони"
+      - cell "4_gustav_becker_westminster_hour (claudius9uk)":
+        - link "4_gustav_becker_westminster_hour (claudius9uk)":
+          - /url: https://freesound.org/people/claudius9uk/sounds/96717/
+      - cell "0:44"
+      - cell "Только один удар часа после мелодии Westminster, с полным затуханием. Мелодию не использовать. Если удары накладываются хвостами — взять последний":
+        - strong: Только один удар часа
+        - text: после мелодии Westminster, с полным затуханием. Мелодию не использовать. Если удары накладываются хвостами — взять последний
+    - 'row "4 Дыхание Гостьи: под кроватью, в трубке, за спиной, глазок, погоня MONSTER BREATH 1 (mucky_pete7) 0:43 Нарезать 4–6 циклов «вдох-выдох». Без перезапуска с наложением: следующий цикл — только после конца предыдущего"':
+      - cell "4"
+      - 'cell "Дыхание Гостьи: под кроватью, в трубке, за спиной, глазок, погоня"'
+      - cell "MONSTER BREATH 1 (mucky_pete7)":
+        - link "MONSTER BREATH 1 (mucky_pete7)":
+          - /url: https://freesound.org/people/mucky_pete7/sounds/574208/
+      - cell "0:43"
+      - 'cell "Нарезать 4–6 циклов «вдох-выдох». Без перезапуска с наложением: следующий цикл — только после конца предыдущего"'
+    - row "5 Дыхание Миши в погоне heavy_breathing_1 (ShaneF91) 0:07.5 2D; 2–3 фрагмента по кругу без повтора подряд":
+      - cell "5"
+      - cell "Дыхание Миши в погоне"
+      - cell "heavy_breathing_1 (ShaneF91)":
+        - link "heavy_breathing_1 (ShaneF91)":
+          - /url: https://freesound.org/people/ShaneF91/sounds/386573/
+      - cell "0:07.5"
+      - cell "2D; 2–3 фрагмента по кругу без повтора подряд"
+    - row "6 Стук в дверь, круг 6 (три удара) Door Knock – 42 (Ligidium), запасной Wooden door knock (775noise) 0:03 / 0:05 Разрезать на одиночные удары и собрать «три ровных» из разных вариантов. Обработка — реверберация площадки":
+      - cell "6"
+      - cell "Стук в дверь, круг 6 (три удара)"
+      - cell "Door Knock – 42 (Ligidium), запасной Wooden door knock (775noise)":
+        - link "Door Knock – 42 (Ligidium)":
+          - /url: https://freesound.org/people/Ligidium/sounds/193873/
+        - text: ", запасной"
+        - link "Wooden door knock (775noise)":
+          - /url: https://freesound.org/people/775noise/sounds/494569/
+      - cell "0:03 / 0:05"
+      - cell "Разрезать на одиночные удары и собрать «три ровных» из разных вариантов. Обработка — реверберация площадки"
+    - row "7 Скрип дверей (спальня, ковёр, кухня/ванная заперты) Wooden_Door_Squeak_04 (BlondPanda) 0:01.2 Скрип петли. «Заперто» (дёрганье ручки) — отдельно, из Kenney или следующей партии":
+      - cell "7"
+      - cell "Скрип дверей (спальня, ковёр, кухня/ванная заперты)"
+      - cell "Wooden_Door_Squeak_04 (BlondPanda)":
+        - link "Wooden_Door_Squeak_04 (BlondPanda)":
+          - /url: https://freesound.org/people/BlondPanda/sounds/778462/
+      - cell "0:01.2"
+      - cell "Скрип петли. «Заперто» (дёрганье ручки) — отдельно, из Kenney или следующей партии"
+    - row "8 Шаги игрока в тапках footsteps soft slippers (Yuval) 0:40 Нарезать 8–10 одиночных шагов, разброс высоты ±3%":
+      - cell "8"
+      - cell "Шаги игрока в тапках"
+      - cell "footsteps soft slippers (Yuval)":
+        - link "footsteps soft slippers (Yuval)":
+          - /url: https://freesound.org/people/Yuval/sounds/208878/
+      - cell "0:40"
+      - cell "Нарезать 8–10 одиночных шагов, разброс высоты ±3%"
+- heading "Следующая партия (тоже проверено на странице, CC0)" [level=2]
+- list:
+  - strong: Скрип верёвки
+  - text: "(повешенная):"
+  - link "Slow Creaking Stereo (harveyism)":
+    - /url: https://freesound.org/people/harveyism/sounds/130364/
+  - text: ", 0:28 — в моно для 3D."
+  - strong: "Сердце в погоне:"
+  - link "heartbeat-60bpm (loudernoises)":
+    - /url: https://freesound.org/people/loudernoises/sounds/332821/
+  - text: ", 0:30 — темп поднимать нарезкой или сменой клипов, не растягивать питчем больше чем на ±15%."
+  - strong: Царапанье по потолку
+  - text: "(круг 4):"
+  - link "Scratching02 (nickyg11p)":
+    - /url: https://freesound.org/people/nickyg11p/sounds/390869/
+  - text: ", 0:03."
+  - strong: Комнатный тон
+  - text: "— только если примешь рекомендацию выше:"
+  - link "room tone quiet apartment kitchen night (kyles)":
+    - /url: https://freesound.org/people/kyles/sounds/635732/
+  - text: ", 1:49. В названии есть «distant…» — перед использованием прослушать и вырезать кусок без различимых источников."
+- heading "Учёт" [level=2]
+- text: В
+- code: CREDITS-AUDIO.md
+- text: "для каждого файла записывать:"
+- list:
+  - listitem: ссылку на страницу, автора, лицензию «CC0 1.0», дату скачивания;
+  - listitem: "что сделано: нарезка, ослабление, моно."
+- generic: CC0 атрибуции не требует, но учёт нужен для проверки.
+- button "Copy message":
+  - generic: MD
+- button "Select copy format":
+- generic "Answered by claude-opus-5-5": Opus
+- button "Choose File"
+- textbox "Type / for commands, @ for files, or ask Claude anything..."
+- button "Attach files":
+- button "Show token usage":
+  - generic: 831K
+  - generic: tokens
+- button "6":
+  - generic: "6"
+- button "Schedule this message" [disabled]:
+- button "Select model and reasoning effort":
+  - generic: Default (recommended)
+  - generic: · high
+- button "How should Claude actions be approved?":
+- button "Send" [disabled]:
+- button "Open settings panel":
+- heading "Quick Settings" [level=3]:
+  - text: Quick Settings
+- button "Pin panel open":
+- button "Close panel":
+- tablist "Quick Settings":
+  - tab "Settings" [selected]:
+    - text: Settings
+  - tab "Commands":
+    - text: Commands
+- tabpanel "Settings":
+  - heading "Appearance" [level=4]
+  - text: Dark Mode
+  - switch "Toggle dark mode":
+    - generic: Toggle dark mode
+  - text: Language
+  - combobox:
+    - option "English" [selected]
+    - option "Français"
+    - option "Español"
+    - option "한국어"
+    - option "简体中文"
+    - option "繁體中文"
+    - option "日本語"
+    - option "Русский"
+    - option "Deutsch"
+    - option "Türkçe"
+    - option "Italiano"
+    - option "Bahasa Indonesia"
+    - option "Čeština"
+    - option "עברית"
+    - option "Português (Brasil)"
+  - heading "Tool Display" [level=4]
+  - text: Show raw parameters
+  - checkbox "Show raw parameters"
+  - text: Show thinking
+  - checkbox "Show thinking" [checked]
+  - heading "Input Settings" [level=4]
+  - text: Send by Ctrl+Enter
+  - checkbox "Send by Ctrl+Enter"
+  - paragraph: When enabled, pressing Ctrl+Enter will send the message instead of just Enter. This is useful for IME users to avoid accidental sends.

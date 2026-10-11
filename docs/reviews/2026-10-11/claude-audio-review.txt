@@ -1,0 +1,860 @@
+- heading "CloudCLI" [level=1]
+- button "Refresh projects and sessions (Ctrl+R)":
+- button "Create new project":
+- button "Hide sidebar":
+- link "Star 14.0k":
+  - /url: https://github.com/siteboon/claudecodeui
+  - generic: Star
+  - generic: 14.0k
+- button "Projects" [pressed]:
+  - generic: Projects
+- button "Conversations":
+  - generic: Conversations
+- button "Running sessions":
+- button "Archive only":
+- textbox "Search projects..."
+- text: Ctrl
+- generic: K
+- button "Основной проект 0 - ...e/claude/projects/main":
+  - generic "Add to favorites":
+  - generic "Основной проект"
+  - text: "0"
+  - generic "/home/claude/projects/main": "- ...e/claude/projects/main"
+  - generic "Rename project (F2)":
+  - generic "Remove project from sidebar (Delete)":
+- button "dima 1 - ...e/claude/projects/dima":
+  - generic "Add to favorites":
+  - generic "dima"
+  - text: "1"
+  - generic "/home/claude/projects/dima": "- ...e/claude/projects/dima"
+  - generic "Rename project (F2)":
+  - generic "Remove project from sidebar (Delete)":
+- button "New Session":
+  - text: New Session
+- button "Select":
+  - text: Select
+- status "Recently active session (last 10 minutes)"
+- 'link "Claude Загрузил: репозиторий на GitHub. <1m"':
+  - /url: /session/6cc564c9-d950-4679-8bcf-25470278b0ff
+  - img "Claude"
+  - 'generic "Загрузил: репозиторий на GitHub."'
+  - generic: <1m
+- 'button "Session options for Загрузил: репозиторий на GitHub."':
+- button "projects 1 - /home/claude/projects":
+  - generic "Add to favorites":
+  - generic "projects"
+  - text: "1"
+  - generic "/home/claude/projects": "- /home/claude/projects"
+  - generic "Rename project (F2)":
+  - generic "Remove project from sidebar (Delete)":
+- button "turbo 1 - .../claude/projects/turbo":
+  - generic "Add to favorites":
+  - generic "turbo"
+  - text: "1"
+  - generic "/home/claude/projects/turbo": "- .../claude/projects/turbo"
+  - generic "Rename project (F2)":
+  - generic "Remove project from sidebar (Delete)":
+- link "Report Issue":
+  - /url: https://github.com/siteboon/claudecodeui/issues/new
+  - generic: Report Issue
+- link "Join Community":
+  - /url: https://discord.gg/buxwujPNRE
+  - generic: Join Community
+- button "Settings":
+  - generic: Settings
+- link "CloudCLI v1.37.4 – Open Source":
+  - /url: https://github.com/siteboon/claudecodeui
+- separator "Resize sidebar"
+- banner:
+  - img "Claude"
+  - 'heading "Загрузил: репозиторий на GitHub." [level=2]'
+  - generic: dima
+  - status
+  - tablist "Workspace views":
+    - tab "Chat" [selected]:
+      - generic: Chat
+    - tab "Shell":
+    - tab "Files":
+    - tab "Source Control":
+- button "Export conversation":
+- generic: Showing 186 of 965 messages Scroll up to load more
+- 'heading "AUDIO-PLAN для ядра: 6 кругов + погоня" [level=1]'
+- text: Основа —
+- code: ScenarioSound.cs
+- text: "@ 8c96d9f и SCENARIO §9.4, §10, §14. Все ссылки на Freesound найдены с фильтром «Creative Commons 0». На четырёх страницах я выборочно проверил лицензию: везде"
+- code: publicdomain/zero/1.0
+- text: .
+- heading "0. Почему сейчас «полный пиздец» и что выкинуть первым" [level=2]
+- list:
+  - strong:
+    - code: Tone()
+    - text: целиком.
+  - text: Синус плюс белый шум вместо стука, скрипа, телефона, дыхания, тиканья, удара и визга. Ухо сразу слышит «пищалку», и любой страх рассыпается. Удалить все семь синтетических клипов.
+  - strong:
+    - text: Один
+    - code: impact
+    - text: на всё
+  - text: ", включая бой часов. У каждого события должен быть свой звук."
+  - strong: Новый GameObject + AudioSource + Destroy на каждый звук.
+  - text: Нет пула, приоритетов, вариаций, микшера.
+  - strong:
+    - text: Тиканье раз в секунду из
+    - code: Update
+    - text: у часов квартиры
+  - text: звучит и в погоне, где квартиры нет.
+  - strong: Бытового фона нет вообще.
+  - text: "Тишина «пустая», а не «квартирная»: не на чем строить приём «звуки пропадают слоями перед событием» (§14)."
+  - strong: Нет окклюзии и реверберации.
+  - text: Звук за стеной звучит как в той же комнате, а шов тамбура «прыгает» по громкости.
+- heading "1. Инфраструктура (сделать до замены звуков)" [level=2]
+- list:
+  - strong: "AudioMixer, группы:"
+  - list:
+    - code: Master
+    - text: ", на нём"
+    - code: Compressor
+    - text: "как лимитер: порог −3 дБ, ratio 20:1, атака 1 мс, потолок около −1 dBFS;"
+    - code: Ambience
+    - text: ","
+    - code: Foley
+    - text: (игрок),
+    - code: World
+    - text: (предметы),
+    - code: Monster
+    - text: ","
+    - code: Voice
+    - text: ","
+    - code: Stinger
+    - text: (редкие удары),
+    - code: UI
+    - text: .
+  - strong: "Снапшоты:"
+  - code: Normal
+  - text: ","
+  - code: Tension
+  - text: ","
+  - code: Blackout
+  - text: ","
+  - code: Tambour
+  - text: ","
+  - code: Chase
+  - text: ","
+  - code: Death
+  - text: ","
+  - code: Pause
+  - text: . Переходы 0.3–1.5 с, у
+  - code: Death
+  - text: — 0.05 с.
+  - strong: "Пул эмиттеров:"
+  - text: 24 трёхмерных + 8 двумерных AudioSource, созданных один раз.
+  - list:
+    - listitem: Если пул занят, вытесняется самый тихий звук с низшим приоритетом.
+    - listitem: "Приоритеты: Voice/Monster > World > Foley > Ambience."
+  - strong:
+    - code: SoundBank
+    - text: "(ScriptableObject) на каждое событие:"
+  - list:
+    - listitem: id и клипы (3–6 вариантов);
+    - listitem: громкость, разброс громкости ±1.5 дБ, разброс высоты ±4% (для голоса и часов 0);
+    - listitem: 2D или 3D, min и max дистанция, группа, приоритет, кулдаун;
+    - listitem: «не повторять последний вариант».
+  - strong: "Окклюзия:"
+  - text: луч от слушателя к источнику раз в 0.1 с, только по стенам и закрытым дверям. Если закрыто — low-pass до 1.8 кГц и −6 дБ, плавно за 0.15 с.
+  - strong: "Реверберация — Audio Reverb Zones:"
+  - table:
+    - rowgroup:
+      - row "Где Пресет":
+        - columnheader "Где"
+        - columnheader "Пресет"
+    - rowgroup:
+      - row "Прихожая «Hallway / small room», decay около 0.6 с":
+        - cell "Прихожая"
+        - cell "«Hallway / small room», decay около 0.6 с"
+      - 'row "Зал, спальня «Livingroom»: ковры, сухо, около 0.4 с"':
+        - cell "Зал, спальня"
+        - 'cell "«Livingroom»: ковры, сухо, около 0.4 с"'
+      - 'row "Тамбуры «Closet»: очень сухо, около 0.2 с, одинаковая зона в обоих"':
+        - cell "Тамбуры"
+        - 'cell "«Closet»: очень сухо, около 0.2 с, одинаковая зона в обоих"':
+          - text: "«Closet»: очень сухо, около 0.2 с,"
+          - strong: одинаковая зона в обоих
+      - row "Коридор погони чуть длиннее и неестественнее, около 1.2 с":
+        - cell "Коридор погони"
+        - cell "чуть длиннее и неестественнее, около 1.2 с"
+  - strong: "Пауза:"
+  - text: снапшот
+  - code: Pause
+  - text: плюс
+  - code: AudioListener.pause
+  - text: . У UI-звуков —
+  - code: ignoreListenerPause
+  - text: .
+  - strong: "Импорт:"
+  - list:
+    - text: короткие звуки —
+    - code: Decompress On Load
+    - text: ", Vorbis q≈70;"
+    - text: фоновые петли —
+    - code: Streaming
+    - text: ;
+    - listitem: все клипы — 44.1 кГц, моно для 3D, стерео только для 2D-фона;
+    - listitem: у каждого клипа срезать тишину и сделать fade 10–30 мс, иначе будут щелчки.
+- heading "2. Фон и тишина по состояниям квартиры (§9.3, §14)" [level=2]
+- table:
+  - rowgroup:
+    - row "Состояние Слои фона (все 3D, кроме комнатного тона) Громкость (ориентир)":
+      - columnheader "Состояние"
+      - columnheader "Слои фона (все 3D, кроме комнатного тона)"
+      - columnheader "Громкость (ориентир)"
+  - rowgroup:
+    - row "Круги 1–3 (своя / холодная) Комнатный тон квартиры ночью (2D, −42…−45 dB); тиканье часов — 3D у часов прихожей Б (min 0.5, max 8); холодильник на кухне за закрытой дверью (окклюзия); тихое бульканье стояка очень тихо — это «тишина», в которой слышно часы":
+      - cell "Круги 1–3 (своя / холодная)":
+        - strong: Круги 1–3
+        - text: (своя / холодная)
+      - cell "Комнатный тон квартиры ночью (2D, −42…−45 dB); тиканье часов — 3D у часов прихожей Б (min 0.5, max 8); холодильник на кухне за закрытой дверью (окклюзия); тихое бульканье стояка":
+        - text: Комнатный тон квартиры ночью (2D, −42…−45 dB);
+        - strong: тиканье часов
+        - text: — 3D у часов прихожей Б (min 0.5, max 8); холодильник на кухне за закрытой дверью (окклюзия); тихое бульканье стояка
+      - cell "очень тихо — это «тишина», в которой слышно часы"
+    - row "Круги 2–3, холод + ветер в щелях окон и балконной двери, 3D у окна −38 dB":
+      - cell "Круги 2–3, холод":
+        - strong: Круги 2–3, холод
+      - cell "+ ветер в щелях окон и балконной двери, 3D у окна"
+      - cell "−38 dB"
+    - row "Круг 4, темнота холодильник выключается (щелчок компрессора и тишина), остаются только часы и ветер —":
+      - cell "Круг 4, темнота":
+        - strong: Круг 4, темнота
+      - cell "холодильник выключается (щелчок компрессора и тишина), остаются только часы и ветер":
+        - text: холодильник
+        - strong: выключается
+        - text: (щелчок компрессора и тишина), остаются только часы и ветер
+      - cell "—"
+    - row "Круги 5–6, гниль + капли, редкое жужжание мух у стен (3D, случайно раз в 8–20 с) −40 dB":
+      - cell "Круги 5–6, гниль":
+        - strong: Круги 5–6, гниль
+      - cell "+ капли, редкое жужжание мух у стен (3D, случайно раз в 8–20 с)"
+      - cell "−40 dB"
+    - 'row "Тамбур (обе двери закрыты) снапшот Tambour: весь мир −18 dB и low-pass 1 кГц, остаётся только своё дыхание и шорох одежды —"':
+      - cell "Тамбур (обе двери закрыты)":
+        - strong: Тамбур
+        - text: (обе двери закрыты)
+      - 'cell "снапшот Tambour: весь мир −18 dB и low-pass 1 кГц, остаётся только своё дыхание и шорох одежды"':
+        - text: снапшот
+        - code: Tambour
+        - text: ": весь мир −18 dB и low-pass 1 кГц, остаётся только своё дыхание и шорох одежды"
+      - cell "—"
+    - 'row "Перед каждым событием снапшот Tension: слои гаснут по очереди (холодильник → ветер → часы), 1–2 с тишины → событие (§14) —"':
+      - cell "Перед каждым событием":
+        - strong: Перед каждым событием
+      - 'cell "снапшот Tension: слои гаснут по очереди (холодильник → ветер → часы), 1–2 с тишины → событие (§14)"':
+        - text: снапшот
+        - code: Tension
+        - text: ": слои гаснут"
+        - strong: по очереди
+        - text: (холодильник → ветер → часы), 1–2 с тишины → событие (§14)
+      - cell "—"
+- list:
+  - strong: "Дрон:"
+  - text: на кругах 1–3 его
+  - strong: нет
+  - text: . На кругах 4–6 — только глубокий низ на 10–20 с вокруг события, около −40 dB, потом уходит. Постоянного дрона нет нигде.
+  - strong: "Шов тамбура:"
+  - text: смена состояния круга (
+  - code: EnterLap
+  - text: ) и перенос происходят под снапшотом
+  - code: Tambour
+  - text: . Выход в
+  - code: Normal
+  - text: — за 0.5 с, когда игрок открывает входную дверь. Так мировые звуки не скачут по громкости из-за того, что игрок оказался в другой точке квартиры.
+- heading "3. Таблица событий" [level=2]
+- table:
+  - rowgroup:
+    - row "Событие (§) Тип записи Вариации Обработка 2D/3D, дистанция Громкость Кандидаты (CC0, Freesound)":
+      - columnheader "Событие (§)"
+      - columnheader "Тип записи"
+      - columnheader "Вариации"
+      - columnheader "Обработка"
+      - columnheader "2D/3D, дистанция"
+      - columnheader "Громкость"
+      - columnheader "Кандидаты (CC0, Freesound)"
+  - rowgroup:
+    - 'row "Шаги игрока: паркет, линолеум, ковёр, тамбур шаги в тапках по дереву 6–8 на поверхность паркет иногда со скрипом (1 из 6) 3D у ног, min 0.3 −24 footsteps soft slippers, Footsteps Wood Creaky Slippers, Slippers Tired"':
+      - 'cell "Шаги игрока: паркет, линолеум, ковёр, тамбур"':
+        - strong: Шаги игрока
+        - text: ": паркет, линолеум, ковёр, тамбур"
+      - cell "шаги в тапках по дереву"
+      - cell "6–8 на поверхность"
+      - cell "паркет иногда со скрипом (1 из 6)"
+      - cell "3D у ног, min 0.3"
+      - cell "−24"
+      - cell "footsteps soft slippers, Footsteps Wood Creaky Slippers, Slippers Tired":
+        - link "footsteps soft slippers":
+          - /url: https://freesound.org/people/Yuval/sounds/208878/
+        - text: ","
+        - link "Footsteps Wood Creaky Slippers":
+          - /url: https://freesound.org/people/Artem_Zaitsev/sounds/835154/
+        - text: ","
+        - link "Slippers Tired":
+          - /url: https://freesound.org/people/Al3x-K/sounds/848697/
+    - row "Скрип пола (в паузах, редко) одиночный скрип половицы 4 — 3D, max 6 −28 Creaking Wooden Floor 9, creaking parquet, Floor Creak":
+      - cell "Скрип пола (в паузах, редко)"
+      - cell "одиночный скрип половицы"
+      - cell "4"
+      - cell "—"
+      - cell "3D, max 6"
+      - cell "−28"
+      - cell "Creaking Wooden Floor 9, creaking parquet, Floor Creak":
+        - link "Creaking Wooden Floor 9":
+          - /url: https://freesound.org/people/SoundDesignForYou/sounds/646695/
+        - text: ","
+        - link "creaking parquet":
+          - /url: https://freesound.org/people/aisselles/sounds/706220/
+        - text: ","
+        - link "Floor Creak":
+          - /url: https://freesound.org/people/Kane53126/sounds/257935/
+    - 'row "Двери: открыть / закрыть / заперта скрип петель, щелчок защёлки, дёрганье ручки 3–4 на действие; скорость скрипа по скорости открытия разрезать запись на «скрип» и «щелчок» 3D у петли, min 0.5, max 10 −16…−20 Wooden_Door_Squeak_04, wooden-door-creak-slow, Door Creak"':
+      - 'cell "Двери: открыть / закрыть / заперта"':
+        - strong: Двери
+        - text: ": открыть / закрыть / заперта"
+      - cell "скрип петель, щелчок защёлки, дёрганье ручки"
+      - cell "3–4 на действие; скорость скрипа по скорости открытия"
+      - cell "разрезать запись на «скрип» и «щелчок»"
+      - cell "3D у петли, min 0.5, max 10"
+      - cell "−16…−20"
+      - cell "Wooden_Door_Squeak_04, wooden-door-creak-slow, Door Creak":
+        - link "Wooden_Door_Squeak_04":
+          - /url: https://freesound.org/people/BlondPanda/sounds/778462/
+        - text: ","
+        - link "wooden-door-creak-slow":
+          - /url: https://freesound.org/people/alienistcog/sounds/125310/
+        - text: ","
+        - link "Door Creak":
+          - /url: https://freesound.org/people/IENBA/sounds/607912/
+    - row "Двери тамбура закрываются (шов) глухой хлопок деревянной двери, без звона 3 — 3D, под снапшотом Tambour −18 Bedroom Door Slam Open (вырезать мягкий вариант)":
+      - cell "Двери тамбура закрываются (шов)"
+      - cell "глухой хлопок деревянной двери, без звона"
+      - cell "3"
+      - cell "—"
+      - cell "3D, под снапшотом Tambour":
+        - text: 3D, под снапшотом
+        - code: Tambour
+      - cell "−18"
+      - cell "Bedroom Door Slam Open (вырезать мягкий вариант)":
+        - link "Bedroom Door Slam Open":
+          - /url: https://freesound.org/people/tlcolbe/sounds/406641/
+        - text: (вырезать мягкий вариант)
+    - 'row "Часы: тиканье механические часы с маятником 1 петля 20–30 с — 3D у часов, max 8 −30 Tick-Tock Pendulum Family Clock, Old Clock Pendulum"':
+      - 'cell "Часы: тиканье"':
+        - strong: "Часы: тиканье"
+      - cell "механические часы с маятником"
+      - cell "1 петля 20–30 с"
+      - cell "—"
+      - cell "3D у часов, max 8"
+      - cell "−30"
+      - cell "Tick-Tock Pendulum Family Clock, Old Clock Pendulum":
+        - link "Tick-Tock Pendulum Family Clock":
+          - /url: https://freesound.org/people/Vrymaa/sounds/797574/
+        - text: ","
+        - link "Old Clock Pendulum":
+          - /url: https://freesound.org/people/Tom_Kaszuba/sounds/657255/
+    - 'row "Часы: бой (10 ударов, конец погони) отдельный удар гонга часов 1 удар, хвост 2–3 с только одиночный «бом», без мелодии Westminster 3D у тёплых часов, min 1, max 15 −10 Gustav Becker hour — вырезать один удар после мелодии"':
+      - 'cell "Часы: бой (10 ударов, конец погони)"':
+        - strong: "Часы: бой"
+        - text: (10 ударов, конец погони)
+      - cell "отдельный удар гонга часов":
+        - strong: отдельный
+        - text: удар гонга часов
+      - cell "1 удар, хвост 2–3 с"
+      - cell "только одиночный «бом», без мелодии Westminster":
+        - strong: только одиночный «бом»
+        - text: ", без мелодии Westminster"
+      - cell "3D у тёплых часов, min 1, max 15"
+      - cell "−10"
+      - cell "Gustav Becker hour — вырезать один удар после мелодии":
+        - link "Gustav Becker hour":
+          - /url: https://freesound.org/people/claudius9uk/sounds/96717/
+        - text: — вырезать один удар после мелодии
+    - row "Завод часов (E 2 с) щелчки ключа, пружина 12 щелчков — 3D у часов −22 Sonniss GDC (механизмы, clockwork)":
+      - cell "Завод часов (E 2 с)"
+      - cell "щелчки ключа, пружина"
+      - cell "12 щелчков"
+      - cell "—"
+      - cell "3D у часов"
+      - cell "−22"
+      - cell "Sonniss GDC (механизмы, clockwork)"
+    - 'row "Круг 1: шифоньер захлопывается удар двух створок 2 + дребезг вешалок 3D, max 10 −12 Door slam2"':
+      - 'cell "Круг 1: шифоньер захлопывается"':
+        - strong: "Круг 1: шифоньер захлопывается"
+      - cell "удар двух створок"
+      - cell "2"
+      - cell "+ дребезг вешалок"
+      - cell "3D, max 10"
+      - cell "−12"
+      - cell "Door slam2":
+        - link "Door slam2":
+          - /url: https://freesound.org/people/saha213131/sounds/724124/
+    - 'row "Круг 1: крик задом наперёд (еле слышно) крик игрока, реверс 1 реверс, −30 dB, low-pass 3D внутри шифоньера −34 —"':
+      - 'cell "Круг 1: крик задом наперёд (еле слышно)"'
+      - cell "крик игрока, реверс"
+      - cell "1"
+      - cell "реверс, −30 dB, low-pass"
+      - cell "3D внутри шифоньера"
+      - cell "−34"
+      - cell "—"
+    - 'row "Круг 2: дыхание под кроватью хриплое тяжёлое дыхание 3 питч −2 полутона, low-pass 4 кГц 3D под кроватью, max 5 −22 MONSTER BREATH 1, heavy_breathing_1"':
+      - 'cell "Круг 2: дыхание под кроватью"':
+        - strong: "Круг 2: дыхание под кроватью"
+      - cell "хриплое тяжёлое дыхание"
+      - cell "3"
+      - cell "питч −2 полутона, low-pass 4 кГц"
+      - cell "3D под кроватью, max 5"
+      - cell "−22"
+      - cell "MONSTER BREATH 1, heavy_breathing_1":
+        - link "MONSTER BREATH 1":
+          - /url: https://freesound.org/people/mucky_pete7/sounds/574208/
+        - text: ","
+        - link "heavy_breathing_1":
+          - /url: https://freesound.org/people/ShaneF91/sounds/386573/
+    - 'row "Круг 2: рывок из-под кровати короткий визг + вспышка 1 — 2D Stinger −8 Sonniss GDC (horror screams)"':
+      - 'cell "Круг 2: рывок из-под кровати"'
+      - cell "короткий визг + вспышка"
+      - cell "1"
+      - cell "—"
+      - cell "2D Stinger"
+      - cell "−8"
+      - cell "Sonniss GDC (horror screams)"
+    - 'row "Круг 3: балконная дверь бьётся (каждые 8 с) удар деревянной двери о раму, дребезг стекла 3 — 3D у двери −14 hit glass window 01 + дверной удар"':
+      - 'cell "Круг 3: балконная дверь бьётся (каждые 8 с)"':
+        - strong: "Круг 3: балконная дверь бьётся"
+        - text: (каждые 8 с)
+      - cell "удар деревянной двери о раму, дребезг стекла"
+      - cell "3"
+      - cell "—"
+      - cell "3D у двери"
+      - cell "−14"
+      - cell "hit glass window 01 + дверной удар":
+        - link "hit glass window 01":
+          - /url: https://freesound.org/people/Anthousai/sounds/406261/
+        - text: + дверной удар
+    - 'row "Круг 3: ветер порывы в щели 1 петля — 3D у двери −32 Old window gusty wind, Winter wind whistling"':
+      - 'cell "Круг 3: ветер"'
+      - cell "порывы в щели"
+      - cell "1 петля"
+      - cell "—"
+      - cell "3D у двери"
+      - cell "−32"
+      - cell "Old window gusty wind, Winter wind whistling":
+        - link "Old window gusty wind":
+          - /url: https://freesound.org/people/poots/sounds/627793/
+        - text: ","
+        - link "Winter wind whistling":
+          - /url: https://freesound.org/people/audible-edge/sounds/69512/
+    - 'row "Круг 3: ладонь бьёт в стекло, трещина хлопок по стеклу + треск 1 — 3D у стекла −10 Tapping on window – 3 types + Sonniss (glass crack)"':
+      - 'cell "Круг 3: ладонь бьёт в стекло, трещина"'
+      - cell "хлопок по стеклу + треск"
+      - cell "1"
+      - cell "—"
+      - cell "3D у стекла"
+      - cell "−10"
+      - cell "Tapping on window – 3 types + Sonniss (glass crack)":
+        - link "Tapping on window – 3 types":
+          - /url: https://freesound.org/people/bpwebster/sounds/658607/
+        - text: + Sonniss (glass crack)
+    - 'row "Круг 4: царапанье по потолку (ходит за игроком) царапанье по штукатурке 4 low-pass 3 кГц (за перекрытием) 3D над игроком, смещено назад −24 Scratching02, scratching various materials"':
+      - 'cell "Круг 4: царапанье по потолку (ходит за игроком)"':
+        - strong: "Круг 4: царапанье по потолку"
+        - text: (ходит за игроком)
+      - cell "царапанье по штукатурке"
+      - cell "4"
+      - cell "low-pass 3 кГц (за перекрытием)"
+      - cell "3D над игроком, смещено назад":
+        - text: 3D
+        - strong: над игроком
+        - text: ", смещено назад"
+      - cell "−24"
+      - cell "Scratching02, scratching various materials":
+        - link "Scratching02":
+          - /url: https://freesound.org/people/nickyg11p/sounds/390869/
+        - text: ","
+        - link "scratching various materials":
+          - /url: https://freesound.org/people/KrystianPawlowski/sounds/584887/
+    - 'row "Круг 4: «Рубин» (трансляция) шипение кинескопа, писк строчника 15.6 кГц (тихо) 1 петля — 3D у ТВ, max 6 −30 Sonniss GDC (CRT TV)"':
+      - 'cell "Круг 4: «Рубин» (трансляция)"'
+      - cell "шипение кинескопа, писк строчника 15.6 кГц (тихо)"
+      - cell "1 петля"
+      - cell "—"
+      - cell "3D у ТВ, max 6"
+      - cell "−30"
+      - cell "Sonniss GDC (CRT TV)"
+    - 'row "Круг 5: телефон механический звонок старого телефона 1 серия, повторять звонками с паузой без обработки 3D у трюмо, min 0.5, max 15 −12 Old Rotary Phone Ringing, Omas Telefon 01, rotary phone ring long"':
+      - 'cell "Круг 5: телефон"':
+        - strong: "Круг 5: телефон"
+      - cell "механический звонок старого телефона":
+        - strong: механический звонок
+        - text: старого телефона
+      - cell "1 серия, повторять звонками с паузой"
+      - cell "без обработки"
+      - cell "3D у трюмо, min 0.5, max 15"
+      - cell "−12"
+      - cell "Old Rotary Phone Ringing, Omas Telefon 01, rotary phone ring long":
+        - link "Old Rotary Phone Ringing":
+          - /url: https://freesound.org/people/mycompasstv/sounds/456433/
+        - text: ","
+        - link "Omas Telefon 01":
+          - /url: https://freesound.org/people/MrOptimism/sounds/509743/
+        - text: ","
+        - link "rotary phone ring long":
+          - /url: https://freesound.org/people/AberNStein/sounds/274288/
+    - row "Снять / положить трубку щелчок рычага 2 — 3D у рук −20 Sonniss GDC (phone handset)":
+      - cell "Снять / положить трубку"
+      - cell "щелчок рычага"
+      - cell "2"
+      - cell "—"
+      - cell "3D у рук"
+      - cell "−20"
+      - cell "Sonniss GDC (phone handset)"
+    - 'row "Реплика бабушки в трубке (реверс → нормально) временный TTS — телефонная линия: полоса 300–3400 Гц, лёгкая перегрузка, шипение линии 2D у уха −18 —"':
+      - cell "Реплика бабушки в трубке (реверс → нормально)"
+      - cell "временный TTS"
+      - cell "—"
+      - 'cell "телефонная линия: полоса 300–3400 Гц, лёгкая перегрузка, шипение линии"':
+        - strong: телефонная линия
+        - text: ": полоса 300–3400 Гц, лёгкая перегрузка, шипение линии"
+      - cell "2D у уха":
+        - strong: 2D у уха
+      - cell "−18"
+      - cell "—"
+    - row "Дыхание в трубке и за спиной то же дыхание Гостьи 2 — одно в трубке (2D), второе 3D в 0.7 м за спиной слева −20 см. круг 2":
+      - cell "Дыхание в трубке и за спиной":
+        - text: Дыхание в трубке и
+        - strong: за спиной
+      - cell "то же дыхание Гостьи"
+      - cell "2"
+      - cell "—"
+      - cell "одно в трубке (2D), второе 3D в 0.7 м за спиной слева"
+      - cell "−20"
+      - cell "см. круг 2"
+    - 'row "Повешенная: скрип верёвки ритмичный скрип 1 петля 4 с — 3D у крюка −22 Slow Creaking Stereo, Rope Friction 1"':
+      - 'cell "Повешенная: скрип верёвки"':
+        - strong: Повешенная
+        - text: ": скрип верёвки"
+      - cell "ритмичный скрип"
+      - cell "1 петля 4 с"
+      - cell "—"
+      - cell "3D у крюка"
+      - cell "−22"
+      - cell "Slow Creaking Stereo, Rope Friction 1":
+        - link "Slow Creaking Stereo":
+          - /url: https://freesound.org/people/harveyism/sounds/130364/
+        - text: ","
+        - link "Rope Friction 1":
+          - /url: https://freesound.org/people/Valerie-Vivegnis/sounds/862995/
+    - 'row "Повешенная: капли, вдох, звон в ушах капля, резкий вдох, высокий тон 2/1/1 звон в ушах — единственный разрешённый синтез (8 кГц, 1.5 с, затухание) капли 3D, вдох 3D у тела, звон 2D −28 / −20 / −26 heavy breathing (вырезать вдох)"':
+      - 'cell "Повешенная: капли, вдох, звон в ушах"'
+      - cell "капля, резкий вдох, высокий тон"
+      - cell "2/1/1"
+      - cell "звон в ушах — единственный разрешённый синтез (8 кГц, 1.5 с, затухание)":
+        - text: звон в ушах —
+        - strong: единственный разрешённый синтез
+        - text: (8 кГц, 1.5 с, затухание)
+      - cell "капли 3D, вдох 3D у тела, звон 2D"
+      - cell "−28 / −20 / −26"
+      - cell "heavy breathing (вырезать вдох)":
+        - link "heavy breathing":
+          - /url: https://freesound.org/people/Amekiano/sounds/516696/
+        - text: (вырезать вдох)
+    - 'row "Круг 6: стук (3 удара) тяжёлый стук кулаком в деревянную дверь 3 реверберация площадки 3D у входной, min 1, max 15 −10 Door Knock 42, Wooden door knock, Knocking On a Wooden Door"':
+      - 'cell "Круг 6: стук (3 удара)"':
+        - strong: "Круг 6: стук"
+        - text: (3 удара)
+      - cell "тяжёлый стук кулаком в деревянную дверь"
+      - cell "3"
+      - cell "реверберация площадки"
+      - cell "3D у входной, min 1, max 15"
+      - cell "−10"
+      - cell "Door Knock 42, Wooden door knock, Knocking On a Wooden Door":
+        - link "Door Knock 42":
+          - /url: https://freesound.org/people/Ligidium/sounds/193873/
+        - text: ","
+        - link "Wooden door knock":
+          - /url: https://freesound.org/people/775noise/sounds/494569/
+        - text: ","
+        - link "Knocking On a Wooden Door":
+          - /url: https://freesound.org/people/ExplosiveTamale/sounds/448359/
+    - row "Голос бабушки за дверью временный TTS — low-pass 1.2 кГц + реверберация площадки, та же интонация при повторе (§14) 3D за дверью −16 —":
+      - cell "Голос бабушки за дверью"
+      - cell "временный TTS"
+      - cell "—"
+      - cell "low-pass 1.2 кГц + реверберация площадки, та же интонация при повторе (§14)":
+        - text: low-pass 1.2 кГц + реверберация площадки,
+        - strong: та же интонация при повторе
+        - text: (§14)
+      - cell "3D за дверью"
+      - cell "−16"
+      - cell "—"
+    - 'row "Глазок: её дыхание вплотную дыхание 2 — 3D в 0.3 м за дверью −18 см. круг 2"':
+      - 'cell "Глазок: её дыхание вплотную"'
+      - cell "дыхание"
+      - cell "2"
+      - cell "—"
+      - cell "3D в 0.3 м за дверью"
+      - cell "−18"
+      - cell "см. круг 2"
+    - row "Ручка бешено дёргается, 3 удара, дверь вылетает дёрганье ручки, удары, треск дерева 1 каждое — 3D у двери −14 / −8 / −6 Erratic knocking on a wooden door + Sonniss (wood break)":
+      - cell "Ручка бешено дёргается, 3 удара, дверь вылетает"
+      - cell "дёрганье ручки, удары, треск дерева"
+      - cell "1 каждое"
+      - cell "—"
+      - cell "3D у двери"
+      - cell "−14 / −8 / −6"
+      - cell "Erratic knocking on a wooden door + Sonniss (wood break)":
+        - link "Erratic knocking on a wooden door":
+          - /url: https://freesound.org/people/bushi3593/sounds/219365/
+        - text: + Sonniss (wood break)
+    - 'row "Погоня: своё сердце сердцебиение 1 петля темп растёт 90 → 140 BPM (смена клипов или питч) 2D −16 heartbeat-60bpm, Heartbeat 97 BPM"':
+      - 'cell "Погоня: своё сердце"':
+        - strong: "Погоня: своё сердце"
+      - cell "сердцебиение"
+      - cell "1 петля"
+      - cell "темп растёт 90 → 140 BPM (смена клипов или питч)"
+      - cell "2D"
+      - cell "−16"
+      - cell "heartbeat-60bpm, Heartbeat 97 BPM":
+        - link "heartbeat-60bpm":
+          - /url: https://freesound.org/people/loudernoises/sounds/332821/
+        - text: ","
+        - link "Heartbeat 97 BPM":
+          - /url: https://freesound.org/people/Cloud-10/sounds/688735/
+    - 'row "Погоня: своё дыхание на бегу запыхавшееся дыхание 4 — 2D −20 Young male''s heavy breathing"':
+      - 'cell "Погоня: своё дыхание на бегу"'
+      - cell "запыхавшееся дыхание"
+      - cell "4"
+      - cell "—"
+      - cell "2D"
+      - cell "−20"
+      - cell "Young male's heavy breathing":
+        - link "Young male's heavy breathing":
+          - /url: https://freesound.org/people/ThabzMalik/sounds/767046/
+    - 'row "Погоня: ладони Гостьи и хрип точно сзади шлепки ладоней по полу, хрип 6 / 3 шлепок в такт её «шагам» по трассе 3D на её позиции, min 0.5, max 12 −14 Sonniss GDC (creature foley, wet hand slaps); Bones Cracking для суставов"':
+      - 'cell "Погоня: ладони Гостьи и хрип точно сзади"':
+        - text: "Погоня: ладони Гостьи и хрип"
+        - strong: точно сзади
+      - cell "шлепки ладоней по полу, хрип"
+      - cell "6 / 3"
+      - cell "шлепок в такт её «шагам» по трассе"
+      - cell "3D на её позиции, min 0.5, max 12"
+      - cell "−14"
+      - cell "Sonniss GDC (creature foley, wet hand slaps); Bones Cracking для суставов":
+        - text: Sonniss GDC (creature foley, wet hand slaps);
+        - link "Bones Cracking":
+          - /url: https://freesound.org/people/Chelly01/sounds/541081/
+        - text: для суставов
+    - 'row "Погоня: тиканье часов то же тиканье — на каждом модуле, вразнобой (сдвиг фазы) 3D у часов модуля −30 —"':
+      - 'cell "Погоня: тиканье часов"'
+      - cell "то же тиканье"
+      - cell "—"
+      - cell "на каждом модуле, вразнобой (сдвиг фазы)":
+        - text: на каждом модуле,
+        - strong: вразнобой
+        - text: (сдвиг фазы)
+      - cell "3D у часов модуля"
+      - cell "−30"
+      - cell "—"
+    - 'row "Погоня: низкий пульс не дрон, а пульс 1 петля громче к 40-й секунде 2D −30 → −22 Sonniss GDC (low hits)"':
+      - 'cell "Погоня: низкий пульс"'
+      - cell "не дрон, а пульс"
+      - cell "1 петля"
+      - cell "громче к 40-й секунде"
+      - cell "2D"
+      - cell "−30 → −22"
+      - cell "Sonniss GDC (low hits)"
+    - row "Тёплый модуль тиканье вперёд громче остальных — — 3D −22 —":
+      - cell "Тёплый модуль":
+        - strong: Тёплый модуль
+      - cell "тиканье вперёд громче остальных":
+        - text: тиканье
+        - strong: вперёд
+        - text: громче остальных
+      - cell "—"
+      - cell "—"
+      - cell "3D"
+      - cell "−22"
+      - cell "—"
+    - row "Короткая смерть (§7.4) хруст пальцев, шёпот «Мишаня…», влажный разрыв 1.2 с, сдавленный крик 1 каждого шёпот в два голоса (−1 октава, §14) всё 2D, снапшот Death (мир выключен) разрыв −8, остальное −14…−18 Sonniss GDC (gore, flesh tear); Bones Cracking; шёпот — временный TTS":
+      - cell "Короткая смерть (§7.4)":
+        - strong: Короткая смерть
+        - text: (§7.4)
+      - cell "хруст пальцев, шёпот «Мишаня…», влажный разрыв 1.2 с, сдавленный крик"
+      - cell "1 каждого"
+      - cell "шёпот в два голоса (−1 октава, §14)"
+      - cell "всё 2D, снапшот Death (мир выключен)":
+        - text: всё 2D, снапшот
+        - code: Death
+        - text: (мир выключен)
+      - cell "разрыв −8, остальное −14…−18"
+      - cell "Sonniss GDC (gore, flesh tear); Bones Cracking; шёпот — временный TTS":
+        - text: Sonniss GDC (gore, flesh tear);
+        - link "Bones Cracking":
+          - /url: https://freesound.org/people/Chelly01/sounds/541081/
+        - text: ; шёпот — временный TTS
+    - row "Фон комнатный тон квартиры ночью; холодильник; стояк петли — см. раздел 2 — room tone quiet apartment kitchen night, bedroom apartment night room tone, Refrigerator humming, Old gurgling radiator":
+      - cell "Фон":
+        - strong: Фон
+      - cell "комнатный тон квартиры ночью; холодильник; стояк"
+      - cell "петли"
+      - cell "—"
+      - cell "см. раздел 2"
+      - cell "—"
+      - cell "room tone quiet apartment kitchen night, bedroom apartment night room tone, Refrigerator humming, Old gurgling radiator":
+        - link "room tone quiet apartment kitchen night":
+          - /url: https://freesound.org/people/kyles/sounds/635732/
+        - text: ","
+        - link "bedroom apartment night room tone":
+          - /url: https://freesound.org/people/franciscopcoutinho/sounds/466123/
+        - text: ","
+        - link "Refrigerator humming":
+          - /url: https://freesound.org/people/RCSound99/sounds/651210/
+        - text: ","
+        - link "Old gurgling radiator":
+          - /url: https://freesound.org/people/Spamanator/sounds/573791/
+- heading "Источники и лицензии" [level=3]
+- list:
+  - strong: Freesound, фильтр CC0.
+  - text: Каждый скачанный файл записывать в
+  - code: CREDITS-AUDIO.md
+  - text: ": ссылка, автор, лицензия, дата. CC0 атрибуции не требует, но учёт нужен. Скачивание требует бесплатного аккаунта."
+  - strong:
+    - link "Sonniss GDC Game Audio Bundle":
+      - /url: https://sonniss.com/gameaudiogdc
+  - text: — бесплатные паки профессиональных записей. По
+  - link "лицензии":
+    - /url: https://sonniss.com/gdc-bundle-license/
+  - text: "можно использовать в коммерческих играх без указания автора. Нельзя: распространять сами файлы как звуки и обучать на них ИИ. Лицензия разных годов может отличаться — сохранять текст для каждого скачанного пака."
+  - strong:
+    - link "Kenney":
+      - /url: https://kenney.nl/assets/impact-sounds
+  - text: (CC0) — только для мелких глухих ударов, если не хватит.
+  - strong: "Не брать:"
+  - text: BBC Sound Effects (некоммерческая лицензия), звуки без указанной лицензии.
+- heading "4. Порядок внедрения" [level=2]
+- list:
+  - strong:
+    - text: Микшер, лимитер, снапшоты, пул,
+    - code: SoundBank
+    - text: ", окклюзия, зоны реверберации."
+  - text: Удалить
+  - code: Tone()
+  - text: и звук из
+  - code: Update
+  - text: ". Проверка: в тишине ничего не играет, ошибок 0."
+  - strong: Фон по состояниям и снапшот тамбура
+  - text: "(раздел 2). Проверка: шов без скачка."
+  - strong: "Звуки игрока:"
+  - text: шаги по поверхностям, двери (открыть / закрыть / заперта), фонарь (щелчок и жужжание динамо при подкачке).
+  - strong: События кругов 1–6
+  - text: по таблице.
+  - strong: Погоня и тёплый модуль
+  - text: ", бой часов."
+  - strong: Короткая смерть.
+  - strong: Сведение
+  - text: и проверки (раздел 5).
+- heading "5. Как проверять на слух" [level=2]
+- list:
+  - strong: Записывать звук игры
+  - text: (OBS или Unity Recorder, WAV) — шесть аудиосцен
+  - strong: до и после
+  - text: ", класть в"
+  - code: QA/Audio/
+  - text: ":"
+  - list:
+    - listitem: "круг 1 целиком, 60 с: фон, шаги, двери, часы;"
+    - listitem: круг 3, балкон;
+    - listitem: "круг 5: телефон, звонок, повешенная;"
+    - listitem: "круг 6: стук, глазок, вылет двери;"
+    - listitem: погоня 30 с + завод часов и 10 ударов;
+    - listitem: два прохода шва тамбура подряд.
+  - strong: Цифры
+  - text: "(ffmpeg):"
+  - code: ffmpeg -i scene.wav -af ebur128=peak=true -f null -
+  - text: .
+  - list:
+    - listitem: True peak не выше −1 dBTP.
+    - listitem: Фон кругов 1–3 около −40 LUFS — это и есть тишина.
+    - listitem: "Пики событий на 25–30 дБ выше фона: пугает контраст, а не громкость."
+  - strong: "На слух, в наушниках, с закрытыми глазами:"
+  - list:
+    - listitem: каждый предмет узнаётся по звуку, ни одной «пищалки»;
+    - listitem: ни один звук не повторяется одинаково два раза подряд;
+    - listitem: перед каждым событием 1–2 с тишины;
+    - text: в погоне Гостья всегда
+    - strong: слышна сзади
+    - text: ;
+    - listitem: на шве ничего не прыгает;
+    - listitem: нет щелчков на стыках клипов.
+  - strong: "Ещё раз на колонках ноутбука:"
+  - text: низ пропадает, поэтому сердце и пульс не должны быть единственным источником напряжения.
+- heading "Вопросы Диме" [level=2]
+- list:
+  - strong: Запишешь на телефон 6–8 настоящих бытовых звуков?
+  - text: "Это самый сильный ход для правдоподобия квартиры: тиканье часов, гул и щелчок холодильника, скрип двери и половицы, стук в деревянную дверь, звонок старого телефона, если есть. Тихая комната, 10–20 с каждый."
+  - strong: Голоса
+  - text: (бабушка, Гостья, шёпот в смерти) пока остаются временным TTS с обработкой по §14. Ищем актрису сейчас или после того, как ядро заработает?
+- button "Copy message":
+  - generic: MD
+- button "Select copy format":
+- generic "Answered by claude-opus-5-5": Opus
+- button "Choose File"
+- textbox "Type / for commands, @ for files, or ask Claude anything..."
+- button "Attach files":
+- button "Show token usage":
+  - generic: 821K
+  - generic: tokens
+- button "6":
+  - generic: "6"
+- button "Schedule this message" [disabled]:
+- button "Select model and reasoning effort":
+  - generic: Default (recommended)
+  - generic: · high
+- button "How should Claude actions be approved?":
+- button "Send" [disabled]:
+- button "Open settings panel":
+- heading "Quick Settings" [level=3]:
+  - text: Quick Settings
+- button "Pin panel open":
+- button "Close panel":
+- tablist "Quick Settings":
+  - tab "Settings" [selected]:
+    - text: Settings
+  - tab "Commands":
+    - text: Commands
+- tabpanel "Settings":
+  - heading "Appearance" [level=4]
+  - text: Dark Mode
+  - switch "Toggle dark mode":
+    - generic: Toggle dark mode
+  - text: Language
+  - combobox:
+    - option "English" [selected]
+    - option "Français"
+    - option "Español"
+    - option "한국어"
+    - option "简体中文"
+    - option "繁體中文"
+    - option "日本語"
+    - option "Русский"
+    - option "Deutsch"
+    - option "Türkçe"
+    - option "Italiano"
+    - option "Bahasa Indonesia"
+    - option "Čeština"
+    - option "עברית"
+    - option "Português (Brasil)"
+  - heading "Tool Display" [level=4]
+  - text: Show raw parameters
+  - checkbox "Show raw parameters"
+  - text: Show thinking
+  - checkbox "Show thinking" [checked]
+  - heading "Input Settings" [level=4]
+  - text: Send by Ctrl+Enter
+  - checkbox "Send by Ctrl+Enter"
+  - paragraph: When enabled, pressing Ctrl+Enter will send the message instead of just Enter. This is useful for IME users to avoid accidental sends.
