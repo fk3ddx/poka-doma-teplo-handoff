@@ -1,27 +1,36 @@
 {
-  "findings": [
-    "Tulip petal edges and tapered leaves are visible in the seated view, replacing smooth capsule-shaped buds. The seated angle does not expose the full inner flower cup.",
-    "Pelargonium lobed leaf edges, vein ridges and two flower clusters are visible in frame18. Small flowers remain dark and flatten at this angle.",
-    "Pot stands within the sill; numeric new-leaf bounds clear the window glass/frame. This is not a complete intersection audit of every plant/curtain surface.",
-    "Warm room and blackout retain separate lighting. Opal globes no longer emit during blackout."
-  ],
-  "performanceCaveat": "600 capped60 samples: mean59.886FPS,p95 16.669ms,max35.199ms. Light-switch max16.726ms. One long main frame remains; prior48ms light-switch spike not declared fixed. Shutdown MemoryLeaks700364B; no leak-free claim.",
-  "tests": "24 EditMode +22 PlayMode, full pass24 Generate/Bake/Build",
+  "nativeExitCode": 0,
+  "tests": "24 EditMode pass25 +24 PlayMode pass26; GPU test renders visible/occluded fog, verifies one gamma conversion and linear HDR intensity. Full Generate/Bake pass25, local fog refinement/Build/native pass26.",
   "reviewedFrames": [
     "02-living",
-    "03-kitchen",
+    "04-courtyard",
     "05-lights-off",
-    "16-seated-living",
+    "08-hall",
+    "09-bathroom",
+    "11-balcony-courtyard",
     "18-kitchen-window"
   ],
-  "remaining": [
-    "Plant shading remains rather dark, with exaggerated leaf folds; botanical realism is not claimed.",
-    "Ceramics and upholstery are too uniform; bright ceiling pool and outdoor light scattering remain unfinished.",
-    "No human mouse/audio/comfort review, no Low/Medium/High profiles, no M1 acceptance or demonstrated parity with Fears to Fathom."
+  "findings": [
+    "Pass25 rejected: bright red cones. Found double gamma conversion: linear colour was passed to MaterialPropertyBlock.SetColor. Pass26 uses SetVector and reduces artistic gain.",
+    "Pass26 shows subdued amber halos around street lamps and entrances. Foreground rails remain opaque; tulle overlays the distant halo.",
+    "Interior warm state and blackout remain visually distinct. Hall and bathroom mirrors retain their reflected geometry without visible exterior fog contamination in these views."
   ],
-  "nativeExitCode": 0,
-  "referencesInspected": [
-    "Reference/1763050-5.jpg, official Norwood Hitchhike light/window contrast",
-    "Reference/1517340-1.jpg, official From the Darkness Soviet kitchen materials"
-  ]
+  "limitations": [
+    "Fog uses 24-step local single-scattering integration plus existing global distance extinction. No secondary scattering or light-path volumetric shadows.",
+    "Opaque camera depth clips the view ray; this is not a complete light-occluder simulation. Baked room reflection cubemaps exclude fog; dynamic planar mirrors request depth.",
+    "Facade/window repetition, weak ground-detail readability and indoor materials remain below the target. M1 not accepted, no parity claim.",
+    "Uncapped sequential240-frame windows measure full frame time, not isolated GPU duration. No cross-device or human comfort/audio verification."
+  ],
+  "performance": {
+    "targetFps": -1,
+    "samplesPerMode": 240,
+    "onMeanMs": 4.359867572784424,
+    "onP95Ms": 4.452805995941162,
+    "onMaxMs": 7.299099922180176,
+    "offMeanMs": 3.843731641769409,
+    "offP95Ms": 4.139894962310791,
+    "offMaxMs": 5.211600303649902
+  },
+  "reference": "Official Norwood Hitchhike1763050-7 and1763050-5: soft exterior light halos and separation of warm interior/cold outside. Different scene/architecture; no assertion of matched rendering.",
+  "shutdown": "MemoryLeaks750447B in native log; no leak-free assertion."
 }

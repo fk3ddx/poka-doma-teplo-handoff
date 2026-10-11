@@ -68,3 +68,6 @@ M1 0.2.7: разделение исходной авторской геомет�
 
 
 M1 0.2.8: растения — авторские процедурные модели tools/art/domestic_plants.py. Описание формы пеларгонии: [Royal Horticultural Society](https://www.rhs.org.uk/plants/12407/pelargonium-zonale/details); изображения не копировались. Новых сторонних ассетов/ImageGen нет.
+
+
+M1 0.2.9: собственный CourtyardLightFog.shader и интеграция. API-источники Unity6.3 указаны в M1-EXTERIOR-FOG.md. Новых сторонних ассетов/изображений нет.

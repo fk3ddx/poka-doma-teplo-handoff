@@ -38,11 +38,11 @@ public static partial class ApartmentArtBuilder {
    if(r.GetComponentInParent<Interactable>()==null)Static(r.gameObject);
   }
   ImportAuthoredMeshes();AddModel("ceramic_vase_01",new Vector3(6.13f,1.24f,2.05f),0,.23f);
-  TrimAndWindows();Yard();Lighting();Atmosphere();Staircase();Finishing();OpalLighting();WhitewashedCeilings();Seating();PersonalPhotos();
+  TrimAndWindows();Yard();Lighting();Atmosphere();Staircase();Finishing();OpalLighting();WhitewashedCeilings();Seating();PersonalPhotos();ExteriorFog();
   var session=Object.FindFirstObjectByType<GameSession>();session.checkpointFile="checkpoint-m1.json";session.player.transform.position=new Vector3(5.1f,Floor+.02f,3.2f);session.player.transform.rotation=Quaternion.Euler(0,215,0);
   session.GetComponent<PrototypeMenu>().milestoneDescription="M1 · художественная квартира — рабочая версия\nЗал, кухня и бытовые детали. Сюжетный пролог ещё в разработке.";
   session.player.view.farClipPlane=240;session.player.view.backgroundColor=C(.095f,.12f,.14f);
-  PlayerSettings.productName="Атака на запоминание";PlayerSettings.bundleVersion="0.2.8-dev";
+  PlayerSettings.productName="Атака на запоминание";PlayerSettings.bundleVersion="0.2.9-dev";
   EditorSceneManager.SaveScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene(),ScenePath);EditorBuildSettings.scenes=new[]{new EditorBuildSettingsScene(ScenePath,true),new EditorBuildSettingsScene(MilestoneBuilder.ScenePath,true)};AssetDatabase.SaveAssets();Debug.Log("M1_SCENE_GENERATED");
  }
  static void Static(GameObject go)=>GameObjectUtility.SetStaticEditorFlags(go,StaticEditorFlags.ContributeGI|StaticEditorFlags.BatchingStatic|StaticEditorFlags.ReflectionProbeStatic);

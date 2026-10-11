@@ -30,7 +30,7 @@ namespace Ataka {
    GeometryUtility.CalculateFrustumPlanes(source,frustum);if(!GeometryUtility.TestPlanesAABB(frustum,surface.bounds))return;
    nextFrame=Time.unscaledTime+.1f;
    reflection.CopyFrom(source);reflection.enabled=false;reflection.cameraType=CameraType.Reflection;reflection.targetTexture=texture;reflection.cullingMask=source.cullingMask&~(1<<30);reflection.useOcclusionCulling=false;reflection.allowMSAA=false;
-   var data=reflection.GetUniversalAdditionalCameraData();data.renderPostProcessing=false;data.renderShadows=false;data.requiresColorOption=CameraOverrideOption.Off;data.requiresDepthOption=CameraOverrideOption.Off;data.volumeLayerMask=0;
+   var data=reflection.GetUniversalAdditionalCameraData();data.renderPostProcessing=false;data.renderShadows=false;data.requiresColorOption=CameraOverrideOption.Off;data.requiresDepthOption=CameraOverrideOption.On;data.volumeLayerMask=0;
    float d=-Vector3.Dot(n,p);Matrix4x4 r=Matrix4x4.identity;
    r.m00-=2*n.x*n.x;r.m01=-2*n.x*n.y;r.m02=-2*n.x*n.z;r.m03=-2*d*n.x;
    r.m10=-2*n.y*n.x;r.m11-=2*n.y*n.y;r.m12=-2*n.y*n.z;r.m13=-2*d*n.y;

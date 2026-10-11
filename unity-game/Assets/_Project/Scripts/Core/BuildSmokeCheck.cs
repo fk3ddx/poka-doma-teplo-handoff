@@ -134,8 +134,24 @@ namespace Ataka
                 slowestFrameMs = slowest * 1000, gpu = SystemInfo.graphicsDeviceName,
                 graphicsApi = SystemInfo.graphicsDeviceType.ToString(), unity = Application.unityVersion
             }, true));
+            if(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name=="Apartment_M1"){
+                session.player.Restore(new Vector3(5.20f,11.72f,-.65f),190,30,false);
+                var fogs=FindObjectsByType<LocalLightFog>(FindObjectsSortMode.None);
+                var fogReport=new FogResult();int previousFps=Application.targetFrameRate;Application.targetFrameRate=-1;
+                for(int mode=0;mode<2;mode++){
+                    foreach(var fog in fogs)fog.enabled=mode==0;
+                    for(int i=0;i<60;i++)yield return null;
+                    var samples=new float[240];float total=0;
+                    for(int i=0;i<samples.Length;i++){yield return null;samples[i]=Time.unscaledDeltaTime*1000;total+=samples[i];}
+                    Array.Sort(samples);if(mode==0){fogReport.onMeanMs=total/samples.Length;fogReport.onP95Ms=samples[227];fogReport.onMaxMs=samples[239];}
+                    else{fogReport.offMeanMs=total/samples.Length;fogReport.offP95Ms=samples[227];fogReport.offMaxMs=samples[239];}
+                }
+                foreach(var fog in fogs)fog.enabled=true;Application.targetFrameRate=previousFps;
+                File.WriteAllText(Path.Combine(output,"fog-performance.json"),JsonUtility.ToJson(fogReport,true));
+            }
             Finish();
         }
+        [Serializable] sealed class FogResult {public int targetFps=-1,samplesPerMode=240;public float onMeanMs,onP95Ms,onMaxMs,offMeanMs,offP95Ms,offMaxMs;}
 
         IEnumerator Capture(string name)
         {
