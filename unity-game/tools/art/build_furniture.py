@@ -403,6 +403,8 @@ exec(compile((ROOT/'tools/art/add_domestic_detail.py').read_text(encoding='utf-8
 
 exec(compile((ROOT/'tools/art/add_kitchen_and_yard_detail.py').read_text(encoding='utf-8-sig'), 'add_kitchen_and_yard_detail.py', 'exec'), globals())
 
+exec(compile((ROOT/'tools/art/finish_domestic.py').read_text(encoding='utf-8-sig'), 'finish_domestic.py', 'exec'), globals())
+
 # Bare courtyard trees: tapered, curved growth and secondary forks.
 current='Yard';rng=random.Random(39)
 def taper_branch(points,r):

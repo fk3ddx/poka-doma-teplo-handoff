@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using UnityEngine;
 using UnityEditor;
 namespace Ataka.Editor {
@@ -24,6 +24,8 @@ namespace Ataka.Editor {
    for(int i=0;i<8;i++)for(int j=0;j<7;j++)Box("Bathroom ceramic floor tile",new Vector3(3.006f+i*.212f,.013f,4.607f+j*.214f),new Vector3(.208f,.009f,.21f),(i+j)%2==0?"FloorTileCream":"FloorTileGreen",false);
    for(int i=0;i<14;i++){
     var title=GameObject.CreatePrimitive(PrimitiveType.Quad);title.name="Printed book spine "+i;title.transform.SetParent(art,false);title.transform.localPosition=new Vector3(6.138f,1.825f,1.49f+i*.061f);title.transform.localRotation=Quaternion.Euler(0,90,0);title.transform.localScale=new Vector3(.032f,.14f,1);Object.DestroyImmediate(title.GetComponent<Collider>());
+    string labelPath=Root+"/Art/Textures/BookTitle"+i+".png";
+    var labelImporter=(TextureImporter)AssetImporter.GetAtPath(labelPath);labelImporter.alphaIsTransparency=true;labelImporter.mipMapsPreserveCoverage=true;labelImporter.alphaTestReferenceValue=.4f;labelImporter.SaveAndReimport();
     var mat=M("BookTitle"+i,Color.white,.08f);mat.mainTexture=AssetDatabase.LoadAssetAtPath<Texture2D>(Root+"/Art/Textures/BookTitle"+i+".png");mat.SetFloat("_AlphaClip",1);mat.SetFloat("_Cutoff",.4f);mat.EnableKeyword("_ALPHATEST_ON");mat.renderQueue=2450;title.GetComponent<Renderer>().sharedMaterial=mat;title.GetComponent<Renderer>().shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;
    }
    // Thin collision planes follow both flights, filling the spaces between balusters.

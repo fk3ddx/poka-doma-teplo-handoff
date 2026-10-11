@@ -10,6 +10,7 @@ namespace Ataka
         public virtual string Prompt => label;
         public virtual bool Available => isActiveAndEnabled;
         public abstract void Interact(GameSession session);
+        public virtual float InitialState => 0;
         public abstract float Capture();
         public virtual float CaptureAuxiliary() => 0;
         public abstract void Restore(float value);

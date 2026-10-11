@@ -9,6 +9,7 @@ namespace Ataka
         public bool powered = true;
         public override string Prompt => (powered ? "Выключить: " : "Включить: ") + label;
         public override void Interact(GameSession session) => Restore(powered ? 0 : 1);
+        public override float InitialState => 1;
         public override float Capture() => powered ? 1 : 0;
         public override void Restore(float value)
         {

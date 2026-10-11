@@ -24,7 +24,12 @@ namespace Ataka.Editor {
    controller.reflectionSwitches=controller.roomReflections.Select(x=>controller.switches.Single(s=>s.persistentId=="lamp-"+(x.name.StartsWith("hall")?"hall":x.name.Split(' ')[0]))).ToArray();
    foreach(var probe in controller.roomReflections)probe.mode=ReflectionProbeMode.Baked;
    foreach(var l in controller.supplementary)l.lightmapBakeType=LightmapBakeType.Mixed;
-   foreach(var r in controller.glowingSurfaces)r.sharedMaterial.globalIlluminationFlags=MaterialGlobalIlluminationFlags.None;
+   // URP validation removes _EMISSION when neither emissive GI flag is set.
+   // Realtime GI is disabled: these surfaces glow visually; fixture lights provide baked transport.
+   foreach(var r in controller.glowingSurfaces){
+    r.sharedMaterial.globalIlluminationFlags=MaterialGlobalIlluminationFlags.RealtimeEmissive;
+    r.sharedMaterial.EnableKeyword("_EMISSION");EditorUtility.SetDirty(r.sharedMaterial);
+   }
    EditorSceneManager.SaveScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene());
    if(!Lightmapping.Bake())throw new Exception("Warm light bake failed");
    controller.warm=Capture("Warm",controller);

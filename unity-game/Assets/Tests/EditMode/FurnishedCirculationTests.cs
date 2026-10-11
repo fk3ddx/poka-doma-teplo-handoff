@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using Ataka.Editor;
 using NUnit.Framework;
 using UnityEditor.SceneManagement;
@@ -12,6 +12,10 @@ namespace Ataka.Tests {
   [Test] public void BedroomBedsideCanBeReached(){Check(new[]{new Vector2(2.35f,3.75f),new Vector2(2.15f,3.20f),new Vector2(2.15f,2.95f),new Vector2(2.15f,1.50f)});}
   [Test] public void BathroomThresholdHasStandingClearance(){Check(new[]{new Vector2(5.15f,5.25f),new Vector2(4.90f,5.25f),new Vector2(4.36f,5.25f)});}
   [Test] public void EntranceRouteClearsTheCoatAndDresser(){Check(new[]{new Vector2(7.2f,4.82f),new Vector2(7.7f,4.82f),new Vector2(8.05f,5.3f),new Vector2(8.05f,6.6f)});}
+  [Test] public void OpenHallDrawerKeepsTheEntranceRouteClear(){
+   Object.FindFirstObjectByType<SlidingDrawer>().Restore(1);Physics.SyncTransforms();
+   Check(new[]{new Vector2(7.2f,4.82f),new Vector2(7.7f,4.82f),new Vector2(8.05f,5.3f),new Vector2(8.05f,6.6f)});
+  }
   static void Check(Vector2[] points){for(int i=1;i<points.Length;i++){int samples=Mathf.CeilToInt(Vector2.Distance(points[i-1],points[i])/.06f);for(int j=0;j<=samples;j++){var p=Vector2.Lerp(points[i-1],points[i],(float)j/samples);var feet=new Vector3(p.x,11.7f,p.y);var collisions=Physics.OverlapCapsule(feet+Vector3.up*.4f,feet+Vector3.up*1.42f,.24f,Physics.DefaultRaycastLayers,QueryTriggerInteraction.Ignore);Assert.IsEmpty(collisions,"Blocked at "+p+": "+string.Join(",",collisions.Select(x=>x.name)));}}}
  }
 }

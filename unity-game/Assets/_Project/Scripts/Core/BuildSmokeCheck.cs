@@ -1,4 +1,4 @@
-﻿#if DEVELOPMENT_BUILD || UNITY_EDITOR
+#if DEVELOPMENT_BUILD || UNITY_EDITOR
 using System;
 using System.Collections;
 using System.IO;
@@ -34,8 +34,15 @@ namespace Ataka
             yield return null;
             var session = FindFirstObjectByType<GameSession>();
             if (session == null) { Debug.LogError("Smoke: no GameSession"); Finish(); yield break; }
+            if(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name=="Apartment_M1"){
+                var visibleMaterials=FindObjectsByType<Renderer>(FindObjectsSortMode.None).SelectMany(r=>r.sharedMaterials).Where(m=>m!=null).Distinct();
+                foreach(var material in visibleMaterials.Where(m=>new[]{"WindowWarm","SodiumGlass","Bulb","Shade"}.Contains(m.name)))
+                    if(!material.IsKeywordEnabled("_EMISSION"))Debug.LogError("Smoke: visible emissive material lost its shader keyword: "+material.name);
+            }
             yield return Capture("01-menu");
             session.NewGame();
+            // Let the ordinary four-second controls notice expire before comparative frames.
+            yield return new WaitForSecondsRealtime(4.2f);
             foreach (var door in FindObjectsByType<Door>(FindObjectsSortMode.None)) door.Restore(1);
             session.player.Restore(new Vector3(5.8f, 11.72f, 3.7f), 215, 3, false);
             session.player.inputEnabled = false;
@@ -56,6 +63,11 @@ namespace Ataka
                 yield return Capture("13-bedroom-storage");
                 session.player.Restore(new Vector3(7.75f,11.72f,3.55f),0,5,false);
                 yield return Capture("08-hall");
+                var drawer=FindFirstObjectByType<SlidingDrawer>();drawer.Restore(1);
+                session.player.Restore(new Vector3(7.82f,11.72f,5.72f),270,46,false);
+                yield return Capture("14-hall-drawer");drawer.Restore(0);
+                session.player.Restore(new Vector3(7.60f,11.72f,1.22f),245,39,false);
+                yield return Capture("15-kitchen-sink");
                 session.player.Restore(new Vector3(4.37f,11.72f,5.05f),320,16,false);
                 yield return Capture("09-bathroom");
                 session.player.Restore(new Vector3(8.05f,11.72f,7.1f),0,18,false);

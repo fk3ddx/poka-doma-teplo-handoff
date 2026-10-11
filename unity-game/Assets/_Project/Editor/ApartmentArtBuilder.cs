@@ -73,6 +73,8 @@ public static partial class ApartmentArtBuilder {
   var carpet=M("Carpet",Color.white,.05f);carpet.mainTexture=AssetDatabase.LoadAssetAtPath<Texture2D>(Root+"/Art/Textures/GrandmaCarpet.png");carpet.SetFloat("_Cull",0);
   Pbr(M("Fabric",C(.50f,.40f,.27f),.06f),"quatrefoil_jacquard_fabric",2);Pbr(M("DarkFabric",C(.25f,.22f,.16f),.04f),"quatrefoil_jacquard_fabric",2);Pbr(M("Curtain",C(.50f,.31f,.20f),.04f),"quatrefoil_jacquard_fabric",1.3f);Pbr(M("Plaid",C(.4f,.33f,.24f),.04f),"quatrefoil_jacquard_fabric",1.2f);Pbr(M("Linen",C(.72f,.68f,.57f),.04f),"quatrefoil_jacquard_fabric",2.2f);
   M("Lace",C(.72f,.71f,.62f),.03f);M("Enamel",C(.73f,.75f,.69f),.45f);M("Porcelain",C(.74f,.71f,.61f),.65f);M("Coffee",C(.026f,.014f,.01f),.8f);M("Black",C(.018f,.019f,.017f),.28f);M("Metal",C(.24f,.28f,.28f),.4f,.55f);M("Chrome",C(.7f,.73f,.72f),.8f,.9f);M("Brass",C(.42f,.27f,.1f),.65f,.65f);M("Crystal",C(.26f,.34f,.33f),.92f,.45f);
+  var crystal=mats["Crystal"];crystal.color=new Color(.68f,.75f,.72f,.12f);crystal.SetFloat("_Metallic",0);crystal.SetFloat("_Surface",1);crystal.SetFloat("_Blend",1);
+  crystal.SetFloat("_SrcBlend",(float)BlendMode.One);crystal.SetFloat("_DstBlend",(float)BlendMode.OneMinusSrcAlpha);crystal.SetFloat("_ZWrite",0);crystal.SetFloat("_BlendModePreserveSpecular",1);crystal.SetOverrideTag("RenderType","Transparent");crystal.EnableKeyword("_SURFACE_TYPE_TRANSPARENT");crystal.EnableKeyword("_ALPHAPREMULTIPLY_ON");crystal.renderQueue=3000;
   var glass=M("Glass",C(.11f,.16f,.16f),.9f);glass.SetFloat("_Surface",1);glass.SetFloat("_SrcBlend",(float)BlendMode.SrcAlpha);glass.SetFloat("_DstBlend",(float)BlendMode.OneMinusSrcAlpha);glass.SetFloat("_ZWrite",0);glass.color=new Color(.2f,.26f,.24f,.13f);glass.renderQueue=3000;glass.EnableKeyword("_SURFACE_TYPE_TRANSPARENT");
   M("Mirror",C(.46f,.50f,.48f),.65f,.6f);M("Paper",C(.69f,.63f,.48f),.04f);M("BookRed",C(.23f,.05f,.035f),.15f);M("BookGreen",C(.06f,.13f,.10f),.15f);M("BookTan",C(.37f,.26f,.15f),.1f);M("TVBrown",C(.17f,.09f,.045f),.25f);
   var tv=M("TVScreen",C(.18f,.27f,.24f),.65f);tv.EnableKeyword("_EMISSION");tv.SetColor("_EmissionColor",C(.12f,.21f,.17f));M("Terracotta",C(.31f,.15f,.09f),.07f);M("Leaf",C(.085f,.18f,.055f),.18f);M("DriedStem",C(.29f,.20f,.09f),.1f);M("Photo",C(.26f,.22f,.16f),.15f);M("KitchenPaint",C(.39f,.49f,.39f),.25f);M("GasYellow",C(.56f,.4f,.075f),.25f);
@@ -81,6 +83,9 @@ public static partial class ApartmentArtBuilder {
  }
  static void ImportAuthoredMeshes(){
   var data=JsonUtility.FromJson<MeshSet>(File.ReadAllText(Root+"/Art/Authored/ApartmentFurniture.meshdata.json"));
+  var drawerRoot=new GameObject("Working hall drawer");drawerRoot.transform.SetParent(art,false);
+  var drawer=drawerRoot.AddComponent<SlidingDrawer>();drawer.persistentId="hall-drawer";drawer.label="ящик трюмо";drawer.movingPart=drawerRoot.transform;drawer.closedLocalPosition=Vector3.zero;
+  drawer.envelope=drawerRoot.AddComponent<BoxCollider>();drawer.envelope.center=new Vector3(6.956f,.66f,5.71f);drawer.envelope.size=new Vector3(.51f,.20f,.34f);
   foreach(var d in data.meshes){
    string path=Root+"/Art/M1Meshes/"+d.name+".asset";var mesh=AssetDatabase.LoadAssetAtPath<Mesh>(path);if(mesh==null){mesh=new Mesh();AssetDatabase.CreateAsset(mesh,path);}else mesh.Clear();mesh.name=d.name;mesh.indexFormat=IndexFormat.UInt32;
    var v=new Vector3[d.vertices.Length/3];var n=new Vector3[v.Length];var uv=new Vector2[v.Length];for(int i=0;i<v.Length;i++){v[i]=new Vector3(d.vertices[i*3],d.vertices[i*3+1],d.vertices[i*3+2]);n[i]=new Vector3(d.normals[i*3],d.normals[i*3+1],d.normals[i*3+2]);uv[i]=new Vector2(d.uv[i*2],d.uv[i*2+1]);}
@@ -91,7 +96,10 @@ public static partial class ApartmentArtBuilder {
     if(Mathf.Abs(n[i].y)<.5f)uv[i]=new Vector2(uv[i].y,uv[i].x);
    }
    mesh.vertices=v;mesh.normals=n;mesh.uv=uv;mesh.triangles=d.triangles;mesh.RecalculateTangents();mesh.RecalculateBounds();Unwrapping.GenerateSecondaryUVSet(mesh);EditorUtility.SetDirty(mesh);
-   var go=new GameObject(d.name);go.transform.SetParent(art,false);go.AddComponent<MeshFilter>().sharedMesh=mesh;go.AddComponent<MeshRenderer>().sharedMaterial=mats[d.material];if(!new[]{"Glass","Curtain","Lace","Tulle","Bulb","Shade","ShadeBinding","DriedStem","Carpet"}.Contains(d.material))go.AddComponent<MeshCollider>().sharedMesh=mesh;if(!d.name.StartsWith("Yard_"))Static(go);
+   bool isDrawer=d.name.StartsWith("HallDrawer_");
+   var go=new GameObject(d.name);go.transform.SetParent(isDrawer?drawerRoot.transform:art,false);go.AddComponent<MeshFilter>().sharedMesh=mesh;go.AddComponent<MeshRenderer>().sharedMaterial=mats[d.material];
+   if(!isDrawer&&!new[]{"Glass","Curtain","Lace","Tulle","Bulb","Shade","ShadeBinding","DriedStem","Carpet"}.Contains(d.material))go.AddComponent<MeshCollider>().sharedMesh=mesh;
+   if(!isDrawer&&!d.name.StartsWith("Yard_"))Static(go);
   }
  }
  static void Reproject(MeshRenderer r){

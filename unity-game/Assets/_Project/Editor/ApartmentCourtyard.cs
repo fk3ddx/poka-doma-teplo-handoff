@@ -22,11 +22,15 @@ namespace Ataka.Editor {
     var snow=GameObject.CreatePrimitive(PrimitiveType.Sphere);snow.name="Soft snow edge";snow.transform.SetParent(art,false);snow.transform.localPosition=new Vector3(-27+i*2.3f,-Floor+.03f,-25.7f+(float)rng.NextDouble()*.4f);snow.transform.localScale=new Vector3(1.6f+(float)rng.NextDouble()*1.4f,.18f+(float)rng.NextDouble()*.13f,.6f+(float)rng.NextDouble()*.5f);snow.GetComponent<Renderer>().sharedMaterial=mats["Snow"];Object.DestroyImmediate(snow.GetComponent<Collider>());
    }
    foreach(var light in art.GetComponentsInChildren<Light>().Where(x=>x.name=="Courtyard pool")){light.type=LightType.Spot;light.transform.localRotation=Quaternion.Euler(90,0,0);light.spotAngle=125;light.innerSpotAngle=65;light.intensity=38;light.range=22;}
-   var window=mats["WindowWarm"];window.globalIlluminationFlags=MaterialGlobalIlluminationFlags.None;window.SetColor("_EmissionColor",C(1.8f,1.0f,.35f));window.EnableKeyword("_EMISSION");EditorUtility.SetDirty(window);
-   var sodium=M("SodiumGlass",C(.58f,.39f,.15f));sodium.globalIlluminationFlags=MaterialGlobalIlluminationFlags.None;sodium.SetColor("_EmissionColor",C(4.0f,2.1f,.6f));sodium.EnableKeyword("_EMISSION");EditorUtility.SetDirty(sodium);
+   var window=mats["WindowWarm"];window.globalIlluminationFlags=MaterialGlobalIlluminationFlags.RealtimeEmissive;window.SetColor("_EmissionColor",C(1.8f,1.0f,.35f));window.EnableKeyword("_EMISSION");EditorUtility.SetDirty(window);
+   var sodium=M("SodiumGlass",C(.58f,.39f,.15f));sodium.globalIlluminationFlags=MaterialGlobalIlluminationFlags.RealtimeEmissive;sodium.SetColor("_EmissionColor",C(4.0f,2.1f,.6f));sodium.EnableKeyword("_EMISSION");EditorUtility.SetDirty(sodium);
    foreach(var fixture in art.GetComponentsInChildren<Renderer>().Where(x=>x.name=="Sodium lamp"))fixture.sharedMaterial=sodium;
-   foreach(var old in art.GetComponentsInChildren<Transform>().Where(x=>x.name=="Entrance warm pool"||x.name=="Entrance light glass").ToArray())Object.DestroyImmediate(old.gameObject);
-   foreach(float x in new[]{-20f,-6f,8f}){
+   foreach(var old in art.GetComponentsInChildren<Transform>().Where(x=>x.name=="Entrance warm pool"||x.name=="Entrance light glass"||x.name.StartsWith("Entrance door")).ToArray())Object.DestroyImmediate(old.gameObject);
+   foreach(float x in new[]{-16f,-4f,8f}){
+    Box("Entrance door frame",new Vector3(x,1.1f-Floor,-28.44f),new Vector3(1.45f,2.2f,.10f),"Concrete",false);
+    Box("Entrance door leaf",new Vector3(x,1.03f-Floor,-28.37f),new Vector3(1.18f,2.06f,.06f),"KitchenPaint",false);
+    Box("Entrance door inset",new Vector3(x,1.03f-Floor,-28.326f),new Vector3(1.01f,1.84f,.028f),"Metal",false);
+    Box("Entrance door handle",new Vector3(x+.43f,1.1f-Floor,-28.285f),new Vector3(.035f,.27f,.04f),"Black",false);
     var entrance=Point("Entrance warm pool",new Vector3(x,2.7f-Floor,-27.3f),C(1,.65f,.35f),8,7,false);entrance.type=LightType.Spot;entrance.spotAngle=115;entrance.innerSpotAngle=50;entrance.transform.localRotation=Quaternion.Euler(78,0,0);
     Box("Entrance light glass",new Vector3(x,2.8f-Floor,-27.6f),new Vector3(.34f,.12f,.12f),"SodiumGlass",false);
    }

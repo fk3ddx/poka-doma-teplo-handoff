@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -64,13 +64,9 @@ namespace Ataka
 
         public void NewGame()
         {
-            // Reload the authored baseline so doors, switches and pickups reset together.
+            // Every interactive object owns its authored baseline, including later additions.
             inventory.Clear();
-            foreach (var item in objects)
-            {
-                if (item is PickUp || item is Door) item.Restore(0);
-                else if (item is LampSwitch) item.Restore(1);
-            }
+            foreach (var item in objects) item.Restore(item.InitialState);
             player.Restore(initialPosition, initialYaw, 0, false);
             Started = true;
             SetPaused(false);
@@ -119,8 +115,12 @@ namespace Ataka
             { Notify("Сохранение содержит недопустимую позицию"); return; }
             inventory = new HashSet<string>(state.inventory);
             foreach (var item in objects)
+            {
+                // Old checkpoints do not contain objects added in a later art pass.
+                item.Restore(item.InitialState);
                 foreach (var record in state.objects)
                     if (record.id == item.persistentId) { item.RestoreSnapshot(record); break; }
+            }
             Physics.SyncTransforms();
             player.Restore(state.position, state.yaw, state.pitch, state.crouched);
             Started = true;

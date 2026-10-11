@@ -19,11 +19,11 @@ namespace Ataka.Editor {
    Pbr(M("GaragePaint",C(.16f,.21f,.21f),.20f),"plastered_wall_02",.8f);
    M("StackBand",C(.22f,.13f,.10f),.06f);
    // Original procedural crochet pattern: open net, six-petal medallion and seams.
-   const int size=512;var pixels=new Color32[size*size];
+   const int size=1024;var pixels=new Color32[size*size];
    for(int y=0;y<size;y++)for(int x=0;x<size;x++){
     float u=(x+.5f)/size,v=(y+.5f)/size,dx=u-.5f,dy=v-.5f;
     float radius=Mathf.Sqrt(dx*dx+dy*dy),a=Mathf.Atan2(dy,dx);
-    bool mesh=Mathf.Abs(Mathf.Repeat((u+v)*12,1)-.5f)<.028f||Mathf.Abs(Mathf.Repeat((u-v)*12,1)-.5f)<.028f;
+    bool mesh=Mathf.Abs(Mathf.Repeat((u+v)*48,1)-.5f)<.045f||Mathf.Abs(Mathf.Repeat((u-v)*48,1)-.5f)<.045f;
     bool flower=Mathf.Abs(radius-(.23f+.065f*Mathf.Cos(a*6)))<.005f||Mathf.Abs(radius-.052f)<.005f;
     bool stem=Mathf.Abs(dx-.018f*Mathf.Sin(v*20))<.004f && Mathf.Abs(dy)>.29f;
     pixels[y*size+x]=new Color32(227,224,212,(byte)(mesh||flower||stem?255:0));
