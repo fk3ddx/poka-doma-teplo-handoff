@@ -1,28 +1,30 @@
 {
   "nativeExitCode": 0,
-  "tests": "24 EditMode +21 PlayMode pass18; subsequent pass19 changed only non-colliding window-tulle normals/material; regenerated, rebaked, rebuilt and captured native player",
+  "tests": "45 tests passed in pass18; pass20/21 are decorative non-colliding geometry and ceiling material changes, then rebaked warm/blackout maps/reflections and rebuilt. No runtime code changes; old tests not represented as a new test run.",
   "reviewedFrames": [
     "02-living",
     "03-kitchen",
     "05-lights-off",
     "07-bedroom",
-    "12-bedside-detail",
     "16-seated-living",
     "18-kitchen-window"
   ],
+  "referencesInspected": [
+    "Reference/1517340-1.jpg (From the Darkness kitchen)",
+    "Reference/1671340-3.jpg (Fears to Fathom Home Alone kitchen)"
+  ],
   "findings": [
-    "Bed pillows now have inflated centres and pinched thin sewn edges rather than rounded boxes.",
-    "Window tulle is lit from the room, remains see-through, and fine net has substantially less broken high-frequency pattern on reviewed distant frames.",
-    "First pass18 tulle was too dark/almost absent because its remaining single surface faced outside. Fixed normals of all three window cloths and increased thread opacity in pass19.",
-    "Blackout remains dark; the tulle has no self-emission.",
-    "New18 kitchen-window capture shows yard depth, snow and adjacent windows from inside kitchen."
+    "Cafe curtain now has a painted rod, two brackets and screws, 13 rings/clips, and a heading tape following actual pleats. Frame18 and frame03 reviewed.",
+    "Brown bare-clay ceiling albedo replaced with whitewashed plaster; scanned normal remains at reduced strength. Only apartment ceiling and cornices changed, stairwell material unchanged.",
+    "Whitewash improves the separation of ceiling, wall and wood furniture; warm and blackout lighting/reflections rebaked.",
+    "Blackout frame05 remains dark; ceiling has no emission."
   ],
   "remaining": [
-    "Motion aliasing and transparent sorting through every viewpoint have not been manually validated.",
-    "New close kitchen-window view reveals missing visible upper curtain attachment/rail; add appropriate small cafe-curtain rod and loops.",
-    "Flower motif is still simple; sofa cushions/throws, tulip heads, ceramics and books need further character.",
+    "Ceiling hotspot near chandelier is pronounced; fixture emission and light placement need further review.",
+    "Flowers, leaves, ceramics and some fabrics still have generic forms/materials.",
+    "Curtain rings are small metallic geometry; motion shimmer and every-view transparency sorting not manually verified.",
     "Outdoor light scattering, graphics profiles and human mouse/audio/comfort evaluation remain.",
-    "M1 is not visually accepted or proven equal to Fears to Fathom."
+    "M1 not accepted, quality equality with Fears to Fathom not claimed."
   ],
-  "performanceCaveat": "600 samples capped60: mean59.694FPS, p9516.670ms, isolated max49.254ms. Light-switch max16.713ms. Cause of isolated main-frame spike unresolved. Shutdown MemoryLeaks705072bytes; no leak-free assertion."
+  "performanceCaveat": "600 samples capped60: mean 59.997 FPS; main max 16.734ms; light-switch max 48.076ms is unresolved. Shutdown MemoryLeaks712428bytes; no leak-free assertion."
 }

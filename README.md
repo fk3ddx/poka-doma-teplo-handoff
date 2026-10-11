@@ -6,7 +6,7 @@
 
 Перенос начат в **[unity-game/](unity-game/README.md)**. Текущая веха — M1: обставленная квартира, холодный двор, бытовой звук, свет и сохранения. Сюжет ещё впереди. Настоящие кадры и сравнение с Fears to Fathom находятся в unity-game/QA/compare.html. Актуальные результаты сборки, ограничения и продолжение — **[UNITY-MIGRATION.md](UNITY-MIGRATION.md)**. Предыдущий Release v3 остаётся отдельным Electron-прототипом.
 
-**Новый нативный preview:** [Unity M1 0.2.5 — Windows, исходники и сравнение кадров](https://github.com/fk3ddx/poka-doma-teplo-handoff/releases/tag/unity-m1-0.2.5). Это квартира для художественной проверки; сюжетный пролог в Unity ещё не готов.
+**Новый нативный preview:** [Unity M1 0.2.6 — Windows, исходники и сравнение кадров](https://github.com/fk3ddx/poka-doma-teplo-handoff/releases/tag/unity-m1-0.2.6). Это квартира для художественной проверки; сюжетный пролог в Unity ещё не готов.
 
 ## Версия 2 — пересборка с нуля (10.10.2026)
 

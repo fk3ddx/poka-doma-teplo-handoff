@@ -7,7 +7,7 @@
 - Сохранённая сцена Apartment_M1.unity и генераторы Editor/Apartment*.cs.
 - Авторские модели: tools/art/build_furniture.py, add_domestic_detail.py, add_kitchen_and_yard_detail.py и ApartmentFurniture.blend.
 - Наблюдаемое качество: настоящий Windows framebuffer, QA/M1/ и QA/compare.html. Список в исходнике доказывает наличие модели, но не художественное качество.
-- Рабочая проверенная версия: preview 0.2.5. Новый прогон 1080p и 45 тестов не заменяют художественную приёмку.
+- Рабочая проверенная версия: preview 0.2.6. Новый прогон 1080p и 45 тестов не заменяют художественную приёмку.
 
 ## Обязательные комнаты (§7.3)
 
@@ -41,3 +41,8 @@
 5. Повторить аудит полного §7.3 и только после фактического выполнения закрыть M1.
 
 Технические источники текущего прохода: [BakeReflectionProbe](https://docs.unity3d.com/6000.3/Documentation/ScriptReference/Lightmapping.BakeReflectionProbe.html), [customBakedTexture](https://docs.unity3d.com/6000.3/Documentation/ScriptReference/ReflectionProbe-customBakedTexture.html), [LightProbes.bakedProbes](https://docs.unity3d.com/6000.3/Documentation/ScriptReference/LightProbes-bakedProbes.html). API проверяются компилятором установленной Unity 6000.3.26f1.
+
+
+## Проверенный проход 0.2.6
+
+Pass20/21: крепления кухонной занавески, побелка потолка, обе раскладки света и Windows-билд. Native pass21 exit0/errors0, 18 кадров; тесты всё ещё pass18, runtime-код не менялся. Подробности — M1-CEILING-AND-CURTAIN.md. Следом: световое пятно у люстры, мелкие предметы/растения, двор и профили. Скачок при переключении света 48.076мс остаётся нерешённым. M1 не принята.
