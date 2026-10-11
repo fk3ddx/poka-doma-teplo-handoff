@@ -3,6 +3,16 @@ using UnityEngine;
 using Ataka.Scenario;
 namespace Ataka.Tests {
  public sealed class ScenarioCoreTests {
+  [TestCase(false)][TestCase(true)]
+  public void HangingSightIgnoresOwnCapsuleButStillRespectsWalls(bool wallPresent){
+   var observer=new GameObject("observer");var wall=new GameObject("sight-wall");
+   try{
+    observer.transform.position=new Vector3(1000,0,1000);var body=observer.AddComponent<CharacterController>();body.height=1.7f;body.center=Vector3.up*.85f;body.radius=.3f;
+    var eye=observer.transform.position+Vector3.up*1.55f;var feet=observer.transform.position+new Vector3(-1,.5f,-1.3f);
+    wall.transform.position=Vector3.Lerp(eye,feet,.55f);wall.AddComponent<BoxCollider>().size=Vector3.one*.25f;wall.SetActive(wallPresent);Physics.SyncTransforms();
+    Assert.That(ScenarioSight.Clear(observer.transform,eye,feet),Is.EqualTo(!wallPresent));
+   }finally{Object.DestroyImmediate(observer);Object.DestroyImmediate(wall);}
+  }
   [TestCase(new string[]{"game"},false,false)]
   [TestCase(new string[]{"game","-audio-capture","capture.wav"},true,false)]
   [TestCase(new string[]{"game","-audio-capture"},true,true)]

@@ -4,6 +4,7 @@ namespace Ataka.Scenario {
  [RequireComponent(typeof(CharacterController))]
  public sealed class ScenarioPlayer:MonoBehaviour {
   public Transform head; public Camera view; public Light flashlight;
+  public bool lookDuringScene;
   public bool control=true,paused=true,chasing,hasFlashlight,crouched,automating;
   public float sensitivity=.085f;public float pitch;public bool LookingBack{get;private set;}
   public float ActualSpeed{get;private set;}
@@ -11,7 +12,10 @@ namespace Ataka.Scenario {
   public Vector3 routeForward=Vector3.forward;
   void Awake(){body=GetComponent<CharacterController>();}
   void Update(){
-   if(paused||!control){ActualSpeed=0;return;}var k=Keyboard.current;var m=Mouse.current;if(k==null||m==null)return;
+   if(paused||!control){ActualSpeed=0;
+    if(!paused&&lookDuringScene&&Mouse.current!=null&&!automating){var delta=Mouse.current.delta.ReadValue()*sensitivity;if(delta.sqrMagnitude<1e6){transform.Rotate(0,delta.x,0);pitch=Mathf.Clamp(pitch-delta.y,-80,80);}head.localRotation=Quaternion.Euler(pitch,0,0);}
+    return;
+   }var k=Keyboard.current;var m=Mouse.current;if(k==null||m==null)return;
    if(k.leftCtrlKey.wasPressedThisFrame&&!chasing)crouched=!crouched;
    LookingBack=chasing&&(k.cKey.isPressed||Vector3.Dot(transform.forward,routeForward)<-.2f);
    if(suppress>0)suppress--;else if(!automating){var delta=m.delta.ReadValue()*sensitivity;if(delta.sqrMagnitude<1e6){transform.Rotate(0,delta.x,0);pitch=Mathf.Clamp(pitch-delta.y,-80,80);}}

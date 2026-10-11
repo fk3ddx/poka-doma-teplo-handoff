@@ -1,0 +1,50 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using UnityEngine;
+namespace Ataka.Scenario {
+ // QA-only scene survey. Documents camera positions and overrides; not a gameplay test.
+ public sealed class ScenarioArtSurvey:MonoBehaviour {
+  string output;
+  [Serializable]public sealed class ViewRecord {public string file,mode;public Vector3 feet,target;public float fov=65;}
+  [Serializable]public sealed class Report {public string scope="QA camera placement, normal in-game lap1 and warm-return lighting. All internal doors opened for layout inspection. Events disabled; not proof of walkability.";public ViewRecord[] views;}
+  [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]static void Boot(){var args=Environment.GetCommandLineArgs();int i=Array.IndexOf(args,"-scenario-art-survey");if(i>=0&&i+1<args.Length)new GameObject("Art review survey").AddComponent<ScenarioArtSurvey>().output=args[i+1];}
+  IEnumerator Start(){
+   Directory.CreateDirectory(output);Application.runInBackground=true;Application.targetFrameRate=30;yield return new WaitForSecondsRealtime(1);
+   var loop=FindFirstObjectByType<LoopDirector>();var flat=loop.flat;var player=flat.player;loop.testing=true;loop.Pause(false);loop.enabled=false;player.automating=true;player.control=false;AudioListener.pause=true;Cursor.lockState=CursorLockMode.None;Cursor.visible=true;
+   foreach(var door in new[]{flat.kitchen,flat.bath,flat.bedroom,flat.living,flat.balconyDoor}){door.locked=false;door.open=true;}
+   var records=new List<ViewRecord>();
+   var views=new[]{
+    A("ref-A-hall",8.05f,5.7f,0,-3),A("ref-B-hallB",6.45f,5.25f,90,-3),
+    A("ref-C-living-door",5.65f,4.15f,10,-5),A("ref-D-living-reverse",4.6f,.7f,200,-4),
+    A("ref-E-bedroom-door",3.25f,3.75f,90,-5),A("ref-F-bedroom-in",2.4f,3.9f,60,-8),A("ref-G-kitchen",7.25f,3.4f,0,-6),
+    V("01-entry-dresser",new Vector3(8.05f,.02f,5.65f),new Vector3(7.1f,1.15f,3.8f)),
+    V("02-hall-clock",new Vector3(6.15f,.02f,5.35f),new Vector3(4.8f,1.2f,5.5f)),
+    V("03-living-wide",new Vector3(3.25f,.02f,3.65f),new Vector3(5.5f,1.05f,1.45f)),
+    V("04-living-reverse",new Vector3(5.8f,.02f,.8f),new Vector3(3.4f,1.1f,3.5f)),
+    V("05-bedroom-door",new Vector3(3.25f,.02f,3.6f),new Vector3(2.2f,1.25f,3.85f)),
+    V("06-bedroom-bed",new Vector3(2.4f,.02f,3.4f),new Vector3(.7f,.85f,1.6f)),
+    V("07-wardrobe-clearance",new Vector3(1.2f,.02f,3.0f),new Vector3(2.2f,1.15f,3.9f)),
+    V("08-bedroom-reverse",new Vector3(.9f,.02f,.6f),new Vector3(2.2f,1.15f,3.8f)),
+    V("09-kitchen-wide",new Vector3(7.25f,.02f,2.65f),new Vector3(7.8f,1.05f,.65f)),
+    V("10-kitchen-reverse",new Vector3(7.1f,.02f,.7f),new Vector3(8.05f,1.05f,2.55f)),
+    V("11-bathroom",new Vector3(4.25f,.02f,5.6f),new Vector3(3.1f,.9f,5.1f)),
+    V("12-window-courtyard",new Vector3(4.25f,.02f,.6f),new Vector3(4.25f,.7f,-5))
+   };
+   foreach(string mode in new[]{"lap1","warm-return"}){
+    if(mode=="warm-return")flat.look.WarmReturn();else flat.look.Apply(FlatCondition.Familiar);
+    foreach(var view in views){
+     var lens=loop.scenes.cine.Lens;lens.FieldOfView=view.fov;loop.scenes.cine.Lens=lens;
+     var direction=view.target-(view.feet+Vector3.up*1.55f);var angles=Quaternion.LookRotation(direction).eulerAngles;player.Place(view.feet,angles.y,Mathf.DeltaAngle(0,angles.x));player.flashlight.intensity=0;
+     yield return new WaitForSecondsRealtime(.6f);yield return new WaitForEndOfFrame();
+     string file=mode+"-"+view.file+".png";var image=ScreenCapture.CaptureScreenshotAsTexture();File.WriteAllBytes(Path.Combine(output,file),image.EncodeToPNG());Destroy(image);
+     records.Add(new ViewRecord{file=file,mode=mode,feet=view.feet,target=view.target,fov=view.fov});
+    }
+   }
+   File.WriteAllText(Path.Combine(output,"survey.json"),JsonUtility.ToJson(new Report{views=records.ToArray()},true));Application.Quit();
+  }
+  static ViewRecord A(string id,float x,float z,float yaw,float pitch){var feet=new Vector3(x,.02f,z);return new ViewRecord{file=id,feet=feet,target=feet+Vector3.up*1.55f+Quaternion.Euler(-pitch,yaw+180,0)*Vector3.forward*2,fov=68};}
+  static ViewRecord V(string id,Vector3 feet,Vector3 target)=>new ViewRecord{file=id,feet=feet,target=target};
+ }
+}

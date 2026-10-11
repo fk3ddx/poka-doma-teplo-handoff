@@ -12,23 +12,37 @@ namespace Ataka.Scenario {
   IEnumerator Start(){
    Directory.CreateDirectory(output);Application.logMessageReceived+=Log;Application.runInBackground=true;Application.targetFrameRate=60;
    yield return new WaitForSecondsRealtime(2);loop=FindFirstObjectByType<LoopDirector>();player=loop.flat.player;player.automating=true;loop.testing=true;InputSystem.settings.backgroundBehavior=InputSettings.BackgroundBehavior.IgnoreFocus;keyboard=InputSystem.AddDevice<Keyboard>();
+   foreach(var device in InputSystem.devices)if(device is Keyboard&&device!=keyboard)InputSystem.DisableDevice(device);keyboard.MakeCurrent(); // Only this test process: user input in another game must not override the synthetic keyboard.
    yield return Shot("00-menu");loop.Pause(false);checks.Add("menu-to-play");
    StartCoroutine(CaptureScenes());StartCoroutine(CaptureVestibules());
    if(Array.IndexOf(Environment.GetCommandLineArgs(),"-scenario-chase-only")>=0){loop.chase.Begin();yield return ChaseRun();Finish();yield break;}
    yield return Walk(new Vector3(7.65f,0,3.8f));Look(loop.flat.torchPickup.position);yield return Press(Key.E);yield return new WaitForSeconds(.2f);Check(player.hasFlashlight,"flashlight pickup");yield return Shot("01-hall");
-   for(int lap=1;lap<=6&&!failed;lap++){
+   bool hangingOnly=Array.IndexOf(Environment.GetCommandLineArgs(),"-scenario-hanging-only")>=0;if(hangingOnly)loop.EnterLap(5);
+   for(int lap=hangingOnly?5:1;lap<=6&&!failed;lap++){
     Check(loop.Progress.Lap==lap,"lap "+lap+" entered");
     if(lap==5){Check(loop.flat.bedroom.locked&&!loop.flat.bedroom.open,"fifth bedroom locked before phone");Check(Mathf.Abs(loop.flat.bedroom.closedAngle-Mathf.Asin(.2f/.8f)*Mathf.Rad2Deg)<.01f,"fifth bedroom has 20cm ajar gap");yield return Walk(new Vector3(7.65f,0,3.8f));Look(loop.flat.phone.position);yield return Press(Key.E);yield return WaitBusy();}
     yield return Walk(new Vector3(7.9f,0,5.35f));yield return Walk(new Vector3(5.65f,0,5.35f));yield return Shot("lap"+lap+"-clock");yield return Walk(new Vector3(5.65f,0,3.6f));
     if(lap==3){yield return Walk(new Vector3(5.25f,0,1.15f));yield return WaitBusy();yield return Walk(new Vector3(5.65f,0,3.6f));}
     if(lap==4){Look(loop.flat.television.position);yield return new WaitForSeconds(3.5f);yield return WaitBusy();}
     yield return Walk(new Vector3(3.25f,0,3.6f));
-    if(lap==5){Look(loop.flat.bedroom.transform.position);yield return Press(Key.E);yield return WaitBusy();}
+    if(lap==5){
+     Look(loop.flat.bedroom.transform.position);yield return Press(Key.E);yield return new WaitForSeconds(.7f);
+     Check(loop.HangingWaiting,"hanging door armed by E");Check(!loop.Busy&&!loop.Progress.EventComplete,"opening bedroom does not start an occluded cutscene");yield return Shot("hanging-door-open");
+     yield return Walk(new Vector3(2.45f,0,3.6f));Look(loop.flat.grandmother.GetComponent<NinaHangingPose>().FeetPosition);
+     float visionDeadline=Time.realtimeSinceStartup+2;
+     while(loop.scenes.PlayingScene!="HangingVision"&&Time.realtimeSinceStartup<visionDeadline)yield return null;
+     if(loop.scenes.PlayingScene!="HangingVision"){
+      var nina=loop.flat.grandmother.GetComponent<NinaHangingPose>();string obstruction="";
+      foreach(var at in new[]{nina.FeetPosition,nina.FacePosition})obstruction+=Physics.Linecast(player.head.position,at,out var hit,~(1<<31),QueryTriggerInteraction.Ignore)?hit.collider.name+" @ "+hit.point+";":"clear;";
+      checks.Add("HANG_DEBUG waiting="+loop.HangingWaiting+" busy="+loop.Busy+" scene="+loop.scenes.PlayingScene+" head="+player.head.position+" feet="+nina.FeetPosition+" angle="+Vector3.Angle(player.head.forward,nina.FeetPosition-player.head.position)+" rays="+obstruction);
+     }
+     Check(loop.scenes.PlayingScene=="HangingVision","hanging starts after entering with clear line of sight");yield return WaitBusy();
+    }
     yield return Walk(new Vector3(2.3f,0,3.6f));yield return WaitBusy();
     if(lap==2){yield return Walk(new Vector3(1.4f,0,3.1f));yield return Press(Key.LeftCtrl);Look(loop.flat.bed.position);yield return null;yield return null;checks.Add("UNDERBED crouch="+player.crouched+" distance="+Vector3.Distance(player.head.position,loop.flat.bed.position)+" dot="+Vector3.Dot(player.head.forward,(loop.flat.bed.position-player.head.position).normalized)+" prompt="+loop.prompt.text);yield return Shot("underbed-before");yield return Press(Key.E);yield return WaitBusy();yield return Press(Key.LeftCtrl);}
     yield return Walk(new Vector3(.9f,0,3.75f));Look(loop.flat.carpet.transform.position);yield return Shot("lap"+lap+"-gate");
     if(lap==6){Check(!loop.Progress.CarpetDoorUnlocked,"sixth carpet stays locked");break;}
-    Check(loop.Progress.CarpetDoorUnlocked,"gate "+lap+" released by event");yield return Press(Key.E);yield return new WaitForSeconds(.7f);yield return Walk(new Vector3(.9f,0,5.1f));yield return new WaitForSeconds(1);
+    Check(loop.Progress.CarpetDoorUnlocked,"gate "+lap+" released by event");if(hangingOnly){Finish();yield break;}yield return Press(Key.E);yield return new WaitForSeconds(.7f);yield return Walk(new Vector3(.9f,0,5.1f));yield return new WaitForSeconds(1);
     Look(loop.flat.entrance.transform.position);yield return Press(Key.E);yield return new WaitForSeconds(.7f);yield return Walk(new Vector3(8.05f,0,5.55f));
    }
    if(!failed){yield return Walk(new Vector3(2.25f,0,3.6f));yield return Walk(new Vector3(5.65f,0,3.6f));yield return Walk(new Vector3(5.65f,0,5.35f));yield return Walk(new Vector3(8.05f,0,5.45f));Look(loop.flat.entrance.transform.position);yield return Press(Key.E);yield return WaitBusy();float chaseDeadline=Time.realtimeSinceStartup+5;while(!loop.chase.Active&&Time.realtimeSinceStartup<chaseDeadline)yield return null;Check(loop.chase.Active,"chase entered");Check(player.transform.position.z<7&&player.transform.position.z>4,"chase starts in original hallway without visible teleport");yield return Shot("chase-start");}

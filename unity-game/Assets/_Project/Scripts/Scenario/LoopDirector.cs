@@ -9,13 +9,15 @@ namespace Ataka.Scenario {
   public Text subtitle,prompt; public LoopProgress Progress{get;private set;}=new LoopProgress();
   public bool Busy{get;private set;}public bool Finished{get;private set;}
   public bool testing;public string LastEvent{get;private set;}="";
+  bool hangingDoorOpened;float hangingEntryTime;
+  public bool HangingWaiting=>Progress.Lap==5&&hangingDoorOpened&&!Busy&&!Progress.EventComplete;
   float thoughtUntil,phoneTimer,balconyTimer,tvWatch,gateWait;bool phoneAnswered,peepholeSeen,returning,clockThought;
   string savePath;bool paused=true,initializing=true;float knockTimer;int knockIndex;
   void Start(){savePath=System.IO.Path.Combine(Application.persistentDataPath,"scenario-core-checkpoint.json");EnterLap(1);initializing=false;Pause(true);}
   public void Pause(bool value){paused=value;flat.player.Pause(value);Time.timeScale=value?0:1;AudioListener.pause=value;sound.paused=value;}
   public void Thought(string text,float seconds=4){subtitle.text=text;thoughtUntil=Time.time+seconds;}
   public void EnterLap(int n){
-   Progress.RestoreCheckpoint(n);Busy=false;phoneAnswered=false;peepholeSeen=false;returning=false;clockThought=false;tvWatch=0;gateWait=0;
+   Progress.RestoreCheckpoint(n);Busy=false;hangingDoorOpened=false;hangingEntryTime=0;phoneAnswered=false;peepholeSeen=false;returning=false;clockThought=false;tvWatch=0;gateWait=0;
    flat.look.Apply(laps[n-1].condition);flat.clock.Show(Progress.ClockSeconds);flat.carpet.locked=true;flat.carpet.open=false;flat.entrance.open=false;flat.entrance.locked=true;
    if(flat.dressing)flat.dressing.Apply(n);
    flat.living.open=true;flat.living.locked=false;flat.entrance.scripted=false;flat.bedroom.open=n!=5;flat.bedroom.locked=n==5;flat.bedroom.closedAngle=n==5?Mathf.Asin(.2f/.8f)*Mathf.Rad2Deg:0;flat.kitchen.locked=flat.bath.locked=true;
@@ -46,7 +48,17 @@ namespace Ataka.Scenario {
    if(Progress.Lap==4&&!Progress.EventComplete&&Near(flat.television,3)&&Looking(flat.television,.93f)){tvWatch+=Time.deltaTime;if(tvWatch>=3)StartCoroutine(Event(LapGate.Television));}else if(Progress.Lap==4)tvWatch=0;
    if(Progress.Lap==5){if(!phoneAnswered){phoneTimer+=Time.deltaTime;if(phoneTimer>3){phoneTimer=0;sound.Play("phone",flat.phone.position);}
      if(Near(flat.phone)&&Looking(flat.phone)){prompt.text="[E] Снять трубку";if(e)StartCoroutine(Phone());}}
-    else if(!Progress.EventComplete&&Near(flat.bedroom.transform,1.7f)&&Looking(flat.bedroom.transform,.7f)){prompt.text="[E] Толкнуть дверь";if(e)StartCoroutine(Event(LapGate.HangingVision));}}
+    else if(!Progress.EventComplete){
+     if(!hangingDoorOpened&&Near(flat.bedroom.transform,1.7f)&&Looking(flat.bedroom.transform,.7f)){prompt.text="[E] Толкнуть дверь";if(e){hangingDoorOpened=true;flat.bedroom.open=true;scenes.PrepareHanging();sound.Play("door_open",flat.bedroom.transform.position);}}
+     if(hangingDoorOpened){
+      bool inside=p.head.position.x<2.6f&&p.head.position.z>0&&p.head.position.z<4.4f;
+      var nina=flat.grandmother.GetComponent<NinaHangingPose>();
+      bool visible=inside&&ScenarioSight.Clear(p.transform,p.head.position,nina.FeetPosition)&&ScenarioSight.Clear(p.transform,p.head.position,nina.FacePosition);
+      hangingEntryTime=visible?hangingEntryTime+Time.deltaTime:0;
+      bool feetSeen=Vector3.Angle(p.head.forward,nina.FeetPosition-p.head.position)<35;
+      if(visible&&(feetSeen||hangingEntryTime>=1.5f))StartCoroutine(Event(LapGate.HangingVision));
+     }
+    }}
    if(Near(flat.carpet.transform,1.6f)&&Looking(flat.carpet.transform,.7f)){
     prompt.text=Progress.CarpetDoorUnlocked?"[E] Открыть":"[E] Закрыто";gateWait+=Time.deltaTime;
     if(e){flat.carpet.locked=!Progress.CarpetDoorUnlocked;flat.carpet.Toggle();if(!Progress.CarpetDoorUnlocked)Thought(Progress.Lap==6?"Стучат… Она у двери. Как тогда":"Закрыто");}

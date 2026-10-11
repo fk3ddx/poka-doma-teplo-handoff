@@ -74,7 +74,7 @@ namespace Ataka.Scenario {
     if(chase){foreach(var module in loop.chase.pool)if(module.lamp.intensity>0&&(!loop.chase.Ending||module==loop.chase.Current))EnsureLoop("clock",module.clock.transform);if(!loop.chase.Ending){EnsureLoop("player_breath",listener);EnsureLoop("guest_breath",loop.flat.guest.transform);EnsureLoop("heartbeat",listener);}}
     else if(clock&&!hanging)EnsureLoop("clock",clock);
     if(!chase&&!hanging&&(loop.Progress.Lap==2||loop.Progress.Lap==3))EnsureLoop("wind",loop.flat.balcony);
-    if(hanging&&sceneTime<4.9f)EnsureLoop("rope",loop.flat.grandmother.transform);
+    if((hanging&&sceneTime<4.9f)||loop.HangingWaiting)EnsureLoop("rope",loop.flat.grandmother.transform);
    }
    worldGain=Mathf.MoveTowards(worldGain,quiet?0:1,Time.deltaTime/(quiet?.05f:.3f));obstructionTimer-=Time.deltaTime;bool testObstruction=obstructionTimer<=0;if(testObstruction)obstructionTimer=.1f;
    foreach(var v in voices){
