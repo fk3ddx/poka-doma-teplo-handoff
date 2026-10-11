@@ -19,9 +19,9 @@ MonoBehaviour:
     - {fileID: 8300000, guid: daf0141912412244baeaac979691de2d, type: 3}
     - {fileID: 8300000, guid: 2b4f21fc55db38a4d89a9af5e5abc20c, type: 3}
     bus: 2
-    gainDb: -3
+    gainDb: -2
     pitchVariation: 0
-    minDistance: 1
+    minDistance: 0.7
     maxDistance: 15
     maxInstances: 1
     priority: 100
@@ -31,7 +31,7 @@ MonoBehaviour:
     clips:
     - {fileID: 8300000, guid: e41a02189df706443940b0912ec4dec0, type: 3}
     bus: 2
-    gainDb: -9
+    gainDb: -8
     pitchVariation: 0
     minDistance: 1
     maxDistance: 8
@@ -43,11 +43,11 @@ MonoBehaviour:
     clips:
     - {fileID: 8300000, guid: 537b2d6f137c09e4cb87cf60294f7db3, type: 3}
     bus: 2
-    gainDb: -10
+    gainDb: -2
     pitchVariation: 0
     minDistance: 1
     maxDistance: 15
-    maxInstances: 14
+    maxInstances: 3
     priority: 100
     spatial: 1
     loop: 0
@@ -55,7 +55,7 @@ MonoBehaviour:
     clips:
     - {fileID: 8300000, guid: a878ed0f09ed09b49a80dd5100df9fc3, type: 3}
     bus: 4
-    gainDb: -8
+    gainDb: -4
     pitchVariation: 0
     minDistance: 1
     maxDistance: 12
@@ -70,7 +70,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: f4b14ba3d9ad7a149bf952f8f96104c5, type: 3}
     - {fileID: 8300000, guid: 077f4307d1983a94d824db54f1358e71, type: 3}
     bus: 4
-    gainDb: -10
+    gainDb: -7
     pitchVariation: 0
     minDistance: 1
     maxDistance: 5
@@ -85,7 +85,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: f4b14ba3d9ad7a149bf952f8f96104c5, type: 3}
     - {fileID: 8300000, guid: 077f4307d1983a94d824db54f1358e71, type: 3}
     bus: 3
-    gainDb: -7
+    gainDb: -5
     pitchVariation: 0
     minDistance: 1
     maxDistance: 5
@@ -100,7 +100,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: f4b14ba3d9ad7a149bf952f8f96104c5, type: 3}
     - {fileID: 8300000, guid: 077f4307d1983a94d824db54f1358e71, type: 3}
     bus: 3
-    gainDb: -7
+    gainDb: -5
     pitchVariation: 0
     minDistance: 1
     maxDistance: 12
@@ -112,7 +112,7 @@ MonoBehaviour:
     clips:
     - {fileID: 8300000, guid: 977e21ed9cc8dca44bc4103ca9af59c5, type: 3}
     bus: 1
-    gainDb: -11
+    gainDb: -7
     pitchVariation: 0
     minDistance: 1
     maxDistance: 12
@@ -255,7 +255,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 8662cf35931bc3c44a46ba3ce1437902, type: 3}
     - {fileID: 8300000, guid: 7ea6940aa0365c84692688ff93890ce1, type: 3}
     bus: 3
-    gainDb: -8
+    gainDb: -4
     pitchVariation: 0.025
     minDistance: 1
     maxDistance: 12
@@ -267,7 +267,7 @@ MonoBehaviour:
     clips:
     - {fileID: 8300000, guid: a878ed0f09ed09b49a80dd5100df9fc3, type: 3}
     bus: 5
-    gainDb: -8
+    gainDb: 0
     pitchVariation: 0
     minDistance: 1
     maxDistance: 12
@@ -286,9 +286,9 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 130f1b56a5cab55449a694e9d672f245, type: 3}
     - {fileID: 8300000, guid: 14e1528705345ba44b978d653311d126, type: 3}
     bus: 1
-    gainDb: -7
+    gainDb: -10
     pitchVariation: 0.025
-    minDistance: 1
+    minDistance: 0.3
     maxDistance: 12
     maxInstances: 3
     priority: 100
@@ -302,9 +302,9 @@ MonoBehaviour:
     - {fileID: 8300000, guid: d1e60ba48518d684d8948c894f53b8db, type: 3}
     - {fileID: 8300000, guid: fa6b2ecc4a8f242479eeac1d7494c10f, type: 3}
     bus: 1
-    gainDb: -10
+    gainDb: -13
     pitchVariation: 0.025
-    minDistance: 1
+    minDistance: 0.3
     maxDistance: 12
     maxInstances: 3
     priority: 100
@@ -314,7 +314,7 @@ MonoBehaviour:
     clips:
     - {fileID: 8300000, guid: 5b734d62dce553845b7bf8237a4e5e6f, type: 3}
     bus: 0
-    gainDb: -15
+    gainDb: -20
     pitchVariation: 0
     minDistance: 1
     maxDistance: 8
@@ -326,7 +326,7 @@ MonoBehaviour:
     clips:
     - {fileID: 8300000, guid: 16678d7c5f7dfa04084671691bc02549, type: 3}
     bus: 2
-    gainDb: -9
+    gainDb: -10
     pitchVariation: 0
     minDistance: 1
     maxDistance: 5

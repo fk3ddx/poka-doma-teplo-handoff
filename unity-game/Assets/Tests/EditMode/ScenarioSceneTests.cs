@@ -7,6 +7,14 @@ using UnityEngine.Timeline;
 using Ataka.Scenario;
 namespace Ataka.Tests {
  public sealed class ScenarioSceneTests {
+  [Test]public void RecordedImportsPreserveMonoPeakHeadroomAndPreload(){
+   var bank=AssetDatabase.LoadAssetAtPath<ScenarioSoundBank>("Assets/_Project/Audio/Recorded/ScenarioBank.asset");Assert.That(bank,Is.Not.Null);
+   foreach(var clip in bank.cues.SelectMany(c=>c.clips).Distinct()){
+    Assert.That(clip.channels,Is.EqualTo(1),clip.name);Assert.That(clip.preloadAudioData,Is.True,"First event must not trigger disk loading: "+clip.name);
+    clip.LoadAudioData();var data=new float[clip.samples];Assert.That(clip.GetData(data,0),Is.True,clip.name);
+    float peak=data.Max(v=>Mathf.Abs(v));Assert.That(peak,Is.GreaterThan(.0001f),"Silent source "+clip.name);Assert.That(peak,Is.LessThanOrEqualTo(.892f),"Importer must retain at least 1 dB peak headroom: "+clip.name);
+   }
+  }
   [Test]public void BuiltFlatHasRecordedAudioAndEveryBusIsRouted(){
    var setup=EditorSceneManager.GetSceneManagerSetup();
    try{

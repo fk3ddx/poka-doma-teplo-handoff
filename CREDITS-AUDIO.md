@@ -22,6 +22,6 @@ These are candidate sound edits, not a final sound-art approval. Freesound input
 
 Kenney: [Impact Sounds](https://kenney.nl/assets/impact-sounds) and [RPG Audio](https://kenney.nl/assets/rpg-audio), CC0. Original license files remain under `art-sources/Audio/Kenney/`.
 
-Edits: mono downmix, transient or cycle selection, short edge fades / 80 ms loop crossfade, peak target -9 dBFS, PCM16 at original sample rate. See `art-sources/Audio/processed-manifest.json`. Review all edits by listening before final selection.
+Edits: mono downmix, transient or cycle selection, short edge fades / 80 ms loop crossfade, transient peak target -1 dBFS; long sounds RMS target -20 dBFS constrained by a -3 dBFS peak ceiling; PCM16 at original sample rate. See `art-sources/Audio/processed-manifest.json`. Review all edits by listening before final selection.
 
 Known substitutions: Western Electric phone is not a verified Soviet telephone; chime comes from a Gustav Becker Westminster recording; wet pasta foley stands in for Guest palm impacts. Existing phone and grandmother synthetic speech is unchanged and temporary. No claim of historically exact sound or natural actor performance.

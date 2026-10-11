@@ -6,13 +6,18 @@ namespace Ataka.Scenario {
  public sealed class ScenarioSound:MonoBehaviour {
   public Transform clock,listener;public bool paused;public float menace;
   public AudioClip phoneWarning,grandmotherKnock;public ScenarioSoundBank bank;
-  public bool quiet;AudioClip reversedPhone;LoopDirector loop;
+  public bool quiet; public bool calibrating;AudioClip reversedPhone;LoopDirector loop;
   const int PoolSize=32;
-  sealed class Voice {public AudioSource source;public AudioLowPassFilter low;public AudioHighPassFilter high;public ScenarioSoundCue cue;public Transform anchor;public bool wanted,bypassQuiet;public float baseGain,fade,occluded,obstructionTarget;}
+  sealed class Voice {public AudioSource source;public AudioLowPassFilter low;public AudioHighPassFilter high;public ScenarioSoundCue cue;public Transform anchor;public bool wanted,bypassQuiet;public float baseGain,fade,occluded,obstructionTarget,tailGain=1,tailTarget=1,startedAt;}
   readonly Dictionary<string,ScenarioSoundCue> cues=new Dictionary<string,ScenarioSoundCue>();
+  readonly Dictionary<ScenarioSoundCue,AnimationCurve> curves=new Dictionary<ScenarioSoundCue,AnimationCurve>();
   readonly Dictionary<string,int> lastClips=new Dictionary<string,int>();
   readonly HashSet<string> missing=new HashSet<string>();
   Voice[] voices;float obstructionTimer,worldGain=1,travel;Vector3 previousFeet;bool hadFeet;
+  [Serializable] public sealed class CueDiagnostic { public string id; public int requested,started,limit,pool,replaced; }
+  readonly Dictionary<string,CueDiagnostic> diagnostics=new Dictionary<string,CueDiagnostic>();
+  CueDiagnostic Stats(string id){if(!diagnostics.TryGetValue(id,out var d)){d=new CueDiagnostic{id=id};diagnostics.Add(id,d);}return d;}
+  public CueDiagnostic[] Diagnostics {get{var values=new List<CueDiagnostic>(diagnostics.Values);values.Sort((a,b)=>string.CompareOrdinal(a.id,b.id));return values.ToArray();}}
   public int PeakVoiceCount{get;private set;}public int SuppressedOverlaps{get;private set;}
   public int ActiveVoiceCount {get{int n=0;if(voices!=null)foreach(var v in voices)if(v.cue!=null&&v.source.isPlaying)n++;return n;}}
   public float PhoneDuration=>phoneWarning?phoneWarning.length:4;
@@ -26,61 +31,62 @@ namespace Ataka.Scenario {
    }
   }
   void Start(){if(phoneWarning){var data=new float[phoneWarning.samples*phoneWarning.channels];phoneWarning.GetData(data,0);int ch=phoneWarning.channels;for(int i=0;i<phoneWarning.samples/2;i++)for(int c=0;c<ch;c++){int a=i*ch+c,b=(phoneWarning.samples-1-i)*ch+c;float value=data[a];data[a]=data[b];data[b]=value;}reversedPhone=AudioClip.Create("Phone reversed",phoneWarning.samples,ch,phoneWarning.frequency,false);reversedPhone.SetData(data,0);}}
-  public float Speak(bool reversed,Vector3 position){StopCue("phone");StopCue("phone_voice");var clip=reversed?reversedPhone:phoneWarning;if(!clip)return 0;var v=StartVoice(VoiceCue,clip,position,.5f,null,true,true);if(v!=null){v.low.cutoffFrequency=3400;v.high.cutoffFrequency=300;}return clip.length;}
-  public void Grandmother(Vector3 position){if(!grandmotherKnock)return;var v=StartVoice(DoorVoiceCue,grandmotherKnock,position,.4f,null,false,false);if(v!=null)v.low.cutoffFrequency=1200;}
-  readonly ScenarioSoundCue VoiceCue=new ScenarioSoundCue{id="phone_voice",bus=ScenarioBus.Voice,gainDb=-9,pitchVariation=0,spatial=false,maxInstances=1,priority=20};
+  public float Speak(bool reversed,Vector3 position){StopCue("phone");StopCue("phone_voice");var clip=reversed?reversedPhone:phoneWarning;if(!clip)return 0;var v=StartVoice(VoiceCue,clip,position,null,true,true);if(v!=null){v.low.cutoffFrequency=3400;v.high.cutoffFrequency=300;}return clip.length;}
+  public void Grandmother(Vector3 position){if(!grandmotherKnock)return;var v=StartVoice(DoorVoiceCue,grandmotherKnock,position,null,false,false);if(v!=null)v.low.cutoffFrequency=1200;}
+  readonly ScenarioSoundCue VoiceCue=new ScenarioSoundCue{id="phone_voice",bus=ScenarioBus.Voice,gainDb=-3,pitchVariation=0,spatial=false,maxInstances=1,priority=20};
   readonly ScenarioSoundCue DoorVoiceCue=new ScenarioSoundCue{id="door_voice",bus=ScenarioBus.Voice,gainDb=-6,pitchVariation=0,maxInstances=1,priority=20,minDistance=1,maxDistance=10};
-  public void Play(string id,Vector3 position,float volume=.4f,Transform anchor=null){PlayInternal(id,position,volume,anchor,false);}
-  public void PlayClose(string id,Vector3 position,float volume=.4f){PlayInternal(id,position,volume,null,true);}
-  public void PlayReceiver(string id,float volume=.4f){var v=PlayInternal(id,listener.position,volume,null,true);if(v!=null){v.low.cutoffFrequency=3400;v.high.cutoffFrequency=300;}}
-  Voice PlayInternal(string id,Vector3 position,float volume,Transform anchor,bool close){
+  public void Play(string id,Vector3 position,Transform anchor=null){PlayInternal(id,position,anchor,false);}
+  public void PlayClose(string id,Vector3 position){PlayInternal(id,position,null,true);}
+  public void PlayReceiver(string id){var v=PlayInternal(id,listener.position,null,true);if(v!=null){v.low.cutoffFrequency=3400;v.high.cutoffFrequency=300;}}
+  Voice PlayInternal(string id,Vector3 position,Transform anchor,bool close){
    if(!cues.TryGetValue(id,out var cue)||cue.clips==null||cue.clips.Length==0){if(missing.Add(id))Debug.LogWarning("Missing recorded sound: "+id);return null;}
-   if(quiet&&!close)return null;int index=ChooseClip(cue);return StartVoice(cue,cue.clips[index],position,volume,anchor,close,close);
+   if(quiet&&!close)return null;int index=ChooseClip(cue);return StartVoice(cue,cue.clips[index],position,anchor,close,close);
   }
   int ChooseClip(ScenarioSoundCue cue){int n=cue.clips.Length,index=UnityEngine.Random.Range(0,n);if(n>1&&lastClips.TryGetValue(cue.id,out var last)&&index==last)index=(index+1+UnityEngine.Random.Range(0,n-1))%n;lastClips[cue.id]=index;return index;}
-  Voice StartVoice(ScenarioSoundCue cue,AudioClip clip,Vector3 position,float volume,Transform anchor,bool force2D,bool bypassQuiet){
-   if(!clip||voices==null)return null;int count=0;Voice available=null;
-   foreach(var v in voices){if(v.cue==cue&&v.source.isPlaying)count++;if(available==null&&(v.cue==null||!v.source.isPlaying))available=v;}
-   if(count>=cue.maxInstances){SuppressedOverlaps++;return null;}
+  Voice StartVoice(ScenarioSoundCue cue,AudioClip clip,Vector3 position,Transform anchor,bool force2D,bool bypassQuiet){
+   if(!clip||voices==null)return null;var stats=Stats(cue.id);stats.requested++;int count=0;Voice available=null,oldest=null;
+   if(cue.id=="chime")foreach(var v in voices)if(v.cue==cue&&v.source.isPlaying)v.tailTarget*=.398107f;
+   foreach(var v in voices){if(v.cue==cue&&v.source.isPlaying){count++;if(oldest==null||v.startedAt<oldest.startedAt)oldest=v;}if(available==null&&(v.cue==null||!v.source.isPlaying))available=v;}
+   if(count>=cue.maxInstances){if(cue.id=="chime"&&oldest!=null){available=oldest;stats.replaced++;}else{SuppressedOverlaps++;stats.limit++;return null;}}
    // Never steal an active voice/clock tail for a lower-priority event.
-   if(available==null){SuppressedOverlaps++;return null;}
-   var voice=available;var s=voice.source;voice.cue=cue;voice.anchor=anchor;voice.bypassQuiet=bypassQuiet;voice.wanted=true;voice.fade=cue.loop?0:1;voice.occluded=0;voice.obstructionTarget=0;voice.baseGain=Mathf.Pow(10,cue.gainDb/20)*Mathf.Clamp01(volume/.4f);
-   s.Stop();s.transform.position=position;s.clip=clip;s.loop=cue.loop;s.spatialBlend=force2D||!cue.spatial?0:1;s.minDistance=cue.minDistance;s.maxDistance=cue.maxDistance;s.priority=cue.priority;s.pitch=1+UnityEngine.Random.Range(-cue.pitchVariation,cue.pitchVariation);s.volume=0;s.ignoreListenerPause=false;
+   if(available==null){SuppressedOverlaps++;stats.pool++;return null;}
+   var voice=available;var s=voice.source;voice.cue=cue;voice.anchor=anchor;voice.bypassQuiet=bypassQuiet;voice.wanted=true;voice.fade=cue.loop?0:1;voice.occluded=0;voice.obstructionTarget=0;voice.baseGain=Mathf.Pow(10,cue.gainDb/20);voice.tailGain=voice.tailTarget=1;voice.startedAt=Time.time;stats.started++;
+   s.Stop();s.transform.position=position;s.clip=clip;s.loop=cue.loop;s.spatialBlend=force2D||!cue.spatial?0:1;s.minDistance=cue.minDistance;s.maxDistance=cue.maxDistance;if(!curves.TryGetValue(cue,out var curve)){curve=new AnimationCurve(new Keyframe(0,1),new Keyframe(cue.minDistance/cue.maxDistance,1),new Keyframe(.5f,.25f),new Keyframe(1,0));curves.Add(cue,curve);}s.SetCustomCurve(AudioSourceCurveType.CustomRolloff,curve);s.priority=cue.priority;s.pitch=1+UnityEngine.Random.Range(-cue.pitchVariation,cue.pitchVariation);s.volume=0;s.ignoreListenerPause=false;
    s.outputAudioMixerGroup=bank&&bank.groups!=null&&bank.groups.Length>(int)cue.bus?bank.groups[(int)cue.bus]:null;
    voice.low.cutoffFrequency=22000;voice.high.cutoffFrequency=10;s.Play();if(cue.loop)s.time=UnityEngine.Random.Range(0,Mathf.Max(0,clip.length-.1f));return voice;
   }
-  void EnsureLoop(string id,Transform anchor,float volume){
+  void EnsureLoop(string id,Transform anchor){
    foreach(var v in voices)if(v.cue!=null&&v.cue.id==id&&v.anchor==anchor&&v.source.isPlaying){v.wanted=true;return;}
-   if(!cues.TryGetValue(id,out var cue)||cue.clips.Length==0)return;StartVoice(cue,cue.clips[ChooseClip(cue)],anchor?anchor.position:listener.position,volume,anchor,false,false);
+   if(!cues.TryGetValue(id,out var cue)||cue.clips.Length==0)return;StartVoice(cue,cue.clips[ChooseClip(cue)],anchor?anchor.position:listener.position,anchor,false,false);
   }
   public void StopCue(string id){if(voices==null)return;foreach(var v in voices)if(v.cue!=null&&v.cue.id==id){v.source.Stop();v.cue=null;}}
   public void ResetWorld(){if(voices!=null)foreach(var v in voices){v.source.Stop();v.cue=null;}quiet=false;worldGain=1;travel=0;hadFeet=false;}
   public void ShiftWorld(Vector3 delta){if(voices!=null)foreach(var v in voices)if(v.cue!=null&&!v.anchor&&v.source.spatialBlend>0)v.source.transform.position+=delta;}
   void Update(){
    if(paused||!loop||!bank||!listener)return;
-   foreach(var v in voices)if(v.cue!=null&&v.cue.loop)v.wanted=false;
+   if(!calibrating)foreach(var v in voices)if(v.cue!=null&&v.cue.loop)v.wanted=false;
    bool chase=loop.chase&&loop.chase.Active;bool death=loop.scenes.PlayingScene=="DeathShort";
-   if(!loop.Finished&&!death){
-    if(chase){foreach(var module in loop.chase.pool)if(module.lamp.intensity>0&&(!loop.chase.Ending||module==loop.chase.Current))EnsureLoop("clock",module.clock.transform,.14f);if(!loop.chase.Ending){EnsureLoop("player_breath",listener,.28f);EnsureLoop("guest_breath",loop.flat.guest.transform,.32f);EnsureLoop("heartbeat",listener,.18f);}}
-    else if(clock)EnsureLoop("clock",clock,.14f);
-    if(!chase&&(loop.Progress.Lap==2||loop.Progress.Lap==3))EnsureLoop("wind",loop.flat.balcony,.1f);
-    if(loop.scenes.PlayingScene=="HangingVision")EnsureLoop("rope",loop.flat.grandmother.transform,.25f);
+   if(!calibrating&&!loop.Finished&&!death){
+    if(chase){foreach(var module in loop.chase.pool)if(module.lamp.intensity>0&&(!loop.chase.Ending||module==loop.chase.Current))EnsureLoop("clock",module.clock.transform);if(!loop.chase.Ending){EnsureLoop("player_breath",listener);EnsureLoop("guest_breath",loop.flat.guest.transform);EnsureLoop("heartbeat",listener);}}
+    else if(clock)EnsureLoop("clock",clock);
+    if(!chase&&(loop.Progress.Lap==2||loop.Progress.Lap==3))EnsureLoop("wind",loop.flat.balcony);
+    if(loop.scenes.PlayingScene=="HangingVision")EnsureLoop("rope",loop.flat.grandmother.transform);
    }
    worldGain=Mathf.MoveTowards(worldGain,quiet?0:1,Time.deltaTime/(quiet?.05f:.3f));obstructionTimer-=Time.deltaTime;bool testObstruction=obstructionTimer<=0;if(testObstruction)obstructionTimer=.1f;
    foreach(var v in voices){
     if(v.cue==null)continue;var s=v.source;if(!s.isPlaying){v.cue=null;continue;}if(v.anchor)s.transform.position=v.anchor.position;
-    if(testObstruction&&s.spatialBlend>0){var d=s.transform.position-listener.position;float length=d.magnitude;v.obstructionTarget=length>.25f&&Physics.Raycast(listener.position,d.normalized,out var hit,length-.15f,~(1<<31),QueryTriggerInteraction.Ignore)&&(!v.anchor||!hit.transform.IsChildOf(v.anchor))?1:0;}
+    if(testObstruction&&s.spatialBlend>0){var d=s.transform.position-listener.position;float length=d.magnitude;v.obstructionTarget=!calibrating&&!(v.cue.id=="chime"&&length<2)&&length>.25f&&Physics.Raycast(listener.position,d.normalized,out var hit,length-.15f,~(1<<31),QueryTriggerInteraction.Ignore)&&(!v.anchor||!hit.transform.IsChildOf(v.anchor))?1:0;}
     v.occluded=Mathf.MoveTowards(v.occluded,v.obstructionTarget,Time.deltaTime/.15f);
     if(!v.cue.id.StartsWith("phone_",StringComparison.Ordinal)&&v.cue.id!="door_voice")v.low.cutoffFrequency=Mathf.Lerp(v.low.cutoffFrequency,v.occluded>0?1800:22000,1-Mathf.Exp(-Time.deltaTime/ .15f));
     v.fade=Mathf.MoveTowards(v.fade,v.cue.loop&&!v.wanted?0:1,Time.deltaTime/.2f);
-    float gain=v.bypassQuiet?1:worldGain;s.volume=v.baseGain*v.fade*gain*Mathf.Lerp(1,.5f,v.occluded);
+    v.tailGain=Mathf.MoveTowards(v.tailGain,v.tailTarget,Time.deltaTime/.15f);float gain=v.bypassQuiet?1:worldGain;s.volume=v.baseGain*v.fade*gain*v.tailGain*Mathf.Lerp(1,.5f,v.occluded);
     if(v.cue.loop&&!v.wanted&&v.fade<=0){s.Stop();v.cue=null;}
    }
-   PeakVoiceCount=Mathf.Max(PeakVoiceCount,ActiveVoiceCount);Steps();
+   PeakVoiceCount=Mathf.Max(PeakVoiceCount,ActiveVoiceCount);if(!calibrating)Steps();
   }
-  void Steps(){var p=loop.flat.player;var feet=p.transform.position;if(!hadFeet){previousFeet=feet;hadFeet=true;return;}var d=feet-previousFeet;previousFeet=feet;d.y=0;if(!p.control||p.ActualSpeed<.1f||d.magnitude>1){travel=0;return;}travel+=d.magnitude;float stride=p.crouched?.85f:p.ActualSpeed>3?1.1f:.72f;if(travel<stride)return;travel-=stride;string id="step";
+  void Steps(){var p=loop.flat.player;var feet=p.transform.position;if(!hadFeet){previousFeet=feet;hadFeet=true;return;}var d=feet-previousFeet;previousFeet=feet;d.y=0;if(!p.control||p.ActualSpeed<.1f||d.magnitude>1){travel=0;return;}travel+=d.magnitude;float stride=p.crouched?.7f:p.ActualSpeed>3?1.8f:.85f;if(travel<stride)return;travel-=stride;string id="step";
    if(Physics.Raycast(feet+Vector3.up*.25f,Vector3.down,out var hit,.6f,~(1<<31),QueryTriggerInteraction.Ignore)){string name=hit.collider.name.ToLowerInvariant();if(name.Contains("rug")||name.Contains("carpet"))id="carpet_step";}
-   Play(id,feet,p.crouched?.1f:p.ActualSpeed>3?.28f:.19f);
+   var voice=PlayInternal(id,feet,null,false);if(voice!=null)voice.baseGain*=p.crouched?.35f:p.ActualSpeed>3?1:.7f;
   }
   void OnDestroy(){if(reversedPhone)Destroy(reversedPhone);}
  }

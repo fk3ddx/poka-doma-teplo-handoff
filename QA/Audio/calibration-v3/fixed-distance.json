@@ -1,0 +1,247 @@
+{
+    "scope": "Unity listener mix, pre-OS output; not microphone or loopback",
+    "error": "",
+    "sampleRate": 48000,
+    "channels": 2,
+    "droppedSamples": 0,
+    "formatChanges": 0,
+    "peakActiveVoices": 3,
+    "suppressedOverlaps": 0,
+    "samples": 6113280,
+    "markers": [
+        {
+            "state": "pause",
+            "sample": 53248,
+            "seconds": 0.5546666666666666
+        },
+        {
+            "state": "lap-1",
+            "sample": 122880,
+            "seconds": 1.28
+        },
+        {
+            "state": "calibration-clock",
+            "sample": 266240,
+            "seconds": 2.7733333333333336
+        },
+        {
+            "state": "end-clock",
+            "sample": 1036288,
+            "seconds": 10.794666666666667
+        },
+        {
+            "state": "calibration-phone",
+            "sample": 1083392,
+            "seconds": 11.285333333333334
+        },
+        {
+            "state": "end-phone",
+            "sample": 1468416,
+            "seconds": 15.296
+        },
+        {
+            "state": "calibration-chime",
+            "sample": 1515520,
+            "seconds": 15.786666666666667
+        },
+        {
+            "state": "end-chime",
+            "sample": 1900544,
+            "seconds": 19.797333333333336
+        },
+        {
+            "state": "calibration-shriek",
+            "sample": 1949696,
+            "seconds": 20.309333333333336
+        },
+        {
+            "state": "end-shriek",
+            "sample": 2332672,
+            "seconds": 24.298666666666667
+        },
+        {
+            "state": "calibration-guest_breath",
+            "sample": 2381824,
+            "seconds": 24.810666666666667
+        },
+        {
+            "state": "end-guest_breath",
+            "sample": 2766848,
+            "seconds": 28.82133333333333
+        },
+        {
+            "state": "calibration-step",
+            "sample": 2816000,
+            "seconds": 29.333333333333333
+        },
+        {
+            "state": "end-step",
+            "sample": 3198976,
+            "seconds": 33.32266666666667
+        },
+        {
+            "state": "calibration-phone_voice",
+            "sample": 3248128,
+            "seconds": 33.834666666666667
+        },
+        {
+            "state": "end-phone_voice",
+            "sample": 3819520,
+            "seconds": 39.78666666666667
+        },
+        {
+            "state": "calibration-phone_shriek",
+            "sample": 3868672,
+            "seconds": 40.29866666666667
+        },
+        {
+            "state": "end-phone_shriek",
+            "sample": 4249600,
+            "seconds": 44.266666666666669
+        },
+        {
+            "state": "calibration-phone_breath",
+            "sample": 4298752,
+            "seconds": 44.778666666666669
+        },
+        {
+            "state": "end-phone_breath",
+            "sample": 4683776,
+            "seconds": 48.78933333333333
+        },
+        {
+            "state": "calibration-chime-ten",
+            "sample": 4730880,
+            "seconds": 49.28
+        },
+        {
+            "state": "strike-0",
+            "sample": 4730880,
+            "seconds": 49.28
+        },
+        {
+            "state": "strike-1",
+            "sample": 4827136,
+            "seconds": 50.282666666666667
+        },
+        {
+            "state": "strike-2",
+            "sample": 4923392,
+            "seconds": 51.285333333333337
+        },
+        {
+            "state": "strike-3",
+            "sample": 5017600,
+            "seconds": 52.266666666666669
+        },
+        {
+            "state": "strike-4",
+            "sample": 5115904,
+            "seconds": 53.29066666666667
+        },
+        {
+            "state": "strike-5",
+            "sample": 5210112,
+            "seconds": 54.272
+        },
+        {
+            "state": "strike-6",
+            "sample": 5308416,
+            "seconds": 55.296
+        },
+        {
+            "state": "strike-7",
+            "sample": 5402624,
+            "seconds": 56.27733333333333
+        },
+        {
+            "state": "strike-8",
+            "sample": 5498880,
+            "seconds": 57.28
+        },
+        {
+            "state": "strike-9",
+            "sample": 5595136,
+            "seconds": 58.282666666666667
+        },
+        {
+            "state": "end-chime-ten",
+            "sample": 6076416,
+            "seconds": 63.296
+        }
+    ],
+    "cues": [
+        {
+            "id": "chime",
+            "requested": 11,
+            "started": 11,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 7
+        },
+        {
+            "id": "clock",
+            "requested": 1,
+            "started": 1,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "guest_breath",
+            "requested": 1,
+            "started": 1,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "phone",
+            "requested": 1,
+            "started": 1,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "phone_breath",
+            "requested": 1,
+            "started": 1,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "phone_shriek",
+            "requested": 1,
+            "started": 1,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "phone_voice",
+            "requested": 1,
+            "started": 1,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "shriek",
+            "requested": 1,
+            "started": 1,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "step",
+            "requested": 1,
+            "started": 1,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        }
+    ]
+}

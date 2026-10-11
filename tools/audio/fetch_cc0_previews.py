@@ -1,7 +1,7 @@
 """Download public CC0 listening previews, keeping provenance; originals remain separate."""
 import urllib.request,re,json,html,time,hashlib
 from pathlib import Path
-root=Path('U:/art-sources/Audio/Freesound');root.mkdir(parents=True,exist_ok=True)
+root=Path(__file__).resolve().parents[2]/'art-sources/Audio/Freesound';root.mkdir(parents=True,exist_ok=True)
 items=[('phone','mycompasstv',456433),('clock','Vrymaa',797574),('chime','claudius9uk',96717),('guest-breath','mucky_pete7',574208),('player-breath','ShaneF91',386573),('knock','775noise',494569),('door','BlondPanda',778462),('slippers','Yuval',208878)]
 items += [('shriek','DigestContent',449702),('palms','fordps3',262588),('heartbeat','loudernoises',332821),('wind','poots',627793),('rope','harveyism',130364),('scratch','nickyg11p',390869),('fridge','RCSound99',651210)]
 existing=json.loads((root/'manifest.json').read_text(encoding='utf-8')) if (root/'manifest.json').exists() else []

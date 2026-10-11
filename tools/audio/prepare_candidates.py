@@ -15,8 +15,8 @@ def put(name,path,start=0,end=None,loop=False):
   n=min(int(.08*sr),len(x)//8);fade=np.linspace(0,1,n);joined=x[-n:]*(1-fade)+x[:n]*fade;x=np.concatenate((joined,x[n:-n]))
  else:
   n=min(int(.01*sr),len(x)//4);m=min(int(.04*sr),len(x)//4);x[:n]*=np.linspace(0,1,n);x[-m:]*=np.linspace(1,0,m)
- peak=float(np.abs(x).max());gain=10**(-9/20)/max(peak,1e-6);x*=gain;target=dest/(name+'.wav');sf.write(target,x,sr,subtype='PCM_16')
- edits.append(dict(file=target.relative_to(repo).as_posix(),source=path.relative_to(repo).as_posix(),start=start,end=end,loop_crossfade=loop,mono=True,gain_db=20*math.log10(gain),peak_target_dbfs=-9,sha256=hashlib.sha256(target.read_bytes()).hexdigest(),audition='pending'))
+ peak=float(np.abs(x).max());rms=float(np.sqrt(np.mean(x.astype('float64')**2)));long_sound=loop or name.startswith('guest_breath_');peak_target=-3 if long_sound else -1;rms_target=-20 if long_sound else None;gain=10**(peak_target/20)/max(peak,1e-6);gain=min(gain,10**(rms_target/20)/max(rms,1e-6)) if long_sound else gain;x*=gain;target=dest/(name+'.wav');sf.write(target,x,sr,subtype='PCM_16')
+ edits.append(dict(file=target.relative_to(repo).as_posix(),source=path.relative_to(repo).as_posix(),start=start,end=end,loop_crossfade=loop,mono=True,gain_db=20*math.log10(gain),peak_target_dbfs=peak_target,rms_target_dbfs=rms_target,achieved_rms_dbfs=20*math.log10(max(float(np.sqrt(np.mean(x.astype("float64")**2))),1e-12)),sha256=hashlib.sha256(target.read_bytes()).hexdigest(),audition='pending'))
 
 def transients(role,prefix,count,spacing=.5,before=.03,tail=.35):
  path=byrole[role];x,sr=read(path);hop=max(1,int(sr*.01));env=np.array([np.sqrt(np.mean(x[i:i+hop]**2)) for i in range(0,len(x),hop)]);chosen=[]
@@ -38,4 +38,4 @@ for prefix,pattern in [('door_close','doorClose_*.ogg'),('door_open','doorOpen_*
 for prefix,pattern in [('wood_impact','impactWood_heavy_*.ogg'),('glass_impact','impactGlass_light_*.ogg'),('carpet_step','footstep_carpet_*.ogg')]:
  for n,path in enumerate(sorted((src/'Kenney/Impact/Audio').glob(pattern))):put(f'{prefix}_{n:02}',path)
 (src/'processed-manifest.json').write_bytes((json.dumps(edits,ensure_ascii=False,indent=2)+'\n').encode('utf-8'))
-print(len(edits),'mono candidate WAVs, peak target -9 dBFS; listening review pending')
+print(len(edits),'mono candidate WAVs; peaks -1 transient / -3 long, long RMS target -20 bounded by peak; listening pending')

@@ -35289,6 +35289,7 @@ MonoBehaviour:
   grandmotherKnock: {fileID: 8300000, guid: aaadd3705af84dd4798c4f8b42b4f47d, type: 3}
   bank: {fileID: 11400000, guid: 9e5e45a14054e5443a66cadbd8e746eb, type: 2}
   quiet: 0
+  calibrating: 0
 --- !u!114 &2037055189
 MonoBehaviour:
   m_ObjectHideFlags: 0

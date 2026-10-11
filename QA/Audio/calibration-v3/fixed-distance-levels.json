@@ -1,0 +1,159 @@
+{
+  "scope": "1.5 m, no world ambience or occlusion; receiver effects 2D; stereo energy 100ms RMS, not LUFS/true peak",
+  "rows": [
+    {
+      "cue": "clock",
+      "seconds": 8.021333333333333,
+      "sample_peak_dbfs": -17.66,
+      "max_100ms_rms_dbfs": -32.13,
+      "rms_dbfs": -43.29,
+      "samples_over_full_scale": 0
+    },
+    {
+      "cue": "phone",
+      "seconds": 4.010666666666666,
+      "sample_peak_dbfs": -9.23,
+      "max_100ms_rms_dbfs": -19.92,
+      "rms_dbfs": -25.09,
+      "samples_over_full_scale": 0
+    },
+    {
+      "cue": "chime",
+      "seconds": 4.010666666666666,
+      "sample_peak_dbfs": -9.12,
+      "max_100ms_rms_dbfs": -19.52,
+      "rms_dbfs": -25.36,
+      "samples_over_full_scale": 0
+    },
+    {
+      "cue": "shriek",
+      "seconds": 3.989333333333333,
+      "sample_peak_dbfs": -6.98,
+      "max_100ms_rms_dbfs": -14.23,
+      "rms_dbfs": -20.13,
+      "samples_over_full_scale": 0
+    },
+    {
+      "cue": "guest_breath",
+      "seconds": 4.010666666666666,
+      "sample_peak_dbfs": -13.69,
+      "max_100ms_rms_dbfs": -27.58,
+      "rms_dbfs": -33.82,
+      "samples_over_full_scale": 0
+    },
+    {
+      "cue": "step",
+      "seconds": 3.989333333333333,
+      "sample_peak_dbfs": -18.3,
+      "max_100ms_rms_dbfs": -31.72,
+      "rms_dbfs": -47.62,
+      "samples_over_full_scale": 0
+    },
+    {
+      "cue": "phone_voice",
+      "seconds": 5.952020833333333,
+      "sample_peak_dbfs": -16.0,
+      "max_100ms_rms_dbfs": -28.94,
+      "rms_dbfs": -35.75,
+      "samples_over_full_scale": 0
+    },
+    {
+      "cue": "phone_shriek",
+      "seconds": 3.968,
+      "sample_peak_dbfs": -10.45,
+      "max_100ms_rms_dbfs": -19.0,
+      "rms_dbfs": -25.25,
+      "samples_over_full_scale": 0
+    },
+    {
+      "cue": "phone_breath",
+      "seconds": 4.010666666666666,
+      "sample_peak_dbfs": -21.47,
+      "max_100ms_rms_dbfs": -36.14,
+      "rms_dbfs": -44.9,
+      "samples_over_full_scale": 0
+    },
+    {
+      "cue": "chime-ten",
+      "seconds": 14.016,
+      "sample_peak_dbfs": -8.43,
+      "max_100ms_rms_dbfs": -18.7,
+      "rms_dbfs": -22.67,
+      "samples_over_full_scale": 0
+    }
+  ],
+  "diagnostics": [
+    {
+      "id": "chime",
+      "requested": 11,
+      "started": 11,
+      "limit": 0,
+      "pool": 0,
+      "replaced": 7
+    },
+    {
+      "id": "clock",
+      "requested": 1,
+      "started": 1,
+      "limit": 0,
+      "pool": 0,
+      "replaced": 0
+    },
+    {
+      "id": "guest_breath",
+      "requested": 1,
+      "started": 1,
+      "limit": 0,
+      "pool": 0,
+      "replaced": 0
+    },
+    {
+      "id": "phone",
+      "requested": 1,
+      "started": 1,
+      "limit": 0,
+      "pool": 0,
+      "replaced": 0
+    },
+    {
+      "id": "phone_breath",
+      "requested": 1,
+      "started": 1,
+      "limit": 0,
+      "pool": 0,
+      "replaced": 0
+    },
+    {
+      "id": "phone_shriek",
+      "requested": 1,
+      "started": 1,
+      "limit": 0,
+      "pool": 0,
+      "replaced": 0
+    },
+    {
+      "id": "phone_voice",
+      "requested": 1,
+      "started": 1,
+      "limit": 0,
+      "pool": 0,
+      "replaced": 0
+    },
+    {
+      "id": "shriek",
+      "requested": 1,
+      "started": 1,
+      "limit": 0,
+      "pool": 0,
+      "replaced": 0
+    },
+    {
+      "id": "step",
+      "requested": 1,
+      "started": 1,
+      "limit": 0,
+      "pool": 0,
+      "replaced": 0
+    }
+  ]
+}

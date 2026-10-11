@@ -14,7 +14,7 @@ namespace Ataka.Scenario {
   Thread worker; string path,failure; readonly List<Marker> markers=new List<Marker>();
   LoopDirector loop; string lastState; bool saved;
   [Serializable] public sealed class Marker { public string state; public long sample; public double seconds; }
-  [Serializable] public sealed class Report { public string scope="Unity listener mix, pre-OS output; not microphone or loopback",error; public int sampleRate,channels,droppedSamples,formatChanges,peakActiveVoices,suppressedOverlaps; public long samples; public Marker[] markers; }
+  [Serializable] public sealed class Report { public string scope="Unity listener mix, pre-OS output; not microphone or loopback",error; public int sampleRate,channels,droppedSamples,formatChanges,peakActiveVoices,suppressedOverlaps; public long samples; public Marker[] markers;public ScenarioSound.CueDiagnostic[] cues; }
   [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)] static void Boot(){
    var args=Environment.GetCommandLineArgs();int i=Array.IndexOf(args,"-audio-capture");if(i<0||i+1>=args.Length)return;
    var listener=FindFirstObjectByType<AudioListener>();if(!listener){Debug.LogError("Audio capture: no listener");return;}
@@ -28,6 +28,7 @@ namespace Ataka.Scenario {
    long w=written,r=Volatile.Read(ref read);if(w-r+data.Length>Capacity){Interlocked.Add(ref dropped,data.Length);return;}
    int at=(int)(w&(Capacity-1)),first=Math.Min(data.Length,Capacity-at);Array.Copy(data,0,ring,at,first);if(first<data.Length)Array.Copy(data,first,ring,0,data.Length-first);Volatile.Write(ref written,w+data.Length);
   }
+  public void Mark(string state){long n=Volatile.Read(ref written);markers.Add(new Marker{state=state,sample=n,seconds=channels>0?(double)n/(rate*channels):0});}
   void Update(){if(loop){string state=loop.Finished?"finished":loop.flat.player.paused?"pause":loop.scenes.PlayingScene??(loop.chase.Active?"chase":"lap-"+loop.Progress.Lap);if(state!=lastState){lastState=state;long n=Volatile.Read(ref written);markers.Add(new Marker{state=state,sample=n,seconds=channels>0?(double)n/(rate*channels):0});}}}
   void WriteLoop(){
    try{using(var stream=new FileStream(path,FileMode.Create,FileAccess.Write,FileShare.Read,65536)){stream.Write(new byte[44],0,44);var chunk=new float[16384];var bytes=new byte[chunk.Length*4];
@@ -38,7 +39,7 @@ namespace Ataka.Scenario {
     int ch=channels>0?channels:2;int size=checked((int)(stream.Length-44));stream.Position=0;using(var writer=new BinaryWriter(stream,Encoding.ASCII,true)){writer.Write(Encoding.ASCII.GetBytes("RIFF"));writer.Write(size+36);writer.Write(Encoding.ASCII.GetBytes("WAVEfmt "));writer.Write(16);writer.Write((short)3);writer.Write((short)ch);writer.Write(rate);writer.Write(rate*ch*4);writer.Write((short)(ch*4));writer.Write((short)32);writer.Write(Encoding.ASCII.GetBytes("data"));writer.Write(size);}
    }}catch(Exception e){failure=e.ToString();}
   }
-  public void Save(){if(saved||worker==null)return;stopping=true;worker.Join();saved=true;var report=new Report{sampleRate=rate,channels=channels,samples=read,droppedSamples=dropped,formatChanges=formatChanges,error=failure,peakActiveVoices=loop&&loop.sound?loop.sound.PeakVoiceCount:0,suppressedOverlaps=loop&&loop.sound?loop.sound.SuppressedOverlaps:0,markers=markers.ToArray()};File.WriteAllText(Path.ChangeExtension(path,"json"),JsonUtility.ToJson(report,true));if(failure!=null||dropped>0||formatChanges>0||read==0)Debug.LogError("Audio capture failed/incomplete: "+failure+" dropped="+dropped+" samples="+read);else Debug.Log("AUDIO_CAPTURE_SAVED "+path+" samples="+read);}
+  public void Save(){if(saved||worker==null)return;stopping=true;worker.Join();saved=true;var report=new Report{sampleRate=rate,channels=channels,samples=read,droppedSamples=dropped,formatChanges=formatChanges,error=failure,peakActiveVoices=loop&&loop.sound?loop.sound.PeakVoiceCount:0,suppressedOverlaps=loop&&loop.sound?loop.sound.SuppressedOverlaps:0,markers=markers.ToArray(),cues=loop&&loop.sound?loop.sound.Diagnostics:null};File.WriteAllText(Path.ChangeExtension(path,"json"),JsonUtility.ToJson(report,true));if(failure!=null||dropped>0||formatChanges>0||read==0)Debug.LogError("Audio capture failed/incomplete: "+failure+" dropped="+dropped+" samples="+read);else Debug.Log("AUDIO_CAPTURE_SAVED "+path+" samples="+read);}
   void OnApplicationQuit(){Save();} void OnDestroy(){Save();}
  }
 }

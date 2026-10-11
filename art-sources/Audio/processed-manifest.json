@@ -6,9 +6,11 @@
     "end": 9.55,
     "loop_crossfade": false,
     "mono": true,
-    "gain_db": -7.648422314329625,
-    "peak_target_dbfs": -9,
-    "sha256": "a5a3184ee907a49e2647665ae73e7fe3e425f3dae71f08351fa1fd99f105e6c7",
+    "gain_db": 0.35157768567037445,
+    "peak_target_dbfs": -1,
+    "rms_target_dbfs": null,
+    "achieved_rms_dbfs": -13.43467220484099,
+    "sha256": "2c2bc710e0df7965bd1c9ed8f17736111d90e27ddb1977aafd489a4bc207bf8d",
     "audition": "pending"
   },
   {
@@ -18,9 +20,11 @@
     "end": 15.8,
     "loop_crossfade": false,
     "mono": true,
-    "gain_db": -7.858847477469597,
-    "peak_target_dbfs": -9,
-    "sha256": "11adfaae652a2051795097c0af5acc23773a25d45a96426c1bd819bc54235d39",
+    "gain_db": 0.14115252253040256,
+    "peak_target_dbfs": -1,
+    "rms_target_dbfs": null,
+    "achieved_rms_dbfs": -13.901383024096281,
+    "sha256": "defc1aa14ea0f7543635a7e67b2ced004f36526b7fa3da6e8e940b11cf1e2c9b",
     "audition": "pending"
   },
   {
@@ -30,9 +34,11 @@
     "end": 21.75,
     "loop_crossfade": false,
     "mono": true,
-    "gain_db": -8.172499063648095,
-    "peak_target_dbfs": -9,
-    "sha256": "b44bf53ec4280fe54b469e5cd94a7649782bd51d0c7bb012a3a0f25d21c90934",
+    "gain_db": -0.1724990636480938,
+    "peak_target_dbfs": -1,
+    "rms_target_dbfs": null,
+    "achieved_rms_dbfs": -13.99675554605331,
+    "sha256": "6b3c181a827aee964076bda5f7fb54af02349c714ea2894f57202a6624c4048d",
     "audition": "pending"
   },
   {
@@ -42,9 +48,11 @@
     "end": 40,
     "loop_crossfade": true,
     "mono": true,
-    "gain_db": 1.1532299416326184,
-    "peak_target_dbfs": -9,
-    "sha256": "eaf4124ab95a70c1a8ec96cd7b7bef84f5bc512491d904980a2dce58fe6ca29b",
+    "gain_db": 7.153229941632619,
+    "peak_target_dbfs": -3,
+    "rms_target_dbfs": -20,
+    "achieved_rms_dbfs": -28.680622386533624,
+    "sha256": "47cfda5c79aab20aedcbe78c114e68a432bb26d363b07bccd5a269640886a950",
     "audition": "pending"
   },
   {
@@ -54,9 +62,11 @@
     "end": 39,
     "loop_crossfade": false,
     "mono": true,
-    "gain_db": -7.002665090248776,
-    "peak_target_dbfs": -9,
-    "sha256": "85a1abaa26f26e5e189cf319fc2bcbd2e7e3dc261ea09c1d1f7d3cc9185095f7",
+    "gain_db": 0.9973349097512232,
+    "peak_target_dbfs": -1,
+    "rms_target_dbfs": null,
+    "achieved_rms_dbfs": -22.33971126452889,
+    "sha256": "6e1c95e74ba7ec90c98dc6123ccc76077758d20cb433a0eaa7eee29ddde7dfb3",
     "audition": "pending"
   },
   {
@@ -66,9 +76,11 @@
     "end": 4.3,
     "loop_crossfade": false,
     "mono": true,
-    "gain_db": 20.497183657220667,
-    "peak_target_dbfs": -9,
-    "sha256": "fd2031fff4f00a4be93f107bc8fb2ba73ef5dfab48b59500940da95694995b48",
+    "gain_db": 24.53867030366396,
+    "peak_target_dbfs": -3,
+    "rms_target_dbfs": -20,
+    "achieved_rms_dbfs": -19.99999958120719,
+    "sha256": "e39ee25c807893617c9468acacd61018b7109ca206c33eac3beebd4f754a0b76",
     "audition": "pending"
   },
   {
@@ -78,9 +90,11 @@
     "end": 8,
     "loop_crossfade": false,
     "mono": true,
-    "gain_db": 21.021299570486516,
-    "peak_target_dbfs": -9,
-    "sha256": "2f113f1aacc081cad44301ced4f90fe70eb549671941f9db0f4aa12effd48f1f",
+    "gain_db": 25.178233761236058,
+    "peak_target_dbfs": -3,
+    "rms_target_dbfs": -20,
+    "achieved_rms_dbfs": -20.00000036536843,
+    "sha256": "c1d66941fb3a8ebd428539c6cc9f58e62797824bd707206816fc310766cb8051",
     "audition": "pending"
   },
   {
@@ -90,9 +104,11 @@
     "end": 12.5,
     "loop_crossfade": false,
     "mono": true,
-    "gain_db": 14.34769070134309,
-    "peak_target_dbfs": -9,
-    "sha256": "17ec66cb7e4281d3b3048b7bdc4ce7179f91a1ec116b29edef768392a786bf84",
+    "gain_db": 20.34769070134309,
+    "peak_target_dbfs": -3,
+    "rms_target_dbfs": -20,
+    "achieved_rms_dbfs": -22.369891295578988,
+    "sha256": "e1e168adbf362cc2b0d2ce5cc38daa3f106e4b3c27a64184102edf8f2d7bfb28",
     "audition": "pending"
   },
   {
@@ -102,9 +118,11 @@
     "end": 17,
     "loop_crossfade": false,
     "mono": true,
-    "gain_db": 13.548076674974556,
-    "peak_target_dbfs": -9,
-    "sha256": "3c657cd7e250524880488cc436b38dc4e251070dc646e023e32a8f960c2c73af",
+    "gain_db": 19.548076674974556,
+    "peak_target_dbfs": -3,
+    "rms_target_dbfs": -20,
+    "achieved_rms_dbfs": -21.392038156954104,
+    "sha256": "5cb8b60a2679628ccd440478ae5f5847e2d133ad09cd22b74c451cf92335d43c",
     "audition": "pending"
   },
   {
@@ -114,9 +132,11 @@
     "end": 6.55,
     "loop_crossfade": true,
     "mono": true,
-    "gain_db": 3.345398254215576,
-    "peak_target_dbfs": -9,
-    "sha256": "38da2ac87b147ddd6ac49a0be7572bb12be3d7e95fd18ceb681134ce13e1aef8",
+    "gain_db": 9.345398254215574,
+    "peak_target_dbfs": -3,
+    "rms_target_dbfs": -20,
+    "achieved_rms_dbfs": -22.181031824595635,
+    "sha256": "fca7a07a3fa0781b2e8101fbba37b0f72b3d40d6ddd792e6f4eb2d991455d10c",
     "audition": "pending"
   },
   {
@@ -126,9 +146,11 @@
     "end": 1.2094166666666666,
     "loop_crossfade": false,
     "mono": true,
-    "gain_db": 8.532691452386027,
-    "peak_target_dbfs": -9,
-    "sha256": "0bf79da04c88fce085985fce20a92594ff37b6537cb129d2d61eb8a50ea7610b",
+    "gain_db": 16.53269145238603,
+    "peak_target_dbfs": -1,
+    "rms_target_dbfs": null,
+    "achieved_rms_dbfs": -15.716719776980202,
+    "sha256": "1717d4d48a88028675755b42e99449de7c7fde1fd2ea26d7c358fb1e9d4fbf61",
     "audition": "pending"
   },
   {
@@ -138,9 +160,11 @@
     "end": 1.486077097505669,
     "loop_crossfade": false,
     "mono": true,
-    "gain_db": -8.730975539502085,
-    "peak_target_dbfs": -9,
-    "sha256": "eb8fe8d914c89febfe4bfd200ccd526c786813e05838b4be3102f8ba41e53a96",
+    "gain_db": -0.7309755395020854,
+    "peak_target_dbfs": -1,
+    "rms_target_dbfs": null,
+    "achieved_rms_dbfs": -9.516677375085465,
+    "sha256": "b2faa87082207d0011723e375f0416aba6fb83fafc4c092349d3399acab94b91",
     "audition": "pending"
   },
   {
@@ -150,9 +174,11 @@
     "end": 1.38,
     "loop_crossfade": false,
     "mono": true,
-    "gain_db": -2.6819639113315663,
-    "peak_target_dbfs": -9,
-    "sha256": "ce796d6e2126ab48c050a2eaeaaa9f94b9495ef62b73c54b16fd2ed1a2242d5a",
+    "gain_db": 5.318036088668434,
+    "peak_target_dbfs": -1,
+    "rms_target_dbfs": null,
+    "achieved_rms_dbfs": -25.570180931604444,
+    "sha256": "7611af9a4121658122b85a466c7af9ef2b2c90b24ed870d7436365d6e234fbe7",
     "audition": "pending"
   },
   {
@@ -162,9 +188,11 @@
     "end": 2.39,
     "loop_crossfade": false,
     "mono": true,
-    "gain_db": -4.53504073272743,
-    "peak_target_dbfs": -9,
-    "sha256": "973ea19a8870c0a23d9c5714762800231ecc878d6ff31fc94411afda48fc66c1",
+    "gain_db": 3.464959267272569,
+    "peak_target_dbfs": -1,
+    "rms_target_dbfs": null,
+    "achieved_rms_dbfs": -22.72879532338427,
+    "sha256": "38b8449d333ea80578c4198c2bb1f702544f242f571d6ee19c6ba9539bc670e9",
     "audition": "pending"
   },
   {
@@ -174,9 +202,11 @@
     "end": 4.28,
     "loop_crossfade": false,
     "mono": true,
-    "gain_db": -4.181979247511452,
-    "peak_target_dbfs": -9,
-    "sha256": "7584f5986c239acebfac5f28856c87aafd961f0bee5f22cb08a391980f38e16e",
+    "gain_db": 3.8180207524885477,
+    "peak_target_dbfs": -1,
+    "rms_target_dbfs": null,
+    "achieved_rms_dbfs": -23.549890102267447,
+    "sha256": "ea78e372e26b86351066f252705942de8ce379a5481f95f18d1a78abaf768230",
     "audition": "pending"
   },
   {
@@ -186,9 +216,11 @@
     "end": 2.24,
     "loop_crossfade": false,
     "mono": true,
-    "gain_db": 2.619160855287464,
-    "peak_target_dbfs": -9,
-    "sha256": "58260a0e9455edfa3735404a0cfca4e5e3228e04fc7091ad2487f50913d79509",
+    "gain_db": 10.619160855287465,
+    "peak_target_dbfs": -1,
+    "rms_target_dbfs": null,
+    "achieved_rms_dbfs": -31.96263855868484,
+    "sha256": "31aa5b6ba4a1e6f14c6c311ccc8ea02d8b72101c5f0b8536ee1ae0dd860bd469",
     "audition": "pending"
   },
   {
@@ -198,9 +230,11 @@
     "end": 10.33,
     "loop_crossfade": false,
     "mono": true,
-    "gain_db": 8.86178029314005,
-    "peak_target_dbfs": -9,
-    "sha256": "5c051bb8216740bf55d85f8f6a32edf336b75dba25865fc98864aa0378595f8a",
+    "gain_db": 16.86178029314005,
+    "peak_target_dbfs": -1,
+    "rms_target_dbfs": null,
+    "achieved_rms_dbfs": -25.107601402757815,
+    "sha256": "20f117e746a70b90e688bd810f4e72b20ca33837ccb6cbe391749f6b900edc1e",
     "audition": "pending"
   },
   {
@@ -210,9 +244,11 @@
     "end": 14.02,
     "loop_crossfade": false,
     "mono": true,
-    "gain_db": 6.950115046658349,
-    "peak_target_dbfs": -9,
-    "sha256": "328f26e8d4605caa71d9ca938fb63e470273d15397ea40d6b89ad3d46c16230f",
+    "gain_db": 14.95011504665835,
+    "peak_target_dbfs": -1,
+    "rms_target_dbfs": null,
+    "achieved_rms_dbfs": -30.00475689667812,
+    "sha256": "86cd89500b9e1ac58d1f4a10df38a44845edc0e66b2b7ec2f5167c04c631e6aa",
     "audition": "pending"
   },
   {
@@ -222,9 +258,11 @@
     "end": 18.19,
     "loop_crossfade": false,
     "mono": true,
-    "gain_db": 14.165426832705666,
-    "peak_target_dbfs": -9,
-    "sha256": "a49a96810a7ccd28411807f0fa06e39deb4307357aaa5709cc645ea45aef50db",
+    "gain_db": 22.16542683270567,
+    "peak_target_dbfs": -1,
+    "rms_target_dbfs": null,
+    "achieved_rms_dbfs": -22.369506245622695,
+    "sha256": "03584978d5c77ef74e370cefcd9afdca14d4ff5b23688f63607c7e107565cfb7",
     "audition": "pending"
   },
   {
@@ -234,9 +272,11 @@
     "end": 19.22,
     "loop_crossfade": false,
     "mono": true,
-    "gain_db": 14.241038147112,
-    "peak_target_dbfs": -9,
-    "sha256": "a0672f68ad3b1bd8c697ca545de09a4c141db81bbdcb8742af257d5db9c8de51",
+    "gain_db": 22.241038147112,
+    "peak_target_dbfs": -1,
+    "rms_target_dbfs": null,
+    "achieved_rms_dbfs": -21.77931590870022,
+    "sha256": "17e74ad36e39695e71499876a5e4dd02807c6da6215404e468725a5b65a051fe",
     "audition": "pending"
   },
   {
@@ -246,9 +286,11 @@
     "end": 20.32,
     "loop_crossfade": false,
     "mono": true,
-    "gain_db": 11.606519459884977,
-    "peak_target_dbfs": -9,
-    "sha256": "aaa267533b1ca7ebb3fc1aa02fc57cd1c8d76fb4236a19adb08422c6e355ef96",
+    "gain_db": 19.60651945988498,
+    "peak_target_dbfs": -1,
+    "rms_target_dbfs": null,
+    "achieved_rms_dbfs": -23.05758541148707,
+    "sha256": "a410ce6109e092f8d9a25363c038b91e41fc20c6e56bab5a8201d75d2d2fae74",
     "audition": "pending"
   },
   {
@@ -258,9 +300,11 @@
     "end": 21.44,
     "loop_crossfade": false,
     "mono": true,
-    "gain_db": 10.213979219245974,
-    "peak_target_dbfs": -9,
-    "sha256": "79bf6b3441ee53271bcda16f26558369cf7a1e476049226730318fd95a3d4b72",
+    "gain_db": 18.213979219245974,
+    "peak_target_dbfs": -1,
+    "rms_target_dbfs": null,
+    "achieved_rms_dbfs": -27.329351653124363,
+    "sha256": "e23b2fc4d5d9425e85ba486a75de46468bb79493d39fba2c65662aa2032ea503",
     "audition": "pending"
   },
   {
@@ -270,9 +314,11 @@
     "end": 30.9,
     "loop_crossfade": false,
     "mono": true,
-    "gain_db": 8.77353788802499,
-    "peak_target_dbfs": -9,
-    "sha256": "e1f7feb79344c1ea0e40d7384703d5ec5be588a8b544c13b95d4baa83ebc993b",
+    "gain_db": 16.773537888024993,
+    "peak_target_dbfs": -1,
+    "rms_target_dbfs": null,
+    "achieved_rms_dbfs": -20.448208869930333,
+    "sha256": "8446c0502febb5da156dd48388011082a63191665a3af6589cce2df23b7be9be",
     "audition": "pending"
   },
   {
@@ -282,9 +328,11 @@
     "end": 2.71,
     "loop_crossfade": false,
     "mono": true,
-    "gain_db": 1.070869347313712,
-    "peak_target_dbfs": -9,
-    "sha256": "b421d23f92eb51f54df0e6f3935ff973e60e24b400f5e0450c75e9b9b989976b",
+    "gain_db": 9.070869347313712,
+    "peak_target_dbfs": -1,
+    "rms_target_dbfs": null,
+    "achieved_rms_dbfs": -33.16921032878018,
+    "sha256": "e474560cf01b304143f6e25d1046e611a561e8745f81b50b07eea5f3a5e7b966",
     "audition": "pending"
   },
   {
@@ -294,9 +342,11 @@
     "end": 3.6,
     "loop_crossfade": false,
     "mono": true,
-    "gain_db": 2.224467074268028,
-    "peak_target_dbfs": -9,
-    "sha256": "0ae196c1a4a29b26079d24135f4b8185db31937dd13d7d1427c980a00d137bde",
+    "gain_db": 10.224467074268027,
+    "peak_target_dbfs": -1,
+    "rms_target_dbfs": null,
+    "achieved_rms_dbfs": -32.68349304351312,
+    "sha256": "175c8e0e774c8fe4d230845bf439a5b91ef5e2d360a844aa678e2b0b06bcb744",
     "audition": "pending"
   },
   {
@@ -306,9 +356,11 @@
     "end": 21.08,
     "loop_crossfade": false,
     "mono": true,
-    "gain_db": -8.936460401547619,
-    "peak_target_dbfs": -9,
-    "sha256": "43ee295c18ff14b18e75160ac0cfc47cae78bc4eff3b8fc8103f554915e9c328",
+    "gain_db": -0.9364604015476196,
+    "peak_target_dbfs": -1,
+    "rms_target_dbfs": null,
+    "achieved_rms_dbfs": -33.89477041352247,
+    "sha256": "a70c2add84d605a105073d3a4747b063451ca46f5681bd1ad651eda3ea3a5706",
     "audition": "pending"
   },
   {
@@ -318,9 +370,11 @@
     "end": 23.98,
     "loop_crossfade": false,
     "mono": true,
-    "gain_db": -2.5891782548662117,
-    "peak_target_dbfs": -9,
-    "sha256": "d4d494b7836cddb84cc6572f0deb9d3f5cb030f6899b1523e9b158b768c3ea5a",
+    "gain_db": 5.410821745133788,
+    "peak_target_dbfs": -1,
+    "rms_target_dbfs": null,
+    "achieved_rms_dbfs": -34.318602682547024,
+    "sha256": "2b4a8098c35007830ad017aaded42d5d1d502724437c771a75870e74d416174a",
     "audition": "pending"
   },
   {
@@ -330,9 +384,11 @@
     "end": 24.9,
     "loop_crossfade": false,
     "mono": true,
-    "gain_db": 3.666157619103111,
-    "peak_target_dbfs": -9,
-    "sha256": "557cefb9aa8202a44acbbfdd389a55f8f206e643b3c734b38dfc1167a314b16a",
+    "gain_db": 11.666157619103112,
+    "peak_target_dbfs": -1,
+    "rms_target_dbfs": null,
+    "achieved_rms_dbfs": -33.69628710753674,
+    "sha256": "a9ed70454b0283c08b92e9c67003dd8551464327a5e4a176c86d1413b9d77b35",
     "audition": "pending"
   },
   {
@@ -342,9 +398,11 @@
     "end": 26.79,
     "loop_crossfade": false,
     "mono": true,
-    "gain_db": 1.93928317953907,
-    "peak_target_dbfs": -9,
-    "sha256": "e4a68020eae09b68b107390e84905c58d6825cb742c54f30948b118e0b297f4f",
+    "gain_db": 9.93928317953907,
+    "peak_target_dbfs": -1,
+    "rms_target_dbfs": null,
+    "achieved_rms_dbfs": -34.46013037384295,
+    "sha256": "41e2034eff247f689e05326e339ec69c24136bd25e278c97359ab4ced346fb67",
     "audition": "pending"
   },
   {
@@ -354,9 +412,11 @@
     "end": 12,
     "loop_crossfade": true,
     "mono": true,
-    "gain_db": -8.723194266719906,
-    "peak_target_dbfs": -9,
-    "sha256": "cc3b5eb9a1f644b61515e6ec4eb78ab311ed98418d12c1f24387efbe52460f52",
+    "gain_db": -2.7231942667199065,
+    "peak_target_dbfs": -3,
+    "rms_target_dbfs": -20,
+    "achieved_rms_dbfs": -22.663746254914898,
+    "sha256": "75229704ee1f752a0f5a369a24329c5559008642e054ea66e112d8283a4e9b3e",
     "audition": "pending"
   },
   {
@@ -366,9 +426,11 @@
     "end": 28,
     "loop_crossfade": true,
     "mono": true,
-    "gain_db": 11.38918300938327,
-    "peak_target_dbfs": -9,
-    "sha256": "8379baf029234605c1fcd344c69568fac8c7ab4cf83020e917c7d4b09508c272",
+    "gain_db": 17.38918300938327,
+    "peak_target_dbfs": -3,
+    "rms_target_dbfs": -20,
+    "achieved_rms_dbfs": -20.156342727988303,
+    "sha256": "cc7b992d72a852b3ddb57a8e41ebd1193f96e455430e858d7c7247d036713a2c",
     "audition": "pending"
   },
   {
@@ -378,9 +440,11 @@
     "end": 8,
     "loop_crossfade": true,
     "mono": true,
-    "gain_db": 29.377121880616954,
-    "peak_target_dbfs": -9,
-    "sha256": "6baa849ab312b00c7290641a051fb671e00a636d832d392b279d04ee388dddf7",
+    "gain_db": 35.377121880616954,
+    "peak_target_dbfs": -3,
+    "rms_target_dbfs": -20,
+    "achieved_rms_dbfs": -23.38540354605586,
+    "sha256": "3ee77750d81bbb8f84df49c6229642bb387d753253610d2b0802ee2cd7c542ef",
     "audition": "pending"
   },
   {
@@ -390,9 +454,11 @@
     "end": 2.8821666666666665,
     "loop_crossfade": false,
     "mono": true,
-    "gain_db": 20.843671122236568,
-    "peak_target_dbfs": -9,
-    "sha256": "25ce037489f39c1b6df88730f7e7d84eb66e0404faa3456878b04f97ac47952b",
+    "gain_db": 28.843671122236568,
+    "peak_target_dbfs": -1,
+    "rms_target_dbfs": null,
+    "achieved_rms_dbfs": -13.94976883351459,
+    "sha256": "85870fab5c2de28e76ae4b8b29a871698f8a4e3505d58012d3ea8571e590cc3f",
     "audition": "pending"
   },
   {
@@ -402,9 +468,11 @@
     "end": 15,
     "loop_crossfade": true,
     "mono": true,
-    "gain_db": 14.809267709869356,
-    "peak_target_dbfs": -9,
-    "sha256": "ca76a8b91e439db5f417655e47e779bc9dbdada21fc1161699379f4df5054134",
+    "gain_db": 15.980046492597431,
+    "peak_target_dbfs": -3,
+    "rms_target_dbfs": -20,
+    "achieved_rms_dbfs": -20.0,
+    "sha256": "7db755a984e07a447a2e21b403bbecb2db4f8de38476644ea048bf703da2fc9a",
     "audition": "pending"
   },
   {
@@ -414,9 +482,11 @@
     "end": 0.6750416666666667,
     "loop_crossfade": false,
     "mono": true,
-    "gain_db": -9.344636069592866,
-    "peak_target_dbfs": -9,
-    "sha256": "a369a038f26f2845323270d24590036a26fefb3aa3442233136be190823da8f8",
+    "gain_db": -1.344636069592865,
+    "peak_target_dbfs": -1,
+    "rms_target_dbfs": null,
+    "achieved_rms_dbfs": -19.78633492837471,
+    "sha256": "59d9a479a9b739a551cee4ac7c94d9f2926e650c5570aadf7c104b053a380c93",
     "audition": "pending"
   },
   {
@@ -426,9 +496,11 @@
     "end": 0.6124791666666667,
     "loop_crossfade": false,
     "mono": true,
-    "gain_db": -6.334155290847601,
-    "peak_target_dbfs": -9,
-    "sha256": "17fdb9f970a6d88deb126bfff644ad3f7958205ff795e397efb99c2568a446df",
+    "gain_db": 1.6658447091523978,
+    "peak_target_dbfs": -1,
+    "rms_target_dbfs": null,
+    "achieved_rms_dbfs": -18.17260684730359,
+    "sha256": "efb957d77c4cc8395fc3254aea9bc64f0c65f118f9d011b00aa27e771bd7dd78",
     "audition": "pending"
   },
   {
@@ -438,9 +510,11 @@
     "end": 0.7139375,
     "loop_crossfade": false,
     "mono": true,
-    "gain_db": -10.08155910169679,
-    "peak_target_dbfs": -9,
-    "sha256": "d8b185b536086a137d68e1d96449a1103acf41eb686a3046159a4869c40f4412",
+    "gain_db": -2.081559101696791,
+    "peak_target_dbfs": -1,
+    "rms_target_dbfs": null,
+    "achieved_rms_dbfs": -16.090244006385376,
+    "sha256": "0e29d87bffefe85e6edaa1d2afed71fffd1f6831c02f629f4fe8e4b5c025aa1f",
     "audition": "pending"
   },
   {
@@ -450,9 +524,11 @@
     "end": 0.603375,
     "loop_crossfade": false,
     "mono": true,
-    "gain_db": -8.444951631972293,
-    "peak_target_dbfs": -9,
-    "sha256": "f3df0ca18dbe20b379cbcc03d5892117025f589c9d0c6cc4fac3da7bbe273b36",
+    "gain_db": -0.444951631972293,
+    "peak_target_dbfs": -1,
+    "rms_target_dbfs": null,
+    "achieved_rms_dbfs": -19.87623380031988,
+    "sha256": "716889bd8afe65735e29bd68a287a0cc27f05dfd37efbe51eba810577f06156c",
     "audition": "pending"
   },
   {
@@ -462,9 +538,11 @@
     "end": 0.9189583333333333,
     "loop_crossfade": false,
     "mono": true,
-    "gain_db": -9.099917598220465,
-    "peak_target_dbfs": -9,
-    "sha256": "7f092ae22e4361b493f10181e8d95168c5d52d71bec33811500eb21afff5baa9",
+    "gain_db": -1.0999175982204643,
+    "peak_target_dbfs": -1,
+    "rms_target_dbfs": null,
+    "achieved_rms_dbfs": -22.255846481843086,
+    "sha256": "9e2f37ddd3976b944bd0b3369edb44c11aa5422ba2808ba1f3d45b8cb5b973a5",
     "audition": "pending"
   },
   {
@@ -474,9 +552,11 @@
     "end": 1.4133125,
     "loop_crossfade": false,
     "mono": true,
-    "gain_db": -9.082814909164334,
-    "peak_target_dbfs": -9,
-    "sha256": "d05c7143e157ccc91eeb6d2fab15a2f99d60968c5996604ab8ae2d61e8565c51",
+    "gain_db": -1.0828149091643342,
+    "peak_target_dbfs": -1,
+    "rms_target_dbfs": null,
+    "achieved_rms_dbfs": -24.88603659761828,
+    "sha256": "621ba6d8319f2264f395a4184c05bf7665858108526e24622a730812d21196f4",
     "audition": "pending"
   },
   {
@@ -486,9 +566,11 @@
     "end": 0.2613333333333333,
     "loop_crossfade": false,
     "mono": true,
-    "gain_db": -9.644809354965464,
-    "peak_target_dbfs": -9,
-    "sha256": "baffa9c42751948e4f05adaaf3c897d13934127f3ba0f0c551e1b0edbe883973",
+    "gain_db": -1.644809354965464,
+    "peak_target_dbfs": -1,
+    "rms_target_dbfs": null,
+    "achieved_rms_dbfs": -23.040061694638023,
+    "sha256": "72a8fdb8a52981ec05de2114e8358c41ab0652ef089ff512a7aa33edee2098e3",
     "audition": "pending"
   },
   {
@@ -498,9 +580,11 @@
     "end": 0.3130385487528345,
     "loop_crossfade": false,
     "mono": true,
-    "gain_db": 0.18756455862222524,
-    "peak_target_dbfs": -9,
-    "sha256": "d5354fe3364c7e05527204a568cac2ef4b9cd9d097fa561dcf2e8ae6c26845ec",
+    "gain_db": 8.187564558622224,
+    "peak_target_dbfs": -1,
+    "rms_target_dbfs": null,
+    "achieved_rms_dbfs": -16.50359429630734,
+    "sha256": "2ca07c9bc41b8152e61fb0adaff644bc41fa2cef1fc54e68b270677981d1cc7d",
     "audition": "pending"
   },
   {
@@ -510,9 +594,11 @@
     "end": 0.3130385487528345,
     "loop_crossfade": false,
     "mono": true,
-    "gain_db": -0.0521430103588222,
-    "peak_target_dbfs": -9,
-    "sha256": "3924a23d6a25f63ecb8e90f38ac2f881f2f48155e13ff0be8a2f76d63117e314",
+    "gain_db": 7.947856989641178,
+    "peak_target_dbfs": -1,
+    "rms_target_dbfs": null,
+    "achieved_rms_dbfs": -16.969570017704527,
+    "sha256": "8a8b509adc397a0082016f02891b71f8ad470e740bc0d94011294428f8dbd352",
     "audition": "pending"
   },
   {
@@ -522,9 +608,11 @@
     "end": 0.3130385487528345,
     "loop_crossfade": false,
     "mono": true,
-    "gain_db": -1.3915661231049559,
-    "peak_target_dbfs": -9,
-    "sha256": "681a4fc43b755eebcce1bb6b2bc0c2f9fe402d04bda27e5828b8dab41aa7e0d9",
+    "gain_db": 6.608433876895044,
+    "peak_target_dbfs": -1,
+    "rms_target_dbfs": null,
+    "achieved_rms_dbfs": -17.068930697786474,
+    "sha256": "d0d98f9a7d11ef42a0b415dd13a877562fe5d6be007bd3855591756c4cff18ca",
     "audition": "pending"
   },
   {
@@ -534,9 +622,11 @@
     "end": 0.3130385487528345,
     "loop_crossfade": false,
     "mono": true,
-    "gain_db": -0.4498965352884526,
-    "peak_target_dbfs": -9,
-    "sha256": "74f8b521edf814a54a5f377a048ddf06eb94e9d784ddff68375a585a1b021cb5",
+    "gain_db": 7.550103464711546,
+    "peak_target_dbfs": -1,
+    "rms_target_dbfs": null,
+    "achieved_rms_dbfs": -17.65796455721072,
+    "sha256": "f575c6979fd5b199d2c6f1a3e71830eded4fd78438415a852690765a015fb238",
     "audition": "pending"
   },
   {
@@ -546,9 +636,11 @@
     "end": 0.3130385487528345,
     "loop_crossfade": false,
     "mono": true,
-    "gain_db": 0.38731716348033546,
-    "peak_target_dbfs": -9,
-    "sha256": "6a2da5b695e7f31aae7e5b353b096eb9f74fb7d6a7f922b4e2108c7905354b73",
+    "gain_db": 8.387317163480336,
+    "peak_target_dbfs": -1,
+    "rms_target_dbfs": null,
+    "achieved_rms_dbfs": -16.890592679291036,
+    "sha256": "772f008fbde13248604537a24efa5a2053118df362744013dbfc6f1b7b3c82af",
     "audition": "pending"
   },
   {
@@ -558,9 +650,11 @@
     "end": 0.20959183673469386,
     "loop_crossfade": false,
     "mono": true,
-    "gain_db": -3.4023671453976476,
-    "peak_target_dbfs": -9,
-    "sha256": "b8082ddf2fe3053fe62ced482d3c5c92b3401a8f0fc584c94bbdc651cc7e65f6",
+    "gain_db": 4.597632854602352,
+    "peak_target_dbfs": -1,
+    "rms_target_dbfs": null,
+    "achieved_rms_dbfs": -19.035228492973502,
+    "sha256": "d3cc4805a0f3074d3420c99d98588830f86c38634bf28c5845c0d9d122a6c5c9",
     "audition": "pending"
   },
   {
@@ -570,9 +664,11 @@
     "end": 0.20959183673469386,
     "loop_crossfade": false,
     "mono": true,
-    "gain_db": -2.7221989987297324,
-    "peak_target_dbfs": -9,
-    "sha256": "564580944d138190d18fae99a09b407b6e8041eebab854b7293ba4b78b933ab7",
+    "gain_db": 5.277801001270268,
+    "peak_target_dbfs": -1,
+    "rms_target_dbfs": null,
+    "achieved_rms_dbfs": -18.48899303585413,
+    "sha256": "d0b232ac57522c0dc52878b020f738062973f0be83eb4e176fe94045b64a9e23",
     "audition": "pending"
   },
   {
@@ -582,9 +678,11 @@
     "end": 0.20959183673469386,
     "loop_crossfade": false,
     "mono": true,
-    "gain_db": -4.0164126686865,
-    "peak_target_dbfs": -9,
-    "sha256": "9f97180c8b43be7b3cad128e192d0477cfe691736bb4ed03885cb8454fae0b62",
+    "gain_db": 3.983587331313501,
+    "peak_target_dbfs": -1,
+    "rms_target_dbfs": null,
+    "achieved_rms_dbfs": -18.837956459468664,
+    "sha256": "dbc7193f2d264b77df37117d3aa3a5ec2813da755944787ba86fa8d5c5e3eebf",
     "audition": "pending"
   },
   {
@@ -594,9 +692,11 @@
     "end": 0.20959183673469386,
     "loop_crossfade": false,
     "mono": true,
-    "gain_db": -4.393126933691272,
-    "peak_target_dbfs": -9,
-    "sha256": "c23bb3f8777b9bcda89d12f0aacec36011b474b5f1fd227b43a020f31d5d38be",
+    "gain_db": 3.6068730663087276,
+    "peak_target_dbfs": -1,
+    "rms_target_dbfs": null,
+    "achieved_rms_dbfs": -19.929315708317972,
+    "sha256": "22cb2b6cd764fb5d27a83f5e9a1c9f38d6b4d96345dc9d4dd032434135100213",
     "audition": "pending"
   },
   {
@@ -606,9 +706,11 @@
     "end": 0.20959183673469386,
     "loop_crossfade": false,
     "mono": true,
-    "gain_db": -4.638223792801288,
-    "peak_target_dbfs": -9,
-    "sha256": "26e5c6024b4b53b85fbf5dd32c00c617709abfd73f5b2a9bf3300ea9261f2ab2",
+    "gain_db": 3.3617762071987127,
+    "peak_target_dbfs": -1,
+    "rms_target_dbfs": null,
+    "achieved_rms_dbfs": -19.522654664708888,
+    "sha256": "d9cac9762a151108e588a3d15f4da0122e38dbbf648c96b8c960b5fbc9a0c31f",
     "audition": "pending"
   },
   {
@@ -618,9 +720,11 @@
     "end": 0.14478458049886622,
     "loop_crossfade": false,
     "mono": true,
-    "gain_db": -1.8091034314750962,
-    "peak_target_dbfs": -9,
-    "sha256": "82c66cebd55f291a9de3d1479533999306f0212ff578bc3cacde4f8081ccf8a7",
+    "gain_db": 6.190896568524904,
+    "peak_target_dbfs": -1,
+    "rms_target_dbfs": null,
+    "achieved_rms_dbfs": -21.044723339205518,
+    "sha256": "ca2e8967abb562fec17cc12fbcfc7b1e3bf61f9147933a2b8d0d3535637de3ae",
     "audition": "pending"
   },
   {
@@ -630,9 +734,11 @@
     "end": 0.14478458049886622,
     "loop_crossfade": false,
     "mono": true,
-    "gain_db": -1.524549689975485,
-    "peak_target_dbfs": -9,
-    "sha256": "d2fc12bcbdbbf7a5b47401e0254c0b2c1ccdaafc422ddc9cda75b5fc00f29a22",
+    "gain_db": 6.475450310024515,
+    "peak_target_dbfs": -1,
+    "rms_target_dbfs": null,
+    "achieved_rms_dbfs": -15.74563000282729,
+    "sha256": "4fa1d336068d5481dd040c644d490bec60359f3f2a573f22cf0ca201612191b2",
     "audition": "pending"
   },
   {
@@ -642,9 +748,11 @@
     "end": 0.14478458049886622,
     "loop_crossfade": false,
     "mono": true,
-    "gain_db": -1.524549689975485,
-    "peak_target_dbfs": -9,
-    "sha256": "d2fc12bcbdbbf7a5b47401e0254c0b2c1ccdaafc422ddc9cda75b5fc00f29a22",
+    "gain_db": 6.475450310024515,
+    "peak_target_dbfs": -1,
+    "rms_target_dbfs": null,
+    "achieved_rms_dbfs": -15.74563000282729,
+    "sha256": "4fa1d336068d5481dd040c644d490bec60359f3f2a573f22cf0ca201612191b2",
     "audition": "pending"
   },
   {
@@ -654,9 +762,11 @@
     "end": 0.14478458049886622,
     "loop_crossfade": false,
     "mono": true,
-    "gain_db": -1.9960948055438004,
-    "peak_target_dbfs": -9,
-    "sha256": "823d52bd5b1676477a706b91a6e693a333b61d39aaf2fb2bb844d759abda5406",
+    "gain_db": 6.003905194456198,
+    "peak_target_dbfs": -1,
+    "rms_target_dbfs": null,
+    "achieved_rms_dbfs": -20.685230976311395,
+    "sha256": "0aab89f0da23b2a0055ecd0361cbe6196cf72809caec4240a9c968443962257b",
     "audition": "pending"
   },
   {
@@ -666,9 +776,11 @@
     "end": 0.14478458049886622,
     "loop_crossfade": false,
     "mono": true,
-    "gain_db": -1.9960948055438004,
-    "peak_target_dbfs": -9,
-    "sha256": "823d52bd5b1676477a706b91a6e693a333b61d39aaf2fb2bb844d759abda5406",
+    "gain_db": 6.003905194456198,
+    "peak_target_dbfs": -1,
+    "rms_target_dbfs": null,
+    "achieved_rms_dbfs": -20.685230976311395,
+    "sha256": "0aab89f0da23b2a0055ecd0361cbe6196cf72809caec4240a9c968443962257b",
     "audition": "pending"
   }
 ]
