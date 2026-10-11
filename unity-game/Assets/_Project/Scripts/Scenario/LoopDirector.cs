@@ -17,7 +17,7 @@ namespace Ataka.Scenario {
   public void Pause(bool value){paused=value;flat.player.Pause(value);Time.timeScale=value?0:1;AudioListener.pause=value;sound.paused=value;}
   public void Thought(string text,float seconds=4){subtitle.text=text;thoughtUntil=Time.time+seconds;}
   public void EnterLap(int n){
-   Progress.RestoreCheckpoint(n);Busy=false;hangingDoorOpened=false;hangingEntryTime=0;phoneAnswered=false;peepholeSeen=false;returning=false;clockThought=false;tvWatch=0;gateWait=0;
+   scenes.GetComponent<HangingFloorCue>()?.ResetCue();Progress.RestoreCheckpoint(n);Busy=false;hangingDoorOpened=false;hangingEntryTime=0;phoneAnswered=false;peepholeSeen=false;returning=false;clockThought=false;tvWatch=0;gateWait=0;
    flat.look.Apply(laps[n-1].condition);flat.clock.Show(Progress.ClockSeconds);flat.carpet.locked=true;flat.carpet.open=false;flat.entrance.open=false;flat.entrance.locked=true;
    if(flat.dressing)flat.dressing.Apply(n);
    flat.living.open=true;flat.living.locked=false;flat.entrance.scripted=false;flat.bedroom.open=n!=5;flat.bedroom.locked=n==5;flat.bedroom.closedAngle=n==5?Mathf.Asin(.2f/.8f)*Mathf.Rad2Deg:0;flat.kitchen.locked=flat.bath.locked=true;

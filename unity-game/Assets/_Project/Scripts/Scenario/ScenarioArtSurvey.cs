@@ -30,11 +30,17 @@ namespace Ataka.Scenario {
     V("09-kitchen-wide",new Vector3(7.25f,.02f,2.65f),new Vector3(7.8f,1.05f,.65f)),
     V("10-kitchen-reverse",new Vector3(7.1f,.02f,.7f),new Vector3(8.05f,1.05f,2.55f)),
     V("11-bathroom",new Vector3(4.25f,.02f,5.6f),new Vector3(3.1f,.9f,5.1f)),
-    V("12-window-courtyard",new Vector3(4.25f,.02f,.6f),new Vector3(4.25f,.7f,-5))
+    V("12-window-courtyard",new Vector3(4.25f,.02f,.6f),new Vector3(4.25f,.7f,-5)),
+    V("13-bedroom-wardrobe-front-closed",new Vector3(1.2f,.02f,1.8f),new Vector3(2.4f,1.1f,1.8f)),
+    V("14-bedroom-wardrobe-front-open",new Vector3(1.2f,.02f,1.8f),new Vector3(2.4f,1.1f,1.8f)),
+    V("15-bedroom-icon-detail",new Vector3(.75f,.02f,1.0f),new Vector3(.23f,1.75f,.23f)),
+    V("16-bedroom-bedding-detail",new Vector3(1.25f,.02f,1.8f),new Vector3(.5f,.9f,1.05f))
    };
    foreach(string mode in new[]{"lap1","warm-return"}){
     if(mode=="warm-return")flat.look.WarmReturn();else flat.look.Apply(FlatCondition.Familiar);
     foreach(var view in views){
+     if(view.file.StartsWith("13-"))foreach(var h in flat.wardrobeLeaves)h.localRotation=Quaternion.identity;
+     if(view.file.StartsWith("14-"))foreach(var h in flat.wardrobeLeaves)h.localRotation=Quaternion.Euler(0,95,0);
      var lens=loop.scenes.cine.Lens;lens.FieldOfView=view.fov;loop.scenes.cine.Lens=lens;
      var direction=view.target-(view.feet+Vector3.up*1.55f);var angles=Quaternion.LookRotation(direction).eulerAngles;player.Place(view.feet,angles.y,Mathf.DeltaAngle(0,angles.x));player.flashlight.intensity=0;
      yield return new WaitForSecondsRealtime(.6f);yield return new WaitForEndOfFrame();

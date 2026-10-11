@@ -79,3 +79,11 @@ M1 0.2.9: собственный CourtyardLightFog.shader и интеграци�
 - ambientCG, Plaster004, CC0: https://ambientcg.com/view?id=Plaster004 . 2K-JPG архив, проверка ZIP CRC и SHA256 в SOURCE.json. Штукатурка для оболочки; ещё не внедрена. Лицензия: https://docs.ambientcg.com/license/ .
 - Old Soviet Apartment vol.1 пока только рекомендован, не приобретён/не импортирован. Не отмечать его как использованный до получения.
 - Старые записи про авторские процедурные предметы выше описывают исторические версии; для нового среза такой способ создания реквизита запрещён.
+
+## Bedroom package05 — 2026-10-11
+- Fancy Picture Frame01: Rob Tuytel (Scan & Painting), Rico Cilliers (modeling), Poly Haven, CC0. https://polyhaven.com/a/fancy_picture_frame_01 . Original meshes at0.3 scale; canvas uses existing Met Open Access icons205079/831188.
+- Lightbulb01 and pull-chain light socket: Josh Dean, Poly Haven, CC0. https://polyhaven.com/a/lightbulb_01 and https://polyhaven.com/a/pull_chain_light_socket . Original models; dark unpowered bulb material.
+- Fabric Lace038: Katsukagi, CC0 per https://3dtextures.me/2024/06/21/fabric-lace-038/ . Author Google Drive maps; white albedo remap + original opacity packed for Unity, source PNGs retained.
+- Wardrobe: dashkilya, CC-BY4.0, https://sketchfab.com/models/ad0ab8f9757640d6b88fa9318d2298cb . Existing author meshes/UVs separated into two animated side doors and carcass, fitted to specified1.00m width /0.55m depth /1.90m height. No replacement furniture mesh.
+- Lampada vessel currently reuses the existing Poly Haven ceramic_vase_01 CC0 model with red textured material; this is an explicit temporary reuse, not an authored historical lampada asset.
+- Bedroom wallpaper/rug reuse the project's generated v2 textures selected by Claude; architectural trim/panel doors and permitted textile geometry are project-created, not claimed as downloaded assets. Accepted LightLab materials are not edited.

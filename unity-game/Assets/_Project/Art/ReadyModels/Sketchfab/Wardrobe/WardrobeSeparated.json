@@ -1,0 +1,8 @@
+{
+  "operation": "Group unchanged disconnected author geometry into carcass, two side doors and handles. Central mirror panel stays with body. Preserve UVs; no invented furniture geometry.",
+  "groups": {
+    "Body": 34,
+    "LeafLeft": 12,
+    "LeafRight": 12
+  }
+}

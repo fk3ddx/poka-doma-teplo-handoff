@@ -1,0 +1,79 @@
+menu-to-play
+WALK (7.63, 0.01, 3.71) target=(7.65, 0.00, 3.80)
+PASS flashlight pickup
+PASS lap 1 entered
+WALK (7.89, 0.01, 5.30) target=(7.90, 0.00, 5.35)
+WALK (5.72, 0.01, 5.35) target=(5.65, 0.00, 5.35)
+WALK (5.65, 0.02, 3.70) target=(5.65, 0.00, 3.60)
+WALK (3.30, 0.01, 3.59) target=(3.25, 0.00, 3.60)
+WALK (2.41, 0.01, 3.60) target=(2.30, 0.00, 3.60)
+WALK (0.96, 0.01, 3.74) target=(0.90, 0.00, 3.75)
+PASS gate 1 released by event
+WALK (8.03, 0.02, 6.62) target=(0.90, 0.00, 5.10)
+WALK (8.04, 0.01, 5.66) target=(8.05, 0.00, 5.55)
+PASS lap 2 entered
+WALK (7.82, 0.01, 5.41) target=(7.90, 0.00, 5.35)
+WALK (5.71, 0.01, 5.35) target=(5.65, 0.00, 5.35)
+WALK (5.65, 0.01, 3.72) target=(5.65, 0.00, 3.60)
+WALK (3.32, 0.01, 3.59) target=(3.25, 0.00, 3.60)
+WALK (2.40, 0.01, 3.60) target=(2.30, 0.00, 3.60)
+WALK (1.49, 0.01, 3.15) target=(1.40, 0.00, 3.10)
+UNDERBED crouch=True distance=1,259611 dot=1 prompt=[E] Посмотреть под кровать
+WALK (0.98, 0.01, 3.67) target=(0.90, 0.00, 3.75)
+PASS gate 2 released by event
+WALK (8.05, 0.02, 6.62) target=(0.90, 0.00, 5.10)
+WALK (8.04, 0.01, 5.65) target=(8.05, 0.00, 5.55)
+PASS lap 3 entered
+WALK (7.88, 0.01, 5.32) target=(7.90, 0.00, 5.35)
+WALK (5.72, 0.01, 5.35) target=(5.65, 0.00, 5.35)
+WALK (5.65, 0.01, 3.71) target=(5.65, 0.00, 3.60)
+WALK (5.34, 0.04, 1.18) target=(5.25, 0.00, 1.15)
+WALK (5.64, 0.04, 3.49) target=(5.65, 0.00, 3.60)
+WALK (3.31, 0.01, 3.59) target=(3.25, 0.00, 3.60)
+WALK (2.21, 0.01, 3.60) target=(2.30, 0.00, 3.60)
+WALK (0.99, 0.01, 3.74) target=(0.90, 0.00, 3.75)
+PASS gate 3 released by event
+WALK (8.02, 0.02, 6.65) target=(0.90, 0.00, 5.10)
+WALK (8.03, 0.01, 5.64) target=(8.05, 0.00, 5.55)
+PASS lap 4 entered
+WALK (7.98, 0.02, 5.32) target=(7.90, 0.00, 5.35)
+WALK (5.71, 0.01, 5.35) target=(5.65, 0.00, 5.35)
+WALK (5.65, 0.04, 3.64) target=(5.65, 0.00, 3.60)
+WALK (3.37, 0.02, 3.59) target=(3.25, 0.00, 3.60)
+WALK (2.41, 0.01, 3.60) target=(2.30, 0.00, 3.60)
+WALK (0.97, 0.01, 3.74) target=(0.90, 0.00, 3.75)
+PASS gate 4 released by event
+WALK (8.03, 0.02, 6.54) target=(0.90, 0.00, 5.10)
+WALK (8.04, 0.01, 5.66) target=(8.05, 0.00, 5.55)
+PASS lap 5 entered
+PASS fifth bedroom locked before phone
+PASS fifth bedroom has 20cm ajar gap
+WALK (7.65, 0.01, 3.78) target=(7.65, 0.00, 3.80)
+WALK (7.90, 0.01, 5.35) target=(7.90, 0.00, 5.35)
+WALK (5.68, 0.01, 5.35) target=(5.65, 0.00, 5.35)
+WALK (5.65, 0.04, 3.64) target=(5.65, 0.00, 3.60)
+WALK (3.35, 0.02, 3.59) target=(3.25, 0.00, 3.60)
+PASS hanging door armed by E
+PASS opening bedroom does not start an occluded cutscene
+WALK (2.50, 0.01, 3.60) target=(2.45, 0.00, 3.60)
+PASS hanging starts after entering with clear line of sight
+WALK (2.42, 0.01, 3.60) target=(2.30, 0.00, 3.60)
+WALK (0.97, 0.01, 3.74) target=(0.90, 0.00, 3.75)
+PASS gate 5 released by event
+WALK (8.01, 0.02, 6.64) target=(0.90, 0.00, 5.10)
+WALK (8.00, 0.02, 5.51) target=(8.05, 0.00, 5.55)
+PASS lap 6 entered
+WALK (7.90, 0.01, 5.40) target=(7.90, 0.00, 5.35)
+WALK (5.56, 0.01, 5.35) target=(5.65, 0.00, 5.35)
+WALK (5.65, 0.04, 3.51) target=(5.65, 0.00, 3.60)
+WALK (3.24, 0.01, 3.60) target=(3.25, 0.00, 3.60)
+WALK (2.41, 0.01, 3.60) target=(2.30, 0.00, 3.60)
+WALK (0.87, 0.01, 3.75) target=(0.90, 0.00, 3.75)
+PASS sixth carpet stays locked
+WALK (2.32, 0.01, 3.59) target=(2.25, 0.00, 3.60)
+WALK (5.55, 0.04, 3.55) target=(5.65, 0.00, 3.60)
+WALK (5.64, 0.01, 5.26) target=(5.65, 0.00, 5.35)
+WALK (7.95, 0.01, 5.44) target=(8.05, 0.00, 5.45)
+ERROR NullReferenceException: Object reference not set to an instance of an object
+FAIL chase entered
+PASS chase starts in original hallway without visible teleport

@@ -1,0 +1,64 @@
+menu-to-play
+WALK (7.67, 0.02, 3.90) target=(7.65, 0.00, 3.80)
+PASS flashlight pickup
+PASS lap 1 entered
+WALK (7.89, 0.01, 5.26) target=(7.90, 0.00, 5.35)
+WALK (5.61, 0.01, 5.35) target=(5.65, 0.00, 5.35)
+WALK (5.65, 0.01, 3.71) target=(5.65, 0.00, 3.60)
+WALK (3.35, 0.01, 3.59) target=(3.25, 0.00, 3.60)
+WALK (2.40, 0.01, 3.60) target=(2.30, 0.00, 3.60)
+WALK (1.00, 0.01, 3.74) target=(0.90, 0.00, 3.75)
+PASS gate 1 released by event
+WALK (0.90, 0.02, 5.13) target=(0.90, 0.00, 5.10)
+WALK (8.02, 0.01, 5.61) target=(8.05, 0.00, 5.55)
+PASS lap 2 entered
+WALK (7.86, 0.01, 5.27) target=(7.90, 0.00, 5.35)
+WALK (5.68, 0.01, 5.35) target=(5.65, 0.00, 5.35)
+WALK (5.65, 0.02, 3.70) target=(5.65, 0.00, 3.60)
+WALK (3.35, 0.02, 3.59) target=(3.25, 0.00, 3.60)
+WALK (2.40, 0.01, 3.60) target=(2.30, 0.00, 3.60)
+WALK (1.51, 0.01, 3.15) target=(1.40, 0.00, 3.10)
+UNDERBED crouch=True distance=1,270871 dot=1 prompt=[E] Посмотреть под кровать
+WALK (0.99, 0.01, 3.67) target=(0.90, 0.00, 3.75)
+PASS gate 2 released by event
+WALK (8.01, 0.02, 6.68) target=(0.90, 0.00, 5.10)
+WALK (8.03, 0.01, 5.62) target=(8.05, 0.00, 5.55)
+PASS lap 3 entered
+WALK (8.02, 0.01, 5.24) target=(7.90, 0.00, 5.35)
+WALK (5.60, 0.01, 5.35) target=(5.65, 0.00, 5.35)
+WALK (5.65, 0.04, 3.63) target=(5.65, 0.00, 3.60)
+WALK (5.34, 0.04, 1.16) target=(5.25, 0.00, 1.15)
+WALK (5.64, 0.04, 3.55) target=(5.65, 0.00, 3.60)
+WALK (3.27, 0.01, 3.60) target=(3.25, 0.00, 3.60)
+WALK (2.40, 0.01, 3.60) target=(2.30, 0.00, 3.60)
+WALK (0.96, 0.01, 3.74) target=(0.90, 0.00, 3.75)
+PASS gate 3 released by event
+WALK (8.05, 0.02, 6.49) target=(0.90, 0.00, 5.10)
+WALK (8.03, 0.01, 5.66) target=(8.05, 0.00, 5.55)
+PASS lap 4 entered
+WALK (7.90, 0.01, 5.36) target=(7.90, 0.00, 5.35)
+WALK (5.72, 0.01, 5.35) target=(5.65, 0.00, 5.35)
+WALK (5.65, 0.02, 3.68) target=(5.65, 0.00, 3.60)
+WALK (3.35, 0.01, 3.59) target=(3.25, 0.00, 3.60)
+WALK (2.40, 0.01, 3.60) target=(2.30, 0.00, 3.60)
+WALK (0.99, 0.01, 3.74) target=(0.90, 0.00, 3.75)
+PASS gate 4 released by event
+WALK (8.06, 0.02, 6.65) target=(0.90, 0.00, 5.10)
+WALK (8.04, 0.01, 5.67) target=(8.05, 0.00, 5.55)
+PASS lap 5 entered
+PASS fifth bedroom locked before phone
+PASS fifth bedroom has 20cm ajar gap
+WALK (7.64, 0.01, 3.90) target=(7.65, 0.00, 3.80)
+WALK (7.90, 0.01, 5.36) target=(7.90, 0.00, 5.35)
+WALK (5.60, 0.02, 5.35) target=(5.65, 0.00, 5.35)
+WALK (5.65, 0.04, 3.58) target=(5.65, 0.00, 3.60)
+WALK (3.36, 0.02, 3.58) target=(3.25, 0.00, 3.60)
+PASS hanging door armed by E
+PASS opening bedroom does not start an occluded cutscene
+WALK (2.55, 0.01, 3.60) target=(2.45, 0.00, 3.60)
+PASS hanging starts after entering with clear line of sight
+WALK (2.38, 0.01, 3.60) target=(2.30, 0.00, 3.60)
+WALK (0.86, 0.01, 3.75) target=(0.90, 0.00, 3.75)
+PASS gate 5 released by event
+FAIL walk blocked toward (0.90, 0.00, 5.10) at (0.24, 0.02, 3.53) yaw=22,98766 W=True control=True speed=0 paused=False
+WALK (0.24, 0.02, 3.53) target=(0.90, 0.00, 5.10)

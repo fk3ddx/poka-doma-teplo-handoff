@@ -1,0 +1,1 @@
+wallpaper-v2 and rug-v2: existing project generated textures, selected in Claude reviews. WhiteEnamel: grayscale, compressed-albedo derivative of project Poly Haven clay_plaster photo map, CC0. Architectural use only.

@@ -1,0 +1,11 @@
+menu-to-play
+WALK (7.66, 0.01, 3.87) target=(7.65, 0.00, 3.80)
+PASS flashlight pickup
+PASS lap 1 entered
+WALK (7.89, 0.01, 5.31) target=(7.90, 0.00, 5.35)
+WALK (5.74, 0.01, 5.35) target=(5.65, 0.00, 5.35)
+WALK (5.65, 0.02, 3.69) target=(5.65, 0.00, 3.60)
+WALK (3.32, 0.01, 3.59) target=(3.25, 0.00, 3.60)
+WALK (2.40, 0.01, 3.60) target=(2.30, 0.00, 3.60)
+WALK (0.81, 0.01, 3.76) target=(0.90, 0.00, 3.75)
+FAIL gate 1 released by event

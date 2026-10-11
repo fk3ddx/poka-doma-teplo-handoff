@@ -19,32 +19,56 @@ for f in m.data.polygons:f.use_smooth=True
 # Coverlet: continuous grid, folds fall over both sides, open at pillow end.
 v=[];f=[];nx=26;ny=34
 for j in range(ny+1):
- y=-.30+j/ny*1.21
+ y=-.30+j/ny*1.20
  for i in range(nx+1):
-  x=-.56+i/nx*1.12;drop=max(0,abs(x)-.43)*1.4
+  x=-.56+i/nx*1.12;drop=max(0,abs(x)-.43)*1.05+max(0,y-.84)*2.0
   z=.612-drop+.007*math.sin(y*27+x*9)+.003*math.sin(y*61-x*14)
   v.append((x,y,z))
 for j in range(ny):
  for i in range(nx):a=j*(nx+1)+i;f.append((a,a+1,a+nx+2,a+nx+1))
 o=obj('Textile coverlet',v,f,cover);mod=o.modifiers.new('Fabric thickness','SOLIDIFY');mod.thickness=.003;bpy.context.view_layer.objects.active=o;bpy.ops.object.modifier_apply(modifier=mod.name)
-# Three sewn pillows, two shaped cloth surfaces meeting at the edge.
-for num,(w,l,h,z,angle) in enumerate([(.60,.43,.14,.65,-.06),(.50,.38,.12,.747,.10),(.40,.31,.10,.829,-.09)]):
- v=[];f=[];nx=18;ny=14
+# Upright, plump diamond pillows leaning into the headboard; authored textile exception.
+# Widths are measured horizontally after the 45 degree turn, not long rectangular slabs.
+for num,(w,cy,angle) in enumerate([(.70,-.72,-.035),(.60,-.59,.03),(.50,-.45,-.02)]):
+ v=[];f=[];nx=22;ny=22
  for side in [1,-1]:
   for j in range(ny+1):
    for i in range(nx+1):
-    u=i/nx;vv=j/ny;x=(u-.5)*w;y=(vv-.5)*l
-    bulge=(max(0,math.sin(math.pi*u)*math.sin(math.pi*vv)))**.55
-    px=x*math.cos(angle)-y*math.sin(angle);py=x*math.sin(angle)+y*math.cos(angle)-.60
-    v.append((px,py,z+side*(.003+bulge*h*.5)))
+    u=i/nx;vv=j/ny
+    px=(u-vv)*w*.5;pz=(u+vv-1)*w*.5
+    bulge=max(0,math.sin(math.pi*u)*math.sin(math.pi*vv))**.48
+    # All three lower corners touch the mattress; tops lean back, seams remain thin.
+    z=.595+w*.5+pz
+    y=cy-pz*.22+side*(.003+.075*bulge)
+    v.append((px*math.cos(angle)-pz*math.sin(angle),y,z+px*math.sin(angle)))
  layer=(nx+1)*(ny+1)
  for side in range(2):
   for j in range(ny):
    for i in range(nx):
-    a=side*layer+j*(nx+1)+i;q=(a,a+1,a+nx+2,a+nx+1);f.append(q if side==0 else tuple(reversed(q)))
+    a=side*layer+j*(nx+1)+i;q=(a,a+1,a+nx+2,a+nx+1);f.append(tuple(reversed(q)) if side==0 else q)
  edge=list(range(nx+1))+[j*(nx+1)+nx for j in range(1,ny+1)]+[ny*(nx+1)+i for i in range(nx-1,-1,-1)]+[j*(nx+1) for j in range(ny-1,0,-1)]
  for k,a in enumerate(edge):b=edge[(k+1)%len(edge)];f.append((a,b,b+layer,a+layer))
- obj('Textile pillow '+str(num+1),v,f,linen)
+ o=obj('Textile upright pillow '+str(num+1),v,f,linen)
+ # Cloth UVs in the actual cushion plane, avoiding the squashed former top-projection.
+ for poly in o.data.polygons:
+  for li in poly.loop_indices:
+   co=o.data.vertices[o.data.loops[li].vertex_index].co;o.data.uv_layers.active.data[li].uv=(co.x*2,co.z*2)
+# Transparent authored lace over the upper pillow stack; separate textile, not furniture.
+lace=bpy.data.materials.new('Bed_Lace_CC0');lace.diffuse_color=(1,1,1,1)
+v=[];f=[];nx=28;ny=22
+for j in range(ny+1):
+ t=j/ny
+ for i in range(nx+1):
+  x=-.35+.70*i/nx
+  z=(1.25-abs(x)*.9)*(1-t)+(.74-abs(x)*.1)*t
+  y=-.28-.95*(z-.74)+.008*math.sin(x*58+t*12)
+  v.append((x,y,z))
+for j in range(ny):
+ for i in range(nx):a=j*(nx+1)+i;f.append((a,a+1,a+nx+2,a+nx+1))
+o=obj('Textile lace veil',v,f,lace)
+for poly in o.data.polygons:
+ for li in poly.loop_indices:
+  index=o.data.loops[li].vertex_index;o.data.uv_layers.active.data[li].uv=((index%(nx+1))/nx,(index//(nx+1))/ny)
 # Author frame spring deck measured at .49-.50m; mattress underside at .51m.
 for o in bpy.context.scene.objects:o.location.z+=.06
 bpy.ops.object.select_all(action='SELECT')
