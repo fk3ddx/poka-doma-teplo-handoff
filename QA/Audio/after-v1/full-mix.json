@@ -1,0 +1,131 @@
+{
+    "scope": "Unity listener mix, pre-OS output; not microphone or loopback",
+    "error": "",
+    "sampleRate": 48000,
+    "channels": 2,
+    "droppedSamples": 0,
+    "formatChanges": 0,
+    "samples": 16304128,
+    "markers": [
+        {
+            "state": "pause",
+            "sample": 53248,
+            "seconds": 0.5546666666666666
+        },
+        {
+            "state": "lap-1",
+            "sample": 258048,
+            "seconds": 2.688
+        },
+        {
+            "state": "lap-2",
+            "sample": 1132544,
+            "seconds": 11.797333333333333
+        },
+        {
+            "state": "UnderBed",
+            "sample": 1878016,
+            "seconds": 19.562666666666666
+        },
+        {
+            "state": "lap-2",
+            "sample": 2013184,
+            "seconds": 20.970666666666668
+        },
+        {
+            "state": "lap-3",
+            "sample": 2263040,
+            "seconds": 23.573333333333335
+        },
+        {
+            "state": "BalconyPalm",
+            "sample": 2826240,
+            "seconds": 29.44
+        },
+        {
+            "state": "lap-3",
+            "sample": 2947072,
+            "seconds": 30.698666666666669
+        },
+        {
+            "state": "lap-4",
+            "sample": 3526656,
+            "seconds": 36.736
+        },
+        {
+            "state": "Television",
+            "sample": 4290560,
+            "seconds": 44.693333333333338
+        },
+        {
+            "state": "lap-4",
+            "sample": 4302848,
+            "seconds": 44.821333333333338
+        },
+        {
+            "state": "lap-5",
+            "sample": 4833280,
+            "seconds": 50.346666666666667
+        },
+        {
+            "state": "HangingVision",
+            "sample": 6656000,
+            "seconds": 69.33333333333333
+        },
+        {
+            "state": "lap-5",
+            "sample": 7245824,
+            "seconds": 75.47733333333334
+        },
+        {
+            "state": "lap-6",
+            "sample": 7579648,
+            "seconds": 78.95466666666667
+        },
+        {
+            "state": "Peephole",
+            "sample": 8763392,
+            "seconds": 91.28533333333333
+        },
+        {
+            "state": "ChaseStart",
+            "sample": 9439232,
+            "seconds": 98.32533333333334
+        },
+        {
+            "state": "pause",
+            "sample": 9740288,
+            "seconds": 101.46133333333333
+        },
+        {
+            "state": "chase",
+            "sample": 9791488,
+            "seconds": 101.99466666666666
+        },
+        {
+            "state": "DeathShort",
+            "sample": 9934848,
+            "seconds": 103.488
+        },
+        {
+            "state": "chase",
+            "sample": 10274816,
+            "seconds": 107.02933333333333
+        },
+        {
+            "state": "ChaseStart",
+            "sample": 10371072,
+            "seconds": 108.032
+        },
+        {
+            "state": "chase",
+            "sample": 10672128,
+            "seconds": 111.168
+        },
+        {
+            "state": "finished",
+            "sample": 16254976,
+            "seconds": 169.32266666666667
+        }
+    ]
+}

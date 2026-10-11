@@ -1,0 +1,357 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d2a3d4fae68ec348a1e5b7c8ccb20a5, type: 3}
+  m_Name: ScenarioBank
+  m_EditorClassIdentifier: Ataka.Runtime::Ataka.Scenario.ScenarioSoundBank
+  cues:
+  - id: phone
+    clips:
+    - {fileID: 8300000, guid: 393b27d29f28bf849b431325a9d3444b, type: 3}
+    - {fileID: 8300000, guid: daf0141912412244baeaac979691de2d, type: 3}
+    - {fileID: 8300000, guid: 2b4f21fc55db38a4d89a9af5e5abc20c, type: 3}
+    bus: 2
+    gainDb: -3
+    pitchVariation: 0
+    minDistance: 1
+    maxDistance: 15
+    maxInstances: 1
+    priority: 100
+    spatial: 1
+    loop: 0
+  - id: clock
+    clips:
+    - {fileID: 8300000, guid: e41a02189df706443940b0912ec4dec0, type: 3}
+    bus: 2
+    gainDb: -9
+    pitchVariation: 0
+    minDistance: 1
+    maxDistance: 8
+    maxInstances: 8
+    priority: 100
+    spatial: 1
+    loop: 1
+  - id: chime
+    clips:
+    - {fileID: 8300000, guid: 537b2d6f137c09e4cb87cf60294f7db3, type: 3}
+    bus: 2
+    gainDb: -10
+    pitchVariation: 0
+    minDistance: 1
+    maxDistance: 15
+    maxInstances: 14
+    priority: 100
+    spatial: 1
+    loop: 0
+  - id: phone_breath
+    clips:
+    - {fileID: 8300000, guid: 98fa491b1a150a14f88e7f8b22a927d5, type: 3}
+    - {fileID: 8300000, guid: 3511e87f59d453341a43f717089f3a0c, type: 3}
+    - {fileID: 8300000, guid: f4b14ba3d9ad7a149bf952f8f96104c5, type: 3}
+    - {fileID: 8300000, guid: 077f4307d1983a94d824db54f1358e71, type: 3}
+    bus: 4
+    gainDb: -10
+    pitchVariation: 0
+    minDistance: 1
+    maxDistance: 5
+    maxInstances: 1
+    priority: 20
+    spatial: 1
+    loop: 0
+  - id: breath
+    clips:
+    - {fileID: 8300000, guid: 98fa491b1a150a14f88e7f8b22a927d5, type: 3}
+    - {fileID: 8300000, guid: 3511e87f59d453341a43f717089f3a0c, type: 3}
+    - {fileID: 8300000, guid: f4b14ba3d9ad7a149bf952f8f96104c5, type: 3}
+    - {fileID: 8300000, guid: 077f4307d1983a94d824db54f1358e71, type: 3}
+    bus: 3
+    gainDb: -7
+    pitchVariation: 0
+    minDistance: 1
+    maxDistance: 5
+    maxInstances: 1
+    priority: 40
+    spatial: 1
+    loop: 0
+  - id: guest_breath
+    clips:
+    - {fileID: 8300000, guid: 98fa491b1a150a14f88e7f8b22a927d5, type: 3}
+    - {fileID: 8300000, guid: 3511e87f59d453341a43f717089f3a0c, type: 3}
+    - {fileID: 8300000, guid: f4b14ba3d9ad7a149bf952f8f96104c5, type: 3}
+    - {fileID: 8300000, guid: 077f4307d1983a94d824db54f1358e71, type: 3}
+    bus: 3
+    gainDb: -7
+    pitchVariation: 0
+    minDistance: 1
+    maxDistance: 12
+    maxInstances: 1
+    priority: 40
+    spatial: 1
+    loop: 1
+  - id: player_breath
+    clips:
+    - {fileID: 8300000, guid: 977e21ed9cc8dca44bc4103ca9af59c5, type: 3}
+    bus: 1
+    gainDb: -11
+    pitchVariation: 0
+    minDistance: 1
+    maxDistance: 12
+    maxInstances: 1
+    priority: 100
+    spatial: 0
+    loop: 1
+  - id: heartbeat
+    clips:
+    - {fileID: 8300000, guid: e02de435cebe441419b11046f6b5d94e, type: 3}
+    bus: 1
+    gainDb: -18
+    pitchVariation: 0
+    minDistance: 1
+    maxDistance: 12
+    maxInstances: 1
+    priority: 100
+    spatial: 0
+    loop: 1
+  - id: knock
+    clips:
+    - {fileID: 8300000, guid: 2140a66063e3d904a8361254f7338db8, type: 3}
+    - {fileID: 8300000, guid: 41e96df069bc2574f906d85abf71b951, type: 3}
+    - {fileID: 8300000, guid: eaece45e0ff71ef47b0aa68d0d3c26a6, type: 3}
+    bus: 2
+    gainDb: -5
+    pitchVariation: 0.015
+    minDistance: 1
+    maxDistance: 12
+    maxInstances: 3
+    priority: 100
+    spatial: 1
+    loop: 0
+  - id: creak
+    clips:
+    - {fileID: 8300000, guid: 5099c9bf15b74654699a49d972b872a8, type: 3}
+    bus: 2
+    gainDb: -9
+    pitchVariation: 0.025
+    minDistance: 1
+    maxDistance: 12
+    maxInstances: 2
+    priority: 100
+    spatial: 1
+    loop: 0
+  - id: door_open
+    clips:
+    - {fileID: 8300000, guid: 00cb4ef9a7918be42b11ed8c7bf2e9ab, type: 3}
+    - {fileID: 8300000, guid: 502739ae100af5a4abc22bf2726086ca, type: 3}
+    bus: 2
+    gainDb: -10
+    pitchVariation: 0.025
+    minDistance: 1
+    maxDistance: 12
+    maxInstances: 2
+    priority: 100
+    spatial: 1
+    loop: 0
+  - id: door_close
+    clips:
+    - {fileID: 8300000, guid: a6409d001b8fb9f43b33f118c01c392f, type: 3}
+    - {fileID: 8300000, guid: 2d5d161bd512d25429b7a08d77f878d6, type: 3}
+    - {fileID: 8300000, guid: c1a4e18e2080e474599cf3b19c4d0af8, type: 3}
+    - {fileID: 8300000, guid: c8b069d6f5d43e04882df3bd0d3e0673, type: 3}
+    bus: 2
+    gainDb: -10
+    pitchVariation: 0.025
+    minDistance: 1
+    maxDistance: 12
+    maxInstances: 2
+    priority: 100
+    spatial: 1
+    loop: 0
+  - id: latch
+    clips:
+    - {fileID: 8300000, guid: 99b391be74e848e4fa3f7eaf974ceddb, type: 3}
+    bus: 2
+    gainDb: -13
+    pitchVariation: 0.025
+    minDistance: 1
+    maxDistance: 12
+    maxInstances: 2
+    priority: 100
+    spatial: 1
+    loop: 0
+  - id: wardrobe
+    clips:
+    - {fileID: 8300000, guid: 920e9c96d9c9740458ea436847b89e60, type: 3}
+    - {fileID: 8300000, guid: e0262269ceba0f041a7184f4034331e7, type: 3}
+    - {fileID: 8300000, guid: f269bd9552aec1041b70ba34baccd462, type: 3}
+    - {fileID: 8300000, guid: afd76a7610c55274f8d4ce3862917dc0, type: 3}
+    - {fileID: 8300000, guid: 992dd7f9faa365d48ac67c6f757c5b9d, type: 3}
+    bus: 2
+    gainDb: -6
+    pitchVariation: 0.025
+    minDistance: 1
+    maxDistance: 12
+    maxInstances: 3
+    priority: 100
+    spatial: 1
+    loop: 0
+  - id: balcony
+    clips:
+    - {fileID: 8300000, guid: 545a8afb18e4811419bb6600ef382104, type: 3}
+    - {fileID: 8300000, guid: db9c3f0f364ad7c4cb268fdc47f1ce1e, type: 3}
+    - {fileID: 8300000, guid: 4a796dd64c47f1c43842b4b48dcfae3b, type: 3}
+    - {fileID: 8300000, guid: 4a62ddd5edad6d44f8f53048b3a485c5, type: 3}
+    - {fileID: 8300000, guid: 9c216ccc6b54e5d4da856898a549d9ad, type: 3}
+    bus: 2
+    gainDb: -6
+    pitchVariation: 0.025
+    minDistance: 1
+    maxDistance: 12
+    maxInstances: 3
+    priority: 100
+    spatial: 1
+    loop: 0
+  - id: door_burst
+    clips:
+    - {fileID: 8300000, guid: 920e9c96d9c9740458ea436847b89e60, type: 3}
+    - {fileID: 8300000, guid: e0262269ceba0f041a7184f4034331e7, type: 3}
+    - {fileID: 8300000, guid: f269bd9552aec1041b70ba34baccd462, type: 3}
+    - {fileID: 8300000, guid: afd76a7610c55274f8d4ce3862917dc0, type: 3}
+    - {fileID: 8300000, guid: 992dd7f9faa365d48ac67c6f757c5b9d, type: 3}
+    bus: 2
+    gainDb: -4
+    pitchVariation: 0.025
+    minDistance: 1
+    maxDistance: 12
+    maxInstances: 3
+    priority: 100
+    spatial: 1
+    loop: 0
+  - id: palms
+    clips:
+    - {fileID: 8300000, guid: 09169d397ac01e74fb057545cf67159a, type: 3}
+    - {fileID: 8300000, guid: e2a24a7c5d43b7c45a41586299425676, type: 3}
+    - {fileID: 8300000, guid: c0782f2e766b84b49a87bf94c74f66f8, type: 3}
+    - {fileID: 8300000, guid: b0b252698f746eb4aa2a4ce4d29b963f, type: 3}
+    - {fileID: 8300000, guid: 8662cf35931bc3c44a46ba3ce1437902, type: 3}
+    - {fileID: 8300000, guid: 7ea6940aa0365c84692688ff93890ce1, type: 3}
+    bus: 3
+    gainDb: -8
+    pitchVariation: 0.025
+    minDistance: 1
+    maxDistance: 12
+    maxInstances: 2
+    priority: 40
+    spatial: 1
+    loop: 0
+  - id: shriek
+    clips:
+    - {fileID: 8300000, guid: a878ed0f09ed09b49a80dd5100df9fc3, type: 3}
+    bus: 5
+    gainDb: -8
+    pitchVariation: 0
+    minDistance: 1
+    maxDistance: 12
+    maxInstances: 1
+    priority: 100
+    spatial: 1
+    loop: 0
+  - id: step
+    clips:
+    - {fileID: 8300000, guid: f5ada3e4fc0be374883c222d14471ba0, type: 3}
+    - {fileID: 8300000, guid: a5ddd077a6ee8e842830dc678fdfd5b2, type: 3}
+    - {fileID: 8300000, guid: 1b6fcff355fdf1f44a2a26bcc889963e, type: 3}
+    - {fileID: 8300000, guid: b1b4204c31d88bb419cd8bbe10ddf001, type: 3}
+    - {fileID: 8300000, guid: 2fe5d088c1d9334429b524c827830290, type: 3}
+    - {fileID: 8300000, guid: 6e8ce1486b930ca41bbeed905daf7b0c, type: 3}
+    - {fileID: 8300000, guid: 130f1b56a5cab55449a694e9d672f245, type: 3}
+    - {fileID: 8300000, guid: 14e1528705345ba44b978d653311d126, type: 3}
+    bus: 1
+    gainDb: -7
+    pitchVariation: 0.025
+    minDistance: 1
+    maxDistance: 12
+    maxInstances: 3
+    priority: 100
+    spatial: 1
+    loop: 0
+  - id: carpet_step
+    clips:
+    - {fileID: 8300000, guid: 5b72c1273a9dbd345b29570c1dc9e022, type: 3}
+    - {fileID: 8300000, guid: 1df2002847c2ce94381897b13f02509a, type: 3}
+    - {fileID: 8300000, guid: 20471781731822c438d92f67ab86f774, type: 3}
+    - {fileID: 8300000, guid: d1e60ba48518d684d8948c894f53b8db, type: 3}
+    - {fileID: 8300000, guid: fa6b2ecc4a8f242479eeac1d7494c10f, type: 3}
+    bus: 1
+    gainDb: -10
+    pitchVariation: 0.025
+    minDistance: 1
+    maxDistance: 12
+    maxInstances: 3
+    priority: 100
+    spatial: 1
+    loop: 0
+  - id: wind
+    clips:
+    - {fileID: 8300000, guid: 5b734d62dce553845b7bf8237a4e5e6f, type: 3}
+    bus: 0
+    gainDb: -15
+    pitchVariation: 0
+    minDistance: 1
+    maxDistance: 8
+    maxInstances: 1
+    priority: 100
+    spatial: 1
+    loop: 1
+  - id: rope
+    clips:
+    - {fileID: 8300000, guid: 16678d7c5f7dfa04084671691bc02549, type: 3}
+    bus: 2
+    gainDb: -9
+    pitchVariation: 0
+    minDistance: 1
+    maxDistance: 5
+    maxInstances: 1
+    priority: 100
+    spatial: 1
+    loop: 1
+  - id: scratch
+    clips:
+    - {fileID: 8300000, guid: 4c584f5f98f3c054d83d2e4cafd83be2, type: 3}
+    bus: 2
+    gainDb: -9
+    pitchVariation: 0.025
+    minDistance: 1
+    maxDistance: 12
+    maxInstances: 1
+    priority: 100
+    spatial: 1
+    loop: 0
+  - id: fridge
+    clips:
+    - {fileID: 8300000, guid: 74ab1e9e670ee6e4cb75dcc7ac3b854f, type: 3}
+    bus: 0
+    gainDb: -18
+    pitchVariation: 0
+    minDistance: 1
+    maxDistance: 6
+    maxInstances: 1
+    priority: 100
+    spatial: 1
+    loop: 1
+  mixer: {fileID: 24100000, guid: 206f65289fcba12488dd26ad26aeef33, type: 2}
+  groups:
+  - {fileID: -8406426117807232985, guid: 206f65289fcba12488dd26ad26aeef33, type: 2}
+  - {fileID: -6347054066499163238, guid: 206f65289fcba12488dd26ad26aeef33, type: 2}
+  - {fileID: 1960967480222345925, guid: 206f65289fcba12488dd26ad26aeef33, type: 2}
+  - {fileID: 5475987714055822593, guid: 206f65289fcba12488dd26ad26aeef33, type: 2}
+  - {fileID: -7488200414201291778, guid: 206f65289fcba12488dd26ad26aeef33, type: 2}
+  - {fileID: 3636548368439957901, guid: 206f65289fcba12488dd26ad26aeef33, type: 2}
+  - {fileID: 8000057084237678115, guid: 206f65289fcba12488dd26ad26aeef33, type: 2}

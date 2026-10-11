@@ -1,0 +1,425 @@
+{
+  "scope": "Unity listener mix before OS/device, sample peak and RMS only. Not LUFS, not true peak. No listening acceptance.",
+  "versions": {
+    "before": {
+      "duration_seconds": 169.74933333333334,
+      "sample_rate": 48000,
+      "capture": {
+        "scope": "Unity listener mix, pre-OS output; not microphone or loopback",
+        "error": "",
+        "sampleRate": 48000,
+        "channels": 2,
+        "droppedSamples": 0,
+        "formatChanges": 0,
+        "samples": 16295936,
+        "markers": [
+          {
+            "state": "pause",
+            "sample": 53248,
+            "seconds": 0.5546666666666666
+          },
+          {
+            "state": "lap-1",
+            "sample": 260096,
+            "seconds": 2.7093333333333334
+          },
+          {
+            "state": "lap-2",
+            "sample": 1128448,
+            "seconds": 11.754666666666667
+          },
+          {
+            "state": "UnderBed",
+            "sample": 1861632,
+            "seconds": 19.392
+          },
+          {
+            "state": "lap-2",
+            "sample": 1998848,
+            "seconds": 20.82133333333333
+          },
+          {
+            "state": "lap-3",
+            "sample": 2252800,
+            "seconds": 23.466666666666665
+          },
+          {
+            "state": "BalconyPalm",
+            "sample": 2818048,
+            "seconds": 29.354666666666667
+          },
+          {
+            "state": "lap-3",
+            "sample": 2938880,
+            "seconds": 30.613333333333333
+          },
+          {
+            "state": "lap-4",
+            "sample": 3522560,
+            "seconds": 36.693333333333335
+          },
+          {
+            "state": "Television",
+            "sample": 4276224,
+            "seconds": 44.544
+          },
+          {
+            "state": "lap-4",
+            "sample": 4288512,
+            "seconds": 44.672
+          },
+          {
+            "state": "lap-5",
+            "sample": 4827136,
+            "seconds": 50.282666666666664
+          },
+          {
+            "state": "HangingVision",
+            "sample": 6647808,
+            "seconds": 69.248
+          },
+          {
+            "state": "lap-5",
+            "sample": 7237632,
+            "seconds": 75.392
+          },
+          {
+            "state": "lap-6",
+            "sample": 7573504,
+            "seconds": 78.89066666666666
+          },
+          {
+            "state": "Peephole",
+            "sample": 8755200,
+            "seconds": 91.2
+          },
+          {
+            "state": "ChaseStart",
+            "sample": 9431040,
+            "seconds": 98.24
+          },
+          {
+            "state": "pause",
+            "sample": 9734144,
+            "seconds": 101.39733333333334
+          },
+          {
+            "state": "chase",
+            "sample": 9783296,
+            "seconds": 101.90933333333334
+          },
+          {
+            "state": "DeathShort",
+            "sample": 9926656,
+            "seconds": 103.40266666666666
+          },
+          {
+            "state": "chase",
+            "sample": 10266624,
+            "seconds": 106.944
+          },
+          {
+            "state": "ChaseStart",
+            "sample": 10362880,
+            "seconds": 107.94666666666667
+          },
+          {
+            "state": "chase",
+            "sample": 10663936,
+            "seconds": 111.08266666666667
+          },
+          {
+            "state": "finished",
+            "sample": 16246784,
+            "seconds": 169.23733333333334
+          }
+        ]
+      },
+      "metrics": {
+        "sample_peak_dbfs": -9.34,
+        "rms_dbfs": -36.31,
+        "samples_at_or_above_full_scale": 0,
+        "nonzero_samples": 10321980
+      },
+      "sha256": "bf033a30b33395865a4050713b65bf5ebab1fbc81e8e7727d3634b0737498bee",
+      "clips": {
+        "quiet": {
+          "start_seconds": 2.7093333333333334,
+          "duration_seconds": 8.0,
+          "metrics": {
+            "sample_peak_dbfs": -25.1,
+            "rms_dbfs": -50.25,
+            "samples_at_or_above_full_scale": 0,
+            "nonzero_samples": 196542
+          },
+          "file": "QA/Audio/comparison/before-quiet.wav"
+        },
+        "under-bed": {
+          "start_seconds": 17.392,
+          "duration_seconds": 6.0,
+          "metrics": {
+            "sample_peak_dbfs": -14.63,
+            "rms_dbfs": -34.82,
+            "samples_at_or_above_full_scale": 0,
+            "nonzero_samples": 347272
+          },
+          "file": "QA/Audio/comparison/before-under-bed.wav"
+        },
+        "phone": {
+          "start_seconds": 50.282666666666664,
+          "duration_seconds": 18.0,
+          "metrics": {
+            "sample_peak_dbfs": -13.83,
+            "rms_dbfs": -35.06,
+            "samples_at_or_above_full_scale": 0,
+            "nonzero_samples": 1128132
+          },
+          "file": "QA/Audio/comparison/before-phone.wav"
+        },
+        "hanging": {
+          "start_seconds": 68.248,
+          "duration_seconds": 9.0,
+          "metrics": {
+            "sample_peak_dbfs": -14.35,
+            "rms_dbfs": -36.12,
+            "samples_at_or_above_full_scale": 0,
+            "nonzero_samples": 449374
+          },
+          "file": "QA/Audio/comparison/before-hanging.wav"
+        },
+        "death": {
+          "start_seconds": 102.90266666666666,
+          "duration_seconds": 5.0,
+          "metrics": {
+            "sample_peak_dbfs": -9.34,
+            "rms_dbfs": -25.73,
+            "samples_at_or_above_full_scale": 0,
+            "nonzero_samples": 323006
+          },
+          "file": "QA/Audio/comparison/before-death.wav"
+        },
+        "chase-end": {
+          "start_seconds": 149.23733333333334,
+          "duration_seconds": 20.0,
+          "metrics": {
+            "sample_peak_dbfs": -17.76,
+            "rms_dbfs": -36.05,
+            "samples_at_or_above_full_scale": 0,
+            "nonzero_samples": 1914114
+          },
+          "file": "QA/Audio/comparison/before-chase-end.wav"
+        }
+      }
+    },
+    "after-v1": {
+      "duration_seconds": 169.83466666666666,
+      "sample_rate": 48000,
+      "capture": {
+        "scope": "Unity listener mix, pre-OS output; not microphone or loopback",
+        "error": "",
+        "sampleRate": 48000,
+        "channels": 2,
+        "droppedSamples": 0,
+        "formatChanges": 0,
+        "samples": 16304128,
+        "markers": [
+          {
+            "state": "pause",
+            "sample": 53248,
+            "seconds": 0.5546666666666666
+          },
+          {
+            "state": "lap-1",
+            "sample": 258048,
+            "seconds": 2.688
+          },
+          {
+            "state": "lap-2",
+            "sample": 1132544,
+            "seconds": 11.797333333333333
+          },
+          {
+            "state": "UnderBed",
+            "sample": 1878016,
+            "seconds": 19.562666666666665
+          },
+          {
+            "state": "lap-2",
+            "sample": 2013184,
+            "seconds": 20.970666666666666
+          },
+          {
+            "state": "lap-3",
+            "sample": 2263040,
+            "seconds": 23.573333333333334
+          },
+          {
+            "state": "BalconyPalm",
+            "sample": 2826240,
+            "seconds": 29.44
+          },
+          {
+            "state": "lap-3",
+            "sample": 2947072,
+            "seconds": 30.698666666666668
+          },
+          {
+            "state": "lap-4",
+            "sample": 3526656,
+            "seconds": 36.736
+          },
+          {
+            "state": "Television",
+            "sample": 4290560,
+            "seconds": 44.693333333333335
+          },
+          {
+            "state": "lap-4",
+            "sample": 4302848,
+            "seconds": 44.821333333333335
+          },
+          {
+            "state": "lap-5",
+            "sample": 4833280,
+            "seconds": 50.346666666666664
+          },
+          {
+            "state": "HangingVision",
+            "sample": 6656000,
+            "seconds": 69.33333333333333
+          },
+          {
+            "state": "lap-5",
+            "sample": 7245824,
+            "seconds": 75.47733333333333
+          },
+          {
+            "state": "lap-6",
+            "sample": 7579648,
+            "seconds": 78.95466666666667
+          },
+          {
+            "state": "Peephole",
+            "sample": 8763392,
+            "seconds": 91.28533333333333
+          },
+          {
+            "state": "ChaseStart",
+            "sample": 9439232,
+            "seconds": 98.32533333333333
+          },
+          {
+            "state": "pause",
+            "sample": 9740288,
+            "seconds": 101.46133333333333
+          },
+          {
+            "state": "chase",
+            "sample": 9791488,
+            "seconds": 101.99466666666666
+          },
+          {
+            "state": "DeathShort",
+            "sample": 9934848,
+            "seconds": 103.488
+          },
+          {
+            "state": "chase",
+            "sample": 10274816,
+            "seconds": 107.02933333333333
+          },
+          {
+            "state": "ChaseStart",
+            "sample": 10371072,
+            "seconds": 108.032
+          },
+          {
+            "state": "chase",
+            "sample": 10672128,
+            "seconds": 111.168
+          },
+          {
+            "state": "finished",
+            "sample": 16254976,
+            "seconds": 169.32266666666666
+          }
+        ]
+      },
+      "metrics": {
+        "sample_peak_dbfs": -17.69,
+        "rms_dbfs": -43.05,
+        "samples_at_or_above_full_scale": 0,
+        "nonzero_samples": 16304128
+      },
+      "sha256": "5a6ddeb0663c115532bda26b71f5b5baf461d84ae4233ebbae67ef5a8aa98c88",
+      "clips": {
+        "quiet": {
+          "start_seconds": 2.688,
+          "duration_seconds": 8.0,
+          "metrics": {
+            "sample_peak_dbfs": -28.24,
+            "rms_dbfs": -55.45,
+            "samples_at_or_above_full_scale": 0,
+            "nonzero_samples": 768000
+          },
+          "file": "QA/Audio/comparison/after-v1-quiet.wav"
+        },
+        "under-bed": {
+          "start_seconds": 17.562666666666665,
+          "duration_seconds": 6.000020833333333,
+          "metrics": {
+            "sample_peak_dbfs": -21.94,
+            "rms_dbfs": -39.82,
+            "samples_at_or_above_full_scale": 0,
+            "nonzero_samples": 576002
+          },
+          "file": "QA/Audio/comparison/after-v1-under-bed.wav"
+        },
+        "phone": {
+          "start_seconds": 50.346666666666664,
+          "duration_seconds": 18.0,
+          "metrics": {
+            "sample_peak_dbfs": -17.69,
+            "rms_dbfs": -40.99,
+            "samples_at_or_above_full_scale": 0,
+            "nonzero_samples": 1728000
+          },
+          "file": "QA/Audio/comparison/after-v1-phone.wav"
+        },
+        "hanging": {
+          "start_seconds": 68.33333333333333,
+          "duration_seconds": 9.0,
+          "metrics": {
+            "sample_peak_dbfs": -22.14,
+            "rms_dbfs": -39.35,
+            "samples_at_or_above_full_scale": 0,
+            "nonzero_samples": 864000
+          },
+          "file": "QA/Audio/comparison/after-v1-hanging.wav"
+        },
+        "death": {
+          "start_seconds": 102.988,
+          "duration_seconds": 5.0,
+          "metrics": {
+            "sample_peak_dbfs": -19.73,
+            "rms_dbfs": -35.44,
+            "samples_at_or_above_full_scale": 0,
+            "nonzero_samples": 480000
+          },
+          "file": "QA/Audio/comparison/after-v1-death.wav"
+        },
+        "chase-end": {
+          "start_seconds": 149.32266666666666,
+          "duration_seconds": 20.0,
+          "metrics": {
+            "sample_peak_dbfs": -26.52,
+            "rms_dbfs": -43.37,
+            "samples_at_or_above_full_scale": 0,
+            "nonzero_samples": 1920000
+          },
+          "file": "QA/Audio/comparison/after-v1-chase-end.wav"
+        }
+      }
+    }
+  }
+}

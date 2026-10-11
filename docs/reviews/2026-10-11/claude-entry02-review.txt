@@ -1,0 +1,317 @@
+- heading "CloudCLI" [level=1]
+- button "Refresh projects and sessions (Ctrl+R)":
+- button "Create new project":
+- button "Hide sidebar":
+- link "Star 14.0k":
+  - /url: https://github.com/siteboon/claudecodeui
+  - generic: Star
+  - generic: 14.0k
+- button "Projects" [pressed]:
+  - generic: Projects
+- button "Conversations":
+  - generic: Conversations
+- button "Running sessions":
+  - generic: "1"
+- button "Archive only":
+- textbox "Search projects..."
+- text: Ctrl
+- generic: K
+- button "Основной проект 0 - ...e/claude/projects/main":
+  - generic "Add to favorites":
+  - generic "Основной проект"
+  - text: "0"
+  - generic "/home/claude/projects/main": "- ...e/claude/projects/main"
+  - generic "Rename project (F2)":
+  - generic "Remove project from sidebar (Delete)":
+- button "buba-finance-review-20261011 1 - ...inance-review-20261011":
+  - generic "Add to favorites":
+  - generic "buba-finance-review-20261011"
+  - text: "1"
+  - generic "/home/claude/projects/buba-finance-review-20261011": "- ...inance-review-20261011"
+  - generic "Rename project (F2)":
+  - generic "Remove project from sidebar (Delete)":
+- button "dima 1 - ...e/claude/projects/dima":
+  - generic "Add to favorites":
+  - generic "dima"
+  - text: "1"
+  - generic "/home/claude/projects/dima": "- ...e/claude/projects/dima"
+  - generic "Rename project (F2)":
+  - generic "Remove project from sidebar (Delete)":
+- button "New Session":
+  - text: New Session
+- button "Select":
+  - text: Select
+- 'link "Claude Загрузил: репозиторий на GitHub. 15m"':
+  - /url: /session/6cc564c9-d950-4679-8bcf-25470278b0ff
+  - img "Claude"
+  - 'generic "Загрузил: репозиторий на GitHub."'
+  - generic: 15m
+- 'button "Session options for Загрузил: репозиторий на GitHub."':
+- button "projects 1 - /home/claude/projects":
+  - generic "Add to favorites":
+  - generic "projects"
+  - text: "1"
+  - generic "/home/claude/projects": "- /home/claude/projects"
+  - generic "Rename project (F2)":
+  - generic "Remove project from sidebar (Delete)":
+- button "turbo 1 - .../claude/projects/turbo":
+  - generic "Add to favorites":
+  - generic "turbo"
+  - text: "1"
+  - generic "/home/claude/projects/turbo": "- .../claude/projects/turbo"
+  - generic "Rename project (F2)":
+  - generic "Remove project from sidebar (Delete)":
+- link "Report Issue":
+  - /url: https://github.com/siteboon/claudecodeui/issues/new
+  - generic: Report Issue
+- link "Join Community":
+  - /url: https://discord.gg/buxwujPNRE
+  - generic: Join Community
+- button "Settings":
+  - generic: Settings
+- link "CloudCLI v1.37.4 – Open Source":
+  - /url: https://github.com/siteboon/claudecodeui
+- separator "Resize sidebar"
+- banner:
+  - img "Claude"
+  - 'heading "Загрузил: репозиторий на GitHub." [level=2]'
+  - generic: dima
+  - status
+  - tablist "Workspace views":
+    - tab "Chat" [selected]:
+      - generic: Chat
+    - tab "Shell":
+    - tab "Files":
+    - tab "Source Control":
+- button "Export conversation":
+- generic: Showing 207 of 986 messages Scroll up to load more
+- heading "Ревью Entry-02 (Codex @ d5283d7, рабочий срез a72c760)" [level=1]:
+  - text: Ревью Entry-02 (
+  - code: Codex
+  - text: "@ d5283d7, рабочий срез a72c760)"
+- generic: "Посмотрел:"
+- list:
+  - strong: "diff 8c96d9f → a72c760:"
+  - code: ChaseCorridor
+  - text: ","
+  - code: CorridorModule
+  - text: ","
+  - code: LoopDirector
+  - text: ","
+  - code: ScenarioDoor
+  - text: ","
+  - code: ScenarioTimeline
+  - text: ","
+  - code: ScenarioBuilder
+  - text: ","
+  - code: ScenarioReadyArt
+  - text: ","
+  - code: ScenarioWallWriting
+  - text: и новый тест;
+  - strong:
+    - text: кадры
+    - code: entry-02
+    - text: ":"
+  - text: швы по цифрам;
+  - code: ChaseStart-2.1/2.9
+  - text: ","
+  - code: chase-hallway-entry
+  - text: ","
+  - code: chase-first-corner
+  - text: глазами.
+- heading "Сценарий, геометрия, состояния — не сломаны" [level=2]
+- list:
+  - strong: "Вход в погоню:"
+  - list:
+    - listitem: стартует сразу после глазка;
+    - listitem: "модули ставятся от торца прихожей Б: начало (4.7, 0, 5.25), поворот −90°, внутренние грани на z 4.505 / 5.995 — отступ 5 мм от стен квартиры, мерцания нет;"
+    - text: игрок не переносится; тест
+    - code: ChaseEntryJoinsHall…
+    - text: проверяет совпадение со стыком и что старые коллайдеры не перекрывают новый коридор.
+  - strong: Группа перекрытия собирается автоматически
+  - text: по объёму. Пол и потолок разрезаны на три полосы. Стена спальни с дверью вместо ковра (z 4.45) в группу
+  - strong: не входит
+  - text: и со стороны спальни остаётся на месте — правильно.
+  - strong: Дверь в зал
+  - text: открывается в зал, а не в прихожую Б. На кругах открыта, в начале погони закрывается вне поля зрения.
+  - strong: Разворот
+  - text: к проходу за 0.4 с (решение Димы). После сцены тело смотрит в коридор.
+  - strong: Жёсткий сдвиг на y −50
+  - text: "после первого поворота: модули, игрок, Гостья, след,"
+  - code: previous
+  - text: и сброс Cinemachine. Тест на сохранение взаимных позиций есть. Из следующего модуля назад видна только боковая стена поворотного модуля, квартира в кадр не попадает.
+  - strong: "Смерть в погоне:"
+  - text: восстановление квартиры → игрок у входной двери → снова вылет двери →
+  - code: Begin
+  - text: . Перезапуск идёт с момента вылета двери, как в §10.5. Снимок света сохраняется до перекраски в красный и возвращается.
+  - strong: "Конец погони:"
+  - list:
+    - listitem: тёплый модуль исключён из схлопывания, остальные схлопываются от дальних;
+    - listitem: Гостья отходит по следу;
+    - text: белая вспышка, восстановление,
+    - code: FinishCore
+    - text: →
+    - code: WarmReturn
+    - text: .
+  - strong: "Мелкие исправления:"
+  - code: closedAngle × direction
+  - text: ", коллайдер мебели считается в неповёрнутом корне, «ПОМНИ» с проверкой глубины (на"
+  - code: chase-first-corner
+  - text: надпись видна только на своей стене).
+- heading "Блокеры (подтверждены кадрами)" [level=2]
+- strong: P1-1 — тамбур чёрный, метрика шва недостоверна.
+- list:
+  - text: Поверхности тамбуров вынесены в отдельный слой рендеринга 2, а этот слой освещает
+  - strong: только фонарь
+  - text: (
+  - code: ScenarioBuilder
+  - text: ":"
+  - code: renderingLayerMask=2
+  - text: ", у фонаря"
+  - code: renderingLayers=3
+  - text: ). Изоляция правильная, но если фонарь выключен или разряжен — кадр чёрный.
+  - code: seam2-mapped.png
+  - text: — чистый чёрный экран с подсказкой «[E] Открыть». По моему подсчёту средняя яркость кадров швов около 7–8 из 255, и «после» ярче на 7–17%. Почти вся разница — подсказка, которой нет на кадре «до».
+  - strong: "Критерий:"
+  - list:
+    - text: в каждом тамбуре
+    - strong: одинаковый
+    - text: "тусклый источник только на слое 2, дочерний к рамке тамбура: тамбур читается и без фонаря;"
+    - text: пары швов снимаются
+    - strong: без UI
+    - text: ;
+    - listitem: разница средней яркости ≤3% на всех пяти швах, при этом тамбур не чёрный — средняя яркость не ниже, чем на кадрах кругов.
+- strong: P1-2 — на торце прихожей Б видна смена материала.
+- list:
+  - text: Стены модулей —
+  - code: wood
+  - text: (доски), а стены прихожей Б — штукатурка или обои, на поздних кругах с текстурой гнили через
+  - code: ScenarioDressing
+  - text: . На
+  - code: chase-hallway-entry
+  - text: слева ещё штукатурка, на
+  - code: chase-first-corner
+  - text: уже доски.
+  - listitem: По §10.2 модули — это та же прихожая Б с отходящими обоями. На x = 4.7 «прихожая не кончается» превращается в «началась другая».
+  - strong: "Критерий:"
+  - list:
+    - listitem: стены, пол и потолок модулей — те же материалы, что в прихожей Б, включая текстуру гнили для круга 6 и дорожку на полу;
+    - listitem: на кадре от часов прихожей Б в сторону модуля 0 граница на x = 4.7 не видна.
+- strong: P1-3 — испорченная строка.
+- code: ScenarioTimeline.cs:52
+- text: ": «Нет. Нет-нет-нет"
+- strong: вЂ¦
+- text: » — UTF-8 прочитан как cp1251. Других таких мест в C# и Markdown поиск не нашёл. Проверь настройки кодировки в инструменте правки, чтобы это не повторялось.
+- heading "P2" [level=2]
+- table:
+  - rowgroup:
+    - row "Где Что Критерий":
+      - columnheader "Где"
+      - columnheader "Что"
+      - columnheader "Критерий"
+  - rowgroup:
+    - row "Шов, LoopDirector (returning) Подсказка «[E] Открыть» появляется в тот же кадр, что и перенос. В исходном тамбуре перед закрытой дверью подсказки нет — UI выдаёт шов Подсказка у двери тамбура появляется одинаково с обеих сторон или с задержкой 0.3–0.5 с после переноса":
+      - cell "Шов, LoopDirector (returning)":
+        - text: Шов,
+        - code: LoopDirector
+        - text: (
+        - code: returning
+        - text: )
+      - cell "Подсказка «[E] Открыть» появляется в тот же кадр, что и перенос. В исходном тамбуре перед закрытой дверью подсказки нет — UI выдаёт шов"
+      - cell "Подсказка у двери тамбура появляется одинаково с обеих сторон или с задержкой 0.3–0.5 с после переноса"
+    - 'row "ScenarioTimeline (ChaseStart, вылет 2.0–2.18 с) Створка падает поворотом на 90° вокруг X за 0.18 с. На кадре 2.1 видны красные косяки и пустой чёрный проём, самой створки не видно Кадр 2.05–2.2 с: падающая внутрь створка видна и не проходит сквозь пол и Гостью"':
+      - cell "ScenarioTimeline (ChaseStart, вылет 2.0–2.18 с)":
+        - code: ScenarioTimeline
+        - text: (
+        - code: ChaseStart
+        - text: ", вылет 2.0–2.18 с)"
+      - cell "Створка падает поворотом на 90° вокруг X за 0.18 с. На кадре 2.1 видны красные косяки и пустой чёрный проём, самой створки не видно"
+      - 'cell "Кадр 2.05–2.2 с: падающая внутрь створка видна и не проходит сквозь пол и Гостью"'
+    - row "ChaseStart 0–0.8 с Нет красной вспышки ламп при дёрганье ручки (§10.1). Круг 6 и так красный — мелочь Короткая вспышка ламп прихожей на 0.1–0.2 с":
+      - cell "ChaseStart 0–0.8 с":
+        - code: ChaseStart
+        - text: 0–0.8 с
+      - cell "Нет красной вспышки ламп при дёрганье ручки (§10.1). Круг 6 и так красный — мелочь"
+      - cell "Короткая вспышка ламп прихожей на 0.1–0.2 с"
+    - 'row "Гостья в ChaseStart Временная модель с ProxyPose: на кадре 2.1 непонятный силуэт сверху. Ты это отметил Отдельно, вместе с моделью Гостьи"':
+      - cell "Гостья в ChaseStart":
+        - text: Гостья в
+        - code: ChaseStart
+      - 'cell "Временная модель с ProxyPose: на кадре 2.1 непонятный силуэт сверху. Ты это отметил"'
+      - cell "Отдельно, вместе с моделью Гостьи"
+    - row "Схлопывание Грубое масштабирование. Отмечено Отдельно":
+      - cell "Схлопывание"
+      - cell "Грубое масштабирование. Отмечено"
+      - cell "Отдельно"
+- heading "Диме проверить руками (после P1-1 и P1-2, на Windows-билде)" [level=2]
+- list:
+  - strong: "Глазок → вылет двери → бег:"
+  - text: нет ли ощущения переноса, читается ли «прихожая не кончилась».
+  - strong: "Первый поворот:"
+  - text: ничего не дёргается и не мигает.
+  - strong: Смерть в погоне
+  - text: (остановиться) → перезапуск с вылета двери.
+  - strong: "Пять швов тамбура:"
+  - text: тамбур виден, переход незаметен.
+  - strong: Меню мышью
+  - text: "от начала: ручной ввод ещё не подтверждён."
+- generic: Звук — отдельной итерацией по AUDIO-PLAN, холодильника в петле нет.
+- button "Copy message":
+  - generic: MD
+- button "Select copy format":
+- generic "Answered by claude-opus-5-5": Opus
+- button "Choose File"
+- textbox "Type / for commands, @ for files, or ask Claude anything..."
+- button "Attach files":
+- button "Show token usage":
+  - generic: 879K
+  - generic: tokens
+- button "6":
+  - generic: "6"
+- button "Schedule this message" [disabled]:
+- button "Select model and reasoning effort":
+  - generic: Default (recommended)
+  - generic: · high
+- button "How should Claude actions be approved?":
+- button "Send" [disabled]:
+- button "Open settings panel":
+- heading "Quick Settings" [level=3]:
+  - text: Quick Settings
+- button "Pin panel open":
+- button "Close panel":
+- tablist "Quick Settings":
+  - tab "Settings" [selected]:
+    - text: Settings
+  - tab "Commands":
+    - text: Commands
+- tabpanel "Settings":
+  - heading "Appearance" [level=4]
+  - text: Dark Mode
+  - switch "Toggle dark mode":
+    - generic: Toggle dark mode
+  - text: Language
+  - combobox:
+    - option "English" [selected]
+    - option "Français"
+    - option "Español"
+    - option "한국어"
+    - option "简体中文"
+    - option "繁體中文"
+    - option "日本語"
+    - option "Русский"
+    - option "Deutsch"
+    - option "Türkçe"
+    - option "Italiano"
+    - option "Bahasa Indonesia"
+    - option "Čeština"
+    - option "עברית"
+    - option "Português (Brasil)"
+  - heading "Tool Display" [level=4]
+  - text: Show raw parameters
+  - checkbox "Show raw parameters"
+  - text: Show thinking
+  - checkbox "Show thinking" [checked]
+  - heading "Input Settings" [level=4]
+  - text: Send by Ctrl+Enter
+  - checkbox "Send by Ctrl+Enter"
+  - paragraph: When enabled, pressing Ctrl+Enter will send the message instead of just Enter. This is useful for IME users to avoid accidental sends.

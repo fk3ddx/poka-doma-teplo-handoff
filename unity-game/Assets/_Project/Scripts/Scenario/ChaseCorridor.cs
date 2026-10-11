@@ -53,7 +53,7 @@ namespace Ataka.Scenario {
    foreach(var m in live)m.transform.position+=shift;
    var player=flat.player;var body=player.GetComponent<CharacterController>();body.enabled=false;player.transform.position+=shift;body.enabled=true;
    flat.guest.transform.position+=shift;for(int i=0;i<trail.Count;i++)trail[i]+=shift;previous+=shift;detached=true;
-   scenes.cine.PreviousStateIsValid=false;
+   sound.ShiftWorld(shift);scenes.cine.PreviousStateIsValid=false;
   }
   Vector3 TrailAtDistance(float remaining){
    Vector3 target=trail[0];for(int i=trail.Count-1;i>0;i--){float d=Vector3.Distance(trail[i],trail[i-1]);if(remaining<=d)return Vector3.Lerp(trail[i],trail[i-1],remaining/Mathf.Max(.001f,d));remaining-=d;}return target;
@@ -79,7 +79,7 @@ namespace Ataka.Scenario {
    Vector3 target=TrailAtDistance(Progress.GuestDistance);
    flat.guest.transform.position=target;var facing=at-target;facing.y=0;if(facing.sqrMagnitude>.01f)flat.guest.transform.rotation=Quaternion.LookRotation(facing);
    flat.guest.GetComponent<ProxyPose>().Crawl(target);
-   breathTimer+=Time.deltaTime;if(breathTimer>.7f){breathTimer=0;sound.Play("breath",at-player.head.forward*2,.35f);sound.Play("impact",target,.17f);}
+   breathTimer+=Time.deltaTime;if(breathTimer>.7f){breathTimer=0;sound.Play("palms",target,.28f,flat.guest.transform);}
    if(relocate){relocate=false;ShiftIntoIsolatedSpace(Vector3.down*50);}
   }
   IEnumerator Death(){ending=true;deathCount++;yield return scenes.Play("DeathShort");flat.look.disruption=1;yield return new WaitForSeconds(1);
@@ -88,7 +88,7 @@ namespace Ataka.Scenario {
   IEnumerator Complete(){
    ending=true;flat.player.control=false;var warm=Current;var collapsible=new List<CorridorModule>(live);collapsible.Remove(warm);collapsible.Sort((a,b)=>Vector3.Distance(b.transform.position,warm.transform.position).CompareTo(Vector3.Distance(a.transform.position,warm.transform.position)));
    for(int i=0;i<10;i++){
-    sound.Play("impact",warm.clock.transform.position,.5f);foreach(var m in live)if(m!=warm)m.lamp.intensity*=.65f;
+    sound.Play("chime",warm.clock.transform.position,.4f,warm.clock.transform);foreach(var m in live)if(m!=warm)m.lamp.intensity*=.65f;
     if(i>=4&&i-4<collapsible.Count)collapsible[i-4].transform.localScale=new Vector3(1,1,.01f);
     float until=Time.time+1;while(Time.time<until){var target=TrailAtDistance(1.5f+(i+1-(until-Time.time))*.5f);flat.guest.transform.position=target;flat.guest.GetComponent<ProxyPose>().Crawl(target);yield return null;}
    }

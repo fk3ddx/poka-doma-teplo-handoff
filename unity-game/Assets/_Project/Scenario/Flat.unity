@@ -35284,10 +35284,11 @@ MonoBehaviour:
   clock: {fileID: 873512026}
   listener: {fileID: 1593422688}
   paused: 0
-  quiet: 0
   menace: 0
   phoneWarning: {fileID: 8300000, guid: e9458f03c5e294a458a91d0aac5ca1d5, type: 3}
   grandmotherKnock: {fileID: 8300000, guid: aaadd3705af84dd4798c4f8b42b4f47d, type: 3}
+  bank: {fileID: 11400000, guid: 9e5e45a14054e5443a66cadbd8e746eb, type: 2}
+  quiet: 0
 --- !u!114 &2037055189
 MonoBehaviour:
   m_ObjectHideFlags: 0

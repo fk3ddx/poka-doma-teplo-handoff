@@ -29,7 +29,7 @@ namespace Ataka.Scenario {
    if(name=="ChaseStart"){flat.player.transform.rotation=chaseTargetRotation;flat.player.pitch=0;flat.player.head.localRotation=Quaternion.identity;}
    var lens=cine.Lens;lens.FieldOfView=65;cine.Lens=lens;flat.player.control=true;flat.player.flashlight.enabled=true;flat.look.peephole=0;if(landingLight)landingLight.intensity=0;if(rope)rope.enabled=false;if(veil)veil.At(-1);sound.quiet=false;PlayingScene=null;
   }
-  void SoundAt(float t,float at,string id,Vector3 p){if(lastTime<at&&t>=at)sound.Play(id,p);}
+  void SoundAt(float t,float at,string id,Vector3 p){if(lastTime<at&&t>=at){if(PlayingScene=="DeathShort")sound.PlayClose(id,p);else sound.Play(id,p);}}
   public void Evaluate(string name,float t){
    FrameTime=t;
    var p=flat.player;var guest=flat.guest.transform;var head=p.head;
@@ -37,10 +37,10 @@ namespace Ataka.Scenario {
     flat.guest.SetActive(true);guest.localScale=guestScale;guest.rotation=Quaternion.Euler(90,180,0);HeadAt(guest,flat.bed.position);
     if(t>=1){HeadAt(guest,Vector3.Lerp(flat.bed.position,head.position+head.forward*.25f,Mathf.Clamp01((t-1)*10)));screenWhite=Mathf.Max(0,1-(t-1)*5);SoundAt(t,1,"shriek",head.position);}
    }else if(name=="BalconyPalm"){
-    BalconyWaiting();SoundAt(t,0,"impact",flat.balcony.position);
+    BalconyWaiting();SoundAt(t,0,"balcony",flat.balcony.position);
     if(rightHand)rightHand.World(new Vector3(5.175f,1.3f,Mathf.Lerp(-.35f,-.015f,Mathf.Clamp01(t*10))),Vector3.up);
    }else if(name=="Television"){
-    flat.televisionLight.intensity=0;SoundAt(t,0,"tick",flat.television.position);
+    flat.televisionLight.intensity=0;SoundAt(t,0,"latch",flat.television.position);
    }else if(name=="HangingVision"){
     flat.bedroom.open=true;flat.grandmother.SetActive(t<5);var grandmother=flat.grandmother.transform;grandmother.position=new Vector3(1.4f,.45f,2.2f);grandmother.rotation=Quaternion.Euler(0,Mathf.Lerp(180,0,Mathf.Clamp01((t-3.5f)/1)),0);
     flat.stool.transform.SetPositionAndRotation(new Vector3(1.65f,.22f,2.2f),Quaternion.Euler(0,20,90));flat.slipper.transform.position=new Vector3(1.2f,.015f,2.65f);
@@ -48,8 +48,8 @@ namespace Ataka.Scenario {
     var feet=grandmother.position+Vector3.up*.1f;var face=grandmother.position+Vector3.up*1.5f;
     Vector3 target=t<2?feet:Vector3.Lerp(feet,face,Mathf.Clamp01((t-2)/1.5f));head.rotation=Quaternion.Slerp(head.rotation,Quaternion.LookRotation(target-head.position),.12f);
     p.flashlight.intensity=t>=4.5f&&t<4.9f?0:3;
-    SoundAt(t,0,"creak",grandmother.position);SoundAt(t,3.5f,"breath",grandmother.position);SoundAt(t,4.5f,"shriek",head.position);
-    if(t>=5&&!fired){fired=true;loop.Thought("Нет. Нет-нет-нетвЂ¦");}SoundAt(t,6,"tick",flat.carpet.transform.position);
+    SoundAt(t,3.5f,"breath",grandmother.position);SoundAt(t,4.5f,"shriek",head.position);
+    if(t>=5&&!fired){fired=true;loop.Thought("Нет. Нет-нет-нет…");}SoundAt(t,6,"latch",flat.carpet.transform.position);
    }else if(name=="Peephole"){
     flat.look.peephole=1;
     if(landingLight)landingLight.intensity=.7f;if(lastTime<0)sound.Grandmother(new Vector3(8.05f,1.8f,6.65f));
@@ -62,7 +62,7 @@ namespace Ataka.Scenario {
     if(leftHand)leftHand.Frame(head,t);if(rightHand)rightHand.Frame(head,t);
     flat.guest.SetActive(t<2.5f);guest.localScale=guestScale;guest.position=startGuest;HeadAt(guest,head.position+head.forward*.3f-Vector3.up*.07f);var lens=cine.Lens;lens.FieldOfView=Mathf.Lerp(70,55,Mathf.Clamp01(t/.08f));cine.Lens=lens;
     head.localRotation=startHead*Quaternion.Euler(Mathf.Sin(t*55)*1.5f,Mathf.Cos(t*41)*1,0);
-    SoundAt(t,0,"breath",head.position);SoundAt(t,.3f,"creak",head.position);SoundAt(t,1,"impact",head.position);SoundAt(t,1.5f,"shriek",head.position);
+    SoundAt(t,0,"breath",head.position);SoundAt(t,.3f,"creak",head.position);SoundAt(t,1,"palms",head.position);SoundAt(t,1.5f,"shriek",head.position);
     screenRed=t>=1.5f?Mathf.Clamp01((t-1.5f)*2):0;screenBlack=t>=2.5f?1:0;
    }else if(name=="ChaseStart"){
     var leaf=flat.entrance.leaf;
@@ -71,7 +71,7 @@ namespace Ataka.Scenario {
     leaf.localRotation=t<2?Quaternion.Euler(0,Mathf.Sin(t*95)*2,0):Quaternion.Euler(90*flight,0,0);
     leaf.localPosition=new Vector3(-.45f,-1+.04f*flight,.12f*flight);
     if(t>=2){flat.guest.SetActive(true);guest.localScale=guestScale;guest.rotation=Quaternion.Euler(0,180,0);var at=new Vector3(8.05f,0,6.7f-Mathf.Clamp01((t-2.5f)/.1f)*.4f);guest.position=at;flat.guest.GetComponent<ProxyPose>().Crawl(at);}
-    SoundAt(t,.8f,"impact",flat.entrance.transform.position);SoundAt(t,1.3f,"impact",flat.entrance.transform.position);SoundAt(t,1.8f,"impact",flat.entrance.transform.position);SoundAt(t,2,"creak",flat.entrance.transform.position);SoundAt(t,2.5f,"shriek",flat.entrance.transform.position);
+    SoundAt(t,.8f,"knock",flat.entrance.transform.position);SoundAt(t,1.3f,"knock",flat.entrance.transform.position);SoundAt(t,1.8f,"knock",flat.entrance.transform.position);SoundAt(t,2,"door_burst",flat.entrance.transform.position);SoundAt(t,2.5f,"shriek",flat.entrance.transform.position);
     var doorLook=Quaternion.LookRotation(new Vector3(8.05f,.9f,6.7f)-head.position);
     head.rotation=t<2.6f?Quaternion.Slerp(chaseStartRotation,doorLook,Mathf.Clamp01(t/.3f)):Quaternion.Slerp(doorLook,chaseTargetRotation,Mathf.SmoothStep(0,1,Mathf.Clamp01((t-2.6f)/.4f)));
 

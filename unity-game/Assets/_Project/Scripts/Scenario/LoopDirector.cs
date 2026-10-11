@@ -37,11 +37,11 @@ namespace Ataka.Scenario {
    if(Progress.Lap==6&&!peepholeSeen){knockTimer+=Time.deltaTime;if(knockTimer>=(knockIndex<3?.7f:5)){knockTimer=0;if(knockIndex<3){sound.Play("knock",flat.entrance.transform.position);knockIndex++;if(knockIndex==3)sound.Grandmother(flat.entrance.transform.position);}else knockIndex=0;}}
    if(!p.hasFlashlight&&Near(flat.torchPickup)&&Looking(flat.torchPickup)){prompt.text="[E] Фонарик-«жучок»";if(e){p.hasFlashlight=true;flat.torchPickup.gameObject.SetActive(false);}}
    if(returning){flat.entrance.locked=false;if(p.transform.position.z<5.6f){flat.entrance.open=false;flat.entrance.locked=true;returning=false;}}
-   foreach(var door in new[]{flat.kitchen,flat.bath,flat.bedroom,flat.living})if(!(door==flat.bedroom&&Progress.Lap==5&&phoneAnswered)&&Near(door.transform)&&Looking(door.transform)){prompt.text=door.locked?"[E] Закрыто":"[E] Дверь";if(e){door.Toggle();sound.Play("creak",door.transform.position);}}
+   foreach(var door in new[]{flat.kitchen,flat.bath,flat.bedroom,flat.living})if(!(door==flat.bedroom&&Progress.Lap==5&&phoneAnswered)&&Near(door.transform)&&Looking(door.transform)){prompt.text=door.locked?"[E] Закрыто":"[E] Дверь";if(e){door.Toggle();sound.Play(door.locked?"latch":door.open?"door_open":"door_close",door.transform.position);}}
    if(Near(flat.clock.transform,2)&&Progress.Lap==2&&!clockThought){Thought("Часы идут назад. Это та же ночь. Только наоборот");clockThought=true;}
    if(Progress.Lap==1&&!Progress.EventComplete&&Vector3.Distance(p.transform.position,flat.wardrobe.position)<1.5f)StartCoroutine(Event(LapGate.Wardrobe));
    if(Progress.Lap==2&&!Progress.EventComplete){balconyTimer+=Time.deltaTime;if(balconyTimer>3){balconyTimer=0;sound.Play("breath",flat.bed.position);}if(Near(flat.bed,2)&&p.crouched&&Looking(flat.bed,.65f)){prompt.text="[E] Посмотреть под кровать";if(e)StartCoroutine(Event(LapGate.UnderBed));}}
-   if(Progress.Lap==3&&!Progress.EventComplete){scenes.BalconyWaiting();balconyTimer+=Time.deltaTime;if(balconyTimer>8){balconyTimer=0;sound.Play("impact",flat.balcony.position);}
+   if(Progress.Lap==3&&!Progress.EventComplete){scenes.BalconyWaiting();balconyTimer+=Time.deltaTime;if(balconyTimer>8){balconyTimer=0;sound.Play("balcony",flat.balcony.position);}
     if(Vector3.Distance(p.transform.position,new Vector3(flat.balcony.position.x,p.transform.position.y,flat.balcony.position.z))<1.5f)StartCoroutine(Event(LapGate.BalconyPalm));}
    if(Progress.Lap==4&&!Progress.EventComplete&&Near(flat.television,3)&&Looking(flat.television,.93f)){tvWatch+=Time.deltaTime;if(tvWatch>=3)StartCoroutine(Event(LapGate.Television));}else if(Progress.Lap==4)tvWatch=0;
    if(Progress.Lap==5){if(!phoneAnswered){phoneTimer+=Time.deltaTime;if(phoneTimer>3){phoneTimer=0;sound.Play("phone",flat.phone.position);}
@@ -61,12 +61,12 @@ namespace Ataka.Scenario {
    }
    if(Progress.Lap==6&&peepholeSeen)StartCoroutine(BeginChase());
   }
-  IEnumerator Phone(){Busy=true;yield return new WaitForSeconds(sound.Speak(true,flat.phone.position));Thought("…Это не я за дверью! Не открывай!..",sound.PhoneDuration);yield return new WaitForSeconds(sound.Speak(false,flat.phone.position));sound.Play("shriek",flat.phone.position);yield return new WaitForSeconds(1.2f);sound.Play("breath",flat.phone.position);sound.Play("breath",flat.player.transform.position-flat.player.transform.forward-flat.player.transform.right*.5f);phoneAnswered=true;Busy=false;}
+  IEnumerator Phone(){Busy=true;yield return new WaitForSeconds(sound.Speak(true,flat.phone.position));Thought("…Это не я за дверью! Не открывай!..",sound.PhoneDuration);yield return new WaitForSeconds(sound.Speak(false,flat.phone.position));sound.Play("shriek",flat.phone.position);yield return new WaitForSeconds(1.2f);sound.PlayClose("phone_breath",flat.player.head.position);sound.Play("breath",flat.player.transform.position-flat.player.transform.forward-flat.player.transform.right*.5f);phoneAnswered=true;Busy=false;}
   public IEnumerator Event(LapGate gate){
    if(Busy)yield break;Busy=true;LastEvent=gate.ToString();
-   if(gate==LapGate.Wardrobe){foreach(var leaf in flat.wardrobeLeaves)leaf.localRotation=Quaternion.identity;sound.Play("impact",flat.wardrobe.position);Thought("Здесь. Здесь она меня…");yield return new WaitForSeconds(.4f);}
+   if(gate==LapGate.Wardrobe){foreach(var leaf in flat.wardrobeLeaves)leaf.localRotation=Quaternion.identity;sound.Play("wardrobe",flat.wardrobe.position);Thought("Здесь. Здесь она меня…");yield return new WaitForSeconds(.4f);}
    else {yield return scenes.Play(gate.ToString());}
-   Progress.Complete(gate);flat.carpet.locked=!Progress.CarpetDoorUnlocked;if(gate==LapGate.Peephole)peepholeSeen=true;else sound.Play("tick",flat.carpet.transform.position);
+   Progress.Complete(gate);flat.carpet.locked=!Progress.CarpetDoorUnlocked;if(gate==LapGate.Peephole)peepholeSeen=true;else sound.Play("latch",flat.carpet.transform.position);
    Busy=false;
   }
   IEnumerator Warp(){
@@ -85,8 +85,8 @@ namespace Ataka.Scenario {
    GUILayout.Label(Finished?"КОНЕЦ ТЕСТА ЯДРА":"АТАКА НА ЗАПОМИНАНИЕ · ПЕТЛЯ",new GUIStyle(GUI.skin.label){fontSize=24});GUILayout.Space(20);
    GUILayout.Label("Тест по SCENARIO.md. Временные модели и звуки.\nWASD / мышь · Shift — бег · Ctrl — присесть\nE — действие · F — фонарь, удерживать — подкачка\nC — оглянуться в погоне · Esc — пауза",new GUIStyle(GUI.skin.label){fontSize=18,wordWrap=true});GUILayout.Space(25);
    if(!Finished&&GUILayout.Button("Продолжить",GUILayout.Height(42)))Pause(false);
-   if(GUILayout.Button("С начала петли",GUILayout.Height(36))){StopAllCoroutines();scenes.Cancel();chase.Stop();Finished=false;flat.player.hasFlashlight=false;EnterLap(1);flat.player.Place(ScenarioLayout.Spawn,180);Pause(false);}
-   if(!Finished&&System.IO.File.Exists(savePath)&&GUILayout.Button("Продолжить с сохранённого круга",GUILayout.Height(32))){var s=JsonUtility.FromJson<Save>(System.IO.File.ReadAllText(savePath));StopAllCoroutines();scenes.Cancel();chase.Stop();flat.player.hasFlashlight=s.flashlight;EnterLap(Mathf.Clamp(s.lap,1,6));flat.player.Place(ScenarioLayout.Spawn,180);Pause(false);if(s.chase)StartCoroutine(BeginChase());}
+   if(GUILayout.Button("С начала петли",GUILayout.Height(36))){StopAllCoroutines();scenes.Cancel();chase.Stop();sound.ResetWorld();Finished=false;flat.player.hasFlashlight=false;EnterLap(1);flat.player.Place(ScenarioLayout.Spawn,180);Pause(false);}
+   if(!Finished&&System.IO.File.Exists(savePath)&&GUILayout.Button("Продолжить с сохранённого круга",GUILayout.Height(32))){var s=JsonUtility.FromJson<Save>(System.IO.File.ReadAllText(savePath));StopAllCoroutines();scenes.Cancel();chase.Stop();sound.ResetWorld();flat.player.hasFlashlight=s.flashlight;EnterLap(Mathf.Clamp(s.lap,1,6));flat.player.Place(ScenarioLayout.Spawn,180);Pause(false);if(s.chase)StartCoroutine(BeginChase());}
    if(GUILayout.Button("Выйти",GUILayout.Height(32)))Application.Quit();GUILayout.EndArea();
   }
   void OnDestroy(){Time.timeScale=1;AudioListener.pause=false;}
