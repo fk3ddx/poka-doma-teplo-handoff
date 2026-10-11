@@ -20,3 +20,7 @@ unity-game/Reference/
 
 unity-game/QA/M1-pass*/
 unity-game/tools/art/sources/*.blend1
+
+# Temporary files emitted by Unity performance-test build hooks.
+unity-game/Assets/Resources/PerformanceTestRun*.json*
+unity-game/Assets/Resources.meta
