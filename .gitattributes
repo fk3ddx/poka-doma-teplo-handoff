@@ -11,3 +11,12 @@ unity-game/**/*.wav -text
 unity-game/**/*.exr -text
 unity-game/**/*.blend -text
 unity-game/**/*.fbx -text
+
+*.md text eol=lf
+QA/**/*.txt text eol=lf
+QA/**/*.json text eol=lf
+QA/**/*.xml text eol=lf
+Screenshots/**/*.txt text eol=lf
+Screenshots/**/*.json text eol=lf
+art-sources/Audio/**/*.ogg -text
+art-sources/Audio/**/License.txt -text
