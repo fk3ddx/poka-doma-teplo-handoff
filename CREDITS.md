@@ -41,3 +41,9 @@ Granny Katcho одобрена по авторскому превью («да н
 - Single slipper: headless_christ, [House slippers](https://sketchfab.com/models/ac25fc96e7ff4c138d8503b1072b7ea3), CC-BY-4.0. Complete disconnected author components selected from existing pair, joined and uniformly scaled to length 28 cm. Original UV and texture retained. See SingleSlipper-preparation.json.
 - Iron bed: Luca B / [Poly Haven old_bed_frame](https://polyhaven.com/a/old_bed_frame), CC0. Existing v3 GLB converted to FBX; author geometry/UV/maps retained.
 - Bed textiles: project-authored fabric geometry specifically approved by Claude review02 G2, using CC0 Poly Haven waffle_pique_cotton and quatrefoil_jacquard_fabric. Copied textures at 512px, RGB swizzle and material tint; original shared imports preserved. Lace veil not implemented yet.
+
+
+### Bedroom06 — prepared, pending engine import
+- Alarm Clock 01: James Ray Cock (model/textures), Yann Kervran (rigging), [Poly Haven](https://polyhaven.com/a/alarm_clock_01), CC0. Original author FBX and 1K maps downloaded and provider MD5 verified; SOURCE.json records local SHA256. Original dimensions measured in Blender: 13.17 × 6.67 × 17.42 cm. Unity metallic/smoothness texture repacked from ARM, 512 px. Not yet placed/visually approved.
+- Small lampada: project-authored 6 × 7 cm red glass vessel, brass rim and three thin suspensions, explicitly permitted by Claude review05 item1. Source script tools/art/prepare_lampada06.py; shape/scale manifest beside FBX. This exception does not authorize homemade furniture or characters.
+- Soft wet mark: project-authored procedural effect, multiplies the existing lit floor instead of drawing an opaque black polygon. Shader/runtime appearance still requires Unity verification.

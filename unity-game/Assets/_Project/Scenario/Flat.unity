@@ -39491,7 +39491,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 55d746c005e21474c8f766538f8e63bd, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.16879697
+      value: 1.0386047
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 55d746c005e21474c8f766538f8e63bd, type: 3}
       propertyPath: m_LocalPosition.y
@@ -39499,11 +39499,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 55d746c005e21474c8f766538f8e63bd, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.9186046
+      value: 1.2312031
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 55d746c005e21474c8f766538f8e63bd, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 55d746c005e21474c8f766538f8e63bd, type: 3}
       propertyPath: m_LocalRotation.x
@@ -39511,7 +39511,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 55d746c005e21474c8f766538f8e63bd, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 55d746c005e21474c8f766538f8e63bd, type: 3}
       propertyPath: m_LocalRotation.z
@@ -39535,7 +39535,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 25020230573aa9949b9e297a59ea9e2d, type: 2}
     - target: {fileID: 919132149155446097, guid: 55d746c005e21474c8f766538f8e63bd, type: 3}
       propertyPath: m_Name
-      value: PROXY Kenney cabinetBed
+      value: TEMP Kenney nightstand at headboard
       objectReference: {fileID: 0}
     - target: {fileID: 9077926073120308842, guid: 55d746c005e21474c8f766538f8e63bd, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'

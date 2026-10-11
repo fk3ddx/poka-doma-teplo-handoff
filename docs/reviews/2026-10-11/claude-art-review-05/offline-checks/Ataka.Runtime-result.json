@@ -1,0 +1,245 @@
+{
+  "scope": "C# compile only; no Unity import, editor, game window, visual or gameplay test",
+  "source_response_file": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\Library\\Bee\\artifacts\\1900b0aPDevDbg.dag\\Ataka.Runtime.rsp",
+  "source_response_sha256": "7e423a555ecee37156f18ae07f8223abd1b81ef97099222fc1c0e81331164ad4",
+  "exit_code": 0,
+  "sources": [
+    {
+      "path": "Assets/_Project/Scripts/Core/ApartmentLightingStates.cs",
+      "sha256": "989d0f0d43443039b0f6d37bab28d798191a944a31ed0afdf0fbfa5d4441469b"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Core/BuildSmokeCheck.cs",
+      "sha256": "69ef8bd0851ffea8005381cdc2004df04b25ed4ac275bddbdfac011c9f3d57a0"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Core/Checkpoint.cs",
+      "sha256": "4ae88dd68ad162672781845f2510dccd0660890de88c8e73cea194b295899002"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Core/DomesticSoundscape.cs",
+      "sha256": "bbe3500bccd662bc9a16f96d8c48f5e9994c9ca04e4bd9d3addea858b61ff95e"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Core/GameSession.cs",
+      "sha256": "5d55264f63a187ffdcb277070299c05ad45508f7c020bbf0c8aa4fd69c12ef11"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Core/GameSettingsStore.cs",
+      "sha256": "b460736658b456d93bfdf34da7dbe8e9cf5d0cdf68713481c5a389e5fd3743ab"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Core/KitchenRenderCheck.cs",
+      "sha256": "87d166e785e757d81ea8f0539788a59faa4b87e75e6a504299644d5c178a76e4"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Core/LocalLightFog.cs",
+      "sha256": "45708a3b9200d99950e0e6ffe3b104ddfca7e9279ff133964a0d571ec70f630b"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Core/PlanarMirror.cs",
+      "sha256": "3b4a02b41c2557745ab0a0bd612bdc3ac6b7807232a68715f14c7397108d6a9e"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Core/RealSize.cs",
+      "sha256": "ea9f1d4cd1c4368b1e3538c185286234f6a2deb358eb4f5ce8bfcc7e63f05c80"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Core/RetroRaster.cs",
+      "sha256": "4f3b254b4d54976fc9b865c09a84bd1c83993f2e4c3a5735e8db53bc5180330a"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Core/RuntimeQuality.cs",
+      "sha256": "43e04365d338cb3853ab20bb67c5c7f00b20842cb144832c0f287b69ba0c6a92"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Interaction/ArmchairSeat.cs",
+      "sha256": "c6df2fac0d92222d93d12a2b73633d8298c239963be7af2a6f3cf0395ad550ee"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Interaction/Door.cs",
+      "sha256": "450f2c4a56f8b6768cb4a256a54906e2de4a4781d7174aeb5df829e74d474433"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Interaction/Interactable.cs",
+      "sha256": "95967946b8fa6818e27e80f8a6beb288296a48a99f95378a9d0d0ba63aca9d0f"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Interaction/InteractionQuery.cs",
+      "sha256": "5fcd0bb4d69089f7d1fb86a833c0c7359c6e0b0e3eb05ee9d2f3dbf01688d1ca"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Interaction/LampSwitch.cs",
+      "sha256": "0581cc3f0bc3df6c7cb02039ce07e5cfe71d167a996e003e0c2b0561c6dc405a"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Interaction/PickUp.cs",
+      "sha256": "2de0ffa6783ef781257eab9afee9f8f9022d961f84045d562599b8ff153b259e"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Interaction/SlidingDrawer.cs",
+      "sha256": "8a48a8e54e026bec4ac5622c6bf6c175287e1502b99e64428a41ce19dc3c9bda"
+    },
+    {
+      "path": "Assets/_Project/Scripts/LightLab/LightLabSession.cs",
+      "sha256": "94343d769efa662f083c03aba28cc8d9e66c1eb7215f13fc4d7cc8da0ab1e811"
+    },
+    {
+      "path": "Assets/_Project/Scripts/LightLab/VhsProfile.cs",
+      "sha256": "edb7c85f18fd79baeb09e525e82bd3daec5af6867580b3f53f1de8eb1539893c"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Player/FirstPersonController.cs",
+      "sha256": "31d373b15c8cff6a2ac6e2385e572939e8a1d09e526e6a3206a6b1144762a970"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Player/PlayerControls.cs",
+      "sha256": "d6e391acca351b1b80ad7c0e507b118223ad6ef339b88f1852a8f6578f2e991f"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Scenario/ChaseCorridor.cs",
+      "sha256": "aff095b21a5d6164886b3a9524d568e25cb54c32447e5407de09c4a5498c5d4c"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Scenario/ChaseProgress.cs",
+      "sha256": "9f20be217736e49362af653c43427c4473363342c87a739656002fd13243e93e"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Scenario/ClockFace.cs",
+      "sha256": "c0fe183ccf828ec306d0633bda9a79f561002fd82b1fb661fe04468cae05e729"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Scenario/CloseupHand.cs",
+      "sha256": "ba9e88d6b5d5ef71d0d160b2700aca4b5dd847db5cf33153f511529cfbfedcef"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Scenario/CorridorModule.cs",
+      "sha256": "4ff6a4071667fc077493311ee476b617df59699a6d375db528018a7124ae0206"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Scenario/DeathVeil.cs",
+      "sha256": "dfa8acdcfa358423d0a2135dda563dcce86dae115b3ef8d6ae8352a853cfdd63"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Scenario/FlatBindings.cs",
+      "sha256": "c0eba0746890d2da91de82851241290caf55138116641ba5f59c4669619f857d"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Scenario/GrannyAssetPreview.cs",
+      "sha256": "6d35be242700fe7edda877e8425410f1827bcf70aca3f9859effe695f04a2790"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Scenario/HangingArtCapture.cs",
+      "sha256": "bbbb5e6c8ab1b602718c64a89d280a147468bfa7fd6c9e53aa8b2e60f5e56113"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Scenario/HangingFloorCue.cs",
+      "sha256": "f4f52ea9ca76edd174edd23ccb1ff1dc84efb6c2b025183904f562bfb773d3da"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Scenario/HangingRope.cs",
+      "sha256": "77f289c0b617a852cd9996354fc5cd13031b95c086cd2ee2a62211f5d2f3ae52"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Scenario/LapData.cs",
+      "sha256": "894b4b79f68636ef0a3a886858627925f405570aac05265ed8e351161db91fce"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Scenario/LoopDirector.cs",
+      "sha256": "bd304a06573c0fb502538f182b0a002c9fe40fa08906eca114eeeecb2c384013"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Scenario/LoopProgress.cs",
+      "sha256": "9f53ceb9b4fb3dee24c72a466833b33869cab663920dd67be1e56771245d1603"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Scenario/NinaArtPreview.cs",
+      "sha256": "1723fcf3feb94cab7729356dd1619a967144b7269b5c3db431e04e651a5b0d41"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Scenario/NinaHangingPose.cs",
+      "sha256": "eb5af8a1e60abda385a48a2cd1a89c48b0fa98dabfdc358f79d332001845ec09"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Scenario/ProxyPose.cs",
+      "sha256": "4bb36df4c71e434f0e8b634b46f47a57eaec190b53b3a4c5441560b24f310cd3"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Scenario/ScenarioArtSurvey.cs",
+      "sha256": "8ed3082bf747e2b9a815c8314bc043f72604abfa5f498ae63b8d6adf12b96e26"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Scenario/ScenarioAudioCalibration.cs",
+      "sha256": "5009ab299b9933bb79fe0894cd0356696cc78a1508adb5c59ed03b51702042ab"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Scenario/ScenarioAudioCapture.cs",
+      "sha256": "6f793039fa6f26bbd20577ec8c4c4eabee830dc830ae82f4cb9a6a6d75ea0851"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Scenario/ScenarioCue.cs",
+      "sha256": "daec1d584233ea5130f9fe01caae346a90db03ec937401c336772b864ef1424d"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Scenario/ScenarioCueTrack.cs",
+      "sha256": "6dcb575f2e1b028af0e3191f64a488f25c5c6a1ceb4dd9701eab8a3aee13e28e"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Scenario/ScenarioDoor.cs",
+      "sha256": "6f8f63730e662c4b58033866789133a4c05b483a666fc4a4a7acfb1db108f28c"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Scenario/ScenarioDressing.cs",
+      "sha256": "4ea71d77bbd24bef47098319ecb6e5272f191dacc3a491674a2e9992a5b46a41"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Scenario/ScenarioLayout.cs",
+      "sha256": "dd44a00f45f506e011083b591b4a75c343247859bfae45abcb36935013da335d"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Scenario/ScenarioLook.cs",
+      "sha256": "7860299824780a26adc49fa3f612978dd4c0e5499fb1721e1ab4081a0a8b7e06"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Scenario/ScenarioPlayer.cs",
+      "sha256": "4348d38c92433ec708d4db370aa5f9e3c9e6a831502efd629ac8d415c1bf2c16"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Scenario/ScenarioSight.cs",
+      "sha256": "6e831f5c5fb66ea01af07204a46b370e01033460fe2f5800d465e9ff3eb86acb"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Scenario/ScenarioSmoke.cs",
+      "sha256": "70ecfc6161acf42a6ace8b14b13319150ce6dc67d4c6ceaf86492fbd201dbb92"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Scenario/ScenarioSound.cs",
+      "sha256": "5d7cdf5366616b55baa8ebd887135525ebe7cca75a91c32dc7054dae9db17361"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Scenario/ScenarioSoundBank.cs",
+      "sha256": "31170845f31ad3e3c9bb79167d56a1ce26249e10e6afba4074a44dfa24a8bf0d"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Scenario/ScenarioTelevision.cs",
+      "sha256": "0a38a18b3791d5dcd1a9e6423f78c8b83d7eadd63b0a8deac765027e49605e91"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Scenario/ScenarioTimeline.cs",
+      "sha256": "9553e40c29e50c1f92c38c74498c63d0c93c822797a459b883d9ef7ddc09d95e"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Scenario/ScenarioWallWriting.cs",
+      "sha256": "a93f3bd8528c27409caf73b1c1eab06b4ae4df590005076606788dab807220dd"
+    },
+    {
+      "path": "Assets/_Project/Scripts/Scenario/VestibuleMapping.cs",
+      "sha256": "16d22912ec7185b3e7ced33dc2d074a8cd0d40c67a43ffeceae5c9ea7b020058"
+    },
+    {
+      "path": "Assets/_Project/Scripts/UI/PrototypeMenu.cs",
+      "sha256": "859aa62cfd0156a4ed88a8af122d77accb11aee4253d69efa13a6c8443031559"
+    }
+  ],
+  "utc": "2026-10-11T20:50:49.201335+00:00"
+}

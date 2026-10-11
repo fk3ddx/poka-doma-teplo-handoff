@@ -35,11 +35,17 @@ for num,(w,cy,angle) in enumerate([(.70,-.72,-.035),(.60,-.59,.03),(.50,-.45,-.0
   for j in range(ny+1):
    for i in range(nx+1):
     u=i/nx;vv=j/ny
-    px=(u-vv)*w*.5;pz=(u+vv-1)*w*.5
+    # Review05: rounded 4cm corners, not pointed diamond fins.
+    radius=.04;h=w/(2*math.sqrt(2))+radius*(1-1/math.sqrt(2))
+    a=(u*2-1)*h;b=(vv*2-1)*h;inner=h-radius
+    da=max(0,abs(a)-inner);db=max(0,abs(b)-inner);length=math.hypot(da,db)
+    if length>radius:
+     a=math.copysign(inner+da*radius/length,a);b=math.copysign(inner+db*radius/length,b)
+    px=(a-b)/math.sqrt(2);pz=(a+b)/math.sqrt(2)
     bulge=max(0,math.sin(math.pi*u)*math.sin(math.pi*vv))**.48
     # All three lower corners touch the mattress; tops lean back, seams remain thin.
     z=.595+w*.5+pz
-    y=cy-pz*.22+side*(.003+.075*bulge)
+    y=cy-pz*.22+side*(.003+.05*bulge)
     v.append((px*math.cos(angle)-pz*math.sin(angle),y,z+px*math.sin(angle)))
  layer=(nx+1)*(ny+1)
  for side in range(2):
@@ -53,15 +59,19 @@ for num,(w,cy,angle) in enumerate([(.70,-.72,-.035),(.60,-.59,.03),(.50,-.45,-.0
  for poly in o.data.polygons:
   for li in poly.loop_indices:
    co=o.data.vertices[o.data.loops[li].vertex_index].co;o.data.uv_layers.active.data[li].uv=(co.x*2,co.z*2)
-# Transparent authored lace over the upper pillow stack; separate textile, not furniture.
+# Review05: small veil on the upper part of the large back pillow only.
+# It follows that cushion surface rather than crossing all three pillows.
 lace=bpy.data.materials.new('Bed_Lace_CC0');lace.diffuse_color=(1,1,1,1)
 v=[];f=[];nx=28;ny=22
 for j in range(ny+1):
  t=j/ny
  for i in range(nx+1):
-  x=-.35+.70*i/nx
-  z=(1.25-abs(x)*.9)*(1-t)+(.74-abs(x)*.1)*t
-  y=-.28-.95*(z-.74)+.008*math.sin(x*58+t*12)
+  x=-.22+.44*i/nx;z=(1.265-abs(x))*(1-t)+1.005*t
+  pz=z-(.595+.35);h=.70/(2*math.sqrt(2))+.04*(1-1/math.sqrt(2))
+  a=(x+pz)/math.sqrt(2);b=(pz-x)/math.sqrt(2)
+  u=max(0,min(1,(a/h+1)/2));vv=max(0,min(1,(b/h+1)/2))
+  bulge=max(0,math.sin(math.pi*u)*math.sin(math.pi*vv))**.48
+  y=-.72-pz*.22+.003+.05*bulge+.009+.002*math.sin(x*58+t*12)
   v.append((x,y,z))
 for j in range(ny):
  for i in range(nx):a=j*(nx+1)+i;f.append((a,a+1,a+nx+2,a+nx+1))
@@ -73,4 +83,11 @@ for poly in o.data.polygons:
 for o in bpy.context.scene.objects:o.location.z+=.06
 bpy.ops.object.select_all(action='SELECT')
 bpy.ops.export_scene.fbx(filepath=str(out/'BedTextiles.fbx'),use_selection=True,object_types={'MESH'},axis_forward='-Z',axis_up='Y',bake_anim=False,add_leaf_bones=False)
+report=[]
+for o in bpy.context.scene.objects:
+ points=[o.matrix_world @ vertex.co for vertex in o.data.vertices]
+ lo=[min(v[i] for v in points) for i in range(3)];hi=[max(v[i] for v in points) for i in range(3)]
+ assert all(math.isfinite(x) for x in lo+hi)
+ report.append(dict(name=o.name,vertices=len(points),min=lo,max=hi,size=[hi[i]-lo[i] for i in range(3)]))
+(out/'BedTextiles-geometry.json').write_text(json.dumps({'scope':'Blender textile mesh dimensions only; no Unity import or visual approval','meshes':report},indent=2),encoding='utf-8')
 print('TEXTILES_EXPORTED',len(bpy.context.scene.objects),'cloth meshes')

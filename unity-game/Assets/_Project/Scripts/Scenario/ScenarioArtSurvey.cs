@@ -8,13 +8,14 @@ namespace Ataka.Scenario {
  public sealed class ScenarioArtSurvey:MonoBehaviour {
   string output;
   [Serializable]public sealed class ViewRecord {public string file,mode;public Vector3 feet,target;public float fov=65;}
-  [Serializable]public sealed class Report {public string scope="QA camera placement, normal in-game lap1 and warm-return lighting. All internal doors opened for layout inspection. Events disabled; not proof of walkability.";public ViewRecord[] views;}
+  [Serializable]public sealed class Report {public string scope="QA camera placement, normal in-game lap1 and warm-return lighting. All internal doors requested open for layout inspection. View17 hides lace only for material diagnosis. Events disabled; not proof of walkability.";public ViewRecord[] views;}
   [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]static void Boot(){var args=Environment.GetCommandLineArgs();int i=Array.IndexOf(args,"-scenario-art-survey");if(i>=0&&i+1<args.Length)new GameObject("Art review survey").AddComponent<ScenarioArtSurvey>().output=args[i+1];}
   IEnumerator Start(){
    Directory.CreateDirectory(output);Application.runInBackground=true;Application.targetFrameRate=30;yield return new WaitForSecondsRealtime(1);
    var loop=FindFirstObjectByType<LoopDirector>();var flat=loop.flat;var player=flat.player;loop.testing=true;loop.Pause(false);loop.enabled=false;player.automating=true;player.control=false;AudioListener.pause=true;Cursor.lockState=CursorLockMode.None;Cursor.visible=true;
    foreach(var door in new[]{flat.kitchen,flat.bath,flat.bedroom,flat.living,flat.balconyDoor}){door.locked=false;door.open=true;}
    var records=new List<ViewRecord>();
+   var laceRenderers=new List<Renderer>();foreach(var r in flat.apartment.GetComponentsInChildren<Renderer>())if(r.name=="Textile lace veil")laceRenderers.Add(r);
    var views=new[]{
     A("ref-A-hall",8.05f,5.7f,0,-3),A("ref-B-hallB",6.45f,5.25f,90,-3),
     A("ref-C-living-door",5.65f,4.15f,10,-5),A("ref-D-living-reverse",4.6f,.7f,200,-4),
@@ -34,11 +35,13 @@ namespace Ataka.Scenario {
     V("13-bedroom-wardrobe-front-closed",new Vector3(1.2f,.02f,1.8f),new Vector3(2.4f,1.1f,1.8f)),
     V("14-bedroom-wardrobe-front-open",new Vector3(1.2f,.02f,1.8f),new Vector3(2.4f,1.1f,1.8f)),
     V("15-bedroom-icon-detail",new Vector3(.75f,.02f,1.0f),new Vector3(.23f,1.75f,.23f)),
-    V("16-bedroom-bedding-detail",new Vector3(1.25f,.02f,1.8f),new Vector3(.5f,.9f,1.05f))
+    V("16-bedroom-bedding-detail",new Vector3(1.25f,.02f,1.8f),new Vector3(.5f,.9f,1.05f)),
+    V("17-bedroom-bedding-without-lace",new Vector3(1.25f,.02f,1.8f),new Vector3(.5f,.9f,1.05f))
    };
    foreach(string mode in new[]{"lap1","warm-return"}){
     if(mode=="warm-return")flat.look.WarmReturn();else flat.look.Apply(FlatCondition.Familiar);
     foreach(var view in views){
+     foreach(var r in laceRenderers)r.enabled=!view.file.StartsWith("17-");
      if(view.file.StartsWith("13-"))foreach(var h in flat.wardrobeLeaves)h.localRotation=Quaternion.identity;
      if(view.file.StartsWith("14-"))foreach(var h in flat.wardrobeLeaves)h.localRotation=Quaternion.Euler(0,95,0);
      var lens=loop.scenes.cine.Lens;lens.FieldOfView=view.fov;loop.scenes.cine.Lens=lens;

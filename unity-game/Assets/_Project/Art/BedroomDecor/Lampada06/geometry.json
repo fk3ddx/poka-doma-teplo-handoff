@@ -1,0 +1,33 @@
+{
+  "authority": "docs/reviews/2026-10-11/claude-art-review-05/README.md, package06 item1",
+  "scope": "Approved small lampada geometry only; no Unity import or visual verification",
+  "units": "meters; pivot at flame; world flame target Y=1.75, shelf top=1.62",
+  "cup_diameter": 0.06,
+  "cup_height": 0.07,
+  "parts": [
+    {
+      "name": "Lampada red glass cup",
+      "triangles": 576
+    },
+    {
+      "name": "Lampada brass rim",
+      "triangles": 256
+    },
+    {
+      "name": "Lampada suspension 1",
+      "triangles": 28
+    },
+    {
+      "name": "Lampada suspension 2",
+      "triangles": 28
+    },
+    {
+      "name": "Lampada suspension 3",
+      "triangles": 28
+    },
+    {
+      "name": "Lampada suspension ring",
+      "triangles": 256
+    }
+  ]
+}

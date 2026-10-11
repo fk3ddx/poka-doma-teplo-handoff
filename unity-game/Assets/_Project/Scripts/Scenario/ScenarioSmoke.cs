@@ -21,6 +21,7 @@ namespace Ataka.Scenario {
     loop.chase.Begin();yield return ChaseRun();Finish();yield break;
    }
    yield return Walk(new Vector3(7.65f,0,3.8f));Look(loop.flat.torchPickup.position);yield return Press(Key.E);yield return new WaitForSeconds(.2f);Check(player.hasFlashlight,"flashlight pickup");yield return Shot("01-hall");
+   if(Array.IndexOf(Environment.GetCommandLineArgs(),"-scenario-door-probe")>=0){yield return DoorSafetyProbe();Finish();yield break;}
    bool hangingOnly=Array.IndexOf(Environment.GetCommandLineArgs(),"-scenario-hanging-only")>=0;if(hangingOnly)loop.EnterLap(5);
    for(int lap=hangingOnly?5:1;lap<=6&&!failed;lap++){
     Check(loop.Progress.Lap==lap,"lap "+lap+" entered");
@@ -46,12 +47,34 @@ namespace Ataka.Scenario {
     if(lap==2){yield return Walk(new Vector3(1.4f,0,3.1f));yield return Press(Key.LeftCtrl);Look(loop.flat.bed.position);yield return null;yield return null;checks.Add("UNDERBED crouch="+player.crouched+" distance="+Vector3.Distance(player.head.position,loop.flat.bed.position)+" dot="+Vector3.Dot(player.head.forward,(loop.flat.bed.position-player.head.position).normalized)+" prompt="+loop.prompt.text);yield return Shot("underbed-before");yield return Press(Key.E);yield return WaitBusy();yield return Press(Key.LeftCtrl);}
     yield return Walk(new Vector3(.9f,0,3.75f));Look(loop.flat.carpet.transform.position);yield return Shot("lap"+lap+"-gate");
     if(lap==6){Check(!loop.Progress.CarpetDoorUnlocked,"sixth carpet stays locked");break;}
-    Check(loop.Progress.CarpetDoorUnlocked,"gate "+lap+" released by event");if(hangingOnly){Finish();yield break;}yield return Press(Key.E);yield return new WaitForSeconds(.7f);yield return Walk(new Vector3(.9f,0,5.1f));yield return new WaitForSeconds(1);
+    Check(loop.Progress.CarpetDoorUnlocked,"gate "+lap+" released by event");if(hangingOnly){Finish();yield break;}yield return Press(Key.E);yield return new WaitForSeconds(.7f);
+    if(loop.flat.carpet.BlockedByPlayer){checks.Add("DOOR stopped at original approach; step clear per Claude review05");yield return Walk(new Vector3(1.1f,0,3.05f));yield return new WaitForSeconds(1);}
+    yield return Walk(new Vector3(.9f,0,5.1f));yield return new WaitForSeconds(1);
     Look(loop.flat.entrance.transform.position);yield return Press(Key.E);yield return new WaitForSeconds(.7f);yield return Walk(new Vector3(8.05f,0,5.55f));
    }
    if(!failed){yield return Walk(new Vector3(2.25f,0,3.6f));yield return Walk(new Vector3(5.65f,0,3.6f));yield return Walk(new Vector3(5.65f,0,5.35f));yield return Walk(new Vector3(8.05f,0,5.45f));Look(loop.flat.entrance.transform.position);yield return Press(Key.E);yield return WaitBusy();float chaseDeadline=Time.realtimeSinceStartup+5;while(!loop.chase.Active&&Time.realtimeSinceStartup<chaseDeadline)yield return null;Check(loop.chase.Active,"chase entered");Check(player.transform.position.z<7&&player.transform.position.z>4,"chase starts in original hallway without visible teleport");yield return Shot("chase-start");}
    if(!failed)yield return ChaseRun();
    Finish();
+  }
+  IEnumerator DoorSafetyProbe(){
+   loop.EnterLap(1);loop.Progress.Complete(LapGate.Wardrobe);var door=loop.flat.carpet;door.locked=false;door.open=false;door.leaf.localRotation=Quaternion.identity;
+   player.Place(new Vector3(.86f,.02f,3.75f),0);yield return new WaitForSeconds(.3f);var before=player.transform.position;
+   Look(door.transform.position);yield return Press(Key.E);yield return new WaitForSeconds(2);
+   checks.Add("DOOR_PROBE before="+before+" after="+player.transform.position+" angle="+door.leaf.localEulerAngles.y);
+   Check(Vector3.Distance(before,player.transform.position)<=.001f,"blocked door displaces player <=1mm in 2s");Check(door.BlockedByPlayer&&door.open,"door stays requested open while blocked");yield return Shot("door-blocked-original-approach");
+   yield return Walk(new Vector3(1.1f,0,3.05f));yield return new WaitForSeconds(1);
+   Check(Quaternion.Angle(door.leaf.localRotation,Quaternion.Euler(0,95*door.direction,0))<.5f,"door resumes to95 within1s after stepping clear");yield return Shot("door-fully-open-after-retreat");
+   // Approach an opening leaf under real CharacterController/input updates; never use Place during movement.
+   door.open=false;door.leaf.localRotation=Quaternion.identity;player.Place(new Vector3(.86f,.02f,3.05f),0);yield return new WaitForSeconds(.3f);
+   door.open=true;float until=Time.time+1;float maxSideways=0;
+   InputSystem.QueueStateEvent(keyboard,new KeyboardState(Key.W));
+   while(Time.time<until){maxSideways=Mathf.Max(maxSideways,Mathf.Abs(player.transform.position.x-.86f));yield return null;}
+   InputSystem.QueueStateEvent(keyboard,new KeyboardState());
+   checks.Add("DOOR_PROBE moving maxSideways="+maxSideways+" end="+player.transform.position);
+   Check(maxSideways<.01f,"opening leaf does not shove approaching player sideways");
+   yield return Walk(new Vector3(1.1f,0,3.05f));yield return new WaitForSeconds(1);
+   yield return Walk(new Vector3(.9f,0,5.1f));yield return new WaitForSeconds(1);
+   Check(loop.Progress.Lap==2,"door closes behind player and vestibule maps to lap2");yield return Shot("door-transfer-complete");
   }
   IEnumerator CaptureVestibules(){
    int captured=0;
