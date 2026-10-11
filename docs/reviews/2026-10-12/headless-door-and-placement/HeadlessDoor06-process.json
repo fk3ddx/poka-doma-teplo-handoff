@@ -1,0 +1,24 @@
+{
+  "pid": 28888,
+  "command": [
+    "C:/Users/User/UnityEditors/6000.3.26f1/Editor/Unity.exe",
+    "-batchmode",
+    "-nographics",
+    "-silent-crashes",
+    "-job-worker-count",
+    "2",
+    "-projectPath",
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game",
+    "-runTests",
+    "-testPlatform",
+    "EditMode",
+    "-testFilter",
+    "Ataka.Tests.ScenarioDoorSafetyTests",
+    "-testResults",
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\QA\\HeadlessDoor06\\tests.xml",
+    "-logFile",
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\QA\\HeadlessDoor06\\editor.log"
+  ],
+  "scope": "EditMode physics only; null graphics; no player or audio test",
+  "utc": "2026-10-11T21:06:39.911579+00:00"
+}

@@ -1,0 +1,6 @@
+Forcing GfxDevice: Null
+    Renderer: Null Device
+Host type is not matching any asset type at Path Packages/com.unity.render-pipelines.core/Editor/Lighting/ProbeVolume/RenderingLayerMask/TraceRenderingLayerMask.urtshader.
+BEDROOM06_IMPORT_UNITS Approved lampada06 before=0,281 after=0,281 globalScale=1
+BEDROOM06_IMPORT_UNITS Ready Poly Haven bedside clock06 before=17,41555 after=0,1741554 globalScale=0,009999994
+Exception: Clock hand has no mesh: alarm_clock_01_hour_hand

@@ -17,7 +17,7 @@ namespace Ataka.Scenario {
    float target=open?direction*95:direction*closedAngle;
    if(shake>0){shake-=dt;target+=Mathf.Sin(shake*90)*2;}
    var start=leaf.localRotation;var next=Quaternion.Slerp(start,Quaternion.Euler(0,target,0),1-Mathf.Exp(-dt*10));
-   float angle=Quaternion.Angle(start,next);if(angle<.0001f)return;
+   float angle=RotationDistance(start,next);if(angle<.0001f)return;
    int steps=Mathf.Max(1,Mathf.CeilToInt(angle/1));
    var originalWorld=leaf.rotation;var safe=start;
    for(int step=1;step<=steps;step++){
@@ -37,10 +37,16 @@ namespace Ataka.Scenario {
    Apply(next);
   }
   void Apply(Quaternion rotation){
-   if(Quaternion.Angle(leaf.localRotation,rotation)<.0001f)return;
+   if(RotationDistance(leaf.localRotation,rotation)<.0001f)return;
    leaf.localRotation=rotation;
    // CharacterController.Move later in the frame must see this collider at the same pose as its renderer.
    if(Application.isPlaying)Physics.SyncTransforms();
+  }
+  // Quaternion.Angle intentionally treats very similar quaternions as equal (~0.16 degrees).
+  // Applying that threshold to each smoothed step stalls a door about one degree short.
+  static float RotationDistance(Quaternion a,Quaternion b){
+   var q=Quaternion.Inverse(a)*b;
+   return 2*Mathf.Atan2(Mathf.Sqrt(q.x*q.x+q.y*q.y+q.z*q.z),Mathf.Abs(q.w))*Mathf.Rad2Deg;
   }
   static Vector3 Abs(Vector3 v)=>new Vector3(Mathf.Abs(v.x),Mathf.Abs(v.y),Mathf.Abs(v.z));
   static float PointBoxDistanceSquared(Vector3 p,Vector3 half){var d=Vector3.Max(Abs(p)-half,Vector3.zero);return d.sqrMagnitude;}

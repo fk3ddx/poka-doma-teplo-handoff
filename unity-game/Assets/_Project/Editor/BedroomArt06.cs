@@ -47,6 +47,18 @@ namespace Ataka.Editor {
    var asset=AssetDatabase.LoadAssetAtPath<GameObject>(path);if(!asset)throw new Exception("Missing authored mesh "+path);
    var obj=(GameObject)PrefabUtility.InstantiatePrefab(asset);obj.transform.SetParent(parent,false);obj.name=name;return obj;
   }
+  static GameObject ReadyMeasured(string path,Transform parent,string name,float authorHeight){
+   var importer=AssetImporter.GetAtPath(path) as ModelImporter;if(!importer)throw new Exception("Missing ModelImporter "+path);
+   // Preserve proportions. Convert file units to the independent Blender measurement, not to a furniture footprint.
+   importer.globalScale=1;importer.useFileScale=true;importer.SaveAndReimport();
+   var obj=Ready(path,parent,name);float observed=Measure(obj).size.y;
+   if(observed<.000001f)throw new Exception("Invalid imported mesh height "+name);
+   if(Mathf.Abs(observed-authorHeight)>.0001f){
+    UnityEngine.Object.DestroyImmediate(obj);importer.globalScale=authorHeight/observed;importer.SaveAndReimport();obj=Ready(path,parent,name);
+   }
+   float actual=Measure(obj).size.y;if(Mathf.Abs(actual-authorHeight)>.001f)throw new Exception("Unit conversion failed for "+name+": "+actual);
+   Debug.Log("BEDROOM06_IMPORT_UNITS "+name+" before="+observed+" after="+actual+" globalScale="+importer.globalScale);return obj;
+  }
   static void Remove(Transform parent,string name){var obj=parent.Find(name);if(obj)UnityEngine.Object.DestroyImmediate(obj.gameObject);}
   static void Rod(Transform parent,string name,Vector3 a,Vector3 b,float radius,Material mat){
    var obj=GameObject.CreatePrimitive(PrimitiveType.Cylinder);obj.name=name;obj.transform.SetParent(parent,false);
@@ -66,7 +78,7 @@ namespace Ataka.Editor {
     t.position+=new Vector3(center.x-b.center.x,1.62f-b.min.y,center.z-b.center.z);
    }
    Remove(root,"CC0 vase reused as lampada vessel");Remove(root,"Approved lampada06");
-   var lamp=Ready(Art+"BedroomDecor/Lampada06/Lampada06.fbx",root,"Approved lampada06");lamp.transform.position=new Vector3(.36f,1.75f,.36f);
+   var lamp=ReadyMeasured(Art+"BedroomDecor/Lampada06/Lampada06.fbx",root,"Approved lampada06",.281f);lamp.transform.position=new Vector3(.36f,1.75f,.36f);
    var glass=Lit("LampadaRedGlass",new Color(.18f,.006f,.002f,.55f),.8f);Transparent(glass);glass.EnableKeyword("_EMISSION");glass.SetColor("_EmissionColor",new Color(.035f,.001f,0));
    var brass=Lit("LampadaBrass",new Color(.28f,.17f,.055f),.5f);brass.SetFloat("_Metallic",.65f);
    foreach(var r in lamp.GetComponentsInChildren<Renderer>()){r.sharedMaterial=r.name.Contains("glass")?glass:brass;r.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;}
@@ -84,10 +96,11 @@ namespace Ataka.Editor {
    var rs=table.GetComponentsInChildren<Renderer>();int n=0;foreach(var r in rs){r.sharedMaterials=r.sharedMaterials.Select(m=>{var dark=MaterialCopy("NightstandWalnut"+n++,m);dark.SetColor("_BaseColor",new Color(.12f,.08f,.045f));EditorUtility.SetDirty(dark);return dark;}).ToArray();}
    var tabletop=Measure(table.gameObject);
    Remove(flat.apartment,"Ready Poly Haven bedside clock06");
-   var clock=Ready(Art+"CC0/alarm_clock_01/alarm_clock_01.fbx",flat.apartment,"Ready Poly Haven bedside clock06");clock.transform.rotation=Quaternion.Euler(0,90,0);
+   var clock=ReadyMeasured(Art+"CC0/alarm_clock_01/alarm_clock_01_rigid.fbx",flat.apartment,"Ready Poly Haven bedside clock06",.1741554f);clock.transform.rotation=Quaternion.Euler(0,90,0)*clock.transform.rotation;
    PrefabUtility.UnpackPrefabInstance(clock,PrefabUnpackMode.Completely,InteractionMode.AutomatedAction);
    // Preserve the measured author scale: 13.2 cm wide, 17.4 cm tall.
    PlaceOnTable(clock,new Vector2(1.18f,.88f),tabletop);
+   if(Mathf.Abs(Measure(clock).size.y-.1741554f)>.01f)throw new Exception("Ready clock is not upright or has an unexpected import scale");
    var mat=Lit("ReadyAlarmClock",Color.white,.35f);string dir=Art+"CC0/alarm_clock_01/";
    mat.SetTexture("_BaseMap",Texture(dir+"alarm_clock_01_diff_1k.jpg"));mat.SetTexture("_BumpMap",Texture(dir+"alarm_clock_01_nor_gl_1k.jpg",true));mat.EnableKeyword("_NORMALMAP");mat.SetFloat("_BumpScale",.35f);
    mat.SetTexture("_MetallicGlossMap",Texture(dir+"UnityMetalSmooth.png",false,true));mat.SetFloat("_Smoothness",1);mat.EnableKeyword("_METALLICSPECGLOSSMAP");
@@ -111,15 +124,16 @@ namespace Ataka.Editor {
    var b=Measure(prop);prop.transform.position+=new Vector3(center.x-b.center.x,tabletop.max.y+.002f-b.min.y,center.y-b.center.z);
    b=Measure(prop);const float margin=.01f;
    if(b.min.x<tabletop.min.x+margin||b.max.x>tabletop.max.x-margin||b.min.z<tabletop.min.z+margin||b.max.z>tabletop.max.z-margin)
-    throw new Exception(prop.name+" does not fit the bedside surface with a 1cm edge margin; do not squash the authored mesh");
+    throw new Exception(prop.name+" does not fit the bedside surface with a 1cm edge margin; prop="+b+" table="+tabletop+"; do not squash the authored mesh");
    if(Mathf.Abs(b.min.y-tabletop.max.y-.002f)>.001f)throw new Exception(prop.name+" has an invalid support height");
   }
   static void InstallSpectacles(FlatBindings flat){
    var table=flat.apartment.GetComponentsInChildren<Transform>().Single(t=>t.name=="TEMP Kenney nightstand at headboard");
    Remove(flat.apartment,"Ready CC0 bedside spectacles06");
    string dir=Art+"ReadyModels/Glasses/";
-   var glasses=Ready(dir+"BedsideGlasses.fbx",flat.apartment,"Ready CC0 bedside spectacles06");glasses.transform.rotation=Quaternion.Euler(0,90,0);
+   var glasses=ReadyMeasured(dir+"BedsideGlasses.fbx",flat.apartment,"Ready CC0 bedside spectacles06",.0411893f);glasses.transform.rotation=Quaternion.Euler(0,90,0)*glasses.transform.rotation;
    PlaceOnTable(glasses,new Vector2(1.22f,1.105f),Measure(table.gameObject));
+   if(Mathf.Abs(Measure(glasses).size.y-.0411893f)>.005f)throw new Exception("Ready spectacles have unexpected orientation/scale: "+Measure(glasses));
    var m=Lit("ReadyBedsideSpectacles",Color.white,.35f);m.SetTexture("_BaseMap",Texture(dir+"Glasses-leopard.png"));
    m.SetFloat("_AlphaClip",1);m.SetFloat("_Cutoff",.4f);m.SetFloat("_Cull",0);m.EnableKeyword("_ALPHATEST_ON");m.SetOverrideTag("RenderType","TransparentCutout");m.renderQueue=2450;
    foreach(var r in glasses.GetComponentsInChildren<Renderer>())r.sharedMaterial=m;
@@ -127,12 +141,21 @@ namespace Ataka.Editor {
    if(clock&&Measure(clock.gameObject).Intersects(Measure(glasses)))throw new Exception("Clock and spectacles overlap; keep both at their authored scale");
    EditorUtility.SetDirty(m);
   }
+  [Serializable] class PlacedProp {public string name;public Vector3 min,max,size;}
+  [Serializable] class PreparedArtReport {public string scope="Scene geometry only; not rendered or visually approved";public PlacedProp[] props;public float iconIntensity,iconInnerAngle,haloIntensity;}
+  static void WriteGeometryReport(FlatBindings flat){
+   string[] names={"TEMP Kenney nightstand at headboard","Ready Poly Haven bedside clock06","Ready CC0 bedside spectacles06","Corner icon shelf","Approved lampada06"};
+   var all=flat.apartment.GetComponentsInChildren<Transform>();var report=new PreparedArtReport();
+   report.props=names.Select(name=>{var t=all.Single(v=>v.name==name);var b=Measure(t.gameObject);return new PlacedProp{name=name,min=b.min,max=b.max,size=b.size};}).ToArray();
+   report.iconIntensity=flat.look.icon.intensity;report.iconInnerAngle=flat.look.icon.innerSpotAngle;report.haloIntensity=all.Single(v=>v.name=="Icon glass halo").GetComponent<Light>().intensity;
+   System.IO.Directory.CreateDirectory("QA/Bedroom06Placement");System.IO.File.WriteAllText("QA/Bedroom06Placement/geometry.json",JsonUtility.ToJson(report,true));
+  }
   // Explicit staging operation only: no InitializeOnLoad, no automatic build or player launch.
   [MenuItem("Ataka/Bedroom06/Apply prepared corner and bedside clock")]
   public static void ApplyPreparedArt(){
    System.IO.Directory.CreateDirectory(Output);AssetDatabase.Refresh();
    var scene=EditorSceneManager.OpenScene("Assets/_Project/Scenario/Flat.unity");var flat=UnityEngine.Object.FindFirstObjectByType<FlatBindings>();
-   InstallCorner(flat);InstallClock(flat);InstallSpectacles(flat);AssetDatabase.SaveAssets();EditorSceneManager.MarkSceneDirty(scene);EditorSceneManager.SaveScene(scene);
+   InstallCorner(flat);InstallClock(flat);InstallSpectacles(flat);WriteGeometryReport(flat);AssetDatabase.SaveAssets();EditorSceneManager.MarkSceneDirty(scene);EditorSceneManager.SaveScene(scene);
    Debug.Log("BEDROOM06 Prepared corner, clock and spectacles installed; visual review, shader compilation and gameplay checks still required. Water glass not installed.");
   }
 

@@ -22,3 +22,6 @@
 - Wet mark code now uses a multiplicative URP shader with soft irregular edge and three1–2cm satellite drops, leaving the impact ring. Falling drop keeps a separate Lit material. C# compilation passed; shader compilation/rendering not tested.
 - Runtime and Editor console compiler reports are attached under offline-checks. They do not replace Unity import, scene/build validation or the failed runtime door probe.
 - Browser access to the existing Claude tab still returns HTML where the tool expects JSON; no new browser windows were opened, no fallback native clicks used. FOLLOWUP-PENDING.md is a draft, NOT a delivered message.
+
+
+12.10 update: official null-graphics Unity path now works without a player window. Seven engine EditMode tests pass, including native CharacterController.Move in both update orders; fixed a newly discovered small-angle convergence bug. Art06 corner/clock/spectacles are now actually installed, with geometry/support assertions passed after repairing imported units, the authored clock rig and spectacles root orientation. No GPU screenshots or complete gameplay verification yet. See docs/reviews/2026-10-12/headless-door-and-placement. This message is still NOT delivered through the broken browser connection.

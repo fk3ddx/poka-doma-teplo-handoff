@@ -1,0 +1,60 @@
+{
+  "scope": "Original rig evaluated to rigid meshes; UV/materials retained; no remodelling. Unity hand direction still requires validation.",
+  "parts": [
+    {
+      "part": "alarm_clock_01_hour_hand",
+      "pivot_bone": "def_hours",
+      "pivot_blender": [
+        -1.142914651808269e-09,
+        -0.025499992072582245,
+        0.06489444524049759
+      ],
+      "vertices": 133,
+      "triangles": 200
+    },
+    {
+      "part": "alarm_clock_01_second_hand",
+      "pivot_bone": "def_seconds",
+      "pivot_blender": [
+        -1.1371235064672192e-09,
+        -0.025499992072582245,
+        0.06489445269107819
+      ],
+      "vertices": 54,
+      "triangles": 73
+    },
+    {
+      "part": "alarm_clock_01",
+      "pivot_bone": null,
+      "pivot_blender": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "vertices": 4284,
+      "triangles": 7840
+    },
+    {
+      "part": "alarm_clock_01_minute_hand",
+      "pivot_bone": "def_minutes",
+      "pivot_blender": [
+        -1.148713568710491e-09,
+        -0.025499990209937096,
+        0.06489444524049759
+      ],
+      "vertices": 103,
+      "triangles": 152
+    },
+    {
+      "part": "alarm_clock_01_glass",
+      "pivot_bone": null,
+      "pivot_blender": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "vertices": 385,
+      "triangles": 720
+    }
+  ]
+}

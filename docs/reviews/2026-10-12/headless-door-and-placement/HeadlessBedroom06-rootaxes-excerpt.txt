@@ -1,0 +1,7 @@
+Forcing GfxDevice: Null
+    Renderer: Null Device
+Host type is not matching any asset type at Path Packages/com.unity.render-pipelines.core/Editor/Lighting/ProbeVolume/RenderingLayerMask/TraceRenderingLayerMask.urtshader.
+BEDROOM06_IMPORT_UNITS Approved lampada06 before=0,281 after=0,281 globalScale=1
+BEDROOM06_IMPORT_UNITS Ready Poly Haven bedside clock06 before=0,1741554 after=0,1741554 globalScale=1
+BEDROOM06_IMPORT_UNITS Ready CC0 bedside spectacles06 before=0,04118935 after=0,04118935 globalScale=1
+BEDROOM06 Prepared corner, clock and spectacles installed; visual review, shader compilation and gameplay checks still required. Water glass not installed.

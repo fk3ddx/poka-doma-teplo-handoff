@@ -1,0 +1,25 @@
+{
+  "pid": 27072,
+  "command": [
+    "C:\\Users\\User\\UnityEditors\\6000.3.26f1\\Editor\\Unity.exe",
+    "-batchmode",
+    "-nographics",
+    "-silent-crashes",
+    "-job-worker-count",
+    "2",
+    "-projectPath",
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game",
+    "-logFile",
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\QA\\HeadlessDoor06-small-angle\\editor.log",
+    "-runTests",
+    "-testPlatform",
+    "EditMode",
+    "-testFilter",
+    "Ataka.Tests.ScenarioDoorSafetyTests",
+    "-testResults",
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\QA\\HeadlessDoor06-small-angle\\tests.xml"
+  ],
+  "operation": "door-tests",
+  "scope": "Null graphics; no player, visual acceptance, audio audition or simulated input",
+  "utc": "2026-10-11T21:09:49.494743+00:00"
+}

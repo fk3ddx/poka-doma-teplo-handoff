@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="4" result="Failed(Child)" total="4" passed="1" failed="3" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-11 21:07:28Z" end-time="2026-10-11 21:07:31Z" duration="3,7277481">
+  <test-suite type="TestSuite" id="1000" name="Атака на запоминание" fullname="Атака на запоминание" runstate="Runnable" testcasecount="81" result="Failed" site="Child" start-time="2026-10-11 21:07:28Z" end-time="2026-10-11 21:07:31Z" duration="3.727748" total="4" passed="1" failed="3" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <failure>
+      <message><![CDATA[One or more child tests had errors]]></message>
+    </failure>
+    <test-suite type="Assembly" id="1102" name="Ataka.EditModeTests.dll" fullname="C:/Users/User/.codex/.chatgpt-projects/g-p-6aca43271b448191badfa7321ad904d3/github-upload/Igra-FULL-HANDOFF/unity-game/Library/ScriptAssemblies/Ataka.EditModeTests.dll" runstate="Runnable" testcasecount="81" result="Failed" site="Child" start-time="2026-10-11 21:07:28Z" end-time="2026-10-11 21:07:31Z" duration="3.712271" total="4" passed="1" failed="3" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="28888" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <failure>
+        <message><![CDATA[One or more child tests had errors]]></message>
+      </failure>
+      <test-suite type="TestSuite" id="1103" name="Ataka" fullname="Ataka" runstate="Runnable" testcasecount="81" result="Failed" site="Child" start-time="2026-10-11 21:07:28Z" end-time="2026-10-11 21:07:31Z" duration="3.710197" total="4" passed="1" failed="3" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <failure>
+          <message><![CDATA[One or more child tests had errors]]></message>
+        </failure>
+        <test-suite type="TestSuite" id="1104" name="Tests" fullname="Ataka.Tests" runstate="Runnable" testcasecount="81" result="Failed" site="Child" start-time="2026-10-11 21:07:28Z" end-time="2026-10-11 21:07:31Z" duration="3.706866" total="4" passed="1" failed="3" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <failure>
+            <message><![CDATA[One or more child tests had errors]]></message>
+          </failure>
+          <test-suite type="TestFixture" id="1085" name="ScenarioDoorSafetyTests" fullname="Ataka.Tests.ScenarioDoorSafetyTests" classname="Ataka.Tests.ScenarioDoorSafetyTests" runstate="Runnable" testcasecount="4" result="Failed" site="Child" start-time="2026-10-11 21:07:28Z" end-time="2026-10-11 21:07:31Z" duration="3.703625" total="4" passed="1" failed="3" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <failure>
+              <message><![CDATA[One or more child tests had errors]]></message>
+            </failure>
+            <test-suite type="ParameterizedMethod" id="1090" name="ActualCarpetDoorNeverSweepsThroughPlayerAndResumesWhenClear" fullname="Ataka.Tests.ScenarioDoorSafetyTests.ActualCarpetDoorNeverSweepsThroughPlayerAndResumesWhenClear" classname="Ataka.Tests.ScenarioDoorSafetyTests" runstate="Runnable" testcasecount="4" result="Failed" site="Child" start-time="2026-10-11 21:07:28Z" end-time="2026-10-11 21:07:31Z" duration="3.695978" total="4" passed="1" failed="3" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <failure>
+                <message><![CDATA[One or more child tests had errors]]></message>
+              </failure>
+              <test-case id="1086" name="ActualCarpetDoorNeverSweepsThroughPlayerAndResumesWhenClear(0.86f,0.01666667f,False)" fullname="Ataka.Tests.ScenarioDoorSafetyTests.ActualCarpetDoorNeverSweepsThroughPlayerAndResumesWhenClear(0.86f,0.01666667f,False)" methodname="ActualCarpetDoorNeverSweepsThroughPlayerAndResumesWhenClear" classname="Ataka.Tests.ScenarioDoorSafetyTests" runstate="Runnable" seed="25769921" result="Failed" start-time="2026-10-11 21:07:28Z" end-time="2026-10-11 21:07:30Z" duration="1.923666" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <failure>
+                  <message><![CDATA[  Door must resume after the player steps clear
+  Expected: less than 0.5f
+  But was:  1.00560009f
+]]></message>
+                  <stack-trace><![CDATA[at Ataka.Tests.ScenarioDoorSafetyTests.ActualCarpetDoorNeverSweepsThroughPlayerAndResumesWhenClear (System.Single x, System.Single dt, System.Boolean closing) [0x001eb] in C:\Users\User\.codex\.chatgpt-projects\g-p-6aca43271b448191badfa7321ad904d3\github-upload\Igra-FULL-HANDOFF\unity-game\Assets\Tests\EditMode\ScenarioDoorSafetyTests.cs:27
+]]></stack-trace>
+                </failure>
+              </test-case>
+              <test-case id="1087" name="ActualCarpetDoorNeverSweepsThroughPlayerAndResumesWhenClear(0.97f,0.01666667f,False)" fullname="Ataka.Tests.ScenarioDoorSafetyTests.ActualCarpetDoorNeverSweepsThroughPlayerAndResumesWhenClear(0.97f,0.01666667f,False)" methodname="ActualCarpetDoorNeverSweepsThroughPlayerAndResumesWhenClear" classname="Ataka.Tests.ScenarioDoorSafetyTests" runstate="Runnable" seed="98860432" result="Failed" start-time="2026-10-11 21:07:30Z" end-time="2026-10-11 21:07:30Z" duration="0.557599" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <failure>
+                  <message><![CDATA[  Door must resume after the player steps clear
+  Expected: less than 0.5f
+  But was:  0.928719699f
+]]></message>
+                  <stack-trace><![CDATA[at Ataka.Tests.ScenarioDoorSafetyTests.ActualCarpetDoorNeverSweepsThroughPlayerAndResumesWhenClear (System.Single x, System.Single dt, System.Boolean closing) [0x001eb] in C:\Users\User\.codex\.chatgpt-projects\g-p-6aca43271b448191badfa7321ad904d3\github-upload\Igra-FULL-HANDOFF\unity-game\Assets\Tests\EditMode\ScenarioDoorSafetyTests.cs:27
+]]></stack-trace>
+                </failure>
+              </test-case>
+              <test-case id="1088" name="ActualCarpetDoorNeverSweepsThroughPlayerAndResumesWhenClear(0.86f,0.25f,False)" fullname="Ataka.Tests.ScenarioDoorSafetyTests.ActualCarpetDoorNeverSweepsThroughPlayerAndResumesWhenClear(0.86f,0.25f,False)" methodname="ActualCarpetDoorNeverSweepsThroughPlayerAndResumesWhenClear" classname="Ataka.Tests.ScenarioDoorSafetyTests" runstate="Runnable" seed="1431920172" result="Passed" start-time="2026-10-11 21:07:30Z" end-time="2026-10-11 21:07:31Z" duration="0.614606" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1089" name="ActualCarpetDoorNeverSweepsThroughPlayerAndResumesWhenClear(0.86f,0.01666667f,True)" fullname="Ataka.Tests.ScenarioDoorSafetyTests.ActualCarpetDoorNeverSweepsThroughPlayerAndResumesWhenClear(0.86f,0.01666667f,True)" methodname="ActualCarpetDoorNeverSweepsThroughPlayerAndResumesWhenClear" classname="Ataka.Tests.ScenarioDoorSafetyTests" runstate="Runnable" seed="1248509456" result="Failed" start-time="2026-10-11 21:07:31Z" end-time="2026-10-11 21:07:31Z" duration="0.583047" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <failure>
+                  <message><![CDATA[  Door must resume after the player steps clear
+  Expected: less than 0.5f
+  But was:  1.03626597f
+]]></message>
+                  <stack-trace><![CDATA[at Ataka.Tests.ScenarioDoorSafetyTests.ActualCarpetDoorNeverSweepsThroughPlayerAndResumesWhenClear (System.Single x, System.Single dt, System.Boolean closing) [0x001eb] in C:\Users\User\.codex\.chatgpt-projects\g-p-6aca43271b448191badfa7321ad904d3\github-upload\Igra-FULL-HANDOFF\unity-game\Assets\Tests\EditMode\ScenarioDoorSafetyTests.cs:27
+]]></stack-trace>
+                </failure>
+                <output><![CDATA[Saving results to: C:/Users/User/AppData/LocalLow/AtakaProject/Атака на запоминание\TestResults.xml
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

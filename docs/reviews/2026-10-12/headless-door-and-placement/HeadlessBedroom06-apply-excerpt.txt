@@ -1,0 +1,4 @@
+Forcing GfxDevice: Null
+    Renderer: Null Device
+Host type is not matching any asset type at Path Packages/com.unity.render-pipelines.core/Editor/Lighting/ProbeVolume/RenderingLayerMask/TraceRenderingLayerMask.urtshader.
+Exception: Ready Poly Haven bedside clock06 does not fit the bedside surface with a 1cm edge margin; do not squash the authored mesh
