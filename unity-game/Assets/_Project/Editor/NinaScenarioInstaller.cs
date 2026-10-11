@@ -17,9 +17,10 @@ namespace Ataka.Editor {
    animation.clip.SampleAnimation(animation.gameObject,0);
    foreach(string side in new[]{"L","R"}){
     var upper=Bone(actor,"Arm_Upper."+side);var lower=Bone(actor,"Arm_Lower."+side);var hand=Bone(actor,"Hand."+side);
-    Aim(upper,lower,new Vector3(side=="L"?-.08f:.08f,-1,.02f));Aim(lower,hand,new Vector3(0,-1,.05f));
+    Aim(upper,lower,new Vector3(side=="L"?-.25f:.25f,-1,.02f));Aim(lower,hand,new Vector3(0,-1,.05f));
    }
-   var head=Bone(actor,"Head");head.rotation=Quaternion.AngleAxis(24,Vector3.forward)*head.rotation;
+   foreach(string side in new[]{"L","R"}){var foot=Bone(actor,"Foot."+side);foot.rotation=Quaternion.AngleAxis(25,Vector3.right)*foot.rotation;}
+   var head=Bone(actor,"Head");head.rotation=Quaternion.AngleAxis(32,Vector3.forward)*Quaternion.AngleAxis(20,Vector3.right)*head.rotation;
    var clip=new AnimationClip{legacy=true,name="Nina_Hang",wrapMode=WrapMode.ClampForever};
    foreach(var bone in animation.GetComponentsInChildren<Transform>(true)){
     if(bone==animation.transform)continue;

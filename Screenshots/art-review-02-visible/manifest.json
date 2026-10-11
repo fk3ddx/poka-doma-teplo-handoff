@@ -1,0 +1,154 @@
+[
+  {
+    "file": "lap1-01-entry-dresser.png",
+    "sha256": "af55aaa8415d4f26ce687da7cace4f1319149ff69d685b67ebea2b0fce91544f"
+  },
+  {
+    "file": "lap1-02-hall-clock.png",
+    "sha256": "761364b18fc2a534d648db069fcbf7964e99801f1c979c091c4dca25e7289d17"
+  },
+  {
+    "file": "lap1-03-living-wide.png",
+    "sha256": "c47d4492b5e7c3b29df1b95632e880838a4f235cafda9bfb0411cf07f36d0335"
+  },
+  {
+    "file": "lap1-04-living-reverse.png",
+    "sha256": "639e48b769dee39151b922ed990a45cf8ed754629e7c8b2160e303f77bfa0a52"
+  },
+  {
+    "file": "lap1-05-bedroom-door.png",
+    "sha256": "17f1088cc0665e333ae18a0daed6958949ee7e65d75b6f1ea8e0f0659d68d564"
+  },
+  {
+    "file": "lap1-06-bedroom-bed.png",
+    "sha256": "0f179384a6ddfe5c7e2aa35f7908a1a67c070e275be779111a4760d906fd318a"
+  },
+  {
+    "file": "lap1-07-wardrobe-clearance.png",
+    "sha256": "a2db8775d844609609a0d44cca0bc20a48411ef8bdfccdf3928731ea4984ae77"
+  },
+  {
+    "file": "lap1-08-bedroom-reverse.png",
+    "sha256": "a64f63309f4c46ea9f603f875f42ed8ea8c40d37b9034add8dfac5cdcf65b496"
+  },
+  {
+    "file": "lap1-09-kitchen-wide.png",
+    "sha256": "a0bd4a72ef8565820db80da3ee09a799b065938b1d1503b8febd3232941f5a1b"
+  },
+  {
+    "file": "lap1-10-kitchen-reverse.png",
+    "sha256": "a3f2df377aee0386bfe494ea625424524f8fdf0f94022331fe175b0ff1c9fa8d"
+  },
+  {
+    "file": "lap1-11-bathroom.png",
+    "sha256": "3ddd42d6d4f3ceef090331b8f9246579183847a2a4f8d1d9ae1ce6be6f0a3aaa"
+  },
+  {
+    "file": "lap1-12-window-courtyard.png",
+    "sha256": "9fd2868b014284a7ffe8ad7b74e55d9ceac058d5a8e06059cb468501c27c8e1b"
+  },
+  {
+    "file": "lap1-ref-A-hall.png",
+    "sha256": "26ff9e51490081df2c9f12a8844609b7e1850632f8ce4d0adb77187447e2a82d"
+  },
+  {
+    "file": "lap1-ref-B-hallB.png",
+    "sha256": "168a958028ff2d50a1902a973b8f05b2f6c15ab5f2ffdcdb4fae0f4f94e33142"
+  },
+  {
+    "file": "lap1-ref-C-living-door.png",
+    "sha256": "1cc60d2c65f99efd30b023ecc9db1b9e9307b87a50e75fc0c412a6bc64b88b5f"
+  },
+  {
+    "file": "lap1-ref-D-living-reverse.png",
+    "sha256": "bf095c67d96ca279181dfcb3e6ff711966f20578151356302e63d7c6418d91b2"
+  },
+  {
+    "file": "lap1-ref-E-bedroom-door.png",
+    "sha256": "2cd1cf3c8af8782e17a9955534162b3a8e204b28623d8d59bb28f14725d57614"
+  },
+  {
+    "file": "lap1-ref-F-bedroom-in.png",
+    "sha256": "666b055c475aa5724bf9e245941791ddc221a837128b376982ac5abd9ebdc1fb"
+  },
+  {
+    "file": "lap1-ref-G-kitchen.png",
+    "sha256": "2cc90bd56e363102092c28d3cebc2086857d17c060b4e8f267ef033b12427284"
+  },
+  {
+    "file": "warm-return-01-entry-dresser.png",
+    "sha256": "eaa0a18135858c5447aa0ccc3dc520c1058e297db1a8051e99bb1e1b49baf117"
+  },
+  {
+    "file": "warm-return-02-hall-clock.png",
+    "sha256": "b3b7bda2145c2f4b090599d0b763ea75830ab0d68ae41f8390995e2fd3d3709b"
+  },
+  {
+    "file": "warm-return-03-living-wide.png",
+    "sha256": "67a57afdc253d8cfd0323b9c8e1527350e0759f53cb14aa6ccb6b82e3ad6ab0e"
+  },
+  {
+    "file": "warm-return-04-living-reverse.png",
+    "sha256": "634e465e35c129cc2975dc3f9246212007cac400e705b4b7597fb4db796baba5"
+  },
+  {
+    "file": "warm-return-05-bedroom-door.png",
+    "sha256": "f27e01ca669c436b1cddfbec478ff077928b1b74fd4a627b946d7d8b1c93e086"
+  },
+  {
+    "file": "warm-return-06-bedroom-bed.png",
+    "sha256": "2e2ce1efc27ac78d6931713da10e7fd4b32fc6292baf0f9bcdb7223793b4c18a"
+  },
+  {
+    "file": "warm-return-07-wardrobe-clearance.png",
+    "sha256": "4f8bb71cf9cb37e3605cc7e6c453a2e54dffdc693d856d50dd6a2f896e64cb2c"
+  },
+  {
+    "file": "warm-return-08-bedroom-reverse.png",
+    "sha256": "df8a59b57cad2dded235a9db70e89a263382202fe978010ee5da37c88d085c97"
+  },
+  {
+    "file": "warm-return-09-kitchen-wide.png",
+    "sha256": "417ae8d3206272dde5d0be4ece9354ea12d7f866c7b816ed956e73c41ca50494"
+  },
+  {
+    "file": "warm-return-10-kitchen-reverse.png",
+    "sha256": "7c4dad826cab7a0d365949faaeb365f64829cda14f44d8cf94aa5576f09f309d"
+  },
+  {
+    "file": "warm-return-11-bathroom.png",
+    "sha256": "bb991c5b75db2388f7718d41924a1f968b144e2be4ab7d2c76034434d3fe6584"
+  },
+  {
+    "file": "warm-return-12-window-courtyard.png",
+    "sha256": "9f511808fa6535ffc7ac2ecd6d7282c6738adf6bb92e870a88f330576d2e24c5"
+  },
+  {
+    "file": "warm-return-ref-A-hall.png",
+    "sha256": "2cac4a9bcb56646fb51caf5de3d8a775a66ccb30ee6daea1f9de713f1104724c"
+  },
+  {
+    "file": "warm-return-ref-B-hallB.png",
+    "sha256": "eb3c040d43a453cf28acc55ed738b9021dd239dd124b4a3c4265d9309397aec1"
+  },
+  {
+    "file": "warm-return-ref-C-living-door.png",
+    "sha256": "597c9692f3f525c12dfd491fdd62e072efb38c5165da0fc448d465e7f5c194d0"
+  },
+  {
+    "file": "warm-return-ref-D-living-reverse.png",
+    "sha256": "bc8bb0c6dd3d94b554cec730e13ebfb4fa97185fc82d8ae8fbb1d442d34a8290"
+  },
+  {
+    "file": "warm-return-ref-E-bedroom-door.png",
+    "sha256": "8b170471cfe3b23a91eb43ccfebccace5f3f352a925acf1ff5ac04ae2a79e2b2"
+  },
+  {
+    "file": "warm-return-ref-F-bedroom-in.png",
+    "sha256": "ff077ee00c605d88c795c2e91186454c8fd8430e109616b1048566fd2dadc0c2"
+  },
+  {
+    "file": "warm-return-ref-G-kitchen.png",
+    "sha256": "d1f14e5280ab6fbc9304bf8ba269bbe6205001cfd1ed52d85015e3dffe079b58"
+  }
+]

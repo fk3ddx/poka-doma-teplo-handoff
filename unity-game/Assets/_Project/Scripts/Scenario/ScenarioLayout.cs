@@ -14,7 +14,8 @@ namespace Ataka.Scenario {
   public static readonly Vector3 Spawn=new Vector3(8.05f,.02f,5.65f);
   public static readonly Vector3 Clock=new Vector3(5.5f,1.05f,5.9f);
   public static readonly Vector3 Dresser=new Vector3(6.9f,0,3.7f);
-  public static readonly Vector3 Wardrobe=new Vector3(2.05f,0,4.07f);
+  public static readonly Vector3 Wardrobe=new Vector3(2.505f,0,2.3f);
+  public static readonly Vector3 WardrobeSlipper=new Vector3(1.95f,.01f,2.9f);
   public static readonly Vector3 Bed=new Vector3(.6f,0,1.8f);
   public static readonly Vector3 Television=new Vector3(6.1f,.85f,2.25f);
   public static readonly Vector3 BalconyDoor=new Vector3(5.175f,1,0);

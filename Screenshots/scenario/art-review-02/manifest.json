@@ -1,0 +1,282 @@
+[
+  {
+    "file": "00-menu.png",
+    "sha256": "ec3991f0f149f70fda4dd380e80699a524484dce85a30980d1606717d701f5b6"
+  },
+  {
+    "file": "01-hall.png",
+    "sha256": "9161a8bb56632647a999dc38fc057b221745a3211e539cf10e99c082f4f248af"
+  },
+  {
+    "file": "chase-first-corner.png",
+    "sha256": "a8593b07b347cebac48a33b7a86bc343c618259896ec82de4ef302d6e22a9453"
+  },
+  {
+    "file": "chase-hallway-entry.png",
+    "sha256": "7e1eb78228889e778d17afc4a9516c5abd4355b71b3579ced69e66af5fd4a0b5"
+  },
+  {
+    "file": "chase-start.png",
+    "sha256": "78535a689c71f86ace96687659313e77512286de94dfa3a46dda67a29448dbb8"
+  },
+  {
+    "file": "core-end.png",
+    "sha256": "dde0cfddc7c69d2e96f7fc3987dbd78e12b8b9290b572d5acbdcd6b9ae9de272"
+  },
+  {
+    "file": "hanging-door-open.png",
+    "sha256": "4c221a46c26d5daa36e77e8978381341cd8c7baf1b6dfa3d08a9888f225f16e2"
+  },
+  {
+    "file": "lap1-clock.png",
+    "sha256": "e095e76b807867cced667ea639da227ebcc5aec5e140dd326eff5a5943de9b01"
+  },
+  {
+    "file": "lap1-gate.png",
+    "sha256": "995a0c4a73ccad877c64c8a3662b2890ed4a28cbe68f232fa24c5355048d2cd0"
+  },
+  {
+    "file": "lap2-clock.png",
+    "sha256": "8c4995ecc8ea45f8e7895a7ee92afc159425feb470c2fecd00076200b26d1a97"
+  },
+  {
+    "file": "lap2-gate.png",
+    "sha256": "f0f910eaf54b162c1ef3ad6028332d956f993dd06aef11927829a003b4db72b4"
+  },
+  {
+    "file": "lap3-clock.png",
+    "sha256": "49d0e4bd4c530a2448a3832ab8ec00f505d3572430fc3e33358c0d5927c2c23d"
+  },
+  {
+    "file": "lap3-gate.png",
+    "sha256": "1bfb63016a48a521e541bcfab803f71585650bc78e395d377b918ad8ce0229a9"
+  },
+  {
+    "file": "lap4-clock.png",
+    "sha256": "55884d9e1328a8d452715ac262a31681ab95235d793382414b6dfeecedad38ca"
+  },
+  {
+    "file": "lap4-gate.png",
+    "sha256": "401f3fe8062f41aa4a3910a544152eb1b08d545d2cb86b600ab3dc782b856275"
+  },
+  {
+    "file": "lap5-clock.png",
+    "sha256": "651c863c1350cf5a23a83ab4318f1d5b1c33884981d9d5b72469425faffb574b"
+  },
+  {
+    "file": "lap5-gate.png",
+    "sha256": "79088dfca70a2c84af3dbe626ad1d5335bdbeab36c0fa312ab0763db465b28dd"
+  },
+  {
+    "file": "lap6-clock.png",
+    "sha256": "8ef2fa010a0d38d0d35fa2c19f050e84d444e88a5a4d26a3a804fa92da4ca527"
+  },
+  {
+    "file": "lap6-gate.png",
+    "sha256": "e551279cfb8a5b07283e8688aa5b52830ca9c722f99db22a682b6ccd44a1ad37"
+  },
+  {
+    "file": "scene-BalconyPalm-0.4.png",
+    "sha256": "6381e5239a54b5a211551ac3aba1c0d2e98f217a655dc94920a98f48972f8beb"
+  },
+  {
+    "file": "scene-BalconyPalm-1.1.png",
+    "sha256": "ea0fdb3ac2d224b398db19605c217d70f8f55563460232e35a92f80bddbeead8"
+  },
+  {
+    "file": "scene-ChaseStart-0.4.png",
+    "sha256": "c80a7f6cb600695ac191243181c634e29b5c6d183860dc5f43eb610303186661"
+  },
+  {
+    "file": "scene-ChaseStart-1.1.png",
+    "sha256": "938f41b994c8a7621dbdc748ceef197c7b74d4cf4648b0301bdbd060e7979165"
+  },
+  {
+    "file": "scene-ChaseStart-1.7.png",
+    "sha256": "d13169f1700c4e2c88772974e1c00ddeceea93a0c908e9629c947bfe5759546b"
+  },
+  {
+    "file": "scene-ChaseStart-2.1.png",
+    "sha256": "92a599b2378cc153646062236a13e7581b4e3ec89282a7daaa61e6f732d54e9a"
+  },
+  {
+    "file": "scene-ChaseStart-2.4.png",
+    "sha256": "673588d1fcb4979bdf42f892558b462951eae8b96324af94b217ca6be7046842"
+  },
+  {
+    "file": "scene-ChaseStart-2.6.png",
+    "sha256": "f776746e90205db4fd6abca7768d0c99415f5d82b86c3151daced9acbe1249f5"
+  },
+  {
+    "file": "scene-ChaseStart-2.9.png",
+    "sha256": "47186cc895cab830d6d35e0e2a9fdc8e82c36aea4e3bb594a990b477e55125f3"
+  },
+  {
+    "file": "scene-DeathShort-0.4.png",
+    "sha256": "bba3d47722899efe21dd909db81700a410d8a754e7ed2f8588f71b76f2e67261"
+  },
+  {
+    "file": "scene-DeathShort-1.1.png",
+    "sha256": "9eddd01ef8aa0ac5fb0519a74b703dab71216b5dc041cc00e21423ff4e35aff9"
+  },
+  {
+    "file": "scene-DeathShort-1.7.png",
+    "sha256": "eb99d0f56b1cc6bf8e91aeacf9cf99c59fdc6fd816e8931f75b65fca12fce75e"
+  },
+  {
+    "file": "scene-DeathShort-2.1.png",
+    "sha256": "520c54231a502e0765a2971f01bc4b5c1a4f73c6b313471b054c5a1f554cd60b"
+  },
+  {
+    "file": "scene-DeathShort-2.4.png",
+    "sha256": "060839d32189b763760cff76b011493deb86020b9beba4001f2922dac15b6aad"
+  },
+  {
+    "file": "scene-DeathShort-2.6.png",
+    "sha256": "99f3a9b47d5c61cce7bf324dc85c97163ceceac22861eec0edd78bb419bff1e7"
+  },
+  {
+    "file": "scene-DeathShort-2.9.png",
+    "sha256": "99f3a9b47d5c61cce7bf324dc85c97163ceceac22861eec0edd78bb419bff1e7"
+  },
+  {
+    "file": "scene-HangingVision-1.1.png",
+    "sha256": "0a90c6d4d40c451cc99a8112a1159928e5c9e1ee585a192f0547306a8206de54"
+  },
+  {
+    "file": "scene-HangingVision-1.7.png",
+    "sha256": "64351207201dabea3811dd83bbc1e37375c06cd6a3ee3850fd4e11a0fa2f5da8"
+  },
+  {
+    "file": "scene-HangingVision-2.1.png",
+    "sha256": "98a397aa3673745e2ac5460d7a07de9a5cb5f38b9f2220f39db10062c6bf175a"
+  },
+  {
+    "file": "scene-HangingVision-2.4.png",
+    "sha256": "51380fe163e365b3d17a640386025d3c7f7bf9f06c2664e527738eec769bc436"
+  },
+  {
+    "file": "scene-HangingVision-2.6.png",
+    "sha256": "206d1d6e55a5abf74e9e59fa10c9deb8acfbfe9a0b541bc71e20ff30a37ac891"
+  },
+  {
+    "file": "scene-HangingVision-2.9.png",
+    "sha256": "1706d390a8671d6e26d6d56649ffa7cc6eb082776bc60e12c8d486f92c59d891"
+  },
+  {
+    "file": "scene-HangingVision-3.6.png",
+    "sha256": "9581dcbb23bd19c5ec36984cc28b44eee6c97b461981abb2affd5a46c0404b7e"
+  },
+  {
+    "file": "scene-HangingVision-4.3.png",
+    "sha256": "433dbe9895cd59bc96b59653bf38cf2acd188a55724529ff8c63a090256eaa4e"
+  },
+  {
+    "file": "scene-HangingVision-4.6.png",
+    "sha256": "4a1ac81242c83bb6473da5f56711b2af82a56f1d7ccc263cd470ef0bcbee9b6b"
+  },
+  {
+    "file": "scene-HangingVision-5.1.png",
+    "sha256": "4c36df8c9731ce2cf7ada8e6d4be6b6f65ddaa87423933939586acda86176c9a"
+  },
+  {
+    "file": "scene-Peephole-0.4.png",
+    "sha256": "599fbfcc4fc043f5ae29a062910f1ceaa3875c0eab4d4c84d7ca8ba1ff3b9ace"
+  },
+  {
+    "file": "scene-Peephole-1.1.png",
+    "sha256": "0997658f3749f9f781eefc99d9d004005a24a66591a34715b14998a32f0dacc5"
+  },
+  {
+    "file": "scene-Peephole-1.7.png",
+    "sha256": "e8e0ea809dc12080ca26c0e960029ac50b0ce623f76579915b62816116ff6675"
+  },
+  {
+    "file": "scene-Peephole-2.1.png",
+    "sha256": "dc2275ac60f6b3ef8bae2439b09b53a7bdf7d752983945bd0032d5748392a571"
+  },
+  {
+    "file": "scene-Peephole-2.4.png",
+    "sha256": "46eeb0bf6b9a0b9a399db63ed04065a589ed533bf4da8e95c3e7146e7d7f4886"
+  },
+  {
+    "file": "scene-Peephole-2.6.png",
+    "sha256": "23f6075087316867ab9d080d6e1c7534a15c0ad82b4c86f88bd5e10f7be86cf0"
+  },
+  {
+    "file": "scene-Peephole-2.9.png",
+    "sha256": "af6f426ab30a59773b89ed85b7c10af0b09cd4bd9564f73dfd9d2e328311e757"
+  },
+  {
+    "file": "scene-Peephole-3.6.png",
+    "sha256": "fbb8660302546dc9f1385ca151fe7672d4e502ee51fe985d6fc547d53b9f82b6"
+  },
+  {
+    "file": "scene-Peephole-4.3.png",
+    "sha256": "e153e0bed7cef642ed5f57cb9ce464e6dd974f5f3b65456eac957ad3ff43b8f8"
+  },
+  {
+    "file": "scene-Peephole-4.6.png",
+    "sha256": "cd62aafebe7616bfe9c92baf13d514374e511eee6799afb05509b6b4df91d72a"
+  },
+  {
+    "file": "scene-Peephole-5.1.png",
+    "sha256": "0a10f4c750e821521e303327870f76eacf218791990dc18a03297720c826fda6"
+  },
+  {
+    "file": "scene-UnderBed-0.4.png",
+    "sha256": "199aa2e71af0071a541da8b8a1cee36100d225343cbebc17db357fb9fabd1241"
+  },
+  {
+    "file": "scene-UnderBed-1.1.png",
+    "sha256": "e192290068e7d163b3533b3332d9a641c0c4042e7d799638f45eba166ab958e7"
+  },
+  {
+    "file": "seam1-closed.png",
+    "sha256": "affde5a794eca929525c65e785316df864dd371312f3d745bade266030a2ebde"
+  },
+  {
+    "file": "seam1-mapped.png",
+    "sha256": "6589d9a2ad1300d929bbaa2714a56dc30b83e0128c4fbcd2c977ad4014843721"
+  },
+  {
+    "file": "seam2-closed.png",
+    "sha256": "bcf6e0e7171792c6f9216f0a381c32d77548e17386b9e9e8007ce679e9025e43"
+  },
+  {
+    "file": "seam2-mapped.png",
+    "sha256": "9f4c849784b73b6811d1ce36f131c3fd10bc845935689c2246c299d9cf073d86"
+  },
+  {
+    "file": "seam3-closed.png",
+    "sha256": "b65291f9f100f91ff9e57a0a1f5cbdbb455a01fe1df7cc5f7746e5c98b9c5709"
+  },
+  {
+    "file": "seam3-mapped.png",
+    "sha256": "520081829fb72edd2538e7c3470d4f80eae623d9637957c74b4f1a3e23b24814"
+  },
+  {
+    "file": "seam4-closed.png",
+    "sha256": "7a03a34152316fa75285eb39185db97f6c7cfdc0e3a4e441128062dd22993142"
+  },
+  {
+    "file": "seam4-mapped.png",
+    "sha256": "e070d2d25ebc8e331ba39f5a4e24f1161288cf66d839e557c673422884364e88"
+  },
+  {
+    "file": "seam5-closed.png",
+    "sha256": "ed56945944cd90d19db4e70024b81f47a0b0e180e88e1b2cfb3bbf9bfb8f1ac7"
+  },
+  {
+    "file": "seam5-mapped.png",
+    "sha256": "6a12822ef44281ebd8ff8ce33faf5fba3c7c62a6604d7b7f775942bf8b098aa4"
+  },
+  {
+    "file": "underbed-before.png",
+    "sha256": "60e4f8c0b6ec40611834d081d137fa77f442c6254afcfcca7329b3d9be93a3e5"
+  },
+  {
+    "file": "warm-clock.png",
+    "sha256": "e32f50f474478a5fcbf1244d6998399197f7e3c76fd4fc2fe72c213c6935d15e"
+  }
+]

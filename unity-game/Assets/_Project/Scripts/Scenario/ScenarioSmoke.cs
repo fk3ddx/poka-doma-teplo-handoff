@@ -61,7 +61,7 @@ namespace Ataka.Scenario {
     }yield return null;
    }
   }
-  IEnumerator CaptureScenes(){var captured=new HashSet<string>();while(!loop.Finished){var scene=loop.scenes.PlayingScene;float t=loop.scenes.FrameTime;if(!string.IsNullOrEmpty(scene)){foreach(float at in new[]{.4f,1.1f,1.7f,2.1f,2.4f,2.6f,2.9f,3.6f,4.6f,5.1f}){string key=scene+"-"+at.ToString("0.0",System.Globalization.CultureInfo.InvariantCulture);if(t>=at&&t<at+.1f&&!captured.Contains(key)){captured.Add(key);yield return Shot("scene-"+key);break;}}}yield return null;}}
+  IEnumerator CaptureScenes(){var captured=new HashSet<string>();while(!loop.Finished){var scene=loop.scenes.PlayingScene;float t=loop.scenes.FrameTime;if(!string.IsNullOrEmpty(scene)){foreach(float at in new[]{.4f,1.1f,1.7f,2.1f,2.4f,2.6f,2.9f,3.6f,4.3f,4.6f,5.1f}){string key=scene+"-"+at.ToString("0.0",System.Globalization.CultureInfo.InvariantCulture);if(t>=at&&t<at+.1f&&!captured.Contains(key)){captured.Add(key);yield return Shot("scene-"+key);break;}}}yield return null;}}
   IEnumerator ChaseRun(){
    InputSystem.QueueStateEvent(keyboard,new KeyboardState());
    float elapsed=loop.chase.Progress.Elapsed;loop.Pause(true);yield return new WaitForSecondsRealtime(.5f);Check(Mathf.Abs(loop.chase.Progress.Elapsed-elapsed)<.01f,"pause freezes chase clock");loop.Pause(false);

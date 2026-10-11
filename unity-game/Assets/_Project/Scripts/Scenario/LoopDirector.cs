@@ -24,7 +24,7 @@ namespace Ataka.Scenario {
    foreach(var d in flat.wardrobeLeaves)d.localRotation=Quaternion.Euler(0,n==1?95:0,0);
    for(int i=0;i<flat.conditionGroups.Length;i++)flat.conditionGroups[i].SetActive(i==n-1);
    flat.guest.SetActive(false);flat.grandmother.SetActive(false);flat.torchPickup.gameObject.SetActive(!flat.player.hasFlashlight);
-   flat.stool.transform.SetPositionAndRotation(new Vector3(5.5f,0,5.8f),Quaternion.identity);flat.slipper.transform.position=new Vector3(1.85f,.01f,3.4f);
+   flat.stool.transform.SetPositionAndRotation(new Vector3(5.5f,0,5.8f),Quaternion.identity);flat.slipper.transform.position=ScenarioLayout.WardrobeSlipper;
    flat.televisionLight.intensity=n==4?.1f:0;phoneTimer=0;balconyTimer=0;knockTimer=0;knockIndex=0;
    if(!initializing)SaveCheckpoint(false);
   }
@@ -41,7 +41,7 @@ namespace Ataka.Scenario {
    if(returning){flat.entrance.locked=false;if(p.transform.position.z<5.6f){flat.entrance.open=false;flat.entrance.locked=true;returning=false;}}
    foreach(var door in new[]{flat.kitchen,flat.bath,flat.bedroom,flat.living})if(!(door==flat.bedroom&&Progress.Lap==5&&phoneAnswered)&&Near(door.transform)&&Looking(door.transform)){prompt.text=door.locked?"[E] Закрыто":"[E] Дверь";if(e){door.Toggle();sound.Play(door.locked?"latch":door.open?"door_open":"door_close",door.transform.position);}}
    if(Near(flat.clock.transform,2)&&Progress.Lap==2&&!clockThought){Thought("Часы идут назад. Это та же ночь. Только наоборот");clockThought=true;}
-   if(Progress.Lap==1&&!Progress.EventComplete&&Vector3.Distance(p.transform.position,flat.wardrobe.position)<1.5f)StartCoroutine(Event(LapGate.Wardrobe));
+   if(Progress.Lap==1&&!Progress.EventComplete&&p.head.position.x<2.6f&&Vector3.Distance(p.transform.position,flat.wardrobe.position)<1.5f&&ScenarioSight.Clear(p.transform,p.head.position,flat.wardrobe.position+Vector3.up))StartCoroutine(Event(LapGate.Wardrobe));
    if(Progress.Lap==2&&!Progress.EventComplete){balconyTimer+=Time.deltaTime;if(balconyTimer>3){balconyTimer=0;sound.Play("breath",flat.bed.position);}if(Near(flat.bed,2)&&p.crouched&&Looking(flat.bed,.65f)){prompt.text="[E] Посмотреть под кровать";if(e)StartCoroutine(Event(LapGate.UnderBed));}}
    if(Progress.Lap==3&&!Progress.EventComplete){scenes.BalconyWaiting();balconyTimer+=Time.deltaTime;if(balconyTimer>8){balconyTimer=0;sound.Play("balcony",flat.balcony.position);}
     if(Vector3.Distance(p.transform.position,new Vector3(flat.balcony.position.x,p.transform.position.y,flat.balcony.position.z))<1.5f)StartCoroutine(Event(LapGate.BalconyPalm));}
