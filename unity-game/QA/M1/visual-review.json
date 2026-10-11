@@ -1,36 +1,24 @@
 {
   "nativeExitCode": 0,
-  "tests": "24 EditMode pass25 +24 PlayMode pass26; GPU test renders visible/occluded fog, verifies one gamma conversion and linear HDR intensity. Full Generate/Bake pass25, local fog refinement/Build/native pass26.",
+  "generation": "Full Generate27; material refinement28 then Bake/EditMode24/PlayMode24/Build/native28",
   "reviewedFrames": [
     "02-living",
     "04-courtyard",
     "05-lights-off",
-    "08-hall",
-    "09-bathroom",
     "11-balcony-courtyard",
     "18-kitchen-window"
   ],
   "findings": [
-    "Pass25 rejected: bright red cones. Found double gamma conversion: linear colour was passed to MaterialPropertyBlock.SetColor. Pass26 uses SetVector and reduces artistic gain.",
-    "Pass26 shows subdued amber halos around street lamps and entrances. Foreground rails remain opaque; tulle overlays the distant halo.",
-    "Interior warm state and blackout remain visually distinct. Hall and bathroom mirrors retain their reflected geometry without visible exterior fog contamination in these views."
+    "Same balcony camera: repetitive diagonal light pattern removed; window divisions and differing balcony enclosures visible. Facade still deliberately dark and low-contrast.",
+    "Pass27 body and frames read too dark;28 increases plaster/frame/panel albedo without adding lights or emission. Improvement is modest, not a complete lighting redesign.",
+    "Warm room and blackout remain visibly distinct. Tulle overlays the courtyard lights correctly in observed views."
   ],
   "limitations": [
-    "Fog uses 24-step local single-scattering integration plus existing global distance extinction. No secondary scattering or light-path volumetric shadows.",
-    "Opaque camera depth clips the view ray; this is not a complete light-occluder simulation. Baked room reflection cubemaps exclude fog; dynamic planar mirrors request depth.",
-    "Facade/window repetition, weak ground-detail readability and indoor materials remain below the target. M1 not accepted, no parity claim.",
-    "Uncapped sequential240-frame windows measure full frame time, not isolated GPU duration. No cross-device or human comfort/audio verification."
+    "Thin pale line visible at living ceiling corner near window in02; investigate shell overlap/bake seam next, do not claim all light leaks fixed.",
+    "Facade curtains are original procedural128px approximations, not volumetric rooms. Balcony glazing opaque.",
+    "Ground details still difficult to read; household surfaces too uniform, ceiling hotspot and plants need work.",
+    "No manual full playthrough or user M1 approval. No Fears to Fathom parity claim.",
+    "Shutdown Unity MemoryLeaks685408B; no leak-free claim."
   ],
-  "performance": {
-    "targetFps": -1,
-    "samplesPerMode": 240,
-    "onMeanMs": 4.359867572784424,
-    "onP95Ms": 4.452805995941162,
-    "onMaxMs": 7.299099922180176,
-    "offMeanMs": 3.843731641769409,
-    "offP95Ms": 4.139894962310791,
-    "offMaxMs": 5.211600303649902
-  },
-  "reference": "Official Norwood Hitchhike1763050-7 and1763050-5: soft exterior light halos and separation of warm interior/cold outside. Different scene/architecture; no assertion of matched rendering.",
-  "shutdown": "MemoryLeaks750447B in native log; no leak-free assertion."
+  "performance": "GTX1650SUPER D3D12 1920x1080 PC, cap60: mean59.997fps p9516.669ms max16.751ms. Uncapped balcony fog on4.388ms/off3.922ms,240frames/mode; sequential total-frame measurement, not isolated GPU timer."
 }

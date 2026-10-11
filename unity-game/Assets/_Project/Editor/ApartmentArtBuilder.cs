@@ -42,7 +42,7 @@ public static partial class ApartmentArtBuilder {
   var session=Object.FindFirstObjectByType<GameSession>();session.checkpointFile="checkpoint-m1.json";session.player.transform.position=new Vector3(5.1f,Floor+.02f,3.2f);session.player.transform.rotation=Quaternion.Euler(0,215,0);
   session.GetComponent<PrototypeMenu>().milestoneDescription="M1 · художественная квартира — рабочая версия\nЗал, кухня и бытовые детали. Сюжетный пролог ещё в разработке.";
   session.player.view.farClipPlane=240;session.player.view.backgroundColor=C(.095f,.12f,.14f);
-  PlayerSettings.productName="Атака на запоминание";PlayerSettings.bundleVersion="0.2.9-dev";
+  PlayerSettings.productName="Атака на запоминание";PlayerSettings.bundleVersion="0.2.10-dev";
   EditorSceneManager.SaveScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene(),ScenePath);EditorBuildSettings.scenes=new[]{new EditorBuildSettingsScene(ScenePath,true),new EditorBuildSettingsScene(MilestoneBuilder.ScenePath,true)};AssetDatabase.SaveAssets();Debug.Log("M1_SCENE_GENERATED");
  }
  static void Static(GameObject go)=>GameObjectUtility.SetStaticEditorFlags(go,StaticEditorFlags.ContributeGI|StaticEditorFlags.BatchingStatic|StaticEditorFlags.ReflectionProbeStatic);
@@ -132,14 +132,7 @@ public static partial class ApartmentArtBuilder {
   foreach(float x in new[]{-12f,11f,27f}){Rod("Courtyard lamp pole",new Vector3(x,-Floor,-15),new Vector3(x,5-Floor,-15),.065f,"Metal");Rod("Lamp arm",new Vector3(x,5-Floor,-15),new Vector3(x+.7f,5.1f-Floor,-15),.035f,"Metal");Box("Sodium lamp",new Vector3(x+.7f,5.05f-Floor,-15),new Vector3(.45f,.12f,.2f),"Bulb",false);Point("Courtyard pool",new Vector3(x+.7f,4.8f-Floor,-15),C(1,.52f,.16f),2.6f,9,false);}
   for(int i=0;i<9;i++)Box("Dirty snowbank",new Vector3(-18+i*6,-Floor+.02f,-26),new Vector3(4,.07f,1.9f),"Snow",false);
  }
- static void Building(float x,float z,float width,int floors){
-  float h=floors*2.8f;Box("Panel block",new Vector3(x,h/2-Floor,z),new Vector3(width,h,9),"Concrete",false);
-  for(int f=0;f<floors;f++){
-   float y=f*2.8f+1.65f-Floor;Box("Floor seam",new Vector3(x,f*2.8f-Floor,z+4.51f),new Vector3(width,.045f,.02f),"Road",false);
-   for(float wx=x-width/2+1.3f;wx<x+width/2-1;wx+=2.9f){bool lit=((int)(wx*10)+f*13)%7==0;Box("Recessed window",new Vector3(wx,y,z+4.52f),new Vector3(1.45f,1.45f,.05f),lit?"WindowWarm":"WindowDark",false);Box("Mullion",new Vector3(wx,y,z+4.56f),new Vector3(.055f,1.45f,.035f),"Concrete",false);Box("Concrete sill",new Vector3(wx,y-.75f,z+4.58f),new Vector3(1.55f,.065f,.16f),"Concrete",false);if(((int)(wx*10))%3==0){Box("Balcony slab",new Vector3(wx,y-.84f,z+4.9f),new Vector3(1.8f,.12f,.75f),"Concrete",false);Box("Balcony faded panel",new Vector3(wx,y-.36f,z+5.28f),new Vector3(1.8f,.84f,.06f),"KitchenPaint",false);}}
-  }
-  Box("Roof cornice",new Vector3(x,h-Floor,z),new Vector3(width+.4f,.2f,9.3f),"Concrete",false);
- }
+ static void Building(float x,float z,float width,int floors)=>PanelBuilding(x,z,width,floors);
  static Light Point(string name,Vector3 p,Color color,float intensity,float range,bool shadow){var go=new GameObject(name);go.transform.SetParent(art,false);go.transform.localPosition=p;var l=go.AddComponent<Light>();l.type=LightType.Point;l.color=color;l.intensity=intensity;l.range=range;l.shadows=shadow?LightShadows.Soft:LightShadows.None;l.shadowBias=.025f;l.shadowNormalBias=.12f;return l;}
  static void Lighting(){
   RenderSettings.ambientMode=AmbientMode.Trilight;RenderSettings.ambientSkyColor=C(.12f,.15f,.19f);RenderSettings.ambientEquatorColor=C(.075f,.082f,.085f);RenderSettings.ambientGroundColor=C(.03f,.025f,.022f);RenderSettings.fog=true;RenderSettings.fogMode=FogMode.ExponentialSquared;RenderSettings.fogDensity=.025f;RenderSettings.fogColor=C(.095f,.12f,.14f);
