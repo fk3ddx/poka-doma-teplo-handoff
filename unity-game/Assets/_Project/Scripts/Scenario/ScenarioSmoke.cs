@@ -15,7 +15,11 @@ namespace Ataka.Scenario {
    foreach(var device in InputSystem.devices)if(device is Keyboard&&device!=keyboard)InputSystem.DisableDevice(device);keyboard.MakeCurrent(); // Only this test process: user input in another game must not override the synthetic keyboard.
    yield return Shot("00-menu");loop.Pause(false);checks.Add("menu-to-play");
    StartCoroutine(CaptureScenes());StartCoroutine(CaptureVestibules());
-   if(Array.IndexOf(Environment.GetCommandLineArgs(),"-scenario-chase-only")>=0){loop.chase.Begin();yield return ChaseRun();Finish();yield break;}
+   if(Array.IndexOf(Environment.GetCommandLineArgs(),"-scenario-chase-only")>=0){
+    // Match the real ChaseStart doorway. Beginning at the normal spawn lets gravity/overlap count as movement.
+    loop.EnterLap(6);player.hasFlashlight=true;player.Place(new Vector3(8.05f,.02f,5.35f),-90);
+    loop.chase.Begin();yield return ChaseRun();Finish();yield break;
+   }
    yield return Walk(new Vector3(7.65f,0,3.8f));Look(loop.flat.torchPickup.position);yield return Press(Key.E);yield return new WaitForSeconds(.2f);Check(player.hasFlashlight,"flashlight pickup");yield return Shot("01-hall");
    bool hangingOnly=Array.IndexOf(Environment.GetCommandLineArgs(),"-scenario-hanging-only")>=0;if(hangingOnly)loop.EnterLap(5);
    for(int lap=hangingOnly?5:1;lap<=6&&!failed;lap++){
