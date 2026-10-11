@@ -1,0 +1,6 @@
+{
+  "name": "look-check",
+  "private": true,
+  "description": "Сравнение картинки игры с Fears to Fathom по метрикам",
+  "dependencies": { "jpeg-js": "^0.4.4", "pngjs": "^7.0.0" }
+}

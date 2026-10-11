@@ -2,7 +2,8 @@
 
 ## Для следующего исполнителя (Codex / ChatGPT)
 
-1. **[VIBE-RESEARCH.md](VIBE-RESEARCH.md)** — разбор From The Darkness и Fears to Fathom: как получить их атмосферу, какие готовые ассеты брать, свет, звук, порядок работ. Читать первым.
+0. **[LIGHT-AND-VHS.md](LIGHT-AND-VHS.md)** — ШАГ 1: свет и VHS как в Fears to Fathom (разбор 37 скриншотов, точные параметры URP и шейдера, проверка `tools/look-check`). Делать первым.
+1. **[VIBE-RESEARCH.md](VIBE-RESEARCH.md)** — разбор From The Darkness и Fears to Fathom: как получить их атмосферу, какие готовые ассеты брать, свет, звук, порядок работ. Читать вторым.
 2. **[CODEX-BRIEF.md](CODEX-BRIEF.md)** — полное ТЗ на игру на Unity (сюжет, монстр, механики, проверки).
 
 ## Версия 2 — пересборка с нуля (10.10.2026)
