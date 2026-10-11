@@ -1,0 +1,58 @@
+{
+    "errors": 0,
+    "captures": 19,
+    "standingHeight": 1.5500004291534424,
+    "animations": [
+        {
+            "name": "Armature|Oduck",
+            "seconds": 0.2916666865348816,
+            "maxVertexMovement": 0.7708263993263245
+        },
+        {
+            "name": "Armature|Oidle",
+            "seconds": 3.3333334922790529,
+            "maxVertexMovement": 0.02112286537885666
+        },
+        {
+            "name": "Armature|Ojump",
+            "seconds": 0.625,
+            "maxVertexMovement": 0.9973083734512329
+        },
+        {
+            "name": "Armature|Okick",
+            "seconds": 0.6666666865348816,
+            "maxVertexMovement": 0.6589979529380798
+        },
+        {
+            "name": "Armature|Oknockout01",
+            "seconds": 0.4166666865348816,
+            "maxVertexMovement": 0.993969202041626
+        },
+        {
+            "name": "Armature|Oknockout02",
+            "seconds": 0.4166666865348816,
+            "maxVertexMovement": 0.5955405831336975
+        },
+        {
+            "name": "Armature|Oknockout03",
+            "seconds": 0.4166666865348816,
+            "maxVertexMovement": 0.6326074004173279
+        },
+        {
+            "name": "Armature|Opunch",
+            "seconds": 0.625,
+            "maxVertexMovement": 1.0849800109863282
+        },
+        {
+            "name": "Armature|Orun",
+            "seconds": 0.6666666865348816,
+            "maxVertexMovement": 1.0734449625015259
+        },
+        {
+            "name": "Armature|Owalk",
+            "seconds": 1.1666667461395264,
+            "maxVertexMovement": 0.44957423210144045
+        }
+    ],
+    "status": "Ready Katcho model; appearance approved from author preview; gameplay not tested"
+}

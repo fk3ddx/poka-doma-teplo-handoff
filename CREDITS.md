@@ -29,3 +29,7 @@
 ### Готовая Granny Katcho — кандидат после отказа от MPFB
 
 [Free Characters](https://katcho.itch.io/free-characters), Katcho, CC0. Оригинальные Granny.blend, Granny.dae, granny.png не изменены, лицензия из архива сохранена рядом в art-sources/Katcho-Granny/LICENSE.txt. В игру пока не интегрированы. Иллюстрация docs/references/katcho-granny-author-preview.png — снимок авторского превью, не наш игровой кадр.
+
+### 2026-10-11 — Katcho выбран Димой и импортирован
+
+Granny Katcho одобрена по авторскому превью («да норм»). Исходные модель/атлас сохранены без переделки лица, одежды, UV и топологии. Перенос: FBX, URP Lit, равномерный масштаб до 1.55 м; исключена дублирующая неподвязанная трость. Сохранены 10 авторских анимаций. Код экспорта: tools/art/export_katcho.py. Отдельный Unity-prefab и Windows-просмотр; в сюжет пока не встроена. Старые MPFB-примерки выше — отвергнутый архив.

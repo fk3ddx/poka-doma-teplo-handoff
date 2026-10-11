@@ -1,0 +1,56 @@
+{
+  "source": "https://katcho.itch.io/free-characters",
+  "license": "CC0",
+  "bodyTriangles": 456,
+  "texture": [
+    256,
+    256
+  ],
+  "clips": {
+    "Oduck": [
+      0.0,
+      7.0
+    ],
+    "Oidle": [
+      0.0,
+      80.0
+    ],
+    "Ojump": [
+      0.0,
+      15.0
+    ],
+    "Okick": [
+      0.0,
+      16.0
+    ],
+    "Oknockout01": [
+      0.0,
+      10.0
+    ],
+    "Oknockout02": [
+      0.0,
+      10.0
+    ],
+    "Oknockout03": [
+      0.0,
+      10.0
+    ],
+    "Opunch": [
+      0.0,
+      15.0
+    ],
+    "Orun": [
+      0.0,
+      16.0
+    ],
+    "Owalk": [
+      0.0,
+      28.0
+    ]
+  },
+  "changes": [
+    "FBX conversion and standard material only",
+    "Excluded duplicate unparented reference cane"
+  ],
+  "appearance": "User accepted author preview 2026-10-11; appearance preserved; separate Unity preview, gameplay integration pending"
+}
