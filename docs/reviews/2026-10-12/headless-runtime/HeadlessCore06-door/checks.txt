@@ -1,0 +1,23 @@
+MODE headless: Null graphics, volume0, synthetic input, no images
+NO_RENDER 00-menu
+menu-to-play
+WALK (7.67, 0.01, 3.92) target=(7.65, 0.00, 3.80)
+PASS flashlight pickup
+NO_RENDER 01-hall
+DOOR_PROBE before=(0.86, 0.01, 3.75) after=(0.86, 0.01, 3.75) angle=40,51217
+PASS blocked door displaces player <=1mm in 2s
+PASS door stays requested open while blocked
+NO_RENDER door-blocked-original-approach
+WALK (1.07, 0.01, 3.15) target=(1.10, 0.00, 3.05)
+PASS door resumes to95 within1s after stepping clear
+NO_RENDER door-fully-open-after-retreat
+DOOR_PROBE moving maxSideways=0 end=(0.86, 0.02, 4.83)
+PASS opening leaf does not shove approaching player sideways
+NO_RENDER seam1-closed
+NO_RENDER seam1-mapped
+WALK (8.09, 0.02, 6.67) target=(1.10, 0.00, 3.05)
+FAIL walk blocked toward (0.90, 0.00, 5.10) at (7.83, 0.02, 6.29) yaw=260,2828 W=True control=True speed=0 paused=False
+NO_RENDER FAILED-walk
+WALK (7.83, 0.02, 6.29) target=(0.90, 0.00, 5.10)
+PASS door closes behind player and vestibule maps to lap2
+NO_RENDER door-transfer-complete

@@ -32,6 +32,6 @@ namespace Ataka.Scenario {
    flashlight.intensity=hasFlashlight&&torch?Mathf.Lerp(.3f,3,charge/10):0;
   }
   public void Place(Vector3 feet,float yaw,float look=0){body.enabled=false;transform.SetPositionAndRotation(feet,Quaternion.Euler(0,yaw,0));pitch=look;head.localPosition=Vector3.up*(crouched?.94f:1.55f);head.localRotation=Quaternion.Euler(pitch,0,0);body.enabled=true;vy=0;suppress=2;}
-  public void Pause(bool value){paused=value;Cursor.lockState=value?CursorLockMode.None:CursorLockMode.Locked;Cursor.visible=value;suppress=2;}
+  public void Pause(bool value){paused=value;if(!Application.isBatchMode){Cursor.lockState=value?CursorLockMode.None:CursorLockMode.Locked;Cursor.visible=value;}suppress=2;}
  }
 }

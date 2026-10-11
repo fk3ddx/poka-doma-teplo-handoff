@@ -3,7 +3,7 @@ Official -batchmode -nographics plus hidden startup/console and below-normal pri
 """
 from pathlib import Path
 import argparse,subprocess,json,datetime,re
-parser=argparse.ArgumentParser();parser.add_argument('operation',choices=['door-tests','bedroom06-apply']);parser.add_argument('--label',required=True);parser.add_argument('--verify-unheld-lock',action='store_true');args=parser.parse_args()
+parser=argparse.ArgumentParser();parser.add_argument('operation',choices=['door-tests','bedroom06-apply','core-build']);parser.add_argument('--label',required=True);parser.add_argument('--verify-unheld-lock',action='store_true');args=parser.parse_args()
 assert re.fullmatch(r'[A-Za-z0-9_-]+',args.label), 'Output label must be a simple directory name'
 project=Path(__file__).resolve().parents[2]/'unity-game';out=project/'QA'/args.label
 lock=project/'Temp/UnityLockfile'
@@ -25,7 +25,8 @@ out.mkdir(parents=True,exist_ok=True)
 editor=Path('C:/Users/User/UnityEditors/6000.3.26f1/Editor/Unity.exe');assert editor.is_file()
 cmd=[str(editor),'-batchmode','-nographics','-silent-crashes','-job-worker-count','2','-projectPath',str(project),'-logFile',str(out/'editor.log')]
 if args.operation=='door-tests':cmd+=['-runTests','-testPlatform','EditMode','-testFilter','Ataka.Tests.ScenarioDoorSafetyTests','-testResults',str(out/'tests.xml')]
-else:cmd+=['-executeMethod','Ataka.Editor.BedroomArt06.ApplyPreparedArt','-quit']
+elif args.operation=='bedroom06-apply':cmd+=['-executeMethod','Ataka.Editor.BedroomArt06.ApplyPreparedArt','-quit']
+else:cmd+=['-executeMethod','Ataka.Editor.ScenarioBuilder.Build','-quit']
 startup=subprocess.STARTUPINFO();startup.dwFlags|=subprocess.STARTF_USESHOWWINDOW;startup.wShowWindow=0
 with (out/'console.log').open('w',encoding='utf-8') as log:
  process=subprocess.Popen(cmd,cwd=project,stdin=subprocess.DEVNULL,stdout=log,stderr=subprocess.STDOUT,startupinfo=startup,creationflags=subprocess.CREATE_NO_WINDOW|subprocess.BELOW_NORMAL_PRIORITY_CLASS)

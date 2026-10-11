@@ -92,7 +92,7 @@ namespace Ataka.Scenario {
     if(i>=4&&i-4<collapsible.Count)collapsible[i-4].transform.localScale=new Vector3(1,1,.01f);
     float until=Time.time+1;while(Time.time<until){var target=TrailAtDistance(1.5f+(i+1-(until-Time.time))*.5f);flat.guest.transform.position=target;flat.guest.GetComponent<ProxyPose>().Crawl(target);yield return null;}
    }
-   flat.guest.SetActive(false);scenes.screenWhite=1;yield return new WaitForEndOfFrame();
+   flat.guest.SetActive(false);scenes.screenWhite=1;if(Application.isBatchMode)yield return null;else yield return new WaitForEndOfFrame();
    foreach(var m in pool)m.Visible(false);RestoreApartment();Active=false;prepared=false;flat.player.control=true;loop.FinishCore();
    for(float t=0;t<.3f;t+=Time.unscaledDeltaTime){scenes.screenWhite=1-t/.3f;yield return null;}scenes.screenWhite=0;
   }

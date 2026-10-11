@@ -12,3 +12,6 @@ Please review the new door math and art installer, particularly safe opening fee
 
 
 12.10 update: official null-graphics Unity path now works without a player window. Seven engine EditMode tests pass, including native CharacterController.Move in both update orders; fixed a newly discovered small-angle convergence bug. Art06 corner/clock/spectacles are now actually installed, with geometry/support assertions passed after repairing imported units, the authored clock rig and spectacles root orientation. No GPU screenshots or complete gameplay verification yet. See docs/reviews/2026-10-12/headless-door-and-placement. This message is still NOT delivered through the broken browser connection.
+
+
+12.10 runtime update, still NOT SENT: door2 and full2 now passed in the actual Windows player using official batchmode/nographics, no sound/OS input. Full6laps+chase+death/restart/repeat-skip+clock winding+warm return. New bedside clock follows each lap. Camera sample at normal LateUpdate gap0 in the same corner frame. First probe crossed the warp early (QA bug), first full compared before camera LateUpdate (QA bug); failures preserved. See docs/reviews/2026-10-12/headless-runtime. No new screenshots, no visual acceptance; please review code and await actual art06 images when Dima's game is no longer interrupted.

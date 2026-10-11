@@ -1,0 +1,183 @@
+MODE headless: Null graphics, volume0, synthetic input, no images
+NO_RENDER 00-menu
+menu-to-play
+WALK (7.67, 0.01, 3.90) target=(7.65, 0.00, 3.80)
+PASS flashlight pickup
+NO_RENDER 01-hall
+PASS lap 1 entered
+PASS lap 1 bedside clock follows scenario time
+PASS lap 1 ready bedside clock has time source
+WALK (7.89, 0.01, 5.26) target=(7.90, 0.00, 5.35)
+WALK (5.74, 0.01, 5.35) target=(5.65, 0.00, 5.35)
+NO_RENDER lap1-clock
+WALK (5.66, 0.01, 3.71) target=(5.65, 0.00, 3.60)
+WALK (3.37, 0.02, 3.59) target=(3.25, 0.00, 3.60)
+WALK (2.42, 0.01, 3.60) target=(2.30, 0.00, 3.60)
+WALK (1.00, 0.01, 3.74) target=(0.90, 0.00, 3.75)
+NO_RENDER lap1-gate
+PASS gate 1 released by event
+DOOR stopped at original approach; step clear per Claude review05
+WALK (1.09, 0.01, 3.14) target=(1.10, 0.00, 3.05)
+NO_RENDER seam1-closed
+NO_RENDER seam1-mapped
+WALK (8.03, 0.02, 6.65) target=(0.90, 0.00, 5.10)
+WALK (8.04, 0.01, 5.65) target=(8.05, 0.00, 5.55)
+PASS lap 2 entered
+PASS lap 2 bedside clock follows scenario time
+PASS lap 2 ready bedside clock has time source
+WALK (7.94, 0.01, 5.44) target=(7.90, 0.00, 5.35)
+WALK (5.75, 0.01, 5.35) target=(5.65, 0.00, 5.35)
+NO_RENDER lap2-clock
+WALK (5.66, 0.01, 3.72) target=(5.65, 0.00, 3.60)
+WALK (3.34, 0.01, 3.59) target=(3.25, 0.00, 3.60)
+WALK (2.39, 0.01, 3.60) target=(2.30, 0.00, 3.60)
+WALK (1.49, 0.01, 3.15) target=(1.40, 0.00, 3.10)
+UNDERBED crouch=True distance=1,26168 dot=0,9999999 prompt=[E] Посмотреть под кровать
+NO_RENDER underbed-before
+NO_RENDER scene-UnderBed-0.4
+NO_RENDER scene-UnderBed-1.1
+WALK (0.98, 0.01, 3.67) target=(0.90, 0.00, 3.75)
+NO_RENDER lap2-gate
+PASS gate 2 released by event
+DOOR stopped at original approach; step clear per Claude review05
+WALK (1.08, 0.01, 3.15) target=(1.10, 0.00, 3.05)
+NO_RENDER seam2-closed
+NO_RENDER seam2-mapped
+WALK (8.03, 0.02, 6.67) target=(0.90, 0.00, 5.10)
+WALK (8.04, 0.01, 5.66) target=(8.05, 0.00, 5.55)
+PASS lap 3 entered
+PASS lap 3 bedside clock follows scenario time
+PASS lap 3 ready bedside clock has time source
+WALK (7.94, 0.01, 5.44) target=(7.90, 0.00, 5.35)
+WALK (5.73, 0.01, 5.35) target=(5.65, 0.00, 5.35)
+NO_RENDER lap3-clock
+WALK (5.65, 0.03, 3.67) target=(5.65, 0.00, 3.60)
+NO_RENDER scene-BalconyPalm-0.4
+NO_RENDER scene-BalconyPalm-1.1
+WALK (5.34, 0.04, 1.17) target=(5.25, 0.00, 1.15)
+WALK (5.64, 0.04, 3.49) target=(5.65, 0.00, 3.60)
+WALK (3.34, 0.01, 3.59) target=(3.25, 0.00, 3.60)
+WALK (2.40, 0.01, 3.60) target=(2.30, 0.00, 3.60)
+WALK (1.01, 0.01, 3.74) target=(0.90, 0.00, 3.75)
+NO_RENDER lap3-gate
+PASS gate 3 released by event
+DOOR stopped at original approach; step clear per Claude review05
+WALK (1.09, 0.01, 3.14) target=(1.10, 0.00, 3.05)
+NO_RENDER seam3-closed
+NO_RENDER seam3-mapped
+WALK (8.03, 0.02, 6.67) target=(0.90, 0.00, 5.10)
+WALK (8.04, 0.01, 5.66) target=(8.05, 0.00, 5.55)
+PASS lap 4 entered
+PASS lap 4 bedside clock follows scenario time
+PASS lap 4 ready bedside clock has time source
+WALK (7.93, 0.01, 5.42) target=(7.90, 0.00, 5.35)
+WALK (5.75, 0.01, 5.35) target=(5.65, 0.00, 5.35)
+NO_RENDER lap4-clock
+WALK (5.66, 0.02, 3.69) target=(5.65, 0.00, 3.60)
+WALK (3.34, 0.01, 3.59) target=(3.25, 0.00, 3.60)
+WALK (2.29, 0.01, 3.60) target=(2.30, 0.00, 3.60)
+WALK (0.97, 0.01, 3.74) target=(0.90, 0.00, 3.75)
+NO_RENDER lap4-gate
+PASS gate 4 released by event
+DOOR stopped at original approach; step clear per Claude review05
+WALK (1.09, 0.01, 3.13) target=(1.10, 0.00, 3.05)
+NO_RENDER seam4-closed
+NO_RENDER seam4-mapped
+WALK (8.03, 0.02, 6.66) target=(0.90, 0.00, 5.10)
+WALK (8.00, 0.01, 5.46) target=(8.05, 0.00, 5.55)
+PASS lap 5 entered
+PASS lap 5 bedside clock follows scenario time
+PASS lap 5 ready bedside clock has time source
+PASS fifth bedroom locked before phone
+PASS fifth bedroom has 20cm ajar gap
+WALK (7.63, 0.01, 3.70) target=(7.65, 0.00, 3.80)
+WALK (7.88, 0.01, 5.23) target=(7.90, 0.00, 5.35)
+WALK (5.75, 0.01, 5.34) target=(5.65, 0.00, 5.35)
+NO_RENDER lap5-clock
+WALK (5.66, 0.01, 3.71) target=(5.65, 0.00, 3.60)
+WALK (3.36, 0.02, 3.59) target=(3.25, 0.00, 3.60)
+PASS hanging door armed by E
+PASS opening bedroom does not start an occluded cutscene
+NO_RENDER hanging-door-open
+WALK (2.56, 0.01, 3.60) target=(2.45, 0.00, 3.60)
+PASS hanging starts after entering with clear line of sight
+NO_RENDER scene-HangingVision-1.1
+NO_RENDER scene-HangingVision-1.7
+NO_RENDER scene-HangingVision-2.1
+NO_RENDER scene-HangingVision-2.4
+NO_RENDER scene-HangingVision-2.6
+NO_RENDER scene-HangingVision-2.9
+NO_RENDER scene-HangingVision-3.6
+NO_RENDER scene-HangingVision-4.3
+NO_RENDER scene-HangingVision-4.6
+NO_RENDER scene-HangingVision-5.1
+WALK (2.31, 0.01, 3.60) target=(2.30, 0.00, 3.60)
+WALK (1.01, 0.01, 3.74) target=(0.90, 0.00, 3.75)
+NO_RENDER lap5-gate
+PASS gate 5 released by event
+DOOR stopped at original approach; step clear per Claude review05
+WALK (1.13, 0.01, 3.01) target=(1.10, 0.00, 3.05)
+NO_RENDER seam5-closed
+NO_RENDER seam5-mapped
+WALK (8.03, 0.02, 6.65) target=(0.90, 0.00, 5.10)
+WALK (8.04, 0.01, 5.66) target=(8.05, 0.00, 5.55)
+PASS lap 6 entered
+PASS lap 6 bedside clock follows scenario time
+PASS lap 6 ready bedside clock has time source
+WALK (7.94, 0.01, 5.44) target=(7.90, 0.00, 5.35)
+WALK (5.74, 0.01, 5.35) target=(5.65, 0.00, 5.35)
+NO_RENDER lap6-clock
+WALK (5.65, 0.02, 3.70) target=(5.65, 0.00, 3.60)
+WALK (3.35, 0.02, 3.59) target=(3.25, 0.00, 3.60)
+WALK (2.41, 0.01, 3.60) target=(2.30, 0.00, 3.60)
+WALK (0.97, 0.01, 3.74) target=(0.90, 0.00, 3.75)
+NO_RENDER lap6-gate
+PASS sixth carpet stays locked
+WALK (2.14, 0.01, 3.61) target=(2.25, 0.00, 3.60)
+WALK (5.57, 0.04, 3.57) target=(5.65, 0.00, 3.60)
+WALK (5.65, 0.01, 5.24) target=(5.65, 0.00, 5.35)
+WALK (7.96, 0.01, 5.44) target=(8.05, 0.00, 5.45)
+NO_RENDER scene-Peephole-0.4
+NO_RENDER scene-Peephole-1.1
+NO_RENDER scene-Peephole-1.7
+NO_RENDER scene-Peephole-2.1
+NO_RENDER scene-Peephole-2.4
+NO_RENDER scene-Peephole-2.6
+NO_RENDER scene-Peephole-2.9
+NO_RENDER scene-Peephole-3.6
+NO_RENDER scene-Peephole-4.3
+NO_RENDER scene-Peephole-4.6
+NO_RENDER scene-Peephole-5.1
+NO_RENDER scene-ChaseStart-0.4
+NO_RENDER scene-ChaseStart-1.1
+NO_RENDER scene-ChaseStart-1.7
+NO_RENDER scene-ChaseStart-2.1
+NO_RENDER scene-ChaseStart-2.4
+NO_RENDER scene-ChaseStart-2.6
+NO_RENDER scene-ChaseStart-2.9
+PASS chase entered
+PASS chase starts at original hallway coordinates
+NO_RENDER chase-start
+PASS pause freezes chase clock
+NO_RENDER scene-DeathShort-0.4
+NO_RENDER scene-DeathShort-1.1
+NO_RENDER scene-DeathShort-1.7
+NO_RENDER scene-DeathShort-2.1
+NO_RENDER scene-DeathShort-2.4
+NO_RENDER scene-DeathShort-2.6
+NO_RENDER scene-DeathShort-2.9
+PASS stall death restarts chase
+PASS repeat death available for skip
+PASS held E skips repeat death
+PASS skipped death restarts chase
+NO_RENDER chase-hallway-entry
+NO_RENDER chase-first-corner
+CAMERA gap=0 cornerFrame=6939 sampledLateFrame=6939
+PASS camera follows rigid shift after normal LateUpdate
+NO_RENDER warm-clock
+PASS warm clock reached within 42–50s
+PASS clock wound by holding E two seconds
+PASS ten strikes return to warm apartment
+PASS warm return bedside clock follows scenario time
+PASS warm return ready bedside clock has time source
+NO_RENDER core-end

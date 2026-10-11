@@ -1,0 +1,10 @@
+{
+    "passed": false,
+    "chase": false,
+    "headless": true,
+    "visualVerified": false,
+    "errors": 0,
+    "lap": 2,
+    "graphicsDevice": "Null",
+    "listenerVolume": 0.0
+}

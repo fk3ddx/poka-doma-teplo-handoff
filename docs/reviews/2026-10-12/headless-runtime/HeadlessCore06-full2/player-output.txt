@@ -1,0 +1,42 @@
+Mono path[0] = 'C:/Users/User/.codex/.chatgpt-projects/g-p-6aca43271b448191badfa7321ad904d3/github-upload/Igra-FULL-HANDOFF/unity-game/Builds/ScenarioCore/Ataka-Loop_Data/Managed'
+Mono config path = 'C:/Users/User/.codex/.chatgpt-projects/g-p-6aca43271b448191badfa7321ad904d3/github-upload/Igra-FULL-HANDOFF/unity-game/Builds/ScenarioCore/MonoBleedingEdge/etc'
+Found 3 interfaces on host : 0) 26.11.197.103 1) 172.19.0.1 2) 192.168.0.14
+Player connection [36312]  Target information:
+
+Player connection [36312]  * "[IP] 26.11.197.103 [Port] 55001 [Flags] 2 [Guid] 2081042899 [EditorId] 372435191 [Version] 1048832 [Id] WindowsPlayer(2,DESKTOP-K860QC0) [Debug] 0 [PackageName] WindowsPlayer [ProjectName] Атака — тест петли" 
+
+Player connection [36312]  * "[IP] 172.19.0.1 [Port] 55001 [Flags] 2 [Guid] 2081042899 [EditorId] 372435191 [Version] 1048832 [Id] WindowsPlayer(2,DESKTOP-K860QC0) [Debug] 0 [PackageName] WindowsPlayer [ProjectName] Атака — тест петли" 
+
+Player connection [36312]  * "[IP] 192.168.0.14 [Port] 55001 [Flags] 2 [Guid] 2081042899 [EditorId] 372435191 [Version] 1048832 [Id] WindowsPlayer(2,DESKTOP-K860QC0) [Debug] 0 [PackageName] WindowsPlayer [ProjectName] Атака — тест петли" 
+
+Player connection [36312] Started UDP target info broadcast (1) on [225.0.0.222:54997].
+
+JobSystem: Creating JobQueue using job-worker-count value 2
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+Initialize engine version: 6000.3.26f1 (de8167e7440c)
+[Subsystems] Discovering subsystems at path C:/Users/User/.codex/.chatgpt-projects/g-p-6aca43271b448191badfa7321ad904d3/github-upload/Igra-FULL-HANDOFF/unity-game/Builds/ScenarioCore/Ataka-Loop_Data/UnitySubsystems
+Forcing GfxDevice: Null
+GfxDevice: creating device client; kGfxThreadingModeNonThreaded
+NullGfxDevice:
+    Version:  NULL 1.0 [1.0]
+    Renderer: Null Device
+    Vendor:   Unity Technologies
+Begin MonoManager ReloadAssembly
+- Loaded All Assemblies, in  0.305 seconds
+- Finished resetting the current domain, in  0.004 seconds
+[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+Microsoft Media Foundation video decoding to texture disabled: graphics device is Null, only Direct3D 11 and Direct3D 12 (only on desktop) are supported for hardware-accelerated video decoding.
+UnloadTime: 0.759400 ms
+[Physics::Module] Cleanup current backend.
+[Physics::Module] Id: 0xf2b8ea05
+Input System module state changed to: ShutdownInProgress.
+Input System polling thread exited.
+Input System module state changed to: Shutdown.
+PlayerConnection::Cleanup##utp:{"type":"MemoryLeaks","version":2,"phase":"Immediate","time":1791754988721,"processId":32508,"allocatedMemory":51115,"memoryLabels":[{"Default":136},{"NewDelete":104},{"Manager":8595},{"Shader":1680},{"GfxDevice":72},{"Audio":752},{"Serialization":144},{"JobScheduler":32768},{"String":588},{"HashMap":3584},{"PoolAlloc":192},{"CloudService":144},{"VR":1872},{"NativeArray":372},{"Subsystems":96},{"CoreBusinessMetrics":120}]}
