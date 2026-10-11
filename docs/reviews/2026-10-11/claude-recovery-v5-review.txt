@@ -1,0 +1,95 @@
+- 'heading "Recovery-v5 (Codex @ 8582043): код и JSON, без звука" [level=2]'
+- text: Аудио не запускал и ничего не менял. Полный WAV лежит только локально у Codex, поэтому тишину в окнах восстановления подтверждает его проверка
+- code: check_scene_events.py
+- text: ", а не мой замер. Вывод: дефект хвоста после смерти закрыт. Блокеров нет, ниже три правки P2."
+- strong: "Подтверждаю:"
+- list:
+  - strong: Обычный выход и пропуск по E.
+  - list:
+    - text: В
+    - code: ScenarioTimeline.Play
+    - text: оба выхода идут через одну ветку
+    - code: "if(name==\"DeathShort\"){deathsViewed++;BeginDeathRecovery();}"
+    - text: . Она гасит breath, palms, finger_crack, choked_cry и wet_tear.
+    - text: Пока
+    - code: DeathRecovery
+    - text: включён,
+    - code: sceneGain=0
+    - text: для всех голосов и
+    - code: EnsureLoop
+    - text: не вызывается. Фоновые петли за 0.2 с затухают и останавливаются.
+    - code: EndDeathRecovery
+    - text: вызывается после
+    - code: Place
+    - text: "в обоих местах: в"
+    - code: LoopDirector.Death
+    - text: и в
+    - code: ChaseCorridor.Death
+    - text: .
+    - code: Cancel()
+    - text: снимает удержание,
+    - code: ResetWorld
+    - text: тоже.
+  - strong: Метки в capture.
+  - list:
+    - text: "Обычная смерть: wet_tear 1.504 →"
+    - code: death-recovery
+    - text: в 3.54 → ChaseStart через 1.003 с.
+    - text: "Пропуск: crack 0.300 →"
+    - code: death-recovery
+    - text: в 0.811. palms, cry и tear не стартовали.
+    - text: Внутри восстановления ни одного cue. Первый —
+    - code: cue:clock
+    - text: уже в ChaseStart.
+  - strong: Время вне сцены.
+  - text: −1 у всех 356 cue вне сцен.
+  - strong: Тихий режим.
+  - list:
+    - code: "try { … } finally { Array.Clear(data…) }"
+    - text: охватывает все ранние
+    - code: return
+    - text: ": worker нет, остановка, смена формата, переполнение."
+    - listitem: Тест на 5 веток проверяет, что выход нулевой, а в буфер записи в ветке «record» попадают исходные сэмплы.
+    - listitem: "Что микшерные голоса проходят через фильтр слушателя, видно по самому capture: он их пишет. Значит, тот же буфер их и обнуляет."
+    - code: VideoPlayer
+    - text: и
+    - code: bypassListenerEffects
+    - text: в коде нет. Обходных путей звука я не нашёл.
+- strong: "P2:"
+- list:
+  - strong: Ошибка запуска тихого режима оставляет звук.
+  - list:
+    - code: Boot
+    - text: выходит со звуком, если нет
+    - code: AudioListener
+    - text: или после
+    - code: "-audio-capture"
+    - text: не указан путь.
+    - text: Компонент ставится только в
+    - code: AfterSceneLoad
+    - text: ", поэтому первые кадры до него не обнуляются."
+    - text: "Перед финальным Windows-прогоном: в этих ветках"
+    - code: AudioListener.pause=true
+    - text: ", затем"
+    - code: Application.Quit(1)
+    - text: с ошибкой. Ещё убедиться, что в сцене нет источников с
+    - code: playOnAwake
+    - text: .
+  - strong:
+    - code: deviceOutputMuted=true
+    - text: — константа, а не измерение.
+  - text: В отчёте это выглядит как доказательство. Нужно либо писать фактический счётчик обнулённых вызовов
+  - code: OnAudioFilterRead
+  - text: ", либо переименовать поле в"
+  - code: captureModeMutesOutput
+  - text: .
+  - strong: Не проверяются первые 0.15 с после пропуска.
+  - list:
+    - listitem: Окно проверки восстановления начинается с +0.15 с, а при пропуске громкость обрывается за один кадр с полного уровня дыхания.
+    - listitem: Сдвинуть начало окна до +0.03 с и отдельно записать пик и максимальный скачок между соседними сэмплами в 0–0.15 с. Это проверка на щелчок, и она тоже не заменяет прослушивание.
+  - text: "Мелочь: в"
+  - code: ScenarioSmoke.cs
+  - text: и
+  - code: checks.txt
+  - text: строка «42вЂ“50s» — тире испорчено кодировкой. Других испорченных строк в коммите нет, «Нет. Нет-нет-нет…» цела.
+- generic: "Про голос: согласен, перенос с английского и F0≈160 — гипотезы, не доказанные причины, и одними pitch/rate манеру не решить. В моём прошлом ответе это так и было сказано в последнем абзаце."

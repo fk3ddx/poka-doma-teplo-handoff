@@ -3,7 +3,7 @@ import argparse,json,math,sys
 from pathlib import Path
 p=argparse.ArgumentParser();p.add_argument('capture',type=Path);p.add_argument('--library-dir',required=True);p.add_argument('--allow-skipped-death',action='store_true');a=p.parse_args();sys.path.insert(0,a.library_dir)
 import numpy as np,soundfile as sf
-info=json.loads(a.capture.with_suffix('.json').read_text(encoding='utf-8'));x,sr=sf.read(a.capture,dtype='float32',always_2d=True);checks=[]
+info=json.loads(a.capture.with_suffix('.json').read_text(encoding='utf-8'));x,sr=sf.read(a.capture,dtype='float32',always_2d=True);checks=[];boundary_metrics=[]
 def check(ok,name,evidence):checks.append(dict(passed=bool(ok),name=name,evidence=evidence))
 def peak_db(v):return 20*math.log10(max(float(np.max(np.abs(v))),1e-12))
 check(not info['error'] and info['droppedSamples']==0 and info['formatChanges']==0,'capture complete',{k:info[k] for k in ['error','droppedSamples','formatChanges']})
@@ -35,11 +35,13 @@ for n,start in enumerate(recoveries):
  end=next((m['seconds'] for m in markers if not m['state'].startswith('cue:') and m['seconds']>start['seconds']),None)
  check(end is not None and .85<end-start['seconds']<1.2,f'recovery #{n+1} lasts one second',None if end is None else end-start['seconds'])
  if end is not None:
-  lo,hi=int((start['seconds']+.15)*sr),int((end-.1)*sr);section=x[lo:hi]
+  boundary=x[int(start['seconds']*sr):int((start['seconds']+.15)*sr)]
+  boundary_metrics.append(dict(recovery=n+1,window_seconds=[start['seconds'],start['seconds']+.15],peak_dbfs=peak_db(boundary),max_adjacent_sample_delta=float(np.max(np.abs(np.diff(boundary,axis=0)))) if len(boundary)>1 else 0,scope='Diagnostic only: marker is main-thread time, not DSP onset; no perceptual click claim'))
+  lo,hi=int((start['seconds']+.03)*sr),int((end-.1)*sr);section=x[lo:hi]
   check(len(section)>0 and peak_db(section)<-80,f'recovery #{n+1} stays silent after timeline exit',dict(peak_dbfs=peak_db(section),audio_seconds=[lo/sr,hi/sr]))
   starts=[m['state'] for m in markers if m['state'].startswith('cue:') and start['seconds']<m['seconds']<end]
   check(not starts,f'recovery #{n+1} no restarted ambient/cues',starts)
 outside=[m for m in markers if m['state'].startswith('cue:') and not m.get('scene')]
 check(bool(outside) and all(m['timelineSeconds']==-1 for m in outside),'outside-scene cues use -1 time',len(outside))
-report=dict(passed=all(c['passed'] for c in checks),scope='Cue scheduling within 60ms and listener-mix sample peak; not listening acceptance or precise DSP onset',checks=checks)
+report=dict(passed=all(c['passed'] for c in checks),scope='Cue scheduling within 60ms and listener-mix sample peak; not listening acceptance or precise DSP onset',checks=checks,recovery_boundaries=boundary_metrics)
 (a.capture.parent/'scene-event-checks.json').write_bytes((json.dumps(report,indent=2)+'\n').encode('utf-8'));print(json.dumps(report,indent=2));sys.exit(0 if report['passed'] else 1)

@@ -188,7 +188,7 @@
       "evidence": {
         "peak_dbfs": -240.0,
         "audio_seconds": [
-          107.13666666666667,
+          107.01666666666667,
           107.88933333333334
         ]
       }
@@ -209,7 +209,7 @@
       "evidence": {
         "peak_dbfs": -240.0,
         "audio_seconds": [
-          113.494,
+          113.374,
           114.24666666666667
         ]
       }
@@ -223,6 +223,28 @@
       "passed": true,
       "name": "outside-scene cues use -1 time",
       "evidence": 356
+    }
+  ],
+  "recovery_boundaries": [
+    {
+      "recovery": 1,
+      "window_seconds": [
+        106.98666666666666,
+        107.13666666666667
+      ],
+      "peak_dbfs": -240.0,
+      "max_adjacent_sample_delta": 4.1999999959621654e-19,
+      "scope": "Diagnostic only: marker is main-thread time, not DSP onset; no perceptual click claim"
+    },
+    {
+      "recovery": 2,
+      "window_seconds": [
+        113.344,
+        113.494
+      ],
+      "peak_dbfs": -240.0,
+      "max_adjacent_sample_delta": 4.1999999959621654e-19,
+      "scope": "Diagnostic only: marker is main-thread time, not DSP onset; no perceptual click claim"
     }
   ]
 }

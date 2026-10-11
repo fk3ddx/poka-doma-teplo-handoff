@@ -3,6 +3,16 @@ using UnityEngine;
 using Ataka.Scenario;
 namespace Ataka.Tests {
  public sealed class ScenarioCoreTests {
+  [TestCase(new string[]{"game"},false,false)]
+  [TestCase(new string[]{"game","-audio-capture","capture.wav"},true,false)]
+  [TestCase(new string[]{"game","-audio-capture"},true,true)]
+  [TestCase(new string[]{"game","-audio-capture","-logFile","test.log"},true,true)]
+  [TestCase(new string[]{"game","-audio-capture"," "},true,true)]
+  public void QaCaptureCannotSilentlyIgnoreAnInvalidOutput(string[] args,bool requested,bool invalid){
+   Assert.That(ScenarioAudioCapture.ReadOutputArgument(args,out var output,out var error),Is.EqualTo(requested));
+   Assert.That(error!=null,Is.EqualTo(invalid));
+   if(requested&&!invalid)Assert.That(output,Is.EqualTo("capture.wav"));
+  }
   [TestCase("record")][TestCase("not-started")][TestCase("stopping")][TestCase("format-change")][TestCase("overflow")]
   public void QaCaptureSilencesDeviceEvenWhenRecordingCannotContinue(string state){
    var host=new GameObject("silent-capture-test");var capture=host.AddComponent<ScenarioAudioCapture>();
