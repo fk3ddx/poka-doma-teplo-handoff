@@ -1,0 +1,6 @@
+menu-to-play
+PASS pause freezes chase clock
+PASS stall death restarts chase
+PASS warm clock reached within 42–50s
+PASS clock wound by holding E two seconds
+PASS ten strikes return to warm apartment
