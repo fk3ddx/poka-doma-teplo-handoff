@@ -1,0 +1,7 @@
+# Unity's serializer emits an intentional trailing space for empty YAML values.
+unity-game/** text=auto eol=lf
+unity-game/**/*.png -text
+unity-game/**/*.meta whitespace=-blank-at-eol
+unity-game/**/*.asset whitespace=-blank-at-eol
+unity-game/**/*.unity whitespace=-blank-at-eol
+unity-game/**/*.mat whitespace=-blank-at-eol

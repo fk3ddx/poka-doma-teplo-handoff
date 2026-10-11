@@ -1,0 +1,5 @@
+{
+  "name": "Ataka.Editor",
+  "references": ["Ataka.Runtime", "Unity.InputSystem", "Unity.RenderPipelines.Core.Runtime", "Unity.RenderPipelines.Universal.Runtime", "Unity.RenderPipelines.Universal.Editor"],
+  "includePlatforms": ["Editor"]
+}

@@ -1,0 +1,105 @@
+{
+  "EditMode": {
+    "result": "Passed",
+    "total": "12",
+    "passed": "12",
+    "failed": "0",
+    "duration": "0,93507",
+    "cases": [
+      {
+        "fullname": "Ataka.Tests.ApartmentTests.CrouchingCannotPickMatchesThroughFridgeBody",
+        "result": "Passed",
+        "duration": "0.250421"
+      },
+      {
+        "fullname": "Ataka.Tests.ApartmentTests.EveryOpenDoorHasCapsuleClearanceAtItsThreshold",
+        "result": "Passed",
+        "duration": "0.205460"
+      },
+      {
+        "fullname": "Ataka.Tests.ApartmentTests.PersistentIdsAreNonEmptyAndUnique",
+        "result": "Passed",
+        "duration": "0.211192"
+      },
+      {
+        "fullname": "Ataka.Tests.ApartmentTests.PickupsAreReachableFromThreeVisibleApproaches",
+        "result": "Passed",
+        "duration": "0.206704"
+      },
+      {
+        "fullname": "Ataka.Tests.CheckpointTests.CorruptLatestCheckpointRecoversLastCompleteBackup",
+        "result": "Passed",
+        "duration": "0.019260"
+      },
+      {
+        "fullname": "Ataka.Tests.CheckpointTests.NonFinitePositionCannotBeSaved",
+        "result": "Passed",
+        "duration": "0.001702"
+      },
+      {
+        "fullname": "Ataka.Tests.CheckpointTests.SaveLoadRoundtripIncludesDoorPickupAndPlayerPose",
+        "result": "Passed",
+        "duration": "0.004920"
+      },
+      {
+        "fullname": "Ataka.Tests.CheckpointTests.UnsupportedSchemaIsRejectedWithoutOverwritingFile",
+        "result": "Passed",
+        "duration": "0.002021"
+      },
+      {
+        "fullname": "Ataka.Tests.InteractionTests.HigherPriorityPickupWithinFifteenCentimetersWins",
+        "result": "Passed",
+        "duration": "0.003293"
+      },
+      {
+        "fullname": "Ataka.Tests.InteractionTests.PickupOutsideReachCannotBeTaken",
+        "result": "Passed",
+        "duration": "0.000369"
+      },
+      {
+        "fullname": "Ataka.Tests.InteractionTests.PriorityCannotReachThroughWall",
+        "result": "Passed",
+        "duration": "0.000626"
+      },
+      {
+        "fullname": "Ataka.Tests.InteractionTests.PriorityCannotSkipDistantForegroundObject",
+        "result": "Passed",
+        "duration": "0.000371"
+      }
+    ]
+  },
+  "PlayMode": {
+    "result": "Passed",
+    "total": "5",
+    "passed": "5",
+    "failed": "0",
+    "duration": "1,6643549",
+    "cases": [
+      {
+        "fullname": "Ataka.Tests.SessionTests.LowCeilingPreventsStanding",
+        "result": "Passed",
+        "duration": "0.281720"
+      },
+      {
+        "fullname": "Ataka.Tests.SessionTests.NewGameRestoresCollectedObjectsAndDoorState",
+        "result": "Passed",
+        "duration": "0.272318"
+      },
+      {
+        "fullname": "Ataka.Tests.SessionTests.PauseFreezesDoorMotionAndAudio",
+        "result": "Passed",
+        "duration": "0.545493"
+      },
+      {
+        "fullname": "Ataka.Tests.SessionTests.RestorePreservesPoseWithoutMovingCameraThroughFloor",
+        "result": "Passed",
+        "duration": "0.269719"
+      },
+      {
+        "fullname": "Ataka.Tests.SessionTests.SaveAndLoadRestoreInventoryLightsAndPartialDoorTogether",
+        "result": "Passed",
+        "duration": "0.267859"
+      }
+    ]
+  }
+}

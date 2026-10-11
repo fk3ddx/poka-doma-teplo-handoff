@@ -1,0 +1,9 @@
+{
+    "errors": 0,
+    "frames": 120,
+    "meanFps": 58.6505012512207,
+    "slowestFrameMs": 62.649593353271487,
+    "gpu": "NVIDIA GeForce GTX 1650 SUPER",
+    "graphicsApi": "Direct3D12",
+    "unity": "6000.3.26f1"
+}
