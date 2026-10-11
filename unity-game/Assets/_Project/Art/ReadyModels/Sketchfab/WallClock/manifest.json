@@ -1,0 +1,287 @@
+{
+  "id": "WallClock",
+  "height": 0.7,
+  "dimensions": [
+    0.3848147690296173,
+    0.10992653667926788,
+    0.699999988079071
+  ],
+  "materials": [
+    {
+      "name": "WallClock_Material_0",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "metallic": 0.0,
+      "roughness": 0.5,
+      "alpha": 1.0,
+      "texture": "Textures/Image_0.png",
+      "normal": "Textures/Image_2.png",
+      "alphaTexture": "Textures/Image_0.png"
+    },
+    {
+      "name": "WallClock_Material_1",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "metallic": 0.0,
+      "roughness": 0.5,
+      "alpha": 1.0,
+      "texture": "Textures/Image_3.png",
+      "normal": "Textures/Image_5.png",
+      "alphaTexture": ""
+    },
+    {
+      "name": "WallClock_Material_2",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "metallic": 0.0,
+      "roughness": 0.5,
+      "alpha": 1.0,
+      "texture": "Textures/Image_6.png",
+      "normal": "Textures/Image_8.png",
+      "alphaTexture": ""
+    },
+    {
+      "name": "WallClock_Material_3",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "metallic": 0.0,
+      "roughness": 0.5,
+      "alpha": 1.0,
+      "texture": "Textures/Image_9.png",
+      "normal": "Textures/Image_11.png",
+      "alphaTexture": ""
+    },
+    {
+      "name": "WallClock_Material_4",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "metallic": 0.0,
+      "roughness": 0.5,
+      "alpha": 1.0,
+      "texture": "Textures/Image_0.png",
+      "normal": "Textures/Image_2.png",
+      "alphaTexture": "Textures/Image_0.png"
+    },
+    {
+      "name": "WallClock_Material_5",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "metallic": 0.0,
+      "roughness": 0.5,
+      "alpha": 1.0,
+      "texture": "Textures/Image_3.png",
+      "normal": "Textures/Image_5.png",
+      "alphaTexture": ""
+    },
+    {
+      "name": "WallClock_Material_6",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "metallic": 0.0,
+      "roughness": 0.5,
+      "alpha": 1.0,
+      "texture": "Textures/Image_6.png",
+      "normal": "Textures/Image_8.png",
+      "alphaTexture": ""
+    },
+    {
+      "name": "WallClock_Material_7",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "metallic": 0.0,
+      "roughness": 0.5,
+      "alpha": 1.0,
+      "texture": "Textures/Image_9.png",
+      "normal": "Textures/Image_11.png",
+      "alphaTexture": ""
+    },
+    {
+      "name": "WallClock_Material_8",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "metallic": 0.0,
+      "roughness": 0.5,
+      "alpha": 1.0,
+      "texture": "Textures/Image_0.png",
+      "normal": "Textures/Image_2.png",
+      "alphaTexture": "Textures/Image_0.png"
+    },
+    {
+      "name": "WallClock_Material_9",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "metallic": 0.0,
+      "roughness": 0.5,
+      "alpha": 1.0,
+      "texture": "Textures/Image_3.png",
+      "normal": "Textures/Image_5.png",
+      "alphaTexture": ""
+    },
+    {
+      "name": "WallClock_Material_10",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "metallic": 0.0,
+      "roughness": 0.5,
+      "alpha": 1.0,
+      "texture": "Textures/Image_6.png",
+      "normal": "Textures/Image_8.png",
+      "alphaTexture": ""
+    },
+    {
+      "name": "WallClock_Material_11",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "metallic": 0.0,
+      "roughness": 0.5,
+      "alpha": 1.0,
+      "texture": "Textures/Image_9.png",
+      "normal": "Textures/Image_11.png",
+      "alphaTexture": ""
+    },
+    {
+      "name": "WallClock_Material_12",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "metallic": 0.0,
+      "roughness": 0.5,
+      "alpha": 1.0,
+      "texture": "Textures/Image_0.png",
+      "normal": "Textures/Image_2.png",
+      "alphaTexture": "Textures/Image_0.png"
+    },
+    {
+      "name": "WallClock_Material_13",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "metallic": 0.0,
+      "roughness": 0.5,
+      "alpha": 1.0,
+      "texture": "Textures/Image_3.png",
+      "normal": "Textures/Image_5.png",
+      "alphaTexture": ""
+    }
+  ],
+  "objects": [
+    {
+      "name": "defaultMaterial",
+      "vertices": 3560,
+      "bounds": [
+        [
+          -0.04230542853474617,
+          0.019813552498817444,
+          0.10077366977930069
+        ],
+        [
+          0.04230542853474617,
+          0.030613016337156296,
+          0.5024239420890808
+        ]
+      ]
+    },
+    {
+      "name": "defaultMaterial.001",
+      "vertices": 1552,
+      "bounds": [
+        [
+          -0.005189229734241962,
+          0.010610038414597511,
+          0.49292248487472534
+        ],
+        [
+          0.005189229734241962,
+          0.011544354259967804,
+          0.5763319134712219
+        ]
+      ]
+    },
+    {
+      "name": "defaultMaterial.002",
+      "vertices": 1160,
+      "bounds": [
+        [
+          -0.0470377653837204,
+          0.009089972823858261,
+          0.49326083064079285
+        ],
+        [
+          0.003278443356975913,
+          0.010263864882290363,
+          0.5236954092979431
+        ]
+      ]
+    },
+    {
+      "name": "defaultMaterial.003",
+      "vertices": 6551,
+      "bounds": [
+        [
+          -0.19240738451480865,
+          -0.05496305227279663,
+          0.0
+        ],
+        [
+          0.19240738451480865,
+          0.05496326833963394,
+          0.699999988079071
+        ]
+      ]
+    }
+  ]
+}

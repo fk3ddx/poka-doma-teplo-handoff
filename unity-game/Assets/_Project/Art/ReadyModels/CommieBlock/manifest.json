@@ -1,0 +1,210 @@
+{
+  "assets": [
+    {
+      "id": "SovietSofa",
+      "height": 0.85,
+      "dimensions": [
+        2.392115354537964,
+        0.9985326528549194,
+        0.8500000238418579
+      ],
+      "materials": [
+        {
+          "name": "CB_Chair_Arm_Rests_002",
+          "texture": "Textures/Chair_Arm_Rests_002.png"
+        },
+        {
+          "name": "CB_Sofa",
+          "texture": "Textures/Sofa.png"
+        }
+      ],
+      "sourceObjects": [
+        "Sofa Arm Rests",
+        "Sofa"
+      ]
+    },
+    {
+      "id": "SovietArmchair",
+      "height": 0.85,
+      "dimensions": [
+        0.7707498073577881,
+        0.8495861291885376,
+        0.8500000238418579
+      ],
+      "materials": [
+        {
+          "name": "CB_Chair_Arm_Rests",
+          "texture": "Textures/Chair_Arm_Rests.png"
+        },
+        {
+          "name": "CB_Chair_4_Seat",
+          "texture": "Textures/Chair_4_Seat.png"
+        },
+        {
+          "name": "CB_Chair_4_Arm_rest_Fabric",
+          "texture": "Textures/Chair_4_Arm_rest_Fabric.png"
+        }
+      ],
+      "sourceObjects": [
+        "Chair 3 Arm Rests",
+        "Chair 3 Seat",
+        "Chair 3 Arm rest Fabric"
+      ]
+    },
+    {
+      "id": "SovietDiningChair",
+      "height": 0.88,
+      "dimensions": [
+        0.4139936566352844,
+        0.4462338089942932,
+        0.8800000548362732
+      ],
+      "materials": [
+        {
+          "name": "CB_Material_016",
+          "texture": "Textures/Material_016.png"
+        },
+        {
+          "name": "CB_Material_016.001",
+          "texture": "Textures/Material_016.png"
+        },
+        {
+          "name": "CB_Material_016.002",
+          "texture": "Textures/Material_016.png"
+        },
+        {
+          "name": "CB_Material_016.003",
+          "texture": "Textures/Material_016.png"
+        },
+        {
+          "name": "CB_Material_016.004",
+          "texture": "Textures/Material_016.png"
+        },
+        {
+          "name": "CB_Material_016.005",
+          "texture": "Textures/Material_016.png"
+        },
+        {
+          "name": "CB_Material_016.006",
+          "texture": "Textures/Material_016.png"
+        },
+        {
+          "name": "CB_Material_016.007",
+          "texture": "Textures/Material_016.png"
+        }
+      ],
+      "sourceObjects": [
+        "Chair1 Front Legs",
+        "Chair1 Back Legs",
+        "Chair1 Support",
+        "Chair1 Back Upper",
+        "Chair",
+        "Chair1 Back Lower",
+        "Chair1 Head Rest",
+        "Chair1 Supports"
+      ]
+    },
+    {
+      "id": "SovietDesk",
+      "height": 0.8,
+      "dimensions": [
+        1.2188087701797485,
+        0.909276008605957,
+        0.800000011920929
+      ],
+      "materials": [
+        {
+          "name": "CB_Table",
+          "texture": "Textures/Table.png"
+        },
+        {
+          "name": "CB_Legs",
+          "texture": "Textures/Legs.png"
+        },
+        {
+          "name": "CB_Handle",
+          "texture": "Textures/Handle.png"
+        },
+        {
+          "name": "CB_Shelf",
+          "texture": "Textures/Shelf.png"
+        }
+      ],
+      "sourceObjects": [
+        "Table",
+        "Legs",
+        "Handle",
+        "Shelf"
+      ]
+    },
+    {
+      "id": "SovietCoffeeTable",
+      "height": 0.45,
+      "dimensions": [
+        1.6709219217300415,
+        0.9182655215263367,
+        0.44999998807907104
+      ],
+      "materials": [
+        {
+          "name": "CB_Coffee_Table_Support_1",
+          "texture": "Textures/Coffee_Table_Support_1.png"
+        },
+        {
+          "name": "CB_Coffee_Table_Top",
+          "texture": "Textures/Coffee_Table_Top.png"
+        },
+        {
+          "name": "CB_Coffee_Table_Legs",
+          "texture": "Textures/Coffee_Table_Legs.png"
+        },
+        {
+          "name": "CB_Coffee_Table_Support_2",
+          "texture": "Textures/Coffee_Table_Support_2.png"
+        }
+      ],
+      "sourceObjects": [
+        "Coffee Table Support 1",
+        "Coffee Table Top",
+        "Coffee Table Legs",
+        "Coffee Table Support 2"
+      ]
+    },
+    {
+      "id": "SovietShelf",
+      "height": 1.9,
+      "dimensions": [
+        1.8666776418685913,
+        0.517086386680603,
+        1.9000000953674316
+      ],
+      "materials": [
+        {
+          "name": "CB_Shelf_001",
+          "texture": "Textures/Shelf_001.png"
+        }
+      ],
+      "sourceObjects": [
+        "Shelf.001"
+      ]
+    },
+    {
+      "id": "SovietTV",
+      "height": 0.45,
+      "dimensions": [
+        0.61898273229599,
+        0.3488311171531677,
+        0.44999998807907104
+      ],
+      "materials": [
+        {
+          "name": "CB_TV",
+          "texture": "Textures/TV.png"
+        }
+      ],
+      "sourceObjects": [
+        "TV"
+      ]
+    }
+  ]
+}

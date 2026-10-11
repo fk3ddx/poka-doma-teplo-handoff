@@ -1,0 +1,110 @@
+{
+  "height": 1.55,
+  "macro": {
+    "gender": 0.0,
+    "age": 0.9,
+    "muscle": 0.25,
+    "weight": 0.72,
+    "proportions": 0.5,
+    "height": 0.35,
+    "cupsize": 0.5,
+    "firmness": 0.1,
+    "race": {
+      "caucasian": 1.0,
+      "african": 0.0,
+      "asian": 0.0
+    }
+  },
+  "materials": [
+    {
+      "name": "Nina.body",
+      "texture": "Textures/old_lightskinned_female_diffuse.png",
+      "alphaClip": false,
+      "greyscale": false,
+      "roughness": 0.72
+    },
+    {
+      "name": "Nina.nipple",
+      "texture": "Textures/old_lightskinned_female_diffuse.png",
+      "alphaClip": false,
+      "greyscale": false,
+      "roughness": 0.72
+    },
+    {
+      "name": "Nina.lips",
+      "texture": "Textures/old_lightskinned_female_diffuse.png",
+      "alphaClip": false,
+      "greyscale": false,
+      "roughness": 0.72
+    },
+    {
+      "name": "Nina.fingernails",
+      "texture": "Textures/old_lightskinned_female_diffuse.png",
+      "alphaClip": false,
+      "greyscale": false,
+      "roughness": 0.72
+    },
+    {
+      "name": "Nina.toenails",
+      "texture": "Textures/old_lightskinned_female_diffuse.png",
+      "alphaClip": false,
+      "greyscale": false,
+      "roughness": 0.72
+    },
+    {
+      "name": "Nina.ears",
+      "texture": "Textures/old_lightskinned_female_diffuse.png",
+      "alphaClip": false,
+      "greyscale": false,
+      "roughness": 0.72
+    },
+    {
+      "name": "Nina.genitals",
+      "texture": "Textures/old_lightskinned_female_diffuse.png",
+      "alphaClip": false,
+      "greyscale": false,
+      "roughness": 0.72
+    },
+    {
+      "name": "Nina.low-poly",
+      "texture": "Textures/brown_eye.png",
+      "alphaClip": false,
+      "greyscale": false,
+      "roughness": 0.72
+    },
+    {
+      "name": "Nina.ponytail01",
+      "texture": "Textures/Nina.ponytail01_Grey.png",
+      "alphaClip": true,
+      "greyscale": false,
+      "roughness": 0.72
+    },
+    {
+      "name": "Nina.eyebrow001",
+      "texture": "Textures/Nina.eyebrow001_Grey.png",
+      "alphaClip": true,
+      "greyscale": false,
+      "roughness": 0.72
+    },
+    {
+      "name": "Nina.mindfront_kimono",
+      "texture": "Textures/F_Kimono_COL.png",
+      "alphaClip": false,
+      "greyscale": false,
+      "roughness": 0.72
+    },
+    {
+      "name": "Nina.kwnet_at_optical_glasses",
+      "texture": "Textures/m_opticals01.png",
+      "alphaClip": true,
+      "greyscale": false,
+      "roughness": 0.72
+    }
+  ],
+  "temporary": [
+    "Mindfront kimono fitting robe; floral material and apron missing",
+    "ponytail01 hair visible until headscarf sourced",
+    "glasses have no chain",
+    "static preview, no approved facial animation or rig"
+  ]
+}
