@@ -1,12 +1,30 @@
 {
   "nativeExitCode": 0,
   "reviewedFrames": [
+    "01-menu",
     "02-living",
     "03-kitchen",
     "05-lights-off",
+    "06-cabinet-tv",
+    "08-hall",
     "11-balcony-courtyard",
+    "13-bedroom-storage",
     "16-seated-living",
     "17-seated-lap"
   ],
-  "notes": "Real native captures: seated height, lap and armrests present; snowfall visible outdoors. Other static art unchanged. M1 not accepted, material and textile shortcomings persist."
+  "reference": "Reference/1763050-6.jpg official Norwood Hitchhike store counter screenshot",
+  "findings": [
+    "Cabinet veneer has finer lower-contrast grain; hall, armrest and table material families differ.",
+    "Both cabinet photo inserts render with recognizable fictional figures; no obvious z-fighting in inspected frames.",
+    "Cable runs over far table edge and along carpet to the console instead of hanging across the cup.",
+    "Russian menu text renders correctly after generator encoding repair.",
+    "Lap, snow and blackout present after full regeneration."
+  ],
+  "remaining": [
+    "Books are too uniform, tulip flower heads too simple, ceramic/metal props lack surface history.",
+    "Cloth shapes and tulle moire remain visible.",
+    "Exterior needs light scattering and greater facade variation.",
+    "This is not visual parity with Fears to Fathom or user acceptance."
+  ],
+  "performanceCaveat": "Latest run has isolated 33.596 ms main frame and 44.201 ms light-switch frame; p95 is 16.669/16.672 ms with 60 FPS cap. Cause of isolated spikes not established. Shutdown MemoryLeaks telemetry reports 716044 bytes; no leak-free claim."
 }

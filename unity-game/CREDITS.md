@@ -53,3 +53,6 @@ Fears to Fathom: Norwood Hitchhike / Home Alone и From the Darkness служа�
 
 
 M1 0.2.3: колени/плед — собственная процедурная геометрия ApartmentSeating.cs; SleetParticle.png — оригинальная процедурная маска мягкой частицы, ApartmentWeather.cs.
+
+
+M1 0.2.4: FamilySnapshotsAtlas.png (вымышленные люди) и QuietWalnutVeneer.png созданы built-in image_gen. Полные запросы и SHA-256: tools/art/personal-materials-prompts.json. Снимки настоящего плеера не редактировались.

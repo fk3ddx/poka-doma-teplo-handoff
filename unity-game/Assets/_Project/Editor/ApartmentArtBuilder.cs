@@ -21,9 +21,9 @@ public static partial class ApartmentArtBuilder {
  [MenuItem("Ataka/M1/Generate furnished apartment")]
  public static void Generate(){
   MilestoneBuilder.Generate();shellIndex=0;shellPrefix="shell_stable_";
-  Directory.CreateDirectory(Root+"/Art/M1Materials");Directory.CreateDirectory(Root+"/Art/M1Meshes");AssetDatabase.Refresh();ImportTextures();mats=new Dictionary<string,Material>();CreateMaterials();MaterialRefinements();DomesticMaterials();
+  Directory.CreateDirectory(Root+"/Art/M1Materials");Directory.CreateDirectory(Root+"/Art/M1Meshes");AssetDatabase.Refresh();ImportTextures();mats=new Dictionary<string,Material>();CreateMaterials();MaterialRefinements();DomesticMaterials();PersonalMaterials();
   art=new GameObject("M1 authored apartment").transform;art.position=Vector3.up*Floor;
-  var shell=GameObject.Find("Apartment вЂў M0 metric shell").transform;
+  var shell=GameObject.Find("Apartment • M0 metric shell").transform;
   foreach(var r in shell.GetComponentsInChildren<MeshRenderer>()){
    string n=r.name;if(n.Contains("proxy")||n=="Balcony railing"){Object.DestroyImmediate(r.gameObject);continue;}
    string old=r.sharedMaterial.name;
@@ -38,11 +38,11 @@ public static partial class ApartmentArtBuilder {
    if(r.GetComponentInParent<Interactable>()==null)Static(r.gameObject);
   }
   ImportAuthoredMeshes();AddModel("ceramic_vase_01",new Vector3(6.13f,1.24f,2.05f),0,.23f);
-  TrimAndWindows();Yard();Lighting();Atmosphere();Staircase();Finishing();Seating();
+  TrimAndWindows();Yard();Lighting();Atmosphere();Staircase();Finishing();Seating();PersonalPhotos();
   var session=Object.FindFirstObjectByType<GameSession>();session.checkpointFile="checkpoint-m1.json";session.player.transform.position=new Vector3(5.1f,Floor+.02f,3.2f);session.player.transform.rotation=Quaternion.Euler(0,215,0);
-  session.GetComponent<PrototypeMenu>().milestoneDescription="M1 В· С…СѓРґРѕР¶РµСЃС‚РІРµРЅРЅР°СЏ РєРІР°СЂС‚РёСЂР° вЂ” СЂР°Р±РѕС‡Р°СЏ РІРµСЂСЃРёСЏ\nР—Р°Р», РєСѓС…РЅСЏ Рё Р±С‹С‚РѕРІС‹Рµ РґРµС‚Р°Р»Рё. РЎСЋР¶РµС‚РЅС‹Р№ РїСЂРѕР»РѕРі РµС‰С‘ РІ СЂР°Р·СЂР°Р±РѕС‚РєРµ.";
+  session.GetComponent<PrototypeMenu>().milestoneDescription="M1 · художественная квартира — рабочая версия\nЗал, кухня и бытовые детали. Сюжетный пролог ещё в разработке.";
   session.player.view.farClipPlane=240;session.player.view.backgroundColor=C(.095f,.12f,.14f);
-  PlayerSettings.productName="РђС‚Р°РєР° РЅР° Р·Р°РїРѕРјРёРЅР°РЅРёРµ";PlayerSettings.bundleVersion="0.2.3-dev";
+  PlayerSettings.productName="Атака на запоминание";PlayerSettings.bundleVersion="0.2.4-dev";
   EditorSceneManager.SaveScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene(),ScenePath);EditorBuildSettings.scenes=new[]{new EditorBuildSettingsScene(ScenePath,true),new EditorBuildSettingsScene(MilestoneBuilder.ScenePath,true)};AssetDatabase.SaveAssets();Debug.Log("M1_SCENE_GENERATED");
  }
  static void Static(GameObject go)=>GameObjectUtility.SetStaticEditorFlags(go,StaticEditorFlags.ContributeGI|StaticEditorFlags.BatchingStatic|StaticEditorFlags.ReflectionProbeStatic);
@@ -91,7 +91,7 @@ public static partial class ApartmentArtBuilder {
    var v=new Vector3[d.vertices.Length/3];var n=new Vector3[v.Length];var uv=new Vector2[v.Length];for(int i=0;i<v.Length;i++){v[i]=new Vector3(d.vertices[i*3],d.vertices[i*3+1],d.vertices[i*3+2]);n[i]=new Vector3(d.normals[i*3],d.normals[i*3+1],d.normals[i*3+2]);uv[i]=new Vector2(d.uv[i*2],d.uv[i*2+1]);}
    // Project tulle across its full width/height, independent of each pleat's facing.
    if(d.material=="Tulle")for(int i=0;i<v.Length;i++)uv[i]=Mathf.Abs(n[i].y)>.5f?new Vector2(v[i].x,v[i].z):new Vector2(v[i].x,v[i].y);
-   if(d.material=="Wood"||d.material=="WoodLight")for(int i=0;i<v.Length;i++){
+   if(d.material=="WoodTeak")for(int i=0;i<v.Length;i++){
     // Vertical boards follow the height; table surfaces retain horizontal grain.
     if(Mathf.Abs(n[i].y)<.5f)uv[i]=new Vector2(uv[i].y,uv[i].x);
    }
@@ -118,7 +118,7 @@ public static partial class ApartmentArtBuilder {
   foreach(float side in new[]{-1f,1f}){var p=GameObject.CreatePrimitive(PrimitiveType.Cube);p.name="Door inset";p.transform.SetParent(leaf,false);p.transform.localPosition=new Vector3(0,.08f,side*.51f);p.transform.localScale=new Vector3(.76f,.66f,.15f);p.GetComponent<Renderer>().sharedMaterial=mats["Wood"];Object.DestroyImmediate(p.GetComponent<Collider>());var h=GameObject.CreatePrimitive(PrimitiveType.Cylinder);h.name="Door handle";h.transform.SetParent(leaf,false);h.transform.localPosition=new Vector3(.34f,-.045f,side*.95f);h.transform.localRotation=Quaternion.Euler(0,0,90);h.transform.localScale=new Vector3(.025f,.065f,.5f);h.GetComponent<Renderer>().sharedMaterial=mats["Brass"];Object.DestroyImmediate(h.GetComponent<Collider>());}
  }
  static void TrimAndWindows(){
-  foreach(var r in GameObject.Find("Apartment вЂў M0 metric shell").GetComponentsInChildren<MeshRenderer>()){
+  foreach(var r in GameObject.Find("Apartment • M0 metric shell").GetComponentsInChildren<MeshRenderer>()){
    string n=r.name;if(!(n.Contains("exterior")||n.Contains(" / ")||n=="Exterior wall")||r.bounds.min.y>Floor+.1f)continue;var b=r.bounds;var p=b.center-Vector3.up*Floor;p.y=.07f;var s=b.size;s.y=.12f;if(b.size.x>b.size.z)s.z+=.025f;else s.x+=.025f;Box("Skirting",p,s,"Wood",false);p.y=2.44f;s.y=.07f;Box("Cornice",p,s,"Plaster",false);
   }
   foreach(var pair in new[]{new Vector2(.5f,2.1f),new Vector2(3.2f,4.55f),new Vector2(7.1f,8.3f)}){

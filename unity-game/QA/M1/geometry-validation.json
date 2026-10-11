@@ -1,0 +1,14 @@
+{
+  "bytes": 90598980,
+  "meshes": 125,
+  "triangles": 444246,
+  "drawerGroups": [
+    "HallDrawer_WoodAged",
+    "HallDrawer_Brass",
+    "HallDrawer_Black",
+    "HallDrawer_Chrome",
+    "HallDrawer_Glass",
+    "HallDrawer_BookTan"
+  ],
+  "validation": "finite vertices/normals/UVs and in-range indices; not Unity runtime verification"
+}

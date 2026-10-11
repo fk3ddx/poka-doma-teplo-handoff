@@ -33,10 +33,10 @@ def rod(name,a,b,r,m='Brass',r2=None,vertices=16):
  o=bpy.context.object;o.rotation_euler=v.to_track_quat('Z','Y').to_euler()
  for f in o.data.polygons:f.use_smooth=True
  return register(o,name,m)
-def curve(name,points,r,m):
+def curve(name,points,r,m,handles='AUTO'):
  c=bpy.data.curves.new(name,'CURVE');c.dimensions='3D';c.resolution_u=10;c.bevel_depth=r;c.bevel_resolution=2
  s=c.splines.new('BEZIER');s.bezier_points.add(len(points)-1)
- for q,p in zip(s.bezier_points,points):q.co=xyz(p);q.handle_left_type='AUTO';q.handle_right_type='AUTO'
+ for q,p in zip(s.bezier_points,points):q.co=xyz(p);q.handle_left_type=handles;q.handle_right_type=handles
  o=bpy.data.objects.new(name,c);bpy.context.collection.objects.link(o);bpy.ops.object.select_all(action='DESELECT');bpy.context.view_layer.objects.active=o;o.select_set(True)
  bpy.ops.object.convert(target='MESH');o=bpy.context.object;o.select_set(False);return register(o,name,m)
 def quad(name,verts,m,uv=None):
@@ -58,6 +58,7 @@ def turn(objects,center,yaw,position):
 
 def unit(name,func,pos,yaw=0):
  before=set(bpy.data.objects);func();objects=[o for o in bpy.data.objects if o not in before];turn(objects,(0,0,0),yaw,pos)
+ for o in objects:o['furniture_unit']=name
 
 def sofa():
  for x in [-.84,.84]:
@@ -336,7 +337,7 @@ box('Controller',(4.24,.785,2.42),(.15,.028,.064),'Enamel',.014)
 box('Controller cross',(4.194,.802,2.42),(.029,.009,.012),'Black',.002)
 box('Controller cross',(4.194,.802,2.42),(.011,.009,.030),'Black',.002)
 for x in [4.267,4.29]:rod('Red action button',(x,.799,2.42),(x,.809,2.42),.009,'BookRed')
-curve('Controller cable',[(4.24,.8,2.389),(4.51,.77,2.19),(4.66,.67,2.02),(4.78,.025,2.12),(5.2,.018,2.53),(5.8,.04,2.65),(6.1,.68,2.30),(6.1,1.25,2.10)],.004,'Black')
+curve('Controller cable',[(4.24,.805,2.389),(4.36,.78,2.48),(4.44,.767,2.545),(4.46,.73,2.585),(4.48,.43,2.61),(4.50,.06,2.64),(4.57,.019,2.68),(4.9,.019,2.73),(5.35,.019,2.76),(5.77,.019,2.67),(5.94,.07,2.54),(5.95,.64,2.39),(5.97,1.19,2.30),(6.05,1.25,2.20),(6.10,1.25,2.10)],.004,'Black','AUTO')
 # A book and reading spectacles at the chair.
 box('Closed poetry book',(5.19,.07,.58),(.19,.043,.26),'BookGreen',.005)
 # Properly mapped framed photograph on wall, separate image insert.
@@ -404,6 +405,8 @@ exec(compile((ROOT/'tools/art/add_domestic_detail.py').read_text(encoding='utf-8
 exec(compile((ROOT/'tools/art/add_kitchen_and_yard_detail.py').read_text(encoding='utf-8-sig'), 'add_kitchen_and_yard_detail.py', 'exec'), globals())
 
 exec(compile((ROOT/'tools/art/finish_domestic.py').read_text(encoding='utf-8-sig'), 'finish_domestic.py', 'exec'), globals())
+
+exec(compile((ROOT/'tools/art/personalize_materials.py').read_text(encoding='utf-8-sig'), 'personalize_materials.py', 'exec'), globals())
 
 # Bare courtyard trees: tapered, curved growth and secondary forks.
 current='Yard';rng=random.Random(39)
