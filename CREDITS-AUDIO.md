@@ -19,9 +19,14 @@ These are candidate sound edits, not a final sound-art approval. Freesound input
 | rope | [harveyism — 130364](https://freesound.org/people/harveyism/sounds/130364/) | [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | scratch | [nickyg11p — 390869](https://freesound.org/people/nickyg11p/sounds/390869/) | [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 | fridge | [RCSound99 — 651210](https://freesound.org/people/RCSound99/sounds/651210/) | [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| crack | [Joao_Janz — 477640](https://freesound.org/people/Joao_Janz/sounds/477640/) | [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| tear | [ProductionNow — 234236](https://freesound.org/people/ProductionNow/sounds/234236/) | [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| tear-short | [aust_paul — 30931](https://freesound.org/people/aust_paul/sounds/30931/) | [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| pain-cry | [MrFossy — 547208](https://freesound.org/people/MrFossy/sounds/547208/) | [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| tinnitus | [Sclolex — 210533](https://freesound.org/people/Sclolex/sounds/210533/) | [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
 
 Kenney: [Impact Sounds](https://kenney.nl/assets/impact-sounds) and [RPG Audio](https://kenney.nl/assets/rpg-audio), CC0. Original license files remain under `art-sources/Audio/Kenney/`.
 
 Edits: mono downmix, transient or cycle selection, short edge fades / 80 ms loop crossfade, transient peak target -1 dBFS; long sounds RMS target -20 dBFS constrained by a -3 dBFS peak ceiling; PCM16 at original sample rate. See `art-sources/Audio/processed-manifest.json`. Review all edits by listening before final selection.
 
-Known substitutions: Western Electric phone is not a verified Soviet telephone; chime comes from a Gustav Becker Westminster recording; wet pasta foley stands in for Guest palm impacts. Existing phone and grandmother synthetic speech is unchanged and temporary. No claim of historically exact sound or natural actor performance.
+Known substitutions: Western Electric phone is not a verified Soviet telephone; chime comes from a Gustav Becker Westminster recording; wet pasta foley stands in for Guest palm impacts. Finger crack is recorded knuckle foley; wet tear is a short chicken-carcass foley edit; choked cry is an acted adult male pain grunt, not the final Misha actor. Tinnitus is an intentionally synthesized effect, not a field recording. Existing phone and grandmother synthetic speech is unchanged and temporary. No claim of historically exact sound or natural actor performance.

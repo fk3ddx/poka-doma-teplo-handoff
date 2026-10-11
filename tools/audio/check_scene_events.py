@@ -1,0 +1,28 @@
+"""Verify runtime cue timing and actual silent audio; not a listening judgement."""
+import argparse,json,math,sys
+from pathlib import Path
+p=argparse.ArgumentParser();p.add_argument('capture',type=Path);p.add_argument('--library-dir',required=True);a=p.parse_args();sys.path.insert(0,a.library_dir)
+import numpy as np,soundfile as sf
+info=json.loads(a.capture.with_suffix('.json').read_text(encoding='utf-8'));x,sr=sf.read(a.capture,dtype='float32',always_2d=True);checks=[]
+def check(ok,name,evidence):checks.append(dict(passed=bool(ok),name=name,evidence=evidence))
+def peak_db(v):return 20*math.log10(max(float(np.max(np.abs(v))),1e-12))
+check(not info['error'] and info['droppedSamples']==0 and info['formatChanges']==0,'capture complete',{k:info[k] for k in ['error','droppedSamples','formatChanges']})
+check(np.isfinite(x).all() and np.max(np.abs(x))<1,'finite and below digital full scale',peak_db(x))
+markers=info['markers']
+for scene,events,silence in [
+ ('DeathShort',{'breath':0,'finger_crack':.3,'palms':1,'choked_cry':1,'wet_tear':1.5},(2.65,3.25)),
+ ('HangingVision',{'breath':3.5,'tinnitus':4.5,'latch':6},(5.15,5.75))]:
+ starts=[m for m in markers if m['state']==scene];check(len(starts)>0,scene+' exercised',len(starts))
+ for n,start in enumerate(starts):
+  end=next((m['seconds'] for m in markers if not m['state'].startswith('cue:') and m['seconds']>start['seconds']),len(x)/sr)
+  cues=[m for m in markers if m.get('scene')==scene and start['seconds']-.1<=m['seconds']<end]
+  for cue,expected in events.items():
+   times=[m['timelineSeconds'] for m in cues if m['state']=='cue:'+cue]
+   check(len(times)==1 and expected-.0001<=times[0]<=expected+.06,f'{scene} #{n+1} {cue} once near {expected}s',times)
+  wrong=[m['state'] for m in cues if m['state'] in ('cue:shriek','cue:creak')];check(not wrong,f'{scene} #{n+1} no mismatched shriek/door creak',wrong)
+  reference=next((m for m in cues if m['state']==('cue:wet_tear' if scene=='DeathShort' else 'cue:tinnitus')),None)
+  if reference:
+   origin=reference['seconds']-reference['timelineSeconds'];lo,hi=[int((origin+t)*sr) for t in silence];section=x[lo:hi];level=peak_db(section)
+   check(level < -80,f'{scene} #{n+1} silence {silence}',dict(sample_peak_dbfs=level,audio_seconds=[lo/sr,hi/sr]))
+report=dict(passed=all(c['passed'] for c in checks),scope='Cue scheduling within 60ms and listener-mix sample peak; not listening acceptance or precise DSP onset',checks=checks)
+(a.capture.parent/'scene-event-checks.json').write_bytes((json.dumps(report,indent=2)+'\n').encode('utf-8'));print(json.dumps(report,indent=2));sys.exit(0 if report['passed'] else 1)

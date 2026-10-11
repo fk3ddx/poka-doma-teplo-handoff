@@ -8,15 +8,15 @@ manifest=json.loads((src/'Freesound/manifest.json').read_text(encoding='utf-8'))
 def read(path):
  x,sr=sf.read(path,dtype='float32',always_2d=True);return x.mean(axis=1),sr
 
-def put(name,path,start=0,end=None,loop=False):
+def put(name,path,start=0,end=None,loop=False,attack=.01,release=.04):
  x,sr=read(path);end=end if end is not None else len(x)/sr;x=x[max(0,int(start*sr)):min(len(x),int(end*sr))].copy()
  if len(x)<sr*.05:raise ValueError(name+' empty/short')
  if loop:
   n=min(int(.08*sr),len(x)//8);fade=np.linspace(0,1,n);joined=x[-n:]*(1-fade)+x[:n]*fade;x=np.concatenate((joined,x[n:-n]))
  else:
-  n=min(int(.01*sr),len(x)//4);m=min(int(.04*sr),len(x)//4);x[:n]*=np.linspace(0,1,n);x[-m:]*=np.linspace(1,0,m)
+  n=min(int(attack*sr),len(x)//4);m=min(int(release*sr),len(x)//4);x[:n]*=np.linspace(0,1,n);x[-m:]*=np.linspace(1,0,m)
  peak=float(np.abs(x).max());rms=float(np.sqrt(np.mean(x.astype('float64')**2)));long_sound=loop or name.startswith('guest_breath_');peak_target=-3 if long_sound else -1;rms_target=-20 if long_sound else None;gain=10**(peak_target/20)/max(peak,1e-6);gain=min(gain,10**(rms_target/20)/max(rms,1e-6)) if long_sound else gain;x*=gain;target=dest/(name+'.wav');sf.write(target,x,sr,subtype='PCM_16')
- edits.append(dict(file=target.relative_to(repo).as_posix(),source=path.relative_to(repo).as_posix(),start=start,end=end,loop_crossfade=loop,mono=True,gain_db=20*math.log10(gain),peak_target_dbfs=peak_target,rms_target_dbfs=rms_target,achieved_rms_dbfs=20*math.log10(max(float(np.sqrt(np.mean(x.astype("float64")**2))),1e-12)),sha256=hashlib.sha256(target.read_bytes()).hexdigest(),audition='pending'))
+ edits.append(dict(file=target.relative_to(repo).as_posix(),source=path.relative_to(repo).as_posix(),start=start,end=end,loop_crossfade=loop,attack_fade_seconds=attack,release_fade_seconds=release,mono=True,gain_db=20*math.log10(gain),peak_target_dbfs=peak_target,rms_target_dbfs=rms_target,achieved_rms_dbfs=20*math.log10(max(float(np.sqrt(np.mean(x.astype("float64")**2))),1e-12)),sha256=hashlib.sha256(target.read_bytes()).hexdigest(),audition='pending'))
 
 def transients(role,prefix,count,spacing=.5,before=.03,tail=.35):
  path=byrole[role];x,sr=read(path);hop=max(1,int(sr*.01));env=np.array([np.sqrt(np.mean(x[i:i+hop]**2)) for i in range(0,len(x),hop)]);chosen=[]
@@ -33,6 +33,18 @@ put('player_breath_loop',byrole['player-breath'],.15,6.55,True)
 put('door_creak_00',byrole['door']);put('shriek',byrole['shriek']);transients('knock','knock',3,.7,.07,.38)
 transients('slippers','step',8,.8,.12,.45);transients('palms','palms',6,.7,.07,.4)
 put('heartbeat_loop',byrole['heartbeat'],2,12,True);put('wind_loop',byrole['wind'],8,28,True);put('rope_loop',byrole['rope'],2,8,True);put('scratch',byrole['scratch']);put('fridge_loop',byrole['fridge'],3,15,True)
+
+put('finger_crack',byrole['crack'],attack=.002)
+# Deterministic 1.2-second candidate from the densest sustained foley region.
+# This is an edit-selection aid, not a listening judgement.
+x,sr=read(byrole['tear']);width=int(1.2*sr);hop=int(.05*sr)
+starts=list(range(0,len(x)-width,hop));energies=[float(np.mean(x[i:i+width].astype('float64')**2)) for i in starts]
+start=starts[int(np.argmax(energies))]/sr
+put('wet_tear',byrole['tear'],start,start+.9,attack=.002,release=.08)
+put('choked_cry',byrole['pain-cry'],attack=.002)
+# Deliberate synthesized tinnitus asset, not a field recording. Fits 4.5-5.0s.
+put('tinnitus',byrole['tinnitus'],1,1.45,attack=.005,release=.1)
+
 for prefix,pattern in [('door_close','doorClose_*.ogg'),('door_open','doorOpen_*.ogg'),('latch','metalLatch.ogg')]:
  for n,path in enumerate(sorted((src/'Kenney/RPG/Audio').glob(pattern))):put(f'{prefix}_{n:02}',path)
 for prefix,pattern in [('wood_impact','impactWood_heavy_*.ogg'),('glass_impact','impactGlass_light_*.ogg'),('carpet_step','footstep_carpet_*.ogg')]:

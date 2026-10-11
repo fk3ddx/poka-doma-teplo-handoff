@@ -48,8 +48,8 @@ namespace Ataka.Scenario {
     var feet=grandmother.position+Vector3.up*.1f;var face=grandmother.position+Vector3.up*1.5f;
     Vector3 target=t<2?feet:Vector3.Lerp(feet,face,Mathf.Clamp01((t-2)/1.5f));head.rotation=Quaternion.Slerp(head.rotation,Quaternion.LookRotation(target-head.position),.12f);
     p.flashlight.intensity=t>=4.5f&&t<4.9f?0:3;
-    SoundAt(t,3.5f,"breath",grandmother.position);SoundAt(t,4.5f,"shriek",head.position);
-    if(t>=5&&!fired){fired=true;loop.Thought("Нет. Нет-нет-нет…");}SoundAt(t,6,"latch",flat.carpet.transform.position);
+    SoundAt(t,3.5f,"breath",grandmother.position);if(lastTime<4.5f&&t>=4.5f)sound.PlayClose("tinnitus",head.position);
+    if(t>=5&&!fired){fired=true;sound.StopCue("rope");sound.StopCue("breath");sound.StopCue("tinnitus");loop.Thought("Нет. Нет-нет-нет…");}SoundAt(t,6,"latch",flat.carpet.transform.position);
    }else if(name=="Peephole"){
     flat.look.peephole=1;
     if(landingLight)landingLight.intensity=.7f;if(lastTime<0)sound.Grandmother(new Vector3(8.05f,1.8f,6.65f));
@@ -62,7 +62,7 @@ namespace Ataka.Scenario {
     if(leftHand)leftHand.Frame(head,t);if(rightHand)rightHand.Frame(head,t);
     flat.guest.SetActive(t<2.5f);guest.localScale=guestScale;guest.position=startGuest;HeadAt(guest,head.position+head.forward*.3f-Vector3.up*.07f);var lens=cine.Lens;lens.FieldOfView=Mathf.Lerp(70,55,Mathf.Clamp01(t/.08f));cine.Lens=lens;
     head.localRotation=startHead*Quaternion.Euler(Mathf.Sin(t*55)*1.5f,Mathf.Cos(t*41)*1,0);
-    SoundAt(t,0,"breath",head.position);SoundAt(t,.3f,"creak",head.position);SoundAt(t,1,"palms",head.position);SoundAt(t,1.5f,"shriek",head.position);
+    SoundAt(t,0,"breath",head.position);SoundAt(t,.3f,"finger_crack",head.position);SoundAt(t,1,"palms",head.position);SoundAt(t,1,"choked_cry",head.position);SoundAt(t,1.5f,"wet_tear",head.position);
     screenRed=t>=1.5f?Mathf.Clamp01((t-1.5f)*2):0;screenBlack=t>=2.5f?1:0;
    }else if(name=="ChaseStart"){
     var leaf=flat.entrance.leaf;

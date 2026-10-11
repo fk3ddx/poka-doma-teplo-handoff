@@ -198,6 +198,54 @@ MonoBehaviour:
     priority: 100
     spatial: 1
     loop: 0
+  - id: choked_cry
+    clips:
+    - {fileID: 8300000, guid: ca3c868e032837048be2e7d05cd53c0b, type: 3}
+    bus: 1
+    gainDb: -6
+    pitchVariation: 0
+    minDistance: 1
+    maxDistance: 12
+    maxInstances: 1
+    priority: 100
+    spatial: 1
+    loop: 0
+  - id: tinnitus
+    clips:
+    - {fileID: 8300000, guid: 19f4b634753ea124a8d7f2e9340c8ee9, type: 3}
+    bus: 5
+    gainDb: -22
+    pitchVariation: 0
+    minDistance: 1
+    maxDistance: 12
+    maxInstances: 1
+    priority: 100
+    spatial: 1
+    loop: 0
+  - id: finger_crack
+    clips:
+    - {fileID: 8300000, guid: eaf98ffb563e4d74ba5244837ef8adee, type: 3}
+    bus: 1
+    gainDb: -8
+    pitchVariation: 0
+    minDistance: 1
+    maxDistance: 12
+    maxInstances: 1
+    priority: 100
+    spatial: 1
+    loop: 0
+  - id: wet_tear
+    clips:
+    - {fileID: 8300000, guid: 1236f4581606d6e46b7f7094aff39118, type: 3}
+    bus: 5
+    gainDb: -4
+    pitchVariation: 0
+    minDistance: 1
+    maxDistance: 12
+    maxInstances: 1
+    priority: 100
+    spatial: 1
+    loop: 0
   - id: wardrobe
     clips:
     - {fileID: 8300000, guid: 920e9c96d9c9740458ea436847b89e60, type: 3}

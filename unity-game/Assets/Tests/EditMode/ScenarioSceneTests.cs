@@ -22,7 +22,7 @@ namespace Ataka.Tests {
     var sound=Object.FindFirstObjectByType<ScenarioSound>();Assert.That(sound.bank,Is.Not.Null,"Silent build: missing sound bank");
     var bank=sound.bank;Assert.That(bank.mixer,Is.Not.Null);Assert.That(bank.groups.Length,Is.EqualTo(System.Enum.GetValues(typeof(ScenarioBus)).Length));
     Assert.That(bank.cues.Select(c=>c.id).Distinct().Count(),Is.EqualTo(bank.cues.Length),"Duplicate cue replaces another cue at runtime");
-    foreach(string id in new[]{"phone","phone_breath","clock","chime","step","carpet_step","door_open","door_close","breath","guest_breath","player_breath","palms","shriek","wind","rope"})Assert.That(bank.cues.Any(c=>c.id==id),Is.True,"Missing scenario event "+id);
+    foreach(string id in new[]{"phone","phone_breath","clock","chime","step","carpet_step","door_open","door_close","breath","guest_breath","player_breath","palms","shriek","wind","rope","finger_crack","wet_tear","choked_cry","tinnitus"})Assert.That(bank.cues.Any(c=>c.id==id),Is.True,"Missing scenario event "+id);
     foreach(var cue in bank.cues){Assert.That(bank.groups[(int)cue.bus],Is.Not.Null,cue.id);Assert.That(bank.groups[(int)cue.bus].audioMixer,Is.EqualTo(bank.mixer),cue.id);Assert.That(cue.clips,Is.Not.Empty,cue.id);foreach(var clip in cue.clips){Assert.That(clip,Is.Not.Null,cue.id);Assert.That(clip.length,Is.GreaterThan(.04f),cue.id);Assert.That(clip.channels,Is.EqualTo(1),"Spatial sources must be mono: "+cue.id);Assert.That(AssetDatabase.GetAssetPath(clip),Does.StartWith("Assets/_Project/Audio/Recorded/"));}}
    }finally{if(setup.Length>0&&setup.All(s=>!string.IsNullOrEmpty(s.path)))EditorSceneManager.RestoreSceneManagerSetup(setup);else EditorSceneManager.NewScene(NewSceneSetup.EmptyScene);}
   }
