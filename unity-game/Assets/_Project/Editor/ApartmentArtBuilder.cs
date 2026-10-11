@@ -42,7 +42,7 @@ public static partial class ApartmentArtBuilder {
   var session=Object.FindFirstObjectByType<GameSession>();session.checkpointFile="checkpoint-m1.json";session.player.transform.position=new Vector3(5.1f,Floor+.02f,3.2f);session.player.transform.rotation=Quaternion.Euler(0,215,0);
   session.GetComponent<PrototypeMenu>().milestoneDescription="M1 · художественная квартира — рабочая версия\nЗал, кухня и бытовые детали. Сюжетный пролог ещё в разработке.";
   session.player.view.farClipPlane=240;session.player.view.backgroundColor=C(.095f,.12f,.14f);
-  PlayerSettings.productName="Атака на запоминание";PlayerSettings.bundleVersion="0.2.4-dev";
+  PlayerSettings.productName="Атака на запоминание";PlayerSettings.bundleVersion="0.2.5-dev";
   EditorSceneManager.SaveScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene(),ScenePath);EditorBuildSettings.scenes=new[]{new EditorBuildSettingsScene(ScenePath,true),new EditorBuildSettingsScene(MilestoneBuilder.ScenePath,true)};AssetDatabase.SaveAssets();Debug.Log("M1_SCENE_GENERATED");
  }
  static void Static(GameObject go)=>GameObjectUtility.SetStaticEditorFlags(go,StaticEditorFlags.ContributeGI|StaticEditorFlags.BatchingStatic|StaticEditorFlags.ReflectionProbeStatic);
@@ -84,7 +84,7 @@ public static partial class ApartmentArtBuilder {
  static void ImportAuthoredMeshes(){
   var data=JsonUtility.FromJson<MeshSet>(File.ReadAllText(Root+"/Art/Authored/ApartmentFurniture.meshdata.json"));
   var drawerRoot=new GameObject("Working hall drawer");drawerRoot.transform.SetParent(art,false);
-  var drawer=drawerRoot.AddComponent<SlidingDrawer>();drawer.persistentId="hall-drawer";drawer.label="СЏС‰РёРє С‚СЂСЋРјРѕ";drawer.movingPart=drawerRoot.transform;drawer.closedLocalPosition=Vector3.zero;
+  var drawer=drawerRoot.AddComponent<SlidingDrawer>();drawer.persistentId="hall-drawer";drawer.label="ящик трюмо";drawer.movingPart=drawerRoot.transform;drawer.closedLocalPosition=Vector3.zero;
   drawer.envelope=drawerRoot.AddComponent<BoxCollider>();drawer.envelope.center=new Vector3(6.956f,.66f,5.71f);drawer.envelope.size=new Vector3(.51f,.20f,.34f);
   foreach(var d in data.meshes){
    string path=Root+"/Art/M1Meshes/"+d.name+".asset";var mesh=AssetDatabase.LoadAssetAtPath<Mesh>(path);if(mesh==null){mesh=new Mesh();AssetDatabase.CreateAsset(mesh,path);}else mesh.Clear();mesh.name=d.name;mesh.indexFormat=IndexFormat.UInt32;

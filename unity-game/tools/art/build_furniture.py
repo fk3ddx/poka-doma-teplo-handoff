@@ -33,8 +33,8 @@ def rod(name,a,b,r,m='Brass',r2=None,vertices=16):
  o=bpy.context.object;o.rotation_euler=v.to_track_quat('Z','Y').to_euler()
  for f in o.data.polygons:f.use_smooth=True
  return register(o,name,m)
-def curve(name,points,r,m,handles='AUTO'):
- c=bpy.data.curves.new(name,'CURVE');c.dimensions='3D';c.resolution_u=10;c.bevel_depth=r;c.bevel_resolution=2
+def curve(name,points,r,m,handles='AUTO',resolution=10):
+ c=bpy.data.curves.new(name,'CURVE');c.dimensions='3D';c.resolution_u=resolution;c.bevel_depth=r;c.bevel_resolution=2
  s=c.splines.new('BEZIER');s.bezier_points.add(len(points)-1)
  for q,p in zip(s.bezier_points,points):q.co=xyz(p);q.handle_left_type=handles;q.handle_right_type=handles
  o=bpy.data.objects.new(name,c);bpy.context.collection.objects.link(o);bpy.ops.object.select_all(action='DESELECT');bpy.context.view_layer.objects.active=o;o.select_set(True)
@@ -45,7 +45,10 @@ def quad(name,verts,m,uv=None):
  for p in mesh.polygons:
   for li in p.loop_indices:layer.data[li].uv=uv[mesh.loops[li].vertex_index]
  o=bpy.data.objects.new(name,mesh);bpy.context.collection.objects.link(o);return register(o,name,m)
+exec(compile((ROOT/'tools/art/soft_textiles.py').read_text(encoding='utf-8-sig'), 'soft_textiles.py', 'exec'), globals())
+
 def pillow(p,s,m='Fabric'):
+ if m=='Linen':return soft_bed_pillow(p,s,m)
  o=box('Soft cushion',p,s,m,.08);o.rotation_euler.z=random.uniform(-.025,.025)
  mod=o.modifiers.new('Soft upholstery','SUBSURF');mod.levels=1
  return o
@@ -171,18 +174,20 @@ def radiator(x,z,width=1):
  rod('Heating riser',(x+width/2+.06,.06,z),(x+width/2+.06,2.5,z),.016,'Enamel')
 
 def curtain(x,width,z,top=2.39,bottom=.12,material='Curtain'):
- verts=[];faces=[];N=48;M=18
+ verts=[];faces=[];N=96;M=26
  for j in range(M+1):
   v=j/M
   for i in range(N+1):
    u=i/N;xx=x+(u-.5)*width; yy=bottom+(top-bottom)*v+.016*math.cos(u*35)*(1-v)
-   zz=z+.055*math.cos(u*math.pi*18)+.008*math.sin(v*12+u*25)
+   zz=z+.045*math.cos(u*math.pi*12+.12*math.sin(v*4))+.007*math.sin(v*7+u*13)
    verts.append(xyz((xx,yy,zz)))
  for j in range(M):
   for i in range(N):a=j*(N+1)+i;faces.append((a,a+1,a+N+2,a+N+1))
+ if material=='Tulle':faces=[tuple(reversed(face)) for face in faces]
  mesh=bpy.data.meshes.new('Curtain fabric');mesh.from_pydata(verts,[],faces);mesh.update();o=bpy.data.objects.new('Curtain folds',mesh);bpy.context.collection.objects.link(o);register(o,'Curtain folds',material)
  for f in mesh.polygons:f.use_smooth=True
- mod=o.modifiers.new('Woven fabric thickness','SOLIDIFY');mod.thickness=.002
+ if material!='Tulle':
+  mod=o.modifiers.new('Woven fabric thickness','SOLIDIFY');mod.thickness=.002
 
 def plant(p):
  x,y,z=p;rod('Clay flower pot',(x,y,z),(x,y+.14,z),.062,'Terracotta',.088,24)

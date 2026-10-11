@@ -53,6 +53,8 @@ namespace Ataka
             yield return Capture("02-living");
             session.player.Restore(new Vector3(7.3f, 11.72f, 2.5f), 150, 4, false);
             yield return Capture("03-kitchen");
+            session.player.Restore(new Vector3(7.70f,11.72f,.85f),180,7,false);
+            yield return Capture("18-kitchen-window");
             session.player.Restore(new Vector3(4.1f, 11.72f, .6f), 180, 12, false);
             yield return Capture("04-courtyard");
             if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Apartment_M1")

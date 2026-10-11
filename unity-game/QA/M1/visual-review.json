@@ -1,30 +1,28 @@
 {
   "nativeExitCode": 0,
+  "tests": "24 EditMode +21 PlayMode pass18; subsequent pass19 changed only non-colliding window-tulle normals/material; regenerated, rebaked, rebuilt and captured native player",
   "reviewedFrames": [
-    "01-menu",
     "02-living",
     "03-kitchen",
     "05-lights-off",
-    "06-cabinet-tv",
-    "08-hall",
-    "11-balcony-courtyard",
-    "13-bedroom-storage",
+    "07-bedroom",
+    "12-bedside-detail",
     "16-seated-living",
-    "17-seated-lap"
+    "18-kitchen-window"
   ],
-  "reference": "Reference/1763050-6.jpg official Norwood Hitchhike store counter screenshot",
   "findings": [
-    "Cabinet veneer has finer lower-contrast grain; hall, armrest and table material families differ.",
-    "Both cabinet photo inserts render with recognizable fictional figures; no obvious z-fighting in inspected frames.",
-    "Cable runs over far table edge and along carpet to the console instead of hanging across the cup.",
-    "Russian menu text renders correctly after generator encoding repair.",
-    "Lap, snow and blackout present after full regeneration."
+    "Bed pillows now have inflated centres and pinched thin sewn edges rather than rounded boxes.",
+    "Window tulle is lit from the room, remains see-through, and fine net has substantially less broken high-frequency pattern on reviewed distant frames.",
+    "First pass18 tulle was too dark/almost absent because its remaining single surface faced outside. Fixed normals of all three window cloths and increased thread opacity in pass19.",
+    "Blackout remains dark; the tulle has no self-emission.",
+    "New18 kitchen-window capture shows yard depth, snow and adjacent windows from inside kitchen."
   ],
   "remaining": [
-    "Books are too uniform, tulip flower heads too simple, ceramic/metal props lack surface history.",
-    "Cloth shapes and tulle moire remain visible.",
-    "Exterior needs light scattering and greater facade variation.",
-    "This is not visual parity with Fears to Fathom or user acceptance."
+    "Motion aliasing and transparent sorting through every viewpoint have not been manually validated.",
+    "New close kitchen-window view reveals missing visible upper curtain attachment/rail; add appropriate small cafe-curtain rod and loops.",
+    "Flower motif is still simple; sofa cushions/throws, tulip heads, ceramics and books need further character.",
+    "Outdoor light scattering, graphics profiles and human mouse/audio/comfort evaluation remain.",
+    "M1 is not visually accepted or proven equal to Fears to Fathom."
   ],
-  "performanceCaveat": "Latest run has isolated 33.596 ms main frame and 44.201 ms light-switch frame; p95 is 16.669/16.672 ms with 60 FPS cap. Cause of isolated spikes not established. Shutdown MemoryLeaks telemetry reports 716044 bytes; no leak-free claim."
+  "performanceCaveat": "600 samples capped60: mean59.694FPS, p9516.670ms, isolated max49.254ms. Light-switch max16.713ms. Cause of isolated main-frame spike unresolved. Shutdown MemoryLeaks705072bytes; no leak-free assertion."
 }

@@ -4,127 +4,127 @@
     "total": "24",
     "passed": "24",
     "failed": "0",
-    "duration": "5,9883859",
+    "duration": "5,963732",
     "cases": [
       {
         "fullname": "Ataka.Tests.ApartmentTests(\"Assets/_Project/Scenes/Apartment_M0.u...\").CrouchingCannotPickMatchesThroughFridgeBody",
         "result": "Passed",
-        "duration": "0.231193"
+        "duration": "0.272392"
       },
       {
         "fullname": "Ataka.Tests.ApartmentTests(\"Assets/_Project/Scenes/Apartment_M0.u...\").EveryOpenDoorHasCapsuleClearanceAtItsThreshold",
         "result": "Passed",
-        "duration": "0.209358"
+        "duration": "0.208285"
       },
       {
         "fullname": "Ataka.Tests.ApartmentTests(\"Assets/_Project/Scenes/Apartment_M0.u...\").PersistentIdsAreNonEmptyAndUnique",
         "result": "Passed",
-        "duration": "0.207058"
+        "duration": "0.207673"
       },
       {
         "fullname": "Ataka.Tests.ApartmentTests(\"Assets/_Project/Scenes/Apartment_M0.u...\").PickupsAreReachableFromThreeVisibleApproaches",
         "result": "Passed",
-        "duration": "0.206419"
+        "duration": "0.204766"
       },
       {
         "fullname": "Ataka.Tests.ApartmentTests(\"Assets/_Project/Scenes/Apartment_M1.u...\").CrouchingCannotPickMatchesThroughFridgeBody",
         "result": "Passed",
-        "duration": "1.395768"
+        "duration": "1.376987"
       },
       {
         "fullname": "Ataka.Tests.ApartmentTests(\"Assets/_Project/Scenes/Apartment_M1.u...\").EveryOpenDoorHasCapsuleClearanceAtItsThreshold",
         "result": "Passed",
-        "duration": "0.336792"
+        "duration": "0.325011"
       },
       {
         "fullname": "Ataka.Tests.ApartmentTests(\"Assets/_Project/Scenes/Apartment_M1.u...\").PersistentIdsAreNonEmptyAndUnique",
         "result": "Passed",
-        "duration": "0.336958"
+        "duration": "0.320555"
       },
       {
         "fullname": "Ataka.Tests.ApartmentTests(\"Assets/_Project/Scenes/Apartment_M1.u...\").PickupsAreReachableFromThreeVisibleApproaches",
         "result": "Passed",
-        "duration": "0.332637"
+        "duration": "0.323784"
       },
       {
         "fullname": "Ataka.Tests.CheckpointTests.CorruptLatestCheckpointRecoversLastCompleteBackup",
         "result": "Passed",
-        "duration": "0.023652"
+        "duration": "0.023682"
       },
       {
         "fullname": "Ataka.Tests.CheckpointTests.NonFinitePositionCannotBeSaved",
         "result": "Passed",
-        "duration": "0.001451"
+        "duration": "0.001515"
       },
       {
         "fullname": "Ataka.Tests.CheckpointTests.SaveLoadRoundtripIncludesDoorPickupAndPlayerPose",
         "result": "Passed",
-        "duration": "0.005154"
+        "duration": "0.004795"
       },
       {
         "fullname": "Ataka.Tests.CheckpointTests.UnsupportedSchemaIsRejectedWithoutOverwritingFile",
         "result": "Passed",
-        "duration": "0.001926"
+        "duration": "0.001687"
       },
       {
         "fullname": "Ataka.Tests.FurnishedCirculationTests.ArmchairDoesNotBlockTheBalcony",
         "result": "Passed",
-        "duration": "0.333270"
+        "duration": "0.333351"
       },
       {
         "fullname": "Ataka.Tests.FurnishedCirculationTests.BathroomThresholdHasStandingClearance",
         "result": "Passed",
-        "duration": "0.327074"
+        "duration": "0.333795"
       },
       {
         "fullname": "Ataka.Tests.FurnishedCirculationTests.BedroomBedsideCanBeReached",
         "result": "Passed",
-        "duration": "0.355578"
+        "duration": "0.328369"
       },
       {
         "fullname": "Ataka.Tests.FurnishedCirculationTests.BedroomCanBeReachedFromLivingRoom",
         "result": "Passed",
-        "duration": "0.328809"
+        "duration": "0.328008"
       },
       {
         "fullname": "Ataka.Tests.FurnishedCirculationTests.EntranceRouteClearsTheCoatAndDresser",
         "result": "Passed",
-        "duration": "0.332310"
+        "duration": "0.340674"
       },
       {
         "fullname": "Ataka.Tests.FurnishedCirculationTests.KitchenCanBeReachedWithoutWalkingThroughFurniture",
         "result": "Passed",
-        "duration": "0.327983"
+        "duration": "0.331030"
       },
       {
         "fullname": "Ataka.Tests.FurnishedCirculationTests.OpenHallDrawerKeepsTheEntranceRouteClear",
         "result": "Passed",
-        "duration": "0.324703"
+        "duration": "0.324383"
       },
       {
         "fullname": "Ataka.Tests.GeneratedMeshIsolationTests.CourtyardMustNotReuseApartmentUvMeshes",
         "result": "Passed",
-        "duration": "0.332346"
+        "duration": "0.331725"
       },
       {
         "fullname": "Ataka.Tests.InteractionTests.HigherPriorityPickupWithinFifteenCentimetersWins",
         "result": "Passed",
-        "duration": "0.003659"
+        "duration": "0.004076"
       },
       {
         "fullname": "Ataka.Tests.InteractionTests.PickupOutsideReachCannotBeTaken",
         "result": "Passed",
-        "duration": "0.000299"
+        "duration": "0.000304"
       },
       {
         "fullname": "Ataka.Tests.InteractionTests.PriorityCannotReachThroughWall",
         "result": "Passed",
-        "duration": "0.000316"
+        "duration": "0.000323"
       },
       {
         "fullname": "Ataka.Tests.InteractionTests.PriorityCannotSkipDistantForegroundObject",
         "result": "Passed",
-        "duration": "0.000315"
+        "duration": "0.000320"
       }
     ]
   },
@@ -133,112 +133,112 @@
     "total": "21",
     "passed": "21",
     "failed": "0",
-    "duration": "31,2258552",
+    "duration": "34,2607189",
     "cases": [
       {
         "fullname": "Ataka.Tests.DrawerRuntimeTests.DrawerStopsBeforePlayerAndResumesWhenClear",
         "result": "Passed",
-        "duration": "4.511376"
+        "duration": "4.625980"
       },
       {
         "fullname": "Ataka.Tests.DrawerRuntimeTests.PauseFreezesDrawerAndNewGameRestoresClosed",
         "result": "Passed",
-        "duration": "0.872718"
+        "duration": "0.910694"
       },
       {
         "fullname": "Ataka.Tests.DrawerRuntimeTests.ReachableDrawerOpensAndClosesFromPlayerView",
         "result": "Passed",
-        "duration": "2.504767"
+        "duration": "2.560245"
       },
       {
         "fullname": "Ataka.Tests.DrawerRuntimeTests.SaveRestoresPartialDrawerAndOldSaveUsesClosedDefault",
         "result": "Passed",
-        "duration": "0.525897"
+        "duration": "0.525518"
       },
       {
         "fullname": "Ataka.Tests.FurnishedRuntimeTests.BlackoutSwapsBakedMapsAndRestoresLivingFixtures",
         "result": "Passed",
-        "duration": "0.572649"
+        "duration": "0.606790"
       },
       {
         "fullname": "Ataka.Tests.FurnishedRuntimeTests.BothStairFlightsCanBeWalkedDownAndBackUp",
         "result": "Passed",
-        "duration": "10.273994"
+        "duration": "10.293123"
       },
       {
         "fullname": "Ataka.Tests.FurnishedRuntimeTests.RoomReflectionFollowsItsOwnSwitch",
         "result": "Passed",
-        "duration": "0.528358"
+        "duration": "0.545890"
       },
       {
         "fullname": "Ataka.Tests.SeatRuntimeTests.ChairIsReachableAndSeatedViewDropsThenExitsWithoutPenetration",
         "result": "Passed",
-        "duration": "2.203955"
+        "duration": "4.905927"
       },
       {
         "fullname": "Ataka.Tests.SeatRuntimeTests.CheckpointRestoresSeatedPoseAndLegacyCheckpointRemainsStanding",
         "result": "Passed",
-        "duration": "0.493759"
+        "duration": "0.508548"
       },
       {
         "fullname": "Ataka.Tests.SeatRuntimeTests.ExteriorSleetSurvivesSceneLoadAndEmitsOutsideTheApartment",
         "result": "Passed",
-        "duration": "0.722141"
+        "duration": "0.722311"
       },
       {
         "fullname": "Ataka.Tests.SeatRuntimeTests.PausedTransitionFreezesAndBlockedExitKeepsPlayerSafelySeated",
         "result": "Passed",
-        "duration": "1.509574"
+        "duration": "1.524971"
       },
       {
         "fullname": "Ataka.Tests.SessionTests(\"Apartment_M0\").LowCeilingPreventsStanding",
         "result": "Passed",
-        "duration": "0.277627"
+        "duration": "0.280325"
       },
       {
         "fullname": "Ataka.Tests.SessionTests(\"Apartment_M0\").NewGameRestoresCollectedObjectsAndDoorState",
         "result": "Passed",
-        "duration": "0.263849"
+        "duration": "0.260865"
       },
       {
         "fullname": "Ataka.Tests.SessionTests(\"Apartment_M0\").PauseFreezesDoorMotionAndAudio",
         "result": "Passed",
-        "duration": "0.543578"
+        "duration": "0.547640"
       },
       {
         "fullname": "Ataka.Tests.SessionTests(\"Apartment_M0\").RestorePreservesPoseWithoutMovingCameraThroughFloor",
         "result": "Passed",
-        "duration": "0.262165"
+        "duration": "0.262513"
       },
       {
         "fullname": "Ataka.Tests.SessionTests(\"Apartment_M0\").SaveAndLoadRestoreInventoryLightsAndPartialDoorTogether",
         "result": "Passed",
-        "duration": "0.258344"
+        "duration": "0.260963"
       },
       {
         "fullname": "Ataka.Tests.SessionTests(\"Apartment_M1\").LowCeilingPreventsStanding",
         "result": "Passed",
-        "duration": "2.439646"
+        "duration": "2.492852"
       },
       {
         "fullname": "Ataka.Tests.SessionTests(\"Apartment_M1\").NewGameRestoresCollectedObjectsAndDoorState",
         "result": "Passed",
-        "duration": "0.521757"
+        "duration": "0.546172"
       },
       {
         "fullname": "Ataka.Tests.SessionTests(\"Apartment_M1\").PauseFreezesDoorMotionAndAudio",
         "result": "Passed",
-        "duration": "0.789135"
+        "duration": "0.757376"
       },
       {
         "fullname": "Ataka.Tests.SessionTests(\"Apartment_M1\").RestorePreservesPoseWithoutMovingCameraThroughFloor",
         "result": "Passed",
-        "duration": "0.521729"
+        "duration": "0.505434"
       },
       {
         "fullname": "Ataka.Tests.SessionTests(\"Apartment_M1\").SaveAndLoadRestoreInventoryLightsAndPartialDoorTogether",
         "result": "Passed",
-        "duration": "0.520753"
+        "duration": "0.506888"
       }
     ]
   }

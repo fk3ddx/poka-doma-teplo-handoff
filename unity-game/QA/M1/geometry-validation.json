@@ -1,14 +1,11 @@
 {
-  "bytes": 90598980,
+  "bytes": 98050575,
   "meshes": 125,
-  "triangles": 444246,
-  "drawerGroups": [
-    "HallDrawer_WoodAged",
-    "HallDrawer_Brass",
-    "HallDrawer_Black",
-    "HallDrawer_Chrome",
-    "HallDrawer_Glass",
-    "HallDrawer_BookTan"
-  ],
-  "validation": "finite vertices/normals/UVs and in-range indices; not Unity runtime verification"
+  "triangles": 479182,
+  "validation": "finite vertices/normals/UVs and in-range indices; not Unity runtime verification",
+  "discardedFirstExport": {
+    "bytes": 107154631,
+    "triangles": 526606,
+    "reason": "Excessive seam tessellation; over GitHub100MiB file cap. Permanent generator uses26 control points and resolution2 instead of104/resolution10."
+  }
 }

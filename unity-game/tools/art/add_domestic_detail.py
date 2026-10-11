@@ -45,13 +45,13 @@ def suitcase():
 current='Bedroom'
 def cover_point(u,v):
  x=.23+u*1.62;z=1.29+v*1.43;drop=max(0,.37-x,x-1.75)
- return (x,.574-drop*1.65+.006*math.sin(u*35+v*2)+.008*math.sin(v*15)*math.sin(u*math.pi),z)
+ return (x,.574-drop*1.65+.013*math.sin(u*14+v*2)*(1-v*.4)+.008*math.sin(v*11+u*3)*math.sin(u*math.pi),z)
 textile('Waffle cotton coverlet',cover_point)
 textile('Turned linen top',lambda u,v:(.38+u*1.37,.586+.028*math.sin(v*math.pi)+.005*math.sin(u*27),1.28+v*.20),rows=8)
 for side in [.234,1.846]:
  for i in range(27):
   z=1.31+i*.051;hem=.35 if side<1 else .413;curve('Crochet hem',[(side,hem,z),(side,hem-.026,z+.01),(side,hem-.027,z+.038),(side,hem,z+.05)],.0018,'Lace')
-for y,w,d in [(.62,.64,.51),(.76,.59,.45),(.90,.52,.40)]:ring('Pillow piped seam',(1.05,y,.99),w*.46,d*.46,'Linen',.003,'xz')
+# Pillow edge seams are part of the authored soft pillow, not separate elliptical rings.
 unit('Mechanical alarm',clock,(2.04,.636,.79),15)
 rod('Water glass bottom',(2.23,.639,.80),(2.23,.646,.80),.031,'Crystal',vertices=12)
 for i in range(12):
