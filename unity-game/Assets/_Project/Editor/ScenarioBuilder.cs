@@ -158,10 +158,10 @@ namespace Ataka.Editor {
    flat.television=Point("TV interaction",ScenarioLayout.Television);Prop("televisionVintage",new Vector3(6.1f,.65f,2.5f),new Vector3(.45f,.45f,.6f),-90);
    flat.televisionScreen=Box("TV temporary screen",new Vector3(5.84f,.9f,2.5f),new Vector3(.015f,.3f,.4f),metal).GetComponent<Renderer>();
    Prop("tableCoffee",new Vector3(4.7f,0,2.15f),new Vector3(.6f,.45f,.85f),90);Prop("books",new Vector3(4.7f,.45f,2.15f),new Vector3(.2f,.08f,.2f));Prop("loungeChair",new Vector3(3.5f,0,.6f),new Vector3(.75f,.85f,.75f),150);Prop("lampRoundFloor",new Vector3(3.1f,0,.55f),new Vector3(.35f,1.6f,.35f));
-   flat.bed=Point("Under bed interaction",new Vector3(1.05f,.25f,2.2f));Prop("bedSingle",ScenarioLayout.Bed,new Vector3(.95f,.65f,1.9f));Prop("pillow",new Vector3(.6f,.65f,1.1f),new Vector3(.6f,.25f,.45f));Prop("cabinetBed",new Vector3(.4f,0,3.1f),new Vector3(.5f,.55f,.4f));
+   flat.bed=Point("Under bed interaction",new Vector3(1.05f,.25f,2.2f));BedroomBedInstaller.Create(flat.apartment);Prop("cabinetBed",new Vector3(.4f,0,3.1f),new Vector3(.5f,.55f,.4f));
    flat.wardrobe=Prop("bookcaseClosedDoors",BedroomLayoutRevision.OldCenter,new Vector3(1,1.9f,.55f)).transform;
    flat.wardrobeLeaves=new[]{Door("Wardrobe left temporary leaf",new Vector3(1.8f,.95f,3.78f),.48f,0).leaf,Door("Wardrobe right temporary leaf",new Vector3(2.3f,.95f,3.78f),.48f,0).leaf};
-   flat.slipper=Prop("pillow",new Vector3(1.85f,.01f,3.4f),new Vector3(.11f,.045f,.23f));
+   flat.slipper=BedroomReadyProps.CreateSlipper(shell,ScenarioLayout.WardrobeSlipper);
    Prop("bathtub",new Vector3(3.3f,0,5.4f),new Vector3(.7f,.65f,1.3f));Prop("bathroomSink",new Vector3(4.22f,0,4.8f),new Vector3(.5f,.75f,.42f));Prop("washer",new Vector3(4.2f,0,5.7f),new Vector3(.45f,.65f,.45f));
    flat.conditionGroups=new GameObject[6];for(int i=0;i<6;i++)flat.conditionGroups[i]=new GameObject("Lap "+(i+1)+" condition props");
    var snow=new Material(wall);snow.SetTexture("_BaseMap",AssetDatabase.LoadAssetAtPath<Texture2D>(Art+"/ScenarioProxies/PolyHaven/snow_01/snow_01.jpg"));snow.SetColor("_BaseColor",new Color(.55f,.65f,.72f));snow=Save(snow,"ColdWindowEdges.mat");
@@ -177,7 +177,7 @@ namespace Ataka.Editor {
    var lighting=new GameObject("Scenario lighting always active").transform;var look=lighting.gameObject.AddComponent<ScenarioLook>();look.pipeline=pipe;look.vhs=material;look.volume=volume;flat.look=look;
    var warm=new Color(1,.706f,.42f);look.warm=new[]{Lamp("HallA ceiling",new Vector3(7.7f,2.3f,4.5f),warm,.08f,3,lighting),Lamp("HallB sconce",new Vector3(5.5f,2,5.7f),warm,.08f,3,lighting),Lamp("Kitchen ceiling",new Vector3(7.7f,2.3f,1.5f),warm,0,3,lighting),Lamp("Living ceiling",new Vector3(4.7f,2.3f,2.1f),warm,0,4,lighting),Lamp("Floor lamp",new Vector3(3.1f,1.45f,.55f),warm,0,3.4f,lighting)};
    look.cold=new Light[3];float[] centers={1.4f,3.95f,7.7f};for(int i=0;i<3;i++){var l=Lamp("Window cold cookie "+i,new Vector3(centers[i]-.45f,2.25f,-.8f),new Color(.43f,.60f,.85f),3.24f,10,lighting);l.type=LightType.Spot;l.spotAngle=96;l.innerSpotAngle=75;l.cookie=AssetDatabase.LoadAssetAtPath<Texture2D>(Lab+"/WindowCookie.asset");l.transform.LookAt(new Vector3(centers[i]+.5f,.8f,3));look.cold[i]=l;}
-   look.icon=Lamp("Icon flame",new Vector3(.15f,1.6f,.15f),new Color(1,.05f,.015f),.14f,2,lighting);flat.televisionLight=Lamp("TV glow",new Vector3(5.8f,1,2.5f),new Color(.4f,.6f,1),0,2,lighting);
+   look.icon=Lamp("Icon flame",new Vector3(.22f,1.6f,.22f),new Color(1,.05f,.015f),.14f,2,lighting);flat.televisionLight=Lamp("TV glow",new Vector3(5.8f,1,2.5f),new Color(.4f,.6f,1),0,2,lighting);
    RenderSettings.skybox=null;RenderSettings.ambientMode=AmbientMode.Flat;RenderSettings.ambientLight=new Color(12/255f,14/255f,20/255f);RenderSettings.reflectionIntensity=.1f;RenderSettings.fog=false;
   }
   static void CreatePlayer(){

@@ -1,0 +1,11 @@
+{
+  "original": "Slippers.fbx",
+  "operation": "Retain complete disconnected components with negative-X bounding-box centre; join unchanged author geometry and UV; uniform scale to length .28 m. No newly modelled geometry.",
+  "parts": 18,
+  "dimensions_blender_xyz": [
+    0.13512323796749115,
+    0.2800000011920929,
+    0.06719253957271576
+  ],
+  "vertices": 1281
+}

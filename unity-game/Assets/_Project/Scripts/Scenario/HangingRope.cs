@@ -21,9 +21,9 @@ namespace Ataka.Scenario {
   void LateUpdate(){
    if(!scene)return;if(scene.rope)scene.rope.enabled=false;
    bool visible=scene.flat.grandmother.activeSelf&&(scene.loop.HangingWaiting||scene.PlayingScene=="HangingVision");foreach(var r in renderers)r.enabled=visible;if(!visible)return;
-   var nina=scene.flat.grandmother.GetComponent<NinaHangingPose>();var rotation=nina.transform.rotation*Quaternion.Euler(25,0,0);var center=nina.NeckPosition+Vector3.up*.025f;
-   var ring=new Vector3[25];for(int i=0;i<ring.Length;i++){float a=i*Mathf.PI*2/24;ring[i]=center+rotation*new Vector3(Mathf.Cos(a)*.058f,0,Mathf.Sin(a)*.058f);}
-   var knot=center+rotation*new Vector3(-.058f,.035f,0);Tube(0,new[]{new Vector3(1.65f,2.5f,2.3f),knot},.008f);Tube(1,ring,.008f);
+   var nina=scene.flat.grandmother.GetComponent<NinaHangingPose>();var rotation=nina.transform.rotation*Quaternion.Euler(25,0,0);var center=nina.NeckPosition+Vector3.up*.07f;
+   var ring=new Vector3[25];for(int i=0;i<ring.Length;i++){float a=i*Mathf.PI*2/24;ring[i]=center+rotation*new Vector3(Mathf.Cos(a)*.055f,0,Mathf.Sin(a)*.055f);}
+   var knot=nina.KnotPosition;Tube(0,new[]{new Vector3(1.65f,2.5f,2.3f),knot},.008f);Tube(1,ring,.008f);
    var coil=new Vector3[33];for(int i=0;i<coil.Length;i++){float f=i/32f,a=f*Mathf.PI*8;coil[i]=knot+rotation*new Vector3(Mathf.Cos(a)*.016f,(f-.5f)*.035f,Mathf.Sin(a)*.016f);}Tube(2,coil,.008f);
    Tube(3,new[]{knot,knot+Vector3.down*.08f+nina.transform.right*.015f,knot+Vector3.down*.15f+nina.transform.right*.01f},.008f);
   }

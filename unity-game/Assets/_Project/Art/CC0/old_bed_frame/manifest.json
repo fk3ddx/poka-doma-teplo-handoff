@@ -1,0 +1,15 @@
+{
+  "dimensions_blender": [
+    0.9038777351379395,
+    2.0,
+    1.2004477977752686
+  ],
+  "materials": [
+    {
+      "name": "BedFrame_0",
+      "texture": "Textures/old_bed_frame_diff.png",
+      "normal": "Textures/old_bed_frame_nor_gl.png"
+    }
+  ],
+  "vertices": 15370
+}

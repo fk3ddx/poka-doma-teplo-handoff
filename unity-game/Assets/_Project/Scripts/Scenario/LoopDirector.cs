@@ -24,7 +24,7 @@ namespace Ataka.Scenario {
    foreach(var d in flat.wardrobeLeaves)d.localRotation=Quaternion.Euler(0,n==1?95:0,0);
    for(int i=0;i<flat.conditionGroups.Length;i++)flat.conditionGroups[i].SetActive(i==n-1);
    flat.guest.SetActive(false);flat.grandmother.SetActive(false);flat.torchPickup.gameObject.SetActive(!flat.player.hasFlashlight);
-   flat.stool.transform.SetPositionAndRotation(new Vector3(5.5f,0,5.8f),Quaternion.identity);flat.slipper.transform.position=ScenarioLayout.WardrobeSlipper;
+   flat.stool.transform.SetPositionAndRotation(new Vector3(5.5f,0,5.8f),Quaternion.identity);flat.slipper.SetActive(true);flat.slipper.transform.SetPositionAndRotation(ScenarioLayout.WardrobeSlipper,Quaternion.identity);
    flat.televisionLight.intensity=n==4?.1f:0;phoneTimer=0;balconyTimer=0;knockTimer=0;knockIndex=0;
    if(!initializing)SaveCheckpoint(false);
   }
@@ -51,7 +51,7 @@ namespace Ataka.Scenario {
     else if(!Progress.EventComplete){
      if(!hangingDoorOpened&&Near(flat.bedroom.transform,1.7f)&&Looking(flat.bedroom.transform,.7f)){prompt.text="[E] Толкнуть дверь";if(e){hangingDoorOpened=true;flat.bedroom.open=true;scenes.PrepareHanging();sound.Play("door_open",flat.bedroom.transform.position);}}
      if(hangingDoorOpened){
-      bool inside=p.head.position.x<2.6f&&p.head.position.z>0&&p.head.position.z<4.4f;
+      bool inside=p.head.position.x<2.70f&&p.head.position.z>0&&p.head.position.z<4.4f;
       var nina=flat.grandmother.GetComponent<NinaHangingPose>();
       bool visible=inside&&ScenarioSight.Clear(p.transform,p.head.position,nina.FeetPosition)&&ScenarioSight.Clear(p.transform,p.head.position,nina.FacePosition);
       hangingEntryTime=visible?hangingEntryTime+Time.deltaTime:0;

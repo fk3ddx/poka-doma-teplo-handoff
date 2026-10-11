@@ -28,7 +28,7 @@ namespace Ataka.Scenario {
     if(lap==5){
      Look(loop.flat.bedroom.transform.position);yield return Press(Key.E);yield return new WaitForSeconds(.7f);
      Check(loop.HangingWaiting,"hanging door armed by E");Check(!loop.Busy&&!loop.Progress.EventComplete,"opening bedroom does not start an occluded cutscene");yield return Shot("hanging-door-open");
-     yield return Walk(new Vector3(2.45f,0,3.6f));Look(loop.flat.grandmother.GetComponent<NinaHangingPose>().FeetPosition);
+     yield return Walk(new Vector3(2.45f,0,3.6f));if(!loop.Busy)Look(loop.flat.grandmother.GetComponent<NinaHangingPose>().FeetPosition);
      float visionDeadline=Time.realtimeSinceStartup+2;
      while(loop.scenes.PlayingScene!="HangingVision"&&Time.realtimeSinceStartup<visionDeadline)yield return null;
      if(loop.scenes.PlayingScene!="HangingVision"){
@@ -97,7 +97,7 @@ namespace Ataka.Scenario {
   }
   IEnumerator Walk(Vector3 target){if(failed)yield break;float start=Time.realtimeSinceStartup;int startLap=loop.Progress.Lap;bool startChase=loop.chase.Active;
    while(Vector2.Distance(new Vector2(player.transform.position.x,player.transform.position.z),new Vector2(target.x,target.z))>.12f){
-    if(loop.Progress.Lap!=startLap||loop.chase.Active!=startChase)break;
+    if(loop.Progress.Lap!=startLap||loop.chase.Active!=startChase||loop.scenes.PlayingScene=="HangingVision")break;
     if(Time.realtimeSinceStartup-start>12){Check(false,"walk blocked toward "+target+" at "+player.transform.position+" yaw="+player.transform.eulerAngles.y+" W="+Keyboard.current.wKey.isPressed+" control="+player.control+" speed="+player.ActualSpeed+" paused="+player.paused);yield return Shot("FAILED-walk");break;}
     var dir=target-player.transform.position;dir.y=0;player.transform.rotation=Quaternion.LookRotation(dir);player.pitch=5;
     InputSystem.QueueStateEvent(keyboard,new KeyboardState(Key.W));yield return null;

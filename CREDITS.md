@@ -35,3 +35,9 @@
 Granny Katcho одобрена по авторскому превью («да норм»). Исходные модель/атлас сохранены без переделки лица, одежды, UV и топологии. Перенос: FBX, URP Lit, равномерный масштаб до 1.55 м; исключена дублирующая неподвязанная трость. Сохранены 10 авторских анимаций. Код экспорта: tools/art/export_katcho.py. Отдельный Unity-prefab и Windows-просмотр; в сюжет пока не встроена. Старые MPFB-примерки выше — отвергнутый архив.
 
 - Painted Wooden Stool — Kirill Sannikov / Poly Haven, CC0. https://polyhaven.com/a/painted_wooden_stool . Original FBX topology and UV, normalized to 0.45 m height; author diffuse/normal textures limited to 512 px in Unity.
+
+
+### Bedroom staging 04
+- Single slipper: headless_christ, [House slippers](https://sketchfab.com/models/ac25fc96e7ff4c138d8503b1072b7ea3), CC-BY-4.0. Complete disconnected author components selected from existing pair, joined and uniformly scaled to length 28 cm. Original UV and texture retained. See SingleSlipper-preparation.json.
+- Iron bed: Luca B / [Poly Haven old_bed_frame](https://polyhaven.com/a/old_bed_frame), CC0. Existing v3 GLB converted to FBX; author geometry/UV/maps retained.
+- Bed textiles: project-authored fabric geometry specifically approved by Claude review02 G2, using CC0 Poly Haven waffle_pique_cotton and quatrefoil_jacquard_fabric. Copied textures at 512px, RGB swizzle and material tint; original shared imports preserved. Lace veil not implemented yet.

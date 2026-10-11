@@ -20,6 +20,24 @@ namespace Ataka.Editor {
    b=BoundsOf(root);var collider=root.AddComponent<BoxCollider>();collider.center=b.center;collider.size=b.size;root.transform.position=position;
    Debug.Log("READY_STOOL_METRES "+b.size.ToString("F4"));return root;
   }
+  public static GameObject CreateSlipper(Transform parent,Vector3 position){
+   const string dir="Assets/_Project/Art/ReadyModels/Sketchfab/Slippers";
+   var source=AssetDatabase.LoadAssetAtPath<GameObject>(dir+"/SingleSlipper.fbx");if(!source)throw new Exception("Missing ready single slipper");
+   var mats=new Material[2];for(int i=0;i<2;i++){
+    string path=dir+"/SingleSlipperURP"+i+".mat";mats[i]=AssetDatabase.LoadAssetAtPath<Material>(path);if(!mats[i]){mats[i]=new Material(Shader.Find("Universal Render Pipeline/Lit"));AssetDatabase.CreateAsset(mats[i],path);}
+    mats[i].SetColor("_BaseColor",new Color(.8f,.8f,.8f));mats[i].SetFloat("_Smoothness",.2f);
+    if(i==1){foreach(var name in new[]{"Image_0.png","Image_3.png"}){var ti=(TextureImporter)AssetImporter.GetAtPath(dir+"/Textures/"+name);ti.maxTextureSize=512;ti.filterMode=FilterMode.Bilinear;ti.textureType=name=="Image_3.png"?TextureImporterType.NormalMap:TextureImporterType.Default;ti.SaveAndReimport();}mats[i].SetTexture("_BaseMap",AssetDatabase.LoadAssetAtPath<Texture2D>(dir+"/Textures/Image_0.png"));mats[i].SetTexture("_BumpMap",AssetDatabase.LoadAssetAtPath<Texture2D>(dir+"/Textures/Image_3.png"));mats[i].EnableKeyword("_NORMALMAP");}EditorUtility.SetDirty(mats[i]);
+   }
+   var root=new GameObject("READY single slipper headless_christ CC-BY4");root.transform.SetParent(parent,false);var model=(GameObject)PrefabUtility.InstantiatePrefab(source);model.transform.SetParent(root.transform,false);
+   foreach(var rr in model.GetComponentsInChildren<Renderer>())rr.sharedMaterials=rr.sharedMaterials.Select(m=>mats[m&&m.name.Contains("Material_1")?1:0]).ToArray();
+   var b=BoundsOf(root);model.transform.localScale*=.28f/b.size.z;b=BoundsOf(root);model.transform.position-=new Vector3(b.center.x,b.min.y,b.center.z);b=BoundsOf(root);root.transform.position=position;
+   if(Mathf.Abs(b.size.z-.28f)>.001f||b.size.y>.09f)throw new Exception("Single slipper scale invalid: "+b.size);
+   Debug.Log("READY_SLIPPER_METRES "+b.size.ToString("F4"));return root;
+  }
+  public static void InstallSlipperAndBuild(){
+   EditorSceneManager.OpenScene("Assets/_Project/Scenario/Flat.unity");var flat=UnityEngine.Object.FindFirstObjectByType<FlatBindings>();var old=flat.slipper;
+   flat.slipper=CreateSlipper(old.transform.parent,ScenarioLayout.WardrobeSlipper);UnityEngine.Object.DestroyImmediate(old);EditorUtility.SetDirty(flat);AssetDatabase.SaveAssets();EditorSceneManager.SaveScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene());ScenarioBuilder.Build();
+  }
   public static void InstallAndBuild(){
    EditorSceneManager.OpenScene("Assets/_Project/Scenario/Flat.unity");var flat=UnityEngine.Object.FindFirstObjectByType<FlatBindings>();
    var old=flat.stool;var position=old.transform.position;flat.stool=Create(old.transform.parent,position);UnityEngine.Object.DestroyImmediate(old);EditorUtility.SetDirty(flat);
