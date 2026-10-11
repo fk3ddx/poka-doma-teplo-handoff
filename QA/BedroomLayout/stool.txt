@@ -1,0 +1,3 @@
+Ready asset: Poly Haven painted_wooden_stool / Kirill Sannikov / CC0
+Upright metres=(0.2991, 0.4500, 0.3156)
+On side floor min y=0,0040

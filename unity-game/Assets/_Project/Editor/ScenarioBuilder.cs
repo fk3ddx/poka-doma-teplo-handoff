@@ -150,7 +150,7 @@ namespace Ataka.Editor {
    Prop("cabinetBedDrawer",ScenarioLayout.Dresser,new Vector3(.55f,.8f,.85f),90);Prop("bathroomMirror",new Vector3(6.66f,.85f,3.7f),new Vector3(.05f,1.2f,.6f),90);
    flat.phone=Point("Phone interaction",new Vector3(7.05f,1,3.7f));Prop("radio",new Vector3(7.03f,.8f,3.7f),new Vector3(.25f,.15f,.2f));flat.torchPickup=Haven("signal_flashlight",new Vector3(7.15f,.86f,3.85f),.14f).transform;
    flat.clock=Clock(ScenarioLayout.Clock);Prop("lampWall",new Vector3(5.5f,1.95f,5.85f),new Vector3(.25f,.25f,.22f));
-   Prop("table",new Vector3(7.65f,0,.75f),new Vector3(1,.74f,.65f));Prop("stoolBar",new Vector3(7.15f,0,1.2f),new Vector3(.32f,.45f,.32f));flat.stool=Prop("stoolBar",new Vector3(5.5f,0,5.8f),new Vector3(.32f,.45f,.32f));
+   Prop("table",new Vector3(7.65f,0,.75f),new Vector3(1,.74f,.65f));Prop("stoolBar",new Vector3(7.15f,0,1.2f),new Vector3(.32f,.45f,.32f));flat.stool=BedroomReadyProps.Create(flat.apartment,new Vector3(5.5f,0,5.8f));
    Prop("kitchenStove",new Vector3(8.5f,0,1.7f),new Vector3(.55f,.85f,.6f),90);Prop("kitchenFridge",new Vector3(8.25f,0,2.55f),new Vector3(.6f,1.55f,.6f));Prop("kitchenSink",new Vector3(6.9f,0,1.6f),new Vector3(.6f,.85f,.9f),90);Prop("kitchenCabinetUpper",new Vector3(6.82f,1.5f,1.6f),new Vector3(.35f,.65f,.9f),90);
    Prop("radio",new Vector3(8.73f,1.45f,2),new Vector3(.1f,.28f,.35f),90);Prop("plantSmall1",new Vector3(7.35f,.85f,0),new Vector3(.2f,.35f,.2f));
    Prop("loungeSofa",new Vector3(3.42f,0,1.9f),new Vector3(.8f,.85f,1.9f),90);Prop("rugRectangle",new Vector3(4.65f,.005f,2.3f),new Vector3(2.4f,.02f,2.6f));

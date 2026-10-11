@@ -16,9 +16,14 @@ namespace Ataka.Scenario {
   public float screenBlack,screenRed,screenWhite;Quaternion startHead,chaseStartRotation,chaseTargetRotation;Vector3 startGuest,startHeadPosition;bool fired;float lastTime;Vector3 guestScale;
   void Awake(){guestScale=flat.guest.transform.localScale;}
   public void Cancel(){flat.player.lookDuringScene=false;flat.player.flashlight.transform.localRotation=Quaternion.identity;if(PlayingScene=="DeathShort")sound.BeginDeathRecovery();sound.EndDeathRecovery();PlayingScene=null;FrameTime=0;director.Stop();screenBlack=screenWhite=screenRed=0;flat.look.peephole=flat.look.disruption=0;flat.player.control=true;flat.player.head.localPosition=Vector3.up*(flat.player.crouched?.94f:1.55f);if(leftHand)leftHand.gameObject.SetActive(false);if(rightHand)rightHand.gameObject.SetActive(false);flat.guest.SetActive(false);flat.grandmother.SetActive(false);}
+  void PlaceHangingStool(){
+   var stool=flat.stool;stool.transform.SetPositionAndRotation(new Vector3(1.25f,0,2.55f),Quaternion.Euler(0,20,90));
+   var rs=stool.GetComponentsInChildren<Renderer>();if(rs.Length==0)return;var bounds=rs[0].bounds;foreach(var r in rs)bounds.Encapsulate(r.bounds);
+   stool.transform.position+=Vector3.up*(.004f-bounds.min.y);
+  }
   public void PrepareHanging(){
    flat.grandmother.SetActive(true);flat.grandmother.GetComponent<NinaHangingPose>().Evaluate(0,flat.player.head.position);
-   flat.stool.transform.SetPositionAndRotation(new Vector3(1.25f,.22f,2.55f),Quaternion.Euler(0,20,90));flat.slipper.transform.position=new Vector3(1.7f,.015f,2.6f);
+   PlaceHangingStool();flat.slipper.transform.position=new Vector3(1.7f,.015f,2.6f);
    if(rope){rope.startWidth=rope.endWidth=.018f;rope.enabled=true;rope.SetPosition(0,new Vector3(1.65f,2.5f,2.3f));rope.SetPosition(1,flat.grandmother.GetComponent<NinaHangingPose>().NeckPosition);}
   }
   public IEnumerator Play(string name){
@@ -51,7 +56,7 @@ namespace Ataka.Scenario {
     flat.televisionLight.intensity=0;SoundAt(t,0,"latch",flat.television.position);
    }else if(name=="HangingVision"){
     flat.bedroom.open=true;flat.grandmother.SetActive(t<5);var grandmother=flat.grandmother.transform;var nina=flat.grandmother.GetComponent<NinaHangingPose>();nina.Evaluate(t,head.position);
-    flat.stool.transform.SetPositionAndRotation(new Vector3(1.25f,.22f,2.55f),Quaternion.Euler(0,20,90));flat.slipper.transform.position=new Vector3(1.7f,.015f,2.6f);
+    PlaceHangingStool();flat.slipper.transform.position=new Vector3(1.7f,.015f,2.6f);
     if(rope){rope.enabled=t<5;rope.SetPosition(0,new Vector3(1.65f,2.5f,2.3f));rope.SetPosition(1,nina.NeckPosition);}
     var feet=nina.FeetPosition;var face=nina.FacePosition;
     p.lookDuringScene=t<2;

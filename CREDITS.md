@@ -33,3 +33,5 @@
 ### 2026-10-11 — Katcho выбран Димой и импортирован
 
 Granny Katcho одобрена по авторскому превью («да норм»). Исходные модель/атлас сохранены без переделки лица, одежды, UV и топологии. Перенос: FBX, URP Lit, равномерный масштаб до 1.55 м; исключена дублирующая неподвязанная трость. Сохранены 10 авторских анимаций. Код экспорта: tools/art/export_katcho.py. Отдельный Unity-prefab и Windows-просмотр; в сюжет пока не встроена. Старые MPFB-примерки выше — отвергнутый архив.
+
+- Painted Wooden Stool — Kirill Sannikov / Poly Haven, CC0. https://polyhaven.com/a/painted_wooden_stool . Original FBX topology and UV, normalized to 0.45 m height; author diffuse/normal textures limited to 512 px in Unity.

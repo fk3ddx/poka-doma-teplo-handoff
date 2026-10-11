@@ -1,0 +1,790 @@
+{
+  "Diffuse": {
+    "4k": {
+      "jpg": {
+        "size": 9009820,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/4k/painted_wooden_stool/painted_wooden_stool_diff_4k.jpg",
+        "md5": "fc1884ee3858d1cbed36e88840c6ad8d"
+      },
+      "png": {
+        "size": 59933030,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/4k/painted_wooden_stool/painted_wooden_stool_diff_4k.png",
+        "md5": "7c329360f238fb1d78224639a3d7d15a"
+      },
+      "exr": {
+        "size": 19324947,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/4k/painted_wooden_stool/painted_wooden_stool_diff_4k.exr",
+        "md5": "786bd8f6702078bfd112e00eef8b582e"
+      }
+    },
+    "2k": {
+      "jpg": {
+        "size": 2235393,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/painted_wooden_stool/painted_wooden_stool_diff_2k.jpg",
+        "md5": "7cc0c2ba52b8af76ab09c34b01cac3a3"
+      },
+      "png": {
+        "size": 17240830,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/2k/painted_wooden_stool/painted_wooden_stool_diff_2k.png",
+        "md5": "2e7337a13e99d2e4bf80bd9809227b13"
+      },
+      "exr": {
+        "size": 3921615,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/2k/painted_wooden_stool/painted_wooden_stool_diff_2k.exr",
+        "md5": "e51bd868c5bd9f2d9b1a4709fd53160e"
+      }
+    },
+    "1k": {
+      "jpg": {
+        "size": 607519,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/painted_wooden_stool/painted_wooden_stool_diff_1k.jpg",
+        "md5": "3118c86c770a6907d0347276deebd96c"
+      },
+      "png": {
+        "size": 4582620,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/1k/painted_wooden_stool/painted_wooden_stool_diff_1k.png",
+        "md5": "8f6c54b6908af19604c6bec6d5faa136"
+      },
+      "exr": {
+        "size": 1029990,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/1k/painted_wooden_stool/painted_wooden_stool_diff_1k.exr",
+        "md5": "bc2e5190d4e1b29e5d370267d7065e1f"
+      }
+    }
+  },
+  "emissive": {
+    "4k": {
+      "jpg": {
+        "size": 262903,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/4k/painted_wooden_stool/painted_wooden_stool_emissive_4k.jpg",
+        "md5": "9163f425d45fe255aafe9d41ad7c6a0b"
+      },
+      "png": {
+        "size": 98066,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/4k/painted_wooden_stool/painted_wooden_stool_emissive_4k.png",
+        "md5": "2a99b4f848254fbe9ca2edce54b775b9"
+      },
+      "exr": {
+        "size": 26678,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/4k/painted_wooden_stool/painted_wooden_stool_emissive_4k.exr",
+        "md5": "000f63d90a9e4aab32a34daf41b6b35e"
+      }
+    },
+    "2k": {
+      "jpg": {
+        "size": 66295,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/painted_wooden_stool/painted_wooden_stool_emissive_2k.jpg",
+        "md5": "26ef10c2b17252a52e30a8751b14cc76"
+      },
+      "png": {
+        "size": 24766,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/2k/painted_wooden_stool/painted_wooden_stool_emissive_2k.png",
+        "md5": "7494ef596a8a544716baa8df4794cbb1"
+      },
+      "exr": {
+        "size": 12214,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/2k/painted_wooden_stool/painted_wooden_stool_emissive_2k.exr",
+        "md5": "d4bb01170e53bdc4b3a4e9bc4d878734"
+      }
+    },
+    "1k": {
+      "jpg": {
+        "size": 17143,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/painted_wooden_stool/painted_wooden_stool_emissive_1k.jpg",
+        "md5": "c4a996b24007cb4d54b004477d2d1cac"
+      },
+      "png": {
+        "size": 6403,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/1k/painted_wooden_stool/painted_wooden_stool_emissive_1k.png",
+        "md5": "165895f9ecb27e47e3bd386a166fa6fa"
+      },
+      "exr": {
+        "size": 5974,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/1k/painted_wooden_stool/painted_wooden_stool_emissive_1k.exr",
+        "md5": "ac279c3c9dd728a8c64875a06f7bd958"
+      }
+    }
+  },
+  "nor_dx": {
+    "4k": {
+      "jpg": {
+        "size": 5073626,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/4k/painted_wooden_stool/painted_wooden_stool_nor_dx_4k.jpg",
+        "md5": "eb5cdaca2b30d91fa786ec507c91804c"
+      },
+      "png": {
+        "size": 33191119,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/4k/painted_wooden_stool/painted_wooden_stool_nor_dx_4k.png",
+        "md5": "81f58664f6327a5d823e065511fdd088"
+      },
+      "exr": {
+        "size": 10033293,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/4k/painted_wooden_stool/painted_wooden_stool_nor_dx_4k.exr",
+        "md5": "1dbc5b36c7295e36dd73dab32d92103a"
+      }
+    },
+    "2k": {
+      "jpg": {
+        "size": 1558880,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/painted_wooden_stool/painted_wooden_stool_nor_dx_2k.jpg",
+        "md5": "630acfe94027a15b0ebbc3459abbbe46"
+      },
+      "png": {
+        "size": 11900816,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/2k/painted_wooden_stool/painted_wooden_stool_nor_dx_2k.png",
+        "md5": "f3fb9e3aeba212c50006ea04514be873"
+      },
+      "exr": {
+        "size": 2961867,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/2k/painted_wooden_stool/painted_wooden_stool_nor_dx_2k.exr",
+        "md5": "c419c8990a97a9adc6a7a78005fdea59"
+      }
+    },
+    "1k": {
+      "jpg": {
+        "size": 488053,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/painted_wooden_stool/painted_wooden_stool_nor_dx_1k.jpg",
+        "md5": "6d06e6d5fc96c6398438a6e23204b5c4"
+      },
+      "png": {
+        "size": 3574413,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/1k/painted_wooden_stool/painted_wooden_stool_nor_dx_1k.png",
+        "md5": "1b0db34eaebc0ca4e6045f96ab8213a9"
+      },
+      "exr": {
+        "size": 971493,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/1k/painted_wooden_stool/painted_wooden_stool_nor_dx_1k.exr",
+        "md5": "dd08355ddf2722ec227991bd6966e849"
+      }
+    }
+  },
+  "blend": {
+    "4k": {
+      "blend": {
+        "include": {
+          "textures/painted_wooden_stool_nor_gl_4k.exr": {
+            "size": 10044462,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/4k/painted_wooden_stool/painted_wooden_stool_nor_gl_4k.exr",
+            "md5": "caae85848b88f7d69aa1f7612283f3b7"
+          },
+          "textures/painted_wooden_stool_diff_4k.jpg": {
+            "size": 9009820,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/4k/painted_wooden_stool/painted_wooden_stool_diff_4k.jpg",
+            "md5": "fc1884ee3858d1cbed36e88840c6ad8d"
+          },
+          "textures/painted_wooden_stool_rough_4k.exr": {
+            "size": 10281020,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/4k/painted_wooden_stool/painted_wooden_stool_rough_4k.exr",
+            "md5": "0372be589f53d64b888aa287ef2addc7"
+          }
+        },
+        "size": 134355,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/blend/4k/painted_wooden_stool/painted_wooden_stool_4k.blend",
+        "md5": "08a7d772b8b45c20f57f926f5fc5f081"
+      }
+    },
+    "2k": {
+      "blend": {
+        "include": {
+          "textures/painted_wooden_stool_nor_gl_2k.exr": {
+            "size": 2964947,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/2k/painted_wooden_stool/painted_wooden_stool_nor_gl_2k.exr",
+            "md5": "b98c1bbb65051f1a648b51e92ed415e8"
+          },
+          "textures/painted_wooden_stool_rough_2k.exr": {
+            "size": 2582391,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/2k/painted_wooden_stool/painted_wooden_stool_rough_2k.exr",
+            "md5": "1debe1d7d55f2dd19596e19efbc6b5ac"
+          },
+          "textures/painted_wooden_stool_diff_2k.jpg": {
+            "size": 2235393,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/painted_wooden_stool/painted_wooden_stool_diff_2k.jpg",
+            "md5": "7cc0c2ba52b8af76ab09c34b01cac3a3"
+          }
+        },
+        "size": 134321,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/blend/2k/painted_wooden_stool/painted_wooden_stool_2k.blend",
+        "md5": "f75ab169c63d73c01f85a27f8eb8fc67"
+      }
+    },
+    "1k": {
+      "blend": {
+        "include": {
+          "textures/painted_wooden_stool_nor_gl_1k.exr": {
+            "size": 972827,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/1k/painted_wooden_stool/painted_wooden_stool_nor_gl_1k.exr",
+            "md5": "9421f44cef3f4e24237505a8f2e4a37a"
+          },
+          "textures/painted_wooden_stool_diff_1k.jpg": {
+            "size": 607519,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/painted_wooden_stool/painted_wooden_stool_diff_1k.jpg",
+            "md5": "3118c86c770a6907d0347276deebd96c"
+          },
+          "textures/painted_wooden_stool_rough_1k.exr": {
+            "size": 679241,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/1k/painted_wooden_stool/painted_wooden_stool_rough_1k.exr",
+            "md5": "cffe19757ada7045d9c4b50d0ee74acc"
+          }
+        },
+        "size": 134304,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/blend/1k/painted_wooden_stool/painted_wooden_stool_1k.blend",
+        "md5": "d74c438f36bedf0aa1ded1769638ded2"
+      }
+    }
+  },
+  "gltf": {
+    "4k": {
+      "gltf": {
+        "include": {
+          "textures/painted_wooden_stool_nor_gl_4k.jpg": {
+            "size": 4970041,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/4k/painted_wooden_stool/painted_wooden_stool_nor_gl_4k.jpg",
+            "md5": "4d035eb4964de2c6c9dfe6b89381537a"
+          },
+          "textures/painted_wooden_stool_diff_4k.jpg": {
+            "size": 9009820,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/4k/painted_wooden_stool/painted_wooden_stool_diff_4k.jpg",
+            "md5": "fc1884ee3858d1cbed36e88840c6ad8d"
+          },
+          "textures/painted_wooden_stool_arm_4k.jpg": {
+            "size": 11828826,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/4k/painted_wooden_stool/painted_wooden_stool_arm_4k.jpg",
+            "md5": "03913a6477206f20214bd12f6cb80eaa"
+          },
+          "painted_wooden_stool.bin": {
+            "size": 23384,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/4k/painted_wooden_stool/painted_wooden_stool.bin",
+            "md5": "cf312e0df28055cbbf174584a01943c5"
+          }
+        },
+        "size": 2848,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/4k/painted_wooden_stool/painted_wooden_stool_4k.gltf",
+        "md5": "6831ed32eed0a76918419137d3c302da"
+      }
+    },
+    "2k": {
+      "gltf": {
+        "include": {
+          "textures/painted_wooden_stool_arm_2k.jpg": {
+            "size": 2889731,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/painted_wooden_stool/painted_wooden_stool_arm_2k.jpg",
+            "md5": "3f98074458913cfdef7243982473a85a"
+          },
+          "textures/painted_wooden_stool_nor_gl_2k.jpg": {
+            "size": 1553172,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/painted_wooden_stool/painted_wooden_stool_nor_gl_2k.jpg",
+            "md5": "cf3670f5b7aa66aaf16c23c4f7f6650d"
+          },
+          "textures/painted_wooden_stool_diff_2k.jpg": {
+            "size": 2235393,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/painted_wooden_stool/painted_wooden_stool_diff_2k.jpg",
+            "md5": "7cc0c2ba52b8af76ab09c34b01cac3a3"
+          },
+          "painted_wooden_stool.bin": {
+            "size": 23384,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/4k/painted_wooden_stool/painted_wooden_stool.bin",
+            "md5": "cf312e0df28055cbbf174584a01943c5"
+          }
+        },
+        "size": 2848,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/2k/painted_wooden_stool/painted_wooden_stool_2k.gltf",
+        "md5": "e1a4758462bc9a42678ab2104837112b"
+      }
+    },
+    "1k": {
+      "gltf": {
+        "include": {
+          "textures/painted_wooden_stool_nor_gl_1k.jpg": {
+            "size": 489911,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/painted_wooden_stool/painted_wooden_stool_nor_gl_1k.jpg",
+            "md5": "4518ff0d1d7dbf0c5cc2d06777e92a97"
+          },
+          "textures/painted_wooden_stool_arm_1k.jpg": {
+            "size": 751171,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/painted_wooden_stool/painted_wooden_stool_arm_1k.jpg",
+            "md5": "9ffee9bb29a95f4ef24efb415b14f0b6"
+          },
+          "textures/painted_wooden_stool_diff_1k.jpg": {
+            "size": 607519,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/painted_wooden_stool/painted_wooden_stool_diff_1k.jpg",
+            "md5": "3118c86c770a6907d0347276deebd96c"
+          },
+          "painted_wooden_stool.bin": {
+            "size": 23384,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/4k/painted_wooden_stool/painted_wooden_stool.bin",
+            "md5": "cf312e0df28055cbbf174584a01943c5"
+          }
+        },
+        "size": 2848,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/1k/painted_wooden_stool/painted_wooden_stool_1k.gltf",
+        "md5": "d234ba7a3ce1cc2a68847cea4e405b34"
+      }
+    }
+  },
+  "usd": {
+    "4k": {
+      "usd": {
+        "include": {
+          "textures/painted_wooden_stool_nor_gl_4k.exr": {
+            "size": 10044462,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/4k/painted_wooden_stool/painted_wooden_stool_nor_gl_4k.exr",
+            "md5": "caae85848b88f7d69aa1f7612283f3b7"
+          },
+          "textures/painted_wooden_stool_diff_4k.jpg": {
+            "size": 9009820,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/4k/painted_wooden_stool/painted_wooden_stool_diff_4k.jpg",
+            "md5": "fc1884ee3858d1cbed36e88840c6ad8d"
+          },
+          "textures/painted_wooden_stool_rough_4k.exr": {
+            "size": 10281020,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/4k/painted_wooden_stool/painted_wooden_stool_rough_4k.exr",
+            "md5": "0372be589f53d64b888aa287ef2addc7"
+          }
+        },
+        "size": 40264,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/usd/4k/painted_wooden_stool/painted_wooden_stool_4k.usdc",
+        "md5": "c192530640422ec2d2bcd15b8c38b3f0"
+      }
+    },
+    "2k": {
+      "usd": {
+        "include": {
+          "textures/painted_wooden_stool_nor_gl_2k.exr": {
+            "size": 2964947,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/2k/painted_wooden_stool/painted_wooden_stool_nor_gl_2k.exr",
+            "md5": "b98c1bbb65051f1a648b51e92ed415e8"
+          },
+          "textures/painted_wooden_stool_rough_2k.exr": {
+            "size": 2582391,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/2k/painted_wooden_stool/painted_wooden_stool_rough_2k.exr",
+            "md5": "1debe1d7d55f2dd19596e19efbc6b5ac"
+          },
+          "textures/painted_wooden_stool_diff_2k.jpg": {
+            "size": 2235393,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/painted_wooden_stool/painted_wooden_stool_diff_2k.jpg",
+            "md5": "7cc0c2ba52b8af76ab09c34b01cac3a3"
+          }
+        },
+        "size": 40242,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/usd/2k/painted_wooden_stool/painted_wooden_stool_2k.usdc",
+        "md5": "4b7a78e88bea248cb61906b486423a19"
+      }
+    },
+    "1k": {
+      "usd": {
+        "include": {
+          "textures/painted_wooden_stool_nor_gl_1k.exr": {
+            "size": 972827,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/1k/painted_wooden_stool/painted_wooden_stool_nor_gl_1k.exr",
+            "md5": "9421f44cef3f4e24237505a8f2e4a37a"
+          },
+          "textures/painted_wooden_stool_diff_1k.jpg": {
+            "size": 607519,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/painted_wooden_stool/painted_wooden_stool_diff_1k.jpg",
+            "md5": "3118c86c770a6907d0347276deebd96c"
+          },
+          "textures/painted_wooden_stool_rough_1k.exr": {
+            "size": 679241,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/1k/painted_wooden_stool/painted_wooden_stool_rough_1k.exr",
+            "md5": "cffe19757ada7045d9c4b50d0ee74acc"
+          }
+        },
+        "size": 40242,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/usd/1k/painted_wooden_stool/painted_wooden_stool_1k.usdc",
+        "md5": "40a3228cacf6a6720c366cc95aca699e"
+      }
+    }
+  },
+  "Metal": {
+    "4k": {
+      "jpg": {
+        "size": 197072,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/4k/painted_wooden_stool/painted_wooden_stool_metal_4k.jpg",
+        "md5": "73e9c27faeff9c7ec866d1e1fc2bd288"
+      },
+      "png": {
+        "size": 32742,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/4k/painted_wooden_stool/painted_wooden_stool_metal_4k.png",
+        "md5": "b0f303826984180760dd56907d0440e9"
+      },
+      "exr": {
+        "size": 22034,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/4k/painted_wooden_stool/painted_wooden_stool_metal_4k.exr",
+        "md5": "06c6df701980ea8b2b71354383d3cc9e"
+      }
+    },
+    "2k": {
+      "jpg": {
+        "size": 49616,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/painted_wooden_stool/painted_wooden_stool_metal_2k.jpg",
+        "md5": "ccb41a7dca781ab0bc7150f2781c8806"
+      },
+      "png": {
+        "size": 8435,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/2k/painted_wooden_stool/painted_wooden_stool_metal_2k.png",
+        "md5": "868380ed5b0ca0a3abb40170d90de5f4"
+      },
+      "exr": {
+        "size": 10642,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/2k/painted_wooden_stool/painted_wooden_stool_metal_2k.exr",
+        "md5": "61a979753840bdf50334655cfed786d3"
+      }
+    },
+    "1k": {
+      "jpg": {
+        "size": 12752,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/painted_wooden_stool/painted_wooden_stool_metal_1k.jpg",
+        "md5": "cddf12431865d7b7b9bd366acf36b575"
+      },
+      "png": {
+        "size": 2326,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/1k/painted_wooden_stool/painted_wooden_stool_metal_1k.png",
+        "md5": "d52941fc0f9796596d828b89f304155b"
+      },
+      "exr": {
+        "size": 5266,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/1k/painted_wooden_stool/painted_wooden_stool_metal_1k.exr",
+        "md5": "5bde461efb9b304ef1cba4128b3ac9c2"
+      }
+    }
+  },
+  "AO": {
+    "4k": {
+      "jpg": {
+        "size": 3298450,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/4k/painted_wooden_stool/painted_wooden_stool_ao_4k.jpg",
+        "md5": "fe9617b57c9acad2a7780d79dbeb8f69"
+      },
+      "png": {
+        "size": 18132408,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/4k/painted_wooden_stool/painted_wooden_stool_ao_4k.png",
+        "md5": "1528a0e0f6f53ec1127d302924fd5fd4"
+      },
+      "exr": {
+        "size": 2928391,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/4k/painted_wooden_stool/painted_wooden_stool_ao_4k.exr",
+        "md5": "42dc7453977775b12929b6a1674d387b"
+      }
+    },
+    "2k": {
+      "jpg": {
+        "size": 732956,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/painted_wooden_stool/painted_wooden_stool_ao_2k.jpg",
+        "md5": "998fa6d2c6404634b1cbeded4d7846d3"
+      },
+      "png": {
+        "size": 4894227,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/2k/painted_wooden_stool/painted_wooden_stool_ao_2k.png",
+        "md5": "b6763051855d0ac5050400254cf4c5f4"
+      },
+      "exr": {
+        "size": 652423,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/2k/painted_wooden_stool/painted_wooden_stool_ao_2k.exr",
+        "md5": "8bda5a31a2fe264928ec3e44e40a2af2"
+      }
+    },
+    "1k": {
+      "jpg": {
+        "size": 194507,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/painted_wooden_stool/painted_wooden_stool_ao_1k.jpg",
+        "md5": "40ab9262e582b3359a21361b1a557114"
+      },
+      "png": {
+        "size": 1230494,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/1k/painted_wooden_stool/painted_wooden_stool_ao_1k.png",
+        "md5": "c0b97c167d780b56614851a26cc588a3"
+      },
+      "exr": {
+        "size": 217614,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/1k/painted_wooden_stool/painted_wooden_stool_ao_1k.exr",
+        "md5": "0aafd1ce6e253f7d51aa8c23d9a72787"
+      }
+    }
+  },
+  "Rough": {
+    "4k": {
+      "jpg": {
+        "size": 10303306,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/4k/painted_wooden_stool/painted_wooden_stool_rough_4k.jpg",
+        "md5": "c1fbeb1ba2688b503d16df8bb15e7e64"
+      },
+      "png": {
+        "size": 14981744,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/4k/painted_wooden_stool/painted_wooden_stool_rough_4k.png",
+        "md5": "2b6be4cf623a7a5a7c64e526000197aa"
+      },
+      "exr": {
+        "size": 10281020,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/4k/painted_wooden_stool/painted_wooden_stool_rough_4k.exr",
+        "md5": "0372be589f53d64b888aa287ef2addc7"
+      }
+    },
+    "2k": {
+      "jpg": {
+        "size": 2471250,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/painted_wooden_stool/painted_wooden_stool_rough_2k.jpg",
+        "md5": "8df8ee59af154b2fc41d68dfa2fec6e6"
+      },
+      "png": {
+        "size": 5567359,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/2k/painted_wooden_stool/painted_wooden_stool_rough_2k.png",
+        "md5": "6be926d3aacab7b70c09869f4005f3b1"
+      },
+      "exr": {
+        "size": 2582391,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/2k/painted_wooden_stool/painted_wooden_stool_rough_2k.exr",
+        "md5": "1debe1d7d55f2dd19596e19efbc6b5ac"
+      }
+    },
+    "1k": {
+      "jpg": {
+        "size": 624506,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/painted_wooden_stool/painted_wooden_stool_rough_1k.jpg",
+        "md5": "037919af0d7eb1edb55d74cbb84a8d2d"
+      },
+      "png": {
+        "size": 1629427,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/1k/painted_wooden_stool/painted_wooden_stool_rough_1k.png",
+        "md5": "0af23812d8e0d409bc76f4e0b7cfb4b5"
+      },
+      "exr": {
+        "size": 679241,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/1k/painted_wooden_stool/painted_wooden_stool_rough_1k.exr",
+        "md5": "cffe19757ada7045d9c4b50d0ee74acc"
+      }
+    }
+  },
+  "nor_gl": {
+    "4k": {
+      "jpg": {
+        "size": 4970041,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/4k/painted_wooden_stool/painted_wooden_stool_nor_gl_4k.jpg",
+        "md5": "4d035eb4964de2c6c9dfe6b89381537a"
+      },
+      "png": {
+        "size": 33191088,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/4k/painted_wooden_stool/painted_wooden_stool_nor_gl_4k.png",
+        "md5": "17b1216e8b12ea106e943a8b6dae388e"
+      },
+      "exr": {
+        "size": 10044462,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/4k/painted_wooden_stool/painted_wooden_stool_nor_gl_4k.exr",
+        "md5": "caae85848b88f7d69aa1f7612283f3b7"
+      }
+    },
+    "2k": {
+      "jpg": {
+        "size": 1553172,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/painted_wooden_stool/painted_wooden_stool_nor_gl_2k.jpg",
+        "md5": "cf3670f5b7aa66aaf16c23c4f7f6650d"
+      },
+      "png": {
+        "size": 11874844,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/2k/painted_wooden_stool/painted_wooden_stool_nor_gl_2k.png",
+        "md5": "1a3fe33d9d4453688b3247fe82c4c0f6"
+      },
+      "exr": {
+        "size": 2964947,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/2k/painted_wooden_stool/painted_wooden_stool_nor_gl_2k.exr",
+        "md5": "b98c1bbb65051f1a648b51e92ed415e8"
+      }
+    },
+    "1k": {
+      "jpg": {
+        "size": 489911,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/painted_wooden_stool/painted_wooden_stool_nor_gl_1k.jpg",
+        "md5": "4518ff0d1d7dbf0c5cc2d06777e92a97"
+      },
+      "png": {
+        "size": 3569097,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/1k/painted_wooden_stool/painted_wooden_stool_nor_gl_1k.png",
+        "md5": "a3a4fa70ee5354721082e64f30746fc8"
+      },
+      "exr": {
+        "size": 972827,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/1k/painted_wooden_stool/painted_wooden_stool_nor_gl_1k.exr",
+        "md5": "9421f44cef3f4e24237505a8f2e4a37a"
+      }
+    }
+  },
+  "Alpha": {
+    "4k": {
+      "jpg": {
+        "size": 197070,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/4k/painted_wooden_stool/painted_wooden_stool_alpha_4k.jpg",
+        "md5": "8009c2dfe4513c6f2064eee9d6e28c30"
+      },
+      "png": {
+        "size": 42335,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/4k/painted_wooden_stool/painted_wooden_stool_alpha_4k.png",
+        "md5": "21d8c25fb99c9b319c182278769d866a"
+      },
+      "exr": {
+        "size": 22802,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/4k/painted_wooden_stool/painted_wooden_stool_alpha_4k.exr",
+        "md5": "05c3bf1066007f9cfcb3a9f599a8eb1c"
+      }
+    },
+    "2k": {
+      "jpg": {
+        "size": 49614,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/painted_wooden_stool/painted_wooden_stool_alpha_2k.jpg",
+        "md5": "203d046e87add52c8c9389da9ff66e3b"
+      },
+      "png": {
+        "size": 13009,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/2k/painted_wooden_stool/painted_wooden_stool_alpha_2k.png",
+        "md5": "546fc5c730ae86c5086bf0e87c7677a9"
+      },
+      "exr": {
+        "size": 10898,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/2k/painted_wooden_stool/painted_wooden_stool_alpha_2k.exr",
+        "md5": "583fe89c2e6dfd0a679f23bb0f928ba8"
+      }
+    },
+    "1k": {
+      "jpg": {
+        "size": 12750,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/painted_wooden_stool/painted_wooden_stool_alpha_1k.jpg",
+        "md5": "b39f27b03fc6a526e625a823e3613257"
+      },
+      "png": {
+        "size": 4522,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/1k/painted_wooden_stool/painted_wooden_stool_alpha_1k.png",
+        "md5": "06949995e2553dbdf06eae14100d61c7"
+      },
+      "exr": {
+        "size": 5394,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/1k/painted_wooden_stool/painted_wooden_stool_alpha_1k.exr",
+        "md5": "d5872513d501e58a8328ded7cb276ea7"
+      }
+    }
+  },
+  "arm": {
+    "4k": {
+      "jpg": {
+        "size": 11828826,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/4k/painted_wooden_stool/painted_wooden_stool_arm_4k.jpg",
+        "md5": "03913a6477206f20214bd12f6cb80eaa"
+      },
+      "png": {
+        "size": 42637371,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/4k/painted_wooden_stool/painted_wooden_stool_arm_4k.png",
+        "md5": "b89165874e93b42803c13d9472c43f91"
+      },
+      "exr": {
+        "size": 24704512,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/4k/painted_wooden_stool/painted_wooden_stool_arm_4k.exr",
+        "md5": "9089b2c5b30054198967d8e7d5248099"
+      }
+    },
+    "2k": {
+      "jpg": {
+        "size": 2889731,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/painted_wooden_stool/painted_wooden_stool_arm_2k.jpg",
+        "md5": "3f98074458913cfdef7243982473a85a"
+      },
+      "png": {
+        "size": 12249095,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/2k/painted_wooden_stool/painted_wooden_stool_arm_2k.png",
+        "md5": "48e7de4bedcc6ca78fb9595eb57b0314"
+      },
+      "exr": {
+        "size": 6146606,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/2k/painted_wooden_stool/painted_wooden_stool_arm_2k.exr",
+        "md5": "cc2430a58bfe3764d1ccd94faa1cf2d8"
+      }
+    },
+    "1k": {
+      "jpg": {
+        "size": 751171,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/painted_wooden_stool/painted_wooden_stool_arm_1k.jpg",
+        "md5": "9ffee9bb29a95f4ef24efb415b14f0b6"
+      },
+      "png": {
+        "size": 3341581,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/1k/painted_wooden_stool/painted_wooden_stool_arm_1k.png",
+        "md5": "94ec83ade31dc368978dd78a37cd4652"
+      },
+      "exr": {
+        "size": 1610140,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/1k/painted_wooden_stool/painted_wooden_stool_arm_1k.exr",
+        "md5": "629b8e00215b0f8dc83f00e143abdc32"
+      }
+    }
+  },
+  "fbx": {
+    "4k": {
+      "fbx": {
+        "include": {
+          "textures/painted_wooden_stool_nor_gl_4k.exr": {
+            "size": 10044462,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/4k/painted_wooden_stool/painted_wooden_stool_nor_gl_4k.exr",
+            "md5": "caae85848b88f7d69aa1f7612283f3b7"
+          },
+          "textures/painted_wooden_stool_diff_4k.jpg": {
+            "size": 9009820,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/4k/painted_wooden_stool/painted_wooden_stool_diff_4k.jpg",
+            "md5": "fc1884ee3858d1cbed36e88840c6ad8d"
+          },
+          "textures/painted_wooden_stool_rough_4k.exr": {
+            "size": 10281020,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/4k/painted_wooden_stool/painted_wooden_stool_rough_4k.exr",
+            "md5": "0372be589f53d64b888aa287ef2addc7"
+          }
+        },
+        "size": 42508,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/fbx/4k/painted_wooden_stool/painted_wooden_stool_4k.fbx",
+        "md5": "7c15d254e339c1116564c9aa0e43a4fa"
+      }
+    },
+    "2k": {
+      "fbx": {
+        "include": {
+          "textures/painted_wooden_stool_nor_gl_2k.exr": {
+            "size": 2964947,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/2k/painted_wooden_stool/painted_wooden_stool_nor_gl_2k.exr",
+            "md5": "b98c1bbb65051f1a648b51e92ed415e8"
+          },
+          "textures/painted_wooden_stool_rough_2k.exr": {
+            "size": 2582391,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/2k/painted_wooden_stool/painted_wooden_stool_rough_2k.exr",
+            "md5": "1debe1d7d55f2dd19596e19efbc6b5ac"
+          },
+          "textures/painted_wooden_stool_diff_2k.jpg": {
+            "size": 2235393,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/painted_wooden_stool/painted_wooden_stool_diff_2k.jpg",
+            "md5": "7cc0c2ba52b8af76ab09c34b01cac3a3"
+          }
+        },
+        "size": 42508,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/fbx/2k/painted_wooden_stool/painted_wooden_stool_2k.fbx",
+        "md5": "3e061d1851733eacdbd7a011294ec573"
+      }
+    },
+    "1k": {
+      "fbx": {
+        "include": {
+          "textures/painted_wooden_stool_nor_gl_1k.exr": {
+            "size": 972827,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/1k/painted_wooden_stool/painted_wooden_stool_nor_gl_1k.exr",
+            "md5": "9421f44cef3f4e24237505a8f2e4a37a"
+          },
+          "textures/painted_wooden_stool_diff_1k.jpg": {
+            "size": 607519,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/painted_wooden_stool/painted_wooden_stool_diff_1k.jpg",
+            "md5": "3118c86c770a6907d0347276deebd96c"
+          },
+          "textures/painted_wooden_stool_rough_1k.exr": {
+            "size": 679241,
+            "url": "https://dl.polyhaven.org/file/ph-assets/Models/exr/1k/painted_wooden_stool/painted_wooden_stool_rough_1k.exr",
+            "md5": "cffe19757ada7045d9c4b50d0ee74acc"
+          }
+        },
+        "size": 42508,
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/fbx/1k/painted_wooden_stool/painted_wooden_stool_1k.fbx",
+        "md5": "96de63882c7ad4e5a9f3b3c0c9a67cee"
+      }
+    }
+  }
+}
