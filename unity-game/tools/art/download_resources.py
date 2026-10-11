@@ -2,6 +2,7 @@ import hashlib, json, pathlib, urllib.request
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 DEST = ROOT / 'Assets/_Project/Art/CC0'
 SELECTION = {
+ 'waffle_pique_cotton': ('Diffuse','nor_gl','Rough'),
  'asphalt_02': ('Diffuse','nor_gl','Rough'),
  'asphalt_snow': ('Diffuse','nor_gl','Rough'),
  'clay_plaster': ('Diffuse','nor_gl','Rough'),

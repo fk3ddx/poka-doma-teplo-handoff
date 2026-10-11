@@ -37,7 +37,7 @@ def curve(name,points,r,m):
  c=bpy.data.curves.new(name,'CURVE');c.dimensions='3D';c.resolution_u=10;c.bevel_depth=r;c.bevel_resolution=2
  s=c.splines.new('BEZIER');s.bezier_points.add(len(points)-1)
  for q,p in zip(s.bezier_points,points):q.co=xyz(p);q.handle_left_type='AUTO';q.handle_right_type='AUTO'
- o=bpy.data.objects.new(name,c);bpy.context.collection.objects.link(o);bpy.context.view_layer.objects.active=o;o.select_set(True)
+ o=bpy.data.objects.new(name,c);bpy.context.collection.objects.link(o);bpy.ops.object.select_all(action='DESELECT');bpy.context.view_layer.objects.active=o;o.select_set(True)
  bpy.ops.object.convert(target='MESH');o=bpy.context.object;o.select_set(False);return register(o,name,m)
 def quad(name,verts,m,uv=None):
  mesh=bpy.data.meshes.new(name);mesh.from_pydata([xyz(v) for v in verts],[],[(0,1,2,3) if m in ('Carpet','FamilyPhoto','Mirror') else (3,2,1,0)]);mesh.update()
@@ -159,7 +159,7 @@ def floorlamp():
  for i in range(N):j=(i+1)%N;faces.append((i,j,j+N,i+N))
  mesh=bpy.data.meshes.new('Pleated shade');mesh.from_pydata(verts,[],faces);mesh.update();o=bpy.data.objects.new('Pleated shade',mesh);bpy.context.collection.objects.link(o);register(o,'Pleated shade','Shade')
  mod=o.modifiers.new('Shade thickness','SOLIDIFY');mod.thickness=.002
- for y,r in [(1.27,.28),(1.63,.16)]:curve('Shade binding',[(r*math.cos(i*math.pi/8),y,r*math.sin(i*math.pi/8)) for i in range(17)],.006,'Brass')
+ for y,r in [(1.27,.28),(1.63,.16)]:curve('Shade binding',[(r*math.cos(i*math.pi/8),y,r*math.sin(i*math.pi/8)) for i in range(17)],.006,'ShadeBinding')
  ellipsoid('Bulb',(0,1.4,0),(.037,.057,.037),'Bulb')
 
 def radiator(x,z,width=1):
@@ -214,13 +214,11 @@ unit('Pendulum clock',clock,(5.03,0,4.385),180)
 quad('Wall carpet',[(2.912,.99,.48),(2.912,.99,2.94),(2.912,2.25,2.94),(2.912,2.25,.48)],'Carpet')
 quad('Floor carpet',[(3.9,.012,.55),(5.75,.012,.55),(5.75,.012,3.5),(3.9,.012,3.5)],'Carpet')
 curtain(3.25,.38,.09);curtain(4.47,.38,.09)
+curtain(3.85,1.10,-.035,2.35,.79,'Tulle')
 rod('Curtain rail',(3.02,2.42,.07),(4.74,2.42,.07),.017,'Wood')
 radiator(3.85,.02,1.12);plant((3.38,.885,-.07))
 # Glass vase and dried twigs.
 rod('Vase body',(4.12,.76,1.87),(4.12,.94,1.87),.047,'Crystal',.032,24)
-for i in range(7):
- a=i*2.1;dx=.11*math.cos(a);dz=.11*math.sin(a)
- curve('Dried flower',[(4.12,.83,1.87),(4.12+dx,.99+i*.015,1.87+dz),(4.12+dx*1.5,1.07+i*.014,1.87+dz*1.5)],.002,'DriedStem')
 # Small framed pictures as physical frames; image inserts added in Unity.
 for x,y,z in [(6.07,1.38,1.57),(6.07,1.37,2.21)]:
  box('Photo frame',(x,y,z),(.024,.24,.18),'Brass',.004)
@@ -270,7 +268,7 @@ for stoolX,z in [(7.72,1.12),(8.48,2.59)]:
  box('Stool seat',(stoolX,.45,z),(.34,.038,.34),'WoodLight',.04)
  for dx in [-.13,.13]:
   for dz in [-.13,.13]:rod('Stool leg',(stoolX+dx,.02,z+dz),(stoolX+dx,.43,z+dz),.022,'Wood')
-curtain(7.7,1.14,-.07,1.67,1.0,'Lace')
+curtain(7.7,1.14,-.07,1.67,1.0,'Tulle')
 radiator(7.65,.025,.9)
 # BEDROOM
 current='Bedroom'
@@ -286,12 +284,13 @@ for y,s in [(.62,(.64,.18,.51)),(.76,(.59,.17,.45)),(.90,(.52,.16,.4))]:pillow((
 box('Bedside table',(2.12,.31,.89),(.44,.62,.45),'Wood',.015)
 for y in [.2,.43]:
  box('Drawer',(2.12,y,1.128),(.39,.18,.025),'WoodLight');ellipsoid('Drawer knob',(2.12,y,1.155),(.021,.021,.02),'Brass')
-unit('Bedside mug',lambda:mug((0,0,0)),(2.13,.64,.89))
+# Bedside objects are authored in add_domestic_detail.py.
 box('Wardrobe',(1.22,1.0,4.13),(1.67,2.0,.45),'Wood',.016)
 for x in [.82,1.61]:
  box('Wardrobe panel',(x,1,3.89),(.75,1.86,.025),'WoodLight',.006)
  rod('Wardrobe pull',(x,1,3.86),(x,1.13,3.86),.009,'Brass')
 curtain(.52,.38,.05);curtain(2.06,.38,.05);radiator(1.28,.02,1.1)
+curtain(1.28,1.12,-.035,2.35,.79,'Tulle')
 # HALL
 current='Hall'
 box('Telephone dresser',(6.91,.43,5.52),(.53,.86,.75),'Wood',.02)
@@ -351,7 +350,7 @@ for x in [6.612,8.785]:
  for j in range(4):
   for k in range(10):box('Glazed kitchen tile',(x,.94+j*.15,.60+k*.15),(.01,.146,.146),'Tile',.002)
 # Cups, jars, breadboard and towel create domestic clusters instead of evenly scattered clutter.
-for z,h in [(1.38,.18),(1.59,.13),(1.77,.17)]:
+for z,h in [(1.20,.18),(1.33,.13),(1.46,.17)]:
  rod('Preserve jar',(6.8,.89,z),(6.8,.89+h,z),.055,'Crystal',vertices=24)
  rod('Jar metal lid',(6.8,.89+h,z),(6.8,.905+h,z),.057,'Brass',vertices=24)
 box('Breadboard',(7.87,.761,.37),(.23,.013,.25),'WoodLight',.025)
@@ -400,6 +399,10 @@ box('Bath mirror backing',(4.10,1.47,5.97),(.47,.58,.028),'Enamel',.025)
 quad('Bath mirror',[(3.89,1.21,5.951),(4.31,1.21,5.951),(4.31,1.73,5.951),(3.89,1.73,5.951)],'Mirror')
 curve('Sink drain',[(4.1,.72,5.79),(4.1,.46,5.79),(4.1,.4,5.90),(4.1,.05,5.93)],.027,'Enamel')
 
+exec(compile((ROOT/'tools/art/add_domestic_detail.py').read_text(encoding='utf-8-sig'), 'add_domestic_detail.py', 'exec'), globals())
+
+exec(compile((ROOT/'tools/art/add_kitchen_and_yard_detail.py').read_text(encoding='utf-8-sig'), 'add_kitchen_and_yard_detail.py', 'exec'), globals())
+
 # Bare courtyard trees: tapered, curved growth and secondary forks.
 current='Yard';rng=random.Random(39)
 def taper_branch(points,r):
@@ -407,7 +410,7 @@ def taper_branch(points,r):
  spline=c.splines.new('BEZIER');spline.bezier_points.add(len(points)-1)
  for i,(q,p) in enumerate(zip(spline.bezier_points,points)):
   q.co=xyz(p);q.handle_left_type='AUTO';q.handle_right_type='AUTO';q.radius=max(.05,1-i/(len(points)-.8))
- o=bpy.data.objects.new('Bare deciduous branch',c);bpy.context.collection.objects.link(o);bpy.context.view_layer.objects.active=o;o.select_set(True);bpy.ops.object.convert(target='MESH');o=bpy.context.object;o.select_set(False);register(o,'Bare deciduous branch','Bark')
+ o=bpy.data.objects.new('Bare deciduous branch',c);bpy.context.collection.objects.link(o);bpy.ops.object.select_all(action='DESELECT');bpy.context.view_layer.objects.active=o;o.select_set(True);bpy.ops.object.convert(target='MESH');o=bpy.context.object;o.select_set(False);register(o,'Bare deciduous branch','Bark')
 for tree in range(14):
  x=-21+rng.random()*56;z=-7-rng.random()*16;h=rng.uniform(7,12.6);y=-11.7;bend=rng.uniform(-.65,.65)
  taper_branch([(x,y,z),(x+bend*.2,y+h*.34,z+.12),(x+bend*.65,y+h*.7,z-.1),(x+bend,y+h,z+.25)],.14)
@@ -416,7 +419,7 @@ for tree in range(14):
   start=(x+bend*.35,sy,z);mid=(x+dx*.65,sy+length*.52,z+dz*.7);end=(x+dx,sy+length*1.3,z+dz)
   taper_branch([start,(x+dx*.3,sy+.23,z+dz*.3),mid,end],.042*(1-j*.045))
   for sign in [-1,1]:
-   turn=a+sign*.7;tx=math.cos(turn)*length*.6;tz=math.sin(turn)*length*.6
+   branch_angle=a+sign*.7;tx=math.cos(branch_angle)*length*.6;tz=math.sin(branch_angle)*length*.6
    taper_branch([mid,(mid[0]+tx*.6,mid[1]+.5,mid[2]+tz*.7),(mid[0]+tx,mid[1]+1.4,mid[2]+tz)],.014)
 
 # Geometry export: preserve explicit UVs; otherwise world/object-local box projection at real scale.

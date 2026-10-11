@@ -36,3 +36,11 @@ C#-системы, шейдеры, планировка и мебель созд
 Fears to Fathom: Norwood Hitchhike / Home Alone и From the Darkness служат художественными референсами. Официальные скриншоты Steam просмотрены для анализа, локальный каталог `Reference/` исключён из Git и сборки. Страница `QA/compare.html` использует локальные исследовательские копии либо официальные URL Steam с атрибуцией. Графика, модели, звуки и персонажи этих игр не входят в игровые Assets. Полное прохождение всех референсов не заявляется.
 
 Дополнение двора: [asphalt_02](https://polyhaven.com/a/asphalt_02) и [asphalt_snow](https://polyhaven.com/a/asphalt_snow), CC0. Источники и хеши также внесены в provenance.json.
+
+
+## Дополнение M1 0.2.1
+- Poly Haven `waffle_pique_cotton`, CC0: https://polyhaven.com/a/waffle_pique_cotton . Сохранены исходные Diffuse/Normal/Roughness и MD5 в provenance.json. Для белого белья используются нормали и шероховатость сканированной ткани с однородным светлым albedo; жёлтый Diffuse не используется в материале.
+- Будильник, очки, покрывало, швейный уголок, чемодан и вещи прихожей: собственная параметрическая геометрия `tools/art/add_domestic_detail.py`.
+
+- `CrochetTulle.png`: авторский процедурный узор сетки и цветочных медальонов (`ApartmentDomesticMaterials.cs`), не скачанный орнамент.
+- Репродукция иконы: The Metropolitan Museum of Art, *Icon of the Virgin and Child, Hodegetria variant*, XIII век, object 831188, Public Domain / Open Access. https://www.metmuseum.org/art/collection/search/831188 . Исходное музейное изображение без перерисовки, метаданные API сохранены рядом с JPG. В квартире изображена современная домашняя репродукция. Исследовательский снимок оклада 205079 тоже Public Domain, в игровую сцену не включён.

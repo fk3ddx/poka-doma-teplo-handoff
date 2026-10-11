@@ -1,8 +1,10 @@
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 namespace Ataka.Editor {
  public static partial class ApartmentArtBuilder {
   static void Staircase(){
+   foreach(string name in new[]{"Landing west","Landing east","Landing ceiling"}){var surface=GameObject.Find(name);if(surface!=null)surface.GetComponent<Renderer>().sharedMaterial=mats["Plaster"];}
+   var landing=GameObject.Find("Fifth floor landing");if(landing!=null)landing.GetComponent<Renderer>().sharedMaterial=mats["Concrete"];
    var old=GameObject.Find("Landing rear");if(old!=null)UnityEngine.Object.DestroyImmediate(old);
    M("StairGreen",C(.19f,.29f,.24f),.16f);Pbr(mats["StairGreen"],"plastered_wall_02",.7f);
    Box("Stairwell rear",new Vector3(7.7f,-.1f,11.65f),new Vector3(2.5f,5.4f,.2f),"Plaster");

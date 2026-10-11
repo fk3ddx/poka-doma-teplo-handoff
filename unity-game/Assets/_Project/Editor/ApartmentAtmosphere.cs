@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using UnityEditor;
@@ -7,11 +7,14 @@ using UnityEngine.Rendering;
 namespace Ataka.Editor {
  public static partial class ApartmentArtBuilder {
   static void MaterialRefinements(){
-   foreach(string name in new[]{"Fabric","DarkFabric","Linen","Lace","Coat"}){
+   foreach(string name in new[]{"Fabric","DarkFabric","Coat"}){
     if(!mats.ContainsKey(name))M(name,C(.22f,.25f,.23f),.05f);
     var m=mats[name];m.mainTexture=AssetDatabase.LoadAssetAtPath<Texture2D>(Root+"/Art/Textures/Upholstery.png");m.mainTextureScale=Vector2.one*2;m.DisableKeyword("_METALLICSPECGLOSSMAP");m.DisableKeyword("_NORMALMAP");m.SetFloat("_Smoothness",.03f);
    }
-   mats["Fabric"].color=C(.7f,.66f,.53f);mats["Linen"].color=C(.88f,.86f,.79f);
+   mats["Fabric"].color=C(.7f,.66f,.53f);
+   // White undyed cotton: retain scanned weave normal/roughness, omit the yellow dyed albedo.
+   foreach(string name in new[]{"Linen","Lace"}){var linen=M(name,C(.86f,.85f,.80f),.02f);Pbr(linen,"waffle_pique_cotton",3);linen.mainTexture=null;linen.SetFloat("_BumpScale",.24f);linen.SetFloat("_Smoothness",.06f);linen.SetFloat("_Cull",0);}
+   M("Leather",C(.10f,.071f,.044f),.24f);M("ShadeBinding",C(.42f,.27f,.1f),.65f,.65f);
    M("Tile",C(.62f,.67f,.60f),.28f);M("Bread",C(.27f,.15f,.075f),.06f);
    var photo=M("FamilyPhoto",Color.white,.2f);photo.mainTexture=AssetDatabase.LoadAssetAtPath<Texture2D>(Root+"/Art/Textures/FamilyPhoto.png");photo.SetFloat("_Cull",0);
    mats["Glass"].SetFloat("_SpecularHighlights",0);mats["Glass"].EnableKeyword("_SPECULARHIGHLIGHTS_OFF");mats["Glass"].SetFloat("_Smoothness",.25f);
@@ -42,6 +45,7 @@ namespace Ataka.Editor {
    Box("Newspaper",new Vector3(4.14f,.758f,1.94f),new Vector3(.26f,.005f,.34f),"Paper",false);
    Label("ВЕЧЕРНИЙ ГОРОД\n────────────\nНОВОСТИ РАЙОНА",new Vector3(4.14f,.762f,1.94f),Quaternion.Euler(90,0,0),.021f,C(.14f,.13f,.11f));
    foreach(var d in UnityEngine.Object.FindObjectsByType<Ataka.Door>(FindObjectsSortMode.None)){
+    if(d.persistentId=="living-door")d.openAngle=95;
     float width=d.leaf.size.x+.02f;LocalBox(d.transform,"Door left casing",new Vector3(-.024f,1.01f,0),new Vector3(.067f,2.06f,.13f),"WoodLight");LocalBox(d.transform,"Door right casing",new Vector3(width+.024f,1.01f,0),new Vector3(.067f,2.06f,.13f),"WoodLight");LocalBox(d.transform,"Door top casing",new Vector3(width*.5f,2.035f,0),new Vector3(width+.1f,.075f,.13f),"WoodLight");
    }
    foreach(var p in new[]{new Vector3(2.914f,.32f,3.04f),new Vector3(6.487f,.32f,.6f),new Vector3(8.733f,1.02f,2.48f)}){

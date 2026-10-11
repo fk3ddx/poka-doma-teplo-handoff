@@ -1,4 +1,4 @@
-#if DEVELOPMENT_BUILD || UNITY_EDITOR
+﻿#if DEVELOPMENT_BUILD || UNITY_EDITOR
 using System;
 using System.Collections;
 using System.IO;
@@ -50,6 +50,10 @@ namespace Ataka
                 yield return Capture("06-cabinet-tv");
                 session.player.Restore(new Vector3(2.25f,11.72f,3.50f),205,8,false);
                 yield return Capture("07-bedroom");
+                session.player.Restore(new Vector3(2.15f,11.72f,1.50f),185,32,false);
+                yield return Capture("12-bedside-detail");
+                session.player.Restore(new Vector3(2.15f,11.72f,2.65f),310,0,false);
+                yield return Capture("13-bedroom-storage");
                 session.player.Restore(new Vector3(7.75f,11.72f,3.55f),0,5,false);
                 yield return Capture("08-hall");
                 session.player.Restore(new Vector3(4.37f,11.72f,5.05f),320,16,false);
@@ -90,8 +94,15 @@ namespace Ataka
                 frames++;
             }
             Array.Sort(timings);
+            session.player.Restore(new Vector3(7.75f,11.72f,3.55f),0,5,false);
+            for(int i=0;i<30;i++)yield return null;
+            var mirrorTimings=new float[240];
+            for(int i=0;i<mirrorTimings.Length;i++){yield return null;mirrorTimings[i]=Time.unscaledDeltaTime*1000;}
+            Array.Sort(mirrorTimings);
             File.WriteAllText(Path.Combine(output, "result.json"), JsonUtility.ToJson(new Result
             {
+                width=Screen.width,height=Screen.height,renderScale=UnityEngine.Rendering.Universal.UniversalRenderPipeline.asset.renderScale,
+                mirrorP95Ms=mirrorTimings[227],mirrorMaxMs=mirrorTimings[239],
                 lightSwitchP95Ms=switching[182], lightSwitchMaxMs=switching[191], p95FrameMs=timings[569], p99FrameMs=timings[593],
                 errors = errors, frames = frames, meanFps = frames / Mathf.Max(.001f, elapsed),
                 slowestFrameMs = slowest * 1000, gpu = SystemInfo.graphicsDeviceName,
@@ -134,8 +145,9 @@ namespace Ataka
         }
         [Serializable] sealed class Result
         {
-            public int errors, frames;
-            public float lightSwitchP95Ms, lightSwitchMaxMs;
+            public int errors, frames,width,height;
+            public float renderScale;
+            public float lightSwitchP95Ms, lightSwitchMaxMs, mirrorP95Ms, mirrorMaxMs;
             public float meanFps, slowestFrameMs, p95FrameMs, p99FrameMs;
             public string gpu, graphicsApi, unity;
         }

@@ -1,8 +1,13 @@
-using System.Linq;
+﻿using System.Linq;
 using UnityEngine;
 using UnityEditor;
 namespace Ataka.Editor {
  public static partial class ApartmentArtBuilder {
+  public static void RefineDoorSwing(){
+   UnityEditor.SceneManagement.EditorSceneManager.OpenScene(ScenePath);
+   var door=Object.FindObjectsByType<Ataka.Door>(FindObjectsSortMode.None).Single(x=>x.persistentId=="living-door");door.openAngle=95;door.Restore(0);
+   UnityEditor.SceneManagement.EditorSceneManager.SaveScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene());AssetDatabase.SaveAssets();
+  }
   static void Finishing(){
    M("BathPaint",C(.70f,.75f,.70f),.05f);M("BathGrout",C(.34f,.39f,.37f),.08f);M("FloorTileCream",C(.57f,.60f,.53f),.14f);M("FloorTileGreen",C(.25f,.34f,.29f),.14f);
    Box("Bath painted west",new Vector3(2.906f,1.25f,5.25f),new Vector3(.012f,2.48f,1.49f),"BathPaint",false);
@@ -33,7 +38,10 @@ namespace Ataka.Editor {
    AddModel("covered_car",new Vector3(-12,-Floor,-20),78,1.38f);
    AddModel("painted_wooden_bench",new Vector3(4,-Floor,-9),160,.82f);
    AddModel("painted_wooden_bench",new Vector3(17,-Floor,-24),180,.82f);
-   CourtyardFinish();
+   foreach(var mirror in art.GetComponentsInChildren<MeshRenderer>().Where(x=>x.name=="Hall_Mirror"||x.name=="Bathroom_Mirror")){
+    mirror.gameObject.layer=30;var planar=mirror.gameObject.AddComponent<Ataka.PlanarMirror>();planar.normal=mirror.name=="Hall_Mirror"?Vector3.right:Vector3.back;planar.reflectionShader=Shader.Find("Ataka/PlanarMirror");
+   }
+   DomesticCorner();CourtyardFinish();
    // Use cooler distance light while retaining the warm interior refuges.
    var moon=new GameObject("Cloud filtered night light").AddComponent<Light>();moon.type=LightType.Directional;moon.color=C(.39f,.48f,.62f);moon.intensity=.11f;moon.shadows=LightShadows.Soft;moon.shadowStrength=.7f;moon.transform.rotation=Quaternion.Euler(35,-30,0);
    foreach(var r in art.GetComponentsInChildren<MeshRenderer>().Where(x=>x.name=="Panel block"||x.name=="Dirty snowbank"))Reproject(r);

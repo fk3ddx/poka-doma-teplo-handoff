@@ -21,14 +21,14 @@ namespace Ataka.Editor {
    for(int i=0;i<20;i++){
     var snow=GameObject.CreatePrimitive(PrimitiveType.Sphere);snow.name="Soft snow edge";snow.transform.SetParent(art,false);snow.transform.localPosition=new Vector3(-27+i*2.3f,-Floor+.03f,-25.7f+(float)rng.NextDouble()*.4f);snow.transform.localScale=new Vector3(1.6f+(float)rng.NextDouble()*1.4f,.18f+(float)rng.NextDouble()*.13f,.6f+(float)rng.NextDouble()*.5f);snow.GetComponent<Renderer>().sharedMaterial=mats["Snow"];Object.DestroyImmediate(snow.GetComponent<Collider>());
    }
-   foreach(var light in art.GetComponentsInChildren<Light>().Where(x=>x.name=="Courtyard pool")){light.intensity=9;light.range=13;}
-   mats["WindowWarm"].SetColor("_EmissionColor",C(.85f,.52f,.21f));
+   foreach(var light in art.GetComponentsInChildren<Light>().Where(x=>x.name=="Courtyard pool")){light.intensity=18;light.range=16;}
+   mats["WindowWarm"].SetColor("_EmissionColor",C(1.8f,1.0f,.35f));
    var pipeline=AssetDatabase.LoadAssetAtPath<UniversalRenderPipelineAsset>(Root+"/Settings/M0_URP.asset");var p=new SerializedObject(pipeline);p.FindProperty("m_AdditionalLightShadowsSupported").boolValue=true;p.FindProperty("m_SoftShadowsSupported").boolValue=true;p.FindProperty("m_AdditionalLightsShadowmapResolution").intValue=4096;p.FindProperty("m_AdditionalLightsPerObjectLimit").intValue=8;p.ApplyModifiedPropertiesWithoutUndo();EditorUtility.SetDirty(pipeline);
    var renderer=AssetDatabase.LoadAssetAtPath<UniversalRendererData>(Root+"/Settings/M0_Renderer.asset");var r=new SerializedObject(renderer);r.FindProperty("m_RenderingMode").intValue=(int)RenderingMode.ForwardPlus;r.ApplyModifiedPropertiesWithoutUndo();EditorUtility.SetDirty(renderer);
    foreach(var light in Object.FindObjectsByType<Light>(FindObjectsSortMode.None).Where(x=>x.type==LightType.Point&&x.shadows!=LightShadows.None)){
     var data=light.GetComponent<UniversalAdditionalLightData>();if(data==null)data=light.gameObject.AddComponent<UniversalAdditionalLightData>();var so=new SerializedObject(data);so.FindProperty("m_AdditionalLightsShadowResolutionTier").intValue=1;so.ApplyModifiedPropertiesWithoutUndo();
    }
-   foreach(var shade in art.GetComponentsInChildren<Renderer>().Where(x=>x.name=="Living_Shade"||x.name=="Living_Bulb"))shade.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;
+   foreach(var shade in art.GetComponentsInChildren<Renderer>().Where(x=>x.name=="Living_Shade"||x.name=="Living_Bulb"||x.name=="Living_ShadeBinding"))shade.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;
    shellPrefix=priorPrefix;shellIndex=priorIndex;
   }
  }

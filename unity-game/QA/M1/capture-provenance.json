@@ -1,17 +1,19 @@
 {
-  "build": "Unity M1 0.2.0-dev",
+  "build": "Unity M1 0.2.1-dev",
   "capture": "ScreenCapture.CaptureScreenshotAsTexture from Windows player; images unedited",
   "files": {
-    "01-menu.png": "8e72860cc36f119bfff053e4383864f29a4449ccfc63d1db3a057bbda344e1d4",
-    "02-living.png": "6688538398175d3e778c134f94973cee46a1b40da02e67345939e35cef75d7e0",
-    "03-kitchen.png": "f354db58acd5fc4cf24a0f76f593ac37edc3b115e919876411d5c94a70afba5e",
-    "04-courtyard.png": "9d31b17f66a9350e660392f8562992fe6a3ae0867f985a6d59a87692476bcd00",
-    "05-lights-off.png": "63ad12a0be36f117d3047c7d690dcbc46098f9d61e4708a6b6dc1f6facc16a59",
-    "06-cabinet-tv.png": "5725722f178f5eabf0f301319ff5884aaee61aee0db6f9ab51f8b7feead94120",
-    "07-bedroom.png": "30f1a8001d722621e889a42b78b2d87f04a799d9e2905eaee85c30fde932a51c",
-    "08-hall.png": "84cd2ddbc7836484a2088cf48c1d021b2b28b599c1de67c8cce0f0e5a9b731ba",
-    "09-bathroom.png": "fddec0aa43c82296f522dfe7ccc7d96f15b1bc47bcc48f0122f4951d2881e035",
-    "10-staircase.png": "59b81c6538654604fdaaf3f85d1383be162868b2be5043d77e30500ad3e4f12b",
-    "11-balcony-courtyard.png": "de4ed11bcc96c1fb8eedffbaa93d959ab746465c02a8190593fefa2219dfa2f3"
+    "01-menu.png": "4ff5af102f25f00feb1060a13f9d013651992f18ade8ca4f9022af990fd7a448",
+    "02-living.png": "76a3597527efb2e1e9afe9a18558237dfaf3a24563c91f9a9b168ce9143d7295",
+    "03-kitchen.png": "6822450a9bae8b59e09acd2798d333266482b2fc53ec82e601080d60fa2fadf0",
+    "04-courtyard.png": "aaad7ffcfed44e7522b94b260f1f52032073e0d1c5b637aaf8a1a5a6ea38e22f",
+    "05-lights-off.png": "41004d5b6dbbea0dd164eeb593f7eb2c34f6a72322300b5318f951ebebaf31f5",
+    "06-cabinet-tv.png": "dfb2b4be2aa1a75d08a715823d0fc23514daadaa396d3cd9038d32708459e685",
+    "07-bedroom.png": "f88d7d1710b5215ccdeaeea9e92431352ed7a2f1246b90367505a5223beed78c",
+    "08-hall.png": "033048871a8ba67d2cb053d316ba9f0915e0b3141d428907978fadc25577d66e",
+    "09-bathroom.png": "78c656813082289bb51002664a36874d051b43714eb93b6b54a5bc1817d80022",
+    "10-staircase.png": "4d174357cb87d8167b1ca604517df941e1d03614681c69c321182a47eef5ed93",
+    "11-balcony-courtyard.png": "4d56809067583863b27cf4ecd45fd59e3ca652550cfccce82b3cea84394b4cd3",
+    "12-bedside-detail.png": "09f24d338c812f5d327ef9d2fa808fa7366d5fb0120de0afff9a37d943f0e102",
+    "13-bedroom-storage.png": "23bfb5d61fb066b22d1df82a0d0122e3b4909fbcb78834bb61d3ec1b6afe2651"
   }
 }

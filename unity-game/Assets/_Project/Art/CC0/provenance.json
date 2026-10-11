@@ -318,5 +318,29 @@
     "md5": "f157efd2b007775325782b24e495ebf6",
     "license": "CC0-1.0",
     "path": "Assets/_Project/Art/CC0/asphalt_snow/Rough.jpg"
+  },
+  {
+    "asset": "waffle_pique_cotton",
+    "map": "Diffuse",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/waffle_pique_cotton/waffle_pique_cotton_diff_2k.jpg",
+    "md5": "3a08413898135aaf9834a0d67830831a",
+    "license": "CC0-1.0",
+    "path": "Assets/_Project/Art/CC0/waffle_pique_cotton/Diffuse.jpg"
+  },
+  {
+    "asset": "waffle_pique_cotton",
+    "map": "nor_gl",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/waffle_pique_cotton/waffle_pique_cotton_nor_gl_2k.jpg",
+    "md5": "d65c987d90f87a2563b7a74077d8e603",
+    "license": "CC0-1.0",
+    "path": "Assets/_Project/Art/CC0/waffle_pique_cotton/nor_gl.jpg"
+  },
+  {
+    "asset": "waffle_pique_cotton",
+    "map": "Rough",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/waffle_pique_cotton/waffle_pique_cotton_rough_2k.jpg",
+    "md5": "554e6dbbf87680b0377018edcd544d92",
+    "license": "CC0-1.0",
+    "path": "Assets/_Project/Art/CC0/waffle_pique_cotton/Rough.jpg"
   }
 ]

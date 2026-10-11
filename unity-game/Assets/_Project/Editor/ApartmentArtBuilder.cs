@@ -21,7 +21,7 @@ public static partial class ApartmentArtBuilder {
  [MenuItem("Ataka/M1/Generate furnished apartment")]
  public static void Generate(){
   MilestoneBuilder.Generate();shellIndex=0;shellPrefix="shell_stable_";
-  Directory.CreateDirectory(Root+"/Art/M1Materials");Directory.CreateDirectory(Root+"/Art/M1Meshes");AssetDatabase.Refresh();ImportTextures();mats=new Dictionary<string,Material>();CreateMaterials();MaterialRefinements();
+  Directory.CreateDirectory(Root+"/Art/M1Materials");Directory.CreateDirectory(Root+"/Art/M1Meshes");AssetDatabase.Refresh();ImportTextures();mats=new Dictionary<string,Material>();CreateMaterials();MaterialRefinements();DomesticMaterials();
   art=new GameObject("M1 authored apartment").transform;art.position=Vector3.up*Floor;
   var shell=GameObject.Find("Apartment • M0 metric shell").transform;
   foreach(var r in shell.GetComponentsInChildren<MeshRenderer>()){
@@ -42,7 +42,7 @@ public static partial class ApartmentArtBuilder {
   var session=Object.FindFirstObjectByType<GameSession>();session.checkpointFile="checkpoint-m1.json";session.player.transform.position=new Vector3(5.1f,Floor+.02f,3.2f);session.player.transform.rotation=Quaternion.Euler(0,215,0);
   session.GetComponent<PrototypeMenu>().milestoneDescription="M1 · художественная квартира — рабочая версия\nЗал, кухня и бытовые детали. Сюжетный пролог ещё в разработке.";
   session.player.view.farClipPlane=240;session.player.view.backgroundColor=C(.095f,.12f,.14f);
-  PlayerSettings.productName="Атака на запоминание";PlayerSettings.bundleVersion="0.2.0-dev";
+  PlayerSettings.productName="Атака на запоминание";PlayerSettings.bundleVersion="0.2.1-dev";
   EditorSceneManager.SaveScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene(),ScenePath);EditorBuildSettings.scenes=new[]{new EditorBuildSettingsScene(ScenePath,true),new EditorBuildSettingsScene(MilestoneBuilder.ScenePath,true)};AssetDatabase.SaveAssets();Debug.Log("M1_SCENE_GENERATED");
  }
  static void Static(GameObject go)=>GameObjectUtility.SetStaticEditorFlags(go,StaticEditorFlags.ContributeGI|StaticEditorFlags.BatchingStatic|StaticEditorFlags.ReflectionProbeStatic);
@@ -84,8 +84,10 @@ public static partial class ApartmentArtBuilder {
   foreach(var d in data.meshes){
    string path=Root+"/Art/M1Meshes/"+d.name+".asset";var mesh=AssetDatabase.LoadAssetAtPath<Mesh>(path);if(mesh==null){mesh=new Mesh();AssetDatabase.CreateAsset(mesh,path);}else mesh.Clear();mesh.name=d.name;mesh.indexFormat=IndexFormat.UInt32;
    var v=new Vector3[d.vertices.Length/3];var n=new Vector3[v.Length];var uv=new Vector2[v.Length];for(int i=0;i<v.Length;i++){v[i]=new Vector3(d.vertices[i*3],d.vertices[i*3+1],d.vertices[i*3+2]);n[i]=new Vector3(d.normals[i*3],d.normals[i*3+1],d.normals[i*3+2]);uv[i]=new Vector2(d.uv[i*2],d.uv[i*2+1]);}
+   // Project tulle across its full width/height, independent of each pleat's facing.
+   if(d.material=="Tulle")for(int i=0;i<v.Length;i++)uv[i]=Mathf.Abs(n[i].y)>.5f?new Vector2(v[i].x,v[i].z):new Vector2(v[i].x,v[i].y);
    mesh.vertices=v;mesh.normals=n;mesh.uv=uv;mesh.triangles=d.triangles;mesh.RecalculateTangents();mesh.RecalculateBounds();Unwrapping.GenerateSecondaryUVSet(mesh);EditorUtility.SetDirty(mesh);
-   var go=new GameObject(d.name);go.transform.SetParent(art,false);go.AddComponent<MeshFilter>().sharedMesh=mesh;go.AddComponent<MeshRenderer>().sharedMaterial=mats[d.material];if(!new[]{"Glass","Curtain","Lace","Bulb","Shade","DriedStem","Carpet"}.Contains(d.material))go.AddComponent<MeshCollider>().sharedMesh=mesh;if(!d.name.StartsWith("Yard_"))Static(go);
+   var go=new GameObject(d.name);go.transform.SetParent(art,false);go.AddComponent<MeshFilter>().sharedMesh=mesh;go.AddComponent<MeshRenderer>().sharedMaterial=mats[d.material];if(!new[]{"Glass","Curtain","Lace","Tulle","Bulb","Shade","ShadeBinding","DriedStem","Carpet"}.Contains(d.material))go.AddComponent<MeshCollider>().sharedMesh=mesh;if(!d.name.StartsWith("Yard_"))Static(go);
   }
  }
  static void Reproject(MeshRenderer r){

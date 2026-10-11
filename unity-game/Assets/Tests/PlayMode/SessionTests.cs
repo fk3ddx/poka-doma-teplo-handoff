@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Linq;
 using System.IO;
 using System.Reflection;
@@ -95,10 +95,11 @@ namespace Ataka.Tests
             {
                 session.NewGame();
                 var pickup = Object.FindObjectsByType<PickUp>(FindObjectsSortMode.None).First();
-                var door = Object.FindObjectsByType<Door>(FindObjectsSortMode.None).First();
+                var door = Object.FindObjectsByType<Door>(FindObjectsSortMode.None).Single(x=>x.persistentId=="living-door");
+                float partialAngle = Mathf.Sign(door.openAngle) * 37;
                 var lamp = Object.FindObjectsByType<LampSwitch>(FindObjectsSortMode.None).First();
                 pickup.Interact(session);
-                door.RestoreSnapshot(new ObjectState(door.persistentId, 1, -37));
+                door.RestoreSnapshot(new ObjectState(door.persistentId, 1, partialAngle));
                 lamp.Restore(0);
                 var point = new Vector3(7.4f, 11.72f, 4.2f);
                 session.player.Restore(point, 225, -30, true);
@@ -111,7 +112,7 @@ namespace Ataka.Tests
                 yield return null;
                 Assert.IsTrue(session.inventory.Contains(pickup.itemId));
                 Assert.IsFalse(pickup.gameObject.activeSelf);
-                Assert.IsTrue(door.opened); Assert.AreEqual(-37, door.angle, .001f);
+                Assert.IsTrue(door.opened); Assert.AreEqual(partialAngle, door.angle, .001f);
                 Assert.AreEqual(0, lamp.Capture());
                 Assert.Less(Vector3.Distance(point, session.player.transform.position), .001f);
                 Assert.AreEqual(225, session.player.transform.eulerAngles.y, .01f);
