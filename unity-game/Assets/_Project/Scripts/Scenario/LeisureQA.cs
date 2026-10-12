@@ -52,8 +52,9 @@ namespace Ataka.Scenario {
    Check(story.QaLeisure&&game&&!p.control&&tv.show==ScenarioTelevision.Show.Game&&story.QaFov<fov0-10,"console: he sits at the set, control off, the CRT shows the game, the view narrows (FOV "+fov0.ToString("F0")+" → "+story.QaFov.ToString("F0")+")");
    if(!game)yield break;yield return Shot("console-1-title");
    game.qaDrive=true;game.qaStart=true;yield return null;yield return null;Check(game.State==ConsoleGame.Mode.Play,"console: Enter starts a round ("+game.State+")");
-   for(float t=0;t<12;t+=Time.deltaTime){game.qaFire=true;game.qaMove=Mathf.Sin(Time.time*1.3f);yield return null;}
+   yield return new WaitForSeconds(1); // inspect the complete wave before kills make coloured-pixel coverage random
    yield return Shot("console-2-play");var shot=Screen(tv,"console",out var sat,out var br);result.screen=shot;Check(sat>.002f&&br>.6f,"console picture on the CRT: coloured sprites and bright text ("+shot+")");
+   for(float t=0;t<12;t+=Time.deltaTime){game.qaFire=true;game.qaMove=Mathf.Sin(Time.time*1.3f);yield return null;}
    result.score=game.Score;result.kills=game.Kills;result.shots=game.Shots;Check(game.Shots>10&&game.Kills>0&&game.Score>0,"console: shots "+game.Shots+", hits "+game.Kills+", score "+game.Score);
    // the game menu (Esc is taken by the console, the menu is reached otherwise) and the game's own pause: time stands
    {float e0=game.Elapsed;loop.Pause(true);yield return new WaitForSecondsRealtime(.6f);float e1=game.Elapsed;loop.Pause(false);result.pauseDrift=e1-e0;Check(Mathf.Abs(e1-e0)<1e-4f,"console: the game menu freezes the round (drift "+(e1-e0).ToString("F4")+" s)");}

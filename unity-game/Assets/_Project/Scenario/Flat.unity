@@ -8897,7 +8897,7 @@ GameObject:
   - component: {fileID: 230168648}
   - component: {fileID: 230168647}
   m_Layer: 0
-  m_Name: TV temporary screen
+  m_Name: Authored TV glass live picture
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8911,7 +8911,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 230168646}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -8969,7 +8969,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -8980,7 +8980,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 230168646}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 4300000, guid: 2a6ecf4d0f0357146a36c313cec6ef5f, type: 2}
 --- !u!4 &230168650
 Transform:
   m_ObjectHideFlags: 0
@@ -8990,11 +8990,11 @@ Transform:
   m_GameObject: {fileID: 230168646}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.84, y: 0.9, z: 2.5}
-  m_LocalScale: {x: 0.015, y: 0.3, z: 0.4}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1217482905}
+  m_Father: {fileID: 334388403}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &231646828
 GameObject:
@@ -13038,6 +13038,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 277332056}
+  - {fileID: 230168650}
   m_Father: {fileID: 1217482905}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &334388404
@@ -53116,7 +53117,6 @@ Transform:
   - {fileID: 19150507}
   - {fileID: 2027203261}
   - {fileID: 809792233}
-  - {fileID: 230168650}
   - {fileID: 386946361}
   - {fileID: 1727580377}
   - {fileID: 748156676}
