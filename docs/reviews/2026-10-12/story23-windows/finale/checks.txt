@@ -1,0 +1,28 @@
+MODE story autopilot from ChaseEnd (aim-verified fire, 6x nights)
+FinishCore called as at the end of the chase (10 strikes)
+ROUTES at start of Finale
+ROUTE capsule r=0,22 h=1,5 lift=0,08 grid=0,05 m; runtime collider world r=0,220 h=1,500; doors c0,o19,c0,o19,o19,c0,c0,c0,(5.5, 0.0, 5.8)
+ROUTE Door→Kitchen 3,4 m
+ROUTE Kitchen→HallA 2,5 m
+ROUTE HallA→Door 0,9 m
+ROUTE Door→HallB 2,2 m
+ROUTE HallB→Clock 0,1 m
+ROUTE Clock→Armchair 5,0 m
+ROUTE Armchair→Door 6,7 m
+ROUTE Door→Landing 1,5 m opening Entrance60
+ROUTE Door→Landing with opened leaf 1,5 m
+ROUTE Door→Stove 4,0 m
+PASS grandmother routes around furniture at start of Finale (0 failures; run continues)
+TASK Дождаться бабушку
+ACT Глазок
+TASK 
+SCENE DeathFull in Finale
+CHAPTER Finale -> Ended
+CARD НОВОСТИ ЗАРЕЧЬЯ  «…В квартире номер шестьдесят по улице Строителей обнаружены накрытый стол, два стакана чая и включённый чайник. По данным жилконторы, квартира пустует с девяносто первого года. Соседка, Валентина Ивановна, утверждает, что никогда не видела жильцов этой квартиры…»
+CARD «…однако, по её словам, в тот вечер она слышала, как мальчик за дверью кричал: „Ты не она!“»
+CARD АТАКА НА ЗАПОМИНАНИЕ «Пока дома тепло»  Сценарий и игра: Дима, Claude, Codex Гостья, мебель и звуки — авторы CC0 / CC-BY, см. CREDITS.md
+CARD Фотоальбом. Последний разворот: лето 1993, у подъезда. Валя с Тузиком улыбаются рядом с пустотой. Теперь засвеченных пятен три: старое, на месте бабушки — и на месте Миши в центре.
+CHAPTER Ended -> None
+PASS chase end → finale → face tear → epilogue
+PASS epilogue finished, menu shows КОНЕЦ
+PASS no runtime errors (0)
