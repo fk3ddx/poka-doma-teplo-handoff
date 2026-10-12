@@ -1,0 +1,260 @@
+CLIP Armature|Oduck len=0,2916667
+CLIP Armature|Oidle len=3,333333
+CLIP Armature|Ojump len=0,625
+CLIP Armature|Okick len=0,6666667
+CLIP Armature|Oknockout01 len=0,4166667
+CLIP Armature|Oknockout02 len=0,4166667
+CLIP Armature|Oknockout03 len=0,4166667
+CLIP Armature|Opunch len=0,625
+CLIP Armature|Orun len=0,6666667
+CLIP Armature|Owalk len=1,166667
+scene Armature p=(0.0000, 0.0007, 0.0000) localP=(0.0000, 0.0000, 0.0000) localR=(270.02, 0.00, 0.00) scale=(1.0000, 1.0000, 1.0000)
+scene Back p=(0.0000, 0.8666, -0.1715) localP=(0.0000, 0.2658, 0.0000) localR=(34.06, 0.00, 0.00) scale=(1.0000, 1.0000, 1.0000)
+scene Chest p=(0.0000, 1.1367, -0.0784) localP=(0.0000, 0.3308, 0.0000) localR=(40.04, 0.00, 0.00) scale=(1.0000, 1.0000, 1.0000)
+scene Neck p=(0.0000, 1.2301, 0.0774) localP=(0.0000, 0.2103, 0.0000) localR=(332.72, 0.00, 0.00) scale=(1.0000, 1.0000, 1.0000)
+scene Head p=(0.0000, 1.2966, 0.1186) localP=(0.0000, 0.0906, 0.0000) localR=(4.87, 20.68, 26.88) scale=(1.0000, 1.0000, 1.0000)
+idle Armature p=(0.0000, 0.0007, 0.0000) localP=(0.0000, 0.0000, 0.0000) localR=(270.02, 0.00, 0.00) scale=(1.0000, 1.0000, 1.0000)
+idle Back p=(0.0000, 0.8666, -0.1715) localP=(0.0000, 0.2658, 0.0000) localR=(34.06, 0.00, 0.00) scale=(1.0000, 1.0000, 1.0000)
+idle Chest p=(0.0000, 1.1367, -0.0784) localP=(0.0000, 0.3308, 0.0000) localR=(40.04, 0.00, 0.00) scale=(1.0000, 1.0000, 1.0000)
+idle Neck p=(0.0000, 1.2301, 0.0774) localP=(0.0000, 0.2103, 0.0000) localR=(332.72, 0.00, 0.00) scale=(1.0000, 1.0000, 1.0000)
+idle Head p=(0.0000, 1.2966, 0.1186) localP=(0.0000, 0.0906, 0.0000) localR=(331.82, 0.00, 0.00) scale=(1.0000, 1.0000, 1.0000)
+walk Armature p=(0.0000, 0.0007, 0.0000) localP=(0.0000, 0.0000, 0.0000) localR=(270.02, 0.00, 0.00) scale=(1.0000, 1.0000, 1.0000)
+walk Back p=(-0.0037, 0.8419, -0.1605) localP=(0.0000, 0.2658, 0.0000) localR=(37.25, 0.00, 0.00) scale=(1.0000, 1.0000, 1.0000)
+walk Chest p=(0.0055, 1.1008, -0.0400) localP=(0.0000, 0.3308, 0.0000) localR=(36.43, 357.55, 2.16) scale=(1.0000, 1.0000, 1.0000)
+walk Neck p=(0.0063, 1.1877, 0.1194) localP=(0.0000, 0.2103, 0.0000) localR=(344.74, 0.00, 0.00) scale=(1.0000, 1.0000, 1.0000)
+walk Head p=(0.0066, 1.2419, 0.1758) localP=(0.0000, 0.0906, 0.0000) localR=(323.07, 0.00, 0.00) scale=(1.0000, 1.0000, 1.0000)
+walk_then_idle Armature p=(0.0000, 0.0007, 0.0000) localP=(0.0000, 0.0000, 0.0000) localR=(270.02, 0.00, 0.00) scale=(1.0000, 1.0000, 1.0000)
+walk_then_idle Back p=(0.0000, 0.8666, -0.1715) localP=(0.0000, 0.2658, 0.0000) localR=(34.06, 0.00, 0.00) scale=(1.0000, 1.0000, 1.0000)
+walk_then_idle Chest p=(0.0000, 1.1367, -0.0784) localP=(0.0000, 0.3308, 0.0000) localR=(40.04, 0.00, 0.00) scale=(1.0000, 1.0000, 1.0000)
+walk_then_idle Neck p=(0.0000, 1.2301, 0.0774) localP=(0.0000, 0.2103, 0.0000) localR=(332.72, 0.00, 0.00) scale=(1.0000, 1.0000, 1.0000)
+walk_then_idle Head p=(0.0000, 1.2966, 0.1186) localP=(0.0000, 0.0906, 0.0000) localR=(331.82, 0.00, 0.00) scale=(1.0000, 1.0000, 1.0000)
+prefab_restored Armature p=(0.0000, 0.0007, 0.0000) localP=(0.0000, 0.0000, 0.0000) localR=(270.02, 0.00, 0.00) scale=(1.0000, 1.0000, 1.0000)
+prefab_restored Back p=(0.0000, 0.8666, -0.1715) localP=(0.0000, 0.2658, 0.0000) localR=(34.06, 0.00, 0.00) scale=(1.0000, 1.0000, 1.0000)
+prefab_restored Chest p=(0.0000, 1.1367, -0.0784) localP=(0.0000, 0.3308, 0.0000) localR=(40.04, 0.00, 0.00) scale=(1.0000, 1.0000, 1.0000)
+prefab_restored Neck p=(0.0000, 1.2301, 0.0774) localP=(0.0000, 0.2103, 0.0000) localR=(332.72, 0.00, 0.00) scale=(1.0000, 1.0000, 1.0000)
+prefab_restored Head p=(0.0000, 1.2966, 0.1186) localP=(0.0000, 0.0906, 0.0000) localR=(331.82, 0.00, 0.00) scale=(1.0000, 1.0000, 1.0000)
+prefab_then_idle Armature p=(0.0000, 0.0007, 0.0000) localP=(0.0000, 0.0000, 0.0000) localR=(270.02, 0.00, 0.00) scale=(1.0000, 1.0000, 1.0000)
+prefab_then_idle Back p=(0.0000, 0.8666, -0.1715) localP=(0.0000, 0.2658, 0.0000) localR=(34.06, 0.00, 0.00) scale=(1.0000, 1.0000, 1.0000)
+prefab_then_idle Chest p=(0.0000, 1.1367, -0.0784) localP=(0.0000, 0.3308, 0.0000) localR=(40.04, 0.00, 0.00) scale=(1.0000, 1.0000, 1.0000)
+prefab_then_idle Neck p=(0.0000, 1.2301, 0.0774) localP=(0.0000, 0.2103, 0.0000) localR=(332.72, 0.00, 0.00) scale=(1.0000, 1.0000, 1.0000)
+prefab_then_idle Head p=(0.0000, 1.2966, 0.1186) localP=(0.0000, 0.0906, 0.0000) localR=(331.82, 0.00, 0.00) scale=(1.0000, 1.0000, 1.0000)
+IDLE_CURVE Armature m_LocalRotation.x
+IDLE_CURVE Armature m_LocalRotation.y
+IDLE_CURVE Armature m_LocalRotation.z
+IDLE_CURVE Armature m_LocalRotation.w
+IDLE_CURVE Armature/Hips m_LocalRotation.x
+IDLE_CURVE Armature/Hips m_LocalRotation.y
+IDLE_CURVE Armature/Hips m_LocalRotation.z
+IDLE_CURVE Armature/Hips m_LocalRotation.w
+IDLE_CURVE Armature/Hips/Back m_LocalRotation.x
+IDLE_CURVE Armature/Hips/Back m_LocalRotation.y
+IDLE_CURVE Armature/Hips/Back m_LocalRotation.z
+IDLE_CURVE Armature/Hips/Back m_LocalRotation.w
+IDLE_CURVE Armature/Hips/Back/Chest m_LocalRotation.x
+IDLE_CURVE Armature/Hips/Back/Chest m_LocalRotation.y
+IDLE_CURVE Armature/Hips/Back/Chest m_LocalRotation.z
+IDLE_CURVE Armature/Hips/Back/Chest m_LocalRotation.w
+IDLE_CURVE Armature/Hips/Back/Chest/Neck m_LocalRotation.x
+IDLE_CURVE Armature/Hips/Back/Chest/Neck m_LocalRotation.y
+IDLE_CURVE Armature/Hips/Back/Chest/Neck m_LocalRotation.z
+IDLE_CURVE Armature/Hips/Back/Chest/Neck m_LocalRotation.w
+IDLE_CURVE Armature/Hips/Back/Chest/Neck/Head m_LocalRotation.x
+IDLE_CURVE Armature/Hips/Back/Chest/Neck/Head m_LocalRotation.y
+IDLE_CURVE Armature/Hips/Back/Chest/Neck/Head m_LocalRotation.z
+IDLE_CURVE Armature/Hips/Back/Chest/Neck/Head m_LocalRotation.w
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.L m_LocalRotation.x
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.L m_LocalRotation.y
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.L m_LocalRotation.z
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.L m_LocalRotation.w
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.L/Arm_Lower.L m_LocalRotation.x
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.L/Arm_Lower.L m_LocalRotation.y
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.L/Arm_Lower.L m_LocalRotation.z
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.L/Arm_Lower.L m_LocalRotation.w
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.L/Arm_Lower.L/Hand.L m_LocalRotation.x
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.L/Arm_Lower.L/Hand.L m_LocalRotation.y
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.L/Arm_Lower.L/Hand.L m_LocalRotation.z
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.L/Arm_Lower.L/Hand.L m_LocalRotation.w
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.R m_LocalRotation.x
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.R m_LocalRotation.y
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.R m_LocalRotation.z
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.R m_LocalRotation.w
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.R/Arm_Lower.R m_LocalRotation.x
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.R/Arm_Lower.R m_LocalRotation.y
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.R/Arm_Lower.R m_LocalRotation.z
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.R/Arm_Lower.R m_LocalRotation.w
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.R/Arm_Lower.R/Hand.R m_LocalRotation.x
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.R/Arm_Lower.R/Hand.R m_LocalRotation.y
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.R/Arm_Lower.R/Hand.R m_LocalRotation.z
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.R/Arm_Lower.R/Hand.R m_LocalRotation.w
+IDLE_CURVE Armature/Hips/Leg_Upper.L m_LocalRotation.x
+IDLE_CURVE Armature/Hips/Leg_Upper.L m_LocalRotation.y
+IDLE_CURVE Armature/Hips/Leg_Upper.L m_LocalRotation.z
+IDLE_CURVE Armature/Hips/Leg_Upper.L m_LocalRotation.w
+IDLE_CURVE Armature/Hips/Leg_Upper.L/Leg_Lower.L m_LocalRotation.x
+IDLE_CURVE Armature/Hips/Leg_Upper.L/Leg_Lower.L m_LocalRotation.y
+IDLE_CURVE Armature/Hips/Leg_Upper.L/Leg_Lower.L m_LocalRotation.z
+IDLE_CURVE Armature/Hips/Leg_Upper.L/Leg_Lower.L m_LocalRotation.w
+IDLE_CURVE Armature/Hips/Leg_Upper.L/Leg_Lower.L/Foot.L m_LocalRotation.x
+IDLE_CURVE Armature/Hips/Leg_Upper.L/Leg_Lower.L/Foot.L m_LocalRotation.y
+IDLE_CURVE Armature/Hips/Leg_Upper.L/Leg_Lower.L/Foot.L m_LocalRotation.z
+IDLE_CURVE Armature/Hips/Leg_Upper.L/Leg_Lower.L/Foot.L m_LocalRotation.w
+IDLE_CURVE Armature/Hips/Leg_Upper.R m_LocalRotation.x
+IDLE_CURVE Armature/Hips/Leg_Upper.R m_LocalRotation.y
+IDLE_CURVE Armature/Hips/Leg_Upper.R m_LocalRotation.z
+IDLE_CURVE Armature/Hips/Leg_Upper.R m_LocalRotation.w
+IDLE_CURVE Armature/Hips/Leg_Upper.R/Leg_Lower.R m_LocalRotation.x
+IDLE_CURVE Armature/Hips/Leg_Upper.R/Leg_Lower.R m_LocalRotation.y
+IDLE_CURVE Armature/Hips/Leg_Upper.R/Leg_Lower.R m_LocalRotation.z
+IDLE_CURVE Armature/Hips/Leg_Upper.R/Leg_Lower.R m_LocalRotation.w
+IDLE_CURVE Armature/Hips/Leg_Upper.R/Leg_Lower.R/Foot.R m_LocalRotation.x
+IDLE_CURVE Armature/Hips/Leg_Upper.R/Leg_Lower.R/Foot.R m_LocalRotation.y
+IDLE_CURVE Armature/Hips/Leg_Upper.R/Leg_Lower.R/Foot.R m_LocalRotation.z
+IDLE_CURVE Armature/Hips/Leg_Upper.R/Leg_Lower.R/Foot.R m_LocalRotation.w
+IDLE_CURVE Armature/Leg_IK.L m_LocalRotation.x
+IDLE_CURVE Armature/Leg_IK.L m_LocalRotation.y
+IDLE_CURVE Armature/Leg_IK.L m_LocalRotation.z
+IDLE_CURVE Armature/Leg_IK.L m_LocalRotation.w
+IDLE_CURVE Armature/Pole_Target.L m_LocalRotation.x
+IDLE_CURVE Armature/Pole_Target.L m_LocalRotation.y
+IDLE_CURVE Armature/Pole_Target.L m_LocalRotation.z
+IDLE_CURVE Armature/Pole_Target.L m_LocalRotation.w
+IDLE_CURVE Armature/Leg_IK.R m_LocalRotation.x
+IDLE_CURVE Armature/Leg_IK.R m_LocalRotation.y
+IDLE_CURVE Armature/Leg_IK.R m_LocalRotation.z
+IDLE_CURVE Armature/Leg_IK.R m_LocalRotation.w
+IDLE_CURVE Armature/Pole_Target.R m_LocalRotation.x
+IDLE_CURVE Armature/Pole_Target.R m_LocalRotation.y
+IDLE_CURVE Armature/Pole_Target.R m_LocalRotation.z
+IDLE_CURVE Armature/Pole_Target.R m_LocalRotation.w
+IDLE_CURVE Armature m_LocalPosition.x
+IDLE_CURVE Armature m_LocalPosition.y
+IDLE_CURVE Armature m_LocalPosition.z
+IDLE_CURVE Armature/Hips m_LocalPosition.x
+IDLE_CURVE Armature/Hips m_LocalPosition.y
+IDLE_CURVE Armature/Hips m_LocalPosition.z
+IDLE_CURVE Armature/Hips/Back m_LocalPosition.x
+IDLE_CURVE Armature/Hips/Back m_LocalPosition.y
+IDLE_CURVE Armature/Hips/Back m_LocalPosition.z
+IDLE_CURVE Armature/Hips/Back/Chest m_LocalPosition.x
+IDLE_CURVE Armature/Hips/Back/Chest m_LocalPosition.y
+IDLE_CURVE Armature/Hips/Back/Chest m_LocalPosition.z
+IDLE_CURVE Armature/Hips/Back/Chest/Neck m_LocalPosition.x
+IDLE_CURVE Armature/Hips/Back/Chest/Neck m_LocalPosition.y
+IDLE_CURVE Armature/Hips/Back/Chest/Neck m_LocalPosition.z
+IDLE_CURVE Armature/Hips/Back/Chest/Neck/Head m_LocalPosition.x
+IDLE_CURVE Armature/Hips/Back/Chest/Neck/Head m_LocalPosition.y
+IDLE_CURVE Armature/Hips/Back/Chest/Neck/Head m_LocalPosition.z
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.L m_LocalPosition.x
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.L m_LocalPosition.y
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.L m_LocalPosition.z
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.L/Arm_Lower.L m_LocalPosition.x
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.L/Arm_Lower.L m_LocalPosition.y
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.L/Arm_Lower.L m_LocalPosition.z
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.L/Arm_Lower.L/Hand.L m_LocalPosition.x
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.L/Arm_Lower.L/Hand.L m_LocalPosition.y
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.L/Arm_Lower.L/Hand.L m_LocalPosition.z
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.R m_LocalPosition.x
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.R m_LocalPosition.y
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.R m_LocalPosition.z
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.R/Arm_Lower.R m_LocalPosition.x
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.R/Arm_Lower.R m_LocalPosition.y
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.R/Arm_Lower.R m_LocalPosition.z
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.R/Arm_Lower.R/Hand.R m_LocalPosition.x
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.R/Arm_Lower.R/Hand.R m_LocalPosition.y
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.R/Arm_Lower.R/Hand.R m_LocalPosition.z
+IDLE_CURVE Armature/Hips/Leg_Upper.L m_LocalPosition.x
+IDLE_CURVE Armature/Hips/Leg_Upper.L m_LocalPosition.y
+IDLE_CURVE Armature/Hips/Leg_Upper.L m_LocalPosition.z
+IDLE_CURVE Armature/Hips/Leg_Upper.L/Leg_Lower.L m_LocalPosition.x
+IDLE_CURVE Armature/Hips/Leg_Upper.L/Leg_Lower.L m_LocalPosition.y
+IDLE_CURVE Armature/Hips/Leg_Upper.L/Leg_Lower.L m_LocalPosition.z
+IDLE_CURVE Armature/Hips/Leg_Upper.L/Leg_Lower.L/Foot.L m_LocalPosition.x
+IDLE_CURVE Armature/Hips/Leg_Upper.L/Leg_Lower.L/Foot.L m_LocalPosition.y
+IDLE_CURVE Armature/Hips/Leg_Upper.L/Leg_Lower.L/Foot.L m_LocalPosition.z
+IDLE_CURVE Armature/Hips/Leg_Upper.R m_LocalPosition.x
+IDLE_CURVE Armature/Hips/Leg_Upper.R m_LocalPosition.y
+IDLE_CURVE Armature/Hips/Leg_Upper.R m_LocalPosition.z
+IDLE_CURVE Armature/Hips/Leg_Upper.R/Leg_Lower.R m_LocalPosition.x
+IDLE_CURVE Armature/Hips/Leg_Upper.R/Leg_Lower.R m_LocalPosition.y
+IDLE_CURVE Armature/Hips/Leg_Upper.R/Leg_Lower.R m_LocalPosition.z
+IDLE_CURVE Armature/Hips/Leg_Upper.R/Leg_Lower.R/Foot.R m_LocalPosition.x
+IDLE_CURVE Armature/Hips/Leg_Upper.R/Leg_Lower.R/Foot.R m_LocalPosition.y
+IDLE_CURVE Armature/Hips/Leg_Upper.R/Leg_Lower.R/Foot.R m_LocalPosition.z
+IDLE_CURVE Armature/Leg_IK.L m_LocalPosition.x
+IDLE_CURVE Armature/Leg_IK.L m_LocalPosition.y
+IDLE_CURVE Armature/Leg_IK.L m_LocalPosition.z
+IDLE_CURVE Armature/Pole_Target.L m_LocalPosition.x
+IDLE_CURVE Armature/Pole_Target.L m_LocalPosition.y
+IDLE_CURVE Armature/Pole_Target.L m_LocalPosition.z
+IDLE_CURVE Armature/Leg_IK.R m_LocalPosition.x
+IDLE_CURVE Armature/Leg_IK.R m_LocalPosition.y
+IDLE_CURVE Armature/Leg_IK.R m_LocalPosition.z
+IDLE_CURVE Armature/Pole_Target.R m_LocalPosition.x
+IDLE_CURVE Armature/Pole_Target.R m_LocalPosition.y
+IDLE_CURVE Armature/Pole_Target.R m_LocalPosition.z
+IDLE_CURVE Armature m_LocalScale.x
+IDLE_CURVE Armature m_LocalScale.y
+IDLE_CURVE Armature m_LocalScale.z
+IDLE_CURVE Armature/Hips m_LocalScale.x
+IDLE_CURVE Armature/Hips m_LocalScale.y
+IDLE_CURVE Armature/Hips m_LocalScale.z
+IDLE_CURVE Armature/Hips/Back m_LocalScale.x
+IDLE_CURVE Armature/Hips/Back m_LocalScale.y
+IDLE_CURVE Armature/Hips/Back m_LocalScale.z
+IDLE_CURVE Armature/Hips/Back/Chest m_LocalScale.x
+IDLE_CURVE Armature/Hips/Back/Chest m_LocalScale.y
+IDLE_CURVE Armature/Hips/Back/Chest m_LocalScale.z
+IDLE_CURVE Armature/Hips/Back/Chest/Neck m_LocalScale.x
+IDLE_CURVE Armature/Hips/Back/Chest/Neck m_LocalScale.y
+IDLE_CURVE Armature/Hips/Back/Chest/Neck m_LocalScale.z
+IDLE_CURVE Armature/Hips/Back/Chest/Neck/Head m_LocalScale.x
+IDLE_CURVE Armature/Hips/Back/Chest/Neck/Head m_LocalScale.y
+IDLE_CURVE Armature/Hips/Back/Chest/Neck/Head m_LocalScale.z
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.L m_LocalScale.x
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.L m_LocalScale.y
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.L m_LocalScale.z
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.L/Arm_Lower.L m_LocalScale.x
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.L/Arm_Lower.L m_LocalScale.y
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.L/Arm_Lower.L m_LocalScale.z
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.L/Arm_Lower.L/Hand.L m_LocalScale.x
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.L/Arm_Lower.L/Hand.L m_LocalScale.y
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.L/Arm_Lower.L/Hand.L m_LocalScale.z
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.R m_LocalScale.x
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.R m_LocalScale.y
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.R m_LocalScale.z
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.R/Arm_Lower.R m_LocalScale.x
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.R/Arm_Lower.R m_LocalScale.y
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.R/Arm_Lower.R m_LocalScale.z
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.R/Arm_Lower.R/Hand.R m_LocalScale.x
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.R/Arm_Lower.R/Hand.R m_LocalScale.y
+IDLE_CURVE Armature/Hips/Back/Chest/Arm_Upper.R/Arm_Lower.R/Hand.R m_LocalScale.z
+IDLE_CURVE Armature/Hips/Leg_Upper.L m_LocalScale.x
+IDLE_CURVE Armature/Hips/Leg_Upper.L m_LocalScale.y
+IDLE_CURVE Armature/Hips/Leg_Upper.L m_LocalScale.z
+IDLE_CURVE Armature/Hips/Leg_Upper.L/Leg_Lower.L m_LocalScale.x
+IDLE_CURVE Armature/Hips/Leg_Upper.L/Leg_Lower.L m_LocalScale.y
+IDLE_CURVE Armature/Hips/Leg_Upper.L/Leg_Lower.L m_LocalScale.z
+IDLE_CURVE Armature/Hips/Leg_Upper.L/Leg_Lower.L/Foot.L m_LocalScale.x
+IDLE_CURVE Armature/Hips/Leg_Upper.L/Leg_Lower.L/Foot.L m_LocalScale.y
+IDLE_CURVE Armature/Hips/Leg_Upper.L/Leg_Lower.L/Foot.L m_LocalScale.z
+IDLE_CURVE Armature/Hips/Leg_Upper.R m_LocalScale.x
+IDLE_CURVE Armature/Hips/Leg_Upper.R m_LocalScale.y
+IDLE_CURVE Armature/Hips/Leg_Upper.R m_LocalScale.z
+IDLE_CURVE Armature/Hips/Leg_Upper.R/Leg_Lower.R m_LocalScale.x
+IDLE_CURVE Armature/Hips/Leg_Upper.R/Leg_Lower.R m_LocalScale.y
+IDLE_CURVE Armature/Hips/Leg_Upper.R/Leg_Lower.R m_LocalScale.z
+IDLE_CURVE Armature/Hips/Leg_Upper.R/Leg_Lower.R/Foot.R m_LocalScale.x
+IDLE_CURVE Armature/Hips/Leg_Upper.R/Leg_Lower.R/Foot.R m_LocalScale.y
+IDLE_CURVE Armature/Hips/Leg_Upper.R/Leg_Lower.R/Foot.R m_LocalScale.z
+IDLE_CURVE Armature/Leg_IK.L m_LocalScale.x
+IDLE_CURVE Armature/Leg_IK.L m_LocalScale.y
+IDLE_CURVE Armature/Leg_IK.L m_LocalScale.z
+IDLE_CURVE Armature/Pole_Target.L m_LocalScale.x
+IDLE_CURVE Armature/Pole_Target.L m_LocalScale.y
+IDLE_CURVE Armature/Pole_Target.L m_LocalScale.z
+IDLE_CURVE Armature/Leg_IK.R m_LocalScale.x
+IDLE_CURVE Armature/Leg_IK.R m_LocalScale.y
+IDLE_CURVE Armature/Leg_IK.R m_LocalScale.z
+IDLE_CURVE Armature/Pole_Target.R m_LocalScale.x
+IDLE_CURVE Armature/Pole_Target.R m_LocalScale.y
+IDLE_CURVE Armature/Pole_Target.R m_LocalScale.z

@@ -1,0 +1,23 @@
+{
+    "passed": false,
+    "failures": 2,
+    "errors": 0,
+    "skinTris": 50,
+    "scalpTris": 42,
+    "guestTris": 748,
+    "jawTris": 428,
+    "faceBase": 1.0,
+    "skinFacing": 0.8600000143051148,
+    "guestFacing": 0.4585561454296112,
+    "eyeDrop": 0.03500000014901161,
+    "seamGap": 0.014000000432133675,
+    "slide": 1.0,
+    "jawAngle": 38.0,
+    "grownTop": 3.9302258491516115,
+    "faceToHerFace": 0.02061714604496956,
+    "standInInstalled": true,
+    "leftovers": false,
+    "mirrored": false,
+    "guestInside": true,
+    "skinBelowChin": true
+}

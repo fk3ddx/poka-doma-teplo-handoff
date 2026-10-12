@@ -912,11 +912,11 @@ namespace Ataka.Scenario {
   // QA (-face-qa): 11.9 and 11.10 alone — her at the stove with her back to him, then the transformation and the tear.
   public void QaFaceFinale(){StopAll();running=StartCoroutine(QaFaceRun());}
   IEnumerator QaFaceRun(){chapter=Chapter.Finale;loop.Pause(false);Homely(true);PropsAfterEvening();Put("Kettle",KettleFront);FinaleReset();Rig();
-   var g=flat.grandmother;g.SetActive(true);granHeld=true;g.transform.SetPositionAndRotation(Stand(StoveStand),Quaternion.LookRotation(StoveAt-Stand(StoveStand)));
-   // pc28c: a hard idle restart — story28-face-c began from the sampled hanging pose (head top 0.90 m over her feet → grow ×2.67, 3.98 m)
+   var g=flat.grandmother;g.SetActive(true);granHeld=true;g.transform.SetPositionAndRotation(Stand(StoveStand),Quaternion.LookRotation(Vector3.ProjectOnPlane(StoveAt-Stand(StoveStand),Vector3.up)));
+   // QA actor yaw must be horizontal: aiming the whole body at the elevated burner pitched it sideways. Sample the authored idle before measuring.
    if(granAnim){granAnim.enabled=true;granAnim.Stop();if(!string.IsNullOrEmpty(granIdle)){granAnim.Play(granIdle);granAnim[granIdle].time=0;granAnim[granIdle].clip.SampleAnimation(granAnim.gameObject,0);granAnim.Sample();}}GranPlay(granIdle);
    player.Place(new Vector3(7.3f,.02f,2.55f),0);yield return null;var d=g.transform.position+Vector3.up*1.3f-player.head.position;player.transform.rotation=Quaternion.LookRotation(new Vector3(d.x,0,d.z));yield return new WaitForSeconds(1.5f);
-   Beat("question");yield return FinaleTransformation();Beat("tear");if(faceShed){faceShed.End();faceShed=null;}yield return scenes.Play("DeathFinale");sound.EndDeathRecovery();FinaleReset();Beat("done");}
+   yield return new WaitForEndOfFrame();Debug.Log("FACE_STAGE anim="+(granAnim?granAnim.isPlaying:false)+" culling="+(granAnim?granAnim.cullingType.ToString():"none")+" head="+rig.head.position+" top="+rig.Top);Beat("question");yield return FinaleTransformation();Beat("tear");if(faceShed){faceShed.End();faceShed=null;}yield return scenes.Play("DeathFinale");sound.EndDeathRecovery();FinaleReset();Beat("done");}
   IEnumerator PeepholeGrandmother(){
    // 11.5: the grandmother looks perfect through the fish-eye. No breath, and Tuzik is silent.
    var p=player;var head=p.head;var savedPos=head.localPosition;var savedRot=head.localRotation;p.control=false;flat.look.peephole=1;

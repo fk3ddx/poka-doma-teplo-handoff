@@ -1,0 +1,21 @@
+{
+  "author": "Joseph SARDIN & Axeline T.",
+  "license": "CC0",
+  "source": "https://bigsoundbank.com/petit-chien-aboie-derriere-porte-s3537.html",
+  "download": "https://bigsoundbank.com/UPLOAD/mp3/3537.mp3",
+  "sha256": "81366d0eadd80d3be847f60e7488649307e3a66392239862933e021ae69de818",
+  "description": "Small dog barking behind apartment door, 32 sec; not auditioned yet",
+  "file": "unity-game/Assets/_Project/Resources/Audio/dog_bark.wav",
+  "source_file": "art-source/prologue/SmallDogBehindDoor-3537.mp3",
+  "start_seconds": 1.8,
+  "end_seconds": 3.15,
+  "mono": true,
+  "samplerate": 48000,
+  "attack_seconds": 0.015,
+  "release_seconds": 0.18,
+  "gain": 1.0,
+  "peak_dbfs": -9.886125624333195,
+  "duration_seconds": 1.35,
+  "audition": "pending; never played on user speakers",
+  "validation": "finite samples, no clipping, zero fade endpoints"
+}
