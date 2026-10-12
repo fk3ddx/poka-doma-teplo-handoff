@@ -86,7 +86,7 @@ namespace Ataka.Scenario {
 
   // ---------- lifecycle ----------
   void Awake(){if(!loop)loop=GetComponent<LoopDirector>();savePath=System.IO.Path.Combine(Application.persistentDataPath,"story-checkpoint.json");}
-  void Start(){tv=FindFirstObjectByType<ScenarioTelevision>();var anim=flat.grandmother.GetComponentInChildren<Animation>(true);granAnim=anim;
+  void Start(){RememberProps();tv=FindFirstObjectByType<ScenarioTelevision>();var anim=flat.grandmother.GetComponentInChildren<Animation>(true);granAnim=anim;
    if(anim)foreach(AnimationState s in anim){if(s.name.EndsWith("Oidle"))granIdle=s.name;if(s.name.EndsWith("Owalk"))granWalk=s.name;}}
   public bool HasSave=>System.IO.File.Exists(savePath);
   void Checkpoint(string at){if(loop.testing)return;System.IO.File.WriteAllText(savePath,JsonUtility.ToJson(new Save{chapter=at,flashlight=player.hasFlashlight,belt=belt}));}
@@ -139,7 +139,7 @@ namespace Ataka.Scenario {
   IEnumerator Evening(bool continued){
    chapter=Chapter.Evening;
    if(!continued){loop.Pause(false);Homely(true);flat.stool.SetActive(true);flat.stool.transform.SetPositionAndRotation(new Vector3(7.15f,0,1.2f),Quaternion.identity);player.Place(ScenarioLayout.Spawn,180);GranShow("Kitchen",90);yield return Fade(0,.8f);}
-   Checkpoint("Evening");flat.clock.stopped=true;Clock(19,15);OfferFlashlight();
+   Checkpoint("Evening");flat.clock.stopped=true;Clock(19,15);OfferFlashlight();PropsAtEveningStart();
    // 4.1
    Task("Повесить куртку и разуться");
    yield return Use(new Vector3(8.72f,1.6f,5.1f),"Повесить куртку");sound.Play("carpet_step",player.transform.position);
@@ -147,28 +147,30 @@ namespace Ataka.Scenario {
    yield return Line("Бабушка","Тапки дедовы надевай, твои малы уже");
    // 4.2
    Clock(19,20);Task("Разобрать сумку на кухне");
-   yield return Use(new Vector3(7.58f,.8f,.6f),"Поставить сумку на стол");
-   yield return Use(new Vector3(7.4f,.8f,.6f),"Батон — в хлебницу");
-   yield return Use(new Vector3(6.85f,1.5f,1.6f),"Шпроты — в шкаф");
+   yield return Use(new Vector3(7.58f,.8f,.6f),"Поставить сумку на стол");Show("Bread",true);Show("Cans",true);
+   yield return Use(new Vector3(7.4f,.8f,.6f),"Батон — в хлебницу");Show("Bread",false);
+   yield return Use(new Vector3(6.85f,1.5f,1.6f),"Шпроты — в шкаф");Show("Cans",false);
    yield return Use(()=>flat.grandmother.transform.position+Vector3.up*1.2f,"Отдать «Корвалол» бабушке",0,2);
    yield return Line("Бабушка","Вот спасибо, а то кончился");
    // 4.3
    Clock(19,30);Task("Поставить чайник");
-   yield return Use(new Vector3(8.24f,1.58f,2.43f),"Взять спички с ЗиЛа");
+   yield return Use(new Vector3(8.24f,1.58f,2.43f),"Взять спички с ЗиЛа");Show("Matchbox",false);
    yield return Use(new Vector3(8.48f,.9f,1.65f),"Открыть газ и зажечь конфорку",.6f);sound.Play("latch",new Vector3(8.48f,.9f,1.65f));
    var flame=FlameLight(new Vector3(8.48f,.95f,1.65f));
+   yield return Use(()=>Prop("Kettle")?Prop("Kettle").position+Vector3.up*.12f:new Vector3(8.48f,.95f,1.85f),"Взять чайник",0,2);Show("Kettle",false);
    yield return Use(new Vector3(6.9f,1f,1.6f),"Набрать воду в чайник",3);
-   yield return Use(new Vector3(8.48f,.95f,1.65f),"Поставить чайник на огонь");
+   yield return Use(new Vector3(8.48f,.95f,1.65f),"Поставить чайник на огонь");Put("Kettle",new Vector3(8.48f,.86f,1.55f));
    yield return Line("Бабушка","Пока греется — сходи на балкон, банку вишнёвого принеси. Только дверь там… шпингалет заедает. Дед всё ремнём её подвязывал, пока не помер, а я так и не починила",8);
    Task("Принести с балкона банку вишнёвого");
    yield return Use(flat.balcony.position+Vector3.up*.9f,"Отодвинуть шпингалет (заедает)",2);
    sound.Play("creak",flat.balcony.position);flat.balconyDoor.locked=false;flat.balconyDoor.open=true;sound.Play("wind",flat.balcony.position);
-   yield return Use(new Vector3(5.6f,1f,-.85f),"Взять банку варенья",0,2.2f);
+   yield return Use(()=>Prop("JamJar")?Prop("JamJar").position+Vector3.up*.08f:new Vector3(5.6f,1f,-.85f),"Взять банку варенья",0,2.2f);Show("JamJar",false);
    yield return Use(flat.balcony.position+Vector3.up*.9f,"Закрыть балконную дверь");
    flat.balconyDoor.open=false;flat.balconyDoor.closedAngle=1.6f;sound.Play("door_close",flat.balcony.position);
    yield return Line("","Не закрывается толком");
    Task("Заварить чай");
    yield return Use(new Vector3(8.48f,.95f,1.65f),"Выключить газ — чайник свистит");if(flame)Destroy(flame.gameObject);
+   Put("JamJar",new Vector3(7.35f,.745f,.62f));Put("Matchbox",new Vector3(8.62f,.86f,1.95f));
    yield return Use(new Vector3(7.58f,.8f,.55f),"Заварить и разлить чай",1.2f);
    yield return Use(new Vector3(7.15f,.5f,1.2f),"Сесть за стол");
    player.control=false;
@@ -190,7 +192,7 @@ namespace Ataka.Scenario {
    yield return Use(new Vector3(6.6f,1.2f,5.25f),"Поставить табуретку под антресолью",0,2.2f);
    yield return Use(new Vector3(6.6f,2.2f,5.25f),"Достать лампочку с антресоли",0,2.6f);
    yield return Use(ScenarioLayout.Clock+new Vector3(0,.9f,.1f),"Выкрутить старую и вкрутить новую",2,2.6f);
-   if(sconce)sconce.intensity=Mathf.Max(sconceWas,1.8f);flat.stool.SetActive(true);flat.stool.transform.SetPositionAndRotation(new Vector3(5.5f,0,5.8f),Quaternion.identity);
+   Show("Bulb",true);if(sconce)sconce.intensity=Mathf.Max(sconceWas,1.8f);flat.stool.SetActive(true);flat.stool.transform.SetPositionAndRotation(new Vector3(5.5f,0,5.8f),Quaternion.identity);
    yield return GranGo("Door");
    yield return Line("Бабушка","Если свет выбьет — вот тут пробки, кнопочку нажать. Дед подписал");
    yield return Line("Бабушка","Табуретку оставь, потом унесу");
@@ -201,7 +203,7 @@ namespace Ataka.Scenario {
    StartCoroutine(GranGo("HallB"));
    yield return Use(flat.wardrobe.position+new Vector3(-.3f,1.2f,0),"Открыть шифоньер",0,2);
    foreach(var d in flat.wardrobeLeaves)d.localRotation=Quaternion.Euler(0,95,0);sound.Play("door_open",flat.wardrobe.position);
-   yield return Use(flat.wardrobe.position+new Vector3(-.3f,1.5f,0),"Повесить платок на плечики",0,2);
+   yield return Use(flat.wardrobe.position+new Vector3(-.3f,1.5f,0),"Повесить платок на плечики",0,2);Show("Shawl",true);
    yield return Line("","Дедов ремень… Тот самый, которым дед балкон подвязывал",4);
    foreach(var d in flat.wardrobeLeaves)d.localRotation=Quaternion.identity;sound.Play("wardrobe",flat.wardrobe.position);
    Clock(20,40);
@@ -233,6 +235,14 @@ namespace Ataka.Scenario {
   void OfferFlashlight(){var c=flat.hallCupboard;if(!c||player.hasFlashlight)return;OfferCupboardOpen();
    Offer(()=>c.interaction.position,"Взять фонарик-«жучок»",0,1.7f,Key.E,()=>!player.hasFlashlight&&c.ReadyToTake,()=>{c.Take(player);Say("","Фонарик. F — включить, держать F — подкачать",4);});}
   void OfferCupboardOpen(){var c=flat.hallCupboard;Offer(()=>c.interaction.position,"Открыть тумбу трюмо",0,1.7f,Key.E,()=>!player.hasFlashlight&&!c.door.open,()=>{sound.Play(c.door.ToggleWithCue(),c.interaction.position);if(!player.hasFlashlight)OfferCupboardOpen();});}
+  // Ready story props placed by Editor/StoryPropsInstaller as "STORY <id>"; absent props are simply skipped.
+  readonly Dictionary<string,(Vector3 at,Quaternion rot,bool on)> propStart=new Dictionary<string,(Vector3,Quaternion,bool)>();
+  Transform Prop(string id)=>flat.apartment?flat.apartment.Find("STORY "+id):null;
+  void Show(string id,bool on){var t=Prop(id);if(t)t.gameObject.SetActive(on);}
+  void Put(string id,Vector3 at,bool on=true){var t=Prop(id);if(!t)return;t.position=at;t.gameObject.SetActive(on);}
+  void RememberProps(){foreach(var id in new[]{"Kettle","Matchbox","JamJar","Belt","Bread","Cans","Bulb","Shawl"}){var t=Prop(id);if(t&&!propStart.ContainsKey(id))propStart[id]=(t.position,t.rotation,t.gameObject.activeSelf);}}
+  void PropsAtEveningStart(){foreach(var kv in propStart){var t=Prop(kv.Key);if(!t)continue;t.SetPositionAndRotation(kv.Value.at,kv.Value.rot);t.gameObject.SetActive(kv.Value.on);}}
+  void PropsAfterEvening(){PropsAtEveningStart();Put("Kettle",new Vector3(8.48f,.86f,1.55f));Put("JamJar",new Vector3(7.35f,.745f,.62f));Show("Bulb",true);Show("Shawl",true);}
   Light FlameLight(Vector3 at){var g=new GameObject("Gas flame (story)");g.transform.position=at;var l=g.AddComponent<Light>();l.type=LightType.Point;l.color=new Color(.35f,.55f,1);l.intensity=.6f;l.range=1.2f;l.shadows=LightShadows.None;return l;}
 
   IEnumerator ValyaAtTheDoor(bool second){
@@ -267,7 +277,7 @@ namespace Ataka.Scenario {
   IEnumerator Night1(bool continued){
    chapter=Chapter.Night1;night=1;
    if(!continued){loop.Pause(false);Homely(true);flat.clock.stopped=false;flat.entrance.locked=true;flat.stool.SetActive(true);flat.stool.transform.SetPositionAndRotation(new Vector3(5.5f,0,5.8f),Quaternion.identity);player.Place(ScenarioLayout.Spawn,180);yield return Fade(0,.8f);}
-   Checkpoint("Night1");Task("Дождаться бабушку");if(!continued)OfferFlashlight();
+   if(!continued)PropsAfterEvening();Checkpoint("Night1");Task("Дождаться бабушку");if(!continued)OfferFlashlight();
    yield return NightMinutesUntil22();
    yield return NightEvents(1,false);
   }
@@ -364,12 +374,12 @@ namespace Ataka.Scenario {
    acts.Clear();Homely(true);flat.entrance.locked=true;flat.clock.stopped=false;if(which==2&&beltTied)TieStrap(true);player.Place(ScenarioLayout.Spawn,180);nightSeconds=22*3600;NightClock();
    yield return NightEvents(which,true);
   }
-  IEnumerator RestartNight2At2142(){acts.Clear();Homely(true);belt=false;beltTied=false;TieStrap(false);flat.entrance.locked=true;player.Place(ScenarioLayout.Spawn,180);yield return Night2Body();}
+  IEnumerator RestartNight2At2142(){acts.Clear();Homely(true);PropsAfterEvening();belt=false;beltTied=false;TieStrap(false);flat.entrance.locked=true;player.Place(ScenarioLayout.Spawn,180);yield return Night2Body();}
 
   // ---------- 6.1 Rewind ----------
   IEnumerator Rewind(){
    loop.prompt.text="";acts.Clear();fade=1;yield return new WaitForSeconds(1);
-   flat.look.disruption=1;fade=0;Homely(true);flat.balconyDoor.closedAngle=0;
+   flat.look.disruption=1;fade=0;Homely(true);PropsAfterEvening();flat.balconyDoor.closedAngle=0;
    string[] flashes={"…дверь балкона закрывается сама…","…побелка взлетает обратно на потолок…","…телефон… стук… «Рубин» гаснет внутрь…","…бабушка с вареньем…","…шифоньер. Дедов ремень…","…«тук-тук… тук»…","…лампочка…"};
    foreach(var f in flashes){card=f;sound.Play("clock",ScenarioLayout.Clock);yield return new WaitForSeconds(1.1f);}
    card=null;fade=1;yield return new WaitForSeconds(.15f);fade=0;flat.look.disruption=.4f;yield return new WaitForSeconds(.6f);flat.look.disruption=0;
@@ -378,7 +388,7 @@ namespace Ataka.Scenario {
   // ---------- 8. Second night ----------
   IEnumerator Night2(bool continued){
    chapter=Chapter.Night2;night=2;
-   if(!continued){loop.Pause(false);Homely(true);}
+   if(!continued){loop.Pause(false);Homely(true);PropsAfterEvening();}
    flat.stool.SetActive(true);flat.stool.transform.SetPositionAndRotation(new Vector3(5.5f,0,5.8f),Quaternion.identity);flat.clock.stopped=false;Clock(21,40);
    Checkpoint("Night2");
    yield return ValyaAtTheDoor(true);
@@ -388,7 +398,7 @@ namespace Ataka.Scenario {
    chapter=Chapter.Night2;Task("Запомни, как это было");OfferFlashlight();nightSeconds=21*3600+42*60;NightClock();
    // Preparation: belt, torch, (candles optional are not implemented)
    Act takeBelt=null,tie=null;
-   takeBelt=Offer(()=>flat.wardrobe.position+new Vector3(-.3f,1.3f,0),"Взять дедов ремень",0,2,Key.E,()=>!belt,()=>{belt=true;foreach(var d in flat.wardrobeLeaves)d.localRotation=Quaternion.Euler(0,95,0);sound.Play("door_open",flat.wardrobe.position);Say("","Ремень. Тот самый",2.5f);});
+   takeBelt=Offer(()=>flat.wardrobe.position+new Vector3(-.3f,1.3f,0),"Взять дедов ремень",0,2,Key.E,()=>!belt,()=>{belt=true;Show("Belt",false);foreach(var d in flat.wardrobeLeaves)d.localRotation=Quaternion.Euler(0,95,0);sound.Play("door_open",flat.wardrobe.position);Say("","Ремень. Тот самый",2.5f);});
    tie=Offer(()=>flat.balcony.position+Vector3.up*.2f,"Закрыть шпингалет и подвязать дверь ремнём",2,2,Key.E,()=>belt&&!beltTied,()=>{beltTied=true;TieStrap(true);sound.Play("latch",flat.balcony.position);Say("","Держит",2);Checkpoint("Night2");});
    yield return new WaitForSeconds(3);Say("","Она придёт в 22:07. Я помню",4);
    bool hinted50=false,hinted55=false;
@@ -413,7 +423,7 @@ namespace Ataka.Scenario {
 
   // ---------- 11. Finale ----------
   IEnumerator Finale(){
-   chapter=Chapter.Finale;loop.Pause(false);Homely(true);flat.clock.stopped=false;Clock(22,0);
+   chapter=Chapter.Finale;loop.Pause(false);Homely(true);PropsAfterEvening();Put("Kettle",new Vector3(8.48f,.86f,1.85f));flat.clock.stopped=false;Clock(22,0);
    flat.stool.SetActive(true);flat.stool.transform.SetPositionAndRotation(new Vector3(5.5f,0,5.8f),Quaternion.identity);if(strap)strap.enabled=false;flat.entrance.locked=true;
    if(flat.look.exterior)flat.look.exterior.Blackout(false);
    player.Place(ScenarioLayout.Spawn,180);Checkpoint("Finale");Task("Дождаться бабушку");
@@ -434,7 +444,7 @@ namespace Ataka.Scenario {
     yield return Line("Бабушка","Замёрз? Сейчас чайку поставлю",3);}
    else{yield return Line("Голос бабушки за дверью","Я своим ключом, Мишаня",3);sound.Play("latch",flat.entrance.transform.position);flat.entrance.locked=false;flat.entrance.open=true;sound.Play("finger_crack",flat.entrance.transform.position);
     yield return new WaitForSeconds(2);GranShow("Door",180);yield return Line("Бабушка","Чего ж не открываешь, Мишаня?",3);}
-   yield return GranWalk("Stove");flat.entrance.open=false;flat.entrance.locked=true;sound.Play("latch",flat.entrance.transform.position);
+   yield return GranWalk("Stove");Put("Kettle",new Vector3(8.48f,.86f,1.55f));flat.entrance.open=false;flat.entrance.locked=true;sound.Play("latch",flat.entrance.transform.position);
    Task("");var flame=FlameLight(new Vector3(8.48f,.95f,1.65f));
    yield return Line("","Она напевает. Газ, вода из крана — точно как ты вечером",4);
    for(float t=0;t<20&&Vector3.Distance(player.transform.position,Nodes["Stove"])>2.4f;t+=Time.deltaTime)yield return null;

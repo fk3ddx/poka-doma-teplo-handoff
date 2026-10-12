@@ -11,15 +11,17 @@ namespace Ataka.Editor {
  // Missing files are reported and skipped; the existing proxy stays so the game still runs.
  public static class GuestInstaller {
   const string Root="Assets/_Project/Art/ReadyModels/Sketchfab/";
-  [Serializable] class Mat {public string name,texture,normal;public float[] color;public float roughness;}
-  [Serializable] class Manifest {public string id;public float size;public bool rigged;public string[] actions;public Mat[] materials;}
+  [Serializable] public class Mat {public string name,texture,normal;public float[] color;public float roughness;}
+  [Serializable] public class Manifest {public string id;public float size;public bool rigged;public string[] actions;public Mat[] materials;}
   static Manifest Read(string id)=>JsonUtility.FromJson<Manifest>(File.ReadAllText(Root+id+"/manifest.json"));
-  static void Materialise(string id,GameObject model,Manifest m){
+  static void Materialise(string id,GameObject model,Manifest m)=>MaterialiseFolder(Root+id+"/",model,m);
+  // Author textures → URP Lit materials saved next to the prepared model (folder ends with '/').
+  public static void MaterialiseFolder(string folder,GameObject model,Manifest m){
    foreach(var r in model.GetComponentsInChildren<Renderer>(true)){var mats=r.sharedMaterials;for(int i=0;i<mats.Length;i++){
     var spec=m.materials.FirstOrDefault(x=>mats[i]&&x.name==mats[i].name)??m.materials.FirstOrDefault();if(spec==null)continue;
-    string path=Root+id+"/"+spec.name+"_URP.mat";var mat=AssetDatabase.LoadAssetAtPath<Material>(path);if(!mat){mat=new Material(Shader.Find("Universal Render Pipeline/Lit"));AssetDatabase.CreateAsset(mat,path);}
-    if(!string.IsNullOrEmpty(spec.texture))mat.SetTexture("_BaseMap",AssetDatabase.LoadAssetAtPath<Texture2D>(Root+id+"/"+spec.texture));
-    if(!string.IsNullOrEmpty(spec.normal)){var n=AssetDatabase.LoadAssetAtPath<Texture2D>(Root+id+"/"+spec.normal);if(n){mat.SetTexture("_BumpMap",n);mat.EnableKeyword("_NORMALMAP");}}
+    string path=folder+spec.name+"_URP.mat";var mat=AssetDatabase.LoadAssetAtPath<Material>(path);if(!mat){mat=new Material(Shader.Find("Universal Render Pipeline/Lit"));AssetDatabase.CreateAsset(mat,path);}
+    if(!string.IsNullOrEmpty(spec.texture))mat.SetTexture("_BaseMap",AssetDatabase.LoadAssetAtPath<Texture2D>(folder+spec.texture));
+    if(!string.IsNullOrEmpty(spec.normal)){var n=AssetDatabase.LoadAssetAtPath<Texture2D>(folder+spec.normal);if(n){mat.SetTexture("_BumpMap",n);mat.EnableKeyword("_NORMALMAP");}}
     var c=spec.color!=null&&spec.color.Length>=3?new Color(spec.color[0],spec.color[1],spec.color[2]):Color.white;mat.SetColor("_BaseColor",c);
     mat.SetFloat("_Smoothness",Mathf.Clamp01(1-spec.roughness)*.6f);EditorUtility.SetDirty(mat);mats[i]=mat;}
     r.sharedMaterials=mats;r.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.On;}
