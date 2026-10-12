@@ -1,0 +1,8 @@
+{
+  "scope": "Unity listener mix, pre-OS output; not microphone or loopback",
+  "error": "",
+  "captureModeMutesOutput": true,
+  "clearedOutputCallbacks": 8750,
+  "droppedSamples": 0,
+  "formatChanges": 0
+}

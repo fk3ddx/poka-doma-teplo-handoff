@@ -30,7 +30,7 @@ namespace Ataka.Scenario {
     V("08-bedroom-reverse",new Vector3(.9f,.02f,.6f),new Vector3(2.2f,1.15f,3.8f)),
     V("09-kitchen-wide",new Vector3(7.25f,.02f,2.65f),new Vector3(7.8f,1.05f,.65f)),
     V("10-kitchen-reverse",new Vector3(7.1f,.02f,.7f),new Vector3(8.05f,1.05f,2.55f)),
-    V("11-bathroom",new Vector3(4.25f,.02f,5.6f),new Vector3(3.1f,.9f,5.1f)),
+    V("11-bathroom",new Vector3(4.65f,.02f,5.25f),new Vector3(3.25f,.9f,5.25f)),
     V("12-window-courtyard",new Vector3(4.25f,.02f,.6f),new Vector3(4.25f,.7f,-5)),
     V("13-bedroom-wardrobe-front-closed",new Vector3(1.2f,.02f,1.8f),new Vector3(2.4f,1.1f,1.8f)),
     V("14-bedroom-wardrobe-front-open",new Vector3(1.2f,.02f,1.8f),new Vector3(2.4f,1.1f,1.8f)),

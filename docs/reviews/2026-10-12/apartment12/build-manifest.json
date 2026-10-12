@@ -1,0 +1,10 @@
+{
+  "file": "Ataka-apartment12-win64.zip",
+  "bytes": 132322124,
+  "sha256": "e4a1c9b58e9fdfb6ce5c834b7adf8dabdb9148fe2b173911f41d04f41403808b",
+  "runtime_sha256": "c95fb01e067134e823047d0d8efcbd70d68cbc72f5b01b1baf067337f966e3c4",
+  "build": "apartment12-build-a",
+  "visual_survey": "apartment12-survey-a",
+  "gameplay": "apartment12-full-a: 50 PASS, coreFinished true",
+  "note": "Intermediate apartment art; not human acceptance. Apartment11 archive preserved."
+}

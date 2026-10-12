@@ -1,0 +1,24 @@
+{
+  "command": [
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\Builds\\ScenarioCore\\Ataka-Loop.exe",
+    "-screen-fullscreen",
+    "0",
+    "-screen-width",
+    "1280",
+    "-screen-height",
+    "720",
+    "-audio-capture",
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\QA\\apartment12-full-a\\silent-mix.wav",
+    "-logFile",
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\QA\\apartment12-full-a\\player.log",
+    "-scenario-smoke",
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\QA\\apartment12-full-a",
+    "-scenario-death-skip"
+  ],
+  "build_label": "apartment12-build-a",
+  "mode": "full",
+  "utc": "2026-10-12T12:30:45.736545+00:00",
+  "runtime_sha256": "c95fb01e067134e823047d0d8efcbd70d68cbc72f5b01b1baf067337f966e3c4",
+  "scope": "Actual Windows graphics; survey modes stage cameras and are not proof of gameplay. QA audio capture clears output; no listening acceptance.",
+  "pid": 3012
+}
