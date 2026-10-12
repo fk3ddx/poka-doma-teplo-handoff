@@ -28,7 +28,7 @@ namespace Ataka.Scenario {
   static readonly string[] BombMap={".#.","###",".#."};
   static readonly string[] BoomMap={"#...#...#","..#.#.#..","...###...","####.####","...###...","..#.#.#..","#...#...#"};
   Sprite Draw(string[] map,Color c){int h=map.Length,w=map[0].Length;var t=new Texture2D(w,h,TextureFormat.RGBA32,false){filterMode=FilterMode.Point,wrapMode=TextureWrapMode.Clamp};
-   for(int y=0;y<h;y++)for(int x=0;x<w;x++)t.SetPixel(x,h-1-y,map[y][x]=='#'?c:Color.clear);t.Apply();textures.Add(t);return UnityEngine.Sprite.Create(t,new Rect(0,0,w,h),new Vector2(.5f,.5f),Ppu);}
+   for(int y=0;y<h;y++)for(int x=0;x<w;x++)t.SetPixel(x,h-1-y,x<map[y].Length&&map[y][x]=='#'?c:Color.clear);t.Apply();textures.Add(t);return UnityEngine.Sprite.Create(t,new Rect(0,0,w,h),new Vector2(.5f,.5f),Ppu);}
   SpriteRenderer Make(Sprite s,string name){var g=new GameObject(name);g.layer=31;g.transform.SetParent(root,false);var r=g.AddComponent<SpriteRenderer>();r.sprite=s;return r;}
   static Vector3 At(Vector2 p,float z=0)=>new Vector3(p.x/Ppu,p.y/Ppu,z);
   TextMesh Text(Vector2 at,TextAnchor anchor){var g=new GameObject("text");g.layer=31;g.transform.SetParent(root,false);g.transform.localPosition=At(at,-.02f);var m=g.AddComponent<TextMesh>();var f=Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");m.font=f;g.GetComponent<MeshRenderer>().sharedMaterial=f.material;m.fontSize=48;m.characterSize=.1f;m.anchor=anchor;m.color=Color.white;return m;}

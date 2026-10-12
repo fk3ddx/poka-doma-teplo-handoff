@@ -55,7 +55,8 @@ namespace Ataka.Scenario {
    // The memory's own light: always enabled, intensity 0 except while a memory that needs it is on screen (the belt
    // inside the wardrobe). The flat's accepted lights are not touched for it.
    memoryLight=new GameObject("Rewind memory light").AddComponent<Light>();memoryLight.transform.SetParent(transform,false);memoryLight.type=LightType.Spot;memoryLight.spotAngle=60;memoryLight.innerSpotAngle=30;memoryLight.color=new Color(1,.8f,.6f);memoryLight.range=2.5f;memoryLight.shadows=LightShadows.None;memoryLight.intensity=0;
-   stride=8+doors.Length+lights.Length+7+2; // +2 (pc27): what the «Рубин» SHOWS (test card / announcer…) and which captiondata=new float[Capacity*stride];
+   stride=8+doors.Length+lights.Length+7+2; // +2 (pc27): what the «Рубин» SHOWS (test card / announcer…) and which caption
+   data=new float[Capacity*stride];
   }
   // ---------- recording ----------
   // Captions of the night's broadcasts, stored once; a sample keeps only the index (pc27).

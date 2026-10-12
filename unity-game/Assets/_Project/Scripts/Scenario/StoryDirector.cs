@@ -612,6 +612,7 @@ namespace Ataka.Scenario {
   public const string AlbumEpilogue="Album/album_06_epilogue";
   IEnumerator Read(string title,List<PageViewer.Page> pages,System.Action<int> onPage=null){
    leisure=true;leaveLeisure=false;var p=player;bool had=p.control;p.control=false;var v=Viewer();v.Open(title,pages);int shown=-1;
+   yield return null; // consume the interaction E edge before accepting E as close
    while(v.IsOpen){if(v.Index!=shown){shown=v.Index;onPage?.Invoke(shown);}var k=Keyboard.current;
     if(LeaveKey(true)){v.Close();break;}
     if(k!=null&&(k.dKey.wasPressedThisFrame||k.rightArrowKey.wasPressedThisFrame||k.spaceKey.wasPressedThisFrame))v.Next();if(k!=null&&(k.aKey.wasPressedThisFrame||k.leftArrowKey.wasPressedThisFrame))v.Previous();
@@ -812,7 +813,7 @@ namespace Ataka.Scenario {
    for(float t=0;t<3.2f;t+=Time.deltaTime){
     float w=Mathf.SmoothStep(0,1,Mathf.Clamp01(t/.5f))*(t>2.7f?Mathf.Clamp01((3.2f-t)/.5f):1);float lean=Mathf.SmoothStep(0,1,Mathf.Clamp01(t/.7f))*(t>2.5f?Mathf.Clamp01((3.2f-t)/.7f):1);
     var ear=r.HugEye;p.head.position=Vector3.Lerp(hugHeadStart,ear,lean);var eye=p.head.position;
-    var past=eye-gt.forward*2-gt.right*.35f-Vector3.up*.25f; // look past the outer shoulder, away from her head mesh
+    var past=eye+gt.right*1.4f-gt.forward*.6f-Vector3.up*.12f; // inside shoulder: look along the hall, not into the entrance leaf
     p.head.rotation=Quaternion.Slerp(hugLookStart,Quaternion.LookRotation(past-eye),lean);
     var torso=eye+gt.forward*.1f-Vector3.up*.35f;r.Reach(false,torso+gt.forward*.14f+gt.right*.12f,w);r.Reach(true,torso+gt.forward*.14f-gt.right*.12f,w);
     yield return null;}

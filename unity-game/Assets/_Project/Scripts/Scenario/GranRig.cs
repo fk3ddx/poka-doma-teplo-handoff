@@ -52,7 +52,7 @@ namespace Ataka.Scenario {
   public Vector3 HeadPosition=>tipSampled?transform.TransformPoint(lastHead):head.position;
   Bounds renderedHeadBounds;bool headBoundsSampled;
   // The Head bone is a neck pivot, not the centre of the visible head/scarf. Frame a hug from the rendered surface.
-  public Vector3 HugEye=>headBoundsSampled?transform.TransformPoint(new Vector3(renderedHeadBounds.min.x,renderedHeadBounds.center.y,renderedHeadBounds.center.z))-transform.right*.10f+Vector3.up*.02f:HeadPosition-transform.right*.4f;
+  public Vector3 HugEye=>headBoundsSampled?transform.TransformPoint(new Vector3(renderedHeadBounds.max.x,renderedHeadBounds.center.y,renderedHeadBounds.center.z))+transform.right*.10f+Vector3.up*.02f:HeadPosition-transform.right*.4f;
   public Bounds RenderedHeadBounds=>renderedHeadBounds;
   Vector3 RawTip(bool right)=>(right?handR:handL).TransformPoint(right?tipLocalR:tipLocalL);
   // Story coroutines run after Update, when last frame's IK has been undone for Animation. Queries must read the
