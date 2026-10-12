@@ -8,7 +8,7 @@ namespace Ataka.Scenario {
   public AudioClip phoneWarning,grandmotherKnock;public ScenarioSoundBank bank;
   public bool quiet; public bool DeathRecovery{get;private set;} public bool calibrating;AudioClip reversedPhone;LoopDirector loop;
   const int PoolSize=32;
-  sealed class Voice {public AudioSource source;public AudioLowPassFilter low;public AudioHighPassFilter high;public ScenarioSoundCue cue;public Transform anchor;public bool wanted,bypassQuiet,released;public float baseGain,fade,occluded,obstructionTarget,tailGain=1,tailTarget=1,startedAt;}
+  sealed class Voice {public AudioSource source;public AudioLowPassFilter low;public AudioHighPassFilter high;public ScenarioSoundCue cue;public Transform anchor;public bool held,wanted,bypassQuiet,released;public float baseGain,fade,occluded,obstructionTarget,tailGain=1,tailTarget=1,startedAt;}
   readonly Dictionary<string,ScenarioSoundCue> cues=new Dictionary<string,ScenarioSoundCue>();
   readonly Dictionary<ScenarioSoundCue,AnimationCurve> curves=new Dictionary<ScenarioSoundCue,AnimationCurve>();
   readonly Dictionary<string,int> lastClips=new Dictionary<string,int>();
@@ -57,10 +57,10 @@ namespace Ataka.Scenario {
    if(count>=cue.maxInstances){if(cue.id=="chime"&&oldest!=null){available=oldest;stats.replaced++;}else{SuppressedOverlaps++;stats.limit++;return null;}}
    // Never steal an active voice/clock tail for a lower-priority event.
    if(available==null){SuppressedOverlaps++;stats.pool++;return null;}
-   var voice=available;var s=voice.source;voice.cue=cue;voice.anchor=anchor;voice.bypassQuiet=bypassQuiet;voice.wanted=true;voice.released=false;voice.fade=cue.loop?0:1;voice.occluded=0;voice.obstructionTarget=0;voice.baseGain=Mathf.Pow(10,cue.gainDb/20);voice.tailGain=voice.tailTarget=1;voice.startedAt=Time.time;stats.started++;
+   var voice=available;var s=voice.source;voice.cue=cue;voice.anchor=anchor;voice.bypassQuiet=bypassQuiet;voice.wanted=true;voice.released=false;voice.held=false;voice.fade=cue.loop?0:1;voice.occluded=0;voice.obstructionTarget=0;voice.baseGain=Mathf.Pow(10,cue.gainDb/20);voice.tailGain=voice.tailTarget=1;voice.startedAt=Time.time;stats.started++;
    s.Stop();s.transform.position=position;s.clip=clip;s.loop=cue.loop;s.spatialBlend=force2D||!cue.spatial?0:1;s.minDistance=cue.minDistance;s.maxDistance=cue.maxDistance;if(!curves.TryGetValue(cue,out var curve)){curve=new AnimationCurve(new Keyframe(0,1),new Keyframe(cue.minDistance/cue.maxDistance,1),new Keyframe(.5f,.25f),new Keyframe(1,0));curves.Add(cue,curve);}s.SetCustomCurve(AudioSourceCurveType.CustomRolloff,curve);s.priority=cue.priority;s.pitch=1+UnityEngine.Random.Range(-cue.pitchVariation,cue.pitchVariation);s.volume=0;s.ignoreListenerPause=false;
    s.outputAudioMixerGroup=bank&&bank.groups!=null&&bank.groups.Length>(int)cue.bus?bank.groups[(int)cue.bus]:null;
-   voice.low.cutoffFrequency=22000;voice.high.cutoffFrequency=10;s.Play();CueStarted?.Invoke(cue.id);if(cue.loop)s.time=UnityEngine.Random.Range(0,Mathf.Max(0,clip.length-.1f));return voice;
+   voice.low.cutoffFrequency=22000;voice.high.cutoffFrequency=10;s.Play();CueStarted?.Invoke(cue.id);if(!cue.loop)VoiceClip?.Invoke(cue.id,clip);if(cue.loop)s.time=UnityEngine.Random.Range(0,Mathf.Max(0,clip.length-.1f));return voice;
   }
   void EnsureLoop(string id,Transform anchor){
    foreach(var v in voices)if(v.cue!=null&&v.cue.id==id&&v.anchor==anchor&&v.source.isPlaying){v.wanted=true;return;}
@@ -79,15 +79,35 @@ namespace Ataka.Scenario {
   public void ClearBeds(){beds.Clear();sporadic.Clear();}
   // A one-shot that should end softly when the player lets go of a held action (tap, clock key, bulb).
   public void ReleaseCue(string id){if(voices==null)return;foreach(var v in voices)if(v.cue!=null&&v.cue.id==id)v.released=true;}
-  public void StopCue(string id){if(voices==null)return;foreach(var v in voices)if(v.cue!=null&&v.cue.id==id){v.source.Stop();v.cue=null;}}
+  public void StopCue(string id){if(voices==null)return;foreach(var v in voices)if(v.cue!=null&&v.cue.id==id){v.source.Stop();v.cue=null;v.held=false;}}
+  // ---------- 6.1 rewind ----------
+  public event Action<string,AudioClip> VoiceClip; // every one-shot that starts: cue id and clip (the rewind records what the night really sounded like)
+  readonly Dictionary<AudioClip,AudioClip> reversed=new Dictionary<AudioClip,AudioClip>();
+  // Sample-accurate reversal per channel: frames in reverse order, each frame's channel order kept (not a negative pitch).
+  public AudioClip Reversed(AudioClip clip){
+   if(!clip)return null;if(reversed.TryGetValue(clip,out var r)&&r)return r;
+   if(clip.loadState!=AudioDataLoadState.Loaded)clip.LoadAudioData();int ch=clip.channels,n=clip.samples;var data=new float[n*ch];if(!clip.GetData(data,0))return null;
+   var back=new float[data.Length];for(int f=0;f<n;f++)for(int c=0;c<ch;c++)back[f*ch+c]=data[(n-1-f)*ch+c];
+   r=AudioClip.Create(clip.name+" (reversed)",n,ch,clip.frequency,false);r.SetData(back,0);reversed[clip]=r;return r;}
+  public AudioClip FirstClip(string id)=>!string.IsNullOrEmpty(id)&&cues.TryGetValue(id,out var cue)&&cue.clips!=null&&cue.clips.Length>0?cue.clips[0]:null;
+  readonly ScenarioSoundCue RewindCue=new ScenarioSoundCue{id="rewind",bus=ScenarioBus.Stinger,gainDb=-7,pitchVariation=0,spatial=false,maxInstances=8,priority=30};
+  readonly ScenarioSoundCue RewindTickCue=new ScenarioSoundCue{id="rewind_tick",bus=ScenarioBus.Stinger,gainDb=-4,pitchVariation=0,spatial=false,loop=true,maxInstances=1,priority=25};
+  public void PlayReversed(AudioClip clip,float speed){var r=Reversed(clip);if(!r)return;var v=StartVoice(RewindCue,r,listener.position,null,true,true);if(v!=null)v.source.pitch=speed;}
+  Voice tick;
+  public bool RewindTickActive=>tick!=null&&tick.cue==RewindTickCue&&tick.source.isPlaying;
+  // The grandfather clock ticking that grows through the rewind (amount 0..1; 0 releases it).
+  public void RewindTick(float amount){
+   if(amount<=0){if(tick!=null&&tick.cue==RewindTickCue){tick.held=false;tick.wanted=false;}tick=null;return;}
+   if(tick==null||tick.cue!=RewindTickCue||!tick.source.isPlaying){var clip=FirstClip("clock");if(!clip)return;tick=StartVoice(RewindTickCue,clip,listener.position,null,true,true);if(tick==null)return;}
+   tick.held=true;tick.wanted=true;tick.baseGain=Mathf.Pow(10,RewindTickCue.gainDb/20)*Mathf.Lerp(.25f,1.4f,amount);tick.source.pitch=Mathf.Lerp(1.1f,1.9f,amount);}
   // Scene-owned one-shots must not resume when its envelope is released.
   public void BeginDeathRecovery(){DeathRecovery=true;foreach(var id in new[]{"breath","palms","finger_crack","choked_cry","wet_tear"})StopCue(id);}
   public void EndDeathRecovery(){DeathRecovery=false;quiet=false;}
-  public void ResetWorld(){DeathRecovery=false;ClearBeds();if(voices!=null)foreach(var v in voices){v.source.Stop();v.cue=null;}quiet=false;worldGain=1;travel=0;hadFeet=false;}
+  public void ResetWorld(){DeathRecovery=false;ClearBeds();tick=null;if(voices!=null)foreach(var v in voices){v.source.Stop();v.cue=null;v.held=false;}quiet=false;worldGain=1;travel=0;hadFeet=false;}
   public void ShiftWorld(Vector3 delta){if(voices!=null)foreach(var v in voices)if(v.cue!=null&&!v.anchor&&v.source.spatialBlend>0)v.source.transform.position+=delta;}
   void Update(){
    if(paused||!loop||!bank||!listener)return;
-   if(!calibrating)foreach(var v in voices)if(v.cue!=null&&v.cue.loop)v.wanted=false;
+   if(!calibrating)foreach(var v in voices)if(v.cue!=null&&v.cue.loop&&!v.held)v.wanted=false;
    bool chase=loop.chase&&loop.chase.Active;bool death=loop.scenes.InDeath;bool hanging=loop.scenes.PlayingScene=="HangingVision";float sceneTime=loop.scenes.FrameTime;
    if(!calibrating&&!loop.Finished&&!death&&!DeathRecovery){
     if(chase){foreach(var module in loop.chase.pool)if(module.lamp.intensity>0&&(!loop.chase.Ending||module==loop.chase.Current))EnsureLoop("clock",module.clock.transform);if(!loop.chase.Ending){EnsureLoop("player_breath",listener);EnsureLoop("guest_breath",loop.flat.guest.transform);EnsureLoop("heartbeat",listener);}}
@@ -99,7 +119,7 @@ namespace Ataka.Scenario {
    }
    worldGain=Mathf.MoveTowards(worldGain,quiet?0:1,Time.deltaTime/(quiet?.05f:.3f));obstructionTimer-=Time.deltaTime;bool testObstruction=obstructionTimer<=0;if(testObstruction)obstructionTimer=.1f;
    foreach(var v in voices){
-    if(v.cue==null)continue;var s=v.source;if(!s.isPlaying){v.cue=null;continue;}if(v.anchor)s.transform.position=v.anchor.position;
+    if(v.cue==null)continue;var s=v.source;if(!s.isPlaying){v.cue=null;v.held=false;continue;}if(v.anchor)s.transform.position=v.anchor.position;
     if(testObstruction&&s.spatialBlend>0){var d=s.transform.position-listener.position;float length=d.magnitude;v.obstructionTarget=!calibrating&&!(v.cue.id=="chime"&&length<2)&&length>.25f&&Physics.Raycast(listener.position,d.normalized,out var hit,length-.15f,~(1<<31),QueryTriggerInteraction.Ignore)&&(!v.anchor||!hit.transform.IsChildOf(v.anchor))?1:0;}
     v.occluded=Mathf.MoveTowards(v.occluded,v.obstructionTarget,Time.deltaTime/.15f);
     if(NarrowBand.Contains(v.cue.id)){v.low.cutoffFrequency=v.occluded>0?1500:3200;v.high.cutoffFrequency=260;}
@@ -112,7 +132,7 @@ namespace Ataka.Scenario {
     if(hanging){bool foreground=v.cue.id=="rope"||v.cue.id=="breath"||v.cue.id=="tinnitus";sceneGain=foreground?Mathf.Clamp01((5-sceneTime)/.1f):v.cue.id=="latch"&&sceneTime>=6?1:Mathf.Clamp01(1-sceneTime/.05f);}
     if(DeathRecovery)sceneGain=0;
     s.volume=v.baseGain*v.fade*gain*v.tailGain*Mathf.Lerp(1,.5f,v.occluded)*sceneGain;
-    if(((v.cue.loop&&!v.wanted)||v.released)&&v.fade<=0){s.Stop();v.cue=null;v.released=false;}
+    if(((v.cue.loop&&!v.wanted)||v.released)&&v.fade<=0){s.Stop();v.cue=null;v.released=false;v.held=false;}
    }
    PeakVoiceCount=Mathf.Max(PeakVoiceCount,ActiveVoiceCount);if(!calibrating)Steps();
   }
@@ -120,6 +140,6 @@ namespace Ataka.Scenario {
    if(Physics.Raycast(feet+Vector3.up*.25f,Vector3.down,out var hit,.6f,~(1<<31),QueryTriggerInteraction.Ignore)){string name=hit.collider.name.ToLowerInvariant();if(name.Contains("rug")||name.Contains("carpet"))id="carpet_step";}
    var voice=PlayInternal(id,feet,null,false);if(voice!=null)voice.baseGain*=p.crouched?.35f:p.ActualSpeed>3?1:.7f;
   }
-  void OnDestroy(){if(reversedPhone)Destroy(reversedPhone);}
+  void OnDestroy(){if(reversedPhone)Destroy(reversedPhone);foreach(var r in reversed.Values)if(r)Destroy(r);}
  }
 }
