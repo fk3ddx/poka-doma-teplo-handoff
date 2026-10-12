@@ -1,0 +1,24 @@
+{
+  "command": [
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\Builds\\ScenarioCore\\Ataka-Loop.exe",
+    "-screen-fullscreen",
+    "0",
+    "-screen-width",
+    "1280",
+    "-screen-height",
+    "720",
+    "-audio-capture",
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\QA\\story28-face-audit-c\\silent-mix.wav",
+    "-logFile",
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\QA\\story28-face-audit-c\\player.log",
+    "-face-render-audit",
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\QA\\story28-face-audit-c",
+    "-audit-mark",
+    "2.3"
+  ],
+  "build_label": "story28-audit-build-b",
+  "utc": "2026-10-12T20:31:53.628479+00:00",
+  "runtime_sha256": "a5b7419fc05a7d02f4ab3e91a471416944ab026c9fc499a434484970518d2471",
+  "scope": "Real Windows finale QA; camera staged, acts invoked, waits accelerated. ABSENT entries remain unimplemented. Inspect checks and rendered frames; process success alone is not visual or audio acceptance.",
+  "pid": 1732
+}

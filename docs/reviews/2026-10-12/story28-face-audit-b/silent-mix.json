@@ -1,0 +1,61 @@
+{
+    "scope": "Unity listener mix, pre-OS output; not microphone or loopback",
+    "error": "",
+    "captureModeMutesOutput": true,
+    "clearedOutputCallbacks": 281,
+    "sampleRate": 48000,
+    "channels": 2,
+    "droppedSamples": 0,
+    "formatChanges": 0,
+    "peakActiveVoices": 2,
+    "suppressedOverlaps": 0,
+    "samples": 573440,
+    "markers": [
+        {
+            "state": "pause",
+            "sample": 57344,
+            "seconds": 0.5973333333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:clock",
+            "sample": 253952,
+            "seconds": 2.6453333333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "lap-1",
+            "sample": 253952,
+            "seconds": 2.6453333333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:finger_crack",
+            "sample": 493568,
+            "seconds": 5.141333333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        }
+    ],
+    "cues": [
+        {
+            "id": "clock",
+            "requested": 1,
+            "started": 1,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "finger_crack",
+            "requested": 1,
+            "started": 1,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        }
+    ]
+}
