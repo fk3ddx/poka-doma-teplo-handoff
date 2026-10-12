@@ -31,23 +31,24 @@ namespace Ataka.Scenario {
   }
   [Serializable] class Save{public int lap=1;public bool flashlight,chase;}
   public void SaveCheckpoint(bool inChase){if(!testing)System.IO.File.WriteAllText(savePath,JsonUtility.ToJson(new Save{lap=Progress.Lap,flashlight=flat.player.hasFlashlight,chase=inChase}));}
+  readonly ScenarioFocus interactionFocus=new ScenarioFocus();
   bool Near(Transform t,float distance=1.65f)=>Vector3.Distance(flat.player.head.position,t.position)<distance;
   bool Looking(Transform t,float cosine=.86f)=>Vector3.Dot(flat.player.head.forward,(t.position-flat.player.head.position).normalized)>cosine;
   void Update(){
    if(Keyboard.current?.escapeKey.wasPressedThisFrame==true){Pause(!paused);return;}
    if(Time.time>thoughtUntil)subtitle.text="";if(paused||Finished||chase.Active)return;prompt.text="";
-   if(Busy)return;var p=flat.player;bool e=Keyboard.current?.eKey.wasPressedThisFrame==true;
+   if(Busy)return;var p=flat.player;var focus=interactionFocus.Select(flat);bool e=Keyboard.current?.eKey.wasPressedThisFrame==true;
    if(Progress.Lap==6&&!peepholeSeen){knockTimer+=Time.deltaTime;if(knockTimer>=(knockIndex<3?.7f:5)){knockTimer=0;if(knockIndex<3){sound.Play("knock",flat.entrance.transform.position);knockIndex++;if(knockIndex==3)sound.Grandmother(flat.entrance.transform.position);}else knockIndex=0;}}
    if(!p.hasFlashlight&&flat.hallCupboard){
     var cupboard=flat.hallCupboard;
-    if(Near(cupboard.interaction,1.7f)&&Looking(cupboard.interaction)&&ScenarioSight.Clear(p.transform,p.head.position,cupboard.interaction.position)){
+    if(focus==cupboard.interaction){
      prompt.text=cupboard.ReadyToTake?"[E] Взять фонарик-«жучок»":cupboard.door.open?(cupboard.door.BlockedByPlayer?"Отойди немного от дверцы":"Дверца открывается…"):"[E] Открыть тумбу";
      if(e){if(cupboard.ReadyToTake)cupboard.Take(p);else if(!cupboard.door.open)sound.Play(cupboard.door.ToggleWithCue(),cupboard.interaction.position);return;}
     }
    }
    if(!p.hasFlashlight&&!flat.hallCupboard&&Near(flat.torchPickup)&&Looking(flat.torchPickup)){prompt.text="[E] Фонарик-«жучок»";if(e){p.hasFlashlight=true;flat.torchPickup.gameObject.SetActive(false);}}
    if(returning){flat.entrance.locked=false;if(p.transform.position.z<5.6f){flat.entrance.open=false;flat.entrance.locked=true;returning=false;}}
-   foreach(var door in new[]{flat.kitchen,flat.bath,flat.bedroom,flat.living})if(!(door==flat.bedroom&&Progress.Lap==5&&phoneAnswered)&&Near(door.transform)&&Looking(door.transform)){prompt.text=door.locked?"[E] Закрыто":"[E] Дверь";if(e){sound.Play(door.ToggleWithCue(),door.transform.position);}}
+   foreach(var door in new[]{flat.kitchen,flat.bath,flat.bedroom,flat.living})if(!(door==flat.bedroom&&Progress.Lap==5&&phoneAnswered)&&focus==door.transform){prompt.text=door.locked?"[E] Закрыто":"[E] Дверь";if(e){sound.Play(door.ToggleWithCue(),door.transform.position);}}
    if(Near(flat.clock.transform,2)&&Progress.Lap==2&&!clockThought){Thought("Часы идут назад. Это та же ночь. Только наоборот");clockThought=true;}
    if(Progress.Lap==1&&!Progress.EventComplete&&p.head.position.x<2.6f&&Vector3.Distance(p.transform.position,flat.wardrobe.position)<1.5f&&ScenarioSight.Clear(p.transform,p.head.position,flat.wardrobe.position+Vector3.up))StartCoroutine(Event(LapGate.Wardrobe));
    if(Progress.Lap==2&&!Progress.EventComplete){balconyTimer+=Time.deltaTime;if(balconyTimer>3){balconyTimer=0;sound.Play("breath",flat.bed.position);}if(Near(flat.bed,2)&&p.crouched&&Looking(flat.bed,.65f)){prompt.text="[E] Посмотреть под кровать";if(e)StartCoroutine(Event(LapGate.UnderBed));}}
@@ -55,7 +56,7 @@ namespace Ataka.Scenario {
     if(Vector3.Distance(p.transform.position,new Vector3(flat.balcony.position.x,p.transform.position.y,flat.balcony.position.z))<1.5f)StartCoroutine(Event(LapGate.BalconyPalm));}
    if(Progress.Lap==4&&!Progress.EventComplete&&Near(flat.television,3)&&Looking(flat.television,.93f)){tvWatch+=Time.deltaTime;if(tvWatch>=3)StartCoroutine(Event(LapGate.Television));}else if(Progress.Lap==4)tvWatch=0;
    if(Progress.Lap==5){if(!phoneAnswered){phoneTimer+=Time.deltaTime;if(phoneTimer>3){phoneTimer=0;sound.Play("phone",flat.phone.position);}
-     if(Near(flat.phone)&&Looking(flat.phone)){prompt.text="[E] Снять трубку";if(e)StartCoroutine(Phone());}}
+     if(focus==flat.phone){prompt.text="[E] Снять трубку";if(e)StartCoroutine(Phone());}}
     else if(!Progress.EventComplete){
      if(!hangingDoorOpened&&Near(flat.bedroom.transform,1.7f)&&Looking(flat.bedroom.transform,.7f)){prompt.text="[E] Толкнуть дверь";if(e){hangingDoorOpened=true;flat.bedroom.open=true;scenes.PrepareHanging();sound.Play("door_open",flat.bedroom.transform.position);}}
      if(hangingDoorOpened){
@@ -67,7 +68,7 @@ namespace Ataka.Scenario {
       if(visible&&(feetSeen||hangingEntryTime>=1.5f))StartCoroutine(Event(LapGate.HangingVision));
      }
     }}
-   if(Near(flat.carpet.transform,1.6f)&&Looking(flat.carpet.transform,.7f)){
+   if(focus==flat.carpet.transform){
     prompt.text=Progress.CarpetDoorUnlocked?"[E] Открыть":"[E] Закрыто";gateWait+=Time.deltaTime;
     if(e){flat.carpet.locked=!Progress.CarpetDoorUnlocked;sound.Play(flat.carpet.ToggleWithCue(),flat.carpet.transform.position);if(!Progress.CarpetDoorUnlocked)Thought(Progress.Lap==6?"Стучат… Она у двери. Как тогда":"Закрыто");}
     if(Progress.Lap==1&&gateWait>10&&!Progress.EventComplete){Thought("Закрыто. Что-то тут не так… шифоньер");gateWait=-1000;}
@@ -75,7 +76,7 @@ namespace Ataka.Scenario {
    }
    var vestibuleLocal=flat.sourceVestibule.InverseTransformPoint(p.transform.position);
    if(Progress.CarpetDoorUnlocked&&Mathf.Abs(vestibuleLocal.z)<=.16f&&Mathf.Abs(vestibuleLocal.x)<=.18f)StartCoroutine(Warp());
-   if(Near(flat.entrance.transform,1.8f)&&Looking(flat.entrance.transform,.6f)){
+   if(focus==flat.entrance.transform){
     if(returning){prompt.text="[E] Открыть";if(e)sound.Play(flat.entrance.ToggleWithCue(),flat.entrance.transform.position);}
     else if(Progress.Lap==6){prompt.text="[E] Глазок   [R] Открыть дверь";if(e&&!peepholeSeen)StartCoroutine(Event(LapGate.Peephole));if(Keyboard.current?.rKey.wasPressedThisFrame==true)StartCoroutine(Death(6));}
    }

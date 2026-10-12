@@ -1,0 +1,23 @@
+{
+  "command": [
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\Builds\\ScenarioCore\\Ataka-Loop.exe",
+    "-screen-fullscreen",
+    "0",
+    "-screen-width",
+    "1280",
+    "-screen-height",
+    "720",
+    "-audio-capture",
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\QA\\hall10-overview\\silent-mix.wav",
+    "-logFile",
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\QA\\hall10-overview\\player.log",
+    "-scenario-art-survey",
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\QA\\hall10-overview"
+  ],
+  "build_label": "hall10-probe-build",
+  "mode": "survey",
+  "utc": "2026-10-12T11:14:01.529489+00:00",
+  "runtime_sha256": "591851919001ebebc26df346e079b068d165908989eab909066e9bd4edbe2b53",
+  "scope": "Actual Windows graphics; survey modes stage cameras and are not proof of gameplay. QA audio capture clears output; no listening acceptance.",
+  "pid": 12904
+}

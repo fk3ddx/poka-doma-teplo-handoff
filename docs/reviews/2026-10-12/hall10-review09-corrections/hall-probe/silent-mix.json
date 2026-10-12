@@ -1,0 +1,125 @@
+{
+    "scope": "Unity listener mix, pre-OS output; not microphone or loopback",
+    "error": "",
+    "captureModeMutesOutput": true,
+    "clearedOutputCallbacks": 801,
+    "sampleRate": 48000,
+    "channels": 2,
+    "droppedSamples": 0,
+    "formatChanges": 0,
+    "peakActiveVoices": 3,
+    "suppressedOverlaps": 0,
+    "samples": 1640448,
+    "markers": [
+        {
+            "state": "pause",
+            "sample": 55296,
+            "seconds": 0.576,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:clock",
+            "sample": 256000,
+            "seconds": 2.6666666666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "lap-1",
+            "sample": 256000,
+            "seconds": 2.6666666666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 299008,
+            "seconds": 3.1146666666666666,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:door_open",
+            "sample": 350208,
+            "seconds": 3.648,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "pause",
+            "sample": 679936,
+            "seconds": 7.0826666666666668,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "lap-1",
+            "sample": 737280,
+            "seconds": 7.68,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:door_open",
+            "sample": 1304576,
+            "seconds": 13.589333333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 1460224,
+            "seconds": 15.210666666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 1529856,
+            "seconds": 15.936,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 1574912,
+            "seconds": 16.405333333333336,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 1613824,
+            "seconds": 16.810666666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        }
+    ],
+    "cues": [
+        {
+            "id": "clock",
+            "requested": 1,
+            "started": 1,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "door_open",
+            "requested": 2,
+            "started": 2,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "step",
+            "requested": 5,
+            "started": 5,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        }
+    ]
+}

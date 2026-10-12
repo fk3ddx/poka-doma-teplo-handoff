@@ -1,7 +1,7 @@
 using UnityEngine;
 namespace Ataka.Scenario {
  public sealed class FlatBindings:MonoBehaviour {
-  public HallCupboard hallCupboard;public ScenarioPlayer player;public ScenarioLook look;public Transform apartment;public ScenarioDressing dressing;
+  public Transform phoneModel;public HallCupboard hallCupboard;public ScenarioPlayer player;public ScenarioLook look;public Transform apartment;public ScenarioDressing dressing;
   public ScenarioDoor entrance,kitchen,bath,bedroom,carpet,vestibuleInner,balconyDoor,living;
   public Renderer[] chaseOverlapRenderers;public Collider[] chaseOverlapColliders;
   public Transform sourceVestibule,destinationVestibule,wardrobe,bed,balcony,phone,television,torchPickup;

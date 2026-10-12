@@ -37,10 +37,12 @@ namespace Ataka.Scenario {
    yield return ObtainFlashlight();
    if(Array.IndexOf(Environment.GetCommandLineArgs(),"-scenario-hall-probe")>=0){
     foreach(var root in loop.flat.apartment.GetComponentsInChildren<Transform>())if(root.name.StartsWith("READY hallway"))foreach(var r in root.GetComponentsInChildren<Renderer>())checks.Add("HALL_MESH "+root.name+" / "+r.name+" bounds="+r.bounds+" enabled="+r.enabled+" active="+r.gameObject.activeInHierarchy+" material="+r.sharedMaterial.name);
-    var mirror=loop.flat.hallCupboard.GetComponentInChildren<Ataka.PlanarMirror>();Look(mirror.GetComponent<Renderer>().bounds.center);yield return new WaitForSeconds(.7f);
-    Check(mirror.ReflectionTexture&&mirror.ReflectionTexture.IsCreated()&&mirror.Resolution==256,"ready mirror renders bounded256px texture");yield return Shot("hall-mirror");
+    var reflection=FindFirstObjectByType<HallReflections>();var mirror=loop.flat.hallCupboard.GetComponentsInChildren<Renderer>();foreach(var r in mirror)if(r.name.Contains("mirror_0"))Look(r.bounds.center);
+    yield return new WaitForSeconds(1);Check(reflection&&reflection.Ready&&reflection.probe.resolution==128,"hall probe completes128px cubemap without planar camera");yield return Shot("hall-mirror");
+    Look(loop.flat.phone.position);yield return new WaitForSeconds(.3f);Check(!loop.prompt.text.Contains("Закрыто"),"idle phone does not advertise neighbouring locked door");yield return Shot("idle-phone-focus");
+    int previousCaptures=reflection.CompletedCaptures;
     // Same ready props in the existing warm-return profile, for diagnosis only; no production light change.
-    loop.flat.look.WarmReturn();Look(loop.flat.phone.position);yield return new WaitForSeconds(.7f);yield return Shot("diagnostic-warm-phone");
+    loop.flat.look.WarmReturn();Look(loop.flat.phone.position);yield return new WaitForSeconds(.7f);yield return Shot("diagnostic-warm-phone");Check(reflection.CompletedCaptures>previousCaptures,"probe refreshes for warm profile");
     Look(new Vector3(8.76f,1.65f,5.10f));yield return new WaitForSeconds(.7f);yield return Shot("diagnostic-warm-hooks");
     Look(new Vector3(8.60f,.2f,5.4f));yield return new WaitForSeconds(.7f);yield return Shot("diagnostic-warm-footwear");
     loop.flat.look.Apply(FlatCondition.Familiar);

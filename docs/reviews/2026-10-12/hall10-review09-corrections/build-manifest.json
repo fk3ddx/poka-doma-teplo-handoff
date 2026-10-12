@@ -1,0 +1,53 @@
+{
+  "scope": "Intermediate review09 corrections; NOT art acceptance. Torch remains hard to see in dark.",
+  "runs": {
+    "hall-probe": {
+      "png": 12,
+      "runtime_sha256": "591851919001ebebc26df346e079b068d165908989eab909066e9bd4edbe2b53",
+      "audioMuted": true,
+      "clearedOutputCallbacks": 801,
+      "droppedSamples": 0,
+      "PASS": 12,
+      "result": {
+        "passed": true,
+        "chase": false,
+        "headless": false,
+        "coreFinished": false,
+        "visualVerified": false,
+        "errors": 0,
+        "lap": 1,
+        "graphicsDevice": "Direct3D11",
+        "listenerVolume": 1.0
+      }
+    },
+    "full-route": {
+      "png": 73,
+      "runtime_sha256": "591851919001ebebc26df346e079b068d165908989eab909066e9bd4edbe2b53",
+      "audioMuted": true,
+      "clearedOutputCallbacks": 8758,
+      "droppedSamples": 0,
+      "PASS": 50,
+      "result": {
+        "passed": true,
+        "chase": false,
+        "headless": false,
+        "coreFinished": true,
+        "visualVerified": false,
+        "errors": 0,
+        "lap": 6,
+        "graphicsDevice": "Direct3D11",
+        "listenerVolume": 1.0
+      }
+    },
+    "survey": {
+      "png": 50,
+      "runtime_sha256": "591851919001ebebc26df346e079b068d165908989eab909066e9bd4edbe2b53",
+      "audioMuted": true,
+      "clearedOutputCallbacks": 1714,
+      "droppedSamples": 0
+    }
+  },
+  "zip": "Ataka-hall10-review09-win64.zip",
+  "bytes": 112371041,
+  "sha256": "92a81559cff9b08df2b2d51ff86636d0198513954e6c8cda73e9ab9e60457886"
+}
