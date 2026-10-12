@@ -31,9 +31,10 @@ namespace Ataka.Scenario {
    int b=Array.IndexOf(args,"-story-branch");branch=b>=0&&b+1<args.Length?args[b+1]:"";
    checks.Add("MODE story autopilot from "+from+(branch!=""?" branch "+branch:"")+" (aim-verified fire, 6x nights)");
    if(branch=="save"){story.qaAllowSave=true;story.QaSavePath(Path.Combine(output,"story-checkpoint.json"));}
-   var routes=story.QaValidateRoutes();routeFailures=routes.Count;foreach(var r in routes)checks.Add("ROUTE-BLOCKED "+r);checks.Add((routes.Count==0?"PASS":"FAIL")+" grandmother walking graph clear of furniture ("+routes.Count+" blocked edges; run continues)");
    loop.Pause(false);
    if(from=="ChaseEnd"){story.Abandon();loop.FinishCore();checks.Add("FinishCore called as at the end of the chase (10 strikes)");}else story.QaBegin(from);
+   // Routes are checked AFTER the chapter has set the flat up (doors, stool), and once more in the finale state below.
+   yield return new WaitForSecondsRealtime(.8f);ValidateRoutes("start of "+story.chapter);
    float deadline=Time.realtimeSinceStartup+(from=="Finale"||from=="ChaseEnd"?600:2400);if(from=="ChaseEnd")yield return null;string lastObjective=null,lastCard=null;StoryDirector.Chapter lastChapter=story.chapter;
    while(Time.realtimeSinceStartup<deadline&&!failed){
     var playing=loop.scenes.PlayingScene;if(!string.IsNullOrEmpty(playing)&&scenesSeen.Add(story.chapter+":"+playing))checks.Add("SCENE "+playing+" in "+story.chapter);
@@ -43,7 +44,7 @@ namespace Ataka.Scenario {
      saveChecked=true;var text=File.ReadAllText(story.SavePath);Check(text.Contains("Night1"),"checkpoint written at 21:42 of night 1: "+text);
      story.Continue();yield return new WaitForSeconds(1);Check(story.chapter==StoryDirector.Chapter.Night1&&story.Objective=="Дождаться бабушку","continue from checkpoint resumes night 1");}
     if(story.chapter==StoryDirector.Chapter.Night2&&restartsAtBranch<0&&branch=="no-belt")restartsAtBranch=story.QaRestarts;
-    if(story.chapter!=lastChapter){checks.Add("CHAPTER "+lastChapter+" -> "+story.chapter);lastChapter=story.chapter;yield return Shot("chapter-"+story.chapter);}
+    if(story.chapter!=lastChapter){checks.Add("CHAPTER "+lastChapter+" -> "+story.chapter);lastChapter=story.chapter;if(lastChapter==StoryDirector.Chapter.Finale&&from!="Finale"&&from!="ChaseEnd"){yield return new WaitForSecondsRealtime(.8f);ValidateRoutes("finale");}yield return Shot("chapter-"+story.chapter);}
     if(story.chapter==StoryDirector.Chapter.Loop){
      if(from=="Prologue"||from=="Night1")Check(scenesSeen.Contains("Night1:DeathFull"),"first night ends in the full face-tear death (7.4)");
      if(branch=="door-death")Check(branchRestartSeen,"door-death branch exercised");if(branch=="no-belt")Check(branchRestartSeen,"no-belt branch exercised");
@@ -77,8 +78,10 @@ namespace Ataka.Scenario {
    if(Time.realtimeSinceStartup>=deadline)Check(false,"story timeout in chapter "+story.chapter+" task '"+story.Objective+"'");
    Check(errors==0,"no runtime errors ("+errors+")");
    File.WriteAllText(Path.Combine(output,"result.json"),JsonUtility.ToJson(new Result{passed=!failed&&errors==0&&routeFailures==0,chapter=story.chapter.ToString(),errors=errors,routeFailures=routeFailures}));Write();
-   yield return new WaitForSecondsRealtime(.5f);Application.Quit(failed||errors>0?1:0);
+   yield return new WaitForSecondsRealtime(.5f);Application.Quit(failed||errors>0||routeFailures>0?1:0);
   }
+  void ValidateRoutes(string when){var report=new List<string>();var bad=story.QaValidateRoutes(report);routeFailures+=bad.Count;checks.Add("ROUTES at "+when);checks.AddRange(report);
+   foreach(var r in bad)checks.Add("ROUTE-BLOCKED "+r);checks.Add((bad.Count==0?"PASS":"FAIL")+" grandmother routes around furniture at "+when+" ("+bad.Count+" failures; run continues)");Write();}
   IEnumerator Approach(StoryDirector.Act act){
    var target=act.at();var flat=player.transform.position;var away=flat-target;away.y=0;if(away.sqrMagnitude<.01f)away=Vector3.back;away.Normalize();
    float distance=target.y<.6f?Mathf.Min(.9f,act.range*.6f):Mathf.Min(1.1f,act.range*.7f);

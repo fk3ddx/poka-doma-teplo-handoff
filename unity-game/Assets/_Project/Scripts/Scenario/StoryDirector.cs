@@ -78,26 +78,58 @@ namespace Ataka.Scenario {
    {"Door",new Vector3(7.85f,0,5.25f)},{"HallA",new Vector3(7.75f,0,4.4f)},{"KitchenDoor",new Vector3(7.25f,0,3.25f)},{"Kitchen",new Vector3(7.5f,0,2.1f)},{"Stove",new Vector3(8.0f,0,1.65f)},
    {"HallJoint",new Vector3(6.9f,0,5.25f)},{"HallB",new Vector3(5.65f,0,5.3f)},{"Clock",new Vector3(5.5f,0,5.45f)},{"LivingDoor",new Vector3(5.65f,0,4.0f)},{"LivingMid",new Vector3(4.4f,0,3.5f)},
    {"Aisle",new Vector3(4.15f,0,2.8f)},{"Armchair",new Vector3(3.95f,0,1.05f)},{"BedroomDoor",new Vector3(3.2f,0,3.75f)},{"Bedroom",new Vector3(2.0f,0,3.5f)},{"Landing",new Vector3(8.05f,0,6.62f)}};
-  static readonly string[][] Edges={new[]{"Landing","Door"},new[]{"Door","HallA"},new[]{"HallA","KitchenDoor"},new[]{"KitchenDoor","Kitchen"},new[]{"Kitchen","Stove"},new[]{"HallA","HallJoint"},new[]{"Door","HallJoint"},
-   new[]{"HallJoint","HallB"},new[]{"HallB","Clock"},new[]{"HallB","LivingDoor"},new[]{"LivingDoor","LivingMid"},new[]{"LivingMid","Aisle"},new[]{"Aisle","Armchair"},new[]{"LivingMid","BedroomDoor"},new[]{"BedroomDoor","Bedroom"}};
   string granNode="Door";
-  // QA: every edge of the grandmother's walking graph swept with her capsule; returns blocked edges with collider names.
-  public List<string> QaValidateRoutes(){var bad=new List<string>();var cols=new Collider[16];
-   foreach(var e in Edges){var a=Nodes[e[0]];var b=Nodes[e[1]];var names=new HashSet<string>();
-    for(float t=0;t<=1;t+=.1f){var p=Vector3.Lerp(a,b,t);int n=Physics.OverlapCapsuleNonAlloc(p+Vector3.up*.3f,p+Vector3.up*1.3f,.2f,cols,~(1<<31),QueryTriggerInteraction.Ignore);
-     for(int i=0;i<n;i++){var c=cols[i];if(c.transform.IsChildOf(player.transform)||c.transform.IsChildOf(flat.grandmother.transform)||c.transform.IsChildOf(flat.guest.transform))continue;if(c.GetComponentInParent<ScenarioDoor>()&&c.GetComponentInParent<ScenarioDoor>().open)continue;names.Add(c.name);}}
-    if(names.Count>0)bad.Add(e[0]+"→"+e[1]+": "+string.Join(", ",names));}
+  // Walks the story actually orders (SCENARIO 3.9, 4.1–4.9, 8, 11.7), validated in the real door states.
+  static readonly string[][] StoryWalks={new[]{"Door","Kitchen"},new[]{"Kitchen","HallA"},new[]{"HallA","Door"},new[]{"Door","HallB"},new[]{"HallB","Clock"},new[]{"Clock","Armchair"},new[]{"Armchair","Door"},new[]{"Door","Landing"},new[]{"Door","Stove"}};
+  GranNav nav;
+  GranNav Nav=>nav??=new GranNav(()=>new[]{player.transform,flat.grandmother.transform,flat.guest.transform},NavState);
+  string NavState(){var sb=new System.Text.StringBuilder();foreach(var d in new[]{flat.entrance,flat.kitchen,flat.bath,flat.bedroom,flat.living,flat.carpet,flat.vestibuleInner})if(d&&d.leaf)sb.Append(d.open?'o':'c').Append(Mathf.RoundToInt(d.leaf.localEulerAngles.y/5)).Append(',');
+   var st=flat.stool;sb.Append(st&&st.activeSelf?st.transform.position.ToString("F1"):"-");return sb.ToString();}
+  // She opens only unlocked doors; the flat door is opened by the story itself before she walks through it.
+  static bool CanOpen(ScenarioDoor d)=>d&&!d.locked;
+  bool QaCanOpen(ScenarioDoor d)=>d&&(!d.locked||d==flat.entrance);
+  Vector3 NodeAt(string node){var raw=Nodes[node];Nav.Ensure();return Nav.Snap(raw,.6f,out var q)?q:raw;}
+  // QA: every story walk planned with her capsule (r=GranNav.Radius, h=GranNav.Height) in the CURRENT door states;
+  // each crossed door is then opened to its real 95° pose and the route re-planned with that leaf as an obstacle.
+  public List<string> QaValidateRoutes(List<string> report){
+   var bad=new List<string>();var nav=Nav;nav.Invalidate();nav.Ensure();
+   report.Add("ROUTE capsule r="+GranNav.Radius+" h="+GranNav.Height+" lift="+GranNav.Lift+" grid="+GranNav.Cell+" m; runtime collider world r="+(granBody?granBody.radius*Mathf.Max(granBody.transform.lossyScale.x,granBody.transform.lossyScale.z):0).ToString("F3")+" h="+(granBody?granBody.height*granBody.transform.lossyScale.y:0).ToString("F3")+"; doors "+NavState());
+   foreach(var kv in Nodes){if(!nav.Snap(kv.Value,.6f,out var q)){bad.Add("node "+kv.Key+" "+kv.Value.ToString("F2")+": no free floor within 0.6 m; blockers: "+nav.Blockers(kv.Value,.1f));continue;}
+    float moved=Vector3.Distance(q,kv.Value);if(moved>.06f)report.Add("ROUTE node "+kv.Key+" "+kv.Value.ToString("F2")+" → free floor "+q.ToString("F2")+" ("+moved.ToString("F2")+" m); at the authored spot: "+nav.Blockers(kv.Value,0));}
+   foreach(var w in StoryWalks){
+    var r=nav.Find(Nodes[w[0]],Nodes[w[1]],QaCanOpen);string name=w[0]+"→"+w[1];
+    if(r.steps==null){bad.Add(name+": no route; closest reachable "+r.closest.ToString("F2")+" ("+r.closestToGoal.ToString("F2")+" m short); blockers there: "+nav.Blockers(r.closest,.12f));continue;}
+    report.Add("ROUTE "+name+" "+Length(r.steps).ToString("F1")+" m"+(r.crossed.Count>0?" opening "+string.Join(", ",r.crossed.ConvertAll(d=>d.name)):""));
+    if(r.crossed.Count==0)continue;
+    // The opened leaf is a real obstacle: open it to its pose and plan again without crossing.
+    var saved=new List<(ScenarioDoor d,bool open,Quaternion rot)>();foreach(var d in r.crossed){saved.Add((d,d.open,d.leaf.localRotation));d.open=true;d.leaf.localRotation=Quaternion.Euler(0,d.direction*95,0);}
+    nav.Invalidate();nav.Ensure();var again=nav.Find(Nodes[w[0]],Nodes[w[1]],null);
+    if(again.steps==null)bad.Add(name+" with the opened leaf in place: no route; closest "+again.closest.ToString("F2")+"; blockers: "+nav.Blockers(again.closest,.12f));
+    else report.Add("ROUTE "+name+" with opened leaf "+Length(again.steps).ToString("F1")+" m");
+    foreach(var x in saved){x.d.open=x.open;x.d.leaf.localRotation=x.rot;}nav.Invalidate();nav.Ensure();}
    return bad;}
-  void GranShow(string node,float yaw){granToken++;granWalking=false;var g=flat.grandmother;g.SetActive(true);granNode=node;g.transform.SetPositionAndRotation(Nodes[node],Quaternion.Euler(0,yaw,0));GranPlay(granIdle);}
+  static float Length(List<GranNav.Step> steps){float l=0;for(int i=1;i<steps.Count;i++)l+=Vector3.Distance(steps[i-1].at,steps[i].at);return l;}
+  void GranShow(string node,float yaw){granToken++;granWalking=false;var g=flat.grandmother;g.SetActive(true);granNode=node;g.transform.SetPositionAndRotation(NodeAt(node),Quaternion.Euler(0,yaw,0));GranPlay(granIdle);}
   void GranPlay(string clip){if(!granAnim||string.IsNullOrEmpty(clip))return;granAnim.enabled=true;var state=granAnim[clip];if(state==null)return;state.wrapMode=WrapMode.Loop;granAnim.CrossFade(clip,.2f);}
-  List<string> Route(string from,string to){var prev=new Dictionary<string,string>{{from,null}};var q=new Queue<string>();q.Enqueue(from);
-   while(q.Count>0){var n=q.Dequeue();if(n==to)break;foreach(var e in Edges){string next=e[0]==n?e[1]:e[1]==n?e[0]:null;if(next!=null&&!prev.ContainsKey(next)){prev[next]=n;q.Enqueue(next);}}}
-   var path=new List<string>();for(var n=to;n!=null;n=prev.ContainsKey(n)?prev[n]:null)path.Insert(0,n);return path;}
+  // Full walk around the furniture on the grid; a closed unlocked door on the way is opened by her (she stops
+  // clear of its swing, opens it, waits for the leaf, then re-plans with the open leaf as an obstacle).
   IEnumerator GranWalk(string to,float speed=.9f){
    var g=flat.grandmother.transform;if(!flat.grandmother.activeSelf)GranShow(granNode,0);
    int my=++granToken; // a newer walk order cancels an older one
    GranPlay(granWalk);granWalking=true;
-   foreach(var node in Route(granNode,to)){var target=Nodes[node];while(true){if(my!=granToken)yield break;var d=target-g.position;d.y=0;if(d.magnitude<.05f)break;g.rotation=Quaternion.Slerp(g.rotation,Quaternion.LookRotation(d),1-Mathf.Exp(-8*Time.deltaTime));if(PlayerInTheWay(g.position,target)){GranPlay(granIdle);yield return null;GranPlay(granWalk);continue;}g.position=Vector3.MoveTowards(g.position,target,speed*Time.deltaTime);yield return null;}granNode=node;}
+   for(int leg=0;leg<4;leg++){
+    Nav.Ensure();var r=Nav.Find(g.position,Nodes[to],CanOpen);
+    if(r.steps==null){Debug.LogWarning("GRAN_ROUTE_FAIL "+granNode+"→"+to+" from "+g.position.ToString("F2")+" closest "+r.closest.ToString("F2")+": "+Nav.Blockers(r.closest,.12f));break;}
+    int cut=r.steps.FindIndex(x=>x.door!=null);var door=cut>=0?r.steps[cut].door:null;var pts=new List<Vector3>{g.position};
+    if(door){var hinge=door.leaf.position;hinge.y=0;float clear=GranNav.DoorWidth(door)+GranNav.Radius+.1f;int last=-1;
+     for(int i=0;i<cut;i++){var d=r.steps[i].at-hinge;d.y=0;if(d.magnitude>=clear)last=i;}for(int i=1;i<=last;i++)pts.Add(r.steps[i].at);}
+    else for(int i=1;i<r.steps.Count;i++)pts.Add(r.steps[i].at);
+    foreach(var target in Nav.Smooth(pts)){while(true){if(my!=granToken)yield break;var d=target-g.position;d.y=0;if(d.magnitude<.05f)break;g.rotation=Quaternion.Slerp(g.rotation,Quaternion.LookRotation(d),1-Mathf.Exp(-8*Time.deltaTime));if(PlayerInTheWay(g.position,target)){GranPlay(granIdle);yield return null;GranPlay(granWalk);continue;}g.position=Vector3.MoveTowards(g.position,target,speed*Time.deltaTime);yield return null;}}
+    if(!door){granNode=to;break;}
+    GranPlay(granIdle);yield return GranFace(door.transform.position,.4f);if(my!=granToken)yield break;
+    door.open=true;sound.Play("door_open",door.transform.position);
+    for(float t=0;t<1.6f&&Quaternion.Angle(door.leaf.localRotation,Quaternion.identity)<85;t+=Time.deltaTime){if(my!=granToken)yield break;yield return null;}
+    GranPlay(granWalk);}
    GranPlay(granIdle);granWalking=false;}
   IEnumerator GranFace(Vector3 point,float seconds=.6f){var g=flat.grandmother.transform;var d=point-g.position;d.y=0;if(d.sqrMagnitude<.001f)yield break;var from=g.rotation;var to=Quaternion.LookRotation(d);for(float t=0;t<seconds;t+=Time.deltaTime){g.rotation=Quaternion.Slerp(from,to,t/seconds);yield return null;}g.rotation=to;}
   void GranLookAtPlayerWhenNear(){if(!flat.grandmother.activeSelf||granWalking)return;var g=flat.grandmother.transform;var d=player.transform.position-g.position;d.y=0;if(d.magnitude<2.2f&&d.sqrMagnitude>.01f)g.rotation=Quaternion.Slerp(g.rotation,Quaternion.LookRotation(d),1-Mathf.Exp(-3*Time.deltaTime));}
@@ -108,7 +140,7 @@ namespace Ataka.Scenario {
 
   // ---------- lifecycle ----------
   void Awake(){if(!loop)loop=GetComponent<LoopDirector>();savePath=System.IO.Path.Combine(Application.persistentDataPath,"story-checkpoint.json");}
-  void Start(){granBody=flat.grandmother.GetComponent<CapsuleCollider>();if(!granBody){granBody=flat.grandmother.AddComponent<CapsuleCollider>();granBody.radius=.22f;granBody.height=1.5f;granBody.center=Vector3.up*.75f;}granBody.enabled=false;
+  void Start(){granBody=flat.grandmother.GetComponent<CapsuleCollider>();if(!granBody){granBody=flat.grandmother.AddComponent<CapsuleCollider>();}var gs=flat.grandmother.transform.lossyScale;granBody.radius=GranNav.Radius/Mathf.Max(.01f,Mathf.Max(gs.x,gs.z));granBody.height=GranNav.Height/Mathf.Max(.01f,gs.y);granBody.center=Vector3.up*granBody.height*.5f;granBody.direction=1;granBody.enabled=false;
    RememberProps();tv=FindFirstObjectByType<ScenarioTelevision>();var anim=flat.grandmother.GetComponentInChildren<Animation>(true);granAnim=anim;
    if(anim)foreach(AnimationState s in anim){if(s.name.EndsWith("Oidle"))granIdle=s.name;if(s.name.EndsWith("Owalk"))granWalk=s.name;}}
   public bool HasSave=>System.IO.File.Exists(savePath);
