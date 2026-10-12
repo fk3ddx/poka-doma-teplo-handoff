@@ -50,6 +50,7 @@ namespace Ataka.Scenario {
    if(DeathScene(name)){
     // 7.4: driven by its own clock so the full (7 s) and short (3.5 s) versions share one staging.
     bool full=name=="DeathFull";faceTear.Begin(flat.player.head,full,rightHand?rightHand.gameObject:null);
+    flat.player.flashlight.enabled=false; // the torch is knocked away: a spot at 0.3 m blew her skin out to a white disc (re-enabled at the end as before)
     var near=cine.Lens;near.NearClipPlane=.02f;cine.Lens=near;
     float duration=faceTear.Duration(full);
     for(float clock=0;clock<duration;clock+=Time.deltaTime){
@@ -103,7 +104,7 @@ namespace Ataka.Scenario {
     bool full=name=="DeathFull";sound.quiet=true;if(veil)veil.At(faceTear.FlapTime(t));
     faceTear.Frame(t,out float pitchUp,out Vector2 shake);
     var body=flat.player.transform.forward;float lift=full&&t>=.8f&&t<4.8f?Mathf.SmoothStep(0,1,Mathf.Clamp01((t-.8f)/.3f))*.2f:0;
-    flat.guest.SetActive(full?t<4.8f:t<2.5f);guest.localScale=guestScale;guest.position=startGuest;HeadAt(guest,head.position+body*.3f+Vector3.up*(lift-.07f));
+    flat.guest.SetActive(full?t<4.8f:t<2.5f);guest.localScale=guestScale;guest.position=startGuest;HeadAt(guest,head.position+body*.62f+Vector3.up*(.10f+lift)); // her face 0.62 m ahead, above his eyes; the arms reach him (an authored body at 0.3 m filled the frame)
     var lens=cine.Lens;lens.FieldOfView=Mathf.Lerp(70,55,Mathf.Clamp01(t/.08f));cine.Lens=lens;
     head.localRotation=startHead*Quaternion.Euler(pitchUp+shake.x,shake.y,0);
     SoundAt(t,0,"breath",head.position);SoundAt(t,.3f,"finger_crack",head.position);

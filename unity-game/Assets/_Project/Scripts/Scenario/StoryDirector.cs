@@ -584,7 +584,7 @@ namespace Ataka.Scenario {
    big??=new GUIStyle(GUI.skin.label){fontSize=28,alignment=TextAnchor.MiddleCenter,wordWrap=true};small??=new GUIStyle(GUI.skin.label){fontSize=22,alignment=TextAnchor.MiddleCenter,wordWrap=true};task??=new GUIStyle(GUI.skin.label){fontSize=18};
    if(fade>0||card!=null){GUI.color=new Color(0,0,0,card!=null?Mathf.Max(fade,.92f):fade);GUI.DrawTexture(new Rect(0,0,Screen.width,Screen.height),Texture2D.whiteTexture);GUI.color=Color.white;}
    if(card!=null)GUI.Label(new Rect(Screen.width*.12f,Screen.height*.2f,Screen.width*.76f,Screen.height*.6f),card,big);
-   if(!string.IsNullOrEmpty(objective)&&card==null&&!player.paused)GUI.Label(new Rect(24,20,Screen.width*.5f,30),"Задача: "+objective,task);
+   if(!string.IsNullOrEmpty(objective)&&card==null&&!player.paused&&!scenes.InDeath)GUI.Label(new Rect(24,20,Screen.width*.5f,30),"Задача: "+objective,task);
    if(choiceA!=null){GUI.Label(new Rect(Screen.width*.2f,Screen.height*.62f,Screen.width*.6f,40),"[1] "+choiceA,small);GUI.Label(new Rect(Screen.width*.2f,Screen.height*.62f+44,Screen.width*.6f,40),"[2] "+choiceB,small);}
   }
  }

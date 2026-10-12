@@ -6,34 +6,40 @@ namespace Ataka.Scenario {
  // in camera space and draws the screen-side wounds (punctures, blood, lost left eye, red, black).
  public sealed class FaceTearDeath:MonoBehaviour {
   public GameObject clawSource;                       // ready claw-hand model, right hand
-  public Vector3 clawEuler;                          // rotates the authored model so fingers point +Z, palm faces -Y
-  public float clawLength=.46f;                      // wrist to nail tip, metres (fingers are twice human length)
+  public Vector3 clawEuler;                          // extra rotation after the automatic orientation (0 = as designed); without clawFingers it is the whole orientation
+  public float clawLength=.46f;                      // forearm end to claw tip, metres
+  // Set by GuestInstaller from the mesh itself (model-root space): direction to the claws and the palm side.
+  public Vector3 clawFingers,clawPalm;public float clawRoll=90;
+  public float fillIntensity=.6f,fillRange=1.6f;public Color fillColor=new Color(.75f,.8f,.92f); // dim cold light on the hands while they are in
   public Color skinTint=new Color(.55f,.52f,.40f);   // grey-yellow wet skin for the temporary fallback only
   public bool UsingFallback{get;private set;}
-  Transform left,right,head;bool full;float t;
+  Transform left,right,head;bool full;float t;Light fill;
   Texture2D dot,drip,streak,shade,black;
   struct Key {public float t;public Vector3 wrist,fingers,palm;public Key(float t,Vector3 w,Vector3 f,Vector3 p){this.t=t;wrist=w;fingers=f;palm=p;}}
-  // Head-space keys (x right, y up, z forward). "fingers" = wrist→nail direction, "palm" = palm normal.
+  // Head-space keys (x right, y up, z forward) for the authored forearm+hand cut from the Guest (GuestClaw):
+  // "wrist" = the forearm end (model origin), "fingers" = forearm→claws direction, "palm" = palm normal.
+  // Composition designed against a Blender emulation of this exact maths (docs/…/18): her head/chest 0.62 m ahead,
+  // both clawed hands framing the face at 0.55–1.3, the right hand at the hairline 1.6–2.0, dragging down by 2.6.
   static readonly Key[] RightFull={
-   new Key(0,new Vector3(.62f,-.30f,.30f),new Vector3(-.4f,.2f,-.1f),Vector3.left),
-   new Key(.3f,new Vector3(.62f,-.30f,.30f),new Vector3(-.4f,.2f,-.1f),Vector3.left),
-   new Key(.55f,new Vector3(.26f,-.04f,.20f),new Vector3(-.55f,.25f,-.75f),new Vector3(-1,0,-.3f)),
-   new Key(1.3f,new Vector3(.25f,-.02f,.21f),new Vector3(-.5f,.3f,-.8f),new Vector3(-1,0,-.3f)),
-   new Key(1.6f,new Vector3(.10f,.30f,.24f),new Vector3(-.15f,-.75f,-.65f),new Vector3(0,-.3f,-1)),
-   new Key(2.0f,new Vector3(.08f,.27f,.23f),new Vector3(-.15f,-.8f,-.6f),new Vector3(0,-.3f,-1)),
-   new Key(2.6f,new Vector3(.10f,-.40f,.26f),new Vector3(-.1f,-.6f,-.8f),new Vector3(0,-.4f,-1)),
-   new Key(3.0f,new Vector3(.40f,-.62f,.32f),new Vector3(-.2f,-.6f,-.5f),Vector3.left),
-   new Key(3.4f,new Vector3(.12f,-.30f,.34f),new Vector3(-.1f,.9f,.2f),new Vector3(0,0,-1)),
-   new Key(4.2f,new Vector3(.02f,.05f,.48f),new Vector3(0,.95f,.3f),new Vector3(0,0,-1)),
-   new Key(4.7f,new Vector3(.30f,-.55f,.45f),new Vector3(0,.9f,.2f),Vector3.left),
-   new Key(9,new Vector3(.30f,-.55f,.45f),new Vector3(0,.9f,.2f),Vector3.left)};
+   new Key(0f,new Vector3(.75f,-.45f,.55f),new Vector3(-.6f,.3f,-.75f),new Vector3(-1f,0f,0f)),
+   new Key(0.3f,new Vector3(.75f,-.45f,.55f),new Vector3(-.6f,.3f,-.75f),new Vector3(-1f,0f,0f)),
+   new Key(0.55f,new Vector3(.35f,-.05f,.53f),new Vector3(-.5f,.15f,-.85f),new Vector3(-.9f,0f,-.4f)),
+   new Key(1.3f,new Vector3(.33f,-.04f,.5f),new Vector3(-.5f,.15f,-.85f),new Vector3(-.9f,0f,-.4f)),
+   new Key(1.6f,new Vector3(.1f,.35f,.6f),new Vector3(-.1f,-.55f,-.83f),new Vector3(0f,-.3f,-1f)),
+   new Key(2f,new Vector3(.1f,.4f,.62f),new Vector3(-.1f,-.55f,-.83f),new Vector3(0f,-.3f,-1f)),
+   new Key(2.6f,new Vector3(.12f,.25f,.75f),new Vector3(-.1f,-.75f,-.65f),new Vector3(0f,-.3f,-1f)),
+   new Key(3f,new Vector3(.5f,-.5f,.6f),new Vector3(-.3f,.2f,-.9f),new Vector3(-1f,0f,0f)),
+   new Key(3.4f,new Vector3(.08f,-.45f,.55f),new Vector3(-.05f,.95f,-.1f),new Vector3(0f,0f,-1f)),
+   new Key(4.2f,new Vector3(.08f,-.45f,.55f),new Vector3(-.05f,.95f,-.1f),new Vector3(0f,0f,-1f)),
+   new Key(4.7f,new Vector3(.5f,-.8f,.6f),new Vector3(0f,.9f,.2f),new Vector3(-1f,0f,0f)),
+   new Key(9f,new Vector3(.5f,-.8f,.6f),new Vector3(0f,.9f,.2f),new Vector3(-1f,0f,0f))};
   static readonly Key[] LeftFull={
-   new Key(0,new Vector3(-.62f,-.30f,.30f),new Vector3(.4f,.2f,-.1f),Vector3.right),
-   new Key(.3f,new Vector3(-.62f,-.30f,.30f),new Vector3(.4f,.2f,-.1f),Vector3.right),
-   new Key(.55f,new Vector3(-.26f,-.04f,.20f),new Vector3(.55f,.25f,-.75f),new Vector3(1,0,-.3f)),
-   new Key(2.6f,new Vector3(-.25f,-.02f,.21f),new Vector3(.5f,.3f,-.8f),new Vector3(1,0,-.3f)),
-   new Key(3.0f,new Vector3(-.55f,-.45f,.30f),new Vector3(.4f,.2f,-.4f),Vector3.right),
-   new Key(9,new Vector3(-.70f,-.60f,.30f),new Vector3(.4f,.2f,-.4f),Vector3.right)};
+   new Key(0f,new Vector3(-.75f,-.45f,.55f),new Vector3(.6f,.3f,-.75f),new Vector3(1f,0f,0f)),
+   new Key(0.3f,new Vector3(-.75f,-.45f,.55f),new Vector3(.6f,.3f,-.75f),new Vector3(1f,0f,0f)),
+   new Key(0.55f,new Vector3(-.35f,-.05f,.53f),new Vector3(.5f,.15f,-.85f),new Vector3(.9f,0f,-.4f)),
+   new Key(2.6f,new Vector3(-.33f,-.04f,.5f),new Vector3(.5f,.15f,-.85f),new Vector3(.9f,0f,-.4f)),
+   new Key(3f,new Vector3(-.6f,-.6f,.5f),new Vector3(.5f,.2f,-.8f),new Vector3(1f,0f,0f)),
+   new Key(9f,new Vector3(-.8f,-.8f,.5f),new Vector3(.5f,.2f,-.8f),new Vector3(1f,0f,0f))};
   // Short version keeps the same gestures on the compressed 3.5 s clock of 7.4.
   static float FullTime(float t,bool full)=>full?t:t<.3f?t:t<1f?Mathf.Lerp(.3f,1.6f,(t-.3f)/.7f):t<1.5f?Mathf.Lerp(1.6f,2.0f,(t-1f)/.5f):Mathf.Lerp(2.0f,3.0f,(t-1.5f)/1f);
   public float Duration(bool fullDeath)=>fullDeath?7:3.5f;
@@ -58,6 +64,8 @@ namespace Ataka.Scenario {
    var source=clawSource;UsingFallback=!source;if(!source)source=fallback;
    if(!source){Debug.LogError("FaceTearDeath: no claw model and no fallback");return;}
    right=Make(source,false);left=Make(source,true);
+   var lg=new GameObject("Death fill light").transform;lg.SetParent(head,false);lg.localPosition=new Vector3(0,.3f,.05f);fill=lg.gameObject.AddComponent<Light>();
+   fill.type=LightType.Point;fill.color=fillColor;fill.intensity=0;fill.range=fillRange;fill.shadows=LightShadows.None;
    if(UsingFallback)Debug.LogWarning("FaceTearDeath: ready claw model not installed — temporary proxy hand (see README)");
   }
   Transform Make(GameObject source,bool mirror){
@@ -68,7 +76,7 @@ namespace Ataka.Scenario {
    foreach(var b in model.GetComponentsInChildren<MonoBehaviour>(true))b.enabled=false;model.SetActive(true);
    foreach(var c in model.GetComponentsInChildren<Collider>(true))Destroy(c);
    foreach(var a in model.GetComponentsInChildren<Animation>(true))a.enabled=false;foreach(var a in model.GetComponentsInChildren<Animator>(true))a.enabled=false;
-   model.transform.localPosition=Vector3.zero;model.transform.localRotation=proxyFingers.sqrMagnitude>1e-6f?Quaternion.FromToRotation(proxyFingers.normalized,Vector3.forward):Quaternion.Euler(clawEuler);model.transform.localScale=Vector3.one;
+   model.transform.localPosition=Vector3.zero;model.transform.localRotation=proxyFingers.sqrMagnitude>1e-6f?Quaternion.FromToRotation(proxyFingers.normalized,Vector3.forward):clawFingers.sqrMagnitude>1e-6f&&clawPalm.sqrMagnitude>1e-6f?Quaternion.Euler(clawEuler)*Quaternion.AngleAxis(clawRoll,Vector3.forward)*Quaternion.Inverse(Quaternion.LookRotation(clawFingers,-clawPalm)):Quaternion.Euler(clawEuler);model.transform.localScale=Vector3.one;
    // Normalise: longest extent = clawLength, wrist at the origin, nails toward +Z.
    var rs=model.GetComponentsInChildren<Renderer>(true);if(rs.Length>0){
     var b=Local(wrapper,rs);float longest=Mathf.Max(b.size.x,Mathf.Max(b.size.y,b.size.z));if(longest>1e-4f)model.transform.localScale=Vector3.one*(clawLength/longest);
@@ -97,14 +105,15 @@ namespace Ataka.Scenario {
    bool handsIn=f>=.3f&&f<(full?5.2f:3.0f);
    if(right){right.gameObject.SetActive(handsIn);if(handsIn)Pose(right,RightFull,f,false);}
    if(left){left.gameObject.SetActive(handsIn&&f<3.0f);if(left.gameObject.activeSelf)Pose(left,LeftFull,f,true);}
+   if(fill)fill.intensity=handsIn?fillIntensity*Mathf.Clamp01((f-.25f)/.2f):0;
    float grip=f>=.3f&&f<2.6f?1:0;shake=new Vector2(Mathf.Sin(t*55)*1.5f,Mathf.Cos(t*41))*(1+grip*1.5f);
    if(full&&f>=.8f&&f<4.5f)pitchUp=-22*Mathf.SmoothStep(0,1,Mathf.Clamp01((f-.8f)/.3f));
   }
   public float FlapTime(float time)=>FullTime(time,full)-.5f;   // DeathVeil runs 1.5→2.25 on its own clock
-  public float Red(float time){float f=FullTime(time,full);return f<2?0:Mathf.Clamp01((f-2)*2);}
+  public float Red(float time){float f=FullTime(time,full);return f<2?0:.5f*Mathf.Clamp01((f-2)*2);} // a red tint (alpha ≤ .43), not an opaque card: the hands stay visible
   public float Black(float time)=>full?Mathf.Clamp01((time-5.6f)/1.2f):time>=2.5f?1:0;
   public float Disruption(float time)=>full?Mathf.Clamp01((time-5f)/1.5f):0;
-  public void End(){if(right)Destroy(right.gameObject);if(left)Destroy(left.gameObject);right=left=null;t=-1;}
+  public void End(){if(right)Destroy(right.gameObject);if(left)Destroy(left.gameObject);if(fill)Destroy(fill.gameObject);right=left=null;fill=null;t=-1;}
 
   void OnGUI(){
    if(t<0||!head)return;float f=FullTime(t,full);float w=Screen.width,h=Screen.height;

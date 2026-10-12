@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEditor;
@@ -26,6 +27,18 @@ namespace Ataka.Editor {
     mat.SetFloat("_Smoothness",Mathf.Clamp01(1-spec.roughness)*.6f);EditorUtility.SetDirty(mat);mats[i]=mat;}
     r.sharedMaterials=mats;r.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.On;}
   }
+  // FaceTearDeath stages the claw hand by "fingers" (towards the claws) and "palm" (the side the claws hook to),
+  // measured here in the model-root space from the mesh: claw faces = the untextured Claw material (prepare_guest --claws).
+  static void Orient(FaceTearDeath death,GameObject model,Manifest m){
+   var all=new List<Vector3>();var claws=new List<Vector3>();var toRootSpace=model.transform.worldToLocalMatrix;
+   foreach(var mf in model.GetComponentsInChildren<MeshFilter>(true)){var mesh=mf.sharedMesh;if(!mesh||!mesh.isReadable)continue;var toRoot=toRootSpace*mf.transform.localToWorldMatrix;var v=mesh.vertices;var mr=mf.GetComponent<Renderer>();
+    var clawIdx=new HashSet<int>();for(int sub=0;sub<mesh.subMeshCount;sub++){var mat=mr&&sub<mr.sharedMaterials.Length?mr.sharedMaterials[sub]:null;string name=mat?mat.name:"";
+     if(m.materials.Any(e=>string.IsNullOrEmpty(e.texture)&&name.StartsWith(e.name)))foreach(var i in mesh.GetIndices(sub))clawIdx.Add(i);}
+    for(int i=0;i<v.Length;i++){var q=toRoot.MultiplyPoint3x4(v[i]);all.Add(q);if(clawIdx.Contains(i))claws.Add(q);}}
+   if(all.Count==0||claws.Count==0){Debug.LogWarning("GUEST_CLAW orientation: no readable mesh or no Claw material — FaceTearDeath falls back to clawEuler");return;}
+   Vector3 ac=Vector3.zero,cc=Vector3.zero;foreach(var q in all)ac+=q;foreach(var q in claws)cc+=q;ac/=all.Count;cc/=claws.Count;
+   var f=(cc-ac).normalized;var tip=claws.OrderByDescending(q=>Vector3.Dot(q-ac,f)).First();var palm=Vector3.ProjectOnPlane(tip-ac,f).normalized;
+   death.clawFingers=f;death.clawPalm=palm;Debug.Log("GUEST_CLAW orientation fingers="+f.ToString("F3")+" palm="+palm.ToString("F3")+" roll="+death.clawRoll);}
   static string Pick(string[] names,params string[] keys){foreach(var k in keys){var hit=names.FirstOrDefault(n=>n.ToLowerInvariant().Contains(k));if(hit!=null)return hit;}return null;}
   public static void Install(){
    var scene=EditorSceneManager.OpenScene("Assets/_Project/Scenario/Flat.unity");var flat=UnityEngine.Object.FindFirstObjectByType<FlatBindings>();
@@ -34,9 +47,10 @@ namespace Ataka.Editor {
    // Close-up claws (7.4): the source object is kept disabled under the director; FaceTearDeath clones it in camera space.
    string claw=Root+"GuestClaw/GuestClaw.fbx";
    if(File.Exists(claw)){
+    var cimp=(ModelImporter)AssetImporter.GetAtPath(claw);if(cimp&&!cimp.isReadable){cimp.isReadable=true;cimp.SaveAndReimport();} // orientation is measured from the mesh
     var m=Read("GuestClaw");var old=timeline.transform.Find("READY GuestClaw source");if(old)UnityEngine.Object.DestroyImmediate(old.gameObject);
     var model=(GameObject)PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath<GameObject>(claw));model.name="READY GuestClaw source";model.transform.SetParent(timeline.transform,false);
-    Materialise("GuestClaw",model,m);model.SetActive(false);death.clawSource=model;Debug.Log("GUEST_CLAW installed");
+    Materialise("GuestClaw",model,m);Orient(death,model,m);model.SetActive(false);death.clawSource=model;Debug.Log("GUEST_CLAW installed");
    }else Debug.LogWarning("GUEST_CLAW missing: "+claw+" — run tools/art/prepare_guest.py");
    // Body: authored creature as a child of the logical Guest; proxy surfaces hidden at runtime.
    string body=Root+"GuestBody/GuestBody.fbx";
