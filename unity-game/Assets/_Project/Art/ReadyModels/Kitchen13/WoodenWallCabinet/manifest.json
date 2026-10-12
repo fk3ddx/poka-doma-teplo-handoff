@@ -1,0 +1,46 @@
+{
+  "name": "WoodenWallCabinet",
+  "size_blender_xyz": [
+    0.8199999332427979,
+    0.32719239592552185,
+    0.6432944536209106
+  ],
+  "uniform_scale": 0.15021232459946196,
+  "source_sha256": "56f09d3da2259d1c1cca5317c9803afca62d345986942b0db6276958df168aae",
+  "rotation_z": 0,
+  "materials": [
+    {
+      "name": "WoodenWallCabinet_0",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "textures": [
+        "WoodenWallCabinet_0_Image_0.png"
+      ]
+    },
+    {
+      "name": "WoodenWallCabinet_1",
+      "color": [
+        0.04515380039811134,
+        0.01742980070412159,
+        0.010008299723267555,
+        1.0
+      ],
+      "textures": []
+    },
+    {
+      "name": "WoodenWallCabinet_2",
+      "color": [
+        0.1878180056810379,
+        0.1878180056810379,
+        0.1878180056810379,
+        1.0
+      ],
+      "textures": []
+    }
+  ],
+  "status": "Prepared only, not installed or visually accepted in Unity"
+}

@@ -72,3 +72,8 @@ Granny Katcho одобрена по авторскому превью («да н
 - Post-soviet furniture set with dithering, mariakrasinska: https://sketchfab.com/3d-models/post-soviet-furniture-set-with-dithering-e179fb17eb884ad2b0a2ade519ea42a7 — CC BY4 (https://creativecommons.org/licenses/by/4.0/), согласно полю лицензии и окну скачивания. Описание автора также говорит CC0; используем более строгую атрибуцию. Выделены предметы, нормализован масштаб, материалы перенесены в URP; исходная геометрия/UV/текстуры сохранены.
 - ambientCG Tiles107: https://ambientcg.com/view?id=Tiles107 — CC0, https://docs.ambientcg.com/license/ . Оригинальные карты1K; тонировка материала в движке.
 - Poly Haven: https://polyhaven.com/a/painted_plaster_wall , https://polyhaven.com/a/linoleum_brown , https://polyhaven.com/a/square_tiled_wall — CC0 https://polyhaven.com/license . Источники карт и контрольные суммы рядом с текстурами.
+
+
+## Kitchen13 — 12 October 2026
+- Soviet Sink / Радянська Раковина, Khata (Khatagames): https://sketchfab.com/3d-models/soviet-sink-789e81f99ae94875939b63c1c9da3a64 — CC BY 4.0 https://creativecommons.org/licenses/by/4.0/ . Converted FBX, rotated and uniformly scaled to0.65m width; URP materials with existing Poly Haven CC0 painted-plaster surface for enamel. Author geometry/UV preserved.
+- Wooden Wall Cabinet — PBR & Game-Ready, skw1r: https://sketchfab.com/3d-models/wooden-wall-cabinet-pbr-game-ready-1271e258afde413e82734019eb3a0e1c — CC BY 4.0 https://creativecommons.org/licenses/by/4.0/ . Converted GLB to FBX, extracted author texture, uniform scale to0.82m width, URP materials.
