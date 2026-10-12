@@ -1,7 +1,8 @@
 # Blender 4.x: prepares the ready Guest creature (rigged, animated) and the close-up claw hand for Unity.
 #
 #   blender --background --python tools/art/prepare_guest.py -- <body file> --source <url> --author <name> --license <id>
-#           [--claw <hand file> | --claw from-body] [--claw-source <url> --claw-author <name> --claw-license <id>]
+#           [--claw <hand file> | --claw from-body [--hand-bones <forearm bone>]] [--claw-source <url> --claw-author <name> --claw-license <id>]
+# --hand-bones: rigs with generic bone names (joint12.001…): the named bone and all its descendants are the hand+forearm.
 #
 # <body file>: .glb/.gltf/.fbx/.dae of a downloadable, licensed creature (itch.io / OpenGameArt / Sketchfab).
 # --claw from-body: the right hand + forearm is cut out of the creature itself (vertices weighted to hand/finger/forearm
@@ -39,7 +40,10 @@ def save_materials(label,objs,tex):
    e={'name':m.name,'color':list(p.inputs['Base Color'].default_value),'roughness':p.inputs['Roughness'].default_value,'texture':'','normal':''}
    for n in m.node_tree.nodes:
     if n.type!='TEX_IMAGE' or not n.image:continue
-    fn=re.sub('[^a-zA-Z0-9_]+','_',n.image.name)+'.png';n.image.filepath_raw=str(tex/fn);n.image.file_format='PNG';n.image.save()
+    fn=re.sub('[^a-zA-Z0-9_]+','_',n.image.name)+'.png';img=n.image
+    if max(img.size)>1024:img.scale(*(max(1,v*1024//max(img.size)) for v in img.size))
+    # save_render re-encodes (a packed JPEG would otherwise be written as-is under a .png name)
+    st=bpy.context.scene.render.image_settings;st.file_format='PNG';st.color_mode='RGBA' if img.channels==4 else 'RGB';st.color_depth='8';img.save_render(str(tex/fn))
     for l in n.outputs['Color'].links:
      if l.to_node==p and l.to_socket.name=='Base Color':e['texture']='Textures/'+fn
      if l.to_node.type=='NORMAL_MAP':e['normal']='Textures/'+fn
@@ -60,11 +64,15 @@ def export(objs,path,rigged):
  bpy.context.view_layer.objects.active=objs[0]
  bpy.ops.export_scene.fbx(filepath=str(path),use_selection=True,object_types={'MESH','ARMATURE'} if rigged else {'MESH'},axis_forward='-Z',axis_up='Y',
   bake_anim=rigged,bake_anim_use_all_actions=rigged,bake_anim_use_nla_strips=False,add_leaf_bones=False,apply_scale_options='FBX_SCALE_UNITS' if rigged else 'FBX_SCALE_ALL')
-def cut_right_hand(meshes):
+def subtree(arm,root):
+ names=set();stack=[arm.data.bones[root]] if arm and root in arm.data.bones else []
+ while stack:b=stack.pop();names.add(b.name);stack.extend(b.children)
+ return names
+def cut_right_hand(meshes,bones=None):
  # Right hand + forearm by skin weights, in bind pose (armature modifier removed = rest geometry).
  best=None
  for o in meshes:
-  keep={g.index for g in o.vertex_groups if PART.search(g.name) and SIDE.search(g.name)}
+  keep={g.index for g in o.vertex_groups if (g.name in bones if bones else PART.search(g.name) and SIDE.search(g.name))}
   if not keep:continue
   dup=o.copy();dup.data=o.data.copy();bpy.context.collection.objects.link(dup)
   bm=bmesh.new();bm.from_mesh(dup.data);deform=bm.verts.layers.deform.verify()
@@ -82,7 +90,7 @@ out=outroot/'GuestBody';(out/'Textures').mkdir(parents=True,exist_ok=True)
 mats=save_materials('GuestBody',meshes,out/'Textures');actions=[a.name for a in bpy.data.actions]
 claw=None
 if opt('--claw')=='from-body':
- claw=cut_right_hand(meshes)
+ claw=cut_right_hand(meshes,subtree(arm,opt('--hand-bones')) if opt('--hand-bones') else None)
  if not claw:print('WARNING no right hand/forearm vertex groups found; use --claw <hand file>')
 export(meshes+([arm] if arm else []),out/'GuestBody.fbx',bool(arm))
 write_meta(out,'GuestBody',opt('--source'),opt('--author'),opt('--license'),{'rigged':bool(arm),'actions':actions,'materials':mats,

@@ -17,6 +17,9 @@ namespace Ataka.Scenario {
   readonly Func<Transform[]> ignore;readonly Func<string> state;string signature;
   readonly Collider[] hits=new Collider[24];
   public int Builds{get;private set;}
+  // A standing player she has to walk around (set by the walker for one plan + smoothing; null for QA).
+  public Vector3? Avoid;public float AvoidRadius;
+  bool Avoided(Vector3 p){if(Avoid==null)return false;var d=p-Avoid.Value;d.y=0;return d.magnitude<AvoidRadius;}
   public GranNav(Func<Transform[]> ignore,Func<string> state){this.ignore=ignore;this.state=state;}
 
   public static Vector3 Bottom(Vector3 feet)=>feet+Vector3.up*(Lift+Radius);
@@ -64,7 +67,7 @@ namespace Ataka.Scenario {
    if(!closed[goal])return res;
    var path=new List<Step>();for(int c=goal;c>=0;c=parent[c]){var d=DoorAt(c);path.Insert(0,new Step{at=Center(c%nx,c/nx),door=d});if(d&&!res.crossed.Contains(d))res.crossed.Insert(0,d);}
    res.steps=path;res.closest=b;res.closestToGoal=0;return res;}
-  bool Walkable(int k,Func<ScenarioDoor,bool> canOpen){var c=cells[k];return c==0||c>=2&&canOpen!=null&&canOpen(doors[c-2]);}
+  bool Walkable(int k,Func<ScenarioDoor,bool> canOpen){var c=cells[k];if(Avoid!=null&&Avoided(Center(k%nx,k/nx)))return false;return c==0||c>=2&&canOpen!=null&&canOpen(doors[c-2]);}
   static float H(int x,int z,int bx,int bz){int dx=Mathf.Abs(x-bx),dz=Mathf.Abs(z-bz);return Mathf.Max(dx,dz)+.4142f*Mathf.Min(dx,dz);}
 
   // String-pulling over strictly free cells, so a shortcut never cuts furniture or a door leaf.
@@ -73,7 +76,7 @@ namespace Ataka.Scenario {
    while(i<pts.Count-1){int j=pts.Count-1;while(j>i+1&&!LineFree(pts[i],pts[j]))j--;o.Add(pts[j]);i=j;}
    return o;}
   bool LineFree(Vector3 a,Vector3 b){float len=Vector3.Distance(a,b);int s=Mathf.CeilToInt(len/(Cell*.5f));var skip=ignore();
-   for(int k=0;k<=s;k++){var p=Vector3.Lerp(a,b,s==0?0:(float)k/s);if(!IsFree(p))return false;int n=Physics.OverlapCapsuleNonAlloc(Bottom(p),Top(p),Radius,hits,~(1<<31),QueryTriggerInteraction.Ignore);for(int i=0;i<n;i++)if(!Ignored(hits[i],skip))return false;}
+   for(int k=0;k<=s;k++){var p=Vector3.Lerp(a,b,s==0?0:(float)k/s);if(!IsFree(p)||Avoided(p))return false;int n=Physics.OverlapCapsuleNonAlloc(Bottom(p),Top(p),Radius,hits,~(1<<31),QueryTriggerInteraction.Ignore);for(int i=0;i<n;i++)if(!Ignored(hits[i],skip))return false;}
    return true;}
 
   public static float DoorWidth(ScenarioDoor d){float w=.8f;if(d&&d.leaf)foreach(var b in d.leaf.GetComponentsInChildren<BoxCollider>(true)){var s=Vector3.Scale(b.size,b.transform.lossyScale);w=Mathf.Max(Mathf.Abs(s.x),Mathf.Abs(s.z));}return w;}

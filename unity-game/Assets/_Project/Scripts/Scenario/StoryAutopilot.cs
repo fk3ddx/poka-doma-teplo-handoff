@@ -35,7 +35,7 @@ namespace Ataka.Scenario {
    if(from=="ChaseEnd"){story.Abandon();loop.FinishCore();checks.Add("FinishCore called as at the end of the chase (10 strikes)");}else story.QaBegin(from);
    // Routes are checked AFTER the chapter has set the flat up (doors, stool), and once more in the finale state below.
    yield return new WaitForSecondsRealtime(.8f);ValidateRoutes("start of "+story.chapter);
-   float deadline=Time.realtimeSinceStartup+(from=="Finale"||from=="ChaseEnd"?600:2400);if(from=="ChaseEnd")yield return null;string lastObjective=null,lastCard=null;StoryDirector.Chapter lastChapter=story.chapter;
+   lastProgressAt=Time.realtimeSinceStartup;float deadline=Time.realtimeSinceStartup+(from=="Finale"||from=="ChaseEnd"?600:2400);if(from=="ChaseEnd")yield return null;string lastObjective=null,lastCard=null;StoryDirector.Chapter lastChapter=story.chapter;
    while(Time.realtimeSinceStartup<deadline&&!failed){
     var playing=loop.scenes.PlayingScene;if(!string.IsNullOrEmpty(playing)&&scenesSeen.Add(story.chapter+":"+playing))checks.Add("SCENE "+playing+" in "+story.chapter);
     if(branch=="door-death"&&doorOpened&&!branchRestartSeen&&story.QaRestarts>restartsAtBranch){branchRestartSeen=true;Check(scenesSeen.Contains(story.chapter+":DeathShort")&&story.chapter==StoryDirector.Chapter.Night1,"opening the door at 22:02 kills (short death) and restarts night 1 at 22:00");}
@@ -51,9 +51,13 @@ namespace Ataka.Scenario {
      Check(true,"story reached the loop (lap "+loop.Progress.Lap+")");break;}
     if(branch=="save"&&saveChecked){Check(true,"save branch done");break;}
     if(story.chapter==StoryDirector.Chapter.None&&loop.Finished){if(from=="ChaseEnd")Check(scenesSeen.Contains("Finale:DeathFull"),"chase end → finale → face tear → epilogue");Check(true,"epilogue finished, menu shows КОНЕЦ");break;}
-    if(story.CurrentCard!=lastCard){lastCard=story.CurrentCard;if(lastCard!=null){checks.Add("CARD "+lastCard.Replace('\n',' '));yield return Shot("card-"+Slug(lastCard));}}
-    if(story.Objective!=lastObjective){lastObjective=story.Objective;checks.Add("TASK "+lastObjective);if(!string.IsNullOrEmpty(lastObjective))yield return Shot("task-"+Slug(lastObjective));}
+    if(story.CurrentCard!=lastCard){lastCard=story.CurrentCard;lastProgressAt=Time.realtimeSinceStartup;if(lastCard!=null){checks.Add("CARD "+lastCard.Replace('\n',' '));yield return Shot("card-"+Slug(lastCard));}}
+    if(story.Objective!=lastObjective){lastObjective=story.Objective;lastProgressAt=Time.realtimeSinceStartup;checks.Add("TASK "+lastObjective);if(!string.IsNullOrEmpty(lastObjective))yield return Shot("task-"+Slug(lastObjective));}
     Time.timeScale=story.chapter==StoryDirector.Chapter.Night1||story.chapter==StoryDirector.Chapter.Night2||story.chapter==StoryDirector.Chapter.Finale?6:2;
+    // Diagnostics: every 20 s without a new task/card/act, report where everybody is.
+    if(Time.realtimeSinceStartup-lastProgressAt>20){lastProgressAt=Time.realtimeSinceStartup;checks.Add("STALL? chapter "+story.chapter+" task '"+story.Objective+"' player "+player.transform.position.ToString("F2")+" "+story.QaGranState+" scene '"+loop.scenes.PlayingScene+"' acts ["+string.Join(", ",story.OpenActs.Select(x=>x.label))+"]");Write();}
+    // QA yields the way (runtime collisions unchanged): she already re-planned around the autopilot and still waits.
+    if(story.QaGranWaiting>2.5f&&story.QaGranGoal!=null){var spot=YieldSpot(story.QaGranPosition,story.QaGranGoal.Value);checks.Add("QA-YIELD player "+player.transform.position.ToString("F2")+" -> "+spot.ToString("F2")+" for "+story.QaGranState);player.Place(spot,0);yield return new WaitForSeconds(.5f);continue;}
     if(story.Choosing){yield return new WaitForSeconds(.5f);story.QaChoose(1);checks.Add("CHOICE 1");continue;}
     if(branch=="door-death"&&!doorOpened&&story.chapter==StoryDirector.Chapter.Night1){var r=story.OpenActs.FirstOrDefault(a=>a.label=="Открыть дверь");
      if(r!=null){restartsAtBranch=story.QaRestarts;yield return Approach(r);var e=story.OpenActs.FirstOrDefault(a=>a.label=="Глазок"&&(r.at()-a.at()).sqrMagnitude<.05f);
@@ -62,7 +66,7 @@ namespace Ataka.Scenario {
     var act=story.OpenActs.FirstOrDefault(a=>!a.fired&&a.key==UnityEngine.InputSystem.Key.E&&(a.when==null||a.when())&&!(a.label=="Глазок"&&peepholes>=1)&&!(skipBelt&&(a.label.Contains("ремень")||a.label.Contains("ремнём"))));
     if(act!=null&&player.control&&string.IsNullOrEmpty(loop.scenes.PlayingScene)){
      yield return Approach(act);
-     if(story.Aimed==act){checks.Add("ACT "+act.label+(act.hold>0?" (hold "+act.hold+"s skipped)":""));yield return Shot("act-"+Slug(act.label));if(act.label=="Глазок")peepholes++;story.QaFire(act);}
+     if(story.Aimed==act){lastProgressAt=Time.realtimeSinceStartup;checks.Add("ACT "+act.label+(act.hold>0?" (hold "+act.hold+"s skipped)":""));yield return Shot("act-"+Slug(act.label));if(act.label=="Глазок")peepholes++;story.QaFire(act);}
      else{Check(false,"aim did not select '"+act.label+"' at "+act.at()+" from "+player.head.position+" (selected: "+(story.Aimed!=null?story.Aimed.label:"none")+")");break;}
     }
     // Finale refusal path (11.6б): after one look through the peephole, step away from the door.
@@ -80,6 +84,12 @@ namespace Ataka.Scenario {
    File.WriteAllText(Path.Combine(output,"result.json"),JsonUtility.ToJson(new Result{passed=!failed&&errors==0&&routeFailures==0,chapter=story.chapter.ToString(),errors=errors,routeFailures=routeFailures}));Write();
    yield return new WaitForSecondsRealtime(.5f);Application.Quit(failed||errors>0||routeFailures>0?1:0);
   }
+  float lastProgressAt;
+  // Free floor spots away from her; the one farthest from her straight line to the goal.
+  static readonly Vector3[] Spots={new Vector3(1.9f,.02f,3.6f),new Vector3(3.4f,.02f,3.9f),new Vector3(4.4f,.02f,3.5f),new Vector3(7.6f,.02f,1.7f),new Vector3(8.3f,.02f,4.0f),new Vector3(5.0f,.02f,5.3f),new Vector3(8.2f,.02f,5.4f)};
+  static Vector3 YieldSpot(Vector3 from,Vector3 to){Vector3 best=Spots[0];float bestD=-1;from.y=to.y=0;
+   foreach(var s in Spots){var p=new Vector3(s.x,0,s.z);var seg=to-from;float t=seg.sqrMagnitude<1e-4f?0:Mathf.Clamp01(Vector3.Dot(p-from,seg)/seg.sqrMagnitude);float d=Vector3.Distance(p,from+seg*t);if(d>bestD){bestD=d;best=s;}}
+   return best;}
   void ValidateRoutes(string when){var report=new List<string>();var bad=story.QaValidateRoutes(report);routeFailures+=bad.Count;checks.Add("ROUTES at "+when);checks.AddRange(report);
    foreach(var r in bad)checks.Add("ROUTE-BLOCKED "+r);checks.Add((bad.Count==0?"PASS":"FAIL")+" grandmother routes around furniture at "+when+" ("+bad.Count+" failures; run continues)");Write();}
   IEnumerator Approach(StoryDirector.Act act){

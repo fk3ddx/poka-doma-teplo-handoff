@@ -117,21 +117,39 @@ namespace Ataka.Scenario {
   IEnumerator GranWalk(string to,float speed=.9f){
    var g=flat.grandmother.transform;if(!flat.grandmother.activeSelf)GranShow(granNode,0);
    int my=++granToken; // a newer walk order cancels an older one
-   GranPlay(granWalk);granWalking=true;
-   for(int leg=0;leg<4;leg++){
-    Nav.Ensure();var r=Nav.Find(g.position,Nodes[to],CanOpen);
-    if(r.steps==null){Debug.LogWarning("GRAN_ROUTE_FAIL "+granNode+"→"+to+" from "+g.position.ToString("F2")+" closest "+r.closest.ToString("F2")+": "+Nav.Blockers(r.closest,.12f));break;}
+   GranPlay(granWalk);granWalking=true;granTarget=to;granWaiting=0;bool aroundPlayer=false,askedToPass=false;
+   while(true){
+    // A player standing in her way for >1.2 s is walked around (re-plan with his capsule as an obstacle);
+    // if there is no way around (doorway), she keeps waiting. Furniture and door collisions are never relaxed.
+    Nav.Ensure();Nav.Avoid=aroundPlayer?player.transform.position:(Vector3?)null;Nav.AvoidRadius=GranNav.Radius+PlayerRadius+.08f;
+    var r=Nav.Find(g.position,Nodes[to],CanOpen);
+    if(r.steps==null){
+     Nav.Avoid=null;
+     if(aroundPlayer){aroundPlayer=false;GranPlay(granIdle);for(float t=0;t<1.2f;t+=Time.deltaTime){if(my!=granToken)yield break;granWaiting+=Time.deltaTime;yield return null;}GranPlay(granWalk);continue;}
+     Debug.LogWarning("GRAN_ROUTE_FAIL "+granNode+"→"+to+" from "+g.position.ToString("F2")+" closest "+r.closest.ToString("F2")+": "+Nav.Blockers(r.closest,.12f));break;}
     int cut=r.steps.FindIndex(x=>x.door!=null);var door=cut>=0?r.steps[cut].door:null;var pts=new List<Vector3>{g.position};
     if(door){var hinge=door.leaf.position;hinge.y=0;float clear=GranNav.DoorWidth(door)+GranNav.Radius+.1f;int last=-1;
      for(int i=0;i<cut;i++){var d=r.steps[i].at-hinge;d.y=0;if(d.magnitude>=clear)last=i;}for(int i=1;i<=last;i++)pts.Add(r.steps[i].at);}
     else for(int i=1;i<r.steps.Count;i++)pts.Add(r.steps[i].at);
-    foreach(var target in Nav.Smooth(pts)){while(true){if(my!=granToken)yield break;var d=target-g.position;d.y=0;if(d.magnitude<.05f)break;g.rotation=Quaternion.Slerp(g.rotation,Quaternion.LookRotation(d),1-Mathf.Exp(-8*Time.deltaTime));if(PlayerInTheWay(g.position,target)){GranPlay(granIdle);yield return null;GranPlay(granWalk);continue;}g.position=Vector3.MoveTowards(g.position,target,speed*Time.deltaTime);yield return null;}}
+    var path=Nav.Smooth(pts);Nav.Avoid=null;bool replan=false;float waited=0;
+    foreach(var target in path){while(true){if(my!=granToken)yield break;var d=target-g.position;d.y=0;if(d.magnitude<.05f)break;g.rotation=Quaternion.Slerp(g.rotation,Quaternion.LookRotation(d),1-Mathf.Exp(-8*Time.deltaTime));
+      if(PlayerInTheWay(g.position,target)){GranPlay(granIdle);granWaiting+=Time.deltaTime;waited+=Time.deltaTime;if(granWaiting>4&&!askedToPass){askedToPass=true;Say("Бабушка","Мишаня, пропусти-ка",2.5f);}if(waited>1.2f){replan=true;break;}yield return null;GranPlay(granWalk);continue;}
+      granWaiting=0;g.position=Vector3.MoveTowards(g.position,target,speed*Time.deltaTime);yield return null;}
+     if(replan)break;}
+    if(replan){aroundPlayer=true;GranPlay(granWalk);continue;}
+    aroundPlayer=false;
     if(!door){granNode=to;break;}
     GranPlay(granIdle);yield return GranFace(door.transform.position,.4f);if(my!=granToken)yield break;
     door.open=true;sound.Play("door_open",door.transform.position);
     for(float t=0;t<1.6f&&Quaternion.Angle(door.leaf.localRotation,Quaternion.identity)<85;t+=Time.deltaTime){if(my!=granToken)yield break;yield return null;}
     GranPlay(granWalk);}
-   GranPlay(granIdle);granWalking=false;}
+   GranPlay(granIdle);granWalking=false;granWaiting=0;granTarget=null;}
+  float granWaiting;string granTarget;
+  float PlayerRadius{get{var cc=player.GetComponent<CharacterController>();return cc?cc.radius:.3f;}}
+  // QA: where she is, where she goes and how long she has been waiting for the player.
+  public float QaGranWaiting=>granWaiting;public bool QaGranWalking=>granWalking;
+  public string QaGranState=>flat.grandmother.activeSelf?"gran "+flat.grandmother.transform.position.ToString("F2")+(granWalking?" walking to "+granTarget+" waiting "+granWaiting.ToString("F1")+"s":" standing at "+granNode):"gran hidden";
+  public Vector3 QaGranPosition=>flat.grandmother.transform.position;public Vector3? QaGranGoal=>granTarget!=null?Nodes[granTarget]:(Vector3?)null;
   IEnumerator GranFace(Vector3 point,float seconds=.6f){var g=flat.grandmother.transform;var d=point-g.position;d.y=0;if(d.sqrMagnitude<.001f)yield break;var from=g.rotation;var to=Quaternion.LookRotation(d);for(float t=0;t<seconds;t+=Time.deltaTime){g.rotation=Quaternion.Slerp(from,to,t/seconds);yield return null;}g.rotation=to;}
   void GranLookAtPlayerWhenNear(){if(!flat.grandmother.activeSelf||granWalking)return;var g=flat.grandmother.transform;var d=player.transform.position-g.position;d.y=0;if(d.magnitude<2.2f&&d.sqrMagnitude>.01f)g.rotation=Quaternion.Slerp(g.rotation,Quaternion.LookRotation(d),1-Mathf.Exp(-3*Time.deltaTime));}
   bool granWalking;int granToken;CapsuleCollider granBody;

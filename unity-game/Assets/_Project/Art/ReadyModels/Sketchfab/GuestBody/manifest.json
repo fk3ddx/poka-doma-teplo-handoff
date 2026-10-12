@@ -1,0 +1,30 @@
+{
+ "id": "GuestBody",
+ "source": "https://opengameart.org/content/3d-horror-game-monster",
+ "author": "City Building Game Art (HorrorGameMaker.com)",
+ "license": "CC0-1.0",
+ "rigged": true,
+ "actions": [
+  "Idle",
+  "Jump",
+  "Run",
+  "Walk"
+ ],
+ "materials": [
+  {
+   "name": "GuestBody_Material_0",
+   "color": [
+    0.800000011920929,
+    0.800000011920929,
+    0.800000011920929,
+    1.0
+   ],
+   "roughness": 0.6200000047683716,
+   "texture": "Textures/albedo.png",
+   "normal": "Textures/normal.png"
+  }
+ ],
+ "changes": [
+  "format conversion only; transforms, rest pose and bind poses untouched (scaled in Unity)"
+ ]
+}
