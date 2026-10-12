@@ -606,7 +606,7 @@ namespace Ataka.Scenario {
    foreach(var x in s.blocks)if(x.r)x.r.SetPropertyBlock(x.block);foreach(var x in s.layers)if(x.t)x.t.gameObject.layer=x.layer;
    gt.localScale=s.scale;gt.SetPositionAndRotation(s.position,s.rotation);g.SetActive(s.active);
    if(s.probe){s.probe.probe.cullingMask=s.mask;s.probe.Recapture();}}
-  void OnDisable(){EndMirrorSeed();}void OnDestroy(){EndMirrorSeed();}
+  void OnDisable(){EndMirrorSeed();EndGlimpse();}void OnDestroy(){EndMirrorSeed();EndGlimpse();}
   IEnumerator MirrorSeed(Renderer mirror){
    EndMirrorSeed();var g=flat.guest;var gt=g.transform;if(Glimpse()&&!glimpse.On)glimpse.Show(true); // story26-evening-a: the probe-128 rough metal showed no figure at all
    var s=new MirrorState{position=gt.position,rotation=gt.rotation,scale=gt.localScale,active=g.activeSelf};

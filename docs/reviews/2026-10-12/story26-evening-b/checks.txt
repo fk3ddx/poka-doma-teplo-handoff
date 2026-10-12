@@ -1,0 +1,44 @@
+ABSENT 4.7 the album (6 spreads), the Dendy mini-game, «Теленеделя», the radio programme and weather report
+ABSENT the kitchen «Янтарь» clock: none in the flat; the bedside alarm clock shows the true time instead
+ABSENT the announcer himself on screen (and his look into the camera): no model; the blue screen carries his words
+ABSENT the news titles' own jingle: no recording
+PASS interrupt: the mirror seed is in progress (figure out, probe extended)
+NOTE before the interrupt 143 Guest transforms on layer 31
+PASS interrupt: StopAll inside the seed restores the Guest (layers 0 wrong, property blocks 0 left, scale (1.24, 1.24, 1.24), active False) and the probe mask
+SHOT interrupt-next-scene-guest.png
+PASS interrupt: in the next scene (DeathShort) the Guest is on her own layers (0 renderers on 31) and in frame (0.55, 0.58, 0.70)
+PASS 4.7 free time started at 21:00, the icon lamp still unlit
+PASS the dresser mirror found
+PASS seed 1 mirror fired when he looked into the mirror
+SHOT seed-1-mirror.png
+PASS the figure is on the TV-only layer 31: the player's camera cannot see it directly (only the probe reflection)
+NOTE figure at (8.55, 0.00, 3.80); the accepted mirror is rough probe-128 metal — judge the smear on the PNG
+SHOT seed-1-mirror-turned.png
+PASS turned round: nobody there
+PASS seed 2 the hall clock is 7,0 min behind the bedside clock
+SHOT seed-2-clock.png
+PASS seed 3 the switched-off radio point hisses in the kitchen (1 radio_hiss)
+SHOT seed-4-lamp-before.png
+PASS seed 4 the icon lamp lit itself while he looked (0,00 → 0,14)
+SHOT seed-4-lamp-after.png
+PASS four seeds, each once: mirror, clock, radio, lamp
+PASS one at a time (≥ 6 s apart)
+PASS 4.8 the news action is offered after the free time
+SHOT news-0.2-warming.png
+PASS the picture comes up as the tube warms (1,10 s)
+SHOT news-titles.png
+PASS «Новости Заречья» on the screen: light text on a dark field (mean 0,14/0,14/0,25, brightest 0,98, saturated 0,0%)
+PASS the news ends: set off, lamp lit
+SHOT 2200-night1-testcard.png
+PASS night 1 22:00 test card on the screen with colour bars (mean 0,56/0,56/0,56, brightest 1,00, saturated 10,6%)
+SHOT 2200-night1-announcer.png
+PASS night 1 announcer: blue screen with his words on it (mean 0,16/0,22/0,64, brightest 0,99, saturated 87,6%, caption «Внимание. Жителям Заречного района.»)
+PASS night 1 the screen goes out and the feed camera is handed back
+SHOT 2200-night2-testcard.png
+PASS night 2 22:00 test card on the screen with colour bars (mean 0,56/0,56/0,56, brightest 1,00, saturated 10,6%)
+SHOT 2200-night2-announcer.png
+PASS night 2 announcer: blue screen with his words on it (mean 0,16/0,22/0,64, brightest 0,99, saturated 87,6%, caption «Внимание. Жителям Заречного района.»)
+PASS night 2 adds «Ты же помнишь, Миша?» on the screen
+SHOT 2200-night2-remember.png
+PASS night 2 the screen goes out and the feed camera is handed back
+PASS no runtime errors (0)
