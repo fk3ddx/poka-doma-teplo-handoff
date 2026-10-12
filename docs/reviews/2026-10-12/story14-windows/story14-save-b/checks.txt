@@ -1,0 +1,12 @@
+MODE story autopilot from Night1 branch save (aim-verified fire, 6x nights)
+ROUTE-BLOCKED Landing→Door: Architectural door leaf
+ROUTE-BLOCKED HallA→KitchenDoor: ___________________wood_0, __________________.002_wood_0
+ROUTE-BLOCKED KitchenDoor→Kitchen: ___________________wood_0, __________________.002_wood_0, Architectural door leaf
+ROUTE-BLOCKED Kitchen→Stove: READY PostSoviet Fridge
+ROUTE-BLOCKED Aisle→Armchair: READY CC0 SovietSofa
+FAIL grandmother walking graph clear of furniture (5 blocked edges; run continues)
+TASK 
+PASS checkpoint written at 21:42 of night 1: {"chapter":"Night1","flashlight":false,"belt":false}
+PASS continue from checkpoint resumes night 1
+PASS save branch done
+PASS no runtime errors (0)

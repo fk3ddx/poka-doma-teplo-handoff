@@ -23,3 +23,18 @@ User cannot manually download the blocked Sketchfab assets now. No repeated requ
 ## Next
 
 Integrate passability patch, verify scene routes with real collision/aim checks, run death and isolated-save branches, install available ready props/monster, then produce a clearly labelled Windows test build. Preserve accepted light/VHS. This goal is active, not complete.
+
+
+## Later run: patches 01–08 (build-b)
+
+Build succeeded. ChaseEnd reached DeathFull, epilogue and ending menu without runtime errors. Isolated save wrote to its QA directory and Continue resumed Night1. Both overall results are **FAILED** because the new grandmother route check found 5 blocked graph edges:
+
+- Landing → Door: architectural door leaf (validation currently runs before story door setup; investigate as possible false positive).
+- HallA → KitchenDoor: two imported wood furniture colliders.
+- KitchenDoor → Kitchen: same furniture + door leaf.
+- Kitchen → Stove: READY PostSoviet Fridge.
+- Aisle → Armchair: READY CC0 SovietSofa.
+
+Claude received the complete list and a request to fix paths/door states rather than disable collisions. Route test radius differs from runtime (.20 vs .22) and skips open door leaves; requested correction. Application currently exits 0 despite routeFailures; wrapper correctly rejects result.passed=false. Not a release candidate.
+
+pc08 was applied without accidentally included Python __pycache__ binaries and with Codex guard lines preserved. No scene or lighting assets changed.

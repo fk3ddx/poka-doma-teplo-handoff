@@ -1,0 +1,21 @@
+MODE story autopilot from ChaseEnd (aim-verified fire, 6x nights)
+ROUTE-BLOCKED Landing→Door: Architectural door leaf
+ROUTE-BLOCKED HallA→KitchenDoor: ___________________wood_0, __________________.002_wood_0
+ROUTE-BLOCKED KitchenDoor→Kitchen: ___________________wood_0, __________________.002_wood_0, Architectural door leaf
+ROUTE-BLOCKED Kitchen→Stove: READY PostSoviet Fridge
+ROUTE-BLOCKED Aisle→Armchair: READY CC0 SovietSofa
+FAIL grandmother walking graph clear of furniture (5 blocked edges; run continues)
+FinishCore called as at the end of the chase (10 strikes)
+TASK Дождаться бабушку
+ACT Глазок
+TASK 
+SCENE DeathFull in Finale
+CHAPTER Finale -> Ended
+CARD НОВОСТИ ЗАРЕЧЬЯ  «…В квартире номер шестьдесят по улице Строителей обнаружены накрытый стол, два стакана чая и включённый чайник. По данным жилконторы, квартира пустует с девяносто первого года. Соседка, Валентина Ивановна, утверждает, что никогда не видела жильцов этой квартиры…»
+CARD «…однако, по её словам, в тот вечер она слышала, как мальчик за дверью кричал: „Ты не она!“»
+CARD АТАКА НА ЗАПОМИНАНИЕ «Пока дома тепло»  Сценарий и игра: Дима, Claude, Codex Гостья, мебель и звуки — авторы CC0 / CC-BY, см. CREDITS.md
+CARD Фотоальбом. Последний разворот: лето 1993, у подъезда. Валя с Тузиком улыбаются рядом с пустотой. Теперь засвеченных пятен три: старое, на месте бабушки — и на месте Миши в центре.
+CHAPTER Ended -> None
+PASS chase end → finale → face tear → epilogue
+PASS epilogue finished, menu shows КОНЕЦ
+PASS no runtime errors (0)
