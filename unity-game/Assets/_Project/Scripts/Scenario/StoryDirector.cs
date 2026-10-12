@@ -204,7 +204,7 @@ namespace Ataka.Scenario {
    running=StartCoroutine(at switch{"Evening"=>Evening(false),"Night1"=>Night1(false),"Night2"=>Night2(false),"Finale"=>Finale(),_=>Prologue()});
   }
   public void Abandon(){StopAll();chapter=Chapter.Loop;flat.entrance.direction=1;}
-  void StopAll(){if(rewind)rewind.Cleanup();FinaleReset();if(running!=null)StopCoroutine(running);StopAllCoroutines();acts.Clear();holdingAct=null;kettleBoiling=false;card=null;fade=0;objective="";choiceA=choiceB=null;scenes.Cancel();loop.chase.Stop();sound.ResetWorld();if(tv)tv.storyOn=false;if(strap)strap.enabled=false;}
+  void StopAll(){if(rewind)rewind.Cleanup();FinaleReset();if(running!=null)StopCoroutine(running);StopAllCoroutines();acts.Clear();holdingAct=null;kettleBoiling=false;card=null;fade=0;objective="";choiceA=choiceB=null;scenes.Cancel();loop.chase.Stop();sound.ResetWorld();if(tv){tv.storyOn=false;tv.show=ScenarioTelevision.Show.None;}if(bedside)bedside.timeSource=flat.clock;QaInFreeTime=false;if(strap)strap.enabled=false;}
   void Update(){
    if(granBody)granBody.enabled=OwnsFlat&&chapter!=Chapter.Ended; // in the loop the hanging vision needs clear sight to her
    if(!OwnsFlat||player.paused)return;
@@ -262,7 +262,8 @@ namespace Ataka.Scenario {
   IEnumerator Evening(bool continued){
    chapter=Chapter.Evening;
    if(!continued){loop.Pause(false);Homely(true);flat.stool.SetActive(true);flat.stool.transform.SetPositionAndRotation(new Vector3(7.15f,0,1.2f),Quaternion.identity);player.Place(ScenarioLayout.Spawn,180);GranShow("Kitchen",90);yield return Fade(0,.8f);}
-   Checkpoint("Evening");HouseSound(true,false);PropsAtEveningStart();Put("Bag",BagAtDoor);Show("Corvalol",false);flat.clock.stopped=true;Clock(19,15);OfferFlashlight();
+   Checkpoint("Evening");HouseSound(true,false);PropsAtEveningStart();if(flat.look.icon)flat.look.icon.intensity=0; // 4.7/4.8: the icon lamp is lit later (by itself or by her)
+   Put("Bag",BagAtDoor);Show("Corvalol",false);flat.clock.stopped=true;Clock(19,15);OfferFlashlight();
    // 4.1
    Task("Повесить куртку и разуться");
    yield return Use(new Vector3(8.72f,1.6f,5.1f),"Повесить куртку");sound.Play("carpet_step",player.transform.position);
@@ -344,18 +345,9 @@ namespace Ataka.Scenario {
    flat.clock.stopped=false;Clock(21,0);
    yield return Line("Бабушка","Дед говорил: пока часы идут — дом помнит. Суеверный был");
    for(int i=0;i<9;i++){sound.Play("chime",ScenarioLayout.Clock);yield return new WaitForSeconds(1.1f);}
-   // 4.7 free time — short, then 4.8
-   Task("Свободное время");StartCoroutine(GranGo("Armchair"));
-   yield return new WaitForSeconds(25);
-   // 4.8
-   Clock(21,30);Task("Включить новости");
-   yield return Line("Бабушка","Мишаня, включи-ка новости");
-   yield return Use(()=>flat.televisionScreen?flat.televisionScreen.bounds.center:flat.television.position,"Включить «Рубин»",0,2.4f); // the screen, not the cabinet edge (Codex story15)
-   if(tv)tv.storyOn=true;flat.televisionLight.intensity=.12f;sound.Play("switch",flat.television.position);sound.Play("tv_on",flat.television.position);sound.Bed("crt_whine",flat.television.position,true);
-   foreach(var l in new[]{"…Сегодня в милицию снова обратились жители Заречного района.","В квартире по улице Строителей обнаружен накрытый стол и включённый свет. По словам соседей, в квартире никто не проживал.","Однако на фотографиях, изъятых из квартиры, — пустые места рядом с людьми…","Специалисты рекомендуют: не открывайте дверь в позднее время. И — что бы ни случилось — запомните свой дом. Как следует запомните."})
-    yield return Line("Диктор",l,5);
-   yield return Line("Бабушка","Нечего на ночь глядеть");if(tv)tv.storyOn=false;flat.televisionLight.intensity=0;sound.Bed("crt_whine",flat.television.position,false);sound.Play("switch",flat.television.position);
-   if(flat.look.icon)flat.look.icon.intensity=.14f;Clock(21,38);
+   // 4.7 free time with the four seeds, then 4.8 the news on the «Рубин» screen
+   yield return FreeTime();
+   yield return News();
    // 4.9
    yield return ValyaAtTheDoor(false);
    yield return Night1(true);
@@ -418,10 +410,11 @@ namespace Ataka.Scenario {
   IEnumerator NightEvents(int which,bool from2200Restart){
    // 22:00 everything goes quiet, then the set turns itself on: test card, 1 kHz, announcer
    yield return HouseQuiet();yield return new WaitForSeconds(1.2f);
-   if(tv)tv.storyOn=true;flat.televisionLight.intensity=.12f;sound.Play("tv_on",flat.television.position);sound.Bed("crt_whine",flat.television.position,true);yield return new WaitForSeconds(.4f);sound.Play("test_tone",flat.television.position);yield return new WaitForSeconds(2.8f);
-   foreach(var l in new[]{"Внимание. Жителям Заречного района.","Атака на запоминание.","Не открывайте дверь. Не отвечайте знакомым голосам. Она боится света.","Запомните всё."})yield return Line("«Рубин», диктор",l,3.2f);
-   if(which==2){yield return new WaitForSeconds(1.5f);yield return Line("«Рубин», диктор","Ты же помнишь, Миша?",3.5f);}
-   if(tv)tv.storyOn=false;flat.televisionLight.intensity=0;sound.Bed("crt_whine",flat.television.position,false);
+   if(tv){tv.storyOn=true;tv.show=ScenarioTelevision.Show.TestCard;tv.caption="";}flat.televisionLight.intensity=.12f;sound.Play("tv_on",flat.television.position);sound.Bed("crt_whine",flat.television.position,true);yield return new WaitForSeconds(.4f);sound.Play("test_tone",flat.television.position);yield return new WaitForSeconds(2.8f);
+   if(tv)tv.show=ScenarioTelevision.Show.Announcer; // the blue screen, his words on it (no announcer figure: no model)
+   foreach(var l in new[]{"Внимание. Жителям Заречного района.","Атака на запоминание.","Не открывайте дверь. Не отвечайте знакомым голосам. Она боится света.","Запомните всё."}){if(tv)tv.caption=l;yield return Line("«Рубин», диктор",l,3.2f);}
+   if(which==2){yield return new WaitForSeconds(1.5f);if(tv)tv.caption="Ты же помнишь, Миша?";yield return Line("«Рубин», диктор","Ты же помнишь, Миша?",3.5f);}
+   yield return new WaitForSeconds(1);if(tv){tv.storyOn=false;tv.show=ScenarioTelevision.Show.None;}flat.televisionLight.intensity=0;sound.Bed("crt_whine",flat.television.position,false);
    // 22:00:30 the house across goes dark, 22:01 blackout
    yield return NightTo(22,0,1);if(flat.look.exterior)flat.look.exterior.Blackout(true);
    yield return NightTo(22,1,12);flat.look.Apply(FlatCondition.Blackout);sound.Play("breaker",new Vector3(8.75f,1.8f,5.5f));
@@ -559,6 +552,73 @@ namespace Ataka.Scenario {
   }
   public void ChaseFinished(){if(running!=null)StopCoroutine(running);running=StartCoroutine(Finale());}
 
+  // ---------- 4.7 free time (21:00 → 21:30) and 4.8 news ----------
+  // Free time with the four "anxious seeds" (SCENARIO 4.7), one at a time and only where Misha is:
+  //  1 mirror  — in the dresser mirror a dark figure taller than the doorway stands behind him for 0.3 s. It is the
+  //              Guest model, black, on the TV-only layer 31 which only the hall reflection probe is told to see — so
+  //              turning round shows nothing. The mirror is the accepted rough probe-128 metal: a dark smear, not a sharp image;
+  //  2 clock   — the hall grandfather clock runs 7 minutes behind. There is no kitchen "Янтарь": the bedside alarm clock
+  //              (normally slaved to the hall clock) shows the true time instead;
+  //  3 radio   — the switched-off kitchen radio point hisses by itself (procedural noise);
+  //  4 lamp    — the icon lamp in the bedroom, unlit this evening, lights itself while he looks (she says later she did it).
+  // Absent from 4.7: the album, the Dendy game, «Теленеделя», the radio programme and weather report.
+  public readonly List<(string seed,float at)> QaSeeds=new List<(string,float)>();public bool QaInFreeTime{get;private set;}public bool QaNewsDone{get;private set;}
+  public ClockFace QaBedsideClock=>bedside;public float QaFreeTimeSeconds=>freeSeconds;
+  public const float FreeTimeLength=75;public const int ClockLag=7*60;
+  ClockFace bedside;float freeSeconds;bool lampLitItself;
+  ClockFace Bedside(){if(!bedside)foreach(var c in FindObjectsByType<ClockFace>(FindObjectsInactive.Include,FindObjectsSortMode.None))if(c.timeSource==flat.clock){bedside=c;break;}return bedside;}
+  public Renderer QaMirror=>Mirror();Renderer Mirror(){if(!flat.hallCupboard)return null;foreach(var r in flat.hallCupboard.GetComponentsInChildren<Renderer>(true))if(r.name.Contains("mirror_0"))return r;return null;}
+  bool InKitchen(Vector3 p)=>p.x>6.6f&&p.z<2.95f&&p.z>-.1f;bool InBedroom(Vector3 p)=>p.x<2.85f&&p.z<4.45f&&p.z>-.1f;
+  bool Looking(Vector3 at,float cos){var d=at-player.head.position;return Vector3.Dot(player.head.forward,d.normalized)>cos;}
+  IEnumerator FreeTime(){
+   Task("Свободное время");QaSeeds.Clear();QaInFreeTime=true;lampLitItself=false;StartCoroutine(GranGo("Armchair"));
+   sound.Bed("radio",RadioAt,false); // she switched the radio point off for the news later
+   var bed=Bedside();if(bed)bed.timeSource=null;
+   var done=new HashSet<string>();float lastSeed=-99;
+   for(freeSeconds=0;freeSeconds<FreeTimeLength;freeSeconds+=Time.deltaTime){
+    float now=21*3600+freeSeconds/FreeTimeLength*30*60;flat.clock.Show(now-ClockLag);if(bed)bed.Show(now);
+    var p=player.transform.position;bool ready=freeSeconds-lastSeed>6&&player.control;
+    if(ready&&!done.Contains("mirror")){var m=Mirror();if(m){var c=m.bounds.center;var flatD=c-p;flatD.y=0;if(flatD.magnitude<2.2f&&p.x>c.x+.3f&&Looking(c,.85f)){done.Add("mirror");lastSeed=freeSeconds;yield return MirrorSeed(m);continue;}}}
+    if(ready&&!done.Contains("clock")&&Vector3.Distance(p,ScenarioLayout.Clock)<2.6f&&Looking(ScenarioLayout.Clock+Vector3.up*.6f,.9f)){done.Add("clock");lastSeed=freeSeconds;QaSeeds.Add(("clock",Time.time));Say("","Отстают, что ли?.. Будильник в спальне на семь минут больше показывал",4);}
+    if(ready&&!done.Contains("radio")&&freeSeconds>6&&InKitchen(p)){done.Add("radio");lastSeed=freeSeconds;QaSeeds.Add(("radio",Time.time));sound.Play("radio_hiss",RadioAt);StartCoroutine(SayLater(1.6f,"Радио же выключено…"));}
+    if(ready&&!done.Contains("lamp")&&flat.look.icon&&InBedroom(p)&&Looking(flat.look.icon.transform.position,.8f)){done.Add("lamp");lastSeed=freeSeconds;QaSeeds.Add(("lamp",Time.time));lampLitItself=true;yield return LampLights();}
+    yield return null;}
+   if(bed){bed.timeSource=flat.clock;}QaInFreeTime=false;
+  }
+  IEnumerator SayLater(float s,string line){yield return new WaitForSeconds(s);Say("",line,3);}
+  IEnumerator LampLights(){var l=flat.look.icon;for(float t=0;t<.7f;t+=Time.deltaTime){l.intensity=.14f*Mathf.Clamp01(t/.7f)*(.6f+.4f*Mathf.PerlinNoise(t*30,.2f));yield return null;}l.intensity=.14f;}
+  IEnumerator MirrorSeed(Renderer mirror){
+   var probe=FindFirstObjectByType<HallReflections>();var g=flat.guest;var gt=g.transform;
+   var p=player.transform.position;var c=mirror.bounds.center;var back=p-c;back.y=0;back.Normalize();
+   var at=p+back*1.3f;at.x=Mathf.Clamp(at.x,7.0f,8.55f);at.z=Mathf.Clamp(at.z,3.1f,5.8f);at.y=0;
+   var layers=new List<(Transform t,int layer)>();foreach(var t in g.GetComponentsInChildren<Transform>(true)){layers.Add((t,t.gameObject.layer));t.gameObject.layer=31;}
+   var scale=gt.localScale;var pose=g.GetComponent<ProxyPose>();g.SetActive(true);if(pose)pose.Stand();gt.SetPositionAndRotation(at,Quaternion.LookRotation(-back));
+   var rs=g.GetComponentsInChildren<Renderer>();var b=rs.Length>0?rs[0].bounds:new Bounds(at,Vector3.one);foreach(var r in rs)b.Encapsulate(r.bounds);if(b.size.y>.1f)gt.localScale=scale*(2.2f/b.size.y);
+   var black=new MaterialPropertyBlock();black.SetColor("_BaseColor",new Color(.02f,.018f,.016f,1));black.SetFloat("_Smoothness",0);foreach(var r in rs)r.SetPropertyBlock(black);
+   int mask=probe?probe.probe.cullingMask:0;int before=probe?probe.CompletedCaptures:0;
+   if(probe){probe.probe.cullingMask=mask|(1<<31);probe.Recapture();}
+   for(float t=0;t<.6f&&probe&&probe.CompletedCaptures==before;t+=Time.unscaledDeltaTime)yield return null; // the probe renders its faces over a few frames
+   QaSeeds.Add(("mirror",Time.time));QaMirrorFigure=at;yield return new WaitForSeconds(.3f);
+   foreach(var r in rs)r.SetPropertyBlock(null);gt.localScale=scale;g.SetActive(false);foreach(var x in layers)if(x.t)x.t.gameObject.layer=x.layer;
+   if(probe){probe.probe.cullingMask=mask;probe.Recapture();}
+  }
+  public Vector3 QaMirrorFigure{get;private set;}
+  IEnumerator News(){
+   Clock(21,30);Task("Включить новости");
+   yield return Line("Бабушка","Мишаня, включи-ка новости");
+   yield return Use(()=>flat.televisionScreen?flat.televisionScreen.bounds.center:flat.television.position,"Включить «Рубин»",0,2.4f); // the screen, not the cabinet edge (Codex story15)
+   if(tv){tv.storyOn=true;tv.show=ScenarioTelevision.Show.News;tv.caption="";}flat.televisionLight.intensity=.12f;sound.Play("switch",flat.television.position);sound.Play("tv_on",flat.television.position);sound.Bed("crt_whine",flat.television.position,true);
+   yield return new WaitForSeconds(1.4f); // the picture comes up
+   foreach(var l in new[]{"…Сегодня в милицию снова обратились жители Заречного района.","В квартире по улице Строителей обнаружен накрытый стол и включённый свет. По словам соседей, в квартире никто не проживал.","Однако на фотографиях, изъятых из квартиры, — пустые места рядом с людьми…","Специалисты рекомендуют: не открывайте дверь в позднее время. И — что бы ни случилось — запомните свой дом. Как следует запомните."})
+    {if(tv)tv.caption=l;yield return Line("Диктор",l,5);}
+   yield return Line("Бабушка","Нечего на ночь глядеть");if(tv){tv.storyOn=false;tv.show=ScenarioTelevision.Show.None;}flat.televisionLight.intensity=0;sound.Bed("crt_whine",flat.television.position,false);sound.Play("switch",flat.television.position);
+   if(lampLitItself)yield return Line("Бабушка","Лампадку я зажгла, я, не пугайся");
+   if(flat.look.icon)flat.look.icon.intensity=.14f;Clock(21,38);QaNewsDone=true;
+  }
+  // QA: 4.7 + 4.8 alone (≈2 min instead of the 20-minute evening), the evening state as at 21:00.
+  public void QaFreeTimeAndNews(){StopAll();running=StartCoroutine(QaEveningEnd());}
+  IEnumerator QaEveningEnd(){chapter=Chapter.Evening;QaNewsDone=false;loop.Pause(false);Homely(true);PropsAfterEvening();HouseSound(true,false);flat.clock.stopped=false;Clock(21,0);if(flat.look.icon)flat.look.icon.intensity=0;GranShow("Armchair",0);
+   yield return FreeTime();yield return News();}
   // ---------- 11. Finale ----------
   // 11.6–11.10 on the approved Katcho rig (GranRig: arm IK, held props, bone length, tint) and a ready ball chain
   // (DoorChain). Not made (no mesh / no rig part / no recording): her eye sliding, the temple seam, the face sliding off

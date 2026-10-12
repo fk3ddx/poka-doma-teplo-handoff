@@ -5,6 +5,8 @@ namespace Ataka.Scenario {
   public ReflectionProbe probe;public ScenarioLook look;int job=-1,signature=int.MinValue;float nextCheck;bool previousRealtime;
   void Awake(){previousRealtime=QualitySettings.realtimeReflectionProbes;QualitySettings.realtimeReflectionProbes=true;}
   void OnDestroy(){if(Application.isPlaying)QualitySettings.realtimeReflectionProbes=previousRealtime;}
+  // Story (4.7 mirror seed): capture again now even though the lights did not change.
+  public void Recapture(){signature=int.MinValue;nextCheck=0;}
   public int CompletedCaptures{get;private set;}public bool Ready=>CompletedCaptures>0&&probe.texture;
   int Signature(){unchecked{int h=17;foreach(var l in look.warm)h=h*31+l.intensity.GetHashCode()+l.color.GetHashCode();foreach(var l in look.cold)h=h*31+l.intensity.GetHashCode()+l.color.GetHashCode();return h;}}
   void LateUpdate(){
