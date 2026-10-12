@@ -1,0 +1,603 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="85" result="Passed" total="85" passed="85" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-12 14:49:20Z" end-time="2026-10-12 14:49:51Z" duration="31,0161938">
+  <test-suite type="TestSuite" id="1000" name="Атака на запоминание" fullname="Атака на запоминание" runstate="Runnable" testcasecount="85" result="Passed" start-time="2026-10-12 14:49:20Z" end-time="2026-10-12 14:49:51Z" duration="31.016194" total="85" passed="85" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1107" name="Ataka.EditModeTests.dll" fullname="C:/Users/User/.codex/.chatgpt-projects/g-p-6aca43271b448191badfa7321ad904d3/github-upload/Igra-FULL-HANDOFF/unity-game/Library/ScriptAssemblies/Ataka.EditModeTests.dll" runstate="Runnable" testcasecount="85" result="Passed" start-time="2026-10-12 14:49:20Z" end-time="2026-10-12 14:49:51Z" duration="31.008349" total="85" passed="85" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="8464" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1108" name="Ataka" fullname="Ataka" runstate="Runnable" testcasecount="85" result="Passed" start-time="2026-10-12 14:49:20Z" end-time="2026-10-12 14:49:51Z" duration="31.008026" total="85" passed="85" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1109" name="Tests" fullname="Ataka.Tests" runstate="Runnable" testcasecount="85" result="Passed" start-time="2026-10-12 14:49:20Z" end-time="2026-10-12 14:49:51Z" duration="31.007811" total="85" passed="85" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="ParameterizedFixture" id="1011" name="ApartmentTests" fullname="Ataka.Tests.ApartmentTests" runstate="Runnable" testcasecount="8" result="Passed" start-time="2026-10-12 14:49:20Z" end-time="2026-10-12 14:49:24Z" duration="3.408523" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestFixture" id="1001" name="ApartmentTests(&quot;Assets/_Project/Scenes/Apartment_M0.u...&quot;)" fullname="Ataka.Tests.ApartmentTests(&quot;Assets/_Project/Scenes/Apartment_M0.u...&quot;)" classname="Ataka.Tests.ApartmentTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-10-12 14:49:20Z" end-time="2026-10-12 14:49:21Z" duration="0.994695" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1004" name="CrouchingCannotPickMatchesThroughFridgeBody" fullname="Ataka.Tests.ApartmentTests(&quot;Assets/_Project/Scenes/Apartment_M0.u...&quot;).CrouchingCannotPickMatchesThroughFridgeBody" methodname="CrouchingCannotPickMatchesThroughFridgeBody" classname="Ataka.Tests.ApartmentTests" runstate="Runnable" seed="1445392798" result="Passed" start-time="2026-10-12 14:49:20Z" end-time="2026-10-12 14:49:20Z" duration="0.262805" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1005" name="EveryOpenDoorHasCapsuleClearanceAtItsThreshold" fullname="Ataka.Tests.ApartmentTests(&quot;Assets/_Project/Scenes/Apartment_M0.u...&quot;).EveryOpenDoorHasCapsuleClearanceAtItsThreshold" methodname="EveryOpenDoorHasCapsuleClearanceAtItsThreshold" classname="Ataka.Tests.ApartmentTests" runstate="Runnable" seed="1444962048" result="Passed" start-time="2026-10-12 14:49:20Z" end-time="2026-10-12 14:49:21Z" duration="0.235145" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1002" name="PersistentIdsAreNonEmptyAndUnique" fullname="Ataka.Tests.ApartmentTests(&quot;Assets/_Project/Scenes/Apartment_M0.u...&quot;).PersistentIdsAreNonEmptyAndUnique" methodname="PersistentIdsAreNonEmptyAndUnique" classname="Ataka.Tests.ApartmentTests" runstate="Runnable" seed="515360137" result="Passed" start-time="2026-10-12 14:49:21Z" end-time="2026-10-12 14:49:21Z" duration="0.244973" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1003" name="PickupsAreReachableFromThreeVisibleApproaches" fullname="Ataka.Tests.ApartmentTests(&quot;Assets/_Project/Scenes/Apartment_M0.u...&quot;).PickupsAreReachableFromThreeVisibleApproaches" methodname="PickupsAreReachableFromThreeVisibleApproaches" classname="Ataka.Tests.ApartmentTests" runstate="Runnable" seed="2130504277" result="Passed" start-time="2026-10-12 14:49:21Z" end-time="2026-10-12 14:49:21Z" duration="0.237068" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1006" name="ApartmentTests(&quot;Assets/_Project/Scenes/Apartment_M1.u...&quot;)" fullname="Ataka.Tests.ApartmentTests(&quot;Assets/_Project/Scenes/Apartment_M1.u...&quot;)" classname="Ataka.Tests.ApartmentTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-10-12 14:49:21Z" end-time="2026-10-12 14:49:24Z" duration="2.412680" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1009" name="CrouchingCannotPickMatchesThroughFridgeBody" fullname="Ataka.Tests.ApartmentTests(&quot;Assets/_Project/Scenes/Apartment_M1.u...&quot;).CrouchingCannotPickMatchesThroughFridgeBody" methodname="CrouchingCannotPickMatchesThroughFridgeBody" classname="Ataka.Tests.ApartmentTests" runstate="Runnable" seed="727816153" result="Passed" start-time="2026-10-12 14:49:21Z" end-time="2026-10-12 14:49:23Z" duration="1.462945" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1010" name="EveryOpenDoorHasCapsuleClearanceAtItsThreshold" fullname="Ataka.Tests.ApartmentTests(&quot;Assets/_Project/Scenes/Apartment_M1.u...&quot;).EveryOpenDoorHasCapsuleClearanceAtItsThreshold" methodname="EveryOpenDoorHasCapsuleClearanceAtItsThreshold" classname="Ataka.Tests.ApartmentTests" runstate="Runnable" seed="1675092130" result="Passed" start-time="2026-10-12 14:49:23Z" end-time="2026-10-12 14:49:23Z" duration="0.324516" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1007" name="PersistentIdsAreNonEmptyAndUnique" fullname="Ataka.Tests.ApartmentTests(&quot;Assets/_Project/Scenes/Apartment_M1.u...&quot;).PersistentIdsAreNonEmptyAndUnique" methodname="PersistentIdsAreNonEmptyAndUnique" classname="Ataka.Tests.ApartmentTests" runstate="Runnable" seed="1281652694" result="Passed" start-time="2026-10-12 14:49:23Z" end-time="2026-10-12 14:49:23Z" duration="0.314130" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1008" name="PickupsAreReachableFromThreeVisibleApproaches" fullname="Ataka.Tests.ApartmentTests(&quot;Assets/_Project/Scenes/Apartment_M1.u...&quot;).PickupsAreReachableFromThreeVisibleApproaches" methodname="PickupsAreReachableFromThreeVisibleApproaches" classname="Ataka.Tests.ApartmentTests" runstate="Runnable" seed="1602432276" result="Passed" start-time="2026-10-12 14:49:23Z" end-time="2026-10-12 14:49:24Z" duration="0.309238" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+          </test-suite>
+          <test-suite type="TestFixture" id="1012" name="CheckpointTests" fullname="Ataka.Tests.CheckpointTests" classname="Ataka.Tests.CheckpointTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-10-12 14:49:24Z" end-time="2026-10-12 14:49:24Z" duration="0.039949" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1014" name="CorruptLatestCheckpointRecoversLastCompleteBackup" fullname="Ataka.Tests.CheckpointTests.CorruptLatestCheckpointRecoversLastCompleteBackup" methodname="CorruptLatestCheckpointRecoversLastCompleteBackup" classname="Ataka.Tests.CheckpointTests" runstate="Runnable" seed="1513371908" result="Passed" start-time="2026-10-12 14:49:24Z" end-time="2026-10-12 14:49:24Z" duration="0.029153" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1016" name="NonFinitePositionCannotBeSaved" fullname="Ataka.Tests.CheckpointTests.NonFinitePositionCannotBeSaved" methodname="NonFinitePositionCannotBeSaved" classname="Ataka.Tests.CheckpointTests" runstate="Runnable" seed="1681525268" result="Passed" start-time="2026-10-12 14:49:24Z" end-time="2026-10-12 14:49:24Z" duration="0.001662" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1013" name="SaveLoadRoundtripIncludesDoorPickupAndPlayerPose" fullname="Ataka.Tests.CheckpointTests.SaveLoadRoundtripIncludesDoorPickupAndPlayerPose" methodname="SaveLoadRoundtripIncludesDoorPickupAndPlayerPose" classname="Ataka.Tests.CheckpointTests" runstate="Runnable" seed="1977680858" result="Passed" start-time="2026-10-12 14:49:24Z" end-time="2026-10-12 14:49:24Z" duration="0.005081" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1015" name="UnsupportedSchemaIsRejectedWithoutOverwritingFile" fullname="Ataka.Tests.CheckpointTests.UnsupportedSchemaIsRejectedWithoutOverwritingFile" methodname="UnsupportedSchemaIsRejectedWithoutOverwritingFile" classname="Ataka.Tests.CheckpointTests" runstate="Runnable" seed="604925807" result="Passed" start-time="2026-10-12 14:49:24Z" end-time="2026-10-12 14:49:24Z" duration="0.001736" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1017" name="FurnishedCirculationTests" fullname="Ataka.Tests.FurnishedCirculationTests" classname="Ataka.Tests.FurnishedCirculationTests" runstate="Runnable" testcasecount="7" result="Passed" start-time="2026-10-12 14:49:24Z" end-time="2026-10-12 14:49:26Z" duration="2.243270" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1019" name="ArmchairDoesNotBlockTheBalcony" fullname="Ataka.Tests.FurnishedCirculationTests.ArmchairDoesNotBlockTheBalcony" methodname="ArmchairDoesNotBlockTheBalcony" classname="Ataka.Tests.FurnishedCirculationTests" runstate="Runnable" seed="1113467625" result="Passed" start-time="2026-10-12 14:49:24Z" end-time="2026-10-12 14:49:24Z" duration="0.313442" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1022" name="BathroomThresholdHasStandingClearance" fullname="Ataka.Tests.FurnishedCirculationTests.BathroomThresholdHasStandingClearance" methodname="BathroomThresholdHasStandingClearance" classname="Ataka.Tests.FurnishedCirculationTests" runstate="Runnable" seed="1607676310" result="Passed" start-time="2026-10-12 14:49:24Z" end-time="2026-10-12 14:49:24Z" duration="0.319739" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1021" name="BedroomBedsideCanBeReached" fullname="Ataka.Tests.FurnishedCirculationTests.BedroomBedsideCanBeReached" methodname="BedroomBedsideCanBeReached" classname="Ataka.Tests.FurnishedCirculationTests" runstate="Runnable" seed="154104615" result="Passed" start-time="2026-10-12 14:49:24Z" end-time="2026-10-12 14:49:25Z" duration="0.319553" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1020" name="BedroomCanBeReachedFromLivingRoom" fullname="Ataka.Tests.FurnishedCirculationTests.BedroomCanBeReachedFromLivingRoom" methodname="BedroomCanBeReachedFromLivingRoom" classname="Ataka.Tests.FurnishedCirculationTests" runstate="Runnable" seed="1434674599" result="Passed" start-time="2026-10-12 14:49:25Z" end-time="2026-10-12 14:49:25Z" duration="0.321542" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1023" name="EntranceRouteClearsTheCoatAndDresser" fullname="Ataka.Tests.FurnishedCirculationTests.EntranceRouteClearsTheCoatAndDresser" methodname="EntranceRouteClearsTheCoatAndDresser" classname="Ataka.Tests.FurnishedCirculationTests" runstate="Runnable" seed="2098823056" result="Passed" start-time="2026-10-12 14:49:25Z" end-time="2026-10-12 14:49:25Z" duration="0.318435" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1018" name="KitchenCanBeReachedWithoutWalkingThroughFurniture" fullname="Ataka.Tests.FurnishedCirculationTests.KitchenCanBeReachedWithoutWalkingThroughFurniture" methodname="KitchenCanBeReachedWithoutWalkingThroughFurniture" classname="Ataka.Tests.FurnishedCirculationTests" runstate="Runnable" seed="147546586" result="Passed" start-time="2026-10-12 14:49:25Z" end-time="2026-10-12 14:49:26Z" duration="0.319237" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1024" name="OpenHallDrawerKeepsTheEntranceRouteClear" fullname="Ataka.Tests.FurnishedCirculationTests.OpenHallDrawerKeepsTheEntranceRouteClear" methodname="OpenHallDrawerKeepsTheEntranceRouteClear" classname="Ataka.Tests.FurnishedCirculationTests" runstate="Runnable" seed="952979474" result="Passed" start-time="2026-10-12 14:49:26Z" end-time="2026-10-12 14:49:26Z" duration="0.329767" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1025" name="GeneratedMeshIsolationTests" fullname="Ataka.Tests.GeneratedMeshIsolationTests" classname="Ataka.Tests.GeneratedMeshIsolationTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-10-12 14:49:26Z" end-time="2026-10-12 14:49:26Z" duration="0.328020" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1026" name="CourtyardMustNotReuseApartmentUvMeshes" fullname="Ataka.Tests.GeneratedMeshIsolationTests.CourtyardMustNotReuseApartmentUvMeshes" methodname="CourtyardMustNotReuseApartmentUvMeshes" classname="Ataka.Tests.GeneratedMeshIsolationTests" runstate="Runnable" seed="875216741" result="Passed" start-time="2026-10-12 14:49:26Z" end-time="2026-10-12 14:49:26Z" duration="0.326599" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1027" name="InteractionTests" fullname="Ataka.Tests.InteractionTests" classname="Ataka.Tests.InteractionTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-10-12 14:49:26Z" end-time="2026-10-12 14:49:26Z" duration="0.006606" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1028" name="HigherPriorityPickupWithinFifteenCentimetersWins" fullname="Ataka.Tests.InteractionTests.HigherPriorityPickupWithinFifteenCentimetersWins" methodname="HigherPriorityPickupWithinFifteenCentimetersWins" classname="Ataka.Tests.InteractionTests" runstate="Runnable" seed="1644628603" result="Passed" start-time="2026-10-12 14:49:26Z" end-time="2026-10-12 14:49:26Z" duration="0.003401" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1030" name="PickupOutsideReachCannotBeTaken" fullname="Ataka.Tests.InteractionTests.PickupOutsideReachCannotBeTaken" methodname="PickupOutsideReachCannotBeTaken" classname="Ataka.Tests.InteractionTests" runstate="Runnable" seed="1913257748" result="Passed" start-time="2026-10-12 14:49:26Z" end-time="2026-10-12 14:49:26Z" duration="0.000550" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1029" name="PriorityCannotReachThroughWall" fullname="Ataka.Tests.InteractionTests.PriorityCannotReachThroughWall" methodname="PriorityCannotReachThroughWall" classname="Ataka.Tests.InteractionTests" runstate="Runnable" seed="77754821" result="Passed" start-time="2026-10-12 14:49:26Z" end-time="2026-10-12 14:49:26Z" duration="0.000402" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1031" name="PriorityCannotSkipDistantForegroundObject" fullname="Ataka.Tests.InteractionTests.PriorityCannotSkipDistantForegroundObject" methodname="PriorityCannotSkipDistantForegroundObject" classname="Ataka.Tests.InteractionTests" runstate="Runnable" seed="942403870" result="Passed" start-time="2026-10-12 14:49:26Z" end-time="2026-10-12 14:49:26Z" duration="0.000335" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1032" name="LightLabTests" fullname="Ataka.Tests.LightLabTests" classname="Ataka.Tests.LightLabTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-10-12 14:49:26Z" end-time="2026-10-12 14:49:28Z" duration="1.687284" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1035" name="SceneHasSixViewsAndUprightTexturedFreeProps" fullname="Ataka.Tests.LightLabTests.SceneHasSixViewsAndUprightTexturedFreeProps" methodname="SceneHasSixViewsAndUprightTexturedFreeProps" classname="Ataka.Tests.LightLabTests" runstate="Runnable" seed="1966125962" result="Passed" start-time="2026-10-12 14:49:26Z" end-time="2026-10-12 14:49:28Z" duration="1.677939" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1033" name="ShippingPipelineUsesLinearUpscaleAndNoMsaa" fullname="Ataka.Tests.LightLabTests.ShippingPipelineUsesLinearUpscaleAndNoMsaa" methodname="ShippingPipelineUsesLinearUpscaleAndNoMsaa" classname="Ataka.Tests.LightLabTests" runstate="Runnable" seed="1588910642" result="Passed" start-time="2026-10-12 14:49:28Z" end-time="2026-10-12 14:49:28Z" duration="0.004035" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1034" name="VhsShaderAndFourProfilesArePresent" fullname="Ataka.Tests.LightLabTests.VhsShaderAndFourProfilesArePresent" methodname="VhsShaderAndFourProfilesArePresent" classname="Ataka.Tests.LightLabTests" runstate="Runnable" seed="447909370" result="Passed" start-time="2026-10-12 14:49:28Z" end-time="2026-10-12 14:49:28Z" duration="0.004319" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1036" name="QualitySettingsStoreTests" fullname="Ataka.Tests.QualitySettingsStoreTests" classname="Ataka.Tests.QualitySettingsStoreTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-10-12 14:49:28Z" end-time="2026-10-12 14:49:28Z" duration="0.009091" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1037" name="AllProfilesAndControlPreferencesSurviveDiskRoundTrip" fullname="Ataka.Tests.QualitySettingsStoreTests.AllProfilesAndControlPreferencesSurviveDiskRoundTrip" methodname="AllProfilesAndControlPreferencesSurviveDiskRoundTrip" classname="Ataka.Tests.QualitySettingsStoreTests" runstate="Runnable" seed="120732557" result="Passed" start-time="2026-10-12 14:49:28Z" end-time="2026-10-12 14:49:28Z" duration="0.004403" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1039" name="CorruptAndMissingFilesRemainPlayable" fullname="Ataka.Tests.QualitySettingsStoreTests.CorruptAndMissingFilesRemainPlayable" methodname="CorruptAndMissingFilesRemainPlayable" classname="Ataka.Tests.QualitySettingsStoreTests" runstate="Runnable" seed="1704524947" result="Passed" start-time="2026-10-12 14:49:28Z" end-time="2026-10-12 14:49:28Z" duration="0.001912" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1038" name="LegacyFileKeepsControlsAndDefaultsToHigh" fullname="Ataka.Tests.QualitySettingsStoreTests.LegacyFileKeepsControlsAndDefaultsToHigh" methodname="LegacyFileKeepsControlsAndDefaultsToHigh" classname="Ataka.Tests.QualitySettingsStoreTests" runstate="Runnable" seed="1586071419" result="Passed" start-time="2026-10-12 14:49:28Z" end-time="2026-10-12 14:49:28Z" duration="0.001052" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1040" name="RealSizeTests" fullname="Ataka.Tests.RealSizeTests" classname="Ataka.Tests.RealSizeTests" runstate="Runnable" testcasecount="7" result="Passed" start-time="2026-10-12 14:49:28Z" end-time="2026-10-12 14:49:28Z" duration="0.019257" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1043" name="ActualVerticesOverridePaddedBoundsAndNonReadableImportWorks" fullname="Ataka.Tests.RealSizeTests.ActualVerticesOverridePaddedBoundsAndNonReadableImportWorks" methodname="ActualVerticesOverridePaddedBoundsAndNonReadableImportWorks" classname="Ataka.Tests.RealSizeTests" runstate="Runnable" seed="436031865" result="Passed" start-time="2026-10-12 14:49:28Z" end-time="2026-10-12 14:49:28Z" duration="0.012163" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1047" name="ExternalMeshCannotBeIncludedByMistake" fullname="Ataka.Tests.RealSizeTests.ExternalMeshCannotBeIncludedByMistake" methodname="ExternalMeshCannotBeIncludedByMistake" classname="Ataka.Tests.RealSizeTests" runstate="Runnable" seed="1269744914" result="Passed" start-time="2026-10-12 14:49:28Z" end-time="2026-10-12 14:49:28Z" duration="0.000700" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1046" name="MissingReferenceOrUnboundedToleranceCannotPass" fullname="Ataka.Tests.RealSizeTests.MissingReferenceOrUnboundedToleranceCannotPass" methodname="MissingReferenceOrUnboundedToleranceCannotPass" classname="Ataka.Tests.RealSizeTests" runstate="Runnable" seed="643517011" result="Passed" start-time="2026-10-12 14:49:28Z" end-time="2026-10-12 14:49:28Z" duration="0.000309" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1042" name="ParentScaleIsIncludedAndWrongScaleFails" fullname="Ataka.Tests.RealSizeTests.ParentScaleIsIncludedAndWrongScaleFails" methodname="ParentScaleIsIncludedAndWrongScaleFails" classname="Ataka.Tests.RealSizeTests" runstate="Runnable" seed="1118874103" result="Passed" start-time="2026-10-12 14:49:28Z" end-time="2026-10-12 14:49:28Z" duration="0.000446" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1041" name="RotationDoesNotInflateMeasuredDimensions" fullname="Ataka.Tests.RealSizeTests.RotationDoesNotInflateMeasuredDimensions" methodname="RotationDoesNotInflateMeasuredDimensions" classname="Ataka.Tests.RealSizeTests" runstate="Runnable" seed="1872356460" result="Passed" start-time="2026-10-12 14:49:28Z" end-time="2026-10-12 14:49:28Z" duration="0.002406" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1044" name="SeparatePartOffsetsAreIncluded" fullname="Ataka.Tests.RealSizeTests.SeparatePartOffsetsAreIncluded" methodname="SeparatePartOffsetsAreIncluded" classname="Ataka.Tests.RealSizeTests" runstate="Runnable" seed="1291969384" result="Passed" start-time="2026-10-12 14:49:28Z" end-time="2026-10-12 14:49:28Z" duration="0.000733" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1045" name="UnknownDimensionsAndMissingPartsCannotPass" fullname="Ataka.Tests.RealSizeTests.UnknownDimensionsAndMissingPartsCannotPass" methodname="UnknownDimensionsAndMissingPartsCannotPass" classname="Ataka.Tests.RealSizeTests" runstate="Runnable" seed="744496073" result="Passed" start-time="2026-10-12 14:49:28Z" end-time="2026-10-12 14:49:28Z" duration="0.000981" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1048" name="RetroRasterTests" fullname="Ataka.Tests.RetroRasterTests" classname="Ataka.Tests.RetroRasterTests" runstate="Runnable" testcasecount="8" result="Passed" start-time="2026-10-12 14:49:28Z" end-time="2026-10-12 14:49:28Z" duration="0.006092" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1056" name="OldSettingsDefaultTo540AndChosenStylePersists" fullname="Ataka.Tests.RetroRasterTests.OldSettingsDefaultTo540AndChosenStylePersists" methodname="OldSettingsDefaultTo540AndChosenStylePersists" classname="Ataka.Tests.RetroRasterTests" runstate="Runnable" seed="2086174504" result="Passed" start-time="2026-10-12 14:49:28Z" end-time="2026-10-12 14:49:28Z" duration="0.002516" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-suite type="ParameterizedMethod" id="1055" name="RenderHeightIsIndependentOfDisplayResolution" fullname="Ataka.Tests.RetroRasterTests.RenderHeightIsIndependentOfDisplayResolution" classname="Ataka.Tests.RetroRasterTests" runstate="Runnable" testcasecount="6" result="Passed" start-time="2026-10-12 14:49:28Z" end-time="2026-10-12 14:49:28Z" duration="0.001647" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1049" name="RenderHeightIsIndependentOfDisplayResolution(Standard,1080,0.5f)" fullname="Ataka.Tests.RetroRasterTests.RenderHeightIsIndependentOfDisplayResolution(Standard,1080,0.5f)" methodname="RenderHeightIsIndependentOfDisplayResolution" classname="Ataka.Tests.RetroRasterTests" runstate="Runnable" seed="1350534207" result="Passed" start-time="2026-10-12 14:49:28Z" end-time="2026-10-12 14:49:28Z" duration="0.000366" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1050" name="RenderHeightIsIndependentOfDisplayResolution(Standard,2160,0.25f)" fullname="Ataka.Tests.RetroRasterTests.RenderHeightIsIndependentOfDisplayResolution(Standard,2160,0.25f)" methodname="RenderHeightIsIndependentOfDisplayResolution" classname="Ataka.Tests.RetroRasterTests" runstate="Runnable" seed="146986166" result="Passed" start-time="2026-10-12 14:49:28Z" end-time="2026-10-12 14:49:28Z" duration="0.000091" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1051" name="RenderHeightIsIndependentOfDisplayResolution(Standard,900,0.6f)" fullname="Ataka.Tests.RetroRasterTests.RenderHeightIsIndependentOfDisplayResolution(Standard,900,0.6f)" methodname="RenderHeightIsIndependentOfDisplayResolution" classname="Ataka.Tests.RetroRasterTests" runstate="Runnable" seed="2107414538" result="Passed" start-time="2026-10-12 14:49:28Z" end-time="2026-10-12 14:49:28Z" duration="0.000072" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1052" name="RenderHeightIsIndependentOfDisplayResolution(Clear,1080,0.6666667f)" fullname="Ataka.Tests.RetroRasterTests.RenderHeightIsIndependentOfDisplayResolution(Clear,1080,0.6666667f)" methodname="RenderHeightIsIndependentOfDisplayResolution" classname="Ataka.Tests.RetroRasterTests" runstate="Runnable" seed="542422133" result="Passed" start-time="2026-10-12 14:49:28Z" end-time="2026-10-12 14:49:28Z" duration="0.000073" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1053" name="RenderHeightIsIndependentOfDisplayResolution(Retro,1080,0.3333333f)" fullname="Ataka.Tests.RetroRasterTests.RenderHeightIsIndependentOfDisplayResolution(Retro,1080,0.3333333f)" methodname="RenderHeightIsIndependentOfDisplayResolution" classname="Ataka.Tests.RetroRasterTests" runstate="Runnable" seed="1557362500" result="Passed" start-time="2026-10-12 14:49:28Z" end-time="2026-10-12 14:49:28Z" duration="0.000072" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1054" name="RenderHeightIsIndependentOfDisplayResolution(Standard,480,1.0f)" fullname="Ataka.Tests.RetroRasterTests.RenderHeightIsIndependentOfDisplayResolution(Standard,480,1.0f)" methodname="RenderHeightIsIndependentOfDisplayResolution" classname="Ataka.Tests.RetroRasterTests" runstate="Runnable" seed="1179981961" result="Passed" start-time="2026-10-12 14:49:28Z" end-time="2026-10-12 14:49:28Z" duration="0.000071" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-case id="1057" name="RetroShaderExistsWithoutCompilationErrors" fullname="Ataka.Tests.RetroRasterTests.RetroShaderExistsWithoutCompilationErrors" methodname="RetroShaderExistsWithoutCompilationErrors" classname="Ataka.Tests.RetroRasterTests" runstate="Runnable" seed="483607096" result="Passed" start-time="2026-10-12 14:49:28Z" end-time="2026-10-12 14:49:28Z" duration="0.000804" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1058" name="ScenarioCoreTests" fullname="Ataka.Tests.ScenarioCoreTests" classname="Ataka.Tests.ScenarioCoreTests" runstate="Runnable" testcasecount="23" result="Passed" start-time="2026-10-12 14:49:28Z" end-time="2026-10-12 14:49:28Z" duration="0.027232" total="23" passed="23" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1084" name="ApartmentDimensionsAreScenarioDimensions" fullname="Ataka.Tests.ScenarioCoreTests.ApartmentDimensionsAreScenarioDimensions" methodname="ApartmentDimensionsAreScenarioDimensions" classname="Ataka.Tests.ScenarioCoreTests" runstate="Runnable" seed="898171466" result="Passed" start-time="2026-10-12 14:49:28Z" end-time="2026-10-12 14:49:28Z" duration="0.000903" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1080" name="BlockedMovementKillsAfterOneAndAHalfSeconds" fullname="Ataka.Tests.ScenarioCoreTests.BlockedMovementKillsAfterOneAndAHalfSeconds" methodname="BlockedMovementKillsAfterOneAndAHalfSeconds" classname="Ataka.Tests.ScenarioCoreTests" runstate="Runnable" seed="2144781423" result="Passed" start-time="2026-10-12 14:49:28Z" end-time="2026-10-12 14:49:28Z" duration="0.000620" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1082" name="CannotWindWithoutWarmModule" fullname="Ataka.Tests.ScenarioCoreTests.CannotWindWithoutWarmModule" methodname="CannotWindWithoutWarmModule" classname="Ataka.Tests.ScenarioCoreTests" runstate="Runnable" seed="1073603376" result="Passed" start-time="2026-10-12 14:49:28Z" end-time="2026-10-12 14:49:28Z" duration="0.000337" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1079" name="ChaseClockRewindsExactlyTwoMinutesIn45Seconds" fullname="Ataka.Tests.ScenarioCoreTests.ChaseClockRewindsExactlyTwoMinutesIn45Seconds" methodname="ChaseClockRewindsExactlyTwoMinutesIn45Seconds" classname="Ataka.Tests.ScenarioCoreTests" runstate="Runnable" seed="1536576663" result="Passed" start-time="2026-10-12 14:49:28Z" end-time="2026-10-12 14:49:28Z" duration="0.000430" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1078" name="ChasePauseFreezesClockAndCatch" fullname="Ataka.Tests.ScenarioCoreTests.ChasePauseFreezesClockAndCatch" methodname="ChasePauseFreezesClockAndCatch" classname="Ataka.Tests.ScenarioCoreTests" runstate="Runnable" seed="1879003584" result="Passed" start-time="2026-10-12 14:49:28Z" end-time="2026-10-12 14:49:28Z" duration="0.000311" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1077" name="ChaseWarmAllocationUsesTimerNotModuleIndex" fullname="Ataka.Tests.ScenarioCoreTests.ChaseWarmAllocationUsesTimerNotModuleIndex" methodname="ChaseWarmAllocationUsesTimerNotModuleIndex" classname="Ataka.Tests.ScenarioCoreTests" runstate="Runnable" seed="1455411158" result="Passed" start-time="2026-10-12 14:49:28Z" end-time="2026-10-12 14:49:28Z" duration="0.000388" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1076" name="ClosedVestibulePreservesLocalCameraPose" fullname="Ataka.Tests.ScenarioCoreTests.ClosedVestibulePreservesLocalCameraPose" methodname="ClosedVestibulePreservesLocalCameraPose" classname="Ataka.Tests.ScenarioCoreTests" runstate="Runnable" seed="66613669" result="Passed" start-time="2026-10-12 14:49:28Z" end-time="2026-10-12 14:49:28Z" duration="0.001732" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1075" name="DeathOnSixRestartsSixWithoutUnlockOrRewind" fullname="Ataka.Tests.ScenarioCoreTests.DeathOnSixRestartsSixWithoutUnlockOrRewind" methodname="DeathOnSixRestartsSixWithoutUnlockOrRewind" classname="Ataka.Tests.ScenarioCoreTests" runstate="Runnable" seed="1687999579" result="Passed" start-time="2026-10-12 14:49:28Z" end-time="2026-10-12 14:49:28Z" duration="0.000525" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-suite type="ParameterizedMethod" id="1061" name="HangingSightIgnoresOwnCapsuleButStillRespectsWalls" fullname="Ataka.Tests.ScenarioCoreTests.HangingSightIgnoresOwnCapsuleButStillRespectsWalls" classname="Ataka.Tests.ScenarioCoreTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-12 14:49:28Z" end-time="2026-10-12 14:49:28Z" duration="0.005972" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1059" name="HangingSightIgnoresOwnCapsuleButStillRespectsWalls(False)" fullname="Ataka.Tests.ScenarioCoreTests.HangingSightIgnoresOwnCapsuleButStillRespectsWalls(False)" methodname="HangingSightIgnoresOwnCapsuleButStillRespectsWalls" classname="Ataka.Tests.ScenarioCoreTests" runstate="Runnable" seed="1309284339" result="Passed" start-time="2026-10-12 14:49:28Z" end-time="2026-10-12 14:49:28Z" duration="0.004330" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1060" name="HangingSightIgnoresOwnCapsuleButStillRespectsWalls(True)" fullname="Ataka.Tests.ScenarioCoreTests.HangingSightIgnoresOwnCapsuleButStillRespectsWalls(True)" methodname="HangingSightIgnoresOwnCapsuleButStillRespectsWalls" classname="Ataka.Tests.ScenarioCoreTests" runstate="Runnable" seed="245481609" result="Passed" start-time="2026-10-12 14:49:28Z" end-time="2026-10-12 14:49:28Z" duration="0.000889" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-case id="1083" name="MissingWarmModuleRestartsAfterSevenSeconds" fullname="Ataka.Tests.ScenarioCoreTests.MissingWarmModuleRestartsAfterSevenSeconds" methodname="MissingWarmModuleRestartsAfterSevenSeconds" classname="Ataka.Tests.ScenarioCoreTests" runstate="Runnable" seed="1268250589" result="Passed" start-time="2026-10-12 14:49:28Z" end-time="2026-10-12 14:49:28Z" duration="0.000268" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-suite type="ParameterizedMethod" id="1067" name="QaCaptureCannotSilentlyIgnoreAnInvalidOutput" fullname="Ataka.Tests.ScenarioCoreTests.QaCaptureCannotSilentlyIgnoreAnInvalidOutput" classname="Ataka.Tests.ScenarioCoreTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-10-12 14:49:28Z" end-time="2026-10-12 14:49:28Z" duration="0.001668" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1062" name="QaCaptureCannotSilentlyIgnoreAnInvalidOutput(System.String[],False,False)" fullname="Ataka.Tests.ScenarioCoreTests.QaCaptureCannotSilentlyIgnoreAnInvalidOutput(System.String[],False,False)" methodname="QaCaptureCannotSilentlyIgnoreAnInvalidOutput" classname="Ataka.Tests.ScenarioCoreTests" runstate="Runnable" seed="32792844" result="Passed" start-time="2026-10-12 14:49:28Z" end-time="2026-10-12 14:49:28Z" duration="0.000460" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1063" name="QaCaptureCannotSilentlyIgnoreAnInvalidOutput(System.String[],True,False)" fullname="Ataka.Tests.ScenarioCoreTests.QaCaptureCannotSilentlyIgnoreAnInvalidOutput(System.String[],True,False)" methodname="QaCaptureCannotSilentlyIgnoreAnInvalidOutput" classname="Ataka.Tests.ScenarioCoreTests" runstate="Runnable" seed="1125771784" result="Passed" start-time="2026-10-12 14:49:28Z" end-time="2026-10-12 14:49:28Z" duration="0.000155" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1064" name="QaCaptureCannotSilentlyIgnoreAnInvalidOutput(System.String[],True,True)" fullname="Ataka.Tests.ScenarioCoreTests.QaCaptureCannotSilentlyIgnoreAnInvalidOutput(System.String[],True,True)" methodname="QaCaptureCannotSilentlyIgnoreAnInvalidOutput" classname="Ataka.Tests.ScenarioCoreTests" runstate="Runnable" seed="619853568" result="Passed" start-time="2026-10-12 14:49:28Z" end-time="2026-10-12 14:49:28Z" duration="0.000078" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1065" name="QaCaptureCannotSilentlyIgnoreAnInvalidOutput(System.String[],True,True)" fullname="Ataka.Tests.ScenarioCoreTests.QaCaptureCannotSilentlyIgnoreAnInvalidOutput(System.String[],True,True)" methodname="QaCaptureCannotSilentlyIgnoreAnInvalidOutput" classname="Ataka.Tests.ScenarioCoreTests" runstate="Runnable" seed="626268942" result="Passed" start-time="2026-10-12 14:49:28Z" end-time="2026-10-12 14:49:28Z" duration="0.000054" asserts="0">
+                <properties>
+                  <property name="childIndex" value="2" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1066" name="QaCaptureCannotSilentlyIgnoreAnInvalidOutput(System.String[],True,True)" fullname="Ataka.Tests.ScenarioCoreTests.QaCaptureCannotSilentlyIgnoreAnInvalidOutput(System.String[],True,True)" methodname="QaCaptureCannotSilentlyIgnoreAnInvalidOutput" classname="Ataka.Tests.ScenarioCoreTests" runstate="Runnable" seed="2079116749" result="Passed" start-time="2026-10-12 14:49:28Z" end-time="2026-10-12 14:49:28Z" duration="0.000053" asserts="0">
+                <properties>
+                  <property name="childIndex" value="3" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="ParameterizedMethod" id="1073" name="QaCaptureSilencesDeviceEvenWhenRecordingCannotContinue" fullname="Ataka.Tests.ScenarioCoreTests.QaCaptureSilencesDeviceEvenWhenRecordingCannotContinue" classname="Ataka.Tests.ScenarioCoreTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-10-12 14:49:28Z" end-time="2026-10-12 14:49:28Z" duration="0.009465" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1068" name="QaCaptureSilencesDeviceEvenWhenRecordingCannotContinue(&quot;record&quot;)" fullname="Ataka.Tests.ScenarioCoreTests.QaCaptureSilencesDeviceEvenWhenRecordingCannotContinue(&quot;record&quot;)" methodname="QaCaptureSilencesDeviceEvenWhenRecordingCannotContinue" classname="Ataka.Tests.ScenarioCoreTests" runstate="Runnable" seed="637354460" result="Passed" start-time="2026-10-12 14:49:28Z" end-time="2026-10-12 14:49:28Z" duration="0.004250" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1069" name="QaCaptureSilencesDeviceEvenWhenRecordingCannotContinue(&quot;not-started&quot;)" fullname="Ataka.Tests.ScenarioCoreTests.QaCaptureSilencesDeviceEvenWhenRecordingCannotContinue(&quot;not-started&quot;)" methodname="QaCaptureSilencesDeviceEvenWhenRecordingCannotContinue" classname="Ataka.Tests.ScenarioCoreTests" runstate="Runnable" seed="559483507" result="Passed" start-time="2026-10-12 14:49:28Z" end-time="2026-10-12 14:49:28Z" duration="0.000928" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1070" name="QaCaptureSilencesDeviceEvenWhenRecordingCannotContinue(&quot;stopping&quot;)" fullname="Ataka.Tests.ScenarioCoreTests.QaCaptureSilencesDeviceEvenWhenRecordingCannotContinue(&quot;stopping&quot;)" methodname="QaCaptureSilencesDeviceEvenWhenRecordingCannotContinue" classname="Ataka.Tests.ScenarioCoreTests" runstate="Runnable" seed="497454451" result="Passed" start-time="2026-10-12 14:49:28Z" end-time="2026-10-12 14:49:28Z" duration="0.000911" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1071" name="QaCaptureSilencesDeviceEvenWhenRecordingCannotContinue(&quot;format-change&quot;)" fullname="Ataka.Tests.ScenarioCoreTests.QaCaptureSilencesDeviceEvenWhenRecordingCannotContinue(&quot;format-change&quot;)" methodname="QaCaptureSilencesDeviceEvenWhenRecordingCannotContinue" classname="Ataka.Tests.ScenarioCoreTests" runstate="Runnable" seed="1622173684" result="Passed" start-time="2026-10-12 14:49:28Z" end-time="2026-10-12 14:49:28Z" duration="0.001031" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1072" name="QaCaptureSilencesDeviceEvenWhenRecordingCannotContinue(&quot;overflow&quot;)" fullname="Ataka.Tests.ScenarioCoreTests.QaCaptureSilencesDeviceEvenWhenRecordingCannotContinue(&quot;overflow&quot;)" methodname="QaCaptureSilencesDeviceEvenWhenRecordingCannotContinue" classname="Ataka.Tests.ScenarioCoreTests" runstate="Runnable" seed="424683027" result="Passed" start-time="2026-10-12 14:49:28Z" end-time="2026-10-12 14:49:28Z" duration="0.001473" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-case id="1074" name="SixLapsRequireTheirOwnCompletedEventAndClosedVestibule" fullname="Ataka.Tests.ScenarioCoreTests.SixLapsRequireTheirOwnCompletedEventAndClosedVestibule" methodname="SixLapsRequireTheirOwnCompletedEventAndClosedVestibule" classname="Ataka.Tests.ScenarioCoreTests" runstate="Runnable" seed="348583029" result="Passed" start-time="2026-10-12 14:49:28Z" end-time="2026-10-12 14:49:28Z" duration="0.001192" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1081" name="WindingProtectsPlayerButPendulumIsStillRequired" fullname="Ataka.Tests.ScenarioCoreTests.WindingProtectsPlayerButPendulumIsStillRequired" methodname="WindingProtectsPlayerButPendulumIsStillRequired" classname="Ataka.Tests.ScenarioCoreTests" runstate="Runnable" seed="1464663219" result="Passed" start-time="2026-10-12 14:49:28Z" end-time="2026-10-12 14:49:28Z" duration="0.000480" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1085" name="ScenarioDoorSafetyTests" fullname="Ataka.Tests.ScenarioDoorSafetyTests" classname="Ataka.Tests.ScenarioDoorSafetyTests" runstate="Runnable" testcasecount="8" result="Passed" start-time="2026-10-12 14:49:28Z" end-time="2026-10-12 14:49:40Z" duration="12.192147" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="ParameterizedMethod" id="1095" name="ActualCarpetDoorNeverSweepsThroughPlayerAndResumesWhenClear" fullname="Ataka.Tests.ScenarioDoorSafetyTests.ActualCarpetDoorNeverSweepsThroughPlayerAndResumesWhenClear" classname="Ataka.Tests.ScenarioDoorSafetyTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-10-12 14:49:28Z" end-time="2026-10-12 14:49:35Z" duration="7.100731" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1091" name="ActualCarpetDoorNeverSweepsThroughPlayerAndResumesWhenClear(0.86f,0.01666667f,False)" fullname="Ataka.Tests.ScenarioDoorSafetyTests.ActualCarpetDoorNeverSweepsThroughPlayerAndResumesWhenClear(0.86f,0.01666667f,False)" methodname="ActualCarpetDoorNeverSweepsThroughPlayerAndResumesWhenClear" classname="Ataka.Tests.ScenarioDoorSafetyTests" runstate="Runnable" seed="168622581" result="Passed" start-time="2026-10-12 14:49:28Z" end-time="2026-10-12 14:49:30Z" duration="1.885300" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1092" name="ActualCarpetDoorNeverSweepsThroughPlayerAndResumesWhenClear(0.97f,0.01666667f,False)" fullname="Ataka.Tests.ScenarioDoorSafetyTests.ActualCarpetDoorNeverSweepsThroughPlayerAndResumesWhenClear(0.97f,0.01666667f,False)" methodname="ActualCarpetDoorNeverSweepsThroughPlayerAndResumesWhenClear" classname="Ataka.Tests.ScenarioDoorSafetyTests" runstate="Runnable" seed="152189118" result="Passed" start-time="2026-10-12 14:49:30Z" end-time="2026-10-12 14:49:32Z" duration="1.717714" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1093" name="ActualCarpetDoorNeverSweepsThroughPlayerAndResumesWhenClear(0.86f,0.25f,False)" fullname="Ataka.Tests.ScenarioDoorSafetyTests.ActualCarpetDoorNeverSweepsThroughPlayerAndResumesWhenClear(0.86f,0.25f,False)" methodname="ActualCarpetDoorNeverSweepsThroughPlayerAndResumesWhenClear" classname="Ataka.Tests.ScenarioDoorSafetyTests" runstate="Runnable" seed="221449579" result="Passed" start-time="2026-10-12 14:49:32Z" end-time="2026-10-12 14:49:33Z" duration="1.701386" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1094" name="ActualCarpetDoorNeverSweepsThroughPlayerAndResumesWhenClear(0.86f,0.01666667f,True)" fullname="Ataka.Tests.ScenarioDoorSafetyTests.ActualCarpetDoorNeverSweepsThroughPlayerAndResumesWhenClear(0.86f,0.01666667f,True)" methodname="ActualCarpetDoorNeverSweepsThroughPlayerAndResumesWhenClear" classname="Ataka.Tests.ScenarioDoorSafetyTests" runstate="Runnable" seed="835137971" result="Passed" start-time="2026-10-12 14:49:33Z" end-time="2026-10-12 14:49:35Z" duration="1.794500" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="ParameterizedMethod" id="1090" name="NativeControllerGravityDoesNotGetPushedByTheOpeningDoor" fullname="Ataka.Tests.ScenarioDoorSafetyTests.NativeControllerGravityDoesNotGetPushedByTheOpeningDoor" classname="Ataka.Tests.ScenarioDoorSafetyTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-12 14:49:35Z" end-time="2026-10-12 14:49:38Z" duration="3.369832" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1088" name="NativeControllerGravityDoesNotGetPushedByTheOpeningDoor(False)" fullname="Ataka.Tests.ScenarioDoorSafetyTests.NativeControllerGravityDoesNotGetPushedByTheOpeningDoor(False)" methodname="NativeControllerGravityDoesNotGetPushedByTheOpeningDoor" classname="Ataka.Tests.ScenarioDoorSafetyTests" runstate="Runnable" seed="586210705" result="Passed" start-time="2026-10-12 14:49:35Z" end-time="2026-10-12 14:49:37Z" duration="1.691888" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[NATIVE_CC before=(0.86, 0.01, 3.75) after=(0.86, 0.01, 3.75) playerFirst=False
+]]></output>
+              </test-case>
+              <test-case id="1089" name="NativeControllerGravityDoesNotGetPushedByTheOpeningDoor(True)" fullname="Ataka.Tests.ScenarioDoorSafetyTests.NativeControllerGravityDoesNotGetPushedByTheOpeningDoor(True)" methodname="NativeControllerGravityDoesNotGetPushedByTheOpeningDoor" classname="Ataka.Tests.ScenarioDoorSafetyTests" runstate="Runnable" seed="677724435" result="Passed" start-time="2026-10-12 14:49:37Z" end-time="2026-10-12 14:49:38Z" duration="1.674629" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[NATIVE_CC before=(0.86, 0.01, 3.75) after=(0.86, 0.01, 3.75) playerFirst=True
+]]></output>
+              </test-case>
+            </test-suite>
+            <test-case id="1086" name="RestrictedHandleClicksAndNudgesSafelyThenResumes" fullname="Ataka.Tests.ScenarioDoorSafetyTests.RestrictedHandleClicksAndNudgesSafelyThenResumes" methodname="RestrictedHandleClicksAndNudgesSafelyThenResumes" classname="Ataka.Tests.ScenarioDoorSafetyTests" runstate="Runnable" seed="1821041151" result="Passed" start-time="2026-10-12 14:49:38Z" end-time="2026-10-12 14:49:40Z" duration="1.717451" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1087" name="SmallSmoothedStepsReachTheRequestedEndpoint" fullname="Ataka.Tests.ScenarioDoorSafetyTests.SmallSmoothedStepsReachTheRequestedEndpoint" methodname="SmallSmoothedStepsReachTheRequestedEndpoint" classname="Ataka.Tests.ScenarioDoorSafetyTests" runstate="Runnable" seed="1523229308" result="Passed" start-time="2026-10-12 14:49:40Z" end-time="2026-10-12 14:49:40Z" duration="0.001889" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1096" name="ScenarioSceneTests" fullname="Ataka.Tests.ScenarioSceneTests" classname="Ataka.Tests.ScenarioSceneTests" runstate="Runnable" testcasecount="8" result="Passed" start-time="2026-10-12 14:49:40Z" end-time="2026-10-12 14:49:51Z" duration="10.699589" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1098" name="BuiltFlatHasRecordedAudioAndEveryBusIsRouted" fullname="Ataka.Tests.ScenarioSceneTests.BuiltFlatHasRecordedAudioAndEveryBusIsRouted" methodname="BuiltFlatHasRecordedAudioAndEveryBusIsRouted" classname="Ataka.Tests.ScenarioSceneTests" runstate="Runnable" seed="989055459" result="Passed" start-time="2026-10-12 14:49:40Z" end-time="2026-10-12 14:49:42Z" duration="1.708871" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1104" name="ChaseEntryJoinsHallAndRigidShiftPreservesVisiblePoses" fullname="Ataka.Tests.ScenarioSceneTests.ChaseEntryJoinsHallAndRigidShiftPreservesVisiblePoses" methodname="ChaseEntryJoinsHallAndRigidShiftPreservesVisiblePoses" classname="Ataka.Tests.ScenarioSceneTests" runstate="Runnable" seed="2086943958" result="Passed" start-time="2026-10-12 14:49:42Z" end-time="2026-10-12 14:49:44Z" duration="1.746137" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1102" name="ChaseRestoresPreviouslyDisabledApartmentComponents" fullname="Ataka.Tests.ScenarioSceneTests.ChaseRestoresPreviouslyDisabledApartmentComponents" methodname="ChaseRestoresPreviouslyDisabledApartmentComponents" classname="Ataka.Tests.ScenarioSceneTests" runstate="Runnable" seed="965519380" result="Passed" start-time="2026-10-12 14:49:44Z" end-time="2026-10-12 14:49:45Z" duration="1.700053" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1100" name="FlatContainsSixLapDefinitionsAndSixPooledModules" fullname="Ataka.Tests.ScenarioSceneTests.FlatContainsSixLapDefinitionsAndSixPooledModules" methodname="FlatContainsSixLapDefinitionsAndSixPooledModules" classname="Ataka.Tests.ScenarioSceneTests" runstate="Runnable" seed="1168299515" result="Passed" start-time="2026-10-12 14:49:45Z" end-time="2026-10-12 14:49:47Z" duration="1.696631" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1103" name="ReadyFurnitureUsesHumanScaleAndMatchingCollision" fullname="Ataka.Tests.ScenarioSceneTests.ReadyFurnitureUsesHumanScaleAndMatchingCollision" methodname="ReadyFurnitureUsesHumanScaleAndMatchingCollision" classname="Ataka.Tests.ScenarioSceneTests" runstate="Runnable" seed="1729510969" result="Passed" start-time="2026-10-12 14:49:47Z" end-time="2026-10-12 14:49:49Z" duration="1.711533" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1097" name="RecordedImportsPreserveMonoPeakHeadroomAndPreload" fullname="Ataka.Tests.ScenarioSceneTests.RecordedImportsPreserveMonoPeakHeadroomAndPreload" methodname="RecordedImportsPreserveMonoPeakHeadroomAndPreload" classname="Ataka.Tests.ScenarioSceneTests" runstate="Runnable" seed="1633288181" result="Passed" start-time="2026-10-12 14:49:49Z" end-time="2026-10-12 14:49:49Z" duration="0.468895" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1099" name="TimelinesHavePersistedCueTracksAndExactCriticalDurations" fullname="Ataka.Tests.ScenarioSceneTests.TimelinesHavePersistedCueTracksAndExactCriticalDurations" methodname="TimelinesHavePersistedCueTracksAndExactCriticalDurations" classname="Ataka.Tests.ScenarioSceneTests" runstate="Runnable" seed="1416350928" result="Passed" start-time="2026-10-12 14:49:49Z" end-time="2026-10-12 14:49:49Z" duration="0.006043" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1101" name="VestibuleDoorsMatchAfterMappingAndLeaveCapsuleClearance" fullname="Ataka.Tests.ScenarioSceneTests.VestibuleDoorsMatchAfterMappingAndLeaveCapsuleClearance" methodname="VestibuleDoorsMatchAfterMappingAndLeaveCapsuleClearance" classname="Ataka.Tests.ScenarioSceneTests" runstate="Runnable" seed="716385197" result="Passed" start-time="2026-10-12 14:49:49Z" end-time="2026-10-12 14:49:51Z" duration="1.658030" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1105" name="TelevisionTests" fullname="Ataka.Tests.TelevisionTests" classname="Ataka.Tests.TelevisionTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-10-12 14:49:51Z" end-time="2026-10-12 14:49:51Z" duration="0.339179" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1106" name="ImportedTelevisionKeepsCurvedDisplayAndTexturedBody" fullname="Ataka.Tests.TelevisionTests.ImportedTelevisionKeepsCurvedDisplayAndTexturedBody" methodname="ImportedTelevisionKeepsCurvedDisplayAndTexturedBody" classname="Ataka.Tests.TelevisionTests" runstate="Runnable" seed="1769614337" result="Passed" start-time="2026-10-12 14:49:51Z" end-time="2026-10-12 14:49:51Z" duration="0.335464" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[Saving results to: C:/Users/User/AppData/LocalLow/AtakaProject/Атака на запоминание\TestResults.xml
+]]></output>
+            </test-case>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>
