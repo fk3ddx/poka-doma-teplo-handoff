@@ -65,8 +65,8 @@ namespace Ataka.Scenario {
     // per-frame: the watcher looks at her in the kitchen; timed shots inside the hug / transformation / tear
     var gr=flat.grandmother.transform;if(scenes.PlayingScene=="DeathFinale")sawFinaleScene=true;if(scenes.PlayingScene=="DeathFull")sawDeathFull=true;
     if(inKitchen&&p.control&&flat.grandmother.activeSelf)Aim(p,gr.position+Vector3.up*1.1f);
-    if(hugAt>0&&hm<hugMarks.Length&&Time.time-hugAt>=hugMarks[hm]){var sh=(rig.neck.position+rig.upperL.position)*.5f;float d=Vector3.Distance(p.head.position,sh);if(hm==1){result.hugShoulderDistance=d;Check(d<.45f&&rig.weightL>.9f&&rig.weightR>.9f,"11.6а hug: camera "+d.ToString("F2")+" m from her shoulder, both arms round him (IK "+rig.weightL.ToString("F2")+"/"+rig.weightR.ToString("F2")+")");}
-     yield return Shot("hug-"+hugMarks[hm].ToString("0.0",System.Globalization.CultureInfo.InvariantCulture));hm++;continue;}
+    if(hugAt>0&&hm<hugMarks.Length&&Time.time-hugAt>=hugMarks[hm]){yield return Shot("hug-"+hugMarks[hm].ToString("0.0",System.Globalization.CultureInfo.InvariantCulture));var sh=(rig.neck.position+rig.upperL.position)*.5f;float d=Vector3.Distance(p.head.position,sh);if(hm==1){result.hugShoulderDistance=d;Check(d<.45f&&rig.weightL>.9f&&rig.weightR>.9f,"11.6а hug: camera "+d.ToString("F2")+" m from her shoulder, both arms round him (IK "+rig.weightL.ToString("F2")+"/"+rig.weightR.ToString("F2")+")");}
+     hm++;continue;}
     if(fingersAt>0&&last=="fingers"){result.handScaleMax=Mathf.Max(result.handScaleMax,rig.handScale);
      if(!fingerShot&&Time.time-fingersAt>=1f){fingerShot=true;yield return Shot("fingers-1.0");var tip=story.HandTip;var cl=story.QaGapClaw;bool vis=InFrame(p,tip,out var v);Check(vis&&tip.z<6.0f,"11.6б the stretching hand is inside the gap and in his view: tip "+tip.ToString("F2")+", viewport "+v.ToString("F2"));
       Check(cl&&cl.On&&rig.handScale<.05f,"11.6б the ready claw hand replaces her block hand at 1.0 s (claw "+(cl?(cl.On?"on, stretch "+cl.stretch.ToString("F2"):"off"):"missing")+", block hand ×"+rig.handScale.ToString("F2")+")");}}
