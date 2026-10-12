@@ -1,0 +1,72 @@
+PASS the prologue set is installed (Ataka.Editor.PrologueInstaller.Install)
+PASS before the prologue the stair light Prologue landing bulb floor 5 is off
+PASS before the prologue the stair light Prologue landing bulb floor 4 is off
+PASS before the prologue the stair light Prologue landing bulb floor 2 is off
+PASS before the prologue the stair light Prologue landing bulb floor 1 is off
+PASS before the prologue the stair light Prologue lobby bulb is off
+PASS 3.1 black, the time code bottom left
+SHOT prologue-01-timecode.png
+PASS 3.2 the yard: the set's lights on, control given
+SHOT prologue-02-yard.png
+PASS 3.2 «до подъезда 40 м»: 40,0 m from the garages to the entrance door
+PASS 3.2 wet snow falls in the yard (the courtyard's own particle system, copied)
+PASS 3.2 his breath steams in the cold: 3 puffs in 7.5 s, fading between them=True
+PASS walk «yard: garages → 9 m from the entrance» with the CharacterController
+PASS 3.3 looking up at the roof edge: the stooped figure stands there
+SHOT prologue-03-roof-figure.png
+PASS 3.3 after 1.5 s it is gone and the shared Guest is handed back exactly (active, parent, every bone's position/rotation/scale, renderers, property blocks)
+PASS walk «yard: to the entrance door» with the CharacterController
+PASS action «Открыть дверь подъезда» offered
+PASS «Открыть дверь подъезда» can be aimed at from where he stands (crosshair, range, line of sight)
+PASS 3.4 the iron entrance door opens
+SHOT prologue-04-entrance.png
+PASS walk «through the entrance door» with the CharacterController
+PASS 3.4 it slams shut behind him on its spring
+PASS walk «into the lobby» with the CharacterController
+SHOT prologue-05-lobby.png
+PASS action «Прочитать объявление» offered
+PASS «Прочитать объявление» can be aimed at from where he stands (crosshair, range, line of sight)
+PASS 3.5 the «ПРОПАЛ ЧЕЛОВЕК» notice can be read
+SHOT prologue-06-notice.png
+PASS walk «lobby → first floor (flight 1)» with the CharacterController
+PASS walk «floor 1 → half landing (flight 2)» with the CharacterController
+PASS walk «half landing → floor 2 (flight 3)» with the CharacterController
+PASS walk «floor 2 → half landing (flight 4)» with the CharacterController
+PASS walk «half landing → floor 3 (flight 5)» with the CharacterController
+PASS walk «third-floor landing» with the CharacterController
+PASS 3.6 the third-floor bulb flickers (0,02–0,43)
+SHOT prologue-07-third-floor.png
+PASS walk «back to the stairs» with the CharacterController
+PASS walk «floor 3 → half landing (flight 6)» with the CharacterController
+PASS walk «half landing → floor 4 (flight 7)» with the CharacterController
+PASS 3.6 the TV behind 56, heard on the way up: «…в квартире никто не проживал, однако на столе…»
+SHOT prologue-08-door56.png
+PASS walk «floor 4 → half landing (flight 8)» with the CharacterController
+PASS walk «half landing → floor 5 (flight 9)» with the CharacterController
+PASS 3.7 the fifth floor
+SHOT prologue-09-fifth-floor.png
+PASS 3.7 Tuzik barks behind 59
+PASS 3.7 breath steam on the cold landing: 3 puffs in 7.5 s, fading between them=True
+SHOT prologue-10-attic-hatch.png
+PASS walk «fifth-floor landing → in front of 60» with the CharacterController
+PASS 3.8 at flat 60's door
+PASS action «Позвонить» offered
+PASS «Позвонить» can be aimed at from where he stands (crosshair, range, line of sight)
+PASS 3.8 she opens both doors (the tambour's and the flat's), warm light from the hall
+SHOT prologue-11-grandmother-opens.png
+FAIL walk «into the flat» with the CharacterController: stuck at (8.51, 0.01, 7.40) → (8.05, 0.00, 6.60)
+PLACED at the end of «into the flat» after the FAIL above, only to look at the later beats
+PASS 3.9 inside: the doors closed, the stairwell/yard lights back to 0, no snow, no breath, no yard sounds
+BEATS black → yard → roof → entrance → slam → notice → tv56 → fifth → landing5 → ring → open → inside
+ROUTE walked 75,6 m, stuck legs 1
+PASS 4.9 both doors open for Valya (the tambour's too)
+SHOT prologue-12-valya-at-the-door.png
+PASS after 4.9 (or when cut off) the neighbours are gone, the tambour door shut
+PASS 8.1 Night2: both doors open again, as in 4.9
+SHOT prologue-13-night2-valya.png
+PASS after 8.1 (cut off) the neighbours are gone, the tambour door shut
+ABSENT notice picture Resources/Prologue/missing_person.png (photo bleached white + the text) — drawn by code until then
+ABSENT audience laughter Resources/Audio/tv_laughter (the channel switch is a click and a subtitle until then)
+ABSENT the torn padlock on the attic hatch: no model (the hatch itself is the M1 authored one)
+ABSENT Valya and Tuzik models Resources/Characters/Valya / Characters/Tuzik (4.9 and 8.1 are voices only until supplied)
+PASS no runtime errors (0)

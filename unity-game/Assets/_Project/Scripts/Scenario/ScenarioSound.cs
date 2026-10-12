@@ -37,6 +37,9 @@ namespace Ataka.Scenario {
    // 4.7 console (pc27): square-wave / noise chip sounds, synthesised like the test tone; played at the «Рубин»
    foreach(var (id,notes,len,noise,gain) in new (string,float[],float,bool,float)[]{("nes_shot",new[]{1320f,990f,660f},.03f,false,-20f),("nes_boom",new[]{0f},.28f,true,-18f),("nes_hit",new[]{392f,330f,262f,196f},.1f,false,-16f),("nes_start",new[]{523f,659f,784f,1047f},.08f,false,-18f),("nes_over",new[]{392f,370f,349f,330f,0f,262f},.16f,false,-16f)})
     if(!cues.ContainsKey(id))cues[id]=new ScenarioSoundCue{id=id,clips=new[]{Chip(id,notes,len,noise)},bus=ScenarioBus.World,gainDb=gain,pitchVariation=0,maxInstances=4,priority=70,maxDistance=10};
+   // prologue (pc29): the lobby lamp's mains buzz and the far heating plant's drone, synthesised like the test tone
+   if(!cues.ContainsKey("lamp_hum"))cues["lamp_hum"]=new ScenarioSoundCue{id="lamp_hum",clips=new[]{Hum("Lamp hum",100,4f,.25f)},bus=ScenarioBus.World,gainDb=-24,pitchVariation=0,loop=true,maxInstances=1,priority=80,maxDistance=6};
+   if(!cues.ContainsKey("plant_hum"))cues["plant_hum"]=new ScenarioSoundCue{id="plant_hum",clips=new[]{Hum("Heating plant drone",46,6f,.6f)},bus=ScenarioBus.World,gainDb=-20,pitchVariation=0,spatial=false,loop=true,maxInstances=1,priority=90};
    if(!cues.ContainsKey("test_tone"))cues["test_tone"]=new ScenarioSoundCue{id="test_tone",clips=new[]{Tone("Test card 1 kHz",1000,2.6f,0)},bus=ScenarioBus.World,gainDb=-20,pitchVariation=0,maxInstances=1,priority=60,maxDistance=14};
   }
   // Band-limited noise with a slow crackle, faded in and out (a radio point between stations).
@@ -49,6 +52,13 @@ namespace Ataka.Scenario {
    for(int i=0;i<n;i++){int k=i/per;float t=(i%per)/(float)rate,env=Mathf.Clamp01(1-t/noteSeconds*.7f);float v;
     if(noise)v=((r.Next(2)*2-1)*.5f)*Mathf.Clamp01(1-i/(float)n);else v=notes[k]<=0?0:(Mathf.Repeat(t*notes[k],1)<.5f?.35f:-.35f)*env;data[i]=v;}
    var clip=AudioClip.Create(name,n,1,rate,false);clip.SetData(data,0);return clip;}
+  // A loopable hum: fundamental + odd harmonics with a little noise (a whole number of cycles, so the loop is seamless).
+  static AudioClip Hum(string name,float hz,float seconds,float noise){const int rate=22050;int n=Mathf.RoundToInt(Mathf.Round(seconds*hz)/hz*rate);var data=new float[n];var r=new System.Random(5);float lp=0;
+   for(int i=0;i<n;i++){float t=i/(float)rate,w=2*Mathf.PI*hz*t;lp+=((float)(r.NextDouble()*2-1)-lp)*.05f;data[i]=.22f*Mathf.Sin(w)+.08f*Mathf.Sin(3*w)+.04f*Mathf.Sin(5*w)+noise*lp*.3f;}
+   var clip=AudioClip.Create(name,n,1,rate,false);clip.SetData(data,0);return clip;}
+  // A recorded clip supplied at runtime (Resources), e.g. Tuzik's bark: becomes an ordinary cue.
+  public bool Register(string id,AudioClip clip,float gainDb=-8,float maxDistance=14,int maxInstances=2){if(!clip)return false;cues[id]=new ScenarioSoundCue{id=id,clips=new[]{clip},bus=ScenarioBus.World,gainDb=gainDb,maxDistance=maxDistance,maxInstances=maxInstances,priority=60};return true;}
+  public bool Has(string id)=>cues.ContainsKey(id);
   static AudioClip Tone(string name,float hz,float seconds,float cadence){const int rate=22050;int n=(int)(seconds*rate);var data=new float[n];
    for(int i=0;i<n;i++){float t=i/(float)rate;bool on=cadence<=0||((int)(t/cadence))%2==0;float local=cadence>0?t%cadence:t;float edge=Mathf.Clamp01(local/.004f)*Mathf.Clamp01(((cadence>0?cadence:seconds)-local)/.004f);data[i]=on?.5f*edge*Mathf.Sin(2*Mathf.PI*hz*t):0;}
    var clip=AudioClip.Create(name,n,1,rate,false);clip.SetData(data,0);return clip;}

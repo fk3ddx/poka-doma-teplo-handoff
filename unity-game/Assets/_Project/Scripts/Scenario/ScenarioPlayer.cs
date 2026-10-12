@@ -12,6 +12,8 @@ namespace Ataka.Scenario {
   public bool TorchNeedsPump=>hasFlashlight&&torch&&charge<2.5f&&!pumpedOnce;bool pumpedOnce;
   CharacterController body; float vy,charge=10,pressDuration; bool torch=true;int suppress;
   public Vector3 routeForward=Vector3.forward;
+  // QA only (pc29b): while automating, the walk axis instead of WASD; the same CharacterController.Move, speed and gravity.
+  [System.NonSerialized] public Vector2 qaAxis;
   void Awake(){body=GetComponent<CharacterController>();}
   void Update(){
    if(paused||!control){ActualSpeed=0;
@@ -23,7 +25,7 @@ namespace Ataka.Scenario {
    if(suppress>0)suppress--;else if(!automating){var delta=m.delta.ReadValue()*sensitivity;if(delta.sqrMagnitude<1e6){transform.Rotate(0,delta.x,0);pitch=Mathf.Clamp(pitch-delta.y,-80,80);}}
    head.localRotation=Quaternion.Euler(pitch,chasing&&k.cKey.isPressed?180:0,0);
    float h=crouched?1.05f:1.7f;body.height=h;body.center=Vector3.up*h/2;head.localPosition=Vector3.up*(crouched?.94f:1.55f);
-   var axis=new Vector2((k.dKey.isPressed?1:0)-(k.aKey.isPressed?1:0),(k.wKey.isPressed?1:0)-(k.sKey.isPressed?1:0));axis=Vector2.ClampMagnitude(axis,1);
+   var axis=new Vector2((k.dKey.isPressed?1:0)-(k.aKey.isPressed?1:0),(k.wKey.isPressed?1:0)-(k.sKey.isPressed?1:0));if(automating&&qaAxis!=Vector2.zero)axis=qaAxis;axis=Vector2.ClampMagnitude(axis,1);
    float speed=chasing?4.5f*1.3f:crouched?1.15f:k.leftShiftKey.isPressed?4.5f:2;
    if(LookingBack)speed*=.5f;
    var before=transform.position;vy=body.isGrounded?-2:Mathf.Max(-20,vy-20*Time.deltaTime);body.Move(((transform.right*axis.x+transform.forward*axis.y)*speed+Vector3.up*vy)*Time.deltaTime);

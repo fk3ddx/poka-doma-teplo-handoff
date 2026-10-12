@@ -205,7 +205,7 @@ namespace Ataka.Scenario {
    running=StartCoroutine(at switch{"Evening"=>Evening(false),"Night1"=>Night1(false),"Night2"=>Night2(false),"Finale"=>Finale(),_=>Prologue()});
   }
   public void Abandon(){StopAll();chapter=Chapter.Loop;flat.entrance.direction=1;}
-  void StopAll(){EndMirrorSeed();EndGlimpse();ResetLeisure();if(rewind)rewind.Cleanup();FinaleReset();if(running!=null)StopCoroutine(running);StopAllCoroutines();acts.Clear();holdingAct=null;kettleBoiling=false;card=null;fade=0;objective="";choiceA=choiceB=null;scenes.Cancel();loop.chase.Stop();sound.ResetWorld();if(tv){tv.storyOn=false;tv.show=ScenarioTelevision.Show.None;}if(bedside)bedside.timeSource=flat.clock;QaInFreeTime=false;if(strap)strap.enabled=false;}
+  void StopAll(){EndPrologue();Neighbours(false);EndMirrorSeed();EndGlimpse();ResetLeisure();if(rewind)rewind.Cleanup();FinaleReset();if(running!=null)StopCoroutine(running);StopAllCoroutines();acts.Clear();holdingAct=null;kettleBoiling=false;card=null;fade=0;objective="";choiceA=choiceB=null;scenes.Cancel();loop.chase.Stop();sound.ResetWorld();if(tv){tv.storyOn=false;tv.show=ScenarioTelevision.Show.None;}if(bedside)bedside.timeSource=flat.clock;QaInFreeTime=false;if(strap)strap.enabled=false;}
   void Update(){
    if(granBody)granBody.enabled=OwnsFlat&&chapter!=Chapter.Ended; // in the loop the hanging vision needs clear sight to her
    if(!OwnsFlat||player.paused)return;
@@ -241,7 +241,124 @@ namespace Ataka.Scenario {
   IEnumerator KettleBoils(){kettleBoiling=true;sound.Play("kettle_rise",StoveAt);for(float t=0;t<6.5f;t+=Time.deltaTime){if(!kettleBoiling)yield break;yield return null;}if(kettleBoiling)sound.Bed("kettle",StoveAt,true);}
 
   // ---------- 3. Prologue (only the door scene exists in the flat) ----------
+  // ---------- 3. Prologue «Пятый этаж» (19:10) ----------
+  // With the PrologueSet installed (Ataka.Editor.PrologueInstaller) the prologue is played, SCENARIO 3.1–3.9: the time
+  // code on black, the yard by the garages, the figure on the roof edge (only if he looks up), the iron entrance door that
+  // slams on its spring, the lobby with the «ПРОПАЛ ЧЕЛОВЕК» notice, the stairs (the dying bulb on the third, the TV
+  // behind 56 on the fourth), the cold fifth floor (his breath, Tuzik behind 59, the attic hatch) and the ring at 60.
+  // Without the set the older short version (two cards at the door) runs.
+  // Missing assets are hooks, not substitutes: Resources/Audio/dog_bark, Resources/Audio/tv_laughter,
+  // Resources/Prologue/missing_person (the notice picture), Resources/Characters/Valya and /Tuzik (4.9).
+  public const string BarkResource="Audio/dog_bark",LaughterResource="Audio/tv_laughter",NoticeResource="Prologue/missing_person",ValyaResource="Characters/Valya",TuzikResource="Characters/Tuzik";
+  PrologueSet prologue;ParticleSystem breath,yardSnow;string vhsTitle;bool roofShown,roofDone;Coroutine breathing;
+  public PrologueSet QaPrologue=>prologue;public string QaPrologueBeat{get;private set;}="";public bool QaRoofShown=>roofShown;public ParticleSystem QaBreath=>breath;public ParticleSystem QaYardSnow=>yardSnow;public string QaVhsTitle=>vhsTitle;
+  public readonly List<string> QaPrologueBeats=new List<string>();void PBeat(string b){QaPrologueBeat=b;QaPrologueBeats.Add(b);}
+  public ScenarioDoor OuterDoor(){foreach(var d in FindObjectsByType<ScenarioDoor>(FindObjectsInactive.Include,FindObjectsSortMode.None))if(d.name=="Entry vestibule closed outer door")return d;return null;}
+  bool Cold(Vector3 p)=>p.z>7.1f||p.y<-1; // the stairwell and the yard
+  ParticleSystemRenderer SnowSource(){foreach(var r in FindObjectsByType<ParticleSystemRenderer>(FindObjectsInactive.Include,FindObjectsSortMode.None))if(r.name=="Windblown wet snow")return r;return null;}
+  void Snow(bool on){if(!on){if(yardSnow)Destroy(yardSnow.gameObject);yardSnow=null;return;}var src=SnowSource();if(!src||yardSnow||!prologue)return;var copy=Instantiate(src.gameObject,prologue.yardSnow.position,src.transform.rotation);copy.name="Prologue yard snow (copy of the courtyard's)";yardSnow=copy.GetComponent<ParticleSystem>();if(yardSnow)yardSnow.Play();}
+  // 3.2/3.7 his breath in the cold: a few puffs every ~3 s in front of the camera (the courtyard snow's material)
+  void Breath(bool on){
+   if(!on){if(breathing!=null)StopCoroutine(breathing);breathing=null;if(breath)Destroy(breath.gameObject);breath=null;return;}if(breath)return;
+   var g=new GameObject("Breath steam");g.transform.SetParent(player.head,false);g.transform.localPosition=new Vector3(0,-.07f,.22f);breath=g.AddComponent<ParticleSystem>();breath.Stop(true,ParticleSystemStopBehavior.StopEmittingAndClear);
+   var main=breath.main;main.loop=false;main.playOnAwake=false;main.startLifetime=1.3f;main.startSpeed=.35f;main.startSize=new ParticleSystem.MinMaxCurve(.05f,.12f);main.startColor=new Color(1,1,1,.22f);main.simulationSpace=ParticleSystemSimulationSpace.World;main.maxParticles=60;
+   var em=breath.emission;em.rateOverTime=0;var shape=breath.shape;shape.shapeType=ParticleSystemShapeType.Cone;shape.angle=12;shape.radius=.01f;
+   var size=breath.sizeOverLifetime;size.enabled=true;size.size=new ParticleSystem.MinMaxCurve(1,AnimationCurve.Linear(0,.6f,1,2.4f));var col=breath.colorOverLifetime;col.enabled=true;var gr=new Gradient();gr.SetKeys(new[]{new GradientColorKey(Color.white,0),new GradientColorKey(Color.white,1)},new[]{new GradientAlphaKey(.25f,0),new GradientAlphaKey(0,1)});col.color=gr;
+   var src=SnowSource();var r=g.GetComponent<ParticleSystemRenderer>();if(src)r.sharedMaterial=src.sharedMaterial;
+   breathing=StartCoroutine(Breathe());}
+  IEnumerator Breathe(){while(breath){if(Cold(player.transform.position)&&!player.paused)breath.Emit(14);yield return new WaitForSeconds(UnityEngine.Random.Range(2.6f,3.4f));}}
+  void EndPrologue(){vhsTitle=null;Breath(false);Snow(false);if(prologue)prologue.On(false);sound.Bed("wind",Vector3.zero,false);sound.Bed("plant_hum",Vector3.zero,false);sound.Bed("lamp_hum",Vector3.zero,false);sound.Every("creak",Vector3.zero,0,0,false);EndRoof();}
+  // 3.3: a tall stooped figure on the roof edge over the entrance, only while he looks up there; gone after 1.5 s; once.
+  // pc29b: the shared Guest is handed back exactly as it was: parent, local position/rotation/scale of it and every bone,
+  // active state, enabled behaviours/renderers, GuestVisual's ground clamp, the legacy Animation's states, property blocks.
+  sealed class GuestSnapshot {
+   readonly GameObject g;readonly Transform parent;readonly bool active;readonly Transform[] ts;readonly Vector3[] lp,ls;readonly Quaternion[] lr;readonly Behaviour[] bs;readonly bool[] be;readonly Renderer[] rs;readonly bool[] re;readonly MaterialPropertyBlock[] blocks;readonly float groundY;readonly List<(AnimationState s,bool e,float t,float w,float sp)> anim=new List<(AnimationState,bool,float,float,float)>();
+   public GuestSnapshot(GameObject guest){g=guest;var t=g.transform;parent=t.parent;active=g.activeSelf;ts=g.GetComponentsInChildren<Transform>(true);lp=new Vector3[ts.Length];ls=new Vector3[ts.Length];lr=new Quaternion[ts.Length];for(int i=0;i<ts.Length;i++){lp[i]=ts[i].localPosition;lr[i]=ts[i].localRotation;ls[i]=ts[i].localScale;}
+    bs=g.GetComponentsInChildren<Behaviour>(true);be=new bool[bs.Length];for(int i=0;i<bs.Length;i++)be[i]=bs[i]&&bs[i].enabled;
+    rs=g.GetComponentsInChildren<Renderer>(true);re=new bool[rs.Length];blocks=new MaterialPropertyBlock[rs.Length];for(int i=0;i<rs.Length;i++){re[i]=rs[i].enabled;if(rs[i].HasPropertyBlock()){blocks[i]=new MaterialPropertyBlock();rs[i].GetPropertyBlock(blocks[i]);}}
+    var v=g.GetComponent<GuestVisual>();groundY=v?v.groundY:float.NaN;foreach(var a in g.GetComponentsInChildren<Animation>(true))foreach(AnimationState st in a)anim.Add((st,st.enabled,st.time,st.weight,st.speed));}
+   public void Restore(){if(!g)return;var t=g.transform;if(t.parent!=parent)t.SetParent(parent,false);for(int i=0;i<ts.Length;i++)if(ts[i]){ts[i].localPosition=lp[i];ts[i].localRotation=lr[i];ts[i].localScale=ls[i];}
+    for(int i=0;i<bs.Length;i++)if(bs[i])bs[i].enabled=be[i];for(int i=0;i<rs.Length;i++)if(rs[i]){rs[i].enabled=re[i];rs[i].SetPropertyBlock(blocks[i]);}
+    foreach(var x in anim)if(x.s!=null){x.s.enabled=x.e;x.s.time=x.t;x.s.weight=x.w;x.s.speed=x.sp;}var v=g.GetComponent<GuestVisual>();if(v)v.groundY=groundY;g.SetActive(active);}
+   public bool Matches(){if(!g||g.activeSelf!=active||g.transform.parent!=parent)return false;for(int i=0;i<ts.Length;i++)if(ts[i]&&((ts[i].localPosition-lp[i]).sqrMagnitude>1e-8f||Quaternion.Angle(ts[i].localRotation,lr[i])>.01f||(ts[i].localScale-ls[i]).sqrMagnitude>1e-8f))return false;for(int i=0;i<bs.Length;i++)if(bs[i]&&bs[i].enabled!=be[i])return false;for(int i=0;i<rs.Length;i++)if(rs[i]&&rs[i].enabled!=re[i])return false;return true;}
+  }
+  GuestSnapshot roofSnapshot;public bool QaRoofRestored{get;private set;}
+  public string QaGuestSignature(){var g=flat.guest;if(!g)return "none";var sb=new System.Text.StringBuilder();sb.Append(g.activeSelf).Append(g.transform.parent?g.transform.parent.name:"-");foreach(var t in g.GetComponentsInChildren<Transform>(true))sb.Append('|').Append(t.localPosition.ToString("F4")).Append(t.localRotation.ToString("F4")).Append(t.localScale.ToString("F4"));foreach(var r in g.GetComponentsInChildren<Renderer>(true))sb.Append(r.enabled?'1':'0').Append(r.HasPropertyBlock()?'b':'-');return sb.ToString();}
+  IEnumerator RoofFigure(){
+   while(!roofDone&&prologue&&player.transform.position.z>prologue.entranceInside.position.z+.5f){
+    var at=prologue.roofFigure.position+Vector3.up*1.1f;var d=(at-player.head.position).normalized;
+    // pc29b: «looks up at the roof» = the roof edge is clearly above him (≥17°) and he looks right at it — from the garages too
+    if(d.y>.3f&&Vector3.Dot(player.head.forward,d)>.95f){
+     roofDone=true;var g=flat.guest;var gt=g.transform;roofSnapshot=new GuestSnapshot(g);QaRoofRestored=false;var pose=g.GetComponent<ProxyPose>();g.SetActive(true);if(pose)pose.Stand();var roofScale=gt.localScale;
+     var face=player.transform.position-prologue.roofFigure.position;face.y=0;gt.SetPositionAndRotation(prologue.roofFigure.position,Quaternion.LookRotation(face));
+     var rs=g.GetComponentsInChildren<Renderer>();var b=rs.Length>0?rs[0].bounds:new Bounds(gt.position,Vector3.one);foreach(var r in rs)b.Encapsulate(r.bounds);if(b.size.y>.1f)gt.localScale=roofScale*(2.3f/b.size.y);
+     var black=new MaterialPropertyBlock();black.SetColor("_BaseColor",new Color(.015f,.015f,.018f,1));black.SetFloat("_Smoothness",0);foreach(var r in rs)r.SetPropertyBlock(black);
+     roofShown=true;PBeat("roof");yield return new WaitForSeconds(1.5f);EndRoof();yield break;}
+    yield return null;}}
+  void EndRoof(){if(!roofShown)return;roofShown=false;if(roofSnapshot!=null){roofSnapshot.Restore();QaRoofRestored=roofSnapshot.Matches();}roofSnapshot=null;}
+  IEnumerator Tv56(){PBeat("tv56");var at=prologue.door56.position+Vector3.up*1.2f;sound.Play("tv_on",at);Say("За дверью 56 — телевизор","…в квартире никто не проживал, однако на столе…",2.8f);yield return new WaitForSeconds(2.4f);
+   if(!sound.Has("tv_laughter"))sound.Register("tv_laughter",Resources.Load<AudioClip>(LaughterResource),-14,10,1);if(sound.Has("tv_laughter"))sound.Play("tv_laughter",at);loop.Thought("(смех зрителей — переключили)",2);}
+  IEnumerator ReadNotice(){PBeat("notice");yield return Read("Объявление",new List<PageViewer.Page>{new PageViewer.Page{resource=NoticeResource,caption="",draw=DrawNotice}});}
+  void DrawNotice(Rect a){
+   var big=new GUIStyle(GUI.skin.label){fontSize=Mathf.RoundToInt(a.height*.075f),fontStyle=FontStyle.Bold,alignment=TextAnchor.UpperCenter};var txt=new GUIStyle(GUI.skin.label){fontSize=Mathf.RoundToInt(a.height*.038f),wordWrap=true,alignment=TextAnchor.UpperCenter};
+   GUI.color=new Color(.12f,.1f,.1f);GUI.Label(new Rect(a.x,a.y+a.height*.04f,a.width,a.height*.12f),"ПРОПАЛ ЧЕЛОВЕК",big);
+   GUI.color=new Color(.97f,.97f,.95f);GUI.DrawTexture(new Rect(a.center.x-a.height*.16f,a.y+a.height*.2f,a.height*.32f,a.height*.4f),Texture2D.whiteTexture); // the photo, over-exposed white
+   GUI.color=new Color(.15f,.13f,.11f);GUI.Label(new Rect(a.x+a.width*.15f,a.y+a.height*.64f,a.width*.7f,a.height*.32f),"Ушёл из дома 2 ноября. Приметы: …соседи не могут вспомнить, как он выглядел.\nЗвонить 2-14-07",txt);}
   IEnumerator Prologue(){
+   prologue=FindFirstObjectByType<PrologueSet>(FindObjectsInactive.Include);if(!prologue){yield return PrologueCards();yield break;}
+   chapter=Chapter.Evening;loop.Pause(false);fade=1;Homely(true);QaPrologueBeats.Clear();roofDone=false;
+   flat.stool.SetActive(true);flat.stool.transform.SetPositionAndRotation(new Vector3(7.15f,0,1.2f),Quaternion.identity);
+   flat.entrance.open=false;flat.entrance.locked=true;var outer=OuterDoor();if(outer){outer.open=false;outer.locked=true;}Clock(19,10);flat.clock.stopped=true;
+   sound.Register("dog_bark",Resources.Load<AudioClip>(BarkResource),-8,16,2);var notice=Resources.Load<Texture2D>(NoticeResource);if(notice&&prologue.noticeRenderer)prologue.noticeRenderer.material.SetTexture("_BaseMap",notice);
+   // 3.1 black: the VHS time code bottom left, tape hiss, a dog far away
+   PBeat("black");prologue.On(true);player.Place(prologue.start.position,prologue.start.eulerAngles.y);player.control=false;vhsTitle="15 ноября 1996. 19:10";sound.Play("radio_hiss",player.head.position);if(sound.Has("dog_bark"))sound.Play("dog_bark",prologue.start.position+new Vector3(-30,0,10));
+   yield return new WaitForSeconds(3);vhsTitle=null;
+   // 3.2 the yard by the garages, 40 m to the entrance: fog, wet snow, sodium lamps; wind, the far heating plant, a swing
+   PBeat("yard");Snow(true);Breath(true);sound.Bed("wind",prologue.yardSnow.position,true);sound.Bed("plant_hum",prologue.start.position,true);sound.Every("creak",prologue.swing.position,4,9,true);
+   yield return Fade(0,1.2f);player.control=true;Task("Подняться к бабушке, 5 этаж");StartCoroutine(RoofFigure());
+   // 3.4 the iron entrance door on its spring
+   var door=prologue.entranceDoor;yield return Use(()=>door.transform.position+Vector3.up*.1f,"Открыть дверь подъезда",0,2.2f);
+   PBeat("entrance");door.open=true;sound.Play("door_open",door.transform.position);
+   while(player.transform.position.z>prologue.entranceInside.position.z+.25f)yield return null;
+   yield return new WaitForSeconds(.35f);door.open=false;sound.Play("door_close",door.transform.position);PBeat("slam");
+   Snow(false);sound.Bed("wind",prologue.yardSnow.position,false);sound.Every("creak",Vector3.zero,0,0,false);sound.Bed("lamp_hum",prologue.lobby.position+Vector3.up*2.2f,true);
+   // 3.5 the lobby notice (optional) · 3.6 the stairs · 3.7 the fifth floor
+   var read=Offer(()=>prologue.notice.position,"Прочитать объявление",0,1.6f,Key.E,()=>!leisure,()=>StartCoroutine(ReadNotice()));
+   bool tv=false,fifth=false;float bark=-9;
+   while(player.transform.position.y<-.5f||Vector3.Distance(player.transform.position,prologue.landing5.position)>1.3f){
+    var p=player.transform.position;if(p.y>-10.5f)sound.Bed("lamp_hum",Vector3.zero,false);
+    if(!tv&&Mathf.Abs(p.y-prologue.door56.position.y)<1.2f&&Vector3.Distance(new Vector3(p.x,0,p.z),new Vector3(prologue.door56.position.x,0,prologue.door56.position.z))<2.4f){tv=true;StartCoroutine(Tv56());}
+    if(Mathf.Abs(p.y-prologue.door59.position.y)<1.2f){if(!fifth){fifth=true;PBeat("fifth");}if(Vector3.Distance(p,prologue.door59.position)<3.2f&&Time.time-bark>1.6f&&sound.Has("dog_bark")){bark=Time.time;sound.Play("dog_bark",prologue.door59.position+Vector3.up);}}
+    yield return null;}
+   Withdraw(read);if(!fifth)PBeat("fifth");PBeat("landing5");Task("Позвонить в квартиру 60");
+   // 3.8 the ring at 60 (the tambour's outer door is flat 60's own): steps, two locks, the chain; she opens both doors
+   yield return Use(()=>(outer?outer.transform.position:flat.entrance.transform.position)+Vector3.up*.3f,"Позвонить",0,1.8f);PBeat("ring");
+   var at=outer?outer.transform.position:flat.entrance.transform.position;sound.Play("doorbell",at);yield return new WaitForSeconds(.45f);sound.Play("doorbell",at);yield return new WaitForSeconds(1.4f);
+   sound.Play("step",flat.entrance.transform.position);yield return new WaitForSeconds(.5f);sound.Play("step",flat.entrance.transform.position);yield return new WaitForSeconds(.4f);
+   sound.Play("latch",at);yield return new WaitForSeconds(.45f);sound.Play("latch",at);yield return new WaitForSeconds(.4f);sound.Play("latch",at);yield return new WaitForSeconds(.4f);
+   HouseSound(true,false);GranShow("Door",0);flat.entrance.locked=false;flat.entrance.open=true;if(outer){outer.locked=false;outer.open=true;}sound.Play("door_open",at);PBeat("open");
+   // 3.9
+   yield return Line("Бабушка","Мишаня! Приехал! Замёрз весь — ну-ка, заходи, разувайся. Мать звонила, сказала — с сумкой, тяжёлой небось");
+   StartCoroutine(GranGo("Kitchen"));Task("Войти");
+   while(player.transform.position.z>5.85f)yield return null;
+   PBeat("inside");if(outer){outer.open=false;outer.locked=true;}flat.entrance.open=false;sound.Play("door_close",flat.entrance.transform.position);yield return new WaitForSeconds(.6f);flat.entrance.locked=true;EndPrologue();
+   yield return Evening(true);
+  }
+  // 4.9: Valya on the landing in her dressing gown with Tuzik barking at her feet — when their models are supplied.
+  GameObject valya,tuzik;Coroutine barking;public bool QaNeighbours=>valya||tuzik;
+  public void QaValyaAtTheDoor(bool second=false){StopAll();running=StartCoroutine(QaValyaRun(second));}
+  IEnumerator QaValyaRun(bool second){chapter=Chapter.Evening;loop.Pause(false);Homely(true);PropsAfterEvening();GranShow(second?"Door":"Armchair",second?180:0);yield return ValyaAtTheDoor(second);PBeat(second?"valya2-done":"valya-done");}
+  bool neighboursOn; // pc29b: while Valya is at the door the tambour's outer door stands open; any cut-off shuts it again
+  void Neighbours(bool on){
+   if(!on){if(neighboursOn){neighboursOn=false;var outer=OuterDoor();if(outer){outer.open=false;outer.locked=true;}}if(barking!=null)StopCoroutine(barking);barking=null;if(valya)Destroy(valya);if(tuzik)Destroy(tuzik);valya=tuzik=null;var ps=prologue?prologue:FindFirstObjectByType<PrologueSet>(FindObjectsInactive.Include);if(ps&&!ps.IsOn&&ps.stairLights.Length>0&&ps.stairLights[0])ps.stairLights[0].intensity=0;return;}
+   neighboursOn=true;var set=prologue?prologue:FindFirstObjectByType<PrologueSet>(FindObjectsInactive.Include);if(set&&set.stairLights.Length>0&&set.stairLights[0])set.stairLights[0].intensity=set.stairIntensity[0]; // the fifth-floor bulb, so she is seen
+   var v=Resources.Load<GameObject>(ValyaResource);if(v)valya=Instantiate(v,new Vector3(8.05f,0,7.8f),Quaternion.Euler(0,180,0));
+   var d=Resources.Load<GameObject>(TuzikResource);if(d)tuzik=Instantiate(d,new Vector3(7.62f,0,7.55f),Quaternion.Euler(0,165,0));
+   if(!sound.Has("dog_bark"))sound.Register("dog_bark",Resources.Load<AudioClip>(BarkResource),-8,16,2);if(sound.Has("dog_bark"))barking=StartCoroutine(Bark());}
+  IEnumerator Bark(){var at=tuzik?tuzik.transform.position:new Vector3(7.62f,.3f,7.55f);while(true){sound.Play("dog_bark",at);yield return new WaitForSeconds(UnityEngine.Random.Range(1.4f,2.8f));}}
+
+  // the earlier short prologue (two cards at door 60), kept for a scene without the PrologueSet
+  IEnumerator PrologueCards(){
    chapter=Chapter.Evening;loop.Pause(false);fade=1;Homely(true);
    flat.stool.SetActive(true);flat.stool.transform.SetPositionAndRotation(new Vector3(7.15f,0,1.2f),Quaternion.identity);
    flat.entrance.open=false;flat.entrance.locked=true;player.Place(Nodes["Landing"],180);player.control=false;Clock(19,10);flat.clock.stopped=true;if(scenes.landingLight){scenes.landingLight.color=new Color(1,.9f,.74f);scenes.landingLight.intensity=.7f;}
@@ -375,8 +492,10 @@ namespace Ataka.Scenario {
    if(!second){Clock(21,40);sound.Play("knock",flat.entrance.transform.position);yield return new WaitForSeconds(.25f);sound.Play("knock",flat.entrance.transform.position);yield return new WaitForSeconds(.25f);sound.Play("knock",flat.entrance.transform.position);
     yield return Line("Голос Вали за дверью","Нинок! Нинок, открой!");
     yield return GranGo("Door");GranShow("Door",0);flat.entrance.locked=false;flat.entrance.open=true;sound.Play("door_open",flat.entrance.transform.position);
+    {var outer=OuterDoor();if(outer){outer.locked=false;outer.open=true;}}Neighbours(true); // 4.9: Valya with Tuzik on the landing (models when supplied)
     yield return Line("Тётя Валя (на площадке)","Нинок, Коле плохо, давление, я одна боюсь — посиди со мной, а?",5);}
-   else{GranShow("Door",180);flat.entrance.locked=false;flat.entrance.open=true;player.crouched=false;player.Place(new Vector3(7.95f,.02f,3.85f),0);}
+   else{GranShow("Door",180);flat.entrance.locked=false;flat.entrance.open=true;player.crouched=false;player.Place(new Vector3(7.95f,.02f,3.85f),0);
+    {var outer=OuterDoor();if(outer){outer.locked=false;outer.open=true;}}Neighbours(true);} // 8.1: «ровно тот же момент, что в 4.9» — Valya with Tuzik on the landing, both doors open
    yield return GranFace(player.head.position);
    yield return Line("Бабушка","Мишаня, я у Вали, на полчасика. Никому не открывай. Я своим ключом. А если стучать буду — свои стучат вот так, слушай…",7);
    sound.Play("knock",flat.entrance.transform.position);yield return new WaitForSeconds(.22f);sound.Play("knock",flat.entrance.transform.position);yield return new WaitForSeconds(.7f);sound.Play("knock",flat.entrance.transform.position);
@@ -388,7 +507,7 @@ namespace Ataka.Scenario {
     if(choice==1)yield return Line("Бабушка","Да что ты, Мишаня, белый весь… Валя одна, Коле плохо. Полчасика. Закройся",5);
    }else yield return Line("Бабушка","Запомнил? Фонарик в трюмо, если свет выбьет. Всё, закройся");
    Show("Corvalol",false); // 4.9: «берёт «Корвалол»»
-   yield return GranWalk("Landing");flat.grandmother.SetActive(false);
+   yield return GranWalk("Landing");flat.grandmother.SetActive(false);Neighbours(false);{var outer=OuterDoor();if(outer){outer.open=false;outer.locked=true;}}
    flat.entrance.open=false;sound.Play("door_close",flat.entrance.transform.position);
    Task("Закрыть дверь на замок и цепочку");
    yield return Use(flat.entrance.transform.position+Vector3.up*.2f,"Закрыть замок");sound.Play("latch",flat.entrance.transform.position);
@@ -965,6 +1084,7 @@ namespace Ataka.Scenario {
    big??=new GUIStyle(GUI.skin.label){fontSize=28,alignment=TextAnchor.MiddleCenter,wordWrap=true};small??=new GUIStyle(GUI.skin.label){fontSize=22,alignment=TextAnchor.MiddleCenter,wordWrap=true};task??=new GUIStyle(GUI.skin.label){fontSize=18};
    if(fade>0||card!=null){GUI.color=new Color(0,0,0,card!=null?Mathf.Max(fade,.92f):fade);GUI.DrawTexture(new Rect(0,0,Screen.width,Screen.height),Texture2D.whiteTexture);GUI.color=Color.white;}
    if(card!=null)GUI.Label(new Rect(Screen.width*.12f,Screen.height*.2f,Screen.width*.76f,Screen.height*.6f),card,big);
+   if(vhsTitle!=null){var vs=new GUIStyle(GUI.skin.label){fontSize=Mathf.RoundToInt(Screen.height*.04f),fontStyle=FontStyle.Bold};var r=new Rect(Screen.width*.05f,Screen.height*.86f,Screen.width*.6f,Screen.height*.08f);GUI.color=new Color(0,0,0,.6f);GUI.Label(new Rect(r.x+2,r.y+2,r.width,r.height),vhsTitle,vs);GUI.color=new Color(.92f,.95f,.9f);GUI.Label(r,vhsTitle,vs);GUI.color=Color.white;} // 3.1: the VHS time code, bottom left
    if(!string.IsNullOrEmpty(objective)&&card==null&&!player.paused&&!scenes.InDeath&&!(rewind&&rewind.Active))GUI.Label(new Rect(24,20,Screen.width*.5f,30),"Задача: "+objective,task);
    if(choiceA!=null){GUI.Label(new Rect(Screen.width*.2f,Screen.height*.62f,Screen.width*.6f,40),"[1] "+choiceA,small);GUI.Label(new Rect(Screen.width*.2f,Screen.height*.62f+44,Screen.width*.6f,40),"[2] "+choiceB,small);}
   }

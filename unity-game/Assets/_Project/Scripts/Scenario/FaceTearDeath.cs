@@ -83,7 +83,7 @@ namespace Ataka.Scenario {
    var source=clawSource;UsingFallback=!source;if(!source)source=fallback;
    if(!source){Debug.LogError("FaceTearDeath: no claw model and no fallback");return;}
    right=Make(source,false);left=Make(source,true);
-   if(Finale&&standInFace&&standInFaceMaterial){var fg=new GameObject("Misha face (STAND-IN: adult Quaternius face, not 12-year-old)");fg.transform.SetParent(head,false);fg.AddComponent<MeshFilter>().sharedMesh=standInFace;var fr=fg.AddComponent<MeshRenderer>();fr.sharedMaterial=standInFaceMaterial;fr.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;fg.SetActive(false);faceProp=fg.transform;}
+   if(Finale&&standInFace&&standInFaceMaterial){var fg=new GameObject("Misha face (TEMPORARY STAND-IN: adult Quaternius face, not 15-year-old Misha)");fg.transform.SetParent(head,false);fg.AddComponent<MeshFilter>().sharedMesh=standInFace;var fr=fg.AddComponent<MeshRenderer>();fr.sharedMaterial=standInFaceMaterial;fr.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;fg.SetActive(false);faceProp=fg.transform;}
    var lg=new GameObject("Death fill light").transform;lg.SetParent(head,false);lg.localPosition=new Vector3(0,.3f,.05f);fill=lg.gameObject.AddComponent<Light>();
    fill.type=LightType.Point;fill.color=fillColor;fill.intensity=0;fill.range=fillRange;fill.shadows=LightShadows.None;
    if(UsingFallback)Debug.LogWarning("FaceTearDeath: ready claw model not installed — temporary proxy hand (see README)");

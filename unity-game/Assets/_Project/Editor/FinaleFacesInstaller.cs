@@ -10,7 +10,7 @@ namespace Ataka.Editor {
  // 11.10 "Misha's face" STAND-IN, cut from geometry already in the project: the face of Quaternius Universal Base
  // Characters "Superhero_Female_FullBody" (CC0, ScenarioProxies/Quaternius) — its Head-weighted front triangles with
  // its own UV and its own light skin texture; the eye-socket triangles inside the Eyes mesh are removed (eye holes).
- // It is an ADULT face, not a 12-year-old boy: a labelled placeholder for the action, to be replaced.
+ // It is an ADULT face, not Misha's (15, SCENARIO 2; 12 only on the 1993 photo): a labelled TEMPORARY placeholder for the action, to be replaced.
  // Output: Art/Characters/FinaleFaces/StandInFace_QuaterniusAdult.asset (+ .mat), assigned to FaceTearDeath in Flat.unity;
  // QA/FinaleFaces/install.txt. Accepted lights / VHS are checked unchanged.
  public static class FinaleFacesInstaller {
@@ -44,7 +44,7 @@ namespace Ataka.Editor {
     string matPath=Out+"StandInFace.mat";AssetDatabase.DeleteAsset(matPath);AssetDatabase.CreateAsset(mat,matPath);
     var tear=Object.FindFirstObjectByType<FaceTearDeath>(FindObjectsInactive.Include);if(!tear)throw new System.Exception("FaceTearDeath not in Flat.unity");
     tear.standInFace=AssetDatabase.LoadAssetAtPath<Mesh>(meshPath);tear.standInFaceMaterial=AssetDatabase.LoadAssetAtPath<Material>(matPath);EditorUtility.SetDirty(tear);
-    Directory.CreateDirectory("QA/FinaleFaces");File.WriteAllText("QA/FinaleFaces/install.txt","STAND-IN adult face (Quaternius Superhero_Female, CC0): "+keep.Count/3+" triangles, "+nv.Count+" vertices, "+holes+" eye-socket triangles cut, bounds "+mesh.bounds+"\nNOT Misha's own 12-year-old face.\n");
+    Directory.CreateDirectory("QA/FinaleFaces");File.WriteAllText("QA/FinaleFaces/install.txt","STAND-IN adult face (Quaternius Superhero_Female, CC0): "+keep.Count/3+" triangles, "+nv.Count+" vertices, "+holes+" eye-socket triangles cut, bounds "+mesh.bounds+"\nTEMPORARY: NOT Misha's own face (he is 15, SCENARIO 2).\n");
     Object.DestroyImmediate(baked);
    }finally{Object.DestroyImmediate(inst);}
    if(lighting!=string.Join("\n",lights.Select(l=>EditorJsonUtility.ToJson(l)))||vhs!=EditorJsonUtility.ToJson(flat.look.vhs))throw new System.Exception("Accepted lighting/VHS changed");

@@ -1,0 +1,31 @@
+{
+    "passed": false,
+    "installed": true,
+    "failures": 1,
+    "errors": 0,
+    "blinkSpread": 0.4085000157356262,
+    "routeMetres": 75.59142303466797,
+    "stuckLegs": 1,
+    "yardPuffs": 3,
+    "fifthPuffs": 3,
+    "beats": [
+        "black",
+        "yard",
+        "roof",
+        "entrance",
+        "slam",
+        "notice",
+        "tv56",
+        "fifth",
+        "landing5",
+        "ring",
+        "open",
+        "inside"
+    ],
+    "absent": [
+        "notice picture Resources/Prologue/missing_person.png (photo bleached white + the text) — drawn by code until then",
+        "audience laughter Resources/Audio/tv_laughter (the channel switch is a click and a subtitle until then)",
+        "the torn padlock on the attic hatch: no model (the hatch itself is the M1 authored one)",
+        "Valya and Tuzik models Resources/Characters/Valya / Characters/Tuzik (4.9 and 8.1 are voices only until supplied)"
+    ]
+}
