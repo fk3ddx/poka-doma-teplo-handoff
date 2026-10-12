@@ -1,0 +1,25 @@
+{
+  "command": [
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\Builds\\ScenarioCore\\Ataka-Loop.exe",
+    "-screen-fullscreen",
+    "0",
+    "-screen-width",
+    "1280",
+    "-screen-height",
+    "720",
+    "-audio-capture",
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\QA\\story18-death-off-a\\silent-mix.wav",
+    "-logFile",
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\QA\\story18-death-off-a\\player.log",
+    "-death-qa",
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\QA\\story18-death-off-a",
+    "-death-qa-torch",
+    "off"
+  ],
+  "build_label": "story18-build-a",
+  "torch": "off",
+  "utc": "2026-10-12T15:04:25.087435+00:00",
+  "runtime_sha256": "e6cb3a972aed0131b83abfb9433aa0b07299b49a3adf0db21423f3b5d9f5f03f",
+  "scope": "Actual rendered Windows frames of staged full/short deaths in hall and living. Not human art, scare or audio acceptance.",
+  "pid": 6188
+}

@@ -1,0 +1,50 @@
+MODE death close-up QA, torch off, claw source READY GuestClaw source, fingers (0.849, -0.263, -0.459) palm (0.514, 0.206, 0.833) roll 90 euler (0.00, 0.00, 0.00) length 0,46 fill 0,6
+SHOT DeathFull-hall-0.20.png FrameTime 0,20 torch light off guest (7.90, -0.26, 5.03)
+SHOT DeathFull-hall-0.45.png FrameTime 0,46 torch light off guest (7.90, -0.26, 5.03)
+SHOT DeathFull-hall-0.70.png FrameTime 0,70 torch light off guest (7.90, -0.26, 5.03)
+SHOT DeathFull-hall-1.00.png FrameTime 1,00 torch light off guest (7.90, -0.11, 5.03)
+SHOT DeathFull-hall-1.30.png FrameTime 1,31 torch light off guest (7.90, -0.06, 5.03)
+SHOT DeathFull-hall-1.70.png FrameTime 1,70 torch light off guest (7.90, -0.06, 5.03)
+SHOT DeathFull-hall-2.10.png FrameTime 2,12 torch light off guest (7.90, -0.06, 5.03)
+SHOT DeathFull-hall-2.50.png FrameTime 2,51 torch light off guest (7.90, -0.06, 5.03)
+SHOT DeathFull-hall-3.00.png FrameTime 3,00 torch light off guest (7.90, -0.06, 5.03)
+SHOT DeathFull-hall-3.60.png FrameTime 3,60 torch light off guest (7.90, -0.06, 5.03)
+SHOT DeathFull-hall-4.30.png FrameTime 4,31 torch light off guest (7.90, -0.06, 5.03)
+SHOT DeathFull-hall-5.00.png FrameTime 5,01 torch light off guest hidden
+SHOT DeathFull-hall-6.00.png FrameTime 6,01 torch light off guest hidden
+PASS DeathFull at hall: 13/13 marks captured
+SHOT DeathFull-living-0.20.png FrameTime 0,20 torch light off guest (4.38, -0.23, 2.60)
+SHOT DeathFull-living-0.45.png FrameTime 0,46 torch light off guest (4.38, -0.23, 2.60)
+SHOT DeathFull-living-0.70.png FrameTime 0,71 torch light off guest (4.38, -0.23, 2.60)
+SHOT DeathFull-living-1.00.png FrameTime 1,01 torch light off guest (4.38, -0.08, 2.60)
+SHOT DeathFull-living-1.30.png FrameTime 1,30 torch light off guest (4.38, -0.03, 2.60)
+SHOT DeathFull-living-1.70.png FrameTime 1,72 torch light off guest (4.38, -0.03, 2.60)
+SHOT DeathFull-living-2.10.png FrameTime 2,11 torch light off guest (4.38, -0.03, 2.60)
+SHOT DeathFull-living-2.50.png FrameTime 2,51 torch light off guest (4.38, -0.03, 2.60)
+SHOT DeathFull-living-3.00.png FrameTime 3,01 torch light off guest (4.38, -0.03, 2.60)
+SHOT DeathFull-living-3.60.png FrameTime 3,60 torch light off guest (4.38, -0.03, 2.60)
+SHOT DeathFull-living-4.30.png FrameTime 4,32 torch light off guest (4.38, -0.03, 2.60)
+SHOT DeathFull-living-5.00.png FrameTime 5,02 torch light off guest hidden
+SHOT DeathFull-living-6.00.png FrameTime 6,01 torch light off guest hidden
+PASS DeathFull at living: 13/13 marks captured
+SHOT DeathShort-hall-0.20.png FrameTime 0,20 torch light off guest (7.90, -0.26, 5.03)
+SHOT DeathShort-hall-0.45.png FrameTime 0,46 torch light off guest (7.90, -0.26, 5.03)
+SHOT DeathShort-hall-0.70.png FrameTime 0,70 torch light off guest (7.90, -0.26, 5.03)
+SHOT DeathShort-hall-1.00.png FrameTime 1,01 torch light off guest (7.90, -0.26, 5.03)
+SHOT DeathShort-hall-1.30.png FrameTime 1,31 torch light off guest (7.90, -0.26, 5.03)
+SHOT DeathShort-hall-1.70.png FrameTime 1,70 torch light off guest (7.90, -0.26, 5.03)
+SHOT DeathShort-hall-2.10.png FrameTime 2,11 torch light off guest (7.90, -0.26, 5.03)
+SHOT DeathShort-hall-2.60.png FrameTime 2,60 torch light off guest hidden
+SHOT DeathShort-hall-3.20.png FrameTime 3,20 torch light off guest hidden
+PASS DeathShort at hall: 9/9 marks captured
+SHOT DeathShort-living-0.20.png FrameTime 0,20 torch light off guest (4.38, -0.23, 2.60)
+SHOT DeathShort-living-0.45.png FrameTime 0,46 torch light off guest (4.38, -0.23, 2.60)
+SHOT DeathShort-living-0.70.png FrameTime 0,71 torch light off guest (4.38, -0.23, 2.60)
+SHOT DeathShort-living-1.00.png FrameTime 1,00 torch light off guest (4.38, -0.23, 2.60)
+SHOT DeathShort-living-1.30.png FrameTime 1,31 torch light off guest (4.38, -0.23, 2.60)
+SHOT DeathShort-living-1.70.png FrameTime 1,71 torch light off guest (4.38, -0.23, 2.60)
+SHOT DeathShort-living-2.10.png FrameTime 2,10 torch light off guest (4.38, -0.23, 2.60)
+SHOT DeathShort-living-2.60.png FrameTime 2,60 torch light off guest hidden
+SHOT DeathShort-living-3.20.png FrameTime 3,20 torch light off guest hidden
+PASS DeathShort at living: 9/9 marks captured
+PASS no runtime errors (0)
