@@ -23,7 +23,7 @@ namespace Ataka.Scenario {
 
   static int Dominant(BoneWeight w){int b=w.boneIndex0;float m=w.weight0;if(w.weight1>m){m=w.weight1;b=w.boneIndex1;}if(w.weight2>m){m=w.weight2;b=w.boneIndex2;}if(w.weight3>m){b=w.boneIndex3;}return b;}
   static Mesh Build(string name,List<Vector3> v,List<Vector2> uv,List<int>[] subs){var m=new Mesh{name=name};m.SetVertices(v);if(uv.Count==v.Count)m.SetUVs(0,uv);m.subMeshCount=subs.Length;for(int i=0;i<subs.Length;i++)m.SetTriangles(subs[i],i);m.RecalculateNormals();m.RecalculateBounds();return m;}
-  Transform Part(string name,Mesh mesh,Material[] mats){var g=new GameObject(name);g.transform.SetParent(follow,false);g.AddComponent<MeshFilter>().sharedMesh=mesh;var r=g.AddComponent<MeshRenderer>();r.sharedMaterials=mats;r.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;return g.transform;}
+  Transform Part(string name,Mesh mesh,Material[] mats){var g=new GameObject(name);g.transform.SetParent(follow,false);g.AddComponent<MeshFilter>().sharedMesh=mesh;var r=g.AddComponent<MeshRenderer>();g.SetActive(false);r.sharedMaterials=mats;r.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;return g.transform;}
 
   public static FaceShed Create(GranRig rig,GameObject guest){var f=new GameObject("Finale face shed (11.9)").AddComponent<FaceShed>();f.rig=rig;f.Extract(guest);return f;}
   void Extract(GameObject guest){
@@ -51,7 +51,12 @@ namespace Ataka.Scenario {
    for(int i=0;i<skin0.Length;i++)if(new Vector2(skin0[i].x-eyeAt.x,skin0[i].y-eyeAt.y).magnitude<best+h*.12f)eyes.Add(i);eye=eyes.ToArray();
    var side=new List<int>();for(int i=0;i<skin0.Length;i++)if(skin0[i].x<xMin+skinWidth*.18f&&skin0[i].y>skinBottom+h*.45f)side.Add(i);temple=side.ToArray(); // her right temple
    // the Guest's head and jaw, in bind pose, into the same frame, scaled to sit inside her head
-   var gs=guest?guest.GetComponentInChildren<SkinnedMeshRenderer>(true):null;var look=guest?guest.GetComponent<GuestLookAt>():null;
+   var look=guest?guest.GetComponent<GuestLookAt>():null;SkinnedMeshRenderer gs=null;
+   // The actor also retains inactive proxy renderers. Select the mesh bound to the actual Guest head,
+   // never the first child (which can be an unreadable Quaternius Eyebrows mesh).
+   if(guest&&look&&look.headBone)foreach(var candidate in guest.GetComponentsInChildren<SkinnedMeshRenderer>(true))
+    if(candidate.sharedMesh&&System.Array.IndexOf(candidate.bones,look.headBone)>=0){gs=candidate;break;}
+   if(gs&&!gs.sharedMesh.isReadable){Debug.LogError("FaceShed: the actual Guest mesh must be readable: "+gs.sharedMesh.name);return;}
    if(gs&&look&&look.headBone){
     var gm=gs.sharedMesh;var gb=gm.bindposes;var gvs=gm.vertices;var gw=gm.boneWeights;int gh=System.Array.IndexOf(gs.bones,look.headBone);int gj=-1;for(int i=0;i<gs.bones.Length;i++)if(gs.bones[i]&&gs.bones[i].name.Contains("Jaw"))gj=i;
     // Guest rig: the head is joint4 (no weights of its own), the lower jaw is weighted to joint18 under the Jaw bone

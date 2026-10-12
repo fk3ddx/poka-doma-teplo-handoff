@@ -1,0 +1,17 @@
+{
+    "passed": true,
+    "failures": 0,
+    "errors": 0,
+    "skinTris": 50,
+    "scalpTris": 42,
+    "guestTris": 748,
+    "jawTris": 428,
+    "eyeDrop": 0.03500000014901161,
+    "seamGap": 0.014000000432133675,
+    "slide": 1.0,
+    "jawAngle": 38.0,
+    "grownTop": 3.980039119720459,
+    "faceToHerFace": 0.01743760146200657,
+    "standInInstalled": true,
+    "leftovers": false
+}

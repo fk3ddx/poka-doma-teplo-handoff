@@ -889,6 +889,7 @@ namespace Ataka.Scenario {
    var r=Rig();var g=flat.grandmother.transform;var p=player;p.control=false;if(granAnim)granAnim.enabled=false;Beat("transform");
    var from=g.rotation;var face=p.transform.position-g.position;face.y=0;var to=Quaternion.LookRotation(face);
    float h0=Mathf.Max(1,r.Top-g.position.y),grow=2.4f/h0;var baseScale=g.localScale;
+   Debug.Log("FACE_BASE top="+r.Top+" root="+g.position+" scale="+baseScale+" h0="+h0+" grow="+grow+" idle="+granIdle+" bone="+r.head.position);
    float[] cracks={1f,1.9f,2.5f,3.1f};int c=0;bool seam=false,shriek=false,off=false;
    if(faceShed)faceShed.End();faceShed=FaceShed.Create(r,flat.guest); // pc28: her face skin, the Guest's head and jaw under it
    for(float t=0;t<3.5f;t+=Time.deltaTime){

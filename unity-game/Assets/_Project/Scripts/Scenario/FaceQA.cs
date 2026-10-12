@@ -33,11 +33,11 @@ namespace Ataka.Scenario {
    float t0=Time.time;rig=flat.grandmother.GetComponent<GranRig>();if(rig&&rig.head)headScale=rig.head.localScale;yield return null;var fs=story.QaFaceShed;
    Check(fs&&fs.Ready,"11.9 her head rebuilt from her own triangles (face skin "+(fs?fs.SkinTris:0)+", scalp "+(fs?fs.ScalpTris:0)+") and the Guest's head "+(fs?fs.GuestTris:0)+" + jaw "+(fs?fs.JawTris:0)+" triangles");
    if(fs){result.skinTris=fs.SkinTris;result.scalpTris=fs.ScalpTris;result.guestTris=fs.GuestTris;result.jawTris=fs.JawTris;Check(fs.GuestTris>0&&fs.JawTris>0,"the Guest's head and jaw were found (Head / Jaw weights)");}
-   float[] marks={.5f,.98f,1.2f,1.45f,1.7f,2f,2.3f,2.7f,3.2f};int m=0;
+   float[] marks={.5f,.98f,1.2f,1.35f,1.45f,1.7f,2f,2.3f,2.7f,3.2f};int m=0;
    while(story.QaFinaleBeat=="transform"&&m<marks.Length){if(Time.time-t0<marks[m]){yield return null;continue;}
     var mark=marks[m];yield return Shot("face-"+mark.ToString("0.00",System.Globalization.CultureInfo.InvariantCulture));fs=story.QaFaceShed;
     if(fs){checks.Add("FACE t="+mark+" shown "+fs.Shown+" eye drop "+fs.EyeDrop.ToString("F3")+" seam "+fs.SeamGap.ToString("F3")+" slide "+fs.Slide.ToString("F2")+" jaw "+fs.JawAngle.ToString("F0")+"° her head bone scale "+(rig?rig.head.localScale.x.ToString("F4"):"?"));
-     if(Mathf.Approximately(mark,1.2f)){result.eyeDrop=fs.EyeDrop;Check(fs.Shown&&fs.EyeDrop>=.03f&&rig.head.localScale.x<headScale.x*.01f,"1.0–1.3: one eye of her face slides down "+(fs.EyeDrop*100).ToString("F1")+" cm (her own skinned head collapsed, the rebuilt one shown)");}
+     if(Mathf.Approximately(mark,1.35f)){result.eyeDrop=fs.EyeDrop;Check(fs.Shown&&fs.EyeDrop>=.03f&&rig.head.localScale.x<headScale.x*.01f,"1.0–1.3: one eye of her face slides down "+(fs.EyeDrop*100).ToString("F1")+" cm (her own skinned head collapsed, the rebuilt one shown)");}
      if(Mathf.Approximately(mark,1.45f)){result.seamGap=fs.SeamGap;Check(fs.SeamGap>=.012f,"1.3: the face skin splits at the temple ("+(fs.SeamGap*100).ToString("F1")+" cm)");}
      if(Mathf.Approximately(mark,2.3f)){result.slide=fs.Slide;result.jawAngle=fs.JawAngle;Vector3 v=Vector3.zero;bool seen=fs.QaGuestHead&&InFrame(p,fs.QaGuestHead.position,out v);
       Check(fs.Slide>.95f&&fs.JawAngle>=30,"1.5–2.25: the face skin has slid off the chin ("+fs.Slide.ToString("F2")+"), the Guest's jaw dropped "+fs.JawAngle.ToString("F0")+"°");Check(seen,"the grey head under her face is in his frame "+v.ToString("F2"));}

@@ -1,0 +1,21 @@
+PASS stand-in face installed on FaceTearDeath (Ataka.Editor.FinaleFacesInstaller.Install)
+ABSENT Misha's own (12-year-old) face — the 11.10 face is an ADULT Quaternius face, a labelled stand-in
+ABSENT voices — her whisper and his cry are sounds/subtitles only
+ERROR Not allowed to access vertices on mesh 'Eyebrows' (isReadable is false; Read/Write must be enabled in import settings)
+ERROR IndexOutOfRangeException: Index was outside the bounds of the array.
+FAIL 11.9 her head rebuilt from her own triangles (face skin 0, scalp 0) and the Guest's head 0 + jaw 0 triangles
+SHOT face-0.50.png
+SHOT face-0.98.png
+SHOT face-1.20.png
+SHOT face-1.35.png
+SHOT face-1.45.png
+SHOT face-1.70.png
+SHOT face-2.00.png
+SHOT face-2.30.png
+SHOT face-2.70.png
+SHOT face-3.20.png
+TOP rendered head top after 11.9: 0,00 m (FinaleQA judges 2.25–2.52)
+FAIL 11.10 3.2 beat: the stand-in face hangs in her claw, in his frame
+FAIL 11.10: then it is pulled over her face (≤ 6 cm from her face point, 0,000 m)
+FAIL nothing left behind: no face skin / Guest head pieces, her skinned head restored
+FAIL no runtime errors (2)

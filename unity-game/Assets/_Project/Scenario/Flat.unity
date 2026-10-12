@@ -84723,6 +84723,8 @@ MonoBehaviour:
   fillRange: 1.6
   fillColor: {r: 0.75, g: 0.8, b: 0.92, a: 1}
   skinTint: {r: 0.55, g: 0.52, b: 0.4, a: 1}
+  standInFace: {fileID: 4300000, guid: e6dfb7175024b0940a0b5f432933d947, type: 2}
+  standInFaceMaterial: {fileID: 2100000, guid: 996fbe0dd1d1d664d98285d3276e6c79, type: 2}
 --- !u!1001 &2041102720
 PrefabInstance:
   m_ObjectHideFlags: 0

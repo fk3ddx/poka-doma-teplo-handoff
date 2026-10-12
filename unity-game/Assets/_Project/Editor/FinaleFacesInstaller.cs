@@ -17,6 +17,7 @@ namespace Ataka.Editor {
   const string Q="Assets/_Project/Art/ScenarioProxies/Quaternius/",Out="Assets/_Project/Art/Characters/FinaleFaces/";
   static int Dominant(BoneWeight w){int b=w.boneIndex0;float m=w.weight0;if(w.weight1>m){m=w.weight1;b=w.boneIndex1;}if(w.weight2>m){m=w.weight2;b=w.boneIndex2;}if(w.weight3>m){b=w.boneIndex3;}return b;}
   [MenuItem("Ataka/Finale/Install stand-in face (Quaternius adult)")]
+  public static void InstallAndBuild(){Install();ScenarioBuilder.Build();}
   public static void Install(){
    Directory.CreateDirectory(Out);AssetDatabase.Refresh();
    var scene=EditorSceneManager.OpenScene("Assets/_Project/Scenario/Flat.unity");var flat=Object.FindFirstObjectByType<FlatBindings>();

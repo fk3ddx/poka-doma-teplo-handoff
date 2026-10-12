@@ -55,8 +55,8 @@ namespace Ataka.Scenario {
    // story25-f: tips ended 0.5 m above her head; story26-key-b: then the palm sat INSIDE her head (keys are in the
    // camera's space, pitched 22° up: her head bone ≈ (0, .05, .69), the face surface ≈ z .59). Now the hand is in
    // front of the face: palm ≈ (.03, .05, .44), back of the hand to the camera, claw tips on her brow at z ≈ .52.
-   new Key(3f,new Vector3(.3f,-.95f,.3f),new Vector3(-.2f,.95f,.25f),new Vector3(0f,-.1f,1f)),
-   new Key(3.5f,new Vector3(.12f,-.5f,.32f),new Vector3(-.08f,.95f,.28f),new Vector3(0f,-.2f,1f)),
+   new Key(3f,new Vector3(.3f,-.45f,.3f),new Vector3(-.2f,.95f,.25f),new Vector3(0f,-.1f,1f)),
+   new Key(3.5f,new Vector3(.12f,-.35f,.32f),new Vector3(-.08f,.95f,.28f),new Vector3(0f,-.2f,1f)),
    new Key(4.2f,new Vector3(.03f,-.26f,.34f),new Vector3(-.03f,.95f,.3f),new Vector3(0f,-.3f,.95f)),
    new Key(9f,new Vector3(.03f,-.26f,.34f),new Vector3(-.03f,.95f,.3f),new Vector3(0f,-.3f,.95f))};
   static float FinaleTime(float t)=>t<1.5f?FullTime(t,false):t<2f?Mathf.Lerp(2f,2.6f,(t-1.5f)/.5f):t<2.9f?Mathf.Lerp(3f,4.2f,(t-2f)/.9f):4.2f+(t-2.9f);
