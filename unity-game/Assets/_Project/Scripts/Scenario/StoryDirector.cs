@@ -37,7 +37,7 @@ namespace Ataka.Scenario {
     else{held=down?held+Time.deltaTime:0;text="["+key+" удерживать] "+aimed.label+(held>0?"  "+Mathf.RoundToInt(100*Mathf.Clamp01(held/aimed.hold))+"%":"");if(held>=aimed.hold){held=0;Fire(aimed);}}
    }else held=0;
    // Two prompts on one door (peephole / open) are shown together.
-   foreach(var a in acts)if(a!=aimed&&!a.fired&&(a.when==null||a.when())&&aimed!=null&&(a.at()-aimed.at()).sqrMagnitude<.05f){var k=Keyboard.current;text+="   ["+a.key+"] "+a.label;if(k!=null&&k[a.key].wasPressedThisFrame)Fire(a);}
+   foreach(var a in acts.ToArray())if(a!=aimed&&!a.fired&&(a.when==null||a.when())&&aimed!=null&&(a.at()-aimed.at()).sqrMagnitude<.05f){var k=Keyboard.current;text+="   ["+a.key+"] "+a.label;if(k!=null&&k[a.key].wasPressedThisFrame)Fire(a);}
    loop.prompt.text=text;
   }
   void Fire(Act a){a.fired=true;acts.Remove(a);a.done?.Invoke();}
@@ -464,7 +464,7 @@ namespace Ataka.Scenario {
    yield return Card("АТАКА НА ЗАПОМИНАНИЕ\n«Пока дома тепло»\n\nСценарий и игра: Дима, Claude, Codex\nГостья, мебель и звуки — авторы CC0 / CC-BY, см. CREDITS.md",6);
    yield return Card("Фотоальбом. Последний разворот: лето 1993, у подъезда.\nВаля с Тузиком улыбаются рядом с пустотой.\nТеперь засвеченных пятен три: старое, на месте бабушки — и на месте Миши в центре.",7);
    sound.ResetWorld();yield return new WaitForSeconds(1.5f);
-   if(System.IO.File.Exists(savePath))System.IO.File.Delete(savePath);
+   if(!loop.testing&&System.IO.File.Exists(savePath))System.IO.File.Delete(savePath);
    loop.EndStory();
   }
 
