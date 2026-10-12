@@ -71,9 +71,10 @@ namespace Ataka.Scenario {
      if(!fingerShot&&Time.time-fingersAt>=1f){fingerShot=true;bool vis=InFrame(p,rig.Tip(true),out var v);Check(vis&&rig.Tip(true).z<6.0f,"11.6б the stretching hand is inside the gap and in his view: tip "+rig.Tip(true).ToString("F2")+", viewport "+v.ToString("F2"));yield return Shot("fingers-1.0");}}
     if(transformAt>0&&last=="transform"&&tm<transformMarks.Length&&Time.time-transformAt>=transformMarks[tm]){
      if(transformMarks[tm]>=1.2f){var toP=p.transform.position-gr.position;toP.y=0;if(transformMarks[tm]==1.2f)Check(Vector3.Dot(gr.forward,toP.normalized)>.8f,"11.9: she has turned to him by 1.0 s (dot "+Vector3.Dot(gr.forward,toP.normalized).ToString("F2")+")");}
+     yield return Shot("transform-"+transformMarks[tm].ToString("0.0",System.Globalization.CultureInfo.InvariantCulture));
      bool head=InFrame(p,rig.head.position,out var hv);checks.Add("TRANSFORM t="+transformMarks[tm]+" top "+rig.Top.ToString("F2")+" scale "+gr.localScale.y.ToString("F2")+" forearm "+rig.forearmScale.ToString("F2")+" hand "+rig.handScale.ToString("F2")+" bow "+rig.headBow.ToString("F0")+" head in frame "+head+" "+hv.ToString("F2"));
      if(transformMarks[tm]==3.4f)Check(head&&rig.handScale>2f&&rig.forearmScale>1.4f,"11.9 at 3.4 s: her head in his frame, forearms ×"+rig.forearmScale.ToString("F2")+", hands ×"+rig.handScale.ToString("F2"));
-     yield return Shot("transform-"+transformMarks[tm].ToString("0.0",System.Globalization.CultureInfo.InvariantCulture));tm++;continue;}
+     tm++;continue;}
     if(scenes.PlayingScene=="DeathFinale"&&dm<tearMarks.Length&&scenes.FrameTime>=tearMarks[dm]){
      float ft=scenes.FrameTime;string extra="";
      if(ft<=1.35f&&flat.guest.activeSelf){var look=flat.guest.GetComponent<GuestLookAt>();if(look&&look.headBone){bool c=InFrame(p,look.headBone.position,out var hv);Check(c,"11.10 at "+ft.ToString("F2")+": Guest head in the central frame "+hv.ToString("F2"));}}

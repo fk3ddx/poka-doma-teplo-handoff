@@ -720,9 +720,9 @@ namespace Ataka.Scenario {
     if(!shriek&&t>=1.5f){shriek=true;sound.Play("shriek",g.position);}
     if(!off&&t>=2.1f){off=true;GasOff(false);sound.Bed("radio",RadioAt,false);sound.Bed("fridge",FridgeAt,false);if(flameLight)Destroy(flameLight.gameObject);}
     if(c<cracks.Length&&t>=cracks[c]){sound.Play("finger_crack",g.position+Vector3.up*1.4f);c++;}
-    var look=r.head.position+g.forward*.1f;p.head.rotation=Quaternion.Slerp(p.head.rotation,Quaternion.LookRotation(look-eye),1-Mathf.Exp(-6*Time.deltaTime));
+    var look=r.HeadPosition+g.forward*.1f;p.head.rotation=Quaternion.Slerp(p.head.rotation,Quaternion.LookRotation(look-eye),1-Mathf.Exp(-6*Time.deltaTime));
     yield return null;}
-   QaGrownTop=r.MeasureTop();
+   yield return new WaitForEndOfFrame();QaGrownTop=r.MeasureTop();
   }
   public float QaGrownTop{get;private set;}
   IEnumerator PeepholeGrandmother(){

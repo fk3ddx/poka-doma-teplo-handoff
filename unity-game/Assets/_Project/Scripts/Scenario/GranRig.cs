@@ -48,7 +48,8 @@ namespace Ataka.Scenario {
    block=new MaterialPropertyBlock();Ready=true;
   }
   public float TipLength(bool right)=>(right?handR:handL).TransformVector(right?tipLocalR:tipLocalL).magnitude;
-  Vector3 lastTipL,lastTipR;bool tipSampled;
+  Vector3 lastTipL,lastTipR,lastHead;bool tipSampled;
+  public Vector3 HeadPosition=>tipSampled?transform.TransformPoint(lastHead):head.position;
   Vector3 RawTip(bool right)=>(right?handR:handL).TransformPoint(right?tipLocalR:tipLocalL);
   // Story coroutines run after Update, when last frame's IK has been undone for Animation. Queries must read the
   // last rendered pose, in actor-local coordinates so a walk/turn still moves it correctly this frame.
@@ -82,7 +83,7 @@ namespace Ataka.Scenario {
   void LateUpdate(){
    if(!Ready)return;
    if(Active){for(int i=0;i<posed.Length;i++)pose[i]=posed[i].localRotation;Apply();appliedLast=true;}
-   lastTipL=transform.InverseTransformPoint(RawTip(false));lastTipR=transform.InverseTransformPoint(RawTip(true));tipSampled=true;
+   lastTipL=transform.InverseTransformPoint(RawTip(false));lastTipR=transform.InverseTransformPoint(RawTip(true));lastHead=transform.InverseTransformPoint(head.position);tipSampled=true;
    if(tint!=Color.white){skin.GetPropertyBlock(block);var c=baseColor*tint;c.a=baseColor.a;block.SetColor("_BaseColor",c);block.SetColor("_Color",c);skin.SetPropertyBlock(block);tinted=true;}
    else if(tinted){skin.SetPropertyBlock(null);tinted=false;}
   }
