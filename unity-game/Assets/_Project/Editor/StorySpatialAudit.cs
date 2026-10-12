@@ -20,7 +20,7 @@ namespace Ataka.Editor {
    if(i<0||i+1>=args.Length)throw new Exception("A log folder is required");
    var folder=Path.GetDirectoryName(args[i+1]);
    var nodes=(Dictionary<string,Vector3>)typeof(StoryDirector).GetField("Nodes",BindingFlags.NonPublic|BindingFlags.Static).GetValue(null);
-   var edges=(string[][])typeof(StoryDirector).GetField("Edges",BindingFlags.NonPublic|BindingFlags.Static).GetValue(null);
+   var edges=(string[][])typeof(StoryDirector).GetField("StoryWalks",BindingFlags.NonPublic|BindingFlags.Static).GetValue(null);
    var doors=Object.FindObjectsByType<ScenarioDoor>(FindObjectsInactive.Exclude,FindObjectsSortMode.None).Where(d=>d.leaf).ToArray();
    var rotations=doors.Select(d=>d.leaf.localRotation).ToArray();
    try{for(int pose=0;pose<2;pose++){
