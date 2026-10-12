@@ -809,7 +809,7 @@ namespace Ataka.Scenario {
     r.tint=Color.Lerp(Color.white,new Color(.6f,.62f,.58f),Mathf.SmoothStep(0,1,Mathf.Clamp01((t-1.5f)/.9f)));
     float u=Mathf.SmoothStep(0,1,Mathf.Clamp01((t-1.6f)/1.9f));r.straighten=u;g.localScale=baseScale*Mathf.Lerp(1,grow,u);r.forearmScale=Mathf.Lerp(1,1.55f,u);r.handScale=Mathf.Lerp(1,2.2f,u);
     r.headBow=12*Mathf.SmoothStep(0,1,Mathf.Clamp01((t-1.5f)/.6f))+35*Mathf.Clamp01((r.Top-2.3f)/.15f);
-    var eye=p.head.position;var pr=p.transform.right;r.Reach(false,eye+pr*.45f+Vector3.down*.2f,u);r.Reach(true,eye-pr*.45f+Vector3.down*.2f,u);
+    var eye=p.head.position;var pr=p.transform.right;var reachAt=eye+p.head.forward*.55f+Vector3.down*.35f;r.Reach(false,reachAt+pr*.32f,u);r.Reach(true,reachAt-pr*.32f,u);
     if(!shriek&&t>=1.5f){shriek=true;sound.Play("shriek",g.position);}
     if(!off&&t>=2.1f){off=true;GasOff(false);sound.Bed("radio",RadioAt,false);sound.Bed("fridge",FridgeAt,false);if(flameLight)Destroy(flameLight.gameObject);}
     if(c<cracks.Length&&t>=cracks[c]){sound.Play("finger_crack",g.position+Vector3.up*1.4f);c++;}

@@ -101,7 +101,8 @@ namespace Ataka.Scenario {
     var an=Feed(tv,"announcer-night"+night,out var am,out var al,out var asat);if(night==1)result.announcer=an;else result.announcer2=an;
     Check(tv.show==ScenarioTelevision.Show.Announcer&&am.b>am.r+.2f&&al>.7f,"night "+night+" announcer: blue screen with his words on it ("+an+", caption «"+tv.caption+"»)");
     if(night==2){float until=Time.time+20;while(Time.time<until&&tv.caption!="Ты же помнишь, Миша?")yield return null;Check(tv.caption=="Ты же помнишь, Миша?","night 2 adds «Ты же помнишь, Миша?» on the screen");yield return new WaitForSeconds(.6f);yield return Shot("2200-night2-remember");}
-    {float until=Time.time+12;while(Time.time<until&&tv.storyOn)yield return null;}
+    // Four 3.2 s lines plus the held final frame exceed a 12 s wait from the first announcer shot.
+    {float until=Time.time+30;while(Time.time<until&&tv.storyOn)yield return null;}yield return new WaitForEndOfFrame();
     Check(!tv.storyOn&&tv.show==ScenarioTelevision.Show.None&&!tv.QaFeedOn,"night "+night+" the screen goes out and the feed camera is handed back");}
    sound.CueStarted-=cue;
    Check(errors==0,"no runtime errors ("+errors+")");
