@@ -1,0 +1,89 @@
+{
+  "scope": "Screen-space display-referred RGB measurement, no exposure adjustment. Same camera frames. Narrow mirror and adjacent wall ROIs; not proof of artistic quality or physical reflectance.",
+  "measurements": {
+    "Hall09": {
+      "lap1": {
+        "mirror": {
+          "rectangle_xyxy": [
+            700,
+            230,
+            760,
+            390
+          ],
+          "mean_srgb_luma_0_255": 52.353
+        },
+        "adjacent_wall": {
+          "rectangle_xyxy": [
+            855,
+            230,
+            900,
+            390
+          ],
+          "mean_srgb_luma_0_255": 9.667
+        }
+      },
+      "warm-return": {
+        "mirror": {
+          "rectangle_xyxy": [
+            700,
+            230,
+            760,
+            390
+          ],
+          "mean_srgb_luma_0_255": 71.044
+        },
+        "adjacent_wall": {
+          "rectangle_xyxy": [
+            855,
+            230,
+            900,
+            390
+          ],
+          "mean_srgb_luma_0_255": 101.615
+        }
+      }
+    },
+    "Hall10": {
+      "lap1": {
+        "mirror": {
+          "rectangle_xyxy": [
+            700,
+            230,
+            760,
+            390
+          ],
+          "mean_srgb_luma_0_255": 6.086
+        },
+        "adjacent_wall": {
+          "rectangle_xyxy": [
+            855,
+            230,
+            900,
+            390
+          ],
+          "mean_srgb_luma_0_255": 9.491
+        }
+      },
+      "warm-return": {
+        "mirror": {
+          "rectangle_xyxy": [
+            700,
+            230,
+            760,
+            390
+          ],
+          "mean_srgb_luma_0_255": 46.869
+        },
+        "adjacent_wall": {
+          "rectangle_xyxy": [
+            855,
+            230,
+            900,
+            390
+          ],
+          "mean_srgb_luma_0_255": 101.901
+        }
+      }
+    }
+  }
+}
