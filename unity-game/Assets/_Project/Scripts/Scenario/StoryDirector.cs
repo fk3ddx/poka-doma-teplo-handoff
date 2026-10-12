@@ -21,7 +21,7 @@ namespace Ataka.Scenario {
   [Serializable] class Save {public string chapter;public bool flashlight,belt;}
 
   // ---------- interaction (all story actions go through one aimed-target list) ----------
-  sealed class Act {public Func<Vector3> at;public string label;public float range=1.8f,hold,cos=.86f;public Key key=Key.E;public Func<bool> when;public bool fired;public Action done;}
+  public sealed class Act {public Func<Vector3> at;public string label;public float range=1.8f,hold,cos=.86f;public Key key=Key.E;public Func<bool> when;public bool fired;public Action done;}
   readonly List<Act> acts=new List<Act>();Act aimed;float held;
   Act Offer(Func<Vector3> at,string label,float hold=0,float range=1.8f,Key key=Key.E,Func<bool> when=null,Action done=null){var a=new Act{at=at,label=label,hold=hold,range=range,key=key,when=when,done=done};acts.Add(a);return a;}
   IEnumerator Use(Vector3 point,string label,float hold=0,float range=1.8f){var a=Offer(()=>point,label,hold,range);while(!a.fired)yield return null;}
@@ -41,6 +41,11 @@ namespace Ataka.Scenario {
    loop.prompt.text=text;
   }
   void Fire(Act a){a.fired=true;acts.Remove(a);a.done?.Invoke();}
+  // QA surface for StoryAutopilot (-story-smoke): it may only fire an act after the real aim selection picked it.
+  public List<Act> OpenActs=>acts;public Act Aimed=>aimed;public void QaFire(Act a){if(a==aimed)Fire(a);}
+  public bool Choosing=>choiceA!=null;public void QaChoose(int c){choice=c;}public string CurrentCard=>card;public string Objective=>objective;
+  public void QaBegin(string at){Begin(at);}
+  public bool QaBelt=>beltTied;
 
   // ---------- presentation ----------
   void Say(string who,string line,float seconds=0){loop.Thought(string.IsNullOrEmpty(who)?line:who+": «"+line+"»",seconds>0?seconds:Mathf.Clamp(line.Length*.07f,2.5f,7f));}
