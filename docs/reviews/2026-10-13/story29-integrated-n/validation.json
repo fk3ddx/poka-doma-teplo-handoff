@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "completedLaps": 6,
+  "postFinaleResetLap": 1,
+  "finaleBeats": 23,
+  "epilogue": true,
+  "errors": 0,
+  "scope": "Six laps/chase/live finale in one process; staged starting EnterLoop and finale camera, accelerated finale waits; not a human whole-game playthrough."
+}

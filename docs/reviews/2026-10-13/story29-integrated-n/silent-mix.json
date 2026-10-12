@@ -1,0 +1,3596 @@
+{
+    "scope": "Unity listener mix, pre-OS output; not microphone or loopback",
+    "error": "",
+    "captureModeMutesOutput": true,
+    "clearedOutputCallbacks": 12561,
+    "sampleRate": 48000,
+    "channels": 2,
+    "droppedSamples": 0,
+    "formatChanges": 0,
+    "peakActiveVoices": 13,
+    "suppressedOverlaps": 1,
+    "samples": 25722880,
+    "markers": [
+        {
+            "state": "pause",
+            "sample": 55296,
+            "seconds": 0.576,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:clock",
+            "sample": 258048,
+            "seconds": 2.688,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "lap-1",
+            "sample": 260096,
+            "seconds": 2.7093333333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 299008,
+            "seconds": 3.1146666666666666,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:door_open",
+            "sample": 364544,
+            "seconds": 3.7973333333333336,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "pause",
+            "sample": 634880,
+            "seconds": 6.613333333333333,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "lap-1",
+            "sample": 694272,
+            "seconds": 7.232,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 937984,
+            "seconds": 9.770666666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 995328,
+            "seconds": 10.368,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 1036288,
+            "seconds": 10.794666666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 1099776,
+            "seconds": 11.456,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:carpet_step",
+            "sample": 1222656,
+            "seconds": 12.736,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:carpet_step",
+            "sample": 1263616,
+            "seconds": 13.162666666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:wardrobe",
+            "sample": 1337344,
+            "seconds": 13.930666666666668,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 1341440,
+            "seconds": 13.973333333333333,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:latch",
+            "sample": 1376256,
+            "seconds": 14.336,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 1419264,
+            "seconds": 14.784,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:door_open",
+            "sample": 1456128,
+            "seconds": 15.168,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 1695744,
+            "seconds": 17.664,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 1734656,
+            "seconds": 18.069333333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:wind",
+            "sample": 1800192,
+            "seconds": 18.752,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "lap-2",
+            "sample": 1800192,
+            "seconds": 18.752,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:door_open",
+            "sample": 1904640,
+            "seconds": 19.84,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 2017280,
+            "seconds": 21.013333333333333,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 2080768,
+            "seconds": 21.674666666666668,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:breath",
+            "sample": 2086912,
+            "seconds": 21.738666666666668,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 2121728,
+            "seconds": 22.101333333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 2187264,
+            "seconds": 22.784,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:carpet_step",
+            "sample": 2312192,
+            "seconds": 24.085333333333336,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:carpet_step",
+            "sample": 2353152,
+            "seconds": 24.512,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:breath",
+            "sample": 2373632,
+            "seconds": 24.72533333333333,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 2433024,
+            "seconds": 25.344,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 2480128,
+            "seconds": 25.834666666666668,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "UnderBed",
+            "sample": 2510848,
+            "seconds": 26.154666666666669,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:shriek",
+            "sample": 2603008,
+            "seconds": 27.11466666666667,
+            "scene": "UnderBed",
+            "timelineSeconds": 1.0043244361877442
+        },
+        {
+            "state": "cue:latch",
+            "sample": 2643968,
+            "seconds": 27.541333333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "lap-2",
+            "sample": 2646016,
+            "seconds": 27.562666666666666,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:door_open",
+            "sample": 2699264,
+            "seconds": 28.117333333333336,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 2938880,
+            "seconds": 30.613333333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "lap-3",
+            "sample": 3041280,
+            "seconds": 31.68,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:door_open",
+            "sample": 3147776,
+            "seconds": 32.78933333333333,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 3260416,
+            "seconds": 33.962666666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 3325952,
+            "seconds": 34.64533333333333,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 3364864,
+            "seconds": 35.050666666666668,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 3432448,
+            "seconds": 35.754666666666668,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "BalconyPalm",
+            "sample": 3473408,
+            "seconds": 36.181333333333338,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:balcony",
+            "sample": 3473408,
+            "seconds": 36.181333333333338,
+            "scene": "BalconyPalm",
+            "timelineSeconds": 0.0
+        },
+        {
+            "state": "cue:latch",
+            "sample": 3594240,
+            "seconds": 37.44,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "lap-3",
+            "sample": 3596288,
+            "seconds": 37.461333333333339,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:carpet_step",
+            "sample": 3678208,
+            "seconds": 38.31466666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:carpet_step",
+            "sample": 3719168,
+            "seconds": 38.74133333333333,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 3799040,
+            "seconds": 39.57333333333333,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 3848192,
+            "seconds": 40.08533333333333,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:door_open",
+            "sample": 3885056,
+            "seconds": 40.46933333333333,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 4124672,
+            "seconds": 42.965333333333337,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 4165632,
+            "seconds": 43.392,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "lap-4",
+            "sample": 4229120,
+            "seconds": 44.053333333333338,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:door_open",
+            "sample": 4337664,
+            "seconds": 45.184,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 4448256,
+            "seconds": 46.336,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 4511744,
+            "seconds": 46.99733333333333,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 4552704,
+            "seconds": 47.424,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 4618240,
+            "seconds": 48.10666666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "Television",
+            "sample": 4945920,
+            "seconds": 51.52,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:latch",
+            "sample": 4945920,
+            "seconds": 51.52,
+            "scene": "Television",
+            "timelineSeconds": 0.0
+        },
+        {
+            "state": "cue:latch",
+            "sample": 4958208,
+            "seconds": 51.648,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "lap-4",
+            "sample": 4960256,
+            "seconds": 51.669333333333337,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:carpet_step",
+            "sample": 5079040,
+            "seconds": 52.906666666666669,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:carpet_step",
+            "sample": 5122048,
+            "seconds": 53.35466666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 5199872,
+            "seconds": 54.165333333333339,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 5249024,
+            "seconds": 54.67733333333333,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:door_open",
+            "sample": 5287936,
+            "seconds": 55.08266666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 5523456,
+            "seconds": 57.536,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 5564416,
+            "seconds": 57.962666666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "lap-5",
+            "sample": 5629952,
+            "seconds": 58.64533333333333,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:door_open",
+            "sample": 5736448,
+            "seconds": 59.754666666666668,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 5849088,
+            "seconds": 60.928,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 5900288,
+            "seconds": 61.461333333333339,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:phone",
+            "sample": 5914624,
+            "seconds": 61.61066666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 5941248,
+            "seconds": 61.888,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:phone_voice",
+            "sample": 5947392,
+            "seconds": 61.952,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:phone_voice",
+            "sample": 6424576,
+            "seconds": 66.92266666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:phone_shriek",
+            "sample": 6897664,
+            "seconds": 71.85066666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:phone_breath",
+            "sample": 7014400,
+            "seconds": 73.06666666666666,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:breath",
+            "sample": 7014400,
+            "seconds": 73.06666666666666,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 7057408,
+            "seconds": 73.51466666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 7122944,
+            "seconds": 74.19733333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 7163904,
+            "seconds": 74.624,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 7227392,
+            "seconds": 75.28533333333333,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:carpet_step",
+            "sample": 7354368,
+            "seconds": 76.608,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:carpet_step",
+            "sample": 7395328,
+            "seconds": 77.03466666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:door_open",
+            "sample": 7434240,
+            "seconds": 77.44,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:rope",
+            "sample": 7436288,
+            "seconds": 77.46133333333333,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "HangingVision",
+            "sample": 7544832,
+            "seconds": 78.592,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:breath",
+            "sample": 7786496,
+            "seconds": 81.10933333333334,
+            "scene": "HangingVision",
+            "timelineSeconds": 3.5061795711517336
+        },
+        {
+            "state": "cue:tinnitus",
+            "sample": 7880704,
+            "seconds": 82.09066666666667,
+            "scene": "HangingVision",
+            "timelineSeconds": 4.503997325897217
+        },
+        {
+            "state": "cue:latch",
+            "sample": 8026112,
+            "seconds": 83.60533333333334,
+            "scene": "HangingVision",
+            "timelineSeconds": 6.001597881317139
+        },
+        {
+            "state": "cue:latch",
+            "sample": 8038400,
+            "seconds": 83.73333333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:clock",
+            "sample": 8038400,
+            "seconds": 83.73333333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "lap-5",
+            "sample": 8038400,
+            "seconds": 83.73333333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 8087552,
+            "seconds": 84.24533333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:door_open",
+            "sample": 8126464,
+            "seconds": 84.65066666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 8364032,
+            "seconds": 87.12533333333333,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 8404992,
+            "seconds": 87.552,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "lap-6",
+            "sample": 8470528,
+            "seconds": 88.23466666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:knock",
+            "sample": 8536064,
+            "seconds": 88.91733333333333,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:door_open",
+            "sample": 8577024,
+            "seconds": 89.344,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:knock",
+            "sample": 8601600,
+            "seconds": 89.6,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:knock",
+            "sample": 8671232,
+            "seconds": 90.32533333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:door_voice",
+            "sample": 8671232,
+            "seconds": 90.32533333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 8687616,
+            "seconds": 90.496,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 8753152,
+            "seconds": 91.17866666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 8792064,
+            "seconds": 91.584,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 8859648,
+            "seconds": 92.288,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:carpet_step",
+            "sample": 8980480,
+            "seconds": 93.54666666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:carpet_step",
+            "sample": 9021440,
+            "seconds": 93.97333333333333,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 9101312,
+            "seconds": 94.80533333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 9146368,
+            "seconds": 95.27466666666666,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 9218048,
+            "seconds": 96.02133333333333,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:knock",
+            "sample": 9220096,
+            "seconds": 96.04266666666666,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 9277440,
+            "seconds": 96.64,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:knock",
+            "sample": 9287680,
+            "seconds": 96.74666666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 9316352,
+            "seconds": 97.04533333333333,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:knock",
+            "sample": 9355264,
+            "seconds": 97.45066666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:door_voice",
+            "sample": 9355264,
+            "seconds": 97.45066666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 9359360,
+            "seconds": 97.49333333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:carpet_step",
+            "sample": 9412608,
+            "seconds": 98.048,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 9459712,
+            "seconds": 98.53866666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 9500672,
+            "seconds": 98.96533333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 9541632,
+            "seconds": 99.392,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 9582592,
+            "seconds": 99.81866666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "Peephole",
+            "sample": 9613312,
+            "seconds": 100.13866666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:breath",
+            "sample": 9613312,
+            "seconds": 100.13866666666667,
+            "scene": "Peephole",
+            "timelineSeconds": 0.0
+        },
+        {
+            "state": "ChaseStart",
+            "sample": 10291200,
+            "seconds": 107.2,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:knock",
+            "sample": 10369024,
+            "seconds": 108.01066666666667,
+            "scene": "ChaseStart",
+            "timelineSeconds": 0.8102174997329712
+        },
+        {
+            "state": "cue:knock",
+            "sample": 10416128,
+            "seconds": 108.50133333333334,
+            "scene": "ChaseStart",
+            "timelineSeconds": 1.3060717582702637
+        },
+        {
+            "state": "cue:knock",
+            "sample": 10465280,
+            "seconds": 109.01333333333334,
+            "scene": "ChaseStart",
+            "timelineSeconds": 1.8177237510681153
+        },
+        {
+            "state": "cue:door_burst",
+            "sample": 10483712,
+            "seconds": 109.20533333333333,
+            "scene": "ChaseStart",
+            "timelineSeconds": 2.001063346862793
+        },
+        {
+            "state": "cue:shriek",
+            "sample": 10532864,
+            "seconds": 109.71733333333333,
+            "scene": "ChaseStart",
+            "timelineSeconds": 2.534329652786255
+        },
+        {
+            "state": "pause",
+            "sample": 10592256,
+            "seconds": 110.336,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:clock",
+            "sample": 10641408,
+            "seconds": 110.848,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:clock",
+            "sample": 10641408,
+            "seconds": 110.848,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:clock",
+            "sample": 10641408,
+            "seconds": 110.848,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:clock",
+            "sample": 10641408,
+            "seconds": 110.848,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:clock",
+            "sample": 10641408,
+            "seconds": 110.848,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:clock",
+            "sample": 10641408,
+            "seconds": 110.848,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:player_breath",
+            "sample": 10641408,
+            "seconds": 110.848,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:guest_breath",
+            "sample": 10641408,
+            "seconds": 110.848,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:heartbeat",
+            "sample": 10641408,
+            "seconds": 110.848,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "chase",
+            "sample": 10641408,
+            "seconds": 110.848,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 10706944,
+            "seconds": 111.53066666666666,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 10774528,
+            "seconds": 112.23466666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:breath",
+            "sample": 10786816,
+            "seconds": 112.36266666666667,
+            "scene": "DeathShort",
+            "timelineSeconds": 0.0
+        },
+        {
+            "state": "DeathShort",
+            "sample": 10786816,
+            "seconds": 112.36266666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:finger_crack",
+            "sample": 10815488,
+            "seconds": 112.66133333333333,
+            "scene": "DeathShort",
+            "timelineSeconds": 0.30000391602516177
+        },
+        {
+            "state": "cue:palms",
+            "sample": 10883072,
+            "seconds": 113.36533333333334,
+            "scene": "DeathShort",
+            "timelineSeconds": 1.0029295682907105
+        },
+        {
+            "state": "cue:choked_cry",
+            "sample": 10883072,
+            "seconds": 113.36533333333334,
+            "scene": "DeathShort",
+            "timelineSeconds": 1.0029295682907105
+        },
+        {
+            "state": "cue:wet_tear",
+            "sample": 10930176,
+            "seconds": 113.856,
+            "scene": "DeathShort",
+            "timelineSeconds": 1.516013264656067
+        },
+        {
+            "state": "death-recovery",
+            "sample": 11124736,
+            "seconds": 115.88266666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:clock",
+            "sample": 11220992,
+            "seconds": 116.88533333333334,
+            "scene": "ChaseStart",
+            "timelineSeconds": 0.0
+        },
+        {
+            "state": "ChaseStart",
+            "sample": 11220992,
+            "seconds": 116.88533333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:knock",
+            "sample": 11298816,
+            "seconds": 117.696,
+            "scene": "ChaseStart",
+            "timelineSeconds": 0.8000102043151856
+        },
+        {
+            "state": "cue:knock",
+            "sample": 11345920,
+            "seconds": 118.18666666666667,
+            "scene": "ChaseStart",
+            "timelineSeconds": 1.3000271320343018
+        },
+        {
+            "state": "cue:knock",
+            "sample": 11393024,
+            "seconds": 118.67733333333334,
+            "scene": "ChaseStart",
+            "timelineSeconds": 1.8000497817993165
+        },
+        {
+            "state": "cue:door_burst",
+            "sample": 11413504,
+            "seconds": 118.89066666666666,
+            "scene": "ChaseStart",
+            "timelineSeconds": 2.0000526905059816
+        },
+        {
+            "state": "cue:shriek",
+            "sample": 11460608,
+            "seconds": 119.38133333333333,
+            "scene": "ChaseStart",
+            "timelineSeconds": 2.5000576972961427
+        },
+        {
+            "state": "cue:clock",
+            "sample": 11511808,
+            "seconds": 119.91466666666666,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:clock",
+            "sample": 11511808,
+            "seconds": 119.91466666666666,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:clock",
+            "sample": 11511808,
+            "seconds": 119.91466666666666,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:clock",
+            "sample": 11511808,
+            "seconds": 119.91466666666666,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:clock",
+            "sample": 11511808,
+            "seconds": 119.91466666666666,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:clock",
+            "sample": 11511808,
+            "seconds": 119.91466666666666,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:player_breath",
+            "sample": 11511808,
+            "seconds": 119.91466666666666,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:guest_breath",
+            "sample": 11511808,
+            "seconds": 119.91466666666666,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:heartbeat",
+            "sample": 11511808,
+            "seconds": 119.91466666666666,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "chase",
+            "sample": 11511808,
+            "seconds": 119.91466666666666,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 11569152,
+            "seconds": 120.512,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 11634688,
+            "seconds": 121.19466666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:breath",
+            "sample": 11655168,
+            "seconds": 121.408,
+            "scene": "DeathShort",
+            "timelineSeconds": 0.0
+        },
+        {
+            "state": "DeathShort",
+            "sample": 11655168,
+            "seconds": 121.408,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:finger_crack",
+            "sample": 11683840,
+            "seconds": 121.70666666666667,
+            "scene": "DeathShort",
+            "timelineSeconds": 0.3000188171863556
+        },
+        {
+            "state": "death-recovery",
+            "sample": 11732992,
+            "seconds": 122.21866666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:clock",
+            "sample": 11831296,
+            "seconds": 123.24266666666667,
+            "scene": "ChaseStart",
+            "timelineSeconds": 0.0
+        },
+        {
+            "state": "ChaseStart",
+            "sample": 11831296,
+            "seconds": 123.24266666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:knock",
+            "sample": 11907072,
+            "seconds": 124.032,
+            "scene": "ChaseStart",
+            "timelineSeconds": 0.800012469291687
+        },
+        {
+            "state": "cue:knock",
+            "sample": 11954176,
+            "seconds": 124.52266666666667,
+            "scene": "ChaseStart",
+            "timelineSeconds": 1.3000184297561646
+        },
+        {
+            "state": "cue:knock",
+            "sample": 12003328,
+            "seconds": 125.03466666666667,
+            "scene": "ChaseStart",
+            "timelineSeconds": 1.8000917434692383
+        },
+        {
+            "state": "cue:door_burst",
+            "sample": 12021760,
+            "seconds": 125.22666666666668,
+            "scene": "ChaseStart",
+            "timelineSeconds": 2.0001347064971926
+        },
+        {
+            "state": "cue:shriek",
+            "sample": 12070912,
+            "seconds": 125.73866666666666,
+            "scene": "ChaseStart",
+            "timelineSeconds": 2.5053088665008547
+        },
+        {
+            "state": "cue:clock",
+            "sample": 12128256,
+            "seconds": 126.336,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:clock",
+            "sample": 12128256,
+            "seconds": 126.336,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:clock",
+            "sample": 12128256,
+            "seconds": 126.336,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:clock",
+            "sample": 12128256,
+            "seconds": 126.336,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:clock",
+            "sample": 12128256,
+            "seconds": 126.336,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:clock",
+            "sample": 12128256,
+            "seconds": 126.336,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:player_breath",
+            "sample": 12128256,
+            "seconds": 126.336,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:guest_breath",
+            "sample": 12128256,
+            "seconds": 126.336,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:heartbeat",
+            "sample": 12128256,
+            "seconds": 126.336,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "chase",
+            "sample": 12128256,
+            "seconds": 126.336,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 12150784,
+            "seconds": 126.57066666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 12169216,
+            "seconds": 126.76266666666666,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 12179456,
+            "seconds": 126.86933333333333,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 12210176,
+            "seconds": 127.18933333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 12236800,
+            "seconds": 127.46666666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 12236800,
+            "seconds": 127.46666666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 12267520,
+            "seconds": 127.78666666666666,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 12298240,
+            "seconds": 128.10666666666666,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 12304384,
+            "seconds": 128.17066666666669,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 12328960,
+            "seconds": 128.42666666666669,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 12357632,
+            "seconds": 128.72533333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 12371968,
+            "seconds": 128.87466666666666,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 12388352,
+            "seconds": 129.04533333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 12417024,
+            "seconds": 129.344,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 12439552,
+            "seconds": 129.57866666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 12447744,
+            "seconds": 129.664,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 12480512,
+            "seconds": 130.00533333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 12503040,
+            "seconds": 130.24,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 12505088,
+            "seconds": 130.26133333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 12533760,
+            "seconds": 130.56,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 12562432,
+            "seconds": 130.85866666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 12574720,
+            "seconds": 130.98666666666669,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 12595200,
+            "seconds": 131.2,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 12623872,
+            "seconds": 131.49866666666669,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 12640256,
+            "seconds": 131.66933333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 12654592,
+            "seconds": 131.81866666666668,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 12683264,
+            "seconds": 132.11733333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 12707840,
+            "seconds": 132.37333333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 12711936,
+            "seconds": 132.416,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 12740608,
+            "seconds": 132.71466666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 12771328,
+            "seconds": 133.03466666666669,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 12775424,
+            "seconds": 133.07733333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 12800000,
+            "seconds": 133.33333333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 12828672,
+            "seconds": 133.632,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 12843008,
+            "seconds": 133.78133333333333,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 12859392,
+            "seconds": 133.952,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 12888064,
+            "seconds": 134.25066666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 12908544,
+            "seconds": 134.464,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 12918784,
+            "seconds": 134.57066666666666,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 12947456,
+            "seconds": 134.86933333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 12978176,
+            "seconds": 135.18933333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 12978176,
+            "seconds": 135.18933333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 13006848,
+            "seconds": 135.488,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 13037568,
+            "seconds": 135.808,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 13043712,
+            "seconds": 135.872,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 13066240,
+            "seconds": 136.10666666666666,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 13096960,
+            "seconds": 136.42666666666669,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 13109248,
+            "seconds": 136.55466666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 13125632,
+            "seconds": 136.72533333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 13154304,
+            "seconds": 137.024,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 13176832,
+            "seconds": 137.25866666666668,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 13185024,
+            "seconds": 137.344,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 13213696,
+            "seconds": 137.64266666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 13244416,
+            "seconds": 137.96266666666669,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 13246464,
+            "seconds": 137.984,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 13273088,
+            "seconds": 138.26133333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 13303808,
+            "seconds": 138.58133333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 13312000,
+            "seconds": 138.66666666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 13330432,
+            "seconds": 138.85866666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 13361152,
+            "seconds": 139.17866666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 13381632,
+            "seconds": 139.392,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 13389824,
+            "seconds": 139.47733333333333,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 13420544,
+            "seconds": 139.79733333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 13447168,
+            "seconds": 140.07466666666668,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 13451264,
+            "seconds": 140.11733333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 13479936,
+            "seconds": 140.416,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 13510656,
+            "seconds": 140.736,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 13514752,
+            "seconds": 140.77866666666669,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 13539328,
+            "seconds": 141.03466666666669,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 13570048,
+            "seconds": 141.35466666666668,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 13582336,
+            "seconds": 141.48266666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 13598720,
+            "seconds": 141.65333333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 13629440,
+            "seconds": 141.97333333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 13649920,
+            "seconds": 142.18666666666668,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 13656064,
+            "seconds": 142.25066666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 13686784,
+            "seconds": 142.57066666666666,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 13715456,
+            "seconds": 142.86933333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 13715456,
+            "seconds": 142.86933333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 13744128,
+            "seconds": 143.168,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 13776896,
+            "seconds": 143.50933333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 13785088,
+            "seconds": 143.59466666666666,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 13805568,
+            "seconds": 143.808,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 13836288,
+            "seconds": 144.128,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 13850624,
+            "seconds": 144.27733333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 13862912,
+            "seconds": 144.40533333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 13893632,
+            "seconds": 144.72533333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 13918208,
+            "seconds": 144.98133333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 13922304,
+            "seconds": 145.024,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 13953024,
+            "seconds": 145.344,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 13981696,
+            "seconds": 145.64266666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 13985792,
+            "seconds": 145.68533333333336,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 14012416,
+            "seconds": 145.96266666666669,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 14041088,
+            "seconds": 146.26133333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 14051328,
+            "seconds": 146.368,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 14069760,
+            "seconds": 146.56,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 14100480,
+            "seconds": 146.88,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 14118912,
+            "seconds": 147.072,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 14129152,
+            "seconds": 147.17866666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 14157824,
+            "seconds": 147.47733333333333,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 14188544,
+            "seconds": 147.79733333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 14188544,
+            "seconds": 147.79733333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 14219264,
+            "seconds": 148.11733333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 14247936,
+            "seconds": 148.416,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 14256128,
+            "seconds": 148.50133333333333,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 14278656,
+            "seconds": 148.736,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 14307328,
+            "seconds": 149.03466666666669,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 14321664,
+            "seconds": 149.184,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 14338048,
+            "seconds": 149.35466666666668,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 14366720,
+            "seconds": 149.65333333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 14391296,
+            "seconds": 149.90933333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 14395392,
+            "seconds": 149.952,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 14424064,
+            "seconds": 150.25066666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 14454784,
+            "seconds": 150.57066666666666,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 14458880,
+            "seconds": 150.61333333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 14483456,
+            "seconds": 150.86933333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 14514176,
+            "seconds": 151.18933333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 14524416,
+            "seconds": 151.296,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 14542848,
+            "seconds": 151.488,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 14573568,
+            "seconds": 151.808,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 14592000,
+            "seconds": 152.0,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 14600192,
+            "seconds": 152.08533333333333,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 14630912,
+            "seconds": 152.40533333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 14661632,
+            "seconds": 152.72533333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 14661632,
+            "seconds": 152.72533333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 14692352,
+            "seconds": 153.04533333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 14721024,
+            "seconds": 153.344,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 14727168,
+            "seconds": 153.408,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 14749696,
+            "seconds": 153.64266666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 14780416,
+            "seconds": 153.96266666666669,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 14794752,
+            "seconds": 154.112,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 14809088,
+            "seconds": 154.26133333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 14839808,
+            "seconds": 154.58133333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 14862336,
+            "seconds": 154.816,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 14868480,
+            "seconds": 154.88,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 14899200,
+            "seconds": 155.2,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 14925824,
+            "seconds": 155.47733333333333,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 14927872,
+            "seconds": 155.49866666666669,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 14956544,
+            "seconds": 155.79733333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 14985216,
+            "seconds": 156.096,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 14995456,
+            "seconds": 156.20266666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 15013888,
+            "seconds": 156.39466666666668,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 15044608,
+            "seconds": 156.71466666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 15063040,
+            "seconds": 156.90666666666668,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 15075328,
+            "seconds": 157.03466666666669,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 15106048,
+            "seconds": 157.35466666666668,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 15130624,
+            "seconds": 157.61066666666668,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 15134720,
+            "seconds": 157.65333333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 15165440,
+            "seconds": 157.97333333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 15194112,
+            "seconds": 158.272,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 15198208,
+            "seconds": 158.31466666666666,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 15222784,
+            "seconds": 158.57066666666666,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 15251456,
+            "seconds": 158.86933333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 15265792,
+            "seconds": 159.01866666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 15282176,
+            "seconds": 159.18933333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 15310848,
+            "seconds": 159.488,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 15331328,
+            "seconds": 159.70133333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 15341568,
+            "seconds": 159.808,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 15370240,
+            "seconds": 160.10666666666666,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 15398912,
+            "seconds": 160.40533333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 15398912,
+            "seconds": 160.40533333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 15429632,
+            "seconds": 160.72533333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 15460352,
+            "seconds": 161.04533333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 15466496,
+            "seconds": 161.10933333333333,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 15491072,
+            "seconds": 161.36533333333333,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 15517696,
+            "seconds": 161.64266666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 15534080,
+            "seconds": 161.81333333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 15548416,
+            "seconds": 161.96266666666669,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 15577088,
+            "seconds": 162.26133333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 15599616,
+            "seconds": 162.496,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 15607808,
+            "seconds": 162.58133333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 15636480,
+            "seconds": 162.88,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 15667200,
+            "seconds": 163.2,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 15669248,
+            "seconds": 163.22133333333333,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 15695872,
+            "seconds": 163.49866666666669,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 15724544,
+            "seconds": 163.79733333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 15734784,
+            "seconds": 163.904,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 15753216,
+            "seconds": 164.096,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 15781888,
+            "seconds": 164.39466666666668,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 15802368,
+            "seconds": 164.608,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 15812608,
+            "seconds": 164.71466666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 15843328,
+            "seconds": 165.03466666666669,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 15869952,
+            "seconds": 165.312,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 15874048,
+            "seconds": 165.35466666666668,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 15902720,
+            "seconds": 165.65333333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 15933440,
+            "seconds": 165.97333333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 15935488,
+            "seconds": 165.99466666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 15962112,
+            "seconds": 166.272,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 15990784,
+            "seconds": 166.57066666666666,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 16005120,
+            "seconds": 166.72,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 16019456,
+            "seconds": 166.86933333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 16050176,
+            "seconds": 167.18933333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 16072704,
+            "seconds": 167.424,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 16078848,
+            "seconds": 167.488,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 16109568,
+            "seconds": 167.808,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 16138240,
+            "seconds": 168.10666666666666,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 16138240,
+            "seconds": 168.10666666666666,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 16166912,
+            "seconds": 168.40533333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 16197632,
+            "seconds": 168.72533333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 16205824,
+            "seconds": 168.81066666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 16228352,
+            "seconds": 169.04533333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 16259072,
+            "seconds": 169.36533333333333,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 16273408,
+            "seconds": 169.51466666666668,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 16285696,
+            "seconds": 169.64266666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 16316416,
+            "seconds": 169.96266666666669,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 16338944,
+            "seconds": 170.19733333333336,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 16345088,
+            "seconds": 170.26133333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 16375808,
+            "seconds": 170.58133333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 16404480,
+            "seconds": 170.88,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 16408576,
+            "seconds": 170.92266666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 16435200,
+            "seconds": 171.2,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 16463872,
+            "seconds": 171.49866666666669,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 16474112,
+            "seconds": 171.60533333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 16492544,
+            "seconds": 171.79733333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 16521216,
+            "seconds": 172.096,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 16543744,
+            "seconds": 172.33066666666668,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 16609280,
+            "seconds": 173.01333333333333,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:palms",
+            "sample": 16676864,
+            "seconds": 173.71733333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:chime",
+            "sample": 16740352,
+            "seconds": 174.37866666666668,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:chime",
+            "sample": 16836608,
+            "seconds": 175.38133333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:chime",
+            "sample": 16932864,
+            "seconds": 176.384,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:chime",
+            "sample": 17027072,
+            "seconds": 177.36533333333333,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:chime",
+            "sample": 17125376,
+            "seconds": 178.38933333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:chime",
+            "sample": 17219584,
+            "seconds": 179.37066666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:chime",
+            "sample": 17317888,
+            "seconds": 180.39466666666668,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:chime",
+            "sample": 17412096,
+            "seconds": 181.376,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:chime",
+            "sample": 17508352,
+            "seconds": 182.37866666666668,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:chime",
+            "sample": 17604608,
+            "seconds": 183.38133333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:clock",
+            "sample": 17700864,
+            "seconds": 184.384,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:fridge",
+            "sample": 17700864,
+            "seconds": 184.384,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:radio",
+            "sample": 17700864,
+            "seconds": 184.384,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "lap-1",
+            "sample": 17700864,
+            "seconds": 184.384,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:knock",
+            "sample": 19138560,
+            "seconds": 199.36,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:knock",
+            "sample": 19161088,
+            "seconds": 199.59466666666666,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:knock",
+            "sample": 19228672,
+            "seconds": 200.29866666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:latch",
+            "sample": 20097024,
+            "seconds": 209.344,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:latch",
+            "sample": 20140032,
+            "seconds": 209.792,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:finger_crack",
+            "sample": 20455424,
+            "seconds": 213.07733333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:finger_crack",
+            "sample": 20484096,
+            "seconds": 213.376,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:finger_crack",
+            "sample": 20545536,
+            "seconds": 214.016,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:finger_crack",
+            "sample": 20592640,
+            "seconds": 214.50666666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:latch",
+            "sample": 20688896,
+            "seconds": 215.50933333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:finger_crack",
+            "sample": 20729856,
+            "seconds": 215.936,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:door_open",
+            "sample": 20797440,
+            "seconds": 216.64,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:latch",
+            "sample": 21323776,
+            "seconds": 222.12266666666668,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:match",
+            "sample": 21968896,
+            "seconds": 228.84266666666668,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:switch",
+            "sample": 22120448,
+            "seconds": 230.42133333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:match",
+            "sample": 22120448,
+            "seconds": 230.42133333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:gas_ignite",
+            "sample": 22169600,
+            "seconds": 230.93333333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:gas",
+            "sample": 22171648,
+            "seconds": 230.95466666666668,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:tap",
+            "sample": 22444032,
+            "seconds": 233.792,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:kettle_rise",
+            "sample": 23570432,
+            "seconds": 245.52533333333333,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:kettle",
+            "sample": 24199168,
+            "seconds": 252.07466666666668,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:finger_crack",
+            "sample": 24440832,
+            "seconds": 254.592,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:wet_tear",
+            "sample": 24469504,
+            "seconds": 254.89066666666668,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:shriek",
+            "sample": 24485888,
+            "seconds": 255.06133333333333,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:finger_crack",
+            "sample": 24524800,
+            "seconds": 255.46666666666668,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:finger_crack",
+            "sample": 24582144,
+            "seconds": 256.064,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:finger_crack",
+            "sample": 24639488,
+            "seconds": 256.66133333333337,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:breath",
+            "sample": 24682496,
+            "seconds": 257.1093333333333,
+            "scene": "DeathFinale",
+            "timelineSeconds": 0.0
+        },
+        {
+            "state": "DeathFinale",
+            "sample": 24682496,
+            "seconds": 257.1093333333333,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:finger_crack",
+            "sample": 24711168,
+            "seconds": 257.408,
+            "scene": "DeathFinale",
+            "timelineSeconds": 0.3135449290275574
+        },
+        {
+            "state": "cue:palms",
+            "sample": 24780800,
+            "seconds": 258.1333333333333,
+            "scene": "DeathFinale",
+            "timelineSeconds": 1.012118935585022
+        },
+        {
+            "state": "cue:choked_cry",
+            "sample": 24780800,
+            "seconds": 258.1333333333333,
+            "scene": "DeathFinale",
+            "timelineSeconds": 1.012118935585022
+        },
+        {
+            "state": "cue:wet_tear",
+            "sample": 24827904,
+            "seconds": 258.624,
+            "scene": "DeathFinale",
+            "timelineSeconds": 1.5103933811187745
+        },
+        {
+            "state": "cue:palms",
+            "sample": 24893440,
+            "seconds": 259.3066666666667,
+            "scene": "DeathFinale",
+            "timelineSeconds": 2.2082531452178957
+        },
+        {
+            "state": "cue:clock",
+            "sample": 25022464,
+            "seconds": 260.65066666666669,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "lap-1",
+            "sample": 25022464,
+            "seconds": 260.65066666666669,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:crt_whine",
+            "sample": 25053184,
+            "seconds": 260.97066666666668,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:clock",
+            "sample": 25440256,
+            "seconds": 265.00266666666666,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:clock",
+            "sample": 25649152,
+            "seconds": 267.1786666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "finished",
+            "sample": 25673728,
+            "seconds": 267.43466666666668,
+            "scene": "",
+            "timelineSeconds": -1.0
+        }
+    ],
+    "cues": [
+        {
+            "id": "balcony",
+            "requested": 1,
+            "started": 1,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "breath",
+            "requested": 8,
+            "started": 8,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "carpet_step",
+            "requested": 13,
+            "started": 13,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "chime",
+            "requested": 10,
+            "started": 10,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 7
+        },
+        {
+            "id": "choked_cry",
+            "requested": 2,
+            "started": 2,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "clock",
+            "requested": 26,
+            "started": 26,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "crt_whine",
+            "requested": 1,
+            "started": 1,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "door_burst",
+            "requested": 3,
+            "started": 3,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "door_open",
+            "requested": 13,
+            "started": 13,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "door_voice",
+            "requested": 3,
+            "started": 2,
+            "limit": 1,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "finger_crack",
+            "requested": 12,
+            "started": 12,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "fridge",
+            "requested": 1,
+            "started": 1,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "gas",
+            "requested": 1,
+            "started": 1,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "gas_ignite",
+            "requested": 1,
+            "started": 1,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "guest_breath",
+            "requested": 3,
+            "started": 3,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "heartbeat",
+            "requested": 3,
+            "started": 3,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "kettle",
+            "requested": 1,
+            "started": 1,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "kettle_rise",
+            "requested": 1,
+            "started": 1,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "knock",
+            "requested": 18,
+            "started": 18,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "latch",
+            "requested": 11,
+            "started": 11,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "match",
+            "requested": 2,
+            "started": 2,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "palms",
+            "requested": 75,
+            "started": 75,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "phone",
+            "requested": 1,
+            "started": 1,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "phone_breath",
+            "requested": 1,
+            "started": 1,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "phone_shriek",
+            "requested": 1,
+            "started": 1,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "phone_voice",
+            "requested": 2,
+            "started": 2,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "player_breath",
+            "requested": 3,
+            "started": 3,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "radio",
+            "requested": 1,
+            "started": 1,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "rope",
+            "requested": 1,
+            "started": 1,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "shriek",
+            "requested": 5,
+            "started": 5,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "step",
+            "requested": 205,
+            "started": 205,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "switch",
+            "requested": 1,
+            "started": 1,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "tap",
+            "requested": 1,
+            "started": 1,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "tinnitus",
+            "requested": 1,
+            "started": 1,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "wardrobe",
+            "requested": 1,
+            "started": 1,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "wet_tear",
+            "requested": 3,
+            "started": 3,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "wind",
+            "requested": 1,
+            "started": 1,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        }
+    ]
+}

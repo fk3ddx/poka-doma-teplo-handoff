@@ -35,8 +35,7 @@ with (out/'console.log').open('w',encoding='utf-8') as log:
   else:
    result=json.loads((out/('core-result.json' if a.mode=='integrated' else 'result.json')).read_text());assert result['passed'] and result['graphicsDevice']!='Null'
    if a.mode=='integrated':
-    assert result['lap']==6 and result['errors']==0,result
-    finale=json.loads((out/'finale/result.json').read_text(encoding='utf-8-sig'));assert finale['passed'] and finale['epilogue'] and finale['errors']==0,finale
-    mix=json.loads((out/'silent-mix.json').read_text(encoding='utf-8-sig'));assert mix['captureModeMutesOutput'] and mix['clearedOutputCallbacks']>0 and mix['droppedSamples']==0,mix
+    from verify_integrated import verify_integrated
+    (out/'validation.json').write_text(json.dumps(verify_integrated(out),indent=2),encoding='utf-8')
    if a.mode=='full':assert result['coreFinished']
  raise SystemExit(code)

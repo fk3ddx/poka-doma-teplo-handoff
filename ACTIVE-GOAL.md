@@ -345,3 +345,12 @@ Archive NOT released. Fresh prologueL and openL both passed; those do not cover 
 
 # pc30 door correction under integrated test
 Applied pc-30-loop-door-b371567.patch SHA25647d70710648d6086ddde4dbbcfcd274a8387180d442c8d3e2f72260427c4992a after reading whole patch/clean apply-check. StoryDirector uses shared InwardSwing=-1 for Begin Loop/Abandon/EnterLoop/Homely. Previously EnterLoop restored+1 contrary to authored scene. ScenarioDoor safety, collider and QA walking targets unchanged. Added QA-only door angle/state and nearby capsule colliders on return/failure. BuildN compiled exit0; integratedN running, no result yet. No archive released.
+
+
+# Integrated N: six laps, chase, live finale, epilogue
+
+Source ca9d27e; build story29-build-n. Windows process exited0. All six lap-entry checks and five return-door logs present, actual capsule walk; door opens -94.94 degrees, blocked=false. Chase includes pause, stalled death/restart and repeat-death skip, warm module42-50s, winding clock with E, ten strikes. Actual FinishCore→ChaseFinished→Finale transition without QaBegin/FinishCore injection. Finale continued in same process:23beats/errors0/epilogue true, transform3.5298s/DeathFinale3.4961s, top2.4415m.
+
+Initial Python wrapper assertion FAILED because it expected current lap6 AFTER Finale.Homely had correctly restored checkpoint1. This was a verifier error, not a gameplay failure. Kept original core-result(lap1), process exit0, checks and PNGs unchanged. verify_integrated.py now checks all six recorded PASS lap N entries and live-transition events rather than the reset counter. Revalidated existing raw evidence: validation.json passedtrue. No new runtime run or relaxed gameplay thresholds. Every event/image remains auditable.
+
+Silent capture12561 cleared callbacks,0 drops,0 format changes. Viewed core-end: actual warm apartment and waiting-for-grandmother objective. Epilogue-entry shot is expected black fade, not proof of final end-card art (previous separate epilogue QA remains evidence).109 screenshots retained. This starts at staged EnterLoop, not a human whole-game playthrough; finale camera staged, waits accelerated. Night2 carry-over and saved-game resume are not covered by this run. New-game intermediate preview can be delivered with these limits; no final art/voice approval. Story23/27 preserved.
