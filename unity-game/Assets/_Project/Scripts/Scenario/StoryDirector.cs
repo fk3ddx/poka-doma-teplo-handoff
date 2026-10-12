@@ -205,7 +205,7 @@ namespace Ataka.Scenario {
    running=StartCoroutine(at switch{"Evening"=>Evening(false),"Night1"=>Night1(false),"Night2"=>Night2(false),"Finale"=>Finale(),_=>Prologue()});
   }
   public void Abandon(){StopAll();chapter=Chapter.Loop;flat.entrance.direction=1;}
-  void StopAll(){EndMirrorSeed();if(rewind)rewind.Cleanup();FinaleReset();if(running!=null)StopCoroutine(running);StopAllCoroutines();acts.Clear();holdingAct=null;kettleBoiling=false;card=null;fade=0;objective="";choiceA=choiceB=null;scenes.Cancel();loop.chase.Stop();sound.ResetWorld();if(tv){tv.storyOn=false;tv.show=ScenarioTelevision.Show.None;}if(bedside)bedside.timeSource=flat.clock;QaInFreeTime=false;if(strap)strap.enabled=false;}
+  void StopAll(){EndMirrorSeed();EndGlimpse();if(rewind)rewind.Cleanup();FinaleReset();if(running!=null)StopCoroutine(running);StopAllCoroutines();acts.Clear();holdingAct=null;kettleBoiling=false;card=null;fade=0;objective="";choiceA=choiceB=null;scenes.Cancel();loop.chase.Stop();sound.ResetWorld();if(tv){tv.storyOn=false;tv.show=ScenarioTelevision.Show.None;}if(bedside)bedside.timeSource=flat.clock;QaInFreeTime=false;if(strap)strap.enabled=false;}
   void Update(){
    if(granBody)granBody.enabled=OwnsFlat&&chapter!=Chapter.Ended; // in the loop the hanging vision needs clear sight to her
    if(!OwnsFlat||player.paused)return;
@@ -556,8 +556,8 @@ namespace Ataka.Scenario {
   // ---------- 4.7 free time (21:00 → 21:30) and 4.8 news ----------
   // Free time with the four "anxious seeds" (SCENARIO 4.7), one at a time and only where Misha is:
   //  1 mirror  — in the dresser mirror a dark figure taller than the doorway stands behind him for 0.3 s. It is the
-  //              Guest model, black, on the TV-only layer 31 which only the hall reflection probe is told to see — so
-  //              turning round shows nothing. The mirror is the accepted rough probe-128 metal: a dark smear, not a sharp image;
+  //              Guest model, black, on the TV-only layer 31, which only the mirror's own reflection camera sees
+  //              (MirrorGlimpse, pc26c: the accepted probe-128 metal blurred her away) — turning round shows nothing;
   //  2 clock   — the hall grandfather clock runs 7 minutes behind. There is no kitchen "Янтарь": the bedside alarm clock
   //              (normally slaved to the hall clock) shows the true time instead;
   //  3 radio   — the switched-off kitchen radio point hisses by itself (procedural noise);
@@ -579,12 +579,17 @@ namespace Ataka.Scenario {
    for(freeSeconds=0;freeSeconds<FreeTimeLength;freeSeconds+=Time.deltaTime){
     float now=21*3600+freeSeconds/FreeTimeLength*30*60;flat.clock.Show(now-ClockLag);if(bed)bed.Show(now);
     var p=player.transform.position;bool ready=freeSeconds-lastSeed>6&&player.control;
+    // the true reflection is put on the glass when he comes near (before he looks) and taken off when he has gone or,
+    // after the seed, looked away — never while he is looking at it
+    {var mg=Mirror();if(mg){var mc=mg.bounds.center;var md=mc-p;md.y=0;bool near=md.magnitude<2.6f&&p.x>mc.x+.2f;
+     if(!done.Contains("mirror")&&near&&Glimpse()&&!glimpse.On)glimpse.Show(true);
+     else if(glimpse&&glimpse.On&&mirrorState==null&&(!near||(done.Contains("mirror")&&!Looking(mc,.5f))))EndGlimpse();}}
     if(ready&&!done.Contains("mirror")){var m=Mirror();if(m){var c=m.bounds.center;var flatD=c-p;flatD.y=0;if(flatD.magnitude<2.2f&&p.x>c.x+.3f&&Looking(c,.85f)){done.Add("mirror");lastSeed=freeSeconds;yield return MirrorSeed(m);continue;}}}
     if(ready&&!done.Contains("clock")&&Vector3.Distance(p,ScenarioLayout.Clock)<2.6f&&Looking(ScenarioLayout.Clock+Vector3.up*.6f,.9f)){done.Add("clock");lastSeed=freeSeconds;QaSeeds.Add(("clock",Time.time));Say("","Отстают, что ли?.. Будильник в спальне на семь минут больше показывал",4);}
     if(ready&&!done.Contains("radio")&&freeSeconds>6&&InKitchen(p)){done.Add("radio");lastSeed=freeSeconds;QaSeeds.Add(("radio",Time.time));sound.Play("radio_hiss",RadioAt);StartCoroutine(SayLater(1.6f,"Радио же выключено…"));}
     if(ready&&!done.Contains("lamp")&&flat.look.icon&&InBedroom(p)&&Looking(flat.look.icon.transform.position,.8f)){done.Add("lamp");lastSeed=freeSeconds;QaSeeds.Add(("lamp",Time.time));lampLitItself=true;yield return LampLights();}
     yield return null;}
-   if(bed){bed.timeSource=flat.clock;}QaInFreeTime=false;
+   if(bed){bed.timeSource=flat.clock;}EndGlimpse();QaInFreeTime=false;
   }
   IEnumerator SayLater(float s,string line){yield return new WaitForSeconds(s);Say("",line,3);}
   IEnumerator LampLights(){var l=flat.look.icon;for(float t=0;t<.7f;t+=Time.deltaTime){l.intensity=.14f*Mathf.Clamp01(t/.7f)*(.6f+.4f*Mathf.PerlinNoise(t*30,.2f));yield return null;}l.intensity=.14f;}
@@ -593,6 +598,9 @@ namespace Ataka.Scenario {
   // coroutine runs no cleanup): otherwise the Guest would stay on layer 31 (invisible), black and 2.2 m tall.
   sealed class MirrorState {public readonly List<(Transform t,int layer)> layers=new List<(Transform,int)>();public readonly List<(Renderer r,MaterialPropertyBlock block)> blocks=new List<(Renderer,MaterialPropertyBlock)>();public Vector3 position,scale;public Quaternion rotation;public bool active;public HallReflections probe;public int mask;}
   MirrorState mirrorState;public bool QaMirrorActive=>mirrorState!=null;
+  MirrorGlimpse glimpse;public MirrorGlimpse QaGlimpse=>glimpse;
+  MirrorGlimpse Glimpse(){if(!glimpse){var m=Mirror();glimpse=MirrorGlimpse.Create(m,player.view?player.view:Camera.main,tv?tv.screenMaterial:null);}return glimpse;}
+  void EndGlimpse(){if(glimpse){glimpse.Show(false);Destroy(glimpse.gameObject);}glimpse=null;}
   void EndMirrorSeed(){
    var s=mirrorState;if(s==null)return;mirrorState=null;if(!flat||!flat.guest)return;var g=flat.guest;var gt=g.transform;
    foreach(var x in s.blocks)if(x.r)x.r.SetPropertyBlock(x.block);foreach(var x in s.layers)if(x.t)x.t.gameObject.layer=x.layer;
@@ -600,8 +608,8 @@ namespace Ataka.Scenario {
    if(s.probe){s.probe.probe.cullingMask=s.mask;s.probe.Recapture();}}
   void OnDisable(){EndMirrorSeed();}void OnDestroy(){EndMirrorSeed();}
   IEnumerator MirrorSeed(Renderer mirror){
-   EndMirrorSeed();var probe=FindFirstObjectByType<HallReflections>();var g=flat.guest;var gt=g.transform;
-   var s=new MirrorState{position=gt.position,rotation=gt.rotation,scale=gt.localScale,active=g.activeSelf,probe=probe,mask=probe?probe.probe.cullingMask:0};
+   EndMirrorSeed();var g=flat.guest;var gt=g.transform;if(Glimpse()&&!glimpse.On)glimpse.Show(true); // story26-evening-a: the probe-128 rough metal showed no figure at all
+   var s=new MirrorState{position=gt.position,rotation=gt.rotation,scale=gt.localScale,active=g.activeSelf};
    foreach(var t in g.GetComponentsInChildren<Transform>(true))s.layers.Add((t,t.gameObject.layer));
    var rs=g.GetComponentsInChildren<Renderer>(true);foreach(var r in rs){MaterialPropertyBlock saved=null;if(r.HasPropertyBlock()){saved=new MaterialPropertyBlock();r.GetPropertyBlock(saved);}s.blocks.Add((r,saved));}
    mirrorState=s; // from here on every change below is undone by EndMirrorSeed, whoever calls it
@@ -611,9 +619,7 @@ namespace Ataka.Scenario {
    var pose=g.GetComponent<ProxyPose>();g.SetActive(true);if(pose)pose.Stand();gt.SetPositionAndRotation(at,Quaternion.LookRotation(-back));
    var b=rs.Length>0?rs[0].bounds:new Bounds(at,Vector3.one);foreach(var r in rs)b.Encapsulate(r.bounds);if(b.size.y>.1f)gt.localScale=s.scale*(2.2f/b.size.y);
    var black=new MaterialPropertyBlock();black.SetColor("_BaseColor",new Color(.02f,.018f,.016f,1));black.SetFloat("_Smoothness",0);foreach(var r in rs)r.SetPropertyBlock(black);
-   int before=probe?probe.CompletedCaptures:0;
-   if(probe){probe.probe.cullingMask=s.mask|(1<<31);probe.Recapture();}
-   for(float t=0;t<.6f&&probe&&probe.CompletedCaptures==before;t+=Time.unscaledDeltaTime)yield return null; // the probe renders its faces over a few frames
+   yield return new WaitForEndOfFrame(); // the mirror camera has drawn her
    QaSeeds.Add(("mirror",Time.time));QaMirrorFigure=at;yield return new WaitForSeconds(.3f);
    EndMirrorSeed();
   }

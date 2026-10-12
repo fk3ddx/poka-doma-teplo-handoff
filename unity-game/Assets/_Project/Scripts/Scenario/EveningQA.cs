@@ -11,7 +11,7 @@ namespace Ataka.Scenario {
  // by flags. PNGs + checks.txt (PASS/FAIL/ABSENT) + result.json; exit 0 = no FAIL. Sound acceptance stays with people.
  public sealed class EveningQA:MonoBehaviour {
   string output;readonly List<string> checks=new List<string>();int errors,failures;
-  [Serializable] class Result {public bool passed;public int failures,errors,seeds;public string[] seedOrder;public float clockLagSeconds,lampBefore,lampAfter,newsWarmSeconds;public string testCard,news,announcer,announcer2;}
+  [Serializable] class Result {public bool passed;public int failures,errors,seeds;public string[] seedOrder;public float mirrorFigureRt,mirrorFigureScreen,clockLagSeconds,lampBefore,lampAfter,newsWarmSeconds;public string testCard,news,announcer,announcer2;}
   readonly Result result=new Result();
   [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]static void Boot(){
    var args=Environment.GetCommandLineArgs();int i=Array.IndexOf(args,"-evening-qa");if(i<0||i+1>=args.Length)return;
@@ -27,6 +27,13 @@ namespace Ataka.Scenario {
    mean=new Color(r/px.Length,g/px.Length,b/px.Length);saturated=sat/(float)px.Length;
    if(!Application.isBatchMode)File.WriteAllBytes(Path.Combine(output,"screen-"+name+".png"),tex.EncodeToPNG());Destroy(tex);
    return "mean "+mean.r.ToString("F2")+"/"+mean.g.ToString("F2")+"/"+mean.b.ToString("F2")+", brightest "+maxLuma.ToString("F2")+", saturated "+(saturated*100).ToString("F1")+"%";}
+  // luma of a texture's pixels (RenderTexture or Texture2D); share of pixels that are darker by > .12 in `a` than in `b`
+  static float[] Pixels(RenderTexture rt){if(!rt)return null;var was=RenderTexture.active;RenderTexture.active=rt;var t=new Texture2D(rt.width,rt.height,TextureFormat.RGBA32,false);t.ReadPixels(new Rect(0,0,rt.width,rt.height),0,0);t.Apply();RenderTexture.active=was;var l=Luma(t);Destroy(t);return l;}
+  static float[] Luma(Texture2D t){var px=t.GetPixels();var l=new float[px.Length];for(int i=0;i<px.Length;i++)l[i]=.2126f*px[i].r+.7152f*px[i].g+.0722f*px[i].b;return l;}
+  static float[] Crop(Texture2D t,Rect r){int x0=Mathf.Clamp((int)r.xMin,0,t.width-1),y0=Mathf.Clamp((int)r.yMin,0,t.height-1),w=Mathf.Clamp((int)r.width,1,t.width-x0),h=Mathf.Clamp((int)r.height,1,t.height-y0);var px=t.GetPixels(x0,y0,w,h);var l=new float[px.Length];for(int i=0;i<px.Length;i++)l[i]=.2126f*px[i].r+.7152f*px[i].g+.0722f*px[i].b;return l;}
+  static float Darker(float[] a,float[] b){if(a==null||b==null||a.Length!=b.Length||a.Length==0)return 0;int n=0;for(int i=0;i<a.Length;i++)if(b[i]-a[i]>.12f)n++;return n/(float)a.Length;}
+  static Rect ScreenRect(Camera cam,Renderer r){if(!cam||!r)return new Rect();var b=r.bounds;float x0=float.MaxValue,y0=float.MaxValue,x1=float.MinValue,y1=float.MinValue;for(int i=0;i<8;i++){var c=b.center+Vector3.Scale(b.extents,new Vector3((i&1)==0?-1:1,(i&2)==0?-1:1,(i&4)==0?-1:1));var s=cam.WorldToScreenPoint(c);if(s.z<=0)continue;x0=Mathf.Min(x0,s.x);y0=Mathf.Min(y0,s.y);x1=Mathf.Max(x1,s.x);y1=Mathf.Max(y1,s.y);}
+   if(x1<x0)return new Rect();x0=Mathf.Max(0,x0);y0=Mathf.Max(0,y0);x1=Mathf.Min(Screen.width,x1);y1=Mathf.Min(Screen.height,y1);return new Rect(x0,y0,Mathf.Max(0,x1-x0),Mathf.Max(0,y1-y0));}
   IEnumerator Start(){
    Directory.CreateDirectory(output);Application.logMessageReceived+=Log;Application.runInBackground=true;Application.targetFrameRate=60;
    yield return new WaitForSecondsRealtime(2);
@@ -58,9 +65,20 @@ namespace Ataka.Scenario {
    if(mirror){var c=mirror.bounds.center;p.Place(new Vector3(c.x+.85f,.02f,c.z),270);yield return null;Aim(p,c);
     float until=Time.time+5;while(Time.time<until&&!story.QaSeeds.Exists(s=>s.seed=="mirror"))yield return null;
     bool seen=story.QaSeeds.Exists(s=>s.seed=="mirror");Check(seen,"seed 1 mirror fired when he looked into the mirror");
-    if(seen){yield return Shot("seed-1-mirror");var cam=p.view?p.view:Camera.main;Check(cam&&(cam.cullingMask&(1<<31))==0,"the figure is on the TV-only layer 31: the player's camera cannot see it directly (only the probe reflection)");
-     checks.Add("NOTE figure at "+story.QaMirrorFigure.ToString("F2")+"; the accepted mirror is rough probe-128 metal — judge the smear on the PNG");
-     yield return new WaitForSeconds(.4f);Aim(p,story.QaMirrorFigure+Vector3.up*1.2f);yield return Shot("seed-1-mirror-turned");Check(!flat.guest.activeSelf,"turned round: nobody there");}}
+    if(seen){
+     // pc26c: visibility is measured on what is drawn, not inferred from layer 31 — the reflection texture and the
+     // screen inside the mirror's on-screen rectangle, with the figure and 0.4 s later without her (same eye, same look).
+     var gl=story.QaGlimpse;var cam=p.view?p.view:Camera.main;Check(gl&&gl.On,"the mirror shows its true reflection (MirrorGlimpse on) when the seed fires");
+     yield return new WaitForEndOfFrame();var withScreen=Application.isBatchMode?null:ScreenCapture.CaptureScreenshotAsTexture();var withRt=Pixels(gl?gl.QaTexture:null);yield return Shot("seed-1-mirror");
+     yield return new WaitForSeconds(.45f);yield return new WaitForEndOfFrame();var withoutScreen=Application.isBatchMode?null:ScreenCapture.CaptureScreenshotAsTexture();var withoutRt=Pixels(gl?gl.QaTexture:null);yield return Shot("seed-1-mirror-after");
+     float rtDark=Darker(withRt,withoutRt);var rect=ScreenRect(cam,gl?gl.QaQuad:null);float screenDark=withScreen&&withoutScreen&&rect.width>4?Darker(Crop(withScreen,rect),Crop(withoutScreen,rect)):0;
+     result.mirrorFigureRt=rtDark;result.mirrorFigureScreen=screenDark;
+     Check(rtDark>.03f,"the figure is in the reflection: "+(rtDark*100).ToString("F1")+"% of the mirror picture darker by > .12 while she stands there");
+     Check(screenDark>.02f,"the figure is visible on screen inside the mirror ("+rect+"): "+(screenDark*100).ToString("F1")+"% of those pixels darker by > .12 with her than without");
+     if(withScreen)Destroy(withScreen);if(withoutScreen)Destroy(withoutScreen);
+     Check(cam&&(cam.cullingMask&(1<<31))==0,"the figure is not drawn by his own camera (TV-only layer 31): only the mirror shows her");
+     checks.Add("NOTE figure at "+story.QaMirrorFigure.ToString("F2"));
+     Aim(p,story.QaMirrorFigure+Vector3.up*1.2f);yield return null;yield return Shot("seed-1-mirror-turned");Check(!flat.guest.activeSelf,"turned round: nobody there");}}
    // 2 clock
    yield return new WaitForSeconds(6.2f);p.Place(new Vector3(ScenarioLayout.Clock.x,.02f,ScenarioLayout.Clock.z-1.15f),0);yield return null;Aim(p,ScenarioLayout.Clock+Vector3.up*.6f);
    {float until=Time.time+3;while(Time.time<until&&!story.QaSeeds.Exists(s=>s.seed=="clock"))yield return null;}
