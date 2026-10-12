@@ -320,7 +320,7 @@ namespace Ataka.Scenario {
    Put("Bulb",BulbOnShelf); // visible on the antresol before it is taken
    yield return Use(()=>Prop("Bulb")&&Prop("Bulb").gameObject.activeSelf?Prop("Bulb").position+Vector3.up*.05f:new Vector3(6.6f,2.2f,5.25f),"Достать лампочку с антресоли",0,2.6f);Show("Bulb",false);
    yield return UseHeld(ScenarioLayout.Clock+new Vector3(0,.9f,.1f),"Выкрутить старую и вкрутить новую",2,2.6f,"bulb",ScenarioLayout.Clock+new Vector3(0,.9f,.1f));
-   if(propStart.TryGetValue("Bulb",out var bulbHome))Put("Bulb",bulbHome.at);else Show("Bulb",true);rewind.Remember("bulb","bulb");if(sconce)sconce.intensity=Mathf.Max(sconceWas,1.8f);flat.stool.SetActive(true);flat.stool.transform.SetPositionAndRotation(new Vector3(5.5f,0,5.8f),Quaternion.identity);
+   if(propStart.TryGetValue("Bulb",out var bulbHome))Put("Bulb",bulbHome.at);else Show("Bulb",true);if(sconce)sconce.intensity=Mathf.Max(sconceWas,1.8f);rewind.Remember("bulb","bulb");flat.stool.SetActive(true);flat.stool.transform.SetPositionAndRotation(new Vector3(5.5f,0,5.8f),Quaternion.identity);
    yield return GranGo("Door");
    yield return Line("Бабушка","Если свет выбьет — вот тут пробки, кнопочку нажать. Дед подписал");
    yield return Line("Бабушка","Табуретку оставь, потом унесу");
