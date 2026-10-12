@@ -50,11 +50,13 @@ namespace Ataka.Scenario {
   // Finale 3.2 beat (f 3.0–4.2): the right claw hand rises from below the frame to her face and covers it (story25-a:
   // the full-version keys kept it below the frame — the beat showed no hand at all).
   static readonly Key[] RightFinale={
-   // story25-f: tips ended 0.5 m above her head (origin = forearm end, claws .58 further) and the palm faced the camera.
-   new Key(3f,new Vector3(.3f,-.95f,.5f),new Vector3(-.2f,.95f,.2f),new Vector3(0f,-.1f,1f)),
-   new Key(3.5f,new Vector3(.14f,-.6f,.55f),new Vector3(-.1f,.96f,.2f),new Vector3(0f,-.1f,1f)),
-   new Key(4.2f,new Vector3(.06f,-.26f,.56f),new Vector3(-.05f,.97f,.2f),new Vector3(0f,-.15f,1f)),
-   new Key(9f,new Vector3(.06f,-.26f,.56f),new Vector3(-.05f,.97f,.2f),new Vector3(0f,-.15f,1f))};
+   // story25-f: tips ended 0.5 m above her head; story26-key-b: then the palm sat INSIDE her head (keys are in the
+   // camera's space, pitched 22° up: her head bone ≈ (0, .05, .69), the face surface ≈ z .59). Now the hand is in
+   // front of the face: palm ≈ (.03, .05, .44), back of the hand to the camera, claw tips on her brow at z ≈ .52.
+   new Key(3f,new Vector3(.3f,-.95f,.3f),new Vector3(-.2f,.95f,.25f),new Vector3(0f,-.1f,1f)),
+   new Key(3.5f,new Vector3(.12f,-.5f,.32f),new Vector3(-.08f,.95f,.28f),new Vector3(0f,-.2f,1f)),
+   new Key(4.2f,new Vector3(.03f,-.26f,.34f),new Vector3(-.03f,.95f,.3f),new Vector3(0f,-.3f,.95f)),
+   new Key(9f,new Vector3(.03f,-.26f,.34f),new Vector3(-.03f,.95f,.3f),new Vector3(0f,-.3f,.95f))};
   static float FinaleTime(float t)=>t<1.5f?FullTime(t,false):t<2f?Mathf.Lerp(2f,2.6f,(t-1.5f)/.5f):t<2.9f?Mathf.Lerp(3f,4.2f,(t-2f)/.9f):4.2f+(t-2.9f);
   float F(float t)=>Finale?FinaleTime(t):FullTime(t,full);
   public float Duration(bool fullDeath)=>fullDeath?7:3.5f;
