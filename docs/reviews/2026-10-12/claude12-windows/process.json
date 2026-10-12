@@ -1,0 +1,24 @@
+{
+  "command": [
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\Builds\\ScenarioCore\\Ataka-Loop.exe",
+    "-screen-fullscreen",
+    "0",
+    "-screen-width",
+    "1280",
+    "-screen-height",
+    "720",
+    "-audio-capture",
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\QA\\claude12-full-a\\silent-mix.wav",
+    "-logFile",
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\QA\\claude12-full-a\\player.log",
+    "-scenario-smoke",
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\QA\\claude12-full-a",
+    "-scenario-death-skip"
+  ],
+  "build_label": "claude12-build-a",
+  "mode": "full",
+  "utc": "2026-10-12T12:56:02.665123+00:00",
+  "runtime_sha256": "10670015df85d3f7c1304e48a101503743128e2970abab14f2a7ed07fa55dcc9",
+  "scope": "Actual Windows graphics; survey modes stage cameras and are not proof of gameplay. QA audio capture clears output; no listening acceptance.",
+  "pid": 28888
+}
