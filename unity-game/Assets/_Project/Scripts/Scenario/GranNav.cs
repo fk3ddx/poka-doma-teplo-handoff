@@ -8,9 +8,8 @@ namespace Ataka.Scenario {
  // in its actual pose. No teleports: when no route exists she stays and the failure is reported.
  public sealed class GranNav {
   public const float Radius=.22f,Height=1.5f,Lift=.08f,Cell=.05f;
-  // Cells are classified with the body radius plus half a cell diagonal, so ANY point inside a free cell keeps the
-  // full 0.22 m clearance — straight shortcuts between cells can therefore never graze furniture.
-  public const float Margin=Cell*.71f;
+  // Cells are classified with exactly her body radius at the cell centre (a margin would close the real 0.54 m
+  // gap between the hall dresser and the kitchen jamb). Straight shortcuts are re-checked with real capsule sweeps.
   const float X0=1.3f,Z0=-.1f,X1=9.0f,Z1=6.95f;
   readonly int nx=Mathf.CeilToInt((X1-X0)/Cell),nz=Mathf.CeilToInt((Z1-Z0)/Cell);
   byte[] cells; // 0 free, 1 blocked, 2+i crossing of closed door i
@@ -28,7 +27,7 @@ namespace Ataka.Scenario {
   void Build(){
    Physics.SyncTransforms();Builds++;cells=new byte[nx*nz];doors.Clear();var skip=ignore();
    for(int z=0;z<nz;z++)for(int x=0;x<nx;x++){
-    var p=Center(x,z);int n=Physics.OverlapCapsuleNonAlloc(Bottom(p),Top(p),Radius+Margin,hits,~(1<<31),QueryTriggerInteraction.Ignore);
+    var p=Center(x,z);int n=Physics.OverlapCapsuleNonAlloc(Bottom(p),Top(p),Radius,hits,~(1<<31),QueryTriggerInteraction.Ignore);
     byte code=0;
     for(int i=0;i<n;i++){var c=hits[i];if(Ignored(c,skip))continue;var d=c.GetComponentInParent<ScenarioDoor>();
      if(d&&!d.open&&d.leaf&&c.transform.IsChildOf(d.leaf)){int k=doors.IndexOf(d);if(k<0){doors.Add(d);k=doors.Count-1;}byte dc=(byte)(2+k);if(code==0)code=dc;else if(code!=dc)code=1;}
@@ -73,7 +72,9 @@ namespace Ataka.Scenario {
    if(pts.Count<3)return new List<Vector3>(pts);var o=new List<Vector3>{pts[0]};int i=0;
    while(i<pts.Count-1){int j=pts.Count-1;while(j>i+1&&!LineFree(pts[i],pts[j]))j--;o.Add(pts[j]);i=j;}
    return o;}
-  bool LineFree(Vector3 a,Vector3 b){float len=Vector3.Distance(a,b);int s=Mathf.CeilToInt(len/(Cell*.5f));for(int k=0;k<=s;k++)if(!IsFree(Vector3.Lerp(a,b,s==0?0:(float)k/s)))return false;return true;}
+  bool LineFree(Vector3 a,Vector3 b){float len=Vector3.Distance(a,b);int s=Mathf.CeilToInt(len/(Cell*.5f));var skip=ignore();
+   for(int k=0;k<=s;k++){var p=Vector3.Lerp(a,b,s==0?0:(float)k/s);if(!IsFree(p))return false;int n=Physics.OverlapCapsuleNonAlloc(Bottom(p),Top(p),Radius,hits,~(1<<31),QueryTriggerInteraction.Ignore);for(int i=0;i<n;i++)if(!Ignored(hits[i],skip))return false;}
+   return true;}
 
   public static float DoorWidth(ScenarioDoor d){float w=.8f;if(d&&d.leaf)foreach(var b in d.leaf.GetComponentsInChildren<BoxCollider>(true)){var s=Vector3.Scale(b.size,b.transform.lossyScale);w=Mathf.Max(Mathf.Abs(s.x),Mathf.Abs(s.z));}return w;}
 

@@ -75,9 +75,9 @@ namespace Ataka.Scenario {
   // ---------- grandmother (approved Katcho, author clips Oidle/Owalk) ----------
   Animation granAnim;string granIdle,granWalk;
   static readonly Dictionary<string,Vector3> Nodes=new Dictionary<string,Vector3>{
-   {"Door",new Vector3(7.85f,0,5.25f)},{"HallA",new Vector3(7.75f,0,4.4f)},{"KitchenDoor",new Vector3(7.25f,0,3.25f)},{"Kitchen",new Vector3(7.5f,0,2.1f)},{"Stove",new Vector3(8.0f,0,1.65f)},
-   {"HallJoint",new Vector3(6.9f,0,5.25f)},{"HallB",new Vector3(5.65f,0,5.3f)},{"Clock",new Vector3(5.5f,0,5.45f)},{"LivingDoor",new Vector3(5.65f,0,4.0f)},{"LivingMid",new Vector3(4.4f,0,3.5f)},
-   {"Aisle",new Vector3(4.15f,0,2.8f)},{"Armchair",new Vector3(3.95f,0,1.05f)},{"BedroomDoor",new Vector3(3.2f,0,3.75f)},{"Bedroom",new Vector3(2.0f,0,3.5f)},{"Landing",new Vector3(8.05f,0,6.62f)}};
+   {"Door",new Vector3(7.85f,0,5.25f)},{"HallA",new Vector3(7.75f,0,4.4f)},{"KitchenDoor",new Vector3(7.38f,0,3.25f)},{"Kitchen",new Vector3(7.5f,0,2.1f)},{"Stove",new Vector3(7.9f,0,1.57f)},
+   {"HallJoint",new Vector3(6.9f,0,5.25f)},{"HallB",new Vector3(5.65f,0,5.3f)},{"Clock",new Vector3(5.55f,0,5.3f)},{"LivingDoor",new Vector3(5.65f,0,4.0f)},{"LivingMid",new Vector3(4.4f,0,3.5f)},
+   {"Aisle",new Vector3(4.15f,0,2.8f)},{"Armchair",new Vector3(4.3f,0,1.28f)},{"BedroomDoor",new Vector3(3.2f,0,3.75f)},{"Bedroom",new Vector3(2.0f,0,3.5f)},{"Landing",new Vector3(8.05f,0,6.62f)}};
   string granNode="Door";
   // Walks the story actually orders (SCENARIO 3.9, 4.1–4.9, 8, 11.7), validated in the real door states.
   static readonly string[][] StoryWalks={new[]{"Door","Kitchen"},new[]{"Kitchen","HallA"},new[]{"HallA","Door"},new[]{"Door","HallB"},new[]{"HallB","Clock"},new[]{"Clock","Armchair"},new[]{"Armchair","Door"},new[]{"Door","Landing"},new[]{"Door","Stove"}};
@@ -86,8 +86,9 @@ namespace Ataka.Scenario {
   string NavState(){var sb=new System.Text.StringBuilder();foreach(var d in new[]{flat.entrance,flat.kitchen,flat.bath,flat.bedroom,flat.living,flat.carpet,flat.vestibuleInner})if(d&&d.leaf)sb.Append(d.open?'o':'c').Append(Mathf.RoundToInt(d.leaf.localEulerAngles.y/5)).Append(',');
    var st=flat.stool;sb.Append(st&&st.activeSelf?st.transform.position.ToString("F1"):"-");return sb.ToString();}
   // She opens only unlocked doors; the flat door is opened by the story itself before she walks through it.
-  static bool CanOpen(ScenarioDoor d)=>d&&!d.locked;
-  bool QaCanOpen(ScenarioDoor d)=>d&&(!d.locked||d==flat.entrance);
+  bool RoomDoor(ScenarioDoor d)=>d&&(d==flat.kitchen||d==flat.bath||d==flat.bedroom||d==flat.living); // never the dresser cupboard
+  bool CanOpen(ScenarioDoor d)=>RoomDoor(d)&&!d.locked;
+  bool QaCanOpen(ScenarioDoor d)=>CanOpen(d)||d==flat.entrance;
   Vector3 NodeAt(string node){var raw=Nodes[node];Nav.Ensure();return Nav.Snap(raw,.6f,out var q)?q:raw;}
   // QA: every story walk planned with her capsule (r=GranNav.Radius, h=GranNav.Height) in the CURRENT door states;
   // each crossed door is then opened to its real 95° pose and the route re-planned with that leaf as an obstacle.
@@ -290,7 +291,7 @@ namespace Ataka.Scenario {
    // 4.8
    Clock(21,30);Task("Включить новости");
    yield return Line("Бабушка","Мишаня, включи-ка новости");
-   yield return Use(()=>flat.televisionScreen?flat.televisionScreen.bounds.center:flat.television.position,"Включить «Рубин»",0,2.4f);
+   yield return Use(()=>flat.televisionScreen?flat.televisionScreen.bounds.center:flat.television.position,"Включить «Рубин»",0,2.4f); // the screen, not the cabinet edge (Codex story15)
    if(tv)tv.storyOn=true;flat.televisionLight.intensity=.12f;sound.Play("switch",flat.television.position);sound.Play("tv_on",flat.television.position);sound.Bed("crt_whine",flat.television.position,true);
    foreach(var l in new[]{"…Сегодня в милицию снова обратились жители Заречного района.","В квартире по улице Строителей обнаружен накрытый стол и включённый свет. По словам соседей, в квартире никто не проживал.","Однако на фотографиях, изъятых из квартиры, — пустые места рядом с людьми…","Специалисты рекомендуют: не открывайте дверь в позднее время. И — что бы ни случилось — запомните свой дом. Как следует запомните."})
     yield return Line("Диктор",l,5);

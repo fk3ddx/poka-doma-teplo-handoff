@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Offline check of GranNav against a read-only collider export (StorySpatialAudit): AABBs, so conservative. -->
+  <PropertyGroup><TargetFramework>net8.0</TargetFramework><OutputType>Exe</OutputType><Nullable>disable</Nullable><ImplicitUsings>disable</ImplicitUsings><NoWarn>CS0649;CS8632</NoWarn></PropertyGroup>
+  <ItemGroup><Compile Include="../../../unity-game/Assets/_Project/Scripts/Scenario/GranNav.cs" /></ItemGroup>
+</Project>
