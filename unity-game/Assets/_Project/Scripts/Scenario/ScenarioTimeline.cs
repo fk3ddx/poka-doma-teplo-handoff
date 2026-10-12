@@ -11,6 +11,10 @@ namespace Ataka.Scenario {
   public LineRenderer rope;public Light landingLight;
   public DeathVeil veil;int deathsViewed;float skipHeld;
   public string PlayingScene{get;private set;}public float FrameTime{get;private set;}
+  public FaceTearDeath faceTear;
+  public bool InDeath=>PlayingScene=="DeathShort"||PlayingScene=="DeathFull";
+  public float DeathSilence=>PlayingScene=="DeathFull"?6.6f:2.5f;
+  bool DeathScene(string name)=>name=="DeathShort"||name=="DeathFull";
   void HeadAt(Transform actor,Vector3 point){var animator=actor.GetComponent<Animator>();var bone=animator.GetBoneTransform(HumanBodyBones.Head);actor.position+=point-bone.position;}
   // Lap 3 (SCENARIO 9.4): a dark upside-down silhouette behind the balcony glass; the palm comes from her own arm, not a detached close-up hand.
   public Vector3 balconyPalm=new Vector3(5.12f,1.42f,-.05f);
@@ -22,8 +26,8 @@ namespace Ataka.Scenario {
   }
   public void BalconyWaiting(float reach=0){flat.guest.SetActive(true);GuestSilhouette(true);var g=flat.guest.transform;g.localScale=guestScale;g.rotation=Quaternion.Euler(0,0,180);var pose=flat.guest.GetComponent<ProxyPose>();pose.HangInverted(balconyPalm,0);HeadAt(g,new Vector3(5.175f,1.8f,-.3f));if(reach>0)pose.HangInverted(balconyPalm,reach);}
   public float screenBlack,screenRed,screenWhite;Quaternion startHead,chaseStartRotation,chaseTargetRotation;Vector3 startGuest,startHeadPosition;bool fired;float lastTime;Vector3 guestScale;
-  void Awake(){guestScale=flat.guest.transform.localScale;var suspension=gameObject.AddComponent<HangingRope>();suspension.scene=this;var floorCue=gameObject.AddComponent<HangingFloorCue>();floorCue.scene=this;}
-  public void Cancel(){GuestSilhouette(false);flat.player.lookDuringScene=false;flat.player.flashlight.transform.localRotation=Quaternion.identity;if(PlayingScene=="DeathShort")sound.BeginDeathRecovery();sound.EndDeathRecovery();PlayingScene=null;FrameTime=0;director.Stop();screenBlack=screenWhite=screenRed=0;flat.look.peephole=flat.look.disruption=0;flat.player.control=true;flat.player.head.localPosition=Vector3.up*(flat.player.crouched?.94f:1.55f);if(leftHand)leftHand.gameObject.SetActive(false);if(rightHand)rightHand.gameObject.SetActive(false);flat.guest.SetActive(false);flat.grandmother.SetActive(false);}
+  void Awake(){guestScale=flat.guest.transform.localScale;faceTear=GetComponent<FaceTearDeath>();if(!faceTear)faceTear=gameObject.AddComponent<FaceTearDeath>();var suspension=gameObject.AddComponent<HangingRope>();suspension.scene=this;var floorCue=gameObject.AddComponent<HangingFloorCue>();floorCue.scene=this;}
+  public void Cancel(){GuestSilhouette(false);flat.player.lookDuringScene=false;flat.player.flashlight.transform.localRotation=Quaternion.identity;if(InDeath)sound.BeginDeathRecovery();sound.EndDeathRecovery();if(faceTear)faceTear.End();PlayingScene=null;FrameTime=0;director.Stop();screenBlack=screenWhite=screenRed=0;flat.look.peephole=flat.look.disruption=0;flat.player.control=true;flat.player.head.localPosition=Vector3.up*(flat.player.crouched?.94f:1.55f);if(leftHand)leftHand.gameObject.SetActive(false);if(rightHand)rightHand.gameObject.SetActive(false);flat.guest.SetActive(false);flat.grandmother.SetActive(false);}
   void PlaceHangingStool(){
    var stool=flat.stool;stool.transform.SetPositionAndRotation(new Vector3(1.30f,0,2.62f),Quaternion.Euler(0,0,-90));
    var rs=stool.GetComponentsInChildren<Renderer>();if(rs.Length==0)return;var bounds=rs[0].bounds;foreach(var r in rs)bounds.Encapsulate(r.bounds);
@@ -38,12 +42,25 @@ namespace Ataka.Scenario {
   public IEnumerator Play(string name){
    PlayingScene=name;GuestSilhouette(false);
    if(name=="ChaseStart"){chaseStartRotation=flat.player.head.rotation;var direction=ChaseCorridor.EntryOrigin-flat.player.head.position;direction.y=0;chaseTargetRotation=Quaternion.LookRotation(direction);}
-   var timeline=name=="UnderBed"?underBed:name=="BalconyPalm"?balcony:name=="Television"?television:name=="HangingVision"?hanging:name=="Peephole"?peephole:name=="DeathShort"?death:chaseStart;
+   var timeline=name=="UnderBed"?underBed:name=="BalconyPalm"?balcony:name=="Television"?television:name=="HangingVision"?hanging:name=="Peephole"?peephole:name=="DeathShort"||name=="DeathFull"?death:chaseStart;
    flat.player.control=false;flat.player.lookDuringScene=name=="HangingVision";startHead=flat.player.head.localRotation;startHeadPosition=flat.player.head.localPosition;fired=false;lastTime=-1;screenBlack=screenRed=screenWhite=0;
    var g=flat.guest.transform;flat.guest.GetComponent<ProxyPose>().Stand();g.position=flat.player.head.position+flat.player.head.forward*.65f-Vector3.up*1.6f;g.rotation=Quaternion.LookRotation(-flat.player.head.forward,Vector3.up);startGuest=g.position;
    flat.guest.SetActive(false);flat.grandmother.SetActive(false);
-   director.playableAsset=timeline;foreach(var output in timeline.outputs)director.SetGenericBinding(output.sourceObject,this);
-   director.time=name=="HangingVision"?1:0;director.Play();skipHeld=0;while(director.state==PlayState.Playing){if(name=="DeathShort"&&deathsViewed>0){skipHeld=UnityEngine.InputSystem.Keyboard.current?.eKey.isPressed==true?skipHeld+Time.deltaTime:0;if(skipHeld>=.6f)break;}yield return null;}if(name=="DeathShort"){deathsViewed++;sound.BeginDeathRecovery();}
+   skipHeld=0;
+   if(DeathScene(name)){
+    // 7.4: driven by its own clock so the full (7 s) and short (3.5 s) versions share one staging.
+    bool full=name=="DeathFull";faceTear.Begin(flat.player.head,full,rightHand?rightHand.gameObject:null);
+    var near=cine.Lens;near.NearClipPlane=.02f;cine.Lens=near;
+    float duration=faceTear.Duration(full);
+    for(float clock=0;clock<duration;clock+=Time.deltaTime){
+     Evaluate(name,clock);
+     if(!full&&deathsViewed>0){skipHeld=UnityEngine.InputSystem.Keyboard.current?.eKey.isPressed==true?skipHeld+Time.deltaTime:0;if(skipHeld>=.6f)break;}
+     yield return null;}
+    deathsViewed++;sound.BeginDeathRecovery();faceTear.End();flat.look.disruption=0;
+   }else{
+    director.playableAsset=timeline;foreach(var output in timeline.outputs)director.SetGenericBinding(output.sourceObject,this);
+    director.time=name=="HangingVision"?1:0;director.Play();while(director.state==PlayState.Playing)yield return null;
+   }
    director.Stop();screenBlack=screenWhite=screenRed=0;if(leftHand)leftHand.gameObject.SetActive(false);if(rightHand)rightHand.gameObject.SetActive(false);flat.guest.SetActive(false);flat.grandmother.SetActive(false);if(name=="HangingVision"){
     var euler=flat.player.head.rotation.eulerAngles;flat.player.transform.rotation=Quaternion.Euler(0,euler.y,0);flat.player.pitch=Mathf.Clamp(Mathf.DeltaAngle(0,euler.x),-80,80);flat.player.head.localRotation=Quaternion.Euler(flat.player.pitch,0,0);
    }else flat.player.head.localRotation=startHead;
@@ -51,7 +68,7 @@ namespace Ataka.Scenario {
    if(name=="ChaseStart"){flat.player.transform.rotation=chaseTargetRotation;flat.player.pitch=0;flat.player.head.localRotation=Quaternion.identity;}
    var lens=cine.Lens;lens.FieldOfView=65;cine.Lens=lens;flat.player.control=true;flat.player.flashlight.enabled=true;flat.look.peephole=0;if(landingLight)landingLight.intensity=0;if(rope)rope.enabled=false;if(veil)veil.At(-1);sound.quiet=false;PlayingScene=null;FrameTime=0;
   }
-  void SoundAt(float t,float at,string id,Vector3 p){if(lastTime<at&&t>=at){if(PlayingScene=="DeathShort")sound.PlayClose(id,p);else sound.Play(id,p);}}
+  void SoundAt(float t,float at,string id,Vector3 p){if(lastTime<at&&t>=at){if(InDeath)sound.PlayClose(id,p);else sound.Play(id,p);}}
   public void Evaluate(string name,float t){
    FrameTime=t;
    var p=flat.player;var guest=flat.guest.transform;var head=p.head;
@@ -80,13 +97,21 @@ namespace Ataka.Scenario {
     var lens=cine.Lens;lens.FieldOfView=85;cine.Lens=lens;
     head.position=new Vector3(8.05f,1.5f,6.22f);head.rotation=Quaternion.Euler(0,0,0);
     if(t>5)guest.position+=Vector3.back*Mathf.Min(.38f,(t-5)*.2f);SoundAt(t,0,"breath",guest.position);
-   }else if(name=="DeathShort"){
-    sound.quiet=true;if(veil)veil.At(t);
-    if(leftHand)leftHand.Frame(head,t);if(rightHand)rightHand.Frame(head,t);
-    flat.guest.SetActive(t<2.5f);guest.localScale=guestScale;guest.position=startGuest;HeadAt(guest,head.position+head.forward*.3f-Vector3.up*.07f);var lens=cine.Lens;lens.FieldOfView=Mathf.Lerp(70,55,Mathf.Clamp01(t/.08f));cine.Lens=lens;
-    head.localRotation=startHead*Quaternion.Euler(Mathf.Sin(t*55)*1.5f,Mathf.Cos(t*41)*1,0);
-    SoundAt(t,0,"breath",head.position);SoundAt(t,.3f,"finger_crack",head.position);SoundAt(t,1,"palms",head.position);SoundAt(t,1,"choked_cry",head.position);SoundAt(t,1.5f,"wet_tear",head.position);
-    screenRed=t>=1.5f?Mathf.Clamp01((t-1.5f)*2):0;screenBlack=t>=2.5f?1:0;
+   }else if(DeathScene(name)){
+    // SCENARIO 7.4: lunge, claws enter from both edges and grip the temples, (full) the head is forced up to her face,
+    // nails pierce the hairline, the face is torn down, (full) she lifts it away, the clock strikes once, blood and black.
+    bool full=name=="DeathFull";sound.quiet=true;if(veil)veil.At(faceTear.FlapTime(t));
+    faceTear.Frame(t,out float pitchUp,out Vector2 shake);
+    var body=flat.player.transform.forward;float lift=full&&t>=.8f&&t<4.8f?Mathf.SmoothStep(0,1,Mathf.Clamp01((t-.8f)/.3f))*.2f:0;
+    flat.guest.SetActive(full?t<4.8f:t<2.5f);guest.localScale=guestScale;guest.position=startGuest;HeadAt(guest,head.position+body*.3f+Vector3.up*(lift-.07f));
+    var lens=cine.Lens;lens.FieldOfView=Mathf.Lerp(70,55,Mathf.Clamp01(t/.08f));cine.Lens=lens;
+    head.localRotation=startHead*Quaternion.Euler(pitchUp+shake.x,shake.y,0);
+    SoundAt(t,0,"breath",head.position);SoundAt(t,.3f,"finger_crack",head.position);
+    if(full){
+     if(lastTime<.8f&&t>=.8f)loop.Thought("…Мишаня…",1.4f);
+     SoundAt(t,1.5f,"palms",head.position);SoundAt(t,1.5f,"choked_cry",head.position);SoundAt(t,2f,"wet_tear",head.position);SoundAt(t,3.2f,"palms",head.position);SoundAt(t,4.5f,"chime",head.position);
+    }else{SoundAt(t,1,"palms",head.position);SoundAt(t,1,"choked_cry",head.position);SoundAt(t,1.5f,"wet_tear",head.position);}
+    screenRed=faceTear.Red(t);screenBlack=faceTear.Black(t);flat.look.disruption=faceTear.Disruption(t);
    }else if(name=="ChaseStart"){
     var leaf=flat.entrance.leaf;
     if(landingLight){landingLight.color=new Color(1,.12f,.04f);landingLight.intensity=t>=2?.85f:0;}

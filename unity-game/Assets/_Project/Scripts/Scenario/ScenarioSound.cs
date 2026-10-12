@@ -69,7 +69,7 @@ namespace Ataka.Scenario {
   void Update(){
    if(paused||!loop||!bank||!listener)return;
    if(!calibrating)foreach(var v in voices)if(v.cue!=null&&v.cue.loop)v.wanted=false;
-   bool chase=loop.chase&&loop.chase.Active;bool death=loop.scenes.PlayingScene=="DeathShort";bool hanging=loop.scenes.PlayingScene=="HangingVision";float sceneTime=loop.scenes.FrameTime;
+   bool chase=loop.chase&&loop.chase.Active;bool death=loop.scenes.InDeath;bool hanging=loop.scenes.PlayingScene=="HangingVision";float sceneTime=loop.scenes.FrameTime;
    if(!calibrating&&!loop.Finished&&!death&&!DeathRecovery){
     if(chase){foreach(var module in loop.chase.pool)if(module.lamp.intensity>0&&(!loop.chase.Ending||module==loop.chase.Current))EnsureLoop("clock",module.clock.transform);if(!loop.chase.Ending){EnsureLoop("player_breath",listener);EnsureLoop("guest_breath",loop.flat.guest.transform);EnsureLoop("heartbeat",listener);}}
     else if(clock&&!hanging)EnsureLoop("clock",clock);
@@ -86,7 +86,7 @@ namespace Ataka.Scenario {
     v.tailGain=Mathf.MoveTowards(v.tailGain,v.tailTarget,Time.deltaTime/.15f);float gain=v.bypassQuiet?1:worldGain;float sceneGain=1;
     // The short death is silent from black (2.5s); the hanging vision from disappearance (5s).
     // Explicit foreground selection preserves the later latch without globally dropping Play calls.
-    if(death)sceneGain=Mathf.Clamp01((2.5f-sceneTime)/.1f);
+    if(death)sceneGain=Mathf.Clamp01((loop.scenes.DeathSilence-sceneTime)/.1f);
     if(hanging){bool foreground=v.cue.id=="rope"||v.cue.id=="breath"||v.cue.id=="tinnitus";sceneGain=foreground?Mathf.Clamp01((5-sceneTime)/.1f):v.cue.id=="latch"&&sceneTime>=6?1:Mathf.Clamp01(1-sceneTime/.05f);}
     if(DeathRecovery)sceneGain=0;
     s.volume=v.baseGain*v.fade*gain*v.tailGain*Mathf.Lerp(1,.5f,v.occluded)*sceneGain;
