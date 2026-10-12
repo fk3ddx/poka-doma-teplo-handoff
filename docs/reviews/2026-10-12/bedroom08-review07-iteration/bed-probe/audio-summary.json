@@ -1,0 +1,13 @@
+{
+  "scope": "Unity listener mix, pre-OS output; not microphone or loopback",
+  "error": "",
+  "captureModeMutesOutput": true,
+  "clearedOutputCallbacks": 566,
+  "sampleRate": 48000,
+  "channels": 2,
+  "droppedSamples": 0,
+  "formatChanges": 0,
+  "peakActiveVoices": 1,
+  "suppressedOverlaps": 0,
+  "samples": 1159168
+}

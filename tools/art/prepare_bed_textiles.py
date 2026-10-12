@@ -38,53 +38,74 @@ for j in range(ny):
 o=obj('Textile coverlet',v,f,cover)
 mod=o.modifiers.new('Fabric thickness','SOLIDIFY');mod.thickness=.002
 bpy.context.view_layer.objects.active=o;bpy.ops.object.modifier_apply(modifier=mod.name)
-# Review06: separate cushions, 67 degrees from the mattress, below the top rail.
-# Widths .70/.60/.50; slightly compressed vertical cloth dimension, not rigid squares.
-tilt=math.radians(67);sn=math.sin(tilt);cs=math.cos(tilt)
-pillow_specs=[(.70,-.72),(.60,-.565),(.50,-.41)]
-def pillow_point(w,base_y,u,vv,side):
- radius=.04;h=w/(2*math.sqrt(2))+radius*(1-1/math.sqrt(2))
- a=(u*2-1)*h;b=(vv*2-1)*h;inner=h-radius
- da=max(0,abs(a)-inner);db=max(0,abs(b)-inner);length=math.hypot(da,db)
- if length>radius:
-  a=math.copysign(inner+da*radius/length,a)
-  b=math.copysign(inner+db*radius/length,b)
- px=(a-b)/math.sqrt(2);pv=(a+b)/math.sqrt(2)
- vertical=(pv+w*.5)*.76
- bulge=max(0,math.sin(math.pi*u)*math.sin(math.pi*vv))**.48
- thickness=side*(.003+.05*bulge)
- return (px,base_y-vertical*cs+thickness*sn,.605+vertical*sn+thickness*cs)
-for num,(w,base_y) in enumerate(pillow_specs):
- v=[];f=[];nx=24;ny=24
+# Review07 replaces the art director's earlier on-edge specification with a flat stack.
+# Retain renderer names only to preserve Unity material overrides / file IDs.
+pillow_specs=[(.70,.70,.16,-.57),(.60,.60,.15,-.60),(.50,.50,.14,-.60)]
+def cover_height(x,y):
+ topx=min(1,abs(x)/.43);sag=.010*(1-topx*topx);side=max(0,abs(x)-.405)
+ drop=(math.sqrt(side*side+.012*.012)-.012)*1.08+max(0,abs(y)-.915)**2*9
+ return .609-sag-drop+.0012*math.sin(y*8+x*5)+.0006*math.sin(y*17-x*8)
+def bulge_at(x,y,w,d,cy):
+ # Rounded-rectangle signed distance keeps the entire rounded seam at zero bulge.
+ # A rectangular sine sampled after clipping corners produced dark pinched spikes.
+ r=.026;qx=abs(x)-(w*.5-r);qy=abs(y-cy)-(d*.5-r)
+ depth=r-(math.hypot(max(qx,0),max(qy,0))+min(max(qx,qy),0))
+ t=max(0,min(1,depth/(min(w,d)*.5)))
+ return math.sin(t*math.pi*.5)**.25
+
+def pillow_top(i,x,y):
+ w,d,t,cy=pillow_specs[i]
+ return support(i,x,y)+.006+(t-.006)*bulge_at(x,y,w,d,cy)
+def support(i,x,y):return cover_height(x,y) if i==0 else pillow_top(i-1,x,y)
+contact=[]
+for num,(w,d,t,cy) in enumerate(pillow_specs):
+ v=[];f=[];nx=32;ny=32;bottom_gaps=[]
  for side in [1,-1]:
   for j in range(ny+1):
-   for i in range(nx+1):v.append(pillow_point(w,base_y,i/nx,j/ny,side))
+   for i in range(nx+1):
+    x=(i/nx-.5)*w;y=(j/ny-.5)*d
+    # Soft corners and pinched seam, convex feather filling rather than a bevelled slab.
+    radius=.026;ix=w*.5-radius;iy=d*.5-radius
+    dx=max(0,abs(x)-ix);dy=max(0,abs(y)-iy);length=math.hypot(dx,dy)
+    if length>radius:
+     x=math.copysign(ix+dx*radius/length,x);y=math.copysign(iy+dy*radius/length,y)
+    y+=cy
+    below=support(num,x,y)
+    # Compressed underside conforms to the support across its footprint; a centre-only
+    # contact left dark7cm wedges at the seams and looked like levitation at5.1.
+    bottom=below+.0002
+    top=pillow_top(num,x,y)
+    assert bottom<top, (num,x,y,bottom,top)
+    z=top if side==1 else bottom
+    v.append((x,y,z))
+    if side==-1:bottom_gaps.append(bottom-below)
  layer=(nx+1)*(ny+1)
  for side in range(2):
   for j in range(ny):
    for i in range(nx):
     a=side*layer+j*(nx+1)+i;q=(a,a+1,a+nx+2,a+nx+1)
-    f.append(tuple(reversed(q)) if side==0 else q)
+    f.append(q if side==0 else tuple(reversed(q)))
  edge=list(range(nx+1))+[j*(nx+1)+nx for j in range(1,ny+1)]+[ny*(nx+1)+i for i in range(nx-1,-1,-1)]+[j*(nx+1) for j in range(ny-1,0,-1)]
  for k,a in enumerate(edge):b=edge[(k+1)%len(edge)];f.append((a,b,b+layer,a+layer))
  o=obj('Textile upright pillow '+str(num+1),v,f,linen)
- for poly in o.data.polygons:
-  for li in poly.loop_indices:
-   co=o.data.vertices[o.data.loops[li].vertex_index].co
-   o.data.uv_layers.active.data[li].uv=(co.x*2,co.z*2)
-# Veil follows the actual front surface of the large back cushion only.
+ contact.append({'layer':num+1,'minimum_gap_m':min(bottom_gaps),'contact_vertices_under_1mm':sum(g<.001 for g in bottom_gaps)})
+ assert min(bottom_gaps)<.001 and min(bottom_gaps)>=0
+# One lace veil over the top cushion, falling about10cm down its front edge.
 lace=bpy.data.materials.new('Bed_Lace_CC0');lace.diffuse_color=(1,1,1,1)
-v=[];f=[];nx=24;ny=16
+v=[];f=[];nx=32;ny=28
 for j in range(ny+1):
  for i in range(nx+1):
-  u=.50+.46*i/nx;vv=.50+.46*j/ny
-  x,y,z=pillow_point(.70,-.72,u,vv,1)
-  v.append((x,y+.004*sn,z+.004*cs))
+  x=-.23+.46*i/nx
+  if j<=20:
+   y=-.81+.46*j/20;z=pillow_top(2,x,y)+.004
+  else:
+   t=(j-20)/8;y=-.346+.008*t
+   z=max(pillow_top(2,x,-.35)+.004-.10*t,pillow_top(1,x,y)+.004)
+  v.append((x,y,z))
 for j in range(ny):
  for i in range(nx):
   a=j*(nx+1)+i;f.append((a,a+1,a+nx+2,a+nx+1))
-# Same outward normal as the pillow front, so white threads receive the flashlight.
-o=obj('Textile lace veil',v,[tuple(reversed(face)) for face in f],lace)
+o=obj('Textile lace veil',v,f,lace)
 for poly in o.data.polygons:
  for li in poly.loop_indices:
   index=o.data.loops[li].vertex_index
@@ -99,5 +120,5 @@ for o in bpy.context.scene.objects:
  lo=[min(v[i] for v in points) for i in range(3)];hi=[max(v[i] for v in points) for i in range(3)]
  assert all(math.isfinite(x) for x in lo+hi)
  report.append(dict(name=o.name,vertices=len(points),min=lo,max=hi,size=[hi[i]-lo[i] for i in range(3)]))
-(out/'BedTextiles-geometry.json').write_text(json.dumps({'scope':'Blender textile mesh dimensions only; no Unity import or visual approval','review':'06','pillow_tilt_degrees':67,'pillow_parallel_plane_gap_m':.155*sn-.106,'meshes':report},indent=2),encoding='utf-8')
+(out/'BedTextiles-geometry.json').write_text(json.dumps({'scope':'Blender textile mesh dimensions only; no Unity import or visual approval','review':'07','pillow_arrangement':'flat stacked feather cushions','support_contact':contact,'meshes':report},indent=2),encoding='utf-8')
 print('TEXTILES_EXPORTED',len(bpy.context.scene.objects),'cloth meshes')

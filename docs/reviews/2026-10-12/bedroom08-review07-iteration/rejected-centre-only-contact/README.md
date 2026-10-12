@@ -1,0 +1,1 @@
+First review07 geometry had contact at centre only. Full route passed, but at5.1 the raised seams looked detached. Rejected visual result; underside changed to conform to support across footprint. These are real original captures, no exposure changes.

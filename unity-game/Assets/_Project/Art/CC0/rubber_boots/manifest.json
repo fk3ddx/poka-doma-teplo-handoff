@@ -1,0 +1,47 @@
+{
+  "source_sha256": "705a790e4cc80d638cffbb280ef371a0b8fb2f3e2ab6f885a95b5831a3e60f65",
+  "original_dimensions_blender": [
+    0.2904905676841736,
+    0.26615774631500244,
+    0.37275177240371704
+  ],
+  "dimensions_blender": [
+    0.2883460819721222,
+    0.2641929090023041,
+    0.3700000047683716
+  ],
+  "uniform_scale": 0.9926177167076949,
+  "materials": [
+    {
+      "name": "Boots_0",
+      "texture": "Textures/rubber_boots_dirty_diff.png",
+      "normal": "Textures/rubber_boots_dirty_nor_gl.png"
+    }
+  ],
+  "objects": [
+    {
+      "name": "rubber_boots_dirty_l",
+      "dimensions": [
+        0.2883460819721222,
+        0.2641929090023041,
+        0.3700000047683716
+      ],
+      "materials": [
+        "Boots_0"
+      ],
+      "bounds": [
+        [
+          -0.1441730409860611,
+          -0.13209645450115204,
+          0.0
+        ],
+        [
+          0.1441730409860611,
+          0.13209645450115204,
+          0.3700000047683716
+        ]
+      ]
+    }
+  ],
+  "scope": "Prepared author mesh, not integrated or visually approved in Unity."
+}

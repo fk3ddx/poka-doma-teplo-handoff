@@ -6,7 +6,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: CornerShelf
+  m_Name: Review06 triangular corner shelf
   serializedVersion: 12
   m_SubMeshes:
   - serializedVersion: 2
@@ -17,19 +17,19 @@ Mesh:
     firstVertex: 0
     vertexCount: 18
     localAABB:
-      m_Center: {x: 0.33499998, y: -0.0125, z: 0.33499998}
-      m_Extent: {x: 0.315, y: 0.0125, z: 0.315}
+      m_Center: {x: 0.19500001, y: -0.0125, z: 0.19500001}
+      m_Extent: {x: 0.175, y: 0.0125, z: 0.175}
   m_Shapes:
     vertices: []
     shapes: []
     channels: []
     fullWeights: []
   m_BindPose: []
-  m_BoneNameHashes:
+  m_BoneNameHashes: 
   m_RootBoneNameHash: 0
   m_BonesAABB: []
   m_VariableBoneCountWeights:
-    m_Data:
+    m_Data: 
   m_MeshCompression: 0
   m_IsReadable: 1
   m_KeepVertices: 1
@@ -97,66 +97,66 @@ Mesh:
       format: 0
       dimension: 0
     m_DataSize: 576
-    _typelessdata: 0ad7a33c000000000ad7a33c00000000ffff7f3f000000000ad7233d0ad7233d0ad7a33c000000006666263f00000000ffff7f3f000000000ad7233d6666a63f6666263f000000000ad7a33c00000000ffff7f3f000000006666a63f0ad7233d0ad7a33ccdccccbc0ad7a33c00000000ffff7fbf000000000ad7233d0cd723bc6666263fcdccccbc0ad7a33c00000000ffff7fbf000000006666a63f0cd723bc0ad7a33ccdccccbc6666263f00000000ffff7fbf000000000ad7233d0000a03f0ad7a33c000000000ad7a33c0000000000000000000080bf0ad7233d0ad7233d6666263f000000000ad7a33c0000000000000000000080bf6666a63f0ad7233d6666263fcdccccbc0ad7a33c0000000000000000000080bf6666a63f0cd723bc0ad7a33ccdccccbc0ad7a33c0000000000000000000080bf0ad7233d0cd723bc6666263f000000000ad7a33cf304353f00000000f304353f6666a63f0ad7233d0ad7a33c000000006666263ff304353f00000000f304353f0ad7233d6666a63f0ad7a33ccdccccbc6666263ff304353f00000000f304353f0ad7233d0000a03f6666263fcdccccbc0ad7a33cf304353f00000000f304353f6666a63f0cd723bc0ad7a33c000000006666263f000080bf00000000000000000ad7233d6666a63f0ad7a33c000000000ad7a33c000080bf00000000000000000ad7233d0ad7233d0ad7a33ccdccccbc0ad7a33c000080bf00000000000000000ad7233d0cd723bc0ad7a33ccdccccbc6666263f000080bf00000000000000000ad7233d0000a03f
+    _typelessdata: 0ad7a33c000000000ad7a33c00000000ffff7f3f000000000ad7233d0ad7233d0ad7a33c00000000a470bd3e00000000ffff7f3f000000000ad7233da4703d3fa470bd3e000000000ad7a33c00000000ffff7f3f00000000a4703d3f0ad7233d0ad7a33ccdccccbc0ad7a33c00000000ffff7fbf000000000ad7233d0cd723bca470bd3ecdccccbc0ad7a33c00000000ffff7fbf00000000a4703d3f0cd723bc0ad7a33ccdccccbca470bd3e00000000ffff7fbf000000000ad7233dd7a3303f0ad7a33c000000000ad7a33c0000000000000000000080bf0ad7233d0ad7233da470bd3e000000000ad7a33c0000000000000000000080bfa4703d3f0ad7233da470bd3ecdccccbc0ad7a33c0000000000000000000080bfa4703d3f0cd723bc0ad7a33ccdccccbc0ad7a33c0000000000000000000080bf0ad7233d0cd723bca470bd3e000000000ad7a33cf304353f00000000f304353fa4703d3f0ad7233d0ad7a33c00000000a470bd3ef304353f00000000f304353f0ad7233da4703d3f0ad7a33ccdccccbca470bd3ef304353f00000000f304353f0ad7233dd7a3303fa470bd3ecdccccbc0ad7a33cf304353f00000000f304353fa4703d3f0cd723bc0ad7a33c00000000a470bd3e000080bf00000000000000000ad7233da4703d3f0ad7a33c000000000ad7a33c000080bf00000000000000000ad7233d0ad7233d0ad7a33ccdccccbc0ad7a33c000080bf00000000000000000ad7233d0cd723bc0ad7a33ccdccccbca470bd3e000080bf00000000000000000ad7233dd7a3303f
   m_CompressedMesh:
     m_Vertices:
       m_NumItems: 0
       m_Range: 0
       m_Start: 0
-      m_Data:
+      m_Data: 
       m_BitSize: 0
     m_UV:
       m_NumItems: 0
       m_Range: 0
       m_Start: 0
-      m_Data:
+      m_Data: 
       m_BitSize: 0
     m_Normals:
       m_NumItems: 0
       m_Range: 0
       m_Start: 0
-      m_Data:
+      m_Data: 
       m_BitSize: 0
     m_Tangents:
       m_NumItems: 0
       m_Range: 0
       m_Start: 0
-      m_Data:
+      m_Data: 
       m_BitSize: 0
     m_Weights:
       m_NumItems: 0
-      m_Data:
+      m_Data: 
       m_BitSize: 0
     m_NormalSigns:
       m_NumItems: 0
-      m_Data:
+      m_Data: 
       m_BitSize: 0
     m_TangentSigns:
       m_NumItems: 0
-      m_Data:
+      m_Data: 
       m_BitSize: 0
     m_FloatColors:
       m_NumItems: 0
       m_Range: 0
       m_Start: 0
-      m_Data:
+      m_Data: 
       m_BitSize: 0
     m_BoneIndices:
       m_NumItems: 0
-      m_Data:
+      m_Data: 
       m_BitSize: 0
     m_Triangles:
       m_NumItems: 0
-      m_Data:
+      m_Data: 
       m_BitSize: 0
     m_UVInfo: 0
   m_LocalAABB:
-    m_Center: {x: 0.33499998, y: -0.0125, z: 0.33499998}
-    m_Extent: {x: 0.315, y: 0.0125, z: 0.315}
+    m_Center: {x: 0.19500001, y: -0.0125, z: 0.19500001}
+    m_Extent: {x: 0.175, y: 0.0125, z: 0.175}
   m_MeshUsageFlags: 0
   m_CookingOptions: 30
-  m_BakedConvexCollisionMesh:
-  m_BakedTriangleCollisionMesh:
+  m_BakedConvexCollisionMesh: 
+  m_BakedTriangleCollisionMesh: 
   'm_MeshMetrics[0]': 1
   'm_MeshMetrics[1]': 1
   m_MeshOptimizationFlags: 1
@@ -164,7 +164,7 @@ Mesh:
     serializedVersion: 2
     offset: 0
     size: 0
-    path:
+    path: 
   m_MeshLodInfo:
     serializedVersion: 2
     m_LodSelectionCurve:
