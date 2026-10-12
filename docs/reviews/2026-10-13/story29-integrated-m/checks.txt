@@ -1,0 +1,28 @@
+MODE rendered screenshots
+menu-to-play
+INTEGRATED real EnterLoop; coreTestOnly=false; finale will continue in this process without QaBegin/FinishCore injection
+WALK (7.72, 0.01, 4.15) target=(7.70, 0.00, 4.05)
+PASS first E opens cupboard without granting flashlight
+PASS cupboard opening does not displace standing player
+WALK (8.00, 0.01, 4.08) target=(8.10, 0.00, 4.05)
+PASS cupboard resumes opening after step back
+PASS pickup line of sight has no geometric obstruction
+PASS second E takes flashlight from cupboard
+PASS cupboard waits before auto close
+PASS pause freezes cupboard close delay
+PASS cupboard automatically closes through safe door driver
+PASS lap 1 entered
+PASS lap 1 bedside clock follows scenario time
+PASS lap 1 ready bedside clock has time source
+WALK (7.91, 0.01, 5.24) target=(7.90, 0.00, 5.35)
+WALK (5.74, 0.01, 5.35) target=(5.65, 0.00, 5.35)
+WALK (5.66, 0.02, 3.69) target=(5.65, 0.00, 3.60)
+WALK (3.37, 0.02, 3.59) target=(3.25, 0.00, 3.60)
+WALK (2.40, 0.01, 3.60) target=(2.30, 0.00, 3.60)
+WALK (1.01, 0.01, 3.74) target=(0.90, 0.00, 3.75)
+PASS gate 1 released by event
+DOOR stopped at original approach; step clear per Claude review05
+WALK (1.09, 0.01, 3.14) target=(1.10, 0.00, 3.05)
+WALK (8.03, 0.02, 6.66) target=(0.90, 0.00, 5.10)
+FAIL walk blocked toward (8.05, 0.00, 5.55) at (8.27, 0.02, 6.49) yaw=193,0252 W=True control=True speed=0 paused=False
+WALK (8.27, 0.02, 6.49) target=(8.05, 0.00, 5.55)

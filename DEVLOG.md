@@ -782,3 +782,10 @@ BuildL prologueL PASS/errors0/stuck0: full yard/stairs/flat route77.1m plus step
 Claude reviewed F04/FaceL2.30/KeyL2.8 and confirmed the gap fix. His remaining testing requests: fresh open branch (now completed) and actual six laps→chase→finale in one process. Do NOT pretend a ChaseEnd test directly calling FinishCore covers the latter.
 
 Added QA-only -scenario-integrated-finale / rendered_player --mode integrated. Starts with real StoryDirector.EnterLoop, keeps coreTestOnly=false, walks all existing ScenarioSmoke laps/chase/clock holds. Waits for real Finale chapter rather than core-only Finished. Then FinaleQA.ContinueCurrent takes over the EXISTING chapter without QaBegin or direct FinishCore. Core and finale reports stored separately; process output silently captured. Camera staging/accelerated finale waits remain disclosed. BuildM compiled exit0; integratedM running at this checkpoint, result unknown. No production gameplay changed. Draft STORY29-PREVIEW-RU.md is not a delivered archive yet.
+
+
+# Integrated M FAILED: actual doorway blocker
+
+BuildM exit0. IntegratedM exits1/errors0 at lap2 after first warp. Natural original route, no waypoint bypass: target(8.05,0,5.55), stuck(8.27,.02,6.49), yaw193, controltrue/speed0. FAILED-walk shows door surface. Core started with real EnterLoop, which explicitly sets entrance.direction=1, unlike story Homely direction=-1 (inward to hallway). Suspect outward leaf sweeps into the returning player's one-metre tambour; must diagnose actual blocker before changing anything. Do not hide by staging player or deleting collider.
+
+Archive NOT released. Fresh prologueL and openL both passed; those do not cover this loop return. Send exact evidence to Claude; inspect door angles, capsule and collider if necessary. Goal active; failed runner ended, no Unity/player left alive.
