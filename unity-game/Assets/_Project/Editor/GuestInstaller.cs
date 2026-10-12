@@ -39,13 +39,13 @@ namespace Ataka.Editor {
     Materialise("GuestClaw",model,m);model.SetActive(false);death.clawSource=model;Debug.Log("GUEST_CLAW installed");
    }else Debug.LogWarning("GUEST_CLAW missing: "+claw+" — run tools/art/prepare_guest.py");
    // Body: authored creature as a child of the logical Guest; proxy surfaces hidden at runtime.
-   string body=Root+"GuestRake/GuestRake.fbx";
+   string body=Root+"GuestBody/GuestBody.fbx";
    if(File.Exists(body)){
     var importer=(ModelImporter)AssetImporter.GetAtPath(body);if(importer.animationType!=ModelImporterAnimationType.Legacy){importer.animationType=ModelImporterAnimationType.Legacy;importer.importAnimation=true;importer.SaveAndReimport();}
-    var m=Read("GuestRake");var guest=flat.guest.transform;var old=guest.Find("READY GuestRake");if(old)UnityEngine.Object.DestroyImmediate(old.gameObject);
+    var m=Read("GuestBody");var guest=flat.guest.transform;var old=guest.Find("READY GuestBody");if(old)UnityEngine.Object.DestroyImmediate(old.gameObject);
     var proxy=guest.GetComponentsInChildren<Renderer>(true);
-    var model=(GameObject)PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath<GameObject>(body));model.name="READY GuestRake";model.transform.SetParent(guest,false);
-    Materialise("GuestRake",model,m);
+    var model=(GameObject)PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath<GameObject>(body));model.name="READY GuestBody";model.transform.SetParent(guest,false);
+    Materialise("GuestBody",model,m);
     // Same height and feet as the proxy so HeadAt / chase placement stay valid.
     var pb=proxy[0].bounds;foreach(var r in proxy)pb.Encapsulate(r.bounds);var rs=model.GetComponentsInChildren<Renderer>(true);var mb=rs[0].bounds;foreach(var r in rs)mb.Encapsulate(r.bounds);
     model.transform.localScale*=pb.size.y/Mathf.Max(.01f,mb.size.y);mb=rs[0].bounds;foreach(var r in rs)mb.Encapsulate(r.bounds);
