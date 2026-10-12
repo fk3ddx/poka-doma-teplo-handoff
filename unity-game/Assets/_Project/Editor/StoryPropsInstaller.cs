@@ -12,6 +12,8 @@ namespace Ataka.Editor {
   const string Root="Assets/_Project/Art/ReadyModels/Story/";
   // Initial placements (bottom-centre pivots, metres, yaw degrees). Hidden ones are revealed by the story.
   static readonly (string id,Vector3 at,float yaw,bool visible)[] Places={
+   ("Bag",new Vector3(8.35f,0,5.45f),90,false),
+   ("Corvalol",new Vector3(7.25f,.745f,.75f),0,false),
    ("Kettle",new Vector3(8.48f,.86f,1.85f),90,true),   // back burner of the stove (4.3)
    ("Matchbox",new Vector3(8.24f,1.552f,2.40f),20,true),// on top of the ZiL (4.3)
    ("JamJar",new Vector3(5.60f,.905f,-1.26f),0,true),  // on the balcony parapet (4.3)

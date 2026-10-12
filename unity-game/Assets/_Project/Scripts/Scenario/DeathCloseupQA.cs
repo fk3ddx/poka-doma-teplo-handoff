@@ -28,6 +28,7 @@ namespace Ataka.Scenario {
    p.hasFlashlight=torch;
    var fd=scenes.faceTear;checks.Add("MODE death close-up QA, torch "+(torch?"on":"off")+", claw source "+(fd&&fd.clawSource?fd.clawSource.name:"none (fallback)")+
     (fd?", fingers "+fd.clawFingers.ToString("F3")+" palm "+fd.clawPalm.ToString("F3")+" roll "+fd.clawRoll+" euler "+fd.clawEuler+" length "+fd.clawLength+" fill "+fd.fillIntensity:""));
+   checks.Add((fd&&fd.clawSource?"PASS ":"FAIL ")+"ready claw source assigned (fallback is not accepted)");
    foreach(var scene in new[]{"DeathFull","DeathShort"})foreach(var spot in Spots){
     p.Place(spot.feet,spot.yaw,0);yield return null;yield return null;yield return new WaitForSeconds(.3f);
     var marks=scene=="DeathFull"?FullMarks:ShortMarks;int k=0;StartCoroutine(scenes.Play(scene));yield return null;

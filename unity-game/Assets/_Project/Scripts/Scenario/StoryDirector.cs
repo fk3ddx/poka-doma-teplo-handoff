@@ -234,7 +234,7 @@ namespace Ataka.Scenario {
   IEnumerator Evening(bool continued){
    chapter=Chapter.Evening;
    if(!continued){loop.Pause(false);Homely(true);flat.stool.SetActive(true);flat.stool.transform.SetPositionAndRotation(new Vector3(7.15f,0,1.2f),Quaternion.identity);player.Place(ScenarioLayout.Spawn,180);GranShow("Kitchen",90);yield return Fade(0,.8f);}
-   Checkpoint("Evening");HouseSound(true,false);Put("Bag",BagAtDoor);Show("Corvalol",false);flat.clock.stopped=true;Clock(19,15);OfferFlashlight();PropsAtEveningStart();
+   Checkpoint("Evening");HouseSound(true,false);PropsAtEveningStart();Put("Bag",BagAtDoor);Show("Corvalol",false);flat.clock.stopped=true;Clock(19,15);OfferFlashlight();
    // 4.1
    Task("Повесить куртку и разуться");
    yield return Use(new Vector3(8.72f,1.6f,5.1f),"Повесить куртку");sound.Play("carpet_step",player.transform.position);

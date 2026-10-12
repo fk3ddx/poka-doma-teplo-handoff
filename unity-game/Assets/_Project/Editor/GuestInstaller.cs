@@ -50,7 +50,8 @@ namespace Ataka.Editor {
     var cimp=(ModelImporter)AssetImporter.GetAtPath(claw);if(cimp&&!cimp.isReadable){cimp.isReadable=true;cimp.SaveAndReimport();} // orientation is measured from the mesh
     var m=Read("GuestClaw");var old=timeline.transform.Find("READY GuestClaw source");if(old)UnityEngine.Object.DestroyImmediate(old.gameObject);
     var model=(GameObject)PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath<GameObject>(claw));model.name="READY GuestClaw source";model.transform.SetParent(timeline.transform,false);
-    Materialise("GuestClaw",model,m);Orient(death,model,m);death.clawLength=.58f; // forearm+hand reaching from outside the frame (story18)model.SetActive(false);death.clawSource=model;Debug.Log("GUEST_CLAW installed");
+    Materialise("GuestClaw",model,m);Orient(death,model,m);death.clawLength=.58f; // forearm+hand reaching from outside the frame
+    model.SetActive(false);death.clawSource=model;EditorUtility.SetDirty(death);Debug.Log("GUEST_CLAW installed");
    }else Debug.LogWarning("GUEST_CLAW missing: "+claw+" — run tools/art/prepare_guest.py");
    // Body: authored creature as a child of the logical Guest; proxy surfaces hidden at runtime.
    string body=Root+"GuestBody/GuestBody.fbx";
