@@ -1,0 +1,20 @@
+{
+    "passed": false,
+    "rewindActiveSeconds": 9.610092163085938,
+    "rewindRealSeconds": 10.170158386230469,
+    "pauseRealSeconds": 0.51611328125,
+    "pauseClockDrift": 0.0,
+    "samples": 2598,
+    "capacity": 4000,
+    "floatsPerSample": 30,
+    "bytesReserved": 484096,
+    "bytesUsed": 312592,
+    "soundsRecorded": 52,
+    "memoriesStaged": 4,
+    "journalEntries": 345,
+    "reverseOrderViolations": 0,
+    "distinctCameraPositions": 12,
+    "failures": 1,
+    "errors": 0,
+    "chapterAfter": "Night2"
+}
