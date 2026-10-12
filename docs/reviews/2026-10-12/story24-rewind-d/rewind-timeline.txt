@@ -1,0 +1,342 @@
+rewind_clock	night_time	what
+1,02	346,35	frame 2496
+1,03	345,35	frame 2488
+1,05	344,45	frame 2480
+1,07	343,45	sound palms (palms_00)
+1,07	343,35	frame 2472
+1,08	342,25	frame 2464
+1,10	341,35	frame 2456
+1,12	340,35	frame 2448
+1,13	340,15	sound palms (palms_01)
+1,13	339,45	frame 2440
+1,15	338,45	frame 2432
+1,17	337,45	frame 2424
+1,18	337,15	sound palms (palms_03)
+1,18	336,45	frame 2416
+1,20	335,55	frame 2408
+1,22	334,45	frame 2400
+1,29	330,05	frame 2363
+1,31	329,15	frame 2355
+1,32	328,15	frame 2347
+1,34	327,15	frame 2339
+1,36	326,15	frame 2331
+1,37	325,25	frame 2323
+1,39	324,35	frame 2315
+1,41	323,35	frame 2307
+1,42	322,95	sound balcony (glass_impact_04)
+1,42	322,95	sound door_burst (wood_impact_01)
+1,42	322,35	frame 2299
+1,44	321,45	frame 2291
+1,46	320,45	frame 2283
+1,47	319,55	frame 2275
+1,49	318,55	frame 2267
+1,51	317,65	frame 2259
+1,52	316,65	frame 2251
+1,54	315,65	frame 2243
+1,56	314,65	frame 2235
+1,57	313,75	frame 2227
+1,59	312,65	frame 2219
+1,61	311,55	frame 2211
+1,62	310,95	sound scratch (scratch)
+1,62	310,55	frame 2203
+1,64	309,75	frame 2195
+1,66	308,65	frame 2187
+1,67	307,55	frame 2179
+1,69	306,35	frame 2171
+1,71	305,35	frame 2163
+1,72	304,35	frame 2155
+1,74	303,35	frame 2147
+1,76	302,25	frame 2139
+1,77	301,05	frame 2131
+1,79	299,95	frame 2122
+1,81	298,95	frame 2114
+1,82	297,85	frame 2106
+1,84	296,75	frame 2098
+1,86	295,85	frame 2090
+1,87	294,65	frame 2082
+1,89	293,55	frame 2074
+1,91	292,55	frame 2066
+1,92	291,55	frame 2058
+1,94	290,35	frame 2050
+1,96	289,45	frame 2042
+1,97	288,25	frame 2034
+1,99	287,15	frame 2026
+2,01	286,95	sound phone (phone_02)
+2,01	286,15	frame 2018
+2,09	281,35	frame 1980
+2,10	280,45	frame 1972
+2,12	279,45	frame 1964
+2,14	278,35	frame 1956
+2,15	277,35	frame 1948
+2,17	276,35	frame 1940
+2,19	275,45	frame 1932
+2,20	274,35	frame 1924
+2,22	273,45	frame 1916
+2,24	272,45	frame 1908
+2,25	272,05	sound knock (knock_01)
+2,25	271,55	frame 1900
+2,27	271,15	sound knock (knock_00)
+2,27	270,55	frame 1892
+2,29	270,25	sound knock (knock_02)
+2,29	269,65	frame 1884
+2,30	268,55	frame 1876
+2,32	267,55	frame 1868
+2,34	266,55	frame 1860
+2,35	265,55	frame 1852
+2,37	264,65	frame 1844
+2,39	263,75	frame 1836
+2,40	262,75	frame 1828
+2,42	261,74	frame 1820
+2,44	260,84	frame 1812
+2,45	260,24	sound door_voice (knock-grandmother)
+2,45	259,84	frame 1804
+2,47	259,34	sound knock (knock_00)
+2,47	258,94	frame 1796
+2,49	258,44	sound knock (knock_02)
+2,49	258,04	frame 1788
+2,50	257,54	sound knock (knock_00)
+2,50	256,84	frame 1779
+2,52	255,94	frame 1771
+2,54	254,94	frame 1763
+2,55	254,04	frame 1755
+2,57	252,94	frame 1747
+2,59	251,74	frame 1739
+2,60	250,64	frame 1731
+2,62	249,44	frame 1723
+2,64	248,24	frame 1715
+2,65	247,54	sound breaker (breaker)
+2,65	246,94	frame 1707
+2,67	245,54	frame 1699
+2,69	244,24	frame 1691
+2,70	242,94	frame 1683
+2,72	241,74	frame 1675
+2,74	240,54	frame 1667
+2,75	239,34	frame 1659
+2,77	238,14	frame 1651
+2,79	236,84	frame 1643
+2,80	235,64	frame 1635
+2,82	234,54	frame 1627
+2,84	233,44	frame 1619
+2,85	232,04	frame 1611
+2,87	230,84	frame 1603
+2,89	229,84	frame 1595
+2,90	228,64	frame 1587
+2,92	227,44	frame 1579
+2,94	226,14	frame 1571
+2,95	225,04	frame 1563
+2,97	224,04	frame 1555
+2,99	222,64	frame 1547
+3,00	221,44	frame 1539
+3,09	218,94	sound test_tone (Test card 1 kHz)
+3,09	218,54	sound tv_on (tv_on)
+3,09	214,94	sound drip (drip_01)
+3,09	214,64	frame 1496
+3,12	212,24	frame 1481
+3,22	209,04	sound drip (drip_00)
+3,22	204,84	frame 1433
+3,24	203,44	frame 1424
+3,26	202,34	frame 1416
+3,27	201,44	sound drip (drip_01)
+3,27	201,14	frame 1408
+3,29	199,94	frame 1400
+3,31	198,84	frame 1392
+3,32	197,64	frame 1384
+3,34	196,34	frame 1376
+3,36	195,04	frame 1368
+3,38	193,84	sound drip (drip_00)
+3,38	193,84	frame 1360
+3,39	192,64	frame 1352
+3,41	191,34	frame 1344
+3,43	190,24	frame 1336
+3,44	189,04	frame 1328
+3,46	187,84	frame 1320
+3,48	186,74	sound drip (drip_01)
+3,48	186,64	frame 1312
+3,49	185,24	frame 1304
+3,51	184,04	frame 1296
+3,53	182,74	frame 1287
+3,54	181,54	frame 1279
+3,56	180,44	frame 1271
+3,58	179,24	sound drip (drip_00)
+3,58	179,24	frame 1263
+3,59	177,94	frame 1255
+3,61	176,84	frame 1247
+3,63	175,64	frame 1239
+3,64	174,24	frame 1231
+3,66	172,94	frame 1223
+3,68	172,04	sound drip (drip_01)
+3,68	171,84	frame 1215
+3,69	170,74	frame 1207
+3,71	169,54	frame 1199
+3,73	168,33	frame 1191
+3,74	167,13	frame 1183
+3,76	166,03	frame 1175
+3,78	164,73	sound drip (drip_00)
+3,78	164,73	frame 1167
+3,79	163,53	frame 1159
+3,81	162,13	frame 1151
+3,83	160,73	frame 1143
+3,84	159,53	frame 1135
+3,86	158,33	frame 1127
+3,88	157,73	sound drip (drip_01)
+3,88	157,13	frame 1119
+3,89	155,73	frame 1111
+3,91	154,43	frame 1103
+3,93	153,13	frame 1095
+3,94	152,03	frame 1087
+3,96	151,53	sound car (car_pass)
+3,96	151,33	sound drip (drip_00)
+3,96	150,83	frame 1079
+3,98	149,73	frame 1071
+3,99	148,53	frame 1063
+4,01	147,33	frame 1055
+4,03	146,33	frame 1047
+4,04	145,33	sound drip (drip_01)
+4,04	144,93	frame 1039
+4,06	143,83	frame 1031
+4,08	142,80	frame 1023
+4,09	141,46	frame 1015
+4,11	140,46	frame 1007
+4,13	139,06	frame 999
+4,14	137,96	frame 991
+4,16	136,76	frame 983
+4,18	136,66	sound drip (drip_00)
+4,18	135,46	frame 974
+4,19	134,26	frame 966
+4,21	132,96	frame 958
+4,23	131,76	frame 950
+4,24	130,66	frame 942
+4,26	129,46	sound drip (drip_01)
+4,26	129,46	frame 934
+4,28	128,36	frame 926
+4,29	127,06	frame 918
+4,31	125,86	frame 910
+4,33	124,86	frame 902
+4,34	123,86	frame 894
+4,36	122,86	frame 886
+4,38	121,96	frame 878
+4,39	120,76	frame 870
+4,41	120,56	sound drip (drip_00)
+4,41	119,76	frame 862
+4,43	118,66	frame 854
+4,44	117,76	frame 846
+4,46	116,66	frame 838
+4,48	115,96	sound drip (drip_01)
+4,48	115,76	frame 830
+4,49	114,76	frame 822
+4,51	113,76	frame 814
+4,53	112,76	frame 806
+4,54	111,76	frame 798
+4,56	110,76	frame 790
+4,58	110,56	sound drip (drip_00)
+4,58	109,76	frame 782
+4,59	108,76	frame 774
+4,61	107,56	frame 766
+4,63	106,56	frame 758
+4,64	105,56	frame 750
+4,66	104,56	frame 742
+4,68	103,56	frame 734
+4,69	103,25	sound drip (drip_01)
+4,69	102,35	frame 726
+4,71	101,45	frame 718
+4,73	100,25	frame 710
+4,74	99,05	frame 702
+4,76	98,55	sound drip (drip_00)
+4,76	98,25	frame 694
+4,78	97,25	frame 686
+4,79	95,95	frame 677
+4,81	94,75	frame 669
+4,83	93,85	frame 661
+4,84	92,75	frame 653
+4,86	91,75	frame 645
+4,88	90,65	frame 637
+4,89	90,15	sound drip (drip_01)
+4,89	89,55	frame 629
+4,91	88,65	frame 621
+4,93	87,55	frame 613
+4,94	86,55	frame 605
+4,96	85,45	frame 597
+4,98	84,35	frame 589
+4,99	83,95	sound drip (drip_00)
+4,99	83,35	frame 581
+5,01	82,25	frame 573
+5,09	79,35	sound drip (drip_01)
+5,09	76,64	frame 532
+5,11	75,54	frame 524
+5,13	74,54	frame 516
+5,14	73,44	frame 508
+5,16	72,34	frame 500
+5,18	72,24	sound drip (drip_00)
+5,18	72,04	sound car (car_pass)
+5,18	71,14	frame 492
+5,19	69,94	frame 484
+5,21	68,84	frame 476
+5,23	67,84	frame 468
+5,24	66,74	frame 460
+5,26	65,74	frame 452
+5,28	65,64	sound drip (drip_01)
+5,28	64,54	frame 444
+5,29	63,34	frame 436
+5,31	62,14	frame 428
+5,33	61,04	frame 420
+5,34	60,04	frame 412
+5,36	59,74	sound drip (drip_00)
+5,36	59,04	frame 404
+5,38	57,94	frame 396
+5,39	56,84	frame 388
+5,41	55,64	frame 380
+5,43	54,64	frame 372
+5,44	53,54	frame 364
+5,46	52,44	frame 356
+5,48	51,44	frame 348
+5,49	50,84	sound drip (drip_01)
+5,49	50,24	frame 340
+5,51	49,13	frame 332
+5,53	48,13	frame 324
+5,54	46,73	frame 316
+5,56	45,53	frame 307
+5,58	44,33	frame 299
+5,59	43,33	frame 291
+5,61	42,73	sound drip (drip_00)
+5,61	42,23	frame 283
+5,63	41,13	frame 275
+5,64	40,13	frame 267
+5,66	38,93	frame 259
+5,68	37,83	sound drip (drip_01)
+5,68	37,83	frame 251
+5,69	36,73	frame 243
+5,71	35,53	frame 235
+5,73	34,23	frame 227
+5,74	33,73	sound drip (drip_00)
+5,74	33,03	frame 219
+5,76	31,93	frame 211
+5,78	30,93	frame 203
+5,79	29,83	frame 195
+5,81	28,73	frame 187
+5,89	26,53	sound drip (drip_01)
+5,89	22,22	frame 146
+5,91	21,32	sound drip (drip_00)
+5,91	21,02	frame 138
+5,93	19,82	frame 130
+5,94	18,62	frame 122
+5,96	17,32	frame 114
+5,98	16,22	frame 106
+5,99	15,12	frame 98
+6,01	15,02	sound drip (drip_01)
+6,01	13,92	frame 90
+6,03	12,52	frame 82
+6,04	11,32	frame 74
+6,06	10,22	frame 66
+6,08	8,72	frame 58
+6,09	7,42	frame 50
+6,11	6,22	frame 42
+6,13	6,02	sound drip (drip_00)
+6,13	5,12	frame 34
+6,14	3,92	frame 26
+6,16	2,72	frame 18
+6,18	1,32	frame 10
+6,19	0,22	frame 2
+6,21	evening	evening knock → gran
+6,60	evening	evening belt → Belt
+7,01	evening	evening bulb → Bulb
+7,41	evening	evening tea → TeaSet
