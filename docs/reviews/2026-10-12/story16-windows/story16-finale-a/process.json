@@ -1,0 +1,25 @@
+{
+  "command": [
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\Builds\\ScenarioCore\\Ataka-Loop.exe",
+    "-screen-fullscreen",
+    "0",
+    "-screen-width",
+    "1280",
+    "-screen-height",
+    "720",
+    "-audio-capture",
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\QA\\story16-finale-a\\silent-mix.wav",
+    "-logFile",
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\QA\\story16-finale-a\\player.log",
+    "-story-smoke",
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\QA\\story16-finale-a",
+    "-story-from",
+    "ChaseEnd"
+  ],
+  "build_label": "story16-props-build-a",
+  "chapter": "ChaseEnd",
+  "utc": "2026-10-12T14:56:05.169233+00:00",
+  "runtime_sha256": "fecf987713a878821dabaae8c66450543d3a4064587adefc7439e05ecd92e217",
+  "scope": "Authored StoryAutopilot stages camera at actions, skips holds, accelerates nights. Checks story flow; not walking route/art/manual menu acceptance.",
+  "pid": 23576
+}

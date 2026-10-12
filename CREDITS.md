@@ -77,3 +77,9 @@ Granny Katcho одобрена по авторскому превью («да н
 ## Kitchen13 — 12 October 2026
 - Soviet Sink / Радянська Раковина, Khata (Khatagames): https://sketchfab.com/3d-models/soviet-sink-789e81f99ae94875939b63c1c9da3a64 — CC BY 4.0 https://creativecommons.org/licenses/by/4.0/ . Converted FBX, rotated and uniformly scaled to0.65m width; URP materials with existing Poly Haven CC0 painted-plaster surface for enamel. Author geometry/UV preserved.
 - Wooden Wall Cabinet — PBR & Game-Ready, skw1r: https://sketchfab.com/3d-models/wooden-wall-cabinet-pbr-game-ready-1271e258afde413e82734019eb3a0e1c — CC BY 4.0 https://creativecommons.org/licenses/by/4.0/ . Converted GLB to FBX, extracted author texture, uniform scale to0.82m width, URP materials.
+
+## Story runtime additions — 12 October 2026
+
+Additional author attribution and licenses: [story props](CREDITS-STORY-PROPS.md), [Guest body and claw](CREDITS-GUEST.md), [recorded sound bank](CREDITS-AUDIO.md). Include these three documents alongside this file in every new Windows archive.
+
+Story bulb reuses Josh Dean / Poly Haven [lightbulb_01](https://polyhaven.com/a/lightbulb_01), CC0; uniformly scaled to 11 cm and bottom-centred. No new geometry.

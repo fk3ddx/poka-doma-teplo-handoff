@@ -6,3 +6,6 @@ Actual story16-props-build-a compiled and installed Kettle, Matchbox, Bread, Bel
 ![Kettle](act-Взять-чайник.png)
 
 Still absent: jam jar, shawl, cans; local authored bulb prepared after this build, not yet installed. Guest claws pc17 applied to source only; this build still has old death closeups, rejected in story15. Claude is fixing composition after viewing actual frames.
+
+## Six loops, chase and finale
+`story16-core-a`: passed=true, coreFinished=true, lap=6, errors=0, Direct3D11. `story16-finale-a`: ChaseEnd → Finale → DeathFull → epilogue/menu, passed=true, errors=0, routeFailures=0. These are separate instrumented runs, not one continuous manual session. Death visual remains rejected; tested transition success does not fix it.

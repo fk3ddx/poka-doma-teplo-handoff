@@ -87,3 +87,9 @@ M1 0.2.9: собственный CourtyardLightFog.shader и интеграци�
 - Wardrobe: dashkilya, CC-BY4.0, https://sketchfab.com/models/ad0ab8f9757640d6b88fa9318d2298cb . Existing author meshes/UVs separated into two animated side doors and carcass, fitted to specified1.00m width /0.55m depth /1.90m height. No replacement furniture mesh.
 - Lampada vessel currently reuses the existing Poly Haven ceramic_vase_01 CC0 model with red textured material; this is an explicit temporary reuse, not an authored historical lampada asset.
 - Bedroom wallpaper/rug reuse the project's generated v2 textures selected by Claude; architectural trim/panel doors and permitted textile geometry are project-created, not claimed as downloaded assets. Accepted LightLab materials are not edited.
+
+## Story runtime additions — 12 October 2026
+
+Additional author attribution and licenses: [story props](../CREDITS-STORY-PROPS.md), [Guest body and claw](../CREDITS-GUEST.md), [recorded sound bank](../CREDITS-AUDIO.md). Include these three documents alongside this file in every new Windows archive.
+
+Story bulb reuses Josh Dean / Poly Haven [lightbulb_01](https://polyhaven.com/a/lightbulb_01), CC0; uniformly scaled to 11 cm and bottom-centred. No new geometry.
