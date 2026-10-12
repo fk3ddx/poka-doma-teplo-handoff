@@ -21,7 +21,7 @@ namespace Ataka.Editor {
     var spec=m.materials.FirstOrDefault(x=>mats[i]&&x.name==mats[i].name)??m.materials.FirstOrDefault();if(spec==null)continue;
     string path=folder+spec.name+"_URP.mat";var mat=AssetDatabase.LoadAssetAtPath<Material>(path);if(!mat){mat=new Material(Shader.Find("Universal Render Pipeline/Lit"));AssetDatabase.CreateAsset(mat,path);}
     if(!string.IsNullOrEmpty(spec.texture))mat.SetTexture("_BaseMap",AssetDatabase.LoadAssetAtPath<Texture2D>(folder+spec.texture));
-    if(!string.IsNullOrEmpty(spec.normal)){var n=AssetDatabase.LoadAssetAtPath<Texture2D>(folder+spec.normal);if(n){mat.SetTexture("_BumpMap",n);mat.EnableKeyword("_NORMALMAP");}}
+    if(!string.IsNullOrEmpty(spec.normal)){var normalPath=folder+spec.normal;var importer=AssetImporter.GetAtPath(normalPath) as TextureImporter;if(importer&&importer.textureType!=TextureImporterType.NormalMap){importer.textureType=TextureImporterType.NormalMap;importer.sRGBTexture=false;importer.SaveAndReimport();}var n=AssetDatabase.LoadAssetAtPath<Texture2D>(normalPath);if(n){mat.SetTexture("_BumpMap",n);mat.EnableKeyword("_NORMALMAP");}}
     var c=spec.color!=null&&spec.color.Length>=3?new Color(spec.color[0],spec.color[1],spec.color[2]):Color.white;mat.SetColor("_BaseColor",c);
     mat.SetFloat("_Smoothness",Mathf.Clamp01(1-spec.roughness)*.6f);EditorUtility.SetDirty(mat);mats[i]=mat;}
     r.sharedMaterials=mats;r.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.On;}

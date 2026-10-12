@@ -14,6 +14,6 @@ namespace Ataka.Scenario {
   }
   static string First(params string[] names){foreach(var n in names)if(!string.IsNullOrEmpty(n))return n;return null;}
   void LateUpdate(){if(model&&!float.IsNaN(groundY))model.position=new Vector3(model.position.x,groundY,model.position.z);}
-  void OnEnable(){foreach(var r in proxyRenderers)if(r)r.enabled=false;current=null;Mode("idle");}
+  void OnEnable(){if(proxyRenderers!=null)foreach(var r in proxyRenderers)if(r)r.enabled=false;current=null;Mode("idle");}
  }
 }
