@@ -746,7 +746,7 @@ namespace Ataka.Scenario {
   public readonly Dictionary<string,float> QaReachError=new Dictionary<string,float>();
   Vector3 Stand(Vector3 raw){Nav.Ensure();return Nav.Snap(raw,.5f,out var q)?q:raw;}
   GranRig Rig(){if(!rig){rig=flat.grandmother.GetComponent<GranRig>();if(!rig)rig=flat.grandmother.AddComponent<GranRig>();granScale=flat.grandmother.transform.localScale;}rig.Init();return rig;}
-  void FinaleReset(){RestoreLanding();if(gapClaw){Destroy(gapClaw.gameObject);gapClaw=null;}RestoreNear();if(rig){rig.ResetAll();flat.grandmother.transform.localScale=granScale;}if(chain)Destroy(chain.gameObject);chain=null;granHeld=false;if(granAnim)granAnim.enabled=true;
+  void FinaleReset(){if(faceShed){faceShed.End();faceShed=null;}RestoreLanding();if(gapClaw){Destroy(gapClaw.gameObject);gapClaw=null;}RestoreNear();if(rig){rig.ResetAll();flat.grandmother.transform.localScale=granScale;}if(chain)Destroy(chain.gameObject);chain=null;granHeld=false;if(granAnim)granAnim.enabled=true;
    foreach(var l in FindObjectsByType<Light>(FindObjectsInactive.Include,FindObjectsSortMode.None))if(l.name=="Match flame (story)")Destroy(l.gameObject);}
   IEnumerator Wait(float s){for(float t=0;t<s;t+=Time.deltaTime)yield return null;}
   // She walks a short straight stretch inside one room (the kitchen, the doorway) with the authored walk clip.
@@ -792,7 +792,7 @@ namespace Ataka.Scenario {
    Beat("question");yield return Line("Бабушка (не оборачиваясь)","Мишаня… а ты меня помнишь?",4);
    yield return FinaleTransformation();
    // 11.10 the short face tear with the 3.2 beat of the full one (3.5 s), then 11.11 black and silence
-   Beat("tear");yield return scenes.Play("DeathFinale");sound.EndDeathRecovery();FinaleReset();
+   Beat("tear");if(faceShed){faceShed.End();faceShed=null;}yield return scenes.Play("DeathFinale");sound.EndDeathRecovery();FinaleReset();
    Beat("epilogue");yield return Epilogue(!openedDoorFinale);
   }
   // 11.6а: two locks and the chain; she comes in and hugs him, his face at her shoulder (the headscarf in frame).
@@ -890,22 +890,30 @@ namespace Ataka.Scenario {
    var from=g.rotation;var face=p.transform.position-g.position;face.y=0;var to=Quaternion.LookRotation(face);
    float h0=Mathf.Max(1,r.Top-g.position.y),grow=2.4f/h0;var baseScale=g.localScale;
    float[] cracks={1f,1.9f,2.5f,3.1f};int c=0;bool seam=false,shriek=false,off=false;
+   if(faceShed)faceShed.End();faceShed=FaceShed.Create(r,flat.guest); // pc28: her face skin, the Guest's head and jaw under it
    for(float t=0;t<3.5f;t+=Time.deltaTime){
+    faceShed.At(t);
     g.rotation=Quaternion.Slerp(from,to,Mathf.SmoothStep(0,1,Mathf.Clamp01(t/1f)));
     r.headRoll=Mathf.Lerp(0,9,Mathf.Clamp01((t-1f)/.15f));
     if(!seam&&t>=1.3f){seam=true;sound.Play("wet_tear",r.head.position);}
     r.tint=Color.Lerp(Color.white,new Color(.6f,.62f,.58f),Mathf.SmoothStep(0,1,Mathf.Clamp01((t-1.5f)/.9f)));
     float u=Mathf.SmoothStep(0,1,Mathf.Clamp01((t-1.6f)/1.9f));r.straighten=u;g.localScale=baseScale*Mathf.Lerp(1,grow,u);r.forearmScale=Mathf.Lerp(1,1.55f,u);r.handScale=Mathf.Lerp(1,2.2f,u);
-    r.headBow=12*Mathf.SmoothStep(0,1,Mathf.Clamp01((t-1.5f)/.6f))+35*Mathf.Clamp01((r.Top-2.3f)/.15f);
+    r.headBow=12*Mathf.SmoothStep(0,1,Mathf.Clamp01((t-1.5f)/.6f))+35*Mathf.Clamp01(((faceShed&&faceShed.Shown?faceShed.Top:r.Top)-2.3f)/.15f); // same top as before: her head is the rebuilt one from 0.95 s
     var eye=p.head.position;var pr=p.transform.right;var reachAt=eye+p.head.forward*.55f+Vector3.down*.35f;r.Reach(false,reachAt+pr*.32f,u);r.Reach(true,reachAt-pr*.32f,u);
     if(!shriek&&t>=1.5f){shriek=true;sound.Play("shriek",g.position);}
     if(!off&&t>=2.1f){off=true;GasOff(false);sound.Bed("radio",RadioAt,false);sound.Bed("fridge",FridgeAt,false);if(flameLight)Destroy(flameLight.gameObject);}
     if(c<cracks.Length&&t>=cracks[c]){sound.Play("finger_crack",g.position+Vector3.up*1.4f);c++;}
     var look=r.HeadPosition+g.forward*.1f;p.head.rotation=Quaternion.Slerp(p.head.rotation,Quaternion.LookRotation(look-eye),1-Mathf.Exp(-6*Time.deltaTime));
     yield return null;}
-   yield return new WaitForEndOfFrame();QaGrownTop=r.MeasureTop();
+   yield return new WaitForEndOfFrame();QaGrownTop=Mathf.Max(r.MeasureTop(),faceShed&&faceShed.Shown?faceShed.Top:0);
   }
-  public float QaGrownTop{get;private set;}
+  public float QaGrownTop{get;private set;}FaceShed faceShed;public FaceShed QaFaceShed=>faceShed;
+  // QA (-face-qa): 11.9 and 11.10 alone — her at the stove with her back to him, then the transformation and the tear.
+  public void QaFaceFinale(){StopAll();running=StartCoroutine(QaFaceRun());}
+  IEnumerator QaFaceRun(){chapter=Chapter.Finale;loop.Pause(false);Homely(true);PropsAfterEvening();Put("Kettle",KettleFront);FinaleReset();Rig();
+   var g=flat.grandmother;g.SetActive(true);granHeld=true;g.transform.SetPositionAndRotation(Stand(StoveStand),Quaternion.LookRotation(StoveAt-Stand(StoveStand)));GranPlay(granIdle);
+   player.Place(new Vector3(7.3f,.02f,2.55f),0);yield return null;var d=g.transform.position+Vector3.up*1.3f-player.head.position;player.transform.rotation=Quaternion.LookRotation(new Vector3(d.x,0,d.z));yield return new WaitForSeconds(1);
+   Beat("question");yield return FinaleTransformation();Beat("tear");if(faceShed){faceShed.End();faceShed=null;}yield return scenes.Play("DeathFinale");sound.EndDeathRecovery();FinaleReset();Beat("done");}
   IEnumerator PeepholeGrandmother(){
    // 11.5: the grandmother looks perfect through the fish-eye. No breath, and Tuzik is silent.
    var p=player;var head=p.head;var savedPos=head.localPosition;var savedRot=head.localRotation;p.control=false;flat.look.peephole=1;

@@ -47,6 +47,8 @@ namespace Ataka.Scenario {
   // Misha's face and pulls it over hers — on 3.5 s: 0–1.5 short, 1.5–2.0 = full 2.0–2.6, 2.0–2.9 = full 3.0–4.2, black.
   // There is NO mesh of Misha's face: in that beat the claw hand rises into her face empty (see docs 25-finale).
   public bool Finale{get;private set;}
+  // pc28: the stand-in for Misha's face in the finale's 3.2 beat (FinaleFacesInstaller; adult Quaternius face, labelled)
+  public Mesh standInFace;public Material standInFaceMaterial;Transform faceProp;public Transform QaFaceProp=>faceProp;
   // Finale 3.2 beat (f 3.0–4.2): the right claw hand rises from below the frame to her face and covers it (story25-a:
   // the full-version keys kept it below the frame — the beat showed no hand at all).
   static readonly Key[] RightFinale={
@@ -81,6 +83,7 @@ namespace Ataka.Scenario {
    var source=clawSource;UsingFallback=!source;if(!source)source=fallback;
    if(!source){Debug.LogError("FaceTearDeath: no claw model and no fallback");return;}
    right=Make(source,false);left=Make(source,true);
+   if(Finale&&standInFace&&standInFaceMaterial){var fg=new GameObject("Misha face (STAND-IN: adult Quaternius face, not 12-year-old)");fg.transform.SetParent(head,false);fg.AddComponent<MeshFilter>().sharedMesh=standInFace;var fr=fg.AddComponent<MeshRenderer>();fr.sharedMaterial=standInFaceMaterial;fr.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;fg.SetActive(false);faceProp=fg.transform;}
    var lg=new GameObject("Death fill light").transform;lg.SetParent(head,false);lg.localPosition=new Vector3(0,.3f,.05f);fill=lg.gameObject.AddComponent<Light>();
    fill.type=LightType.Point;fill.color=fillColor;fill.intensity=0;fill.range=fillRange;fill.shadows=LightShadows.None;
    if(UsingFallback)Debug.LogWarning("FaceTearDeath: ready claw model not installed — temporary proxy hand (see README)");
@@ -124,6 +127,12 @@ namespace Ataka.Scenario {
    bool handsIn=f>=.3f&&f<(full?5.2f:Finale?4.3f:3.0f);
    if(right){right.gameObject.SetActive(handsIn);if(handsIn)Pose(right,Finale&&f>=3f?RightFinale:RightFull,f,false);}
    if(left){left.gameObject.SetActive(handsIn&&f<3.0f);if(left.gameObject.activeSelf)Pose(left,LeftFull,f,true);}
+   // 11.10 / 7.4 at 3.2: her hand comes in holding Misha's face — slack skin with brows and nose, eye holes — and pulls
+   // it over her own. Until 3.6 it hangs from her claws (face to the camera, sagging); by 4.2 it is on her face.
+   if(faceProp){bool on=Finale&&right&&f>=3f&&f<4.3f;faceProp.gameObject.SetActive(on);
+    if(on){var palm=right.localPosition+right.localRotation*(Vector3.forward*clawLength*.62f)+new Vector3(0,.02f,-.05f);var onHer=new Vector3(0,.07f,.56f);float u=Mathf.SmoothStep(0,1,Mathf.Clamp01((f-3.6f)/.6f));
+     faceProp.localPosition=Vector3.Lerp(palm,onHer,u);faceProp.localRotation=Quaternion.Slerp(Quaternion.Euler(28,180,8),Quaternion.Euler(4,180,0),u); // face towards the camera; hanging, then stretched on
+     faceProp.localScale=new Vector3(1,Mathf.Lerp(1.18f,1.04f,u),1);}}
    if(fill)fill.intensity=handsIn?fillIntensity*Mathf.Clamp01((f-.25f)/.2f):0;
    float grip=f>=.3f&&f<2.6f?1:0;shake=new Vector2(Mathf.Sin(t*55)*1.5f,Mathf.Cos(t*41))*(1+grip*1.5f);
    if(full&&f>=.8f&&f<4.5f)pitchUp=-22*Mathf.SmoothStep(0,1,Mathf.Clamp01((f-.8f)/.3f));
@@ -133,7 +142,7 @@ namespace Ataka.Scenario {
   public float Red(float time){float f=F(time);return f<2?0:.5f*Mathf.Clamp01((f-2)*2);} // a red tint (alpha ≤ .43), not an opaque card: the hands stay visible
   public float Black(float time)=>full?Mathf.Clamp01((time-5.6f)/1.2f):Finale?Mathf.Clamp01((time-2.9f)/.1f):time>=2.5f?1:0;
   public float Disruption(float time)=>full?Mathf.Clamp01((time-5f)/1.5f):0;
-  public void End(){if(right)Destroy(right.gameObject);if(left)Destroy(left.gameObject);if(fill)Destroy(fill.gameObject);right=left=null;fill=null;t=-1;}
+  public void End(){if(faceProp)Destroy(faceProp.gameObject);faceProp=null;if(right)Destroy(right.gameObject);if(left)Destroy(left.gameObject);if(fill)Destroy(fill.gameObject);right=left=null;fill=null;t=-1;}
 
   void OnGUI(){
    if(t<0||!head)return;float f=F(t);float w=Screen.width,h=Screen.height;
