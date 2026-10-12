@@ -732,3 +732,10 @@ Integrated pc28f (SHA256 545a050cf404346f50e6e858f142ea2b3b69eab57d037f1102a6a2a
 ### 13 October — pc28f full finale key J
 Build story29-build-j: finale key J reached epilogue,23 beats,0 runtime errors. Four FAILs remain: face/mouth luma at0.9/1.2/2.0/3.4. Grown top2.4414m, transformation3.5288s, DeathFinale3.4939s. Full original2.8 inspected: neck visible at this angle but face remains malformed/dark, so FaceI2.3 gap cannot be ignored. Evidence docs/reviews/2026-10-12/story28-key-j. Silent capture3934 output-cleared callbacks, no dropped samples. Not human/art/audio acceptance.
 Codex fd9a768 was pushed and ls-remote verified; Claude received exact I/H/J screenshots and is working pc28g on that base. No human model download needed to continue. Immutable Story27/23 hashes reverified unchanged. All Unity editor/player jobs terminated normally; latest test exited1 for the known visual failures, not a crash. Next: inspect Claude pc28g, apply only after review, rerun face and affected finale. Goal active, not complete.
+
+
+# Frozen-pose light audit D (pc28f)
+
+At1.2, same pose, camera and original materials. 06 default-layer camera point .8/range3 visibly lights face and overexposes fridge. 07 identical clone of pc28f key(.75,range2.4,spot48,layer32) remains dark. 08 point camera-side .75/range3 on layer32 also remains dark; 09 camera spot and10 point at original position likewise. Original body renderer mask33. Thus direction alone does not explain missing light: layer-isolated variants do not affect the image. Precise pipeline cause not yet proven. Test is diagnostic; no gameplay light change retained.
+
+Source build story28-audit-build-d. Exit0/errors0 means diagnostics completed, not art approval. QA-only FaceRenderAudit now emits10frames. Preserve Claude's FaceShed work; no conflict on gameplay code.

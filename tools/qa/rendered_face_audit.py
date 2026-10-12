@@ -17,6 +17,6 @@ with (out/'console.log').open('w',encoding='utf-8') as log:
  (out/'exit.json').write_text(json.dumps({'pid':child.pid,'exit_code':code}),encoding='utf-8')
  if code==0:
   result=json.loads((out/'result.json').read_text(encoding='utf-8-sig'));assert result['completed'] and result['errors']==0,result
-  assert len(list(out.glob('*.png')))==6,'Incomplete audit captures'
+  assert len(list(out.glob('*.png')))==10,'Incomplete audit captures'
   mix=json.loads((out/'silent-mix.json').read_text(encoding='utf-8-sig'));assert mix['captureModeMutesOutput'] and mix['clearedOutputCallbacks']>0
  print('FACE_PLAYER_EXIT',code,flush=True);raise SystemExit(code)

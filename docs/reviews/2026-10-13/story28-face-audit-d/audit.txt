@@ -1,0 +1,30 @@
+MARK 1,2
+ORIGINAL Granny triangles=456 body=0.69755	0.50902	0.00000	7.97500
+0.00000	0.00000	0.86353	0.00071
+0.50902	-0.69755	0.00000	1.62500
+0.00000	0.00000	0.00000	1.00000
+ head=0.68896	-0.13970	-0.50150	7.90074
+0.13509	0.85134	-0.05157	1.30123
+0.50276	-0.03731	0.70109	1.70910
+0.00000	0.00000	0.00000	1.00000
+ bind=1.00000	0.00000	0.00000	0.00000
+0.00000	-0.22268	0.97489	-1.53895
+0.00000	-0.97489	-0.22268	0.29856
+0.00000	0.00000	0.00000	1.00000
+
+BODY_MATERIAL Granny shader=Universal Render Pipeline/Lit texture=granny color=RGBA(1.000, 1.000, 1.000, 1.000)
+PART Guest head (under her face) active=False bounds=Center: (7.91, 1.42, 1.67), Extents: (0.16, 0.16, 0.19) mat=GuestBody_Material_0_URP
+PART Guest jaw active=False bounds=Center: (7.87, 1.33, 1.74), Extents: (0.11, 0.08, 0.11) mat=GuestBody_Material_0_URP
+PART Her face skin (11.9, skinned like her) active=True bounds=Center: (8.01, 0.77, 1.58), Extents: (0.38, 0.81, 0.41) mat=Granny
+SHOT 01-rebuilt-lit
+SHOT 02-original-lit
+SHOT 03-original-unlit
+SHOT 04-rebuilt-unlit
+SHOT 05-rebuilt-no-received-shadows
+SHOT 06-rebuilt-diagnostic-fill
+KEY original position=(7.3297, 1.1043, 2.5094) forward=(0.5646, 0.2873, -0.7737) head=(7.9092, 1.3021, 1.7152) camera=(7.3000, 1.5650, 2.5500) intensity=0,75 range=2,4 angle=48 lightLayer=UnityEngine.RenderingLayerMask bodyLayer=33
+SHOT 07-cloned-key-original-pose
+SHOT 08-layered-point-camera-side
+SHOT 09-layered-spot-camera-side
+SHOT 10-layered-point-original-position
+COMPARE only: screenshots diagnose light vs texture/geometry, not art approval

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 namespace Ataka.Scenario {
  // Diagnostic only: compare original and reconstructed head at the same frozen pose, camera and light.
  // No scene/asset writes, no gameplay acceptance. Enabled only by the explicit command line switch.
@@ -34,6 +35,18 @@ namespace Ataka.Scenario {
    for(int i=0;i<parts.Count;i++){var probe=new Material[partMats[i].Length];for(int j=0;j<probe.Length;j++){probe[j]=new Material(partMats[i][j]);probe[j].SetFloat("_ReceiveShadows",0);probe[j].EnableKeyword("_RECEIVE_SHADOWS_OFF");created.Add(probe[j]);}parts[i].sharedMaterials=probe;}
    yield return Shot("05-rebuilt-no-received-shadows");for(int i=0;i<parts.Count;i++)parts[i].sharedMaterials=partMats[i];
    var cam=flat.player.view?flat.player.view:Camera.main;var fill=new GameObject("DIAGNOSTIC camera-side reflected light").AddComponent<Light>();fill.type=LightType.Point;fill.transform.position=cam.transform.position+cam.transform.forward*.3f;fill.color=new Color(1,.8f,.6f);fill.intensity=.8f;fill.range=3;fill.shadows=LightShadows.None;yield return Shot("06-rebuilt-diagnostic-fill");Destroy(fill.gameObject);
+   yield return null; // let the camera-fill destruction complete
+   var key=fs.QaKey;
+   if(key){
+    notes.Add("KEY original position="+key.transform.position.ToString("F4")+" forward="+key.transform.forward.ToString("F4")+" head="+rig.head.position.ToString("F4")+" camera="+cam.transform.position.ToString("F4")+" intensity="+key.intensity+" range="+key.range+" angle="+key.spotAngle+" lightLayer="+key.GetUniversalAdditionalLightData().renderingLayers+" bodyLayer="+body.renderingLayerMask);
+    int mask=key.cullingMask;key.cullingMask=0; // disable just this diagnostic light without its coroutine resetting intensity
+    var probe=new GameObject("DIAGNOSTIC isolated face key").AddComponent<Light>();probe.transform.SetPositionAndRotation(key.transform.position,key.transform.rotation);probe.type=key.type;probe.color=key.color;probe.intensity=key.intensity;probe.range=key.range;probe.spotAngle=key.spotAngle;probe.innerSpotAngle=key.innerSpotAngle;probe.shadows=LightShadows.None;probe.GetUniversalAdditionalLightData().renderingLayers=key.GetUniversalAdditionalLightData().renderingLayers;
+    yield return Shot("07-cloned-key-original-pose");
+    probe.type=LightType.Point;probe.range=3;probe.transform.position=cam.transform.position+cam.transform.forward*.3f;yield return Shot("08-layered-point-camera-side");
+    probe.type=LightType.Spot;probe.transform.rotation=Quaternion.LookRotation(rig.head.position-probe.transform.position);yield return Shot("09-layered-spot-camera-side");
+    probe.type=LightType.Point;probe.transform.position=key.transform.position;yield return Shot("10-layered-point-original-position");
+    key.cullingMask=mask;Destroy(probe.gameObject);
+   }else{errors++;notes.Add("FAIL no face key to diagnose");}
    foreach(var m in created)Destroy(m);
    notes.Add("COMPARE only: screenshots diagnose light vs texture/geometry, not art approval");Finish(errors==0?0:1);
   }
