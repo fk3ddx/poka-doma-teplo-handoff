@@ -59,7 +59,7 @@ namespace Ataka.Scenario {
      if(beat=="kettle-on"){var k=story.QaProp("Kettle");Check(k&&Vector3.Distance(k.position,StoryDirector.KettleFront)<.02f,"the kettle stands on the front burner");}
      if(beat=="question"){var toP=p.transform.position-g.position;toP.y=0;Check(Vector3.Dot(g.forward,toP.normalized)<0,"11.8: she speaks with her back to him (dot "+Vector3.Dot(g.forward,toP.normalized).ToString("F2")+")");}
      if(beat=="tear"){tearAt=Time.time;if(transformAt>0){result.transformSeconds=tearAt-transformAt;Check(Mathf.Abs(result.transformSeconds-3.5f)<.15f,"11.9 transformation "+result.transformSeconds.ToString("F2")+" s (3.5)");}
-      result.grownTop=story.QaGrownTop;Check(result.grownTop>=2.25f&&result.grownTop<=2.52f,"11.9 she grew to the ceiling: head top "+result.grownTop.ToString("F2")+" m (2.4 target, ceiling 2.5)");}
+      result.grownTop=story.QaGrownTop;checks.Add("GEOMETRY world weighted vertices "+rig.LastSkinnedTop.ToString("F3")+" m; BakeMesh(false)+TransformPoint "+rig.LastBakedTop.ToString("F3")+"; BakeMesh(true)+TransformPoint "+rig.LastCompensatedTop.ToString("F3"));Check(Mathf.Abs(rig.LastSkinnedTop-rig.LastCompensatedTop)<.02f,"independent weighted world vertices agree with scale-compensated baked mesh");Check(result.grownTop>=2.25f&&result.grownTop<=2.52f,"11.9 she grew to the ceiling: head top "+result.grownTop.ToString("F2")+" m (2.4 target, ceiling 2.5)");}
      if(beat=="epilogue"&&tearAt>0)result.tearSeconds=Time.time-tearAt;
      continue;}
     // per-frame: the watcher looks at her in the kitchen; timed shots inside the hug / transformation / tear

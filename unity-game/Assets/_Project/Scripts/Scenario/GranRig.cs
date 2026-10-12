@@ -48,31 +48,44 @@ namespace Ataka.Scenario {
    block=new MaterialPropertyBlock();Ready=true;
   }
   public float TipLength(bool right)=>(right?handR:handL).TransformVector(right?tipLocalR:tipLocalL).magnitude;
-  public Vector3 Tip(bool right){Init();if(!Ready)return transform.position;var h=right?handR:handL;return h.TransformPoint(right?tipLocalR:tipLocalL);}
+  Vector3 lastTipL,lastTipR;bool tipSampled;
+  Vector3 RawTip(bool right)=>(right?handR:handL).TransformPoint(right?tipLocalR:tipLocalL);
+  // Story coroutines run after Update, when last frame's IK has been undone for Animation. Queries must read the
+  // last rendered pose, in actor-local coordinates so a walk/turn still moves it correctly this frame.
+  public Vector3 Tip(bool right){Init();if(!Ready)return transform.position;return tipSampled?transform.TransformPoint(right?lastTipR:lastTipL):RawTip(right);}
   // Approximate top of her head (bones + measured offset); MeasureTop() bakes the mesh for QA.
   public float Top {get {if(!Ready||headVertices.Count==0)return transform.position.y+1.6f;float top=float.MinValue;foreach(var v in headVertices)top=Mathf.Max(top,head.TransformPoint(v).y);return top;}}
-  public float MeasureTop(){Init();if(!skin)return Top;var mesh=new Mesh();skin.BakeMesh(mesh);float top=float.MinValue;foreach(var p in mesh.vertices)top=Mathf.Max(top,skin.transform.TransformPoint(p).y);Destroy(mesh);return top;}
+  public float LastBakedTop{get;private set;}public float LastCompensatedTop{get;private set;}public float LastSkinnedTop{get;private set;}
+  public float MeasureTop(){
+   Init();if(!skin)return Top;var mesh=new Mesh();
+   float BakeTop(bool compensate){skin.BakeMesh(mesh,compensate);float top=float.MinValue;foreach(var p in mesh.vertices)top=Mathf.Max(top,skin.transform.TransformPoint(p).y);return top;}
+   LastBakedTop=BakeTop(false);LastCompensatedTop=BakeTop(true);Destroy(mesh);
+   // Independent world-space skinning of every original vertex, without multiplying the renderer scale twice.
+   var vs=skin.sharedMesh.vertices;var ws=skin.sharedMesh.boneWeights;var bs=skin.bones;var bind=skin.sharedMesh.bindposes;var matrices=new Matrix4x4[bs.Length];
+   for(int i=0;i<bs.Length;i++)matrices[i]=bs[i].localToWorldMatrix*bind[i];float max=float.MinValue;
+   for(int i=0;i<vs.Length;i++){var w=ws[i];var v=matrices[w.boneIndex0].MultiplyPoint3x4(vs[i])*w.weight0+matrices[w.boneIndex1].MultiplyPoint3x4(vs[i])*w.weight1+matrices[w.boneIndex2].MultiplyPoint3x4(vs[i])*w.weight2+matrices[w.boneIndex3].MultiplyPoint3x4(vs[i])*w.weight3;max=Mathf.Max(max,v.y);}
+   LastSkinnedTop=max;return max;
+  }
   public void Reach(bool right,Vector3 tip,float weight){if(right){targetR=tip;weightR=weight;}else{targetL=tip;weightL=weight;}}
   public void Hold(Transform prop,bool right){if(!prop)return;Release(prop);var tip=Tip(right);held.Add(new Held{prop=prop,right=right,offset=Quaternion.Inverse(transform.rotation)*(prop.position-tip),rotation=Quaternion.Inverse(transform.rotation)*prop.rotation});}
   public void Release(Transform prop){held.RemoveAll(h=>h.prop==prop);}
-  public void ResetAll(){weightL=weightR=0;forearmScale=handScale=1;straighten=headBow=headRoll=0;tint=Color.white;poleL=poleR=null;held.Clear();
+  public void ResetAll(){RestorePose();tipSampled=false;weightL=weightR=0;forearmScale=handScale=1;straighten=headBow=headRoll=0;tint=Color.white;poleL=poleR=null;held.Clear();
    if(Ready){lowerL.localScale=lowerScaleL;lowerR.localScale=lowerScaleR;handL.localScale=handScaleL;handR.localScale=handScaleR;}if(skin&&tinted){skin.SetPropertyBlock(null);tinted=false;}}
 
   static Vector3 Scaled(Vector3 b,int axis,float k){b[axis]*=k;return b;}
   bool Active=>weightL>0||weightR>0||forearmScale!=1||handScale!=1||straighten!=0||headBow!=0||headRoll!=0||held.Count>0;
+  bool appliedLast;
+  void RestorePose(){if(!Ready||!appliedLast)return;for(int i=0;i<posed.Length;i++)posed[i].localRotation=pose[i];lowerL.localScale=lowerScaleL;lowerR.localScale=lowerScaleR;handL.localScale=handScaleL;handR.localScale=handScaleR;appliedLast=false;}
+  // Legacy clips do not necessarily key every bone. Undo last frame's procedural layer BEFORE animation samples,
+  // otherwise an unkeyed arm keeps yesterday's IK and is treated as a new authored pose on the next frame.
+  void Update(){RestorePose();}
   void LateUpdate(){
    if(!Ready)return;
-   // The edits below are relative to the clip's pose of THIS frame: while the clip plays it has just written it; when it
-   // is frozen (11.9) the last played pose is put back first, so nothing accumulates. Idle (all zero) = untouched, so a
-   // pose sampled by someone else (the hanging, the rewind freeze) is never overwritten.
-   bool playing=clip&&clip.enabled&&clip.isPlaying;
-   if(playing)for(int i=0;i<posed.Length;i++)pose[i]=posed[i].localRotation;
-   if(!Active){if(scaled){lowerL.localScale=lowerScaleL;lowerR.localScale=lowerScaleR;handL.localScale=handScaleL;handR.localScale=handScaleR;scaled=false;}}
-   else{if(!playing)for(int i=0;i<posed.Length;i++)posed[i].localRotation=pose[i];scaled=true;Apply();}
+   if(Active){for(int i=0;i<posed.Length;i++)pose[i]=posed[i].localRotation;Apply();appliedLast=true;}
+   lastTipL=transform.InverseTransformPoint(RawTip(false));lastTipR=transform.InverseTransformPoint(RawTip(true));tipSampled=true;
    if(tint!=Color.white){skin.GetPropertyBlock(block);var c=baseColor*tint;c.a=baseColor.a;block.SetColor("_BaseColor",c);block.SetColor("_Color",c);skin.SetPropertyBlock(block);tinted=true;}
    else if(tinted){skin.SetPropertyBlock(null);tinted=false;}
   }
-  bool scaled;
   void Apply(){
    lowerL.localScale=Scaled(lowerScaleL,lowerAxisL,forearmScale);lowerR.localScale=Scaled(lowerScaleR,lowerAxisR,forearmScale);
    handL.localScale=Scaled(handScaleL,handAxisL,handScale);handR.localScale=Scaled(handScaleR,handAxisR,handScale);
@@ -80,7 +93,7 @@ namespace Ataka.Scenario {
    if(headBow!=0||headRoll!=0)neck.rotation=Quaternion.AngleAxis(headBow,transform.right)*Quaternion.AngleAxis(headRoll,transform.forward)*neck.rotation;
    var side=transform.right;var pr=poleR??(side*.5f-transform.up*.8f-transform.forward*.2f);var pl=poleL??(-side*.5f-transform.up*.8f-transform.forward*.2f);
    Solve(upperR,lowerR,handR,handDirR,true,targetR,Mathf.Clamp01(weightR),pr);Solve(upperL,lowerL,handL,handDirL,false,targetL,Mathf.Clamp01(weightL),pl);
-   foreach(var h in held)if(h.prop){h.prop.position=Tip(h.right)+transform.rotation*h.offset;h.prop.rotation=transform.rotation*h.rotation;}
+   foreach(var h in held)if(h.prop){h.prop.position=RawTip(h.right)+transform.rotation*h.offset;h.prop.rotation=transform.rotation*h.rotation;}
   }
   void Solve(Transform up,Transform low,Transform hand,Vector3 handDir,bool right,Vector3 target,float w,Vector3 pole){
    if(w<=0)return;

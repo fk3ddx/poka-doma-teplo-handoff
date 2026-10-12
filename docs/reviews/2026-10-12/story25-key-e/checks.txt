@@ -1,0 +1,91 @@
+PASS Katcho rig layer ready (Back, Chest, Neck, Head, Arm_Upper/Lower, Hand L/R found)
+PASS door chain made from the ready Poly Haven ball chain (pull_chain_light_socket_chain)
+ABSENT her eye sliding down (11.9): the Katcho head has no eye geometry or bones
+ABSENT the seam bursting at the temple (11.9): no mesh, only the wet sound
+ABSENT the face sliding off the chin like wet cloth (11.9): no face mesh; the skin greys (tint) instead
+ABSENT the jaw dropping (11.9): the rig has no jaw bone
+ABSENT Misha's face pulled over hers (11.10, frame 3.2): no mesh of his face; the claw hand rises into her face empty
+ABSENT the ring on her hand (11.6б): none on the Katcho mesh
+ABSENT separate stretching fingers (11.6б, 11.9): the hand is one bone; the whole hand is lengthened
+ABSENT sounds: her humming, the coat rustle, the chain jingle (the latch clink stands in): no recordings
+ABSENT voices: all lines are subtitles
+SHOT finale-key-01-22:00.png
+SHOT finale-key-02-knock.png
+SHOT finale-key-03-choice.png
+SHOT finale-key-04-key.png
+SHOT finale-key-05-gap.png
+SHOT finale-key-06-grope.png
+PASS grope: the door stands on the chain at 8,5° (chain Engaged)
+SHOT finale-key-07-fingers.png
+PASS fingers: the door stands on the chain at 8,5° (chain Engaged)
+FAIL 11.6б the stretching hand is inside the gap and in his view: tip (7.86, 0.64, 6.68), viewport (0.54, 0.32, 3.16)
+SHOT finale-key-fingers-1.0.png
+SHOT finale-key-08-chain-off.png
+PASS chain-off: the hand stretched to 2,20× before lifting the chain
+SHOT finale-key-09-hand-normal.png
+PASS the chain hangs from its slot and the hand is normal again (Hanging, 1,00×)
+SHOT finale-key-10-enter.png
+SHOT finale-key-11-door-locked.png
+PASS the entrance locks itself behind her
+SHOT finale-key-12-stove.png
+SHOT finale-key-13-matches.png
+SHOT finale-key-14-strike.png
+PASS strike: the matchbox is in her hand (0,05 m from the fingertip)
+SHOT finale-key-15-gas.png
+PASS gas: her hand at the burner (0,12 m)
+SHOT finale-key-16-kettle.png
+SHOT finale-key-17-water.png
+PASS water: the kettle under the tap in her hand (kettle 0,20 m)
+SHOT finale-key-18-kettle-on.png
+PASS the kettle stands on the front burner
+SHOT finale-key-19-whistle.png
+SHOT finale-key-20-question.png
+PASS 11.8: she speaks with her back to him (dot -0,38)
+SHOT finale-key-21-transform.png
+TRANSFORM t=0,5 top 1,55 scale 1,00 forearm 1,00 hand 1,00 bow 0 head in frame True (0.54, 0.50, 1.19)
+SHOT finale-key-transform-0.5.png
+PASS 11.9: she has turned to him by 1.0 s (dot 1,00)
+TRANSFORM t=1,2 top 1,55 scale 1,00 forearm 1,00 hand 1,00 bow 0 head in frame True (0.50, 0.52, 1.15)
+SHOT finale-key-transform-1.2.png
+TRANSFORM t=2 top 1,66 scale 1,07 forearm 1,07 hand 1,15 bow 11 head in frame True (0.50, 0.55, 1.12)
+SHOT finale-key-transform-2.0.png
+TRANSFORM t=2,8 top 2,16 scale 1,39 forearm 1,39 hand 1,85 bow 12 head in frame True (0.50, 0.56, 1.09)
+SHOT finale-key-transform-2.8.png
+TRANSFORM t=3,4 top 2,40 scale 1,54 forearm 1,55 hand 2,19 bow 34 head in frame True (0.50, 0.50, 1.14)
+PASS 11.9 at 3.4 s: her head in his frame, forearms ×1,55, hands ×2,19
+SHOT finale-key-transform-3.4.png
+SHOT finale-key-22-tear.png
+PASS 11.9 transformation 3,48 s (3.5)
+GEOMETRY world weighted vertices 2,396 m; BakeMesh(false)+TransformPoint 3,189; BakeMesh(true)+TransformPoint 2,396
+PASS independent weighted world vertices agree with scale-compensated baked mesh
+PASS 11.9 she grew to the ceiling: head top 2,40 m (2.4 target, ceiling 2.5)
+PASS 11.10 at 0,31: Guest head in the central frame (0.57, 0.52, 0.70)
+TEAR FrameTime 0,31 black no
+SHOT finale-key-tear-0.3.png
+PASS 11.10 at 1,02: Guest head in the central frame (0.60, 0.47, 0.70)
+TEAR FrameTime 1,02 black no
+SHOT finale-key-tear-1.0.png
+TEAR FrameTime 1,61 black no
+SHOT finale-key-tear-1.6.png
+PASS 11.10 at 2,30 (the 3.2 face beat): her claw hand is in (rising into her face; Misha's face mesh ABSENT)
+TEAR FrameTime 2,30 black no
+SHOT finale-key-tear-2.3.png
+PASS 11.10 at 2,71 (the 3.2 face beat): her claw hand is in (rising into her face; Misha's face mesh ABSENT)
+TEAR FrameTime 2,71 black no
+SHOT finale-key-tear-2.7.png
+TEAR FrameTime 3,21 black expected
+SHOT finale-key-tear-3.2.png
+SHOT finale-key-23-epilogue.png
+PASS beats in SCENARIO order for branch key: 22:00 → knock → choice → key → gap → grope → fingers → chain-off → hand-normal → enter → door-locked → stove → matches → strike → gas → kettle → water → kettle-on → whistle → question → transform → tear → epilogue
+PASS the epilogue was reached
+PASS the «Ты не она!» card only when the door was not opened (True)
+PASS 11.10 played as DeathFinale (short + 3.2 beat), never DeathFull
+PASS 11.10 DeathFinale 3,51 s from its start to the epilogue (3.5 s + reset), not the 7 s DeathFull
+PASS 11.6б fingers stretched to 2,20× over 2 s
+PASS reach gap: her fingertip ended 0,000 m from the target (arm with hand ≈ 0.62 m)
+PASS reach matchbox: her fingertip ended 0,054 m from the target (arm with hand ≈ 0.62 m)
+PASS reach burner: her fingertip ended 0,000 m from the target (arm with hand ≈ 0.62 m)
+PASS reach kettle: her fingertip ended 0,000 m from the target (arm with hand ≈ 0.62 m)
+PASS reach tap: her fingertip ended 0,000 m from the target (arm with hand ≈ 0.62 m)
+PASS reach kettle-front: her fingertip ended 0,000 m from the target (arm with hand ≈ 0.62 m)
+PASS no runtime errors (0)

@@ -584,7 +584,7 @@ namespace Ataka.Scenario {
    GranPlay(granIdle);}
   // Her right fingertip to a point over `seconds` (smooth), weight up to 1.
   IEnumerator GranReach(bool right,Vector3 to,float seconds,string qa=null){var r=Rig();var from=r.Tip(right);float w0=right?r.weightR:r.weightL;
-   for(float t=0;t<seconds;t+=Time.deltaTime){float u=Mathf.SmoothStep(0,1,t/seconds);r.Reach(right,Vector3.Lerp(from,to,u),Mathf.Lerp(w0,1,u));yield return null;}r.Reach(right,to,1);if(qa!=null){yield return null;QaReachError[qa]=Vector3.Distance(r.Tip(right),to);}}
+   for(float t=0;t<seconds;t+=Time.deltaTime){float u=Mathf.SmoothStep(0,1,t/seconds);r.Reach(right,Vector3.Lerp(from,to,u),Mathf.Lerp(w0,1,u));yield return null;}r.Reach(right,to,1);yield return new WaitForEndOfFrame();if(qa!=null){QaReachError[qa]=Vector3.Distance(r.Tip(right),to);}}
   IEnumerator GranLower(bool right,float seconds){var r=Rig();float w0=right?r.weightR:r.weightL;var at=right?r.targetR:r.targetL;for(float t=0;t<seconds;t+=Time.deltaTime){r.Reach(right,at,Mathf.Lerp(w0,0,t/seconds));yield return null;}r.Reach(right,at,0);}
   bool Sees(Vector3 point){var cam=player.view?player.view:Camera.main;if(!cam)return false;var v=cam.WorldToViewportPoint(point);if(v.z<.2f||v.x<.15f||v.x>.85f||v.y<.15f||v.y>.85f)return false;var from=cam.transform.position;var d=point-from;
    foreach(var h in Physics.RaycastAll(from,d.normalized,d.magnitude-.05f,~(1<<31),QueryTriggerInteraction.Ignore))if(!h.transform.IsChildOf(player.transform)&&!h.transform.IsChildOf(flat.grandmother.transform))return false;return true;}
@@ -705,7 +705,7 @@ namespace Ataka.Scenario {
     r.tint=Color.Lerp(Color.white,new Color(.6f,.62f,.58f),Mathf.SmoothStep(0,1,Mathf.Clamp01((t-1.5f)/.9f)));
     float u=Mathf.SmoothStep(0,1,Mathf.Clamp01((t-1.6f)/1.9f));r.straighten=u;g.localScale=baseScale*Mathf.Lerp(1,grow,u);r.forearmScale=Mathf.Lerp(1,1.55f,u);r.handScale=Mathf.Lerp(1,2.2f,u);
     r.headBow=12*Mathf.SmoothStep(0,1,Mathf.Clamp01((t-1.5f)/.6f))+35*Mathf.Clamp01((r.Top-2.3f)/.15f);
-    var eye=p.head.position;var pr=p.transform.right;r.Reach(false,eye+pr*.45f+Vector3.down*.2f,.55f*u);r.Reach(true,eye-pr*.45f+Vector3.down*.2f,.55f*u);
+    var eye=p.head.position;var pr=p.transform.right;r.Reach(false,eye+pr*.45f+Vector3.down*.2f,u);r.Reach(true,eye-pr*.45f+Vector3.down*.2f,u);
     if(!shriek&&t>=1.5f){shriek=true;sound.Play("shriek",g.position);}
     if(!off&&t>=2.1f){off=true;GasOff(false);sound.Bed("radio",RadioAt,false);sound.Bed("fridge",FridgeAt,false);if(flameLight)Destroy(flameLight.gameObject);}
     if(c<cracks.Length&&t>=cracks[c]){sound.Play("finger_crack",g.position+Vector3.up*1.4f);c++;}

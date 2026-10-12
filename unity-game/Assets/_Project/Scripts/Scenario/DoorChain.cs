@@ -4,6 +4,7 @@ namespace Ataka.Scenario {
  // Poly Haven "pull_chain_light_socket" (Josh Dean, CC0) already in the bedroom. There is no door-chain model in the
  // project; this stands in for it (14.6 cm ball chain). From a slot on the wall beside the opening to the inside face of
  // the leaf near its free edge; held = its leaf end follows her nail; hanging = straight down from the wall slot.
+ [DefaultExecutionOrder(600)] // follow the final GranRig pose, not its pre-animation reset
  public sealed class DoorChain:MonoBehaviour {
   public enum State {Engaged,Held,Hanging}
   public State Is{get;private set;}=State.Engaged;
