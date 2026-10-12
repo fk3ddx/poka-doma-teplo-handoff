@@ -244,7 +244,7 @@ namespace Ataka.Scenario {
    // 4.8
    Clock(21,30);Task("Включить новости");
    yield return Line("Бабушка","Мишаня, включи-ка новости");
-   yield return Use(flat.television.position,"Включить «Рубин»",0,2.4f);
+   yield return Use(()=>flat.televisionScreen?flat.televisionScreen.bounds.center:flat.television.position,"Включить «Рубин»",0,2.4f);
    if(tv)tv.storyOn=true;flat.televisionLight.intensity=.12f;
    foreach(var l in new[]{"…Сегодня в милицию снова обратились жители Заречного района.","В квартире по улице Строителей обнаружен накрытый стол и включённый свет. По словам соседей, в квартире никто не проживал.","Однако на фотографиях, изъятых из квартиры, — пустые места рядом с людьми…","Специалисты рекомендуют: не открывайте дверь в позднее время. И — что бы ни случилось — запомните свой дом. Как следует запомните."})
     yield return Line("Диктор",l,5);
