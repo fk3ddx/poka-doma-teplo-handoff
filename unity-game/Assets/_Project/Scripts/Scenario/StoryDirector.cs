@@ -90,7 +90,7 @@ namespace Ataka.Scenario {
   static readonly string[][] StoryWalks={new[]{"Door","Kitchen"},new[]{"Kitchen","HallA"},new[]{"HallA","Door"},new[]{"Door","HallB"},new[]{"HallB","Clock"},new[]{"Clock","Armchair"},new[]{"Armchair","Door"},new[]{"Door","Landing"},new[]{"Door","Stove"}};
   GranNav nav;
   GranNav Nav=>nav??=new GranNav(()=>new[]{player.transform,flat.grandmother.transform,flat.guest.transform},NavState);
-  string NavState(){var sb=new System.Text.StringBuilder();foreach(var d in new[]{flat.entrance,flat.kitchen,flat.bath,flat.bedroom,flat.living,flat.carpet,flat.vestibuleInner})if(d&&d.leaf)sb.Append(d.open?'o':'c').Append(Mathf.RoundToInt(d.leaf.localEulerAngles.y/5)).Append(',');
+  string NavState(){var sb=new System.Text.StringBuilder();foreach(var d in new[]{flat.entrance,flat.kitchen,flat.bath,flat.bedroom,flat.living,flat.carpet,flat.vestibuleInner,flat.balconyDoor})if(d&&d.leaf)sb.Append(d.open?'o':'c').Append(Mathf.RoundToInt(d.leaf.localEulerAngles.y/5)).Append(',');
    var st=flat.stool;sb.Append(st&&st.activeSelf?st.transform.position.ToString("F1"):"-");return sb.ToString();}
   // She opens only unlocked doors; the flat door is opened by the story itself before she walks through it.
   bool RoomDoor(ScenarioDoor d)=>d&&(d==flat.kitchen||d==flat.bath||d==flat.bedroom||d==flat.living); // never the dresser cupboard

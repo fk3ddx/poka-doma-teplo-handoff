@@ -1,7 +1,7 @@
 using System;using System.Collections.Generic;using System.Globalization;
 namespace UnityEngine{
  public struct Vector3{public float x,y,z;public Vector3(float x,float y,float z){this.x=x;this.y=y;this.z=z;}
-  public static Vector3 up=>new Vector3(0,1,0);public static Vector3 zero=>new Vector3(0,0,0);
+  public static Vector3 up=>new Vector3(0,1,0);public static Vector3 down=>new Vector3(0,-1,0);public static Vector3 zero=>new Vector3(0,0,0);
   public static Vector3 operator+(Vector3 a,Vector3 b)=>new Vector3(a.x+b.x,a.y+b.y,a.z+b.z);public static Vector3 operator-(Vector3 a,Vector3 b)=>new Vector3(a.x-b.x,a.y-b.y,a.z-b.z);
   public static Vector3 operator*(Vector3 a,float s)=>new Vector3(a.x*s,a.y*s,a.z*s);public static Vector3 operator*(float s,Vector3 a)=>a*s;
   public float magnitude=>(float)Math.Sqrt(x*x+y*y+z*z);public static float Distance(Vector3 a,Vector3 b)=>(a-b).magnitude;
@@ -18,7 +18,10 @@ namespace UnityEngine{
   public T[] GetComponentsInChildren<T>(bool b) where T:class{var l=new List<T>();foreach(var c in Physics.all)if(c is T t&&c.transform.IsChildOf(transform))l.Add(t);return l.ToArray();}}
  public class Collider:Component{public Vector3 min,max;public Bounds bounds=>new Bounds{center=(min+max)*.5f,size=max-min};}
  public class BoxCollider:Collider{public Vector3 size;}
+ public struct RaycastHit{public Collider collider;public float distance;}
  public static class Physics{public static List<Collider> all=new List<Collider>();public static void SyncTransforms(){}
+  public static int RaycastNonAlloc(Vector3 o,Vector3 dir,RaycastHit[] res,float dist,int mask,QueryTriggerInteraction q){int n=0;
+   foreach(var c in all){if(!c.alive)continue;if(o.x<c.min.x||o.x>c.max.x||o.z<c.min.z||o.z>c.max.z)continue;if(c.max.y<=o.y&&c.max.y>=o.y-dist&&n<res.Length)res[n++]=new RaycastHit{collider=c,distance=o.y-c.max.y};}return n;}
   public static int OverlapCapsuleNonAlloc(Vector3 a,Vector3 b,float r,Collider[] res,int mask,QueryTriggerInteraction q){int n=0;
    foreach(var c in all){if(!c.alive)continue;if(b.y+r<c.min.y||a.y-r>c.max.y)continue;float dx=Math.Max(0,Math.Max(c.min.x-a.x,a.x-c.max.x)),dz=Math.Max(0,Math.Max(c.min.z-a.z,a.z-c.max.z));
     if(dx*dx+dz*dz<r*r&&n<res.Length)res[n++]=c;}return n;}}

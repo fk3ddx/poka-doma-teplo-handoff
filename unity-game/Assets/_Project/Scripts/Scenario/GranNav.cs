@@ -10,7 +10,7 @@ namespace Ataka.Scenario {
   public const float Radius=.22f,Height=1.5f,Lift=.08f,Cell=.05f;
   // Cells are classified with exactly her body radius at the cell centre (a margin would close the real 0.54 m
   // gap between the hall dresser and the kitchen jamb). Straight shortcuts are re-checked with real capsule sweeps.
-  const float X0=1.3f,Z0=-.1f,X1=9.0f,Z1=6.95f;
+  const float X0=1.3f,Z0=-1.4f,X1=9.0f,Z1=6.95f; // z down to the balcony slab (−1.3…−0.35)
   readonly int nx=Mathf.CeilToInt((X1-X0)/Cell),nz=Mathf.CeilToInt((Z1-Z0)/Cell);
   byte[] cells; // 0 free, 1 blocked, 2+i crossing of closed door i
   readonly List<ScenarioDoor> doors=new List<ScenarioDoor>();
@@ -31,12 +31,15 @@ namespace Ataka.Scenario {
    Physics.SyncTransforms();Builds++;cells=new byte[nx*nz];doors.Clear();var skip=ignore();
    for(int z=0;z<nz;z++)for(int x=0;x<nx;x++){
     var p=Center(x,z);int n=Physics.OverlapCapsuleNonAlloc(Bottom(p),Top(p),Radius,hits,~(1<<31),QueryTriggerInteraction.Ignore);
-    byte code=0;
-    for(int i=0;i<n;i++){var c=hits[i];if(Ignored(c,skip))continue;var d=c.GetComponentInParent<ScenarioDoor>();
+    // A cell needs floor under it (the grid now reaches past the outer wall to the balcony: no walking on air).
+    byte code=HasFloor(p,skip)?(byte)0:(byte)1;
+    for(int i=0;i<n&&code!=1;i++){var c=hits[i];if(Ignored(c,skip))continue;var d=c.GetComponentInParent<ScenarioDoor>();
      if(d&&!d.open&&d.leaf&&c.transform.IsChildOf(d.leaf)){int k=doors.IndexOf(d);if(k<0){doors.Add(d);k=doors.Count-1;}byte dc=(byte)(2+k);if(code==0)code=dc;else if(code!=dc)code=1;}
      else{code=1;break;}}
     cells[z*nx+x]=code;}
   }
+  readonly RaycastHit[] down=new RaycastHit[8];
+  bool HasFloor(Vector3 p,Transform[] skip){int n=Physics.RaycastNonAlloc(p+Vector3.up*.3f,Vector3.down,down,.6f,~(1<<31),QueryTriggerInteraction.Ignore);for(int i=0;i<n;i++)if(!Ignored(down[i].collider,skip))return true;return false;}
   Vector3 Center(int x,int z)=>new Vector3(X0+(x+.5f)*Cell,0,Z0+(z+.5f)*Cell);
   bool Cell2(Vector3 p,out int x,out int z){x=Mathf.FloorToInt((p.x-X0)/Cell);z=Mathf.FloorToInt((p.z-Z0)/Cell);return x>=0&&z>=0&&x<nx&&z<nz;}
   public bool IsFree(Vector3 p)=>Cell2(p,out int x,out int z)&&cells[z*nx+x]==0;
