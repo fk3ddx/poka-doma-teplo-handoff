@@ -37,6 +37,6 @@ namespace Ataka.Editor {
    EditorUtility.SetDirty(flat);AssetDatabase.SaveAssets();EditorSceneManager.SaveScene(scene);
   }
   public static void InstallAndBuild(){Install();ScenarioBuilder.Build();}
-  public static void InstallReadyAssetsAndBuild(){Install();GuestInstaller.Install();ScenarioBuilder.Build();}
+  public static void InstallReadyAssetsAndBuild(){Install();AntresolInstaller.Install();GuestInstaller.Install();ScenarioBuilder.Build();}
  }
 }
