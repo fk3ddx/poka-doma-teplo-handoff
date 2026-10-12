@@ -1,0 +1,186 @@
+{
+  "nodes": [
+    {
+      "name": "Door",
+      "at": {
+        "x": 7.849999904632568,
+        "y": 0.0,
+        "z": 5.25
+      }
+    },
+    {
+      "name": "HallA",
+      "at": {
+        "x": 7.75,
+        "y": 0.0,
+        "z": 4.400000095367432
+      }
+    },
+    {
+      "name": "KitchenDoor",
+      "at": {
+        "x": 7.25,
+        "y": 0.0,
+        "z": 3.25
+      }
+    },
+    {
+      "name": "Kitchen",
+      "at": {
+        "x": 7.5,
+        "y": 0.0,
+        "z": 2.0999999046325684
+      }
+    },
+    {
+      "name": "Stove",
+      "at": {
+        "x": 8.0,
+        "y": 0.0,
+        "z": 1.649999976158142
+      }
+    },
+    {
+      "name": "HallJoint",
+      "at": {
+        "x": 6.900000095367432,
+        "y": 0.0,
+        "z": 5.25
+      }
+    },
+    {
+      "name": "HallB",
+      "at": {
+        "x": 5.650000095367432,
+        "y": 0.0,
+        "z": 5.300000190734863
+      }
+    },
+    {
+      "name": "Clock",
+      "at": {
+        "x": 5.5,
+        "y": 0.0,
+        "z": 5.449999809265137
+      }
+    },
+    {
+      "name": "LivingDoor",
+      "at": {
+        "x": 5.650000095367432,
+        "y": 0.0,
+        "z": 4.0
+      }
+    },
+    {
+      "name": "LivingMid",
+      "at": {
+        "x": 4.400000095367432,
+        "y": 0.0,
+        "z": 3.5
+      }
+    },
+    {
+      "name": "Aisle",
+      "at": {
+        "x": 4.150000095367432,
+        "y": 0.0,
+        "z": 2.799999952316284
+      }
+    },
+    {
+      "name": "Armchair",
+      "at": {
+        "x": 3.950000047683716,
+        "y": 0.0,
+        "z": 1.0499999523162842
+      }
+    },
+    {
+      "name": "BedroomDoor",
+      "at": {
+        "x": 3.200000047683716,
+        "y": 0.0,
+        "z": 3.75
+      }
+    },
+    {
+      "name": "Bedroom",
+      "at": {
+        "x": 2.0,
+        "y": 0.0,
+        "z": 3.5
+      }
+    },
+    {
+      "name": "Landing",
+      "at": {
+        "x": 8.050000190734863,
+        "y": 0.0,
+        "z": 6.619999885559082
+      }
+    }
+  ],
+  "edges": [
+    [
+      "Landing",
+      "Door"
+    ],
+    [
+      "Door",
+      "HallA"
+    ],
+    [
+      "HallA",
+      "KitchenDoor"
+    ],
+    [
+      "KitchenDoor",
+      "Kitchen"
+    ],
+    [
+      "Kitchen",
+      "Stove"
+    ],
+    [
+      "HallA",
+      "HallJoint"
+    ],
+    [
+      "Door",
+      "HallJoint"
+    ],
+    [
+      "HallJoint",
+      "HallB"
+    ],
+    [
+      "HallB",
+      "Clock"
+    ],
+    [
+      "HallB",
+      "LivingDoor"
+    ],
+    [
+      "LivingDoor",
+      "LivingMid"
+    ],
+    [
+      "LivingMid",
+      "Aisle"
+    ],
+    [
+      "Aisle",
+      "Armchair"
+    ],
+    [
+      "LivingMid",
+      "BedroomDoor"
+    ],
+    [
+      "BedroomDoor",
+      "Bedroom"
+    ]
+  ]
+}
