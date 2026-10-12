@@ -31,3 +31,8 @@ unity-game/Assets/Resources.meta
 /AssetStaging/
 /unity-game/Assets/ThirdPartyLicensed/
 /unity-game/Assets/ThirdPartyLicensed.meta
+
+# Local extracted previews and the large Story23 archive (delivery hashes are versioned).
+/playable/
+/builds/Ataka-story23-preview-win64.zip
+/builds/Ataka-story23-preview-win64.zip.sha256

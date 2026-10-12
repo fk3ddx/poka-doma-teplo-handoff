@@ -1,0 +1,10 @@
+{
+  "archive": "builds/Ataka-story23-preview-win64.zip",
+  "bytes": 149129994,
+  "sha256": "5fce4236f69d2e0ff677ce46934090db37416d90ed4ea207e815e0894626fd11",
+  "extracted": "playable/Story23/Ataka-Loop.exe",
+  "extracted_files_verified": 288,
+  "source_head": "6d0045b3b681129ef77b20a5ee2f25c830b3ff78",
+  "build_label": "story23-build-a",
+  "status": "unfinished preview; see README-PLAYER.md"
+}
