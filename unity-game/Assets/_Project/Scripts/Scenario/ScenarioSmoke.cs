@@ -34,7 +34,19 @@ namespace Ataka.Scenario {
     loop.EnterLap(6);player.hasFlashlight=true;player.Place(new Vector3(8.05f,.02f,5.35f),-90);
     loop.chase.Begin();yield return ChaseRun();Finish();yield break;
    }
-   yield return Walk(new Vector3(7.65f,0,3.8f));Look(loop.flat.torchPickup.position);yield return Press(Key.E);yield return new WaitForSeconds(.2f);Check(player.hasFlashlight,"flashlight pickup");yield return Shot("01-hall");
+   yield return ObtainFlashlight();
+   if(Array.IndexOf(Environment.GetCommandLineArgs(),"-scenario-hall-probe")>=0){
+    foreach(var root in loop.flat.apartment.GetComponentsInChildren<Transform>())if(root.name.StartsWith("READY hallway"))foreach(var r in root.GetComponentsInChildren<Renderer>())checks.Add("HALL_MESH "+root.name+" / "+r.name+" bounds="+r.bounds+" enabled="+r.enabled+" active="+r.gameObject.activeInHierarchy+" material="+r.sharedMaterial.name);
+    var mirror=loop.flat.hallCupboard.GetComponentInChildren<Ataka.PlanarMirror>();Look(mirror.GetComponent<Renderer>().bounds.center);yield return new WaitForSeconds(.7f);
+    Check(mirror.ReflectionTexture&&mirror.ReflectionTexture.IsCreated()&&mirror.Resolution==256,"ready mirror renders bounded256px texture");yield return Shot("hall-mirror");
+    // Same ready props in the existing warm-return profile, for diagnosis only; no production light change.
+    loop.flat.look.WarmReturn();Look(loop.flat.phone.position);yield return new WaitForSeconds(.7f);yield return Shot("diagnostic-warm-phone");
+    Look(new Vector3(8.76f,1.65f,5.10f));yield return new WaitForSeconds(.7f);yield return Shot("diagnostic-warm-hooks");
+    Look(new Vector3(8.60f,.2f,5.4f));yield return new WaitForSeconds(.7f);yield return Shot("diagnostic-warm-footwear");
+    loop.flat.look.Apply(FlatCondition.Familiar);
+    loop.flat.kitchen.locked=false;yield return Walk(new Vector3(7.75f,0,3.25f));Look(loop.flat.kitchen.transform.position);yield return Press(Key.E);yield return new WaitForSeconds(1);
+    yield return Walk(new Vector3(7.3f,0,2.45f));yield return Shot("kitchen-threshold-clearance");yield return Walk(new Vector3(7.75f,0,3.25f));yield return Walk(new Vector3(8.05f,0,5.45f));Check(!failed,"hall and kitchen threshold walk clear");Finish();yield break;
+   }
    if(Array.IndexOf(Environment.GetCommandLineArgs(),"-scenario-door-probe")>=0){yield return DoorSafetyProbe();Finish();yield break;}
    bool hangingOnly=Array.IndexOf(Environment.GetCommandLineArgs(),"-scenario-hanging-only")>=0;if(hangingOnly)loop.EnterLap(5);
    for(int lap=hangingOnly?5:1;lap<=6&&!failed;lap++){
@@ -69,6 +81,23 @@ namespace Ataka.Scenario {
    if(!failed){yield return Walk(new Vector3(2.25f,0,3.6f));yield return Walk(new Vector3(5.65f,0,3.6f));yield return Walk(new Vector3(5.65f,0,5.35f));yield return Walk(new Vector3(8.05f,0,5.45f));Look(loop.flat.entrance.transform.position);yield return Press(Key.E);yield return WaitBusy();float chaseDeadline=Time.realtimeSinceStartup+5;while(!loop.chase.Active&&Time.realtimeSinceStartup<chaseDeadline)yield return null;Check(loop.chase.Active,"chase entered");Check(player.transform.position.z<7&&player.transform.position.z>4,"chase starts at original hallway coordinates");yield return Shot("chase-start");}
    if(!failed)yield return ChaseRun();
    Finish();
+  }
+  IEnumerator ObtainFlashlight(){
+   var cupboard=loop.flat.hallCupboard;
+   if(!cupboard){yield return Walk(new Vector3(7.65f,0,3.8f));Look(loop.flat.torchPickup.position);yield return Press(Key.E);yield return new WaitForSeconds(.2f);Check(player.hasFlashlight,"flashlight pickup");yield return Shot("01-hall");yield break;}
+   yield return Walk(new Vector3(7.70f,0,4.05f));Look(cupboard.interaction.position);yield return new WaitForSeconds(.25f);yield return Shot("hall-cupboard-closed");
+   var before=player.transform.position;yield return Press(Key.E);yield return new WaitForSeconds(1);
+   Check(cupboard.door.open&&!player.hasFlashlight,"first E opens cupboard without granting flashlight");
+   Check(Vector3.Distance(before,player.transform.position)<.001f,"cupboard opening does not displace standing player");yield return Shot("hall-cupboard-near-player");
+   yield return Walk(new Vector3(8.10f,0,4.05f));yield return new WaitForSeconds(.8f);Look(cupboard.interaction.position);
+   Check(cupboard.ReadyToTake,"cupboard resumes opening after step back");
+   yield return Press(Key.LeftCtrl);yield return new WaitForSeconds(.2f);var pickupBounds=loop.flat.torchPickup.GetComponentInChildren<Renderer>().bounds;foreach(var r in loop.flat.torchPickup.GetComponentsInChildren<Renderer>())pickupBounds.Encapsulate(r.bounds);Look(pickupBounds.center);yield return new WaitForSeconds(.2f);
+   Check(ScenarioSight.Clear(player.transform,player.head.position,pickupBounds.center),"flashlight visible inside open authored compartment");yield return Shot("hall-cupboard-open-flashlight");
+   if(Array.IndexOf(Environment.GetCommandLineArgs(),"-scenario-hall-probe")>=0){loop.flat.look.WarmReturn();yield return new WaitForSeconds(.6f);yield return Shot("diagnostic-warm-open-flashlight");loop.flat.look.Apply(FlatCondition.Familiar);}
+
+   Look(cupboard.interaction.position);yield return Press(Key.E);yield return new WaitForSeconds(.2f);Check(player.hasFlashlight&&!loop.flat.torchPickup.gameObject.activeSelf,"second E takes flashlight from cupboard");
+   Check(cupboard.door.open,"cupboard waits before auto close");loop.Pause(true);yield return new WaitForSecondsRealtime(.6f);Check(cupboard.door.open,"pause freezes cupboard close delay");loop.Pause(false);
+   yield return new WaitForSeconds(1.8f);Check(cupboard.door.IsClosed,"cupboard automatically closes through safe door driver");yield return Press(Key.LeftCtrl);yield return new WaitForSeconds(.2f);yield return Shot("01-hall");
   }
   IEnumerator DoorSafetyProbe(){
    loop.EnterLap(1);loop.Progress.Complete(LapGate.Wardrobe);var door=loop.flat.carpet;door.locked=false;door.open=false;door.leaf.localRotation=Quaternion.identity;

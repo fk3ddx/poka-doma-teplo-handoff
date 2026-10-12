@@ -1,0 +1,19 @@
+{
+  "height": 0.12594955227978485,
+  "dimensions_blender": [
+    0.9000000357627869,
+    0.07478867471218109,
+    0.12594954669475555
+  ],
+  "materials": [
+    {
+      "name": "HookRack_0",
+      "texture": "Textures/Image_0.png",
+      "normal": ""
+    }
+  ],
+  "source_sha256": "c2faea77807d4b775ea97591e610718aaf21637402225d16701ddb3e34d74fd4",
+  "objects": [
+    "Object_4"
+  ]
+}

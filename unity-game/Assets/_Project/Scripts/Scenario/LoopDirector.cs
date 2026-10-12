@@ -23,6 +23,7 @@ namespace Ataka.Scenario {
    flat.living.open=true;flat.living.locked=false;flat.entrance.scripted=false;flat.bedroom.open=n!=5;flat.bedroom.locked=n==5;flat.bedroom.closedAngle=n==5?Mathf.Asin(.2f/.8f)*Mathf.Rad2Deg:0;flat.kitchen.locked=flat.bath.locked=true;
    foreach(var d in flat.wardrobeLeaves)d.localRotation=Quaternion.Euler(0,n==1?95:0,0);
    for(int i=0;i<flat.conditionGroups.Length;i++)flat.conditionGroups[i].SetActive(i==n-1);
+   if(flat.hallCupboard)flat.hallCupboard.ResetForLap();
    flat.guest.SetActive(false);flat.grandmother.SetActive(false);flat.torchPickup.gameObject.SetActive(!flat.player.hasFlashlight);
    flat.stool.transform.SetPositionAndRotation(new Vector3(5.5f,0,5.8f),Quaternion.identity);flat.slipper.SetActive(true);flat.slipper.transform.SetPositionAndRotation(ScenarioLayout.WardrobeSlipper,Quaternion.identity);
    flat.televisionLight.intensity=n==4?.1f:0;phoneTimer=0;balconyTimer=0;knockTimer=0;knockIndex=0;
@@ -37,7 +38,14 @@ namespace Ataka.Scenario {
    if(Time.time>thoughtUntil)subtitle.text="";if(paused||Finished||chase.Active)return;prompt.text="";
    if(Busy)return;var p=flat.player;bool e=Keyboard.current?.eKey.wasPressedThisFrame==true;
    if(Progress.Lap==6&&!peepholeSeen){knockTimer+=Time.deltaTime;if(knockTimer>=(knockIndex<3?.7f:5)){knockTimer=0;if(knockIndex<3){sound.Play("knock",flat.entrance.transform.position);knockIndex++;if(knockIndex==3)sound.Grandmother(flat.entrance.transform.position);}else knockIndex=0;}}
-   if(!p.hasFlashlight&&Near(flat.torchPickup)&&Looking(flat.torchPickup)){prompt.text="[E] Фонарик-«жучок»";if(e){p.hasFlashlight=true;flat.torchPickup.gameObject.SetActive(false);}}
+   if(!p.hasFlashlight&&flat.hallCupboard){
+    var cupboard=flat.hallCupboard;
+    if(Near(cupboard.interaction,1.7f)&&Looking(cupboard.interaction)&&ScenarioSight.Clear(p.transform,p.head.position,cupboard.interaction.position)){
+     prompt.text=cupboard.ReadyToTake?"[E] Взять фонарик-«жучок»":cupboard.door.open?(cupboard.door.BlockedByPlayer?"Отойди немного от дверцы":"Дверца открывается…"):"[E] Открыть тумбу";
+     if(e){if(cupboard.ReadyToTake)cupboard.Take(p);else if(!cupboard.door.open)sound.Play(cupboard.door.ToggleWithCue(),cupboard.interaction.position);return;}
+    }
+   }
+   if(!p.hasFlashlight&&!flat.hallCupboard&&Near(flat.torchPickup)&&Looking(flat.torchPickup)){prompt.text="[E] Фонарик-«жучок»";if(e){p.hasFlashlight=true;flat.torchPickup.gameObject.SetActive(false);}}
    if(returning){flat.entrance.locked=false;if(p.transform.position.z<5.6f){flat.entrance.open=false;flat.entrance.locked=true;returning=false;}}
    foreach(var door in new[]{flat.kitchen,flat.bath,flat.bedroom,flat.living})if(!(door==flat.bedroom&&Progress.Lap==5&&phoneAnswered)&&Near(door.transform)&&Looking(door.transform)){prompt.text=door.locked?"[E] Закрыто":"[E] Дверь";if(e){sound.Play(door.ToggleWithCue(),door.transform.position);}}
    if(Near(flat.clock.transform,2)&&Progress.Lap==2&&!clockThought){Thought("Часы идут назад. Это та же ночь. Только наоборот");clockThought=true;}

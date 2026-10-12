@@ -25,7 +25,7 @@ for i,m in enumerate(dict.fromkeys(m for o in obs for m in o.data.materials)):
  m.name='Boots_'+str(i);entry={'name':m.name,'texture':'','normal':''}
  for n in m.node_tree.nodes:
   if n.type!='TEX_IMAGE' or not n.image:continue
-  im=n.image;fn=re.sub('[^a-zA-Z0-9_]+','_',im.name)+'.png';im.filepath_raw=str(tex/fn);im.file_format='PNG';im.save()
+  im=n.image;fn=re.sub('[^a-zA-Z0-9_]+','_',im.name)+'.png';im.filepath_raw=str(tex/fn);im.file_format='PNG';im.save_render(str(tex/fn)) # save() can copy packed WebP bytes despite a .png suffix
   for link in n.outputs['Color'].links:
    if link.to_node==p and link.to_socket.name=='Base Color':entry['texture']='Textures/'+fn
    if link.to_node.type=='NORMAL_MAP':entry['normal']='Textures/'+fn

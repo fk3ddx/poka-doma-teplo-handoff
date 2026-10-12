@@ -57,3 +57,13 @@ Granny Katcho одобрена по авторскому превью («да н
 - Drinking glass: DREAM_SEARCH_REPEAT, [Cups and bottles little pack](https://opengameart.org/content/cups-and-bottles-little-pack), CC0-1.0. Original VasoChico mesh retained, uniformly normalized10cm and bottom pivot; flat pane normals instead of smoothing across thin rim. Water VFX derived from original inner profile, not a remodeled vessel. Original Blender/SHA preserved; preparation script tools/art/prepare_bedside_water_glass.py.
 - Capsules: mxc2 / Marcus-Indrek Simmer, [Pills 3D Models](https://opengameart.org/content/pills-3d-models), CC0-1.0. Original complexPill FBX/OBJ and zip preserved. Geometry, UV and material regions retained; uniform18mm scale and flat orientation; two instances. No medicine brand or diagnosis. tools/art/prepare_bedside_pills.py.
 - Both installed and measured in Unity Null graphics. CPU standalone glass images demonstrate a normals issue/correction; they are not game screenshots or visual acceptance.
+
+
+### 12.10 — Hall09, готовые предметы прихожей
+- Dresser — VVMGames, [Sketchfab](https://sketchfab.com/models/734b7c6aba6343518c89008ece0e58f0), [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/). Авторские сетки/UV/текстуры, равномерный масштаб: ширина 1.20 м, высота 1.80 м, фактическая глубина по вершинам 0.447 м. Правая авторская створка и ручка отделены в иерархии для безопасного открытия; зеркало использует отражение комнаты.
+- VEFPhone — strnroman, [Sketchfab](https://sketchfab.com/models/c848036e1d5f455797476659dfd12b06), CC-BY 4.0. Ранее подготовленный FBX с уменьшенным числом полигонов, авторские UV/текстуры; высота 15 см. Оригинальный источник и изменения описаны рядом с ассетом.
+- Wooden hook rack — Sousinho, [Sketchfab](https://sketchfab.com/3d-models/wooden-hook-rack-b7928bccdd1344b79c0b67e7a9878016), CC-BY 4.0. Официальный GLB 1K скачан 12.10.2026; авторская сетка/UV/текстура, равномерная ширина 90 см, FBX. Страница содержит NoAI: модель используется непосредственно как игровой предмет, не для обучения или генеративного ввода. SHA256 исходного GLB: c2faea77807d4b775ea97591e610718aaf21637402225d16701ddb3e34d74fd4.
+- Rubber boots — [Poly Haven](https://polyhaven.com/a/rubber_boots), CC0. Выбран один грязный комплект из двух альтернатив исходного GLB; авторская геометрия и карты, высота 37 см. Подробная атрибуция/манифест рядом с ассетом.
+- Тапки — готовые House slippers, headless_christ, CC-BY 4.0, источник выше. Два экземпляра ранее подготовленной модели длиной 28 см.
+
+Текстуры импорта ограничены 512 px, bilinear. Ни одна из этих замен не является утверждением художественной приёмки прихожей.

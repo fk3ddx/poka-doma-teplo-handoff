@@ -14,7 +14,7 @@ namespace Ataka {
   readonly Plane[] frustum=new Plane[6];
   UniversalRenderPipeline.SingleCameraRequest request;
   float nextFrame;
-  int resolution=512;float frequency=10;
+  [SerializeField]int resolution=512;[SerializeField]float frequency=10;
   public int Resolution=>resolution;public float Frequency=>frequency;
   public RenderTexture ReflectionTexture=>texture;
   public void Configure(int size,float hz){

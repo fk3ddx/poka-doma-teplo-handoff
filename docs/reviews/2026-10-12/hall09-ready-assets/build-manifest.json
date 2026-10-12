@@ -1,0 +1,9 @@
+{
+  "archive": "Ataka-hall09-ready-props-win64.zip",
+  "bytes": 112350361,
+  "sha256": "86a64d83f189efe68f15347127601a4a0cdc4caafd7e4fa59239b02c674dcb07",
+  "runtime_sha256": "e2a657dbe4d670b3f6ad41a9604802cfaa0219d8a3185a7dd12afa136a53b9c4",
+  "build_label": "hall09-textured-build",
+  "crc_verified": true,
+  "scope": "Hallway-ready-props review checkpoint; voice, other rooms and full game incomplete. See README known limitations."
+}
