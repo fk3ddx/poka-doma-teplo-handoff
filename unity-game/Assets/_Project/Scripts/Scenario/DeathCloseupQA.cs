@@ -29,6 +29,13 @@ namespace Ataka.Scenario {
      var g=flat.guest.transform;checks.Add("SHOT "+file+" FrameTime "+scenes.FrameTime.ToString("F2")+" camera pitch "+Mathf.DeltaAngle(0,p.head.localEulerAngles.x).ToString("F0")+" torch light "+(p.flashlight.enabled?"on":"off")+
       " guest "+(flat.guest.activeSelf?g.position.ToString("F2")+" tilt "+Vector3.Angle(g.up,Vector3.up).ToString("F0"):"hidden"));
      if(flat.guest.activeSelf&&Vector3.Angle(g.up,Vector3.up)>5)checks.Add("FAIL "+file+": Guest tilted "+Vector3.Angle(g.up,Vector3.up).ToString("F0")+"°");
+     if(flat.guest.activeSelf&&scenes.FrameTime>=.3f&&scenes.FrameTime<=1.35f){
+      var look=flat.guest.GetComponent<GuestLookAt>();
+      if(!look||!look.headBone)checks.Add("FAIL "+file+": ready head bone missing");
+      else {var at=p.view.WorldToViewportPoint(look.headBone.position);
+       checks.Add("HEAD "+file+" viewport "+at.ToString("F3"));
+       if(at.z<=0||at.x<.1f||at.x>.9f||at.y<.1f||at.y>.9f)checks.Add("FAIL "+file+": ready head outside central frame "+at.ToString("F3"));}
+     }
      k++;continue;}
     yield return null;}
    checks.Add((k==marks.Length?"PASS ":"FAIL ")+scene+" "+label+": "+k+"/"+marks.Length+" marks captured");
