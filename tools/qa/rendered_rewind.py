@@ -17,5 +17,10 @@ with (out/'console.log').open('w',encoding='utf-8') as log:
  (out/'exit.json').write_text(json.dumps({'pid':child.pid,'exit_code':code}),encoding='utf-8')
  if code==0:
   checks=(out/'checks.txt').read_text(encoding='utf-8-sig');assert 'FAIL ' not in checks and 'ERROR ' not in checks,checks
-  assert list(out.glob('*.png')),'No actual rendered evidence'
+  result=json.loads((out/'result.json').read_text(encoding='utf-8-sig'));assert result['passed'] and result['failures']==0 and result['errors']==0,result
+  assert len(list(out.glob('rewind-*.png')))>=14,'Incomplete rendered evidence'
+  mix=json.loads((out/'silent-mix.json').read_text(encoding='utf-8-sig'))
+  assert mix['captureModeMutesOutput'] and mix['clearedOutputCallbacks']>0,'Silent capture was not confirmed'
+  assert not mix['error'] and mix['droppedSamples']==0 and mix['formatChanges']==0,mix
+  assert mix['samples']>0,'No captured audio samples'
  print('REWIND_PLAYER_EXIT',code,flush=True);raise SystemExit(code)
