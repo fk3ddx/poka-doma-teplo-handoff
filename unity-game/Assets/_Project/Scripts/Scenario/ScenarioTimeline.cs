@@ -27,7 +27,7 @@ namespace Ataka.Scenario {
   public void BalconyWaiting(float reach=0){flat.guest.SetActive(true);GuestSilhouette(true);var g=flat.guest.transform;g.localScale=guestScale;g.rotation=Quaternion.Euler(0,0,180);var pose=flat.guest.GetComponent<ProxyPose>();pose.HangInverted(balconyPalm,0);HeadAt(g,new Vector3(5.175f,1.8f,-.3f));if(reach>0)pose.HangInverted(balconyPalm,reach);}
   public float screenBlack,screenRed,screenWhite;Quaternion startHead,chaseStartRotation,chaseTargetRotation;Vector3 startGuest,startHeadPosition;bool fired;float lastTime;Vector3 guestScale;
   void Awake(){guestScale=flat.guest.transform.localScale;faceTear=GetComponent<FaceTearDeath>();if(!faceTear)faceTear=gameObject.AddComponent<FaceTearDeath>();var suspension=gameObject.AddComponent<HangingRope>();suspension.scene=this;var floorCue=gameObject.AddComponent<HangingFloorCue>();floorCue.scene=this;}
-  public void Cancel(){GuestSilhouette(false);flat.player.lookDuringScene=false;flat.player.flashlight.transform.localRotation=Quaternion.identity;if(InDeath)sound.BeginDeathRecovery();sound.EndDeathRecovery();if(faceTear)faceTear.End();PlayingScene=null;FrameTime=0;director.Stop();screenBlack=screenWhite=screenRed=0;flat.look.peephole=flat.look.disruption=0;flat.player.control=true;flat.player.head.localPosition=Vector3.up*(flat.player.crouched?.94f:1.55f);if(leftHand)leftHand.gameObject.SetActive(false);if(rightHand)rightHand.gameObject.SetActive(false);flat.guest.SetActive(false);flat.grandmother.SetActive(false);}
+  public void Cancel(){GuestSilhouette(false);{var gv=flat.guest.GetComponent<GuestLookAt>();if(gv)gv.target=null;}flat.player.lookDuringScene=false;flat.player.flashlight.transform.localRotation=Quaternion.identity;if(InDeath)sound.BeginDeathRecovery();sound.EndDeathRecovery();if(faceTear)faceTear.End();PlayingScene=null;FrameTime=0;director.Stop();screenBlack=screenWhite=screenRed=0;flat.look.peephole=flat.look.disruption=0;flat.player.control=true;flat.player.head.localPosition=Vector3.up*(flat.player.crouched?.94f:1.55f);if(leftHand)leftHand.gameObject.SetActive(false);if(rightHand)rightHand.gameObject.SetActive(false);flat.guest.SetActive(false);flat.grandmother.SetActive(false);}
   void PlaceHangingStool(){
    var stool=flat.stool;stool.transform.SetPositionAndRotation(new Vector3(1.30f,0,2.62f),Quaternion.Euler(0,0,-90));
    var rs=stool.GetComponentsInChildren<Renderer>();if(rs.Length==0)return;var bounds=rs[0].bounds;foreach(var r in rs)bounds.Encapsulate(r.bounds);
@@ -57,7 +57,7 @@ namespace Ataka.Scenario {
      Evaluate(name,clock);
      if(!full&&deathsViewed>0){skipHeld=UnityEngine.InputSystem.Keyboard.current?.eKey.isPressed==true?skipHeld+Time.deltaTime:0;if(skipHeld>=.6f)break;}
      yield return null;}
-    deathsViewed++;sound.BeginDeathRecovery();faceTear.End();flat.look.disruption=0;
+    deathsViewed++;sound.BeginDeathRecovery();faceTear.End();flat.look.disruption=0;{var gv=flat.guest.GetComponent<GuestLookAt>();if(gv)gv.target=null;}
    }else{
     director.playableAsset=timeline;foreach(var output in timeline.outputs)director.SetGenericBinding(output.sourceObject,this);
     director.time=name=="HangingVision"?1:0;director.Play();while(director.state==PlayState.Playing)yield return null;
@@ -104,7 +104,8 @@ namespace Ataka.Scenario {
     bool full=name=="DeathFull";sound.quiet=true;if(veil)veil.At(faceTear.FlapTime(t));
     faceTear.Frame(t,out float pitchUp,out Vector2 shake);
     var body=flat.player.transform.forward;float lift=full&&t>=.8f&&t<4.8f?Mathf.SmoothStep(0,1,Mathf.Clamp01((t-.8f)/.3f))*.2f:0;
-    flat.guest.SetActive(full?t<4.8f:t<2.5f);guest.localScale=guestScale;guest.position=startGuest;HeadAt(guest,head.position+body*.62f+Vector3.up*(.10f+lift)); // her face 0.62 m ahead, above his eyes; the arms reach him (an authored body at 0.3 m filled the frame)
+    flat.guest.SetActive(full?t<4.8f:t<2.5f);guest.localScale=guestScale;guest.position=startGuest;HeadAt(guest,head.position+body*.62f+Vector3.up*(.10f+lift));
+    var gv=flat.guest.GetComponent<GuestLookAt>();if(gv)gv.target=head.position; // her face turns to him (the authored Idle looks aside) // her face 0.62 m ahead, above his eyes; the arms reach him (an authored body at 0.3 m filled the frame)
     var lens=cine.Lens;lens.FieldOfView=Mathf.Lerp(70,55,Mathf.Clamp01(t/.08f));cine.Lens=lens;
     head.localRotation=startHead*Quaternion.Euler(pitchUp+shake.x,shake.y,0);
     SoundAt(t,0,"breath",head.position);SoundAt(t,.3f,"finger_crack",head.position);

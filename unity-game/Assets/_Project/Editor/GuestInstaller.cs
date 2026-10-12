@@ -50,7 +50,7 @@ namespace Ataka.Editor {
     var cimp=(ModelImporter)AssetImporter.GetAtPath(claw);if(cimp&&!cimp.isReadable){cimp.isReadable=true;cimp.SaveAndReimport();} // orientation is measured from the mesh
     var m=Read("GuestClaw");var old=timeline.transform.Find("READY GuestClaw source");if(old)UnityEngine.Object.DestroyImmediate(old.gameObject);
     var model=(GameObject)PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath<GameObject>(claw));model.name="READY GuestClaw source";model.transform.SetParent(timeline.transform,false);
-    Materialise("GuestClaw",model,m);Orient(death,model,m);model.SetActive(false);death.clawSource=model;Debug.Log("GUEST_CLAW installed");
+    Materialise("GuestClaw",model,m);Orient(death,model,m);death.clawLength=.58f; // forearm+hand reaching from outside the frame (story18)model.SetActive(false);death.clawSource=model;Debug.Log("GUEST_CLAW installed");
    }else Debug.LogWarning("GUEST_CLAW missing: "+claw+" — run tools/art/prepare_guest.py");
    // Body: authored creature as a child of the logical Guest; proxy surfaces hidden at runtime.
    string body=Root+"GuestBody/GuestBody.fbx";
@@ -65,6 +65,9 @@ namespace Ataka.Editor {
     model.transform.localScale*=pb.size.y/Mathf.Max(.01f,mb.size.y);mb=rs[0].bounds;foreach(var r in rs)mb.Encapsulate(r.bounds);
     model.transform.position+=new Vector3(pb.center.x-mb.center.x,pb.min.y-mb.min.y,pb.center.z-mb.center.z);
     var visual=guest.GetComponent<GuestVisual>()??guest.gameObject.AddComponent<GuestVisual>();visual.proxyRenderers=proxy;visual.model=model.transform;
+    // Head look-at basis in the bind pose: the parent of "Jaw" (or a bone named Head) and the creature's forward in its space.
+    var jaw=model.GetComponentsInChildren<Transform>(true).FirstOrDefault(t=>t.name=="Jaw");var headBone=jaw?jaw.parent:model.GetComponentsInChildren<Transform>(true).FirstOrDefault(t=>t.name.ToLowerInvariant()=="head");
+    var look=guest.GetComponent<GuestLookAt>()??guest.gameObject.AddComponent<GuestLookAt>();look.headBone=headBone;look.headFaceLocal=headBone?Quaternion.Inverse(headBone.rotation)*guest.forward:Vector3.zero;Debug.Log("GUEST_BODY head bone "+(headBone?headBone.name:"none"));
     visual.player=model.GetComponentInChildren<Animation>(true);
     var names=visual.player?visual.player.Cast<AnimationState>().Select(s=>s.name).ToArray():new string[0];
     visual.idle=Pick(names,"idle","stand")??names.FirstOrDefault();visual.walk=Pick(names,"walk");visual.run=Pick(names,"run","sprint");visual.crawl=Pick(names,"crawl","creep");

@@ -18,7 +18,7 @@ f=(clawc-allc).normalized();tipi=max(clawv,key=lambda i:(verts[i]-allc).dot(f));
 def look(fw,up):
   fw=fw.normalized();r=up.cross(fw).normalized();u=fw.cross(r);return Matrix((r,u,fw)).transposed()   # columns r,u,f
 R0=Matrix.Rotation(math.radians(K.get('roll',0)),3,'Z')@look(f,-palm).inverted()
-w=[R0@v for v in verts];lo=Vector([min(p[k] for p in w) for k in range(3)]);hi=Vector([max(p[k] for p in w) for k in range(3)]);s=.46/max(hi-lo)
+w=[R0@v for v in verts];lo=Vector([min(p[k] for p in w) for k in range(3)]);hi=Vector([max(p[k] for p in w) for k in range(3)]);s=K.get('len',.46)/max(hi-lo)
 w=[(p*s) for p in w];lo=lo*s;hi=hi*s;shift=Vector(((lo.x+hi.x)/2,(lo.y+hi.y)/2,lo.z));w=[p-shift for p in w]
 print('ORIENT fingers',tuple(round(x,2) for x in f),'palm',tuple(round(x,2) for x in palm))
 def pose(keys,t):

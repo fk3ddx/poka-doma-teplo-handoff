@@ -7,7 +7,7 @@ namespace Ataka.Scenario {
  public sealed class FaceTearDeath:MonoBehaviour {
   public GameObject clawSource;                       // ready claw-hand model, right hand
   public Vector3 clawEuler;                          // extra rotation after the automatic orientation (0 = as designed); without clawFingers it is the whole orientation
-  public float clawLength=.46f;                      // forearm end to claw tip, metres
+  public float clawLength=.58f;                      // forearm end to claw tip, metres (GuestInstaller sets it)
   // Set by GuestInstaller from the mesh itself (model-root space): direction to the claws and the palm side.
   public Vector3 clawFingers,clawPalm;public float clawRoll=90;
   public float fillIntensity=.6f,fillRange=1.6f;public Color fillColor=new Color(.75f,.8f,.92f); // dim cold light on the hands while they are in
@@ -20,26 +20,27 @@ namespace Ataka.Scenario {
   // "wrist" = the forearm end (model origin), "fingers" = forearm→claws direction, "palm" = palm normal.
   // Composition designed against a Blender emulation of this exact maths (docs/…/18): her head/chest 0.62 m ahead,
   // both clawed hands framing the face at 0.55–1.3, the right hand at the hairline 1.6–2.0, dragging down by 2.6.
+  // story18: every forearm origin is outside the frustum (arms enter from the frame edges, no visible cut end); clawLength .58.
   static readonly Key[] RightFull={
-   new Key(0f,new Vector3(.75f,-.45f,.55f),new Vector3(-.6f,.3f,-.75f),new Vector3(-1f,0f,0f)),
-   new Key(0.3f,new Vector3(.75f,-.45f,.55f),new Vector3(-.6f,.3f,-.75f),new Vector3(-1f,0f,0f)),
-   new Key(0.55f,new Vector3(.35f,-.05f,.53f),new Vector3(-.5f,.15f,-.85f),new Vector3(-.9f,0f,-.4f)),
-   new Key(1.3f,new Vector3(.33f,-.04f,.5f),new Vector3(-.5f,.15f,-.85f),new Vector3(-.9f,0f,-.4f)),
-   new Key(1.6f,new Vector3(.1f,.35f,.6f),new Vector3(-.1f,-.55f,-.83f),new Vector3(0f,-.3f,-1f)),
-   new Key(2f,new Vector3(.1f,.4f,.62f),new Vector3(-.1f,-.55f,-.83f),new Vector3(0f,-.3f,-1f)),
-   new Key(2.6f,new Vector3(.12f,.25f,.75f),new Vector3(-.1f,-.75f,-.65f),new Vector3(0f,-.3f,-1f)),
-   new Key(3f,new Vector3(.5f,-.5f,.6f),new Vector3(-.3f,.2f,-.9f),new Vector3(-1f,0f,0f)),
-   new Key(3.4f,new Vector3(.08f,-.45f,.55f),new Vector3(-.05f,.95f,-.1f),new Vector3(0f,0f,-1f)),
-   new Key(4.2f,new Vector3(.08f,-.45f,.55f),new Vector3(-.05f,.95f,-.1f),new Vector3(0f,0f,-1f)),
-   new Key(4.7f,new Vector3(.5f,-.8f,.6f),new Vector3(0f,.9f,.2f),new Vector3(-1f,0f,0f)),
-   new Key(9f,new Vector3(.5f,-.8f,.6f),new Vector3(0f,.9f,.2f),new Vector3(-1f,0f,0f))};
+   new Key(0f,new Vector3(1f,.02f,.65f),new Vector3(-.8f,.1f,-.2f),new Vector3(-.6f,0f,-.8f)),
+   new Key(0.3f,new Vector3(1f,.02f,.65f),new Vector3(-.8f,.1f,-.2f),new Vector3(-.6f,0f,-.8f)),
+   new Key(0.55f,new Vector3(.75f,.02f,.6f),new Vector3(-.8f,.1f,-.2f),new Vector3(-.6f,0f,-.8f)),
+   new Key(1.3f,new Vector3(.72f,.03f,.58f),new Vector3(-.8f,.1f,-.25f),new Vector3(-.6f,0f,-.8f)),
+   new Key(1.6f,new Vector3(.12f,.62f,.6f),new Vector3(-.1f,-.85f,-.45f),new Vector3(0f,-.3f,-1f)),
+   new Key(2f,new Vector3(.12f,.62f,.58f),new Vector3(-.1f,-.85f,-.45f),new Vector3(0f,-.3f,-1f)),
+   new Key(2.6f,new Vector3(.1f,.6f,.7f),new Vector3(-.05f,-.95f,-.3f),new Vector3(0f,-.2f,-1f)),
+   new Key(3f,new Vector3(.55f,-.6f,.55f),new Vector3(-.3f,.6f,-.5f),new Vector3(-1f,0f,0f)),
+   new Key(3.4f,new Vector3(.1f,-.7f,.55f),new Vector3(-.05f,.95f,-.1f),new Vector3(0f,0f,-1f)),
+   new Key(4.2f,new Vector3(.1f,-.7f,.55f),new Vector3(-.05f,.95f,-.1f),new Vector3(0f,0f,-1f)),
+   new Key(4.7f,new Vector3(.6f,-.9f,.6f),new Vector3(0f,.9f,.2f),new Vector3(-1f,0f,0f)),
+   new Key(9f,new Vector3(.6f,-.9f,.6f),new Vector3(0f,.9f,.2f),new Vector3(-1f,0f,0f))};
   static readonly Key[] LeftFull={
-   new Key(0f,new Vector3(-.75f,-.45f,.55f),new Vector3(.6f,.3f,-.75f),new Vector3(1f,0f,0f)),
-   new Key(0.3f,new Vector3(-.75f,-.45f,.55f),new Vector3(.6f,.3f,-.75f),new Vector3(1f,0f,0f)),
-   new Key(0.55f,new Vector3(-.35f,-.05f,.53f),new Vector3(.5f,.15f,-.85f),new Vector3(.9f,0f,-.4f)),
-   new Key(2.6f,new Vector3(-.33f,-.04f,.5f),new Vector3(.5f,.15f,-.85f),new Vector3(.9f,0f,-.4f)),
-   new Key(3f,new Vector3(-.6f,-.6f,.5f),new Vector3(.5f,.2f,-.8f),new Vector3(1f,0f,0f)),
-   new Key(9f,new Vector3(-.8f,-.8f,.5f),new Vector3(.5f,.2f,-.8f),new Vector3(1f,0f,0f))};
+   new Key(0f,new Vector3(-1f,.02f,.65f),new Vector3(.8f,.1f,-.2f),new Vector3(.6f,0f,-.8f)),
+   new Key(0.3f,new Vector3(-1f,.02f,.65f),new Vector3(.8f,.1f,-.2f),new Vector3(.6f,0f,-.8f)),
+   new Key(0.55f,new Vector3(-.75f,.02f,.6f),new Vector3(.8f,.1f,-.2f),new Vector3(.6f,0f,-.8f)),
+   new Key(2.6f,new Vector3(-.72f,.03f,.58f),new Vector3(.8f,.1f,-.25f),new Vector3(.6f,0f,-.8f)),
+   new Key(3f,new Vector3(-.7f,-.7f,.45f),new Vector3(.4f,.6f,-.4f),new Vector3(1f,0f,0f)),
+   new Key(9f,new Vector3(-.9f,-.9f,.4f),new Vector3(.4f,.6f,-.4f),new Vector3(1f,0f,0f))};
   // Short version keeps the same gestures on the compressed 3.5 s clock of 7.4.
   static float FullTime(float t,bool full)=>full?t:t<.3f?t:t<1f?Mathf.Lerp(.3f,1.6f,(t-.3f)/.7f):t<1.5f?Mathf.Lerp(1.6f,2.0f,(t-1f)/.5f):Mathf.Lerp(2.0f,3.0f,(t-1.5f)/1f);
   public float Duration(bool fullDeath)=>fullDeath?7:3.5f;
