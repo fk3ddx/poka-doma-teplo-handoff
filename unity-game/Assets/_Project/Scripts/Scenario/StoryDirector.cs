@@ -86,7 +86,8 @@ namespace Ataka.Scenario {
   public void QaReplayRewind(){if(running!=null)StopCoroutine(running);running=StartCoroutine(Rewind());}
   public void QaCancelRewind(){if(running!=null)StopCoroutine(running);running=null;if(rewind)rewind.Cleanup();}
   public float QaNightSeconds=>nightSeconds;
-  public void QaNightEvents(int which){chapter=which==1?Chapter.Night1:Chapter.Night2;night=which;if(running!=null)StopCoroutine(running);nightSeconds=22*3600;NightClock();running=StartCoroutine(NightEvents(which,false));}
+  public void QaStopAll()=>StopAll(); // QA: what a menu / new game / chapter change does mid-scene
+  public void QaNightEvents(int which){EndMirrorSeed();chapter=which==1?Chapter.Night1:Chapter.Night2;night=which;if(running!=null)StopCoroutine(running);nightSeconds=22*3600;NightClock();running=StartCoroutine(NightEvents(which,false));}
   public bool QaBelt=>beltTied;public int QaRestarts{get;private set;}public bool qaAllowSave;
   public void QaSavePath(string path){savePath=path;}public string SavePath=>savePath;
 
@@ -204,7 +205,7 @@ namespace Ataka.Scenario {
    running=StartCoroutine(at switch{"Evening"=>Evening(false),"Night1"=>Night1(false),"Night2"=>Night2(false),"Finale"=>Finale(),_=>Prologue()});
   }
   public void Abandon(){StopAll();chapter=Chapter.Loop;flat.entrance.direction=1;}
-  void StopAll(){if(rewind)rewind.Cleanup();FinaleReset();if(running!=null)StopCoroutine(running);StopAllCoroutines();acts.Clear();holdingAct=null;kettleBoiling=false;card=null;fade=0;objective="";choiceA=choiceB=null;scenes.Cancel();loop.chase.Stop();sound.ResetWorld();if(tv){tv.storyOn=false;tv.show=ScenarioTelevision.Show.None;}if(bedside)bedside.timeSource=flat.clock;QaInFreeTime=false;if(strap)strap.enabled=false;}
+  void StopAll(){EndMirrorSeed();if(rewind)rewind.Cleanup();FinaleReset();if(running!=null)StopCoroutine(running);StopAllCoroutines();acts.Clear();holdingAct=null;kettleBoiling=false;card=null;fade=0;objective="";choiceA=choiceB=null;scenes.Cancel();loop.chase.Stop();sound.ResetWorld();if(tv){tv.storyOn=false;tv.show=ScenarioTelevision.Show.None;}if(bedside)bedside.timeSource=flat.clock;QaInFreeTime=false;if(strap)strap.enabled=false;}
   void Update(){
    if(granBody)granBody.enabled=OwnsFlat&&chapter!=Chapter.Ended; // in the loop the hanging vision needs clear sight to her
    if(!OwnsFlat||player.paused)return;
@@ -587,20 +588,34 @@ namespace Ataka.Scenario {
   }
   IEnumerator SayLater(float s,string line){yield return new WaitForSeconds(s);Say("",line,3);}
   IEnumerator LampLights(){var l=flat.look.icon;for(float t=0;t<.7f;t+=Time.deltaTime){l.intensity=.14f*Mathf.Clamp01(t/.7f)*(.6f+.4f*Mathf.PerlinNoise(t*30,.2f));yield return null;}l.intensity=.14f;}
+  // Everything the mirror seed changes on the shared Guest and the hall probe, kept until it is put back. Put back by
+  // the seed itself, and by StopAll / QaNightEvents / OnDisable / OnDestroy if the seed is cut off mid-way (a stopped
+  // coroutine runs no cleanup): otherwise the Guest would stay on layer 31 (invisible), black and 2.2 m tall.
+  sealed class MirrorState {public readonly List<(Transform t,int layer)> layers=new List<(Transform,int)>();public readonly List<(Renderer r,MaterialPropertyBlock block)> blocks=new List<(Renderer,MaterialPropertyBlock)>();public Vector3 position,scale;public Quaternion rotation;public bool active;public HallReflections probe;public int mask;}
+  MirrorState mirrorState;public bool QaMirrorActive=>mirrorState!=null;
+  void EndMirrorSeed(){
+   var s=mirrorState;if(s==null)return;mirrorState=null;if(!flat||!flat.guest)return;var g=flat.guest;var gt=g.transform;
+   foreach(var x in s.blocks)if(x.r)x.r.SetPropertyBlock(x.block);foreach(var x in s.layers)if(x.t)x.t.gameObject.layer=x.layer;
+   gt.localScale=s.scale;gt.SetPositionAndRotation(s.position,s.rotation);g.SetActive(s.active);
+   if(s.probe){s.probe.probe.cullingMask=s.mask;s.probe.Recapture();}}
+  void OnDisable(){EndMirrorSeed();}void OnDestroy(){EndMirrorSeed();}
   IEnumerator MirrorSeed(Renderer mirror){
-   var probe=FindFirstObjectByType<HallReflections>();var g=flat.guest;var gt=g.transform;
+   EndMirrorSeed();var probe=FindFirstObjectByType<HallReflections>();var g=flat.guest;var gt=g.transform;
+   var s=new MirrorState{position=gt.position,rotation=gt.rotation,scale=gt.localScale,active=g.activeSelf,probe=probe,mask=probe?probe.probe.cullingMask:0};
+   foreach(var t in g.GetComponentsInChildren<Transform>(true))s.layers.Add((t,t.gameObject.layer));
+   var rs=g.GetComponentsInChildren<Renderer>(true);foreach(var r in rs){MaterialPropertyBlock saved=null;if(r.HasPropertyBlock()){saved=new MaterialPropertyBlock();r.GetPropertyBlock(saved);}s.blocks.Add((r,saved));}
+   mirrorState=s; // from here on every change below is undone by EndMirrorSeed, whoever calls it
    var p=player.transform.position;var c=mirror.bounds.center;var back=p-c;back.y=0;back.Normalize();
    var at=p+back*1.3f;at.x=Mathf.Clamp(at.x,7.0f,8.55f);at.z=Mathf.Clamp(at.z,3.1f,5.8f);at.y=0;
-   var layers=new List<(Transform t,int layer)>();foreach(var t in g.GetComponentsInChildren<Transform>(true)){layers.Add((t,t.gameObject.layer));t.gameObject.layer=31;}
-   var scale=gt.localScale;var pose=g.GetComponent<ProxyPose>();g.SetActive(true);if(pose)pose.Stand();gt.SetPositionAndRotation(at,Quaternion.LookRotation(-back));
-   var rs=g.GetComponentsInChildren<Renderer>();var b=rs.Length>0?rs[0].bounds:new Bounds(at,Vector3.one);foreach(var r in rs)b.Encapsulate(r.bounds);if(b.size.y>.1f)gt.localScale=scale*(2.2f/b.size.y);
+   foreach(var x in s.layers)x.t.gameObject.layer=31;
+   var pose=g.GetComponent<ProxyPose>();g.SetActive(true);if(pose)pose.Stand();gt.SetPositionAndRotation(at,Quaternion.LookRotation(-back));
+   var b=rs.Length>0?rs[0].bounds:new Bounds(at,Vector3.one);foreach(var r in rs)b.Encapsulate(r.bounds);if(b.size.y>.1f)gt.localScale=s.scale*(2.2f/b.size.y);
    var black=new MaterialPropertyBlock();black.SetColor("_BaseColor",new Color(.02f,.018f,.016f,1));black.SetFloat("_Smoothness",0);foreach(var r in rs)r.SetPropertyBlock(black);
-   int mask=probe?probe.probe.cullingMask:0;int before=probe?probe.CompletedCaptures:0;
-   if(probe){probe.probe.cullingMask=mask|(1<<31);probe.Recapture();}
+   int before=probe?probe.CompletedCaptures:0;
+   if(probe){probe.probe.cullingMask=s.mask|(1<<31);probe.Recapture();}
    for(float t=0;t<.6f&&probe&&probe.CompletedCaptures==before;t+=Time.unscaledDeltaTime)yield return null; // the probe renders its faces over a few frames
    QaSeeds.Add(("mirror",Time.time));QaMirrorFigure=at;yield return new WaitForSeconds(.3f);
-   foreach(var r in rs)r.SetPropertyBlock(null);gt.localScale=scale;g.SetActive(false);foreach(var x in layers)if(x.t)x.t.gameObject.layer=x.layer;
-   if(probe){probe.probe.cullingMask=mask;probe.Recapture();}
+   EndMirrorSeed();
   }
   public Vector3 QaMirrorFigure{get;private set;}
   IEnumerator News(){

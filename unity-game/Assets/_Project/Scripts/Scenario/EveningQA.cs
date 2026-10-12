@@ -34,6 +34,23 @@ namespace Ataka.Scenario {
    loop.testing=true;p.automating=true;loop.Pause(false);
    foreach(var a in new[]{"4.7 the album (6 spreads), the Dendy mini-game, «Теленеделя», the radio programme and weather report","the kitchen «Янтарь» clock: none in the flat; the bedside alarm clock shows the true time instead","the announcer himself on screen (and his look into the camera): no model; the blue screen carries his words","the news titles' own jingle: no recording"})checks.Add("ABSENT "+a);
    int hiss=0;Action<string> cue=id=>{if(id=="radio_hiss")hiss++;};sound.CueStarted+=cue;
+   // pc26b: cut the mirror seed off mid-way (StopAll = menu / new game / chapter change), then the shared Guest and the
+   // hall probe must be exactly as before, and the Guest must be visible in the next scene that uses her.
+   {var g=flat.guest;var probe=FindFirstObjectByType<HallReflections>();var layers=new List<(Transform t,int layer)>();foreach(var t in g.GetComponentsInChildren<Transform>(true))layers.Add((t,t.gameObject.layer));
+    var rs=g.GetComponentsInChildren<Renderer>(true);var hadBlock=new List<bool>();foreach(var r in rs)hadBlock.Add(r.HasPropertyBlock());var scale=g.transform.localScale;bool active=g.activeSelf;int mask=probe?probe.probe.cullingMask:0;
+    story.QaFreeTimeAndNews();yield return new WaitForSeconds(1);var m=story.QaMirror;
+    if(m){var c=m.bounds.center;p.Place(new Vector3(c.x+.85f,.02f,c.z),270);yield return null;Aim(p,c);float until=Time.time+5;while(Time.time<until&&!story.QaMirrorActive)yield return null;}
+    bool caught=story.QaMirrorActive;Check(caught,"interrupt: the mirror seed is in progress (figure out, probe extended)");
+    int layer31=0;foreach(var x in layers)if(x.t&&x.t.gameObject.layer==31)layer31++;checks.Add("NOTE before the interrupt "+layer31+" Guest transforms on layer 31");
+    story.QaStopAll();yield return null;
+    int wrongLayer=0,leftBlocks=0;foreach(var x in layers)if(x.t&&x.t.gameObject.layer!=x.layer)wrongLayer++;for(int i=0;i<rs.Length;i++)if(rs[i]&&rs[i].HasPropertyBlock()!=hadBlock[i])leftBlocks++;
+    Check(!story.QaMirrorActive&&wrongLayer==0&&leftBlocks==0&&(g.transform.localScale-scale).sqrMagnitude<1e-8f&&g.activeSelf==active&&(!probe||probe.probe.cullingMask==mask),"interrupt: StopAll inside the seed restores the Guest (layers "+wrongLayer+" wrong, property blocks "+leftBlocks+" left, scale "+g.transform.localScale.ToString("F2")+", active "+g.activeSelf+") and the probe mask");
+    // the next scene with her: the short death — she must be on her own layers and seen
+    var scenes=loop.scenes;p.Place(new Vector3(7.9f,.02f,4.4f),0);yield return null;StartCoroutine(scenes.Play("DeathShort"));yield return null;bool shot=false;
+    while(scenes.PlayingScene=="DeathShort"){if(!shot&&scenes.FrameTime>=.6f){shot=true;yield return Shot("interrupt-next-scene-guest");var look=g.GetComponent<GuestLookAt>();var cam=p.view?p.view:Camera.main;int on31=0;foreach(var r in g.GetComponentsInChildren<Renderer>())if(r.gameObject.layer==31)on31++;
+      var v=look&&look.headBone&&cam?cam.WorldToViewportPoint(look.headBone.position):Vector3.zero;Check(g.activeSelf&&on31==0&&v.z>0&&v.x>.1f&&v.x<.9f&&v.y>.1f&&v.y<.9f,"interrupt: in the next scene (DeathShort) the Guest is on her own layers ("+on31+" renderers on 31) and in frame "+v.ToString("F2"));}
+     yield return null;}
+    loop.sound.EndDeathRecovery();yield return new WaitForSeconds(.5f);}
    story.QaFreeTimeAndNews();yield return new WaitForSeconds(1);
    Check(story.QaInFreeTime&&flat.look.icon&&flat.look.icon.intensity<.01f,"4.7 free time started at 21:00, the icon lamp still unlit");
    // 1 mirror
