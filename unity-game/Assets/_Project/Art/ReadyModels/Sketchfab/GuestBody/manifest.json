@@ -22,9 +22,22 @@
    "roughness": 0.6200000047683716,
    "texture": "Textures/albedo.png",
    "normal": "Textures/normal.png"
+  },
+  {
+   "name": "GuestBody_Material_1",
+   "color": [
+    0.012000000104308128,
+    0.010999999940395355,
+    0.009999999776482582,
+    1.0
+   ],
+   "roughness": 0.25,
+   "texture": "",
+   "normal": ""
   }
  ],
  "changes": [
-  "format conversion only; transforms, rest pose and bind poses untouched (scaled in Unity)"
+  "format conversion; transforms, rest pose and bind poses untouched (scaled in Unity)",
+  "distal finger phalanges lengthened x3.2,.2 and tapered into black claws (280 vertices moved, Claw material on 243 faces; joints, weights, bind poses unchanged)"
  ]
 }

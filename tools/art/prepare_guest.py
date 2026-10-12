@@ -2,6 +2,9 @@
 #
 #   blender --background --python tools/art/prepare_guest.py -- <body file> --source <url> --author <name> --license <id>
 #           [--claw <hand file> | --claw from-body [--hand-bones <forearm bone>]] [--claw-source <url> --claw-author <name> --claw-license <id>]
+#           [--claws <length factor>,<tip width> --wrists <left wrist bone>,<right wrist bone>]
+# --claws: the author's distal finger phalanges are lengthened along the finger and tapered into black claws
+#   (mesh vertices + a 'Claw' material only; joints, weights and bind poses unchanged).
 # --hand-bones: rigs with generic bone names (joint12.001…): the named bone and all its descendants are the hand+forearm.
 #
 # <body file>: .glb/.gltf/.fbx/.dae of a downloadable, licensed creature (itch.io / OpenGameArt / Sketchfab).
@@ -87,10 +90,52 @@ def cut_right_hand(meshes,bones=None):
   if not best or len(dup.data.vertices)>len(best.data.vertices):best=dup
  return best
 
+def lengthen_claws(arm,mesh,K,TW,nail_from=0.0,wrists=('joint13','joint13.001')):
+ # Author-mesh edit, no new geometry: the distal phalanx of every finger is lengthened K× along the finger and
+ # tapered to TW at the tip; its outer part gets a near-black glossy 'Claw' material. Joints, weights, bind poses unchanged.
+ inv=mesh.matrix_world.inverted();mw=arm.matrix_world
+ def head(b):return inv@(mw@arm.data.bones[b].head_local)
+ groups={g.name:g.index for g in mesh.vertex_groups};count={};dom={}
+ for v in mesh.data.vertices:
+  if v.groups:g=max(v.groups,key=lambda x:x.weight).group;dom[v.index]=g;count[g]=count.get(g,0)+1
+ tips=[]
+ for w in wrists:
+  for f in arm.data.bones[w].children:
+   b=f;last=None
+   while True:
+    if count.get(groups.get(b.name),0)>=5:last=b
+    if not b.children:break
+    b=b.children[0]
+   if last and last.parent:tips.append(last)
+ claw=bpy.data.materials.new('Claw');claw.use_nodes=True;p=claw.node_tree.nodes['Principled BSDF'];p.inputs['Base Color'].default_value=(.012,.011,.010,1);p.inputs['Roughness'].default_value=.25
+ mesh.data.materials.append(claw);ci=len(mesh.data.materials)-1;moved=set();nailv=set();far=set()
+ for t in tips:
+  gi=groups[t.name];h=head(t.name);d=(h-head(t.parent.name));L=d.length;d.normalize()
+  vs=[i for i,g in dom.items() if g==gi];smax=max(((mesh.data.vertices[i].co-h).dot(d) for i in vs),default=0)
+  if smax<=0:continue
+  for i in vs:
+   co=mesh.data.vertices[i].co;rel=co-h;s=rel.dot(d)
+   if s<=0:continue
+   u=s/smax;radial=rel-d*s;mesh.data.vertices[i].co=h+d*(s*K)+radial*(1-(1-TW)*u)
+   moved.add(i)
+   if u>nail_from:nailv.add(i)
+   if u>.5:far.add(i)
+ faces=0
+ for f in mesh.data.polygons:
+  # claw faces: mostly claw vertices, or any face reaching the outer half (long faces from the last joint to the tip)
+  if sum(v in nailv for v in f.vertices)*2>=len(f.vertices) or any(v in far for v in f.vertices):f.material_index=ci;faces+=1
+ return {'verts':len(moved),'faces':faces,'tips':[t.name for t in tips]}
+
 if not body or not body.exists():raise SystemExit('Body file missing: '+str(body))
 load(body)
-meshes=[o for o in bpy.context.scene.objects if o.type=='MESH'];arm=next((o for o in bpy.context.scene.objects if o.type=='ARMATURE'),None)
+arm=next((o for o in bpy.context.scene.objects if o.type=='ARMATURE'),None)
+# Only meshes driven by the rig (a stray importer mesh such as a glTF Icosphere is not part of the creature).
+meshes=[o for o in bpy.context.scene.objects if o.type=='MESH' and (not arm or o.find_armature()==arm)]
 out=outroot/'GuestBody';(out/'Textures').mkdir(parents=True,exist_ok=True)
+claws=None
+if opt('--claws'):
+ k,tw=(float(x) for x in opt('--claws').split(','));skinned=max((o for o in meshes if o.vertex_groups),key=lambda o:len(o.data.vertices))
+ claws=lengthen_claws(arm,skinned,k,tw,wrists=tuple(opt('--wrists','joint13,joint13.001').split(',')));print('CLAWS',claws)
 mats=save_materials('GuestBody',meshes,out/'Textures');actions=[a.name for a in bpy.data.actions]
 claw=None
 if opt('--claw')=='from-body':
@@ -98,7 +143,7 @@ if opt('--claw')=='from-body':
  if not claw:print('WARNING no right hand/forearm vertex groups found; use --claw <hand file>')
 export(meshes+([arm] if arm else []),out/'GuestBody.fbx',bool(arm))
 write_meta(out,'GuestBody',opt('--source'),opt('--author'),opt('--license'),{'rigged':bool(arm),'actions':actions,'materials':mats,
- 'changes':['format conversion only; transforms, rest pose and bind poses untouched (scaled in Unity)']})
+ 'changes':['format conversion; transforms, rest pose and bind poses untouched (scaled in Unity)']+(['distal finger phalanges lengthened x%s and tapered into black claws (%d vertices moved, Claw material on %d faces; joints, weights, bind poses unchanged)'%(opt('--claws'),claws['verts'],claws['faces'])] if claws else [])})
 print('PREPARED GuestBody actions=',actions)
 cout=outroot/'GuestClaw';(cout/'Textures').mkdir(parents=True,exist_ok=True)
 if claw:

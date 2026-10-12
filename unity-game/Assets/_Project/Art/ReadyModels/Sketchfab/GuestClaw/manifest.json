@@ -15,6 +15,18 @@
    "roughness": 0.6200000047683716,
    "texture": "Textures/albedo.png",
    "normal": "Textures/normal.png"
+  },
+  {
+   "name": "GuestClaw_Material_1",
+   "color": [
+    0.012000000104308128,
+    0.010999999940395355,
+    0.009999999776482582,
+    1.0
+   ],
+   "roughness": 0.25,
+   "texture": "",
+   "normal": ""
   }
  ],
  "changes": [
