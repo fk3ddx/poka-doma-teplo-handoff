@@ -359,3 +359,10 @@ Silent capture12561 cleared callbacks,0 drops,0 format changes. Viewed core-end:
 # Story29 intermediate delivery (immutable)
 Created builds/Ataka-story29-preview-win64.zip:190085615bytes, SHA256641982a4046610275fd82449f661037b8ec1112f92593a124e6d1ced4a4cceb7, source963cda1/build story29-build-n. ZIP CRC passed; extracted into playable/Story29 and all289 runtime file hashes verified. Do NOT overwrite this delivery. docs/STORY29-DELIVERY.json + STORY29-PREVIEW-RU.md identify scope/limitations. Story23 and Story27 still preserved. Not launched for human with sound.
 Next: user can test New Game. Goal remains active, not complete. Voices, temporary actors, hallway-face lighting, saved-game resume validation and whole human playthrough remain. Claude confirmed the fixed geometry and reviewed integrated QA code; no more FaceShed changes without a new defect. No live Unity/player jobs remain. User manual Sketchfab download is not required to continue.
+
+
+## 2026-10-13 — после Story31, актуальный следующий пакет
+
+Story29 выдана и сохранена отдельно. В Codex 7c2af07: проверки сохранений после полного перезапуска PASS (второй круг, прямой старт погони, отдельный финал). Claude просмотрел исходные результаты; ограничения в docs/reviews/2026-10-13/story31-save-resume/README.md. Цель не завершена.
+
+Следующим Claude уже поручен отдельный патч от 7c2af07: настоящая охота и укрытия по SCENARIO §6, 22:06–22:07 (шкаф, кровать, стол, ванна) с обнаружением и переходом в существующую DeathFull/перемотку. Сейчас Hunt показывает Гостью вспышками и не даёт укрываться — это крупный недостающий геймплей, важнее мелкого арта. Получить патч через текущий чат Claude, проверить код, собрать Windows, пройти вход/выход каждого укрытия и открытое место. Не изменять Story29 или принятый свет/VHS. QA остаётся бесшумным. Голос бабушки не утверждён; временные модели не считать финальными.
