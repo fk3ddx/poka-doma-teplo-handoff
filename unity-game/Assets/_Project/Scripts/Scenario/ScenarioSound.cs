@@ -97,13 +97,14 @@ namespace Ataka.Scenario {
   readonly ScenarioSoundCue RewindCue=new ScenarioSoundCue{id="rewind",bus=ScenarioBus.Stinger,gainDb=-7,pitchVariation=0,spatial=false,maxInstances=8,priority=30};
   readonly ScenarioSoundCue RewindTickCue=new ScenarioSoundCue{id="rewind_tick",bus=ScenarioBus.Stinger,gainDb=-4,pitchVariation=0,spatial=false,loop=true,maxInstances=1,priority=25};
   // Plays only a clip prepared beforehand (PrepareReversed): no reversal work while the rewind is audible.
-  public void PlayReversed(AudioClip clip,float speed){if(!clip||!reversed.TryGetValue(clip,out var r)||!r)return;var v=StartVoice(RewindCue,r,listener.position,null,true,true);if(v!=null)v.source.pitch=speed;}
+  public void PlayReversed(AudioClip clip,float speed){if(paused||!clip||!reversed.TryGetValue(clip,out var r)||!r)return;var v=StartVoice(RewindCue,r,listener.position,null,true,true);if(v!=null)v.source.pitch=speed;}
   Voice tick;
   public bool RewindTickActive=>tick!=null&&tick.cue==RewindTickCue&&tick.source.isPlaying;
   // The grandfather clock ticking that grows through the rewind (amount 0..1; 0 releases it).
   public void RewindTick(float amount){
+   if(paused)return; // AudioListener.pause makes isPlaying false: never re-request the voice from a paused frame
    if(amount<=0){if(tick!=null&&tick.cue==RewindTickCue){tick.held=false;tick.wanted=false;}tick=null;return;}
-   if(tick==null||tick.cue!=RewindTickCue||!tick.source.isPlaying){var clip=FirstClip("clock");if(!clip)return;tick=StartVoice(RewindTickCue,clip,listener.position,null,true,true);if(tick==null)return;}
+   if(tick==null||tick.cue!=RewindTickCue){var clip=FirstClip("clock");if(!clip)return;tick=StartVoice(RewindTickCue,clip,listener.position,null,true,true);if(tick==null)return;}
    tick.held=true;tick.wanted=true;tick.baseGain=Mathf.Pow(10,RewindTickCue.gainDb/20)*Mathf.Lerp(.25f,1.4f,amount);tick.source.pitch=Mathf.Lerp(1.1f,1.9f,amount);}
   // Scene-owned one-shots must not resume when its envelope is released.
   public void BeginDeathRecovery(){DeathRecovery=true;foreach(var id in new[]{"breath","palms","finger_crack","choked_cry","wet_tear"})StopCue(id);}

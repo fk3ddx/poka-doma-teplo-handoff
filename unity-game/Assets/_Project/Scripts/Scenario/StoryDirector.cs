@@ -85,6 +85,7 @@ namespace Ataka.Scenario {
   public void QaCheckpoint(string at){Checkpoint(at);}
   public void QaReplayRewind(){if(running!=null)StopCoroutine(running);running=StartCoroutine(Rewind());}
   public void QaCancelRewind(){if(running!=null)StopCoroutine(running);running=null;if(rewind)rewind.Cleanup();}
+  public float QaNightSeconds=>nightSeconds;
   public void QaNightEvents(int which){chapter=which==1?Chapter.Night1:Chapter.Night2;night=which;if(running!=null)StopCoroutine(running);nightSeconds=22*3600;NightClock();running=StartCoroutine(NightEvents(which,false));}
   public bool QaBelt=>beltTied;public int QaRestarts{get;private set;}public bool qaAllowSave;
   public void QaSavePath(string path){savePath=path;}public string SavePath=>savePath;
@@ -382,7 +383,7 @@ namespace Ataka.Scenario {
     yield return Line("Голос Вали за дверью","Нинок! Нинок, открой!");
     yield return GranGo("Door");GranShow("Door",0);flat.entrance.locked=false;flat.entrance.open=true;sound.Play("door_open",flat.entrance.transform.position);
     yield return Line("Тётя Валя (на площадке)","Нинок, Коле плохо, давление, я одна боюсь — посиди со мной, а?",5);}
-   else{GranShow("Door",180);flat.entrance.locked=false;flat.entrance.open=true;player.Place(new Vector3(7.95f,.02f,3.85f),0);}
+   else{GranShow("Door",180);flat.entrance.locked=false;flat.entrance.open=true;player.crouched=false;player.Place(new Vector3(7.95f,.02f,3.85f),0);}
    yield return GranFace(player.head.position);
    yield return Line("Бабушка","Мишаня, я у Вали, на полчасика. Никому не открывай. Я своим ключом. А если стучать буду — свои стучат вот так, слушай…",7);
    sound.Play("knock",flat.entrance.transform.position);yield return new WaitForSeconds(.22f);sound.Play("knock",flat.entrance.transform.position);yield return new WaitForSeconds(.7f);sound.Play("knock",flat.entrance.transform.position);
@@ -519,7 +520,7 @@ namespace Ataka.Scenario {
   // The first frame of night 2 (21:40, Valya at the door — ValyaAtTheDoor(true) continues from exactly here).
   void PrepareNight2(){
    acts.Clear();card=null;fade=0;loop.prompt.text="";Homely(true);PropsAfterEvening();flat.balconyDoor.closedAngle=0;flat.clock.stopped=false;Clock(21,40);
-   flat.entrance.locked=false;flat.entrance.open=true;player.Place(new Vector3(7.95f,.02f,3.85f),0);GranShow("Door",180);
+   flat.entrance.locked=false;flat.entrance.open=true;player.crouched=false;player.Place(new Vector3(7.95f,.02f,3.85f),0);GranShow("Door",180);
   }
 
   // ---------- 8. Second night ----------

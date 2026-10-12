@@ -4,13 +4,15 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace Ataka.Scenario {
  // SCENARIO 6.1 — the single rewind of the game, 8–10 s, from the actual first night played backwards.
- // Recording: night 1 from 21:42 to the 22:07 death at 10 Hz into a preallocated ring buffer (camera, the player's torch,
- // door leaves, light intensities, the "Rubin", the Guest) plus the one-shot sounds that played.
+ // Recording: night 1 from 21:42 to the 22:07 death at 10 Hz into a preallocated ring buffer (camera incl. its real
+ // height, standing or crouched in a hiding place; the player's torch, door leaves, light intensities, the "Rubin",
+ // the Guest) plus the one-shot sounds that played.
  // Evening memories: the world state of four real evening moments (tea with jam, the belt in the wardrobe, her
  // "tap-tap… tap", the new bulb) with a DIRECTED camera aimed at the subject's real bounds (props / her head), pulled
  // back no further than the walls allow. They are saved with the night-1 checkpoint and restored on Continue.
- // Playback: 1 s black silence (reversed sounds prepared here, bounded cache) → the night in reverse with reversed sound
- // and growing ticking → evening flashes (her animation frozen) → white flash → frozen VHS pause frame → PLAY into night 2.
+ // Playback (frozen, no side effects, while the game is paused): 1 s black silence (reversed sounds prepared here,
+ // bounded cache) → the night in reverse with reversed sound and growing ticking → evening flashes (her animation
+ // frozen) → white flash → frozen VHS pause frame → PLAY into night 2, standing.
  // Lights are only re-dimmed (never enabled/disabled); doors are driven through their leaves and handed back;
  // Cleanup() leaves no state behind on a normal end or when the story is cancelled mid-rewind.
  public sealed class NightRewind:MonoBehaviour {
@@ -28,6 +30,7 @@ namespace Ataka.Scenario {
   public bool Recording{get;private set;}public bool Active{get;private set;}public float Clock{get;private set;}public string Phase{get;private set;}="";
   public int Samples=>count;public int CuesRecorded=>cues.Count;public int MemoriesRecorded=>memories.Count;public int FloatsPerSample=>stride;
   public IReadOnlyList<Memory> Memories=>memories;public string CurrentMemory{get;private set;}="";public Vector3? CurrentSubject{get;private set;}
+  public float RecordingTime=>Time.time-startedAt;public float CurrentSource{get;private set;} // QA: night time of the frame now shown
   public int ReversedPrepared{get;private set;}public int ReversedSkipped{get;private set;}
   // Honest memory accounting: recording buffer + cue list + journal + memories + the reversed-clip cache (actual PCM).
   public int BytesRecordingReserved=>(data!=null?data.Length*4:0)+CueCapacity*24+JournalCapacity*48;
@@ -40,14 +43,14 @@ namespace Ataka.Scenario {
   public readonly List<Played> Journal=new List<Played>();
   public float LastActiveSeconds{get;private set;}
   void Note(float clock,float source,string what){if(Journal.Count<JournalCapacity)Journal.Add(new Played{clock=clock,source=source,what=what});}
-  string osd="";float black,white,band;bool[] scriptedBefore,lockedBefore,openBefore;float[] lightsBefore,leavesBefore,doorAngleBefore;float torchBefore;bool restored;
+  string osd="";float black,white,band;bool[] scriptedBefore,lockedBefore,openBefore;float[] lightsBefore,leavesBefore,doorAngleBefore;float torchBefore,eyeBefore;bool restored,crouchedBefore;
 
   void Setup(){
    if(data!=null)return;
    var d=new List<ScenarioDoor>();foreach(var x in new[]{flat.entrance,flat.kitchen,flat.bath,flat.bedroom,flat.living,flat.balconyDoor})if(x&&x.leaf)d.Add(x);doors=d.ToArray();
    var l=new List<Light>();void Add(Light x){if(x&&!l.Contains(x))l.Add(x);}foreach(var x in flat.look.warm)Add(x);foreach(var x in flat.look.cold)Add(x);Add(flat.look.icon);Add(flat.televisionLight);Add(scenes.landingLight);lights=l.ToArray();
    tv=FindFirstObjectByType<ScenarioTelevision>();
-   stride=7+doors.Length+lights.Length+7;data=new float[Capacity*stride];
+   stride=8+doors.Length+lights.Length+7;data=new float[Capacity*stride];
   }
   // ---------- recording ----------
   public void Begin(){Setup();count=0;first=0;cues.Clear();Recording=true;nextSample=0;startedAt=Time.time;sound.VoiceClip-=OnVoice;sound.VoiceClip+=OnVoice;}
@@ -64,7 +67,7 @@ namespace Ataka.Scenario {
   }
   void Write(int o){
    var p=flat.player;var at=p.transform.position;data[o]=at.x;data[o+1]=at.y;data[o+2]=at.z;data[o+3]=p.transform.eulerAngles.y;data[o+4]=Mathf.DeltaAngle(0,p.head.localEulerAngles.x);data[o+5]=Time.time-startedAt;
-   data[o+6]=p.flashlight&&p.flashlight.enabled?p.flashlight.intensity:0;o+=7;
+   data[o+6]=p.flashlight&&p.flashlight.enabled?p.flashlight.intensity:0;data[o+7]=p.head.localPosition.y;o+=8;
    foreach(var d in doors)data[o++]=Mathf.DeltaAngle(0,d.leaf.localEulerAngles.y);
    foreach(var l in lights)data[o++]=l.intensity;
    var g=flat.guest.transform;data[o++]=tv&&tv.storyOn?1:0;data[o++]=flat.guest.activeSelf?1:0;data[o++]=g.position.x;data[o++]=g.position.y;data[o++]=g.position.z;data[o++]=g.eulerAngles.y;data[o++]=g.up.y;
@@ -100,6 +103,7 @@ namespace Ataka.Scenario {
    why="viewport ("+v.x.ToString("F2")+", "+v.y.ToString("F2")+"), "+dist.ToString("F2")+" m, "+(by==""?"line of sight clear":"blocked by "+by);return inView&&by=="";}
   // ---------- playback ----------
   float S(int sample,int k)=>data[((first+sample)%Capacity)*stride+k];
+  public float EyeAt(int sample)=>sample>=0&&sample<count?S(sample,7):0; // QA: recorded camera height
   Action<bool> freeze;
   public IEnumerator Play(Action prepareNight2,Action<bool> freezeGrandmother){
    Setup();Stop();Active=true;freeze=freezeGrandmother;Phase="black";var p=flat.player;var body=p.GetComponent<CharacterController>();
@@ -107,7 +111,7 @@ namespace Ataka.Scenario {
    // ScenarioDoor.Advance returns while scripted, so the replayed leaf poses are not overwritten by the door's own Update.
    scriptedBefore=new bool[doors.Length];lockedBefore=new bool[doors.Length];openBefore=new bool[doors.Length];doorAngleBefore=new float[doors.Length];
    for(int i=0;i<doors.Length;i++){var d=doors[i];scriptedBefore[i]=d.scripted;lockedBefore[i]=d.locked;openBefore[i]=d.open;doorAngleBefore[i]=Mathf.DeltaAngle(0,d.leaf.localEulerAngles.y);d.scripted=true;}
-   lightsBefore=new float[lights.Length];for(int i=0;i<lights.Length;i++)lightsBefore[i]=lights[i].intensity;torchBefore=p.flashlight?p.flashlight.intensity:0;
+   lightsBefore=new float[lights.Length];for(int i=0;i<lights.Length;i++)lightsBefore[i]=lights[i].intensity;torchBefore=p.flashlight?p.flashlight.intensity:0;crouchedBefore=p.crouched;eyeBefore=p.head.localPosition.y;
    restored=false;if(body)body.enabled=false;p.control=false;sound.quiet=true;loop.prompt.text="";
    leavesBefore=new float[flat.wardrobeLeaves.Length];for(int i=0;i<leavesBefore.Length;i++)leavesBefore[i]=Mathf.DeltaAngle(0,flat.wardrobeLeaves[i].localEulerAngles.y);
    // Reverse every clip the rewind can play during the silent black second — never mid-rewind (no hitch), within budget.
@@ -117,6 +121,7 @@ namespace Ataka.Scenario {
    float t=0,total=Duration;bool guestHanging=false;int lastSample=count;var order=memories.ToArray();Array.Reverse(order); // backwards in time: the knock, the belt, the bulb, tea with jam
    int shownMemory=-1;bool prepared=false,eveningFrozen=false;
    while(t<total){
+    if(p.paused||sound.paused){yield return null;continue;} // paused: no sample, no sound request, no jitter — nothing
     Clock=t;
     if(t<Black){Phase="black";black=1;osd="";}
     else if(t<Black+Reverse){
@@ -151,10 +156,10 @@ namespace Ataka.Scenario {
    Cleanup();
   }
   void ApplySample(int a,int b,float w,ref bool guestHanging){
-   var p=flat.player;var at=Vector3.Lerp(new Vector3(S(a,0),S(a,1),S(a,2)),new Vector3(S(b,0),S(b,1),S(b,2)),w);
-   p.transform.SetPositionAndRotation(at,Quaternion.Euler(0,Mathf.LerpAngle(S(a,3),S(b,3),w),0));p.head.localRotation=Quaternion.Euler(Mathf.Lerp(S(a,4),S(b,4),w),0,0);
+   CurrentSource=Mathf.Lerp(S(a,5),S(b,5),w);var p=flat.player;var at=Vector3.Lerp(new Vector3(S(a,0),S(a,1),S(a,2)),new Vector3(S(b,0),S(b,1),S(b,2)),w);
+   p.transform.SetPositionAndRotation(at,Quaternion.Euler(0,Mathf.LerpAngle(S(a,3),S(b,3),w),0));p.head.localRotation=Quaternion.Euler(Mathf.Lerp(S(a,4),S(b,4),w),0,0);p.head.localPosition=Vector3.up*Mathf.Lerp(S(a,7),S(b,7),w); // eye height as recorded (.94 crouched, 1.55 standing)
    if(p.flashlight)p.flashlight.intensity=Mathf.Lerp(S(a,6),S(b,6),w); // the torch as the player had it (intensity only)
-   int o=7;foreach(var d in doors){d.leaf.localRotation=Quaternion.Euler(0,Mathf.LerpAngle(S(a,o),S(b,o),w),0);o++;}
+   int o=8;foreach(var d in doors){d.leaf.localRotation=Quaternion.Euler(0,Mathf.LerpAngle(S(a,o),S(b,o),w),0);o++;}
    foreach(var l in lights){l.intensity=Mathf.Lerp(S(a,o),S(b,o),w);o++;}
    if(tv)tv.storyOn=S(a,o)>.5f;o++;
    bool guest=S(a,o)>.5f;o++;var g=flat.guest;
@@ -176,7 +181,7 @@ namespace Ataka.Scenario {
   void Restore(){
    restored=true;scenes.Cancel();
    if(lightsBefore!=null)for(int i=0;i<lights.Length;i++)lights[i].intensity=lightsBefore[i];
-   var p=flat.player;if(p.flashlight)p.flashlight.intensity=torchBefore;
+   var p=flat.player;if(p.flashlight)p.flashlight.intensity=torchBefore;p.crouched=crouchedBefore;p.head.localPosition=Vector3.up*eyeBefore; // night 2 setup stands the player up itself
    if(leavesBefore!=null)for(int i=0;i<leavesBefore.Length&&i<flat.wardrobeLeaves.Length;i++)flat.wardrobeLeaves[i].localRotation=Quaternion.Euler(0,leavesBefore[i],0);
    if(scriptedBefore!=null)for(int i=0;i<doors.Length;i++){var d=doors[i];d.scripted=scriptedBefore[i];d.locked=lockedBefore[i];d.open=openBefore[i];d.leaf.localRotation=Quaternion.Euler(0,doorAngleBefore[i],0);}
    Physics.SyncTransforms();
