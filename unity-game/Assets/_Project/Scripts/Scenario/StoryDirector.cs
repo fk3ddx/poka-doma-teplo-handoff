@@ -76,10 +76,10 @@ namespace Ataka.Scenario {
   void RememberCanonicalEvening(){
    var feet=player.transform.position;var yaw=player.transform.eulerAngles.y;var look=Mathf.DeltaAngle(0,player.head.localEulerAngles.x);bool granWas=flat.grandmother.activeSelf;
    var lookAt=new System.Func<Vector3,Vector3,float>((a,b)=>Mathf.Atan2(b.x-a.x,b.z-a.z)*Mathf.Rad2Deg);
-   GranShow("Kitchen",lookAt(Nodes["Kitchen"],new Vector3(7.66f,0,.5f)));rewind.Remember("tea","spoon");
+   GranShow("Kitchen",lookAt(Nodes["Kitchen"],new Vector3(7.66f,0,.5f)));rewind.Remember("tea","spoon",true);
    flat.grandmother.SetActive(false);rewind.Remember("bulb","bulb");
    foreach(var d in flat.wardrobeLeaves)d.localRotation=Quaternion.Euler(0,95,0);rewind.Remember("belt","door_open");foreach(var d in flat.wardrobeLeaves)d.localRotation=Quaternion.identity;
-   GranShow("Door",180);rewind.Remember("knock","knock");
+   GranShow("Door",180);rewind.Remember("knock","knock",true);
    flat.grandmother.SetActive(granWas);player.Place(feet,yaw,look);}
   public void QaRememberEvening(){rewind.ForgetEvening();RememberCanonicalEvening();}
   public void QaCheckpoint(string at){Checkpoint(at);}

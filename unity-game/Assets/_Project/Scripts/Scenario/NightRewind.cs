@@ -26,7 +26,8 @@ namespace Ataka.Scenario {
   ScenarioDoor[] doors;Light[] lights;ScenarioTelevision tv;int stride;float[] data;int count,first;float nextSample,startedAt;
   struct Cue {public AudioClip clip;public float t;public string id;}
   readonly List<Cue> cues=new List<Cue>();
-  [Serializable] public sealed class Memory {public string id,cue,subject;public Vector3 cam;public Quaternion camRot;public bool gran;public Vector3 granAt;public Quaternion granRot;public float[] leaves,light;}
+  [Serializable] public sealed class BonePose {public string path;public Vector3 position,scale;public Quaternion rotation;}
+  [Serializable] public sealed class Memory {public BonePose[] granPose;public string id,cue,subject;public Vector3 cam;public Quaternion camRot;public bool gran;public Vector3 granAt;public Quaternion granRot;public float[] leaves,light;}
   readonly List<Memory> memories=new List<Memory>();
   public bool Recording{get;private set;}public bool Active{get;private set;}public float Clock{get;private set;}public string Phase{get;private set;}="";
   public int Samples=>count;public int CuesRecorded=>cues.Count;public int MemoriesRecorded=>memories.Count;public int FloatsPerSample=>stride;
@@ -35,7 +36,7 @@ namespace Ataka.Scenario {
   public int ReversedPrepared{get;private set;}public int ReversedSkipped{get;private set;}
   // Honest memory accounting: recording buffer + cue list + journal + memories + the reversed-clip cache (actual PCM).
   public int BytesRecordingReserved=>(data!=null?data.Length*4:0)+CueCapacity*24+JournalCapacity*48;
-  public int BytesMemories=>memories.Count*(64+4*(flat?flat.wardrobeLeaves.Length:2)+4*(lights!=null?lights.Length:20));
+  public int BytesMemories {get {int bytes=0;foreach(var m in memories){bytes+=64+4*(m.leaves?.Length??0)+4*(m.light?.Length??0);if(m.granPose!=null)foreach(var b in m.granPose)bytes+=40+2*(b.path?.Length??0);}return bytes;}}
   public int BytesReversedCache=>sound?sound.ReversedBytes:0;
   public int BytesReserved=>BytesRecordingReserved+ReversedBudgetBytes;
   public int BytesUsed=>count*stride*4+cues.Count*24+Journal.Count*48+BytesMemories+BytesReversedCache;
@@ -102,15 +103,27 @@ namespace Ataka.Scenario {
   // the open wardrobe's interior and the belt are lit and the leaves at the frame edges are not. Calibrate in QA with
   // -rewind-belt-fill <intensity>.
   public float beltFill=2.5f;
-  float MemoryFill(string id)=>id=="belt"?beltFill:0;
+  float MemoryFill(string id)=>id=="belt"?beltFill:id=="knock"?.65f:0;
   bool Ignored(Transform t)=>t.IsChildOf(flat.player.transform)||t.IsChildOf(flat.grandmother.transform)||t.IsChildOf(flat.guest.transform);
   // From the subject towards `from`, stopping 0.18 m before the first wall/furniture (never closer than 0.55 m).
   Vector3 Boom(Vector3 target,Vector3 from,float distance){
    var dir=(from).normalized;float d=distance;
    foreach(var h in Physics.RaycastAll(target,dir,distance,~(1<<31),QueryTriggerInteraction.Ignore))if(!Ignored(h.transform)&&h.distance>.05f)d=Mathf.Min(d,Mathf.Max(.55f,h.distance-.18f));
    return target+dir*d;}
-  public void Remember(string id,string cue){
+  // A root transform is insufficient: night 1 leaves the hanging pose in this same rig. Each memory must
+  // restore its own local bone pose BEFORE computing the face/camera, including after save + Continue.
+  BonePose[] granPoseBefore;
+  BonePose[] CaptureGranPose(){
+   var root=flat.grandmother.transform;var result=new List<BonePose>();
+   foreach(var t in root.GetComponentsInChildren<Transform>(true)){if(t==root)continue;string path=t.name;var a=t.parent;while(a!=root&&a){path=a.name+"/"+path;a=a.parent;}
+    result.Add(new BonePose{path=path,position=t.localPosition,rotation=t.localRotation,scale=t.localScale});}return result.ToArray();
+  }
+  void ApplyGranPose(BonePose[] pose){if(pose==null)return;var root=flat.grandmother.transform;foreach(var b in pose){var t=root.Find(b.path);if(t){t.localPosition=b.position;t.localRotation=b.rotation;t.localScale=b.scale;}}}
+  void SampleGranIdle(){var anim=flat.grandmother.GetComponentInChildren<Animation>(true);if(!anim)return;foreach(AnimationState state in anim)if(state.name.EndsWith("Oidle")){state.clip.SampleAnimation(anim.gameObject,0);return;}}
+  public float MemoryPoseError(){foreach(var m in memories)if(m.id==CurrentMemory&&m.granPose!=null){float error=0;foreach(var b in m.granPose){var t=flat.grandmother.transform.Find(b.path);if(!t)return 180;error=Mathf.Max(error,Quaternion.Angle(t.localRotation,b.rotation));}return error;}return -1;}
+  public void Remember(string id,string cue,bool canonicalPose=false){
    Setup();memories.RemoveAll(m=>m.id==id);var gr=flat.grandmother;
+   var savedPose=canonicalPose&&gr.activeSelf?CaptureGranPose():null;if(savedPose!=null)SampleGranIdle();
    string subject=id=="tea"?(PropCenter("TeaSet")!=null?"TeaSet":"JamJar"):id=="belt"?"Belt":id=="bulb"?"Bulb":"gran";
    var target=SubjectPoint(subject);Vector3 cam;Quaternion rot;
    if(target.HasValue){
@@ -118,9 +131,9 @@ namespace Ataka.Scenario {
     float dist=id=="tea"?1.15f:id=="belt"?.95f:id=="bulb"?1.05f:1.5f;
     cam=Boom(target.Value,from,dist);rot=Quaternion.LookRotation(target.Value-cam);
    }else{cam=flat.player.head.position;rot=flat.player.head.rotation;subject="player view";}
-   var m=new Memory{id=id,cue=cue,subject=subject,cam=cam,camRot=rot,gran=gr.activeSelf,granAt=gr.transform.position,granRot=gr.transform.rotation,leaves=new float[flat.wardrobeLeaves.Length],light=new float[lights.Length]};
+   var m=new Memory{id=id,cue=cue,subject=subject,cam=cam,camRot=rot,granPose=gr.activeSelf?CaptureGranPose():null,gran=gr.activeSelf,granAt=gr.transform.position,granRot=gr.transform.rotation,leaves=new float[flat.wardrobeLeaves.Length],light=new float[lights.Length]};
    for(int i=0;i<m.leaves.Length;i++)m.leaves[i]=Mathf.DeltaAngle(0,flat.wardrobeLeaves[i].localEulerAngles.y);for(int i=0;i<lights.Length;i++)m.light[i]=lights[i].intensity;
-   memories.Add(m);
+   memories.Add(m);if(savedPose!=null)ApplyGranPose(savedPose);
   }
   // QA: is a world point really in the rendered frame (viewport 0.1–0.9, in front) and not hidden behind a wall/furniture?
   public bool Visible(Vector3 point,bool subjectIsGran,out string why){
@@ -139,6 +152,7 @@ namespace Ataka.Scenario {
    scriptedBefore=new bool[doors.Length];lockedBefore=new bool[doors.Length];openBefore=new bool[doors.Length];doorAngleBefore=new float[doors.Length];
    for(int i=0;i<doors.Length;i++){var d=doors[i];scriptedBefore[i]=d.scripted;lockedBefore[i]=d.locked;openBefore[i]=d.open;doorAngleBefore[i]=Mathf.DeltaAngle(0,d.leaf.localEulerAngles.y);d.scripted=true;}
    lightsBefore=new float[lights.Length];for(int i=0;i<lights.Length;i++)lightsBefore[i]=lights[i].intensity;torchBefore=p.flashlight?p.flashlight.intensity:0;crouchedBefore=p.crouched;eyeBefore=p.head.localPosition.y;
+   granPoseBefore=CaptureGranPose();
    restored=false;if(body)body.enabled=false;p.control=false;sound.quiet=true;loop.prompt.text="";
    leavesBefore=new float[flat.wardrobeLeaves.Length];for(int i=0;i<leavesBefore.Length;i++)leavesBefore[i]=Mathf.DeltaAngle(0,flat.wardrobeLeaves[i].localEulerAngles.y);
    // Reverse every clip the rewind can play during the silent black second — never mid-rewind (no hitch), within budget.
@@ -199,7 +213,7 @@ namespace Ataka.Scenario {
   void ApplyMemory(Memory m){
    var p=flat.player;var e=m.camRot.eulerAngles;p.head.localPosition=Vector3.up*1.55f;
    p.transform.SetPositionAndRotation(m.cam-Vector3.up*1.55f,Quaternion.Euler(0,e.y,0));p.head.localRotation=Quaternion.Euler(Mathf.DeltaAngle(0,e.x),0,0);
-   flat.guest.SetActive(false);var gr=flat.grandmother;gr.SetActive(m.gran);if(m.gran)gr.transform.SetPositionAndRotation(m.granAt,m.granRot);
+   flat.guest.SetActive(false);var gr=flat.grandmother;gr.SetActive(m.gran);if(m.gran){gr.transform.SetPositionAndRotation(m.granAt,m.granRot);if(m.granPose!=null&&m.granPose.Length>0)ApplyGranPose(m.granPose);else SampleGranIdle();}
    for(int i=0;i<m.leaves.Length&&i<flat.wardrobeLeaves.Length;i++)flat.wardrobeLeaves[i].localRotation=Quaternion.Euler(0,m.leaves[i],0);
    for(int i=0;i<m.light.Length&&i<lights.Length;i++)lights[i].intensity=m.light[i];
    if(m.subject=="gran"){var at=GranFacePoint();var f=GranFace();if(at.HasValue&&f.HasValue){var d=f.Value;d.y=0;if(d.sqrMagnitude<.01f)d=gr.transform.forward;var cam=Boom(at.Value,d.normalized+Vector3.up*.12f,1.5f);var look=Quaternion.LookRotation(at.Value-cam).eulerAngles; // into her face, wherever the frozen frame turned her head
@@ -210,7 +224,7 @@ namespace Ataka.Scenario {
   }
   // Back to what the night left (intensities, torch, wardrobe, TV, door ownership/state) before night 2 is set up.
   void Restore(){
-   restored=true;if(memoryLight)memoryLight.intensity=0;scenes.Cancel();
+   restored=true;if(memoryLight)memoryLight.intensity=0;scenes.Cancel();ApplyGranPose(granPoseBefore);granPoseBefore=null;
    if(lightsBefore!=null)for(int i=0;i<lights.Length;i++)lights[i].intensity=lightsBefore[i];
    var p=flat.player;if(p.flashlight)p.flashlight.intensity=torchBefore;p.crouched=crouchedBefore;p.head.localPosition=Vector3.up*eyeBefore; // night 2 setup stands the player up itself
    if(leavesBefore!=null)for(int i=0;i<leavesBefore.Length&&i<flat.wardrobeLeaves.Length;i++)flat.wardrobeLeaves[i].localRotation=Quaternion.Euler(0,leavesBefore[i],0);

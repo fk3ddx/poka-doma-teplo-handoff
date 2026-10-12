@@ -1,0 +1,99 @@
+NOTE belt memory light intensity 2.5
+PASS night 1 recording started at 21:42
+NOTE evening memories staged by QA (4); in play they are taken at the real evening moments (StoryAutopilot run)
+PASS the four memories survive a save + Continue at night 1 (4/4, Night1)
+PASS the real night 1 reached its 22:07 death
+RECORDING 2564 samples × 32 floats (cap 4000 = 400 s at 10 Hz), 51 sounds, 4 memories; memory used 322 KiB of 16918 KiB reserved up front
+PASS recording bounded and stopped before the death
+PASS camera height recorded: 957 crouched samples (eye < 1 m), 1607 standing; died crouched
+SHOT death-crouched-0.3.png FrameTime 0,32 eye 0,94 m (world 0,98) pitch -4 torch off guest (5.60, -0.84, 2.97) tilt 0
+PASS death-crouched-0.3.png: Guest head in the central frame (0.553, 0.467, 0.705)
+SHOT death-crouched-1.3.png FrameTime 1,31 eye 0,94 m (world 0,98) pitch -22 torch off guest (5.60, -0.64, 2.97) tilt 0
+PASS death-crouched-1.3.png: Guest head in the central frame (0.596, 0.446, 0.733)
+SHOT death-crouched-3.4.png FrameTime 3,41 eye 0,94 m (world 0,98) pitch -23 torch off guest (5.60, -0.64, 2.97) tilt 0
+SHOT death-crouched-4.6.png FrameTime 4,60 eye 0,94 m (world 0,98) pitch 1 torch off guest (5.60, -0.64, 2.97) tilt 0
+PASS death crouched captured: 4/4 frames, Guest head in frame in 2 of the early marks (0.3, 1.3)
+SHOT rewind-0.5.png clock 0,51 phase black disruption 0,00 ticking False player (5.60, 0.04, 3.60) guest hidden grandmother hidden
+SHOT rewind-1.2.png clock 1,22 phase reverse disruption 0,69 ticking True player (7.90, 0.01, 4.60) guest hidden grandmother hidden
+SHOT rewind-2.0.png clock 2,01 phase reverse disruption 0,64 ticking True player (5.60, 0.01, 5.20) guest hidden grandmother hidden
+SHOT rewind-3.0.png clock 3,00 phase reverse disruption 0,64 ticking True player (7.34, 0.01, 4.08) guest hidden grandmother hidden
+PASS pause in the middle: 0,52 s real, rewind clock 4,02 → 4,02, camera did not move
+PASS pause has no playback side effects: 0 new CueStarted, 0 rewind_tick requests in 0,52 s
+SHOT rewind-4.0.png clock 4,02 phase reverse disruption 0,67 ticking True player (4.60, 0.04, 1.36) guest hidden grandmother hidden
+SHOT rewind-5.0.png clock 5,02 phase reverse disruption 0,63 ticking True player (5.60, 0.04, 3.60) guest hidden grandmother hidden
+SHOT rewind-5.8.png clock 5,80 phase reverse disruption 0,64 ticking True player (4.60, 0.04, 1.36) guest hidden grandmother hidden
+FAIL evening-knock: subject region not dark — luma 0,12, spread 0,23 around the subject (floor .15 / .08)
+PASS memory knock: her face turned to the camera (cos 0,86, ≥ 0.5)
+PASS memory knock: subject gran visible — viewport (0,50, 0,50), 1,50 m, line of sight clear
+SHOT rewind-6.5.png clock 6,51 phase evening disruption 0,92 ticking True player (7.39, -0.07, 3.61) guest hidden grandmother shown
+PASS evening-belt: subject region not dark — luma 0,20, spread 0,31 around the subject (floor .15 / .08)
+PASS memory belt: subject Belt visible — viewport (0,50, 0,50), 0,95 m, line of sight clear
+PASS evening-bulb: subject region not dark — luma 0,63, spread 0,91 around the subject (floor .15 / .08)
+PASS memory bulb: subject Bulb visible — viewport (0,50, 0,50), 1,05 m, line of sight clear
+SHOT rewind-7.0.png clock 7,11 phase evening disruption 0,89 ticking True player (5.50, 0.11, 4.93) guest hidden grandmother hidden
+PASS evening-tea: subject region not dark — luma 0,23, spread 0,24 around the subject (floor .15 / .08)
+PASS memory tea: subject TeaSet visible — viewport (0,50, 0,50), 1,15 m, line of sight clear
+SHOT rewind-7.5.png clock 7,51 phase evening disruption 0,81 ticking True player (7.27, -0.05, 1.34) guest hidden grandmother shown
+SHOT rewind-7.9.png clock 7,91 phase flash disruption 0,35 ticking False player (7.95, 0.02, 3.85) guest hidden grandmother shown
+SHOT rewind-8.4.png clock 8,41 phase freeze disruption 0,29 ticking False player (7.95, 0.02, 3.85) guest hidden grandmother shown
+PASS PLAY: night 2 starts standing (crouched False, eye 1,55 m; died crouched)
+PASS play: subject region not dark — luma 0,16, spread 0,30 around the subject (floor .15 / .08)
+PASS PLAY: her head in frame and ≥ 1 m away — viewport (0,47, 0,43), 1,34 m, line of sight clear, head 1,34 m from the camera
+SHOT rewind-9.0.png clock 9,10 phase play disruption 0,25 ticking False player (7.95, 0.02, 3.85) guest hidden grandmother shown
+SHOT rewind-9.5.png clock 9,52 phase play disruption 0,04 ticking False player (7.95, 0.02, 3.85) guest hidden grandmother shown
+PASS rewind ticking is ONE voice for the whole rewind: rewind_tick requested 1, started 1, limited 0
+SOUND reversed one-shots requested 55, started 46, limited 9 (8 at a time)
+PASS camera height replayed as recorded: 103 crouched / 191 standing frames, 0 frames off the live height by > 5 cm
+MEMORY peak used 6171 KiB (recording 320, reversed clips 5833 for 20 clips, 0 over budget) of 16918 KiB ceiling (534 recording/cues/journal + 16384 reversed-audio budget); after the rewind the cache holds 0 KiB
+PASS reversed-audio cache within budget during the rewind and freed after it
+PASS rewind active game time 9,61 s (8–10 s incl. silence, flash, freeze, PLAY); real 10,25 s incl. the 0.5 s pause; Time.time span 9,69
+PASS frames and sounds played in reverse chronology (347 entries, 0 out of order) — rewind-timeline.txt
+PASS all phases ran: black,reverse,evening,flash,freeze,play
+PASS the night camera was really played back (14 distinct positions)
+PASS rewind hands over to night 2 with control=true (Night2, control True)
+PASS night 2 starts with her at the door
+PASS after rewind: rewind finished/cleaned
+PASS after rewind: player control returned
+PASS after rewind: character controller enabled
+PASS after rewind: camera has no leftover jitter/roll
+PASS after rewind: door Entrance60 open, not scripted, leaf at its target (0,0°)
+PASS after rewind: door Kitchen door open, not scripted, leaf at its target (0,0°)
+PASS after rewind: door Bathroom door closed, not scripted, leaf at its target (0,0°)
+PASS after rewind: door Bedroom door open, not scripted, leaf at its target (0,0°)
+PASS after rewind: door Living frosted doorway — temporary leaf open, not scripted, leaf at its target (0,0°)
+PASS after rewind: door Bound balcony door closed, not scripted, leaf at its target (0,0°)
+PASS after rewind: no light object enabled/disabled since the rewind started (0 of 27)
+PASS after rewind: rewind ticking stopped
+PASS after rewind: world sound not muted
+PASS after rewind: VHS disruption back to 0
+PASS after rewind: Guest hidden
+PASS after rewind: grandmother animation running
+PASS after rewind: standing in night 2 (eye 1,55 m, body 1,70 m)
+PASS audio reversed per channel by samples (0,5,-0,5,0,4,-0,4,0,3,-0,3,0,2,-0,2,0,1,-0,1)
+PASS during the replay every door is scripted, so ScenarioDoor.Update does not overwrite the replayed leaves (6/6)
+CANCEL at clock 3,00 phase reverse
+PASS cancel restores door Entrance60: scripted False, locked False, open True, angle error 0,00°
+PASS cancel restores door Kitchen door: scripted False, locked False, open True, angle error 0,00°
+PASS cancel restores door Bathroom door: scripted False, locked False, open False, angle error 0,00°
+PASS cancel restores door Bedroom door: scripted False, locked False, open True, angle error 0,00°
+PASS cancel restores door Living frosted doorway — temporary leaf: scripted False, locked False, open True, angle error 0,00°
+PASS cancel restores door Bound balcony door: scripted False, locked True, open False, angle error 0,00°
+PASS cancel restores the crouch: crouched True, eye 0,94 m (before 0,94)
+PASS night 2 after cancel starts standing (eye 1,55 m)
+PASS after cancel: rewind finished/cleaned
+PASS after cancel: player control returned
+PASS after cancel: character controller enabled
+PASS after cancel: camera has no leftover jitter/roll
+PASS after cancel: door Entrance60 open, not scripted, leaf at its target (0,0°)
+PASS after cancel: door Kitchen door open, not scripted, leaf at its target (0,0°)
+PASS after cancel: door Bathroom door closed, not scripted, leaf at its target (0,0°)
+PASS after cancel: door Bedroom door open, not scripted, leaf at its target (0,0°)
+PASS after cancel: door Living frosted doorway — temporary leaf open, not scripted, leaf at its target (0,0°)
+PASS after cancel: door Bound balcony door closed, not scripted, leaf at its target (0,0°)
+PASS after cancel: no light object enabled/disabled since the rewind started (0 of 26)
+PASS after cancel: rewind ticking stopped
+PASS after cancel: world sound not muted
+PASS after cancel: VHS disruption back to 0
+PASS after cancel: Guest hidden
+PASS after cancel: grandmother animation running
+PASS no runtime errors (0)
