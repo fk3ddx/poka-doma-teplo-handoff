@@ -1,0 +1,16 @@
+MODE door-state QA; core test buttons in the menu: hidden
+EVENING kitchen open, bedroom open, bathroom closed, grandmother (7.48, 0.00, 2.08)
+PASS continued evening: kitchen door open
+PASS continued evening: bedroom door open
+PASS continued evening: walking route hall → kitchen crosses no closed door
+PASS continued evening: walking route hall → bedroom crosses no closed door
+LOOP lap 1: kitchen closed locked, bathroom closed locked, carpet closed locked, flat door closed locked
+PASS loop entry: kitchen door closed and locked (SCENARIO 9.2)
+PASS loop entry: bathroom door closed and locked
+PASS loop entry: carpet door locked until the lap's gate
+PASS loop entry: flat door shut
+PASS loop entry: no walking route into the kitchen
+PASS loop entry: the lap route hall → bedroom is open
+NIGHT1 kitchen open, bedroom open
+PASS story after the loop: kitchen open again
+PASS no runtime errors (0)

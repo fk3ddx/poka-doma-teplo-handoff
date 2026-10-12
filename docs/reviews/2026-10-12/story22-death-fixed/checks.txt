@@ -1,0 +1,214 @@
+MODE death close-up QA, torch on, claw source READY GuestClaw source, fingers (0.849, -0.263, -0.459) palm (0.514, 0.206, 0.833) roll 90 euler (0.00, 0.00, 0.00) length 0,58 fill 0,6
+PASS ready claw source assigned (fallback is not accepted)
+SHOT DeathFull-hall-0.20.png FrameTime 0,20 camera pitch -1 torch light off guest (7.90, -0.26, 5.03) tilt 0
+SHOT DeathFull-hall-0.45.png FrameTime 0,46 camera pitch 1 torch light off guest (7.90, -0.26, 5.03) tilt 0
+HEAD DeathFull-hall-0.45.png viewport (0.548, 0.543, 0.704)
+SHOT DeathFull-hall-0.70.png FrameTime 0,70 camera pitch 3 torch light off guest (7.90, -0.26, 5.03) tilt 0
+HEAD DeathFull-hall-0.70.png viewport (0.591, 0.571, 0.695)
+SHOT DeathFull-hall-1.00.png FrameTime 1,01 camera pitch -20 torch light off guest (7.90, -0.10, 5.03) tilt 0
+HEAD DeathFull-hall-1.00.png viewport (0.592, 0.406, 0.718)
+SHOT DeathFull-hall-1.30.png FrameTime 1,31 camera pitch -21 torch light off guest (7.90, -0.06, 5.03) tilt 0
+HEAD DeathFull-hall-1.30.png viewport (0.598, 0.465, 0.733)
+SHOT DeathFull-hall-1.70.png FrameTime 1,70 camera pitch -24 torch light off guest (7.90, -0.06, 5.03) tilt 0
+SHOT DeathFull-hall-2.10.png FrameTime 2,11 camera pitch -22 torch light off guest (7.90, -0.06, 5.03) tilt 0
+SHOT DeathFull-hall-2.50.png FrameTime 2,51 camera pitch -23 torch light off guest (7.90, -0.06, 5.03) tilt 0
+SHOT DeathFull-hall-3.00.png FrameTime 3,01 camera pitch -21 torch light off guest (7.90, -0.06, 5.03) tilt 0
+SHOT DeathFull-hall-3.60.png FrameTime 3,60 camera pitch -22 torch light off guest (7.90, -0.06, 5.03) tilt 0
+SHOT DeathFull-hall-4.30.png FrameTime 4,32 camera pitch -23 torch light off guest (7.90, -0.06, 5.03) tilt 0
+SHOT DeathFull-hall-5.00.png FrameTime 5,01 camera pitch -1 torch light off guest hidden
+SHOT DeathFull-hall-6.00.png FrameTime 6,02 camera pitch -1 torch light off guest hidden
+PASS DeathFull hall: 13/13 marks captured
+SHOT DeathFull-hall-down60-0.20.png FrameTime 0,20 camera pitch -1 torch light off guest (7.90, -0.26, 5.03) tilt 0
+SHOT DeathFull-hall-down60-0.45.png FrameTime 0,46 camera pitch 0 torch light off guest (7.90, -0.26, 5.03) tilt 0
+HEAD DeathFull-hall-down60-0.45.png viewport (0.548, 0.522, 0.705)
+SHOT DeathFull-hall-down60-0.70.png FrameTime 0,72 camera pitch 4 torch light off guest (7.90, -0.26, 5.03) tilt 0
+HEAD DeathFull-hall-down60-0.70.png viewport (0.583, 0.578, 0.697)
+SHOT DeathFull-hall-down60-1.00.png FrameTime 1,01 camera pitch -20 torch light off guest (7.90, -0.10, 5.03) tilt 0
+HEAD DeathFull-hall-down60-1.00.png viewport (0.593, 0.401, 0.717)
+SHOT DeathFull-hall-down60-1.30.png FrameTime 1,31 camera pitch -21 torch light off guest (7.90, -0.06, 5.03) tilt 0
+HEAD DeathFull-hall-down60-1.30.png viewport (0.597, 0.462, 0.733)
+SHOT DeathFull-hall-down60-1.70.png FrameTime 1,70 camera pitch -24 torch light off guest (7.90, -0.06, 5.03) tilt 0
+SHOT DeathFull-hall-down60-2.10.png FrameTime 2,10 camera pitch -20 torch light off guest (7.90, -0.06, 5.03) tilt 0
+SHOT DeathFull-hall-down60-2.50.png FrameTime 2,50 camera pitch -24 torch light off guest (7.90, -0.06, 5.03) tilt 0
+SHOT DeathFull-hall-down60-3.00.png FrameTime 3,01 camera pitch -21 torch light off guest (7.90, -0.06, 5.03) tilt 0
+SHOT DeathFull-hall-down60-3.60.png FrameTime 3,61 camera pitch -23 torch light off guest (7.90, -0.06, 5.03) tilt 0
+SHOT DeathFull-hall-down60-4.30.png FrameTime 4,30 camera pitch -23 torch light off guest (7.90, -0.06, 5.03) tilt 0
+SHOT DeathFull-hall-down60-5.00.png FrameTime 5,01 camera pitch -1 torch light off guest hidden
+SHOT DeathFull-hall-down60-6.00.png FrameTime 6,00 camera pitch -1 torch light off guest hidden
+PASS DeathFull hall-down60: 13/13 marks captured
+SHOT DeathFull-hall-up60-0.20.png FrameTime 0,20 camera pitch -1 torch light off guest (7.90, -0.26, 5.03) tilt 0
+SHOT DeathFull-hall-up60-0.45.png FrameTime 0,46 camera pitch 1 torch light off guest (7.90, -0.26, 5.03) tilt 0
+HEAD DeathFull-hall-up60-0.45.png viewport (0.548, 0.535, 0.704)
+SHOT DeathFull-hall-up60-0.70.png FrameTime 0,71 camera pitch 4 torch light off guest (7.90, -0.26, 5.03) tilt 0
+HEAD DeathFull-hall-up60-0.70.png viewport (0.588, 0.575, 0.696)
+SHOT DeathFull-hall-up60-1.00.png FrameTime 1,01 camera pitch -20 torch light off guest (7.90, -0.10, 5.03) tilt 0
+HEAD DeathFull-hall-up60-1.00.png viewport (0.595, 0.398, 0.716)
+SHOT DeathFull-hall-up60-1.30.png FrameTime 1,31 camera pitch -20 torch light off guest (7.90, -0.06, 5.03) tilt 0
+HEAD DeathFull-hall-up60-1.30.png viewport (0.598, 0.467, 0.733)
+SHOT DeathFull-hall-up60-1.70.png FrameTime 1,70 camera pitch -24 torch light off guest (7.90, -0.06, 5.03) tilt 0
+SHOT DeathFull-hall-up60-2.10.png FrameTime 2,11 camera pitch -22 torch light off guest (7.90, -0.06, 5.03) tilt 0
+SHOT DeathFull-hall-up60-2.50.png FrameTime 2,51 camera pitch -23 torch light off guest (7.90, -0.06, 5.03) tilt 0
+SHOT DeathFull-hall-up60-3.00.png FrameTime 3,00 camera pitch -21 torch light off guest (7.90, -0.06, 5.03) tilt 0
+SHOT DeathFull-hall-up60-3.60.png FrameTime 3,61 camera pitch -23 torch light off guest (7.90, -0.06, 5.03) tilt 0
+SHOT DeathFull-hall-up60-4.30.png FrameTime 4,31 camera pitch -23 torch light off guest (7.90, -0.06, 5.03) tilt 0
+SHOT DeathFull-hall-up60-5.00.png FrameTime 5,02 camera pitch -1 torch light off guest hidden
+SHOT DeathFull-hall-up60-6.00.png FrameTime 6,01 camera pitch -1 torch light off guest hidden
+PASS DeathFull hall-up60: 13/13 marks captured
+SHOT DeathFull-living-0.20.png FrameTime 0,20 camera pitch -1 torch light off guest (4.38, -0.23, 2.60) tilt 0
+SHOT DeathFull-living-0.45.png FrameTime 0,46 camera pitch 1 torch light off guest (4.38, -0.23, 2.60) tilt 0
+HEAD DeathFull-living-0.45.png viewport (0.548, 0.534, 0.704)
+SHOT DeathFull-living-0.70.png FrameTime 0,71 camera pitch 4 torch light off guest (4.38, -0.23, 2.60) tilt 0
+HEAD DeathFull-living-0.70.png viewport (0.589, 0.575, 0.696)
+SHOT DeathFull-living-1.00.png FrameTime 1,01 camera pitch -20 torch light off guest (4.38, -0.08, 2.60) tilt 0
+HEAD DeathFull-living-1.00.png viewport (0.595, 0.398, 0.716)
+SHOT DeathFull-living-1.30.png FrameTime 1,30 camera pitch -20 torch light off guest (4.38, -0.03, 2.60) tilt 0
+HEAD DeathFull-living-1.30.png viewport (0.598, 0.476, 0.734)
+SHOT DeathFull-living-1.70.png FrameTime 1,71 camera pitch -22 torch light off guest (4.38, -0.03, 2.60) tilt 0
+SHOT DeathFull-living-2.10.png FrameTime 2,11 camera pitch -21 torch light off guest (4.38, -0.03, 2.60) tilt 0
+SHOT DeathFull-living-2.50.png FrameTime 2,50 camera pitch -24 torch light off guest (4.38, -0.03, 2.60) tilt 0
+SHOT DeathFull-living-3.00.png FrameTime 3,01 camera pitch -21 torch light off guest (4.38, -0.03, 2.60) tilt 0
+SHOT DeathFull-living-3.60.png FrameTime 3,61 camera pitch -23 torch light off guest (4.38, -0.03, 2.60) tilt 0
+SHOT DeathFull-living-4.30.png FrameTime 4,30 camera pitch -23 torch light off guest (4.38, -0.03, 2.60) tilt 0
+SHOT DeathFull-living-5.00.png FrameTime 5,01 camera pitch -1 torch light off guest hidden
+SHOT DeathFull-living-6.00.png FrameTime 6,01 camera pitch -1 torch light off guest hidden
+PASS DeathFull living: 13/13 marks captured
+SHOT DeathFull-living-down60-0.20.png FrameTime 0,20 camera pitch -1 torch light off guest (4.38, -0.23, 2.60) tilt 0
+SHOT DeathFull-living-down60-0.45.png FrameTime 0,46 camera pitch 1 torch light off guest (4.38, -0.23, 2.60) tilt 0
+HEAD DeathFull-living-down60-0.45.png viewport (0.548, 0.536, 0.704)
+SHOT DeathFull-living-down60-0.70.png FrameTime 0,71 camera pitch 3 torch light off guest (4.38, -0.23, 2.60) tilt 0
+HEAD DeathFull-living-down60-0.70.png viewport (0.590, 0.572, 0.695)
+SHOT DeathFull-living-down60-1.00.png FrameTime 1,02 camera pitch -20 torch light off guest (4.38, -0.07, 2.60) tilt 0
+HEAD DeathFull-living-down60-1.00.png viewport (0.590, 0.413, 0.720)
+SHOT DeathFull-living-down60-1.30.png FrameTime 1,31 camera pitch -21 torch light off guest (4.38, -0.03, 2.60) tilt 0
+HEAD DeathFull-living-down60-1.30.png viewport (0.597, 0.451, 0.733)
+SHOT DeathFull-living-down60-1.70.png FrameTime 1,71 camera pitch -23 torch light off guest (4.38, -0.03, 2.60) tilt 0
+SHOT DeathFull-living-down60-2.10.png FrameTime 2,11 camera pitch -20 torch light off guest (4.38, -0.03, 2.60) tilt 0
+SHOT DeathFull-living-down60-2.50.png FrameTime 2,50 camera pitch -24 torch light off guest (4.38, -0.03, 2.60) tilt 0
+SHOT DeathFull-living-down60-3.00.png FrameTime 3,01 camera pitch -21 torch light off guest (4.38, -0.03, 2.60) tilt 0
+SHOT DeathFull-living-down60-3.60.png FrameTime 3,60 camera pitch -22 torch light off guest (4.38, -0.03, 2.60) tilt 0
+SHOT DeathFull-living-down60-4.30.png FrameTime 4,32 camera pitch -23 torch light off guest (4.38, -0.03, 2.60) tilt 0
+SHOT DeathFull-living-down60-5.00.png FrameTime 5,01 camera pitch -1 torch light off guest hidden
+SHOT DeathFull-living-down60-6.00.png FrameTime 6,00 camera pitch 0 torch light off guest hidden
+PASS DeathFull living-down60: 13/13 marks captured
+SHOT DeathFull-living-up60-0.20.png FrameTime 0,20 camera pitch -1 torch light off guest (4.38, -0.23, 2.60) tilt 0
+SHOT DeathFull-living-up60-0.45.png FrameTime 0,46 camera pitch 0 torch light off guest (4.38, -0.23, 2.60) tilt 0
+HEAD DeathFull-living-up60-0.45.png viewport (0.548, 0.526, 0.704)
+SHOT DeathFull-living-up60-0.70.png FrameTime 0,70 camera pitch 3 torch light off guest (4.38, -0.23, 2.60) tilt 0
+HEAD DeathFull-living-up60-0.70.png viewport (0.592, 0.565, 0.695)
+SHOT DeathFull-living-up60-1.00.png FrameTime 1,01 camera pitch -20 torch light off guest (4.38, -0.07, 2.60) tilt 0
+HEAD DeathFull-living-up60-1.00.png viewport (0.591, 0.407, 0.718)
+SHOT DeathFull-living-up60-1.30.png FrameTime 1,31 camera pitch -21 torch light off guest (4.38, -0.03, 2.60) tilt 0
+HEAD DeathFull-living-up60-1.30.png viewport (0.597, 0.457, 0.733)
+SHOT DeathFull-living-up60-1.70.png FrameTime 1,70 camera pitch -24 torch light off guest (4.38, -0.03, 2.60) tilt 0
+SHOT DeathFull-living-up60-2.10.png FrameTime 2,10 camera pitch -20 torch light off guest (4.38, -0.03, 2.60) tilt 0
+SHOT DeathFull-living-up60-2.50.png FrameTime 2,52 camera pitch -22 torch light off guest (4.38, -0.03, 2.60) tilt 0
+SHOT DeathFull-living-up60-3.00.png FrameTime 3,01 camera pitch -21 torch light off guest (4.38, -0.03, 2.60) tilt 0
+SHOT DeathFull-living-up60-3.60.png FrameTime 3,61 camera pitch -23 torch light off guest (4.38, -0.03, 2.60) tilt 0
+SHOT DeathFull-living-up60-4.30.png FrameTime 4,30 camera pitch -23 torch light off guest (4.38, -0.03, 2.60) tilt 0
+SHOT DeathFull-living-up60-5.00.png FrameTime 5,01 camera pitch -1 torch light off guest hidden
+SHOT DeathFull-living-up60-6.00.png FrameTime 6,01 camera pitch -1 torch light off guest hidden
+PASS DeathFull living-up60: 13/13 marks captured
+SHOT DeathShort-hall-0.20.png FrameTime 0,20 camera pitch -1 torch light off guest (7.90, -0.26, 5.03) tilt 0
+SHOT DeathShort-hall-0.45.png FrameTime 0,46 camera pitch 0 torch light off guest (7.90, -0.26, 5.03) tilt 0
+HEAD DeathShort-hall-0.45.png viewport (0.548, 0.526, 0.704)
+SHOT DeathShort-hall-0.70.png FrameTime 0,70 camera pitch 3 torch light off guest (7.90, -0.26, 5.03) tilt 0
+HEAD DeathShort-hall-0.70.png viewport (0.592, 0.564, 0.695)
+SHOT DeathShort-hall-1.00.png FrameTime 1,01 camera pitch -3 torch light off guest (7.90, -0.26, 5.03) tilt 0
+HEAD DeathShort-hall-1.00.png viewport (0.596, 0.480, 0.698)
+SHOT DeathShort-hall-1.30.png FrameTime 1,30 camera pitch 2 torch light off guest (7.90, -0.26, 5.03) tilt 0
+HEAD DeathShort-hall-1.30.png viewport (0.603, 0.576, 0.695)
+SHOT DeathShort-hall-1.70.png FrameTime 1,71 camera pitch 0 torch light off guest (7.90, -0.26, 5.03) tilt 0
+SHOT DeathShort-hall-2.10.png FrameTime 2,10 camera pitch 1 torch light off guest (7.90, -0.26, 5.03) tilt 0
+SHOT DeathShort-hall-2.60.png FrameTime 2,62 camera pitch -1 torch light off guest hidden
+SHOT DeathShort-hall-3.20.png FrameTime 3,22 camera pitch 1 torch light off guest hidden
+PASS DeathShort hall: 9/9 marks captured
+SHOT DeathShort-hall-down60-0.20.png FrameTime 0,20 camera pitch -1 torch light off guest (7.90, -0.26, 5.03) tilt 0
+SHOT DeathShort-hall-down60-0.45.png FrameTime 0,46 camera pitch 0 torch light off guest (7.90, -0.26, 5.03) tilt 0
+HEAD DeathShort-hall-down60-0.45.png viewport (0.548, 0.520, 0.705)
+SHOT DeathShort-hall-down60-0.70.png FrameTime 0,72 camera pitch 4 torch light off guest (7.90, -0.26, 5.03) tilt 0
+HEAD DeathShort-hall-down60-0.70.png viewport (0.583, 0.578, 0.696)
+SHOT DeathShort-hall-down60-1.00.png FrameTime 1,01 camera pitch -3 torch light off guest (7.90, -0.26, 5.03) tilt 0
+HEAD DeathShort-hall-down60-1.00.png viewport (0.597, 0.478, 0.698)
+SHOT DeathShort-hall-down60-1.30.png FrameTime 1,30 camera pitch 2 torch light off guest (7.90, -0.26, 5.03) tilt 0
+HEAD DeathShort-hall-down60-1.30.png viewport (0.603, 0.579, 0.694)
+SHOT DeathShort-hall-down60-1.70.png FrameTime 1,71 camera pitch 0 torch light off guest (7.90, -0.26, 5.03) tilt 0
+SHOT DeathShort-hall-down60-2.10.png FrameTime 2,10 camera pitch 1 torch light off guest (7.90, -0.26, 5.03) tilt 0
+SHOT DeathShort-hall-down60-2.60.png FrameTime 2,61 camera pitch -1 torch light off guest hidden
+SHOT DeathShort-hall-down60-3.20.png FrameTime 3,21 camera pitch 1 torch light off guest hidden
+PASS DeathShort hall-down60: 9/9 marks captured
+SHOT DeathShort-hall-up60-0.20.png FrameTime 0,20 camera pitch -1 torch light off guest (7.90, -0.26, 5.03) tilt 0
+SHOT DeathShort-hall-up60-0.45.png FrameTime 0,46 camera pitch 0 torch light off guest (7.90, -0.26, 5.03) tilt 0
+HEAD DeathShort-hall-up60-0.45.png viewport (0.548, 0.526, 0.704)
+SHOT DeathShort-hall-up60-0.70.png FrameTime 0,70 camera pitch 3 torch light off guest (7.90, -0.26, 5.03) tilt 0
+HEAD DeathShort-hall-up60-0.70.png viewport (0.592, 0.563, 0.695)
+SHOT DeathShort-hall-up60-1.00.png FrameTime 1,01 camera pitch -3 torch light off guest (7.90, -0.26, 5.03) tilt 0
+HEAD DeathShort-hall-up60-1.00.png viewport (0.596, 0.481, 0.698)
+SHOT DeathShort-hall-up60-1.30.png FrameTime 1,30 camera pitch 2 torch light off guest (7.90, -0.26, 5.03) tilt 0
+HEAD DeathShort-hall-up60-1.30.png viewport (0.603, 0.578, 0.695)
+SHOT DeathShort-hall-up60-1.70.png FrameTime 1,71 camera pitch 0 torch light off guest (7.90, -0.26, 5.03) tilt 0
+SHOT DeathShort-hall-up60-2.10.png FrameTime 2,10 camera pitch 1 torch light off guest (7.90, -0.26, 5.03) tilt 0
+SHOT DeathShort-hall-up60-2.60.png FrameTime 2,61 camera pitch -1 torch light off guest hidden
+SHOT DeathShort-hall-up60-3.20.png FrameTime 3,21 camera pitch 1 torch light off guest hidden
+PASS DeathShort hall-up60: 9/9 marks captured
+SHOT DeathShort-living-0.20.png FrameTime 0,20 camera pitch -1 torch light off guest (4.38, -0.23, 2.60) tilt 0
+SHOT DeathShort-living-0.45.png FrameTime 0,46 camera pitch 0 torch light off guest (4.38, -0.23, 2.60) tilt 0
+HEAD DeathShort-living-0.45.png viewport (0.548, 0.525, 0.704)
+SHOT DeathShort-living-0.70.png FrameTime 0,70 camera pitch 3 torch light off guest (4.38, -0.23, 2.60) tilt 0
+HEAD DeathShort-living-0.70.png viewport (0.592, 0.565, 0.695)
+SHOT DeathShort-living-1.00.png FrameTime 1,01 camera pitch -4 torch light off guest (4.38, -0.23, 2.60) tilt 0
+HEAD DeathShort-living-1.00.png viewport (0.598, 0.472, 0.697)
+SHOT DeathShort-living-1.30.png FrameTime 1,30 camera pitch 3 torch light off guest (4.38, -0.23, 2.60) tilt 0
+HEAD DeathShort-living-1.30.png viewport (0.603, 0.587, 0.694)
+SHOT DeathShort-living-1.70.png FrameTime 1,71 camera pitch 0 torch light off guest (4.38, -0.23, 2.60) tilt 0
+SHOT DeathShort-living-2.10.png FrameTime 2,11 camera pitch 0 torch light off guest (4.38, -0.23, 2.60) tilt 0
+SHOT DeathShort-living-2.60.png FrameTime 2,60 camera pitch -1 torch light off guest hidden
+SHOT DeathShort-living-3.20.png FrameTime 3,20 camera pitch 0 torch light off guest hidden
+PASS DeathShort living: 9/9 marks captured
+SHOT DeathShort-living-down60-0.20.png FrameTime 0,20 camera pitch -1 torch light off guest (4.38, -0.23, 2.60) tilt 0
+SHOT DeathShort-living-down60-0.45.png FrameTime 0,46 camera pitch 1 torch light off guest (4.38, -0.23, 2.60) tilt 0
+HEAD DeathShort-living-down60-0.45.png viewport (0.548, 0.536, 0.704)
+SHOT DeathShort-living-down60-0.70.png FrameTime 0,71 camera pitch 3 torch light off guest (4.38, -0.23, 2.60) tilt 0
+HEAD DeathShort-living-down60-0.70.png viewport (0.590, 0.572, 0.695)
+SHOT DeathShort-living-down60-1.00.png FrameTime 1,02 camera pitch -2 torch light off guest (4.38, -0.23, 2.60) tilt 0
+HEAD DeathShort-living-down60-1.00.png viewport (0.593, 0.492, 0.699)
+SHOT DeathShort-living-down60-1.30.png FrameTime 1,31 camera pitch 1 torch light off guest (4.38, -0.23, 2.60) tilt 0
+HEAD DeathShort-living-down60-1.30.png viewport (0.602, 0.557, 0.696)
+SHOT DeathShort-living-down60-1.70.png FrameTime 1,70 camera pitch -2 torch light off guest (4.38, -0.23, 2.60) tilt 0
+SHOT DeathShort-living-down60-2.10.png FrameTime 2,11 camera pitch 0 torch light off guest (4.38, -0.23, 2.60) tilt 0
+SHOT DeathShort-living-down60-2.60.png FrameTime 2,61 camera pitch -1 torch light off guest hidden
+SHOT DeathShort-living-down60-3.20.png FrameTime 3,21 camera pitch 1 torch light off guest hidden
+PASS DeathShort living-down60: 9/9 marks captured
+SHOT DeathShort-living-up60-0.20.png FrameTime 0,20 camera pitch -1 torch light off guest (4.38, -0.23, 2.60) tilt 0
+SHOT DeathShort-living-up60-0.45.png FrameTime 0,46 camera pitch 1 torch light off guest (4.38, -0.23, 2.60) tilt 0
+HEAD DeathShort-living-up60-0.45.png viewport (0.548, 0.532, 0.704)
+SHOT DeathShort-living-up60-0.70.png FrameTime 0,71 camera pitch 3 torch light off guest (4.38, -0.23, 2.60) tilt 0
+HEAD DeathShort-living-up60-0.70.png viewport (0.590, 0.572, 0.695)
+SHOT DeathShort-living-up60-1.00.png FrameTime 1,00 camera pitch -4 torch light off guest (4.38, -0.23, 2.60) tilt 0
+HEAD DeathShort-living-up60-1.00.png viewport (0.600, 0.468, 0.697)
+SHOT DeathShort-living-up60-1.30.png FrameTime 1,31 camera pitch 0 torch light off guest (4.38, -0.23, 2.60) tilt 0
+HEAD DeathShort-living-up60-1.30.png viewport (0.600, 0.543, 0.697)
+SHOT DeathShort-living-up60-1.70.png FrameTime 1,71 camera pitch -1 torch light off guest (4.38, -0.23, 2.60) tilt 0
+SHOT DeathShort-living-up60-2.10.png FrameTime 2,10 camera pitch 1 torch light off guest (4.38, -0.23, 2.60) tilt 0
+SHOT DeathShort-living-up60-2.60.png FrameTime 2,61 camera pitch -1 torch light off guest hidden
+SHOT DeathShort-living-up60-3.20.png FrameTime 3,21 camera pitch 1 torch light off guest hidden
+PASS DeathShort living-up60: 9/9 marks captured
+REAL night 1 reached DeathFull at entry pitch 40
+SHOT DeathFull-real-night1-0.20.png FrameTime 0,23 camera pitch 0 torch light off guest (4.60, -0.23, 0.73) tilt 0
+SHOT DeathFull-real-night1-0.45.png FrameTime 0,46 camera pitch 0 torch light off guest (4.60, -0.23, 0.73) tilt 0
+HEAD DeathFull-real-night1-0.45.png viewport (0.548, 0.521, 0.705)
+SHOT DeathFull-real-night1-0.70.png FrameTime 0,71 camera pitch 4 torch light off guest (4.60, -0.23, 0.73) tilt 0
+HEAD DeathFull-real-night1-0.70.png viewport (0.583, 0.578, 0.696)
+SHOT DeathFull-real-night1-1.00.png FrameTime 1,01 camera pitch -20 torch light off guest (4.60, -0.07, 0.73) tilt 0
+HEAD DeathFull-real-night1-1.00.png viewport (0.592, 0.404, 0.718)
+SHOT DeathFull-real-night1-1.30.png FrameTime 1,31 camera pitch -21 torch light off guest (4.60, -0.03, 0.73) tilt 0
+HEAD DeathFull-real-night1-1.30.png viewport (0.597, 0.454, 0.733)
+SHOT DeathFull-real-night1-1.70.png FrameTime 1,71 camera pitch -24 torch light off guest (4.60, -0.03, 0.73) tilt 0
+SHOT DeathFull-real-night1-2.10.png FrameTime 2,12 camera pitch -22 torch light off guest (4.60, -0.03, 0.73) tilt 0
+SHOT DeathFull-real-night1-2.50.png FrameTime 2,51 camera pitch -22 torch light off guest (4.60, -0.03, 0.73) tilt 0
+SHOT DeathFull-real-night1-3.00.png FrameTime 3,01 camera pitch -21 torch light off guest (4.60, -0.03, 0.73) tilt 0
+SHOT DeathFull-real-night1-3.60.png FrameTime 3,61 camera pitch -23 torch light off guest (4.60, -0.03, 0.73) tilt 0
+SHOT DeathFull-real-night1-4.30.png FrameTime 4,32 camera pitch -23 torch light off guest (4.60, -0.03, 0.73) tilt 0
+SHOT DeathFull-real-night1-5.00.png FrameTime 5,01 camera pitch -1 torch light off guest hidden
+SHOT DeathFull-real-night1-6.00.png FrameTime 6,00 camera pitch 0 torch light off guest hidden
+PASS DeathFull real-night1: 13/13 marks captured
+PASS no runtime errors (0)
