@@ -634,14 +634,14 @@ namespace Ataka.Scenario {
    var g=flat.grandmother;g.SetActive(true);g.transform.SetPositionAndRotation(outside,Quaternion.LookRotation(stand-outside));GranPlay(granIdle);yield return Wait(.6f);
    yield return GranStep(stand,.9f);g.transform.rotation=Quaternion.LookRotation(-fwd);
    // the hug: her arms round his back, his face pressed to her left shoulder
-   var r=Rig();Beat("hug");Say("Бабушка","Замёрз? Сейчас чайку поставлю",3);
+   var r=Rig();var hugHeadStart=p.head.position;Beat("hug");Say("Бабушка","Замёрз? Сейчас чайку поставлю",3);
    r.poleL=-g.transform.right-g.transform.up*.3f;r.poleR=g.transform.right-g.transform.up*.3f;
    for(float t=0;t<3.2f;t+=Time.deltaTime){
     var head=p.head.position;var pr=p.transform.right;float w=Mathf.SmoothStep(0,1,Mathf.Clamp01(t/.5f))*(t>2.7f?Mathf.Clamp01((3.2f-t)/.5f):1);
     r.Reach(false,head+pr*.17f-fwd*.12f-Vector3.up*.32f,w);r.Reach(true,head-pr*.17f-fwd*.12f-Vector3.up*.32f,w);
-    var shoulder=(r.neck.position+r.upperL.position)*.5f+Vector3.up*.06f;p.head.rotation=Quaternion.Slerp(p.head.rotation,Quaternion.LookRotation(shoulder-head),1-Mathf.Exp(-8*Time.deltaTime));
+    var shoulder=r.upperL.position+Vector3.up*.09f;var hugEye=shoulder+g.transform.forward*.24f+Vector3.up*.08f;float lean=Mathf.SmoothStep(0,1,Mathf.Clamp01(t/.7f))*(t>2.5f?Mathf.Clamp01((3.2f-t)/.7f):1);p.head.position=Vector3.Lerp(hugHeadStart,hugEye,lean);head=p.head.position;p.head.rotation=Quaternion.Slerp(p.head.rotation,Quaternion.LookRotation(shoulder-head),1-Mathf.Exp(-8*Time.deltaTime));
     yield return null;}
-   r.weightL=r.weightR=0;r.poleL=r.poleR=null;Beat("hug-end");
+   p.head.position=hugHeadStart;r.weightL=r.weightR=0;r.poleL=r.poleR=null;Beat("hug-end");
    yield return GranStep(g.transform.position-g.transform.forward*.45f+Vector3.zero,.6f);
    HandBack(p,body);
   }

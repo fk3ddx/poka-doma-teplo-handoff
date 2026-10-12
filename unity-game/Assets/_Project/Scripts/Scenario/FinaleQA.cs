@@ -36,7 +36,7 @@ namespace Ataka.Scenario {
    var hall=new Vector3(7.8f,.02f,3.55f);var gap=new Vector3(7.62f,1.43f,5.94f);var kitchen=new Vector3(7.45f,.02f,2.75f);
    string last="";int index=0;float until=Time.realtimeSinceStartup+420;float transformAt=-1,tearAt=-1,fingersAt=-1;bool inKitchen=false,fingerShot=false,sawFinaleScene=false,sawDeathFull=false;int tm=0,dm=0,hm=0;
    float[] transformMarks={.5f,1.2f,2f,2.8f,3.4f},tearMarks={.3f,1f,1.6f,2.3f,2.7f,3.2f},hugMarks={.5f,1.5f,2.5f};float hugAt=-1;
-   while(story.chapter!=StoryDirector.Chapter.Ended&&Time.realtimeSinceStartup<until){
+   while(!loop.Finished&&Time.realtimeSinceStartup<until){
     string beat=story.QaFinaleBeat;
     Time.timeScale=beat=="22:00"||(branch=="key"&&beat=="choice")?6:1;
     if(beat!=last){last=beat;index++;
@@ -87,7 +87,7 @@ namespace Ataka.Scenario {
    File.WriteAllLines(Path.Combine(output,"beats.txt"),story.QaFinaleBeats.ConvertAll(b=>b.at.ToString("F2")+"\t"+b.beat));
    string[] want=branch=="open"?new[]{"22:00","knock","choice","open","hug","hug-end","door-locked","stove","matches","strike","gas","kettle","water","kettle-on","whistle","question","transform","tear","epilogue"}:new[]{"22:00","knock","choice","key","gap","grope","fingers","chain-off","hand-normal","enter","door-locked","stove","matches","strike","gas","kettle","water","kettle-on","whistle","question","transform","tear","epilogue"};
    Check(string.Join(",",order)==string.Join(",",want),"beats in SCENARIO order for branch "+branch+": "+string.Join(" → ",order));
-   result.epilogue=story.chapter==StoryDirector.Chapter.Ended||loop.Finished;result.refusedCard=story.QaRefusedCard;
+   result.epilogue=loop.Finished;result.refusedCard=story.QaRefusedCard;
    Check(result.epilogue,"the epilogue was reached");Check(result.refusedCard==(branch=="key"),"the «Ты не она!» card only when the door was not opened ("+result.refusedCard+")");
    Check(sawFinaleScene&&!sawDeathFull,"11.10 played as DeathFinale (short + 3.2 beat), never DeathFull");
    Check(Mathf.Abs(result.tearSeconds-3.5f)<.6f,"11.10 DeathFinale "+result.tearSeconds.ToString("F2")+" s from its start to the epilogue (3.5 s + reset), not the 7 s DeathFull");

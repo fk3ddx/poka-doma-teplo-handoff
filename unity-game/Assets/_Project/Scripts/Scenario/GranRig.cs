@@ -14,7 +14,7 @@ namespace Ataka.Scenario {
   [System.NonSerialized] public float weightL,weightR,forearmScale=1,handScale=1,straighten,headBow,headRoll;
   [System.NonSerialized] public Vector3 targetL,targetR;[System.NonSerialized] public Vector3? poleL,poleR;
   [System.NonSerialized] public Color tint=Color.white;
-  Vector3 lowerScaleL,lowerScaleR,handScaleL,handScaleR,handDirL,handDirR;int lowerAxisL,lowerAxisR,handAxisL,handAxisR;float tipL=.08f,tipR=.08f,headTop=.2f;
+  Vector3 lowerScaleL,lowerScaleR,handScaleL,handScaleR,handDirL,handDirR;int lowerAxisL,lowerAxisR,handAxisL,handAxisR;Vector3 tipLocalL,tipLocalR;readonly List<Vector3> headVertices=new List<Vector3>();
   Transform[] posed;Quaternion[] pose;Animation clip;
   SkinnedMeshRenderer skin;MaterialPropertyBlock block;Color baseColor=Color.white;bool tinted;
   struct Held {public Transform prop;public bool right;public Vector3 offset;public Quaternion rotation;}
@@ -29,22 +29,28 @@ namespace Ataka.Scenario {
    skin=GetComponentInChildren<SkinnedMeshRenderer>(true);
    if(!back||!chest||!neck||!head||!upperL||!lowerL||!handL||!upperR||!lowerR||!handR||!skin){Debug.LogWarning("GranRig: Katcho bones not found");return;}
    lowerScaleL=lowerL.localScale;lowerScaleR=lowerR.localScale;handScaleL=handL.localScale;handScaleR=handR.localScale;
-   handDirL=handL.InverseTransformDirection((handL.position-lowerL.position).normalized);handDirR=handR.InverseTransformDirection((handR.position-lowerR.position).normalized);
-   lowerAxisL=Axis(lowerL.InverseTransformDirection(handL.position-lowerL.position));lowerAxisR=Axis(lowerR.InverseTransformDirection(handR.position-lowerR.position));handAxisL=Axis(handDirL);handAxisR=Axis(handDirR);
-   // Fingertip distance and head top from the real (baked) mesh, per unit of her scale.
-   var mesh=new Mesh();skin.BakeMesh(mesh);var v=mesh.vertices;var w=skin.sharedMesh.boneWeights;var bones=skin.bones;int iL=System.Array.IndexOf(bones,handL),iR=System.Array.IndexOf(bones,handR);float s=Mathf.Max(1e-4f,transform.lossyScale.y);float top=float.MinValue;
-   var dL=handL.TransformDirection(handDirL);var dR=handR.TransformDirection(handDirR);float bestL=0,bestR=0;
-   for(int i=0;i<v.Length;i++){var p=skin.transform.TransformPoint(v[i]);top=Mathf.Max(top,p.y);if(i>=w.Length)continue;
-    if(w[i].boneIndex0==iL&&w[i].weight0>.5f)bestL=Mathf.Max(bestL,Vector3.Dot(p-handL.position,dL));if(w[i].boneIndex0==iR&&w[i].weight0>.5f)bestR=Mathf.Max(bestR,Vector3.Dot(p-handR.position,dR));}
-   if(bestL>.01f)tipL=bestL/s;if(bestR>.01f)tipR=bestR/s;if(top>float.MinValue)headTop=(top-head.position.y)/s;Destroy(mesh);
+   // Read fingertip geometry in bone-local bind space. Inferring it from elbow->wrist while the rig is in
+   // its hanging pose chooses the wrong axis; scaling that axis stretched the palm sideways through the ceiling.
+   var verts=skin.sharedMesh.vertices;var weights=skin.sharedMesh.boneWeights;var bones=skin.bones;var binds=skin.sharedMesh.bindposes;
+   int iL=System.Array.IndexOf(bones,handL),iR=System.Array.IndexOf(bones,handR),iH=System.Array.IndexOf(bones,head);
+   float farL=0,farR=0;
+   for(int i=0;i<verts.Length&&i<weights.Length;i++){
+    var w=weights[i];float Weight(int b)=>(w.boneIndex0==b?w.weight0:0)+(w.boneIndex1==b?w.weight1:0)+(w.boneIndex2==b?w.weight2:0)+(w.boneIndex3==b?w.weight3:0);
+    if(iL>=0&&Weight(iL)>.5f){var v=binds[iL].MultiplyPoint3x4(verts[i]);if(v.sqrMagnitude>farL){farL=v.sqrMagnitude;tipLocalL=v;}}
+    if(iR>=0&&Weight(iR)>.5f){var v=binds[iR].MultiplyPoint3x4(verts[i]);if(v.sqrMagnitude>farR){farR=v.sqrMagnitude;tipLocalR=v;}}
+    if(iH>=0&&Weight(iH)>.5f)headVertices.Add(binds[iH].MultiplyPoint3x4(verts[i]));
+   }
+   if(farL<1e-8f||farR<1e-8f){Debug.LogWarning("GranRig: no weighted hand geometry for fingertip calibration");return;}
+   handDirL=tipLocalL.normalized;handDirR=tipLocalR.normalized;
+   lowerAxisL=Axis(handL.localPosition);lowerAxisR=Axis(handR.localPosition);handAxisL=Axis(handDirL);handAxisR=Axis(handDirR);
    var mat=skin.sharedMaterial;if(mat&&mat.HasProperty("_BaseColor"))baseColor=mat.GetColor("_BaseColor");else if(mat&&mat.HasProperty("_Color"))baseColor=mat.GetColor("_Color");
    posed=new[]{back,chest,neck,head,upperL,lowerL,handL,upperR,lowerR,handR};pose=new Quaternion[posed.Length];for(int i=0;i<posed.Length;i++)pose[i]=posed[i].localRotation;clip=GetComponentInChildren<Animation>(true);
    block=new MaterialPropertyBlock();Ready=true;
   }
-  public float TipLength(bool right)=>(right?tipR:tipL)*transform.lossyScale.y*handScale;
-  public Vector3 Tip(bool right){Init();if(!Ready)return transform.position;var h=right?handR:handL;return h.position+h.TransformDirection(right?handDirR:handDirL)*TipLength(right);}
+  public float TipLength(bool right)=>(right?handR:handL).TransformVector(right?tipLocalR:tipLocalL).magnitude;
+  public Vector3 Tip(bool right){Init();if(!Ready)return transform.position;var h=right?handR:handL;return h.TransformPoint(right?tipLocalR:tipLocalL);}
   // Approximate top of her head (bones + measured offset); MeasureTop() bakes the mesh for QA.
-  public float Top=>Ready?head.position.y+headTop*transform.lossyScale.y:transform.position.y+1.6f;
+  public float Top {get {if(!Ready||headVertices.Count==0)return transform.position.y+1.6f;float top=float.MinValue;foreach(var v in headVertices)top=Mathf.Max(top,head.TransformPoint(v).y);return top;}}
   public float MeasureTop(){Init();if(!skin)return Top;var mesh=new Mesh();skin.BakeMesh(mesh);float top=float.MinValue;foreach(var p in mesh.vertices)top=Mathf.Max(top,skin.transform.TransformPoint(p).y);Destroy(mesh);return top;}
   public void Reach(bool right,Vector3 tip,float weight){if(right){targetR=tip;weightR=weight;}else{targetL=tip;weightL=weight;}}
   public void Hold(Transform prop,bool right){if(!prop)return;Release(prop);var tip=Tip(right);held.Add(new Held{prop=prop,right=right,offset=Quaternion.Inverse(transform.rotation)*(prop.position-tip),rotation=Quaternion.Inverse(transform.rotation)*prop.rotation});}
@@ -79,7 +85,7 @@ namespace Ataka.Scenario {
   void Solve(Transform up,Transform low,Transform hand,Vector3 handDir,bool right,Vector3 target,float w,Vector3 pole){
    if(w<=0)return;
    var a=up.position;var b=low.position;var c=hand.position;float tip=TipLength(right);
-   var natural=c+hand.TransformDirection(handDir)*tip;var tgt=Vector3.Lerp(natural,target,w);
+   var natural=hand.TransformPoint(right?tipLocalR:tipLocalL);var tgt=Vector3.Lerp(natural,target,w);
    var wrist=tgt-(tgt-a).normalized*tip;
    float la=(b-a).magnitude,lb=(c-b).magnitude;var d=wrist-a;float dist=Mathf.Clamp(d.magnitude,Mathf.Abs(la-lb)+1e-3f,la+lb-1e-3f);var dir=d.sqrMagnitude>1e-8f?d.normalized:Vector3.down;
    float cos=Mathf.Clamp((la*la+dist*dist-lb*lb)/(2*la*dist),-1,1),sin=Mathf.Sqrt(1-cos*cos);
@@ -87,7 +93,7 @@ namespace Ataka.Scenario {
    var elbow=a+dir*(la*cos)+pd*(la*sin);
    up.rotation=Quaternion.FromToRotation(b-a,elbow-a)*up.rotation;
    b=low.position;c=hand.position;low.rotation=Quaternion.FromToRotation(c-b,a+dir*dist-b)*low.rotation;
-   c=hand.position;var hd=hand.TransformDirection(handDir);var want=tgt-c;if(want.sqrMagnitude>1e-6f)hand.rotation=Quaternion.FromToRotation(hd,want.normalized)*hand.rotation;
+   c=hand.position;var hd=hand.TransformVector(right?tipLocalR:tipLocalL).normalized;var want=tgt-c;if(want.sqrMagnitude>1e-6f)hand.rotation=Quaternion.FromToRotation(hd,want.normalized)*hand.rotation;
   }
  }
 }

@@ -65,7 +65,7 @@ namespace Ataka.Scenario {
      if(branch=="door-death")Check(branchRestartSeen,"door-death branch exercised");if(branch=="no-belt")Check(branchRestartSeen,"no-belt branch exercised");
      Check(true,"story reached the loop (lap "+loop.Progress.Lap+")");break;}
     if(branch=="save"&&saveChecked){Check(true,"save branch done");break;}
-    if(story.chapter==StoryDirector.Chapter.None&&loop.Finished){if(from=="ChaseEnd")Check(scenesSeen.Contains("Finale:DeathFull"),"chase end → finale → face tear → epilogue");Check(true,"epilogue finished, menu shows КОНЕЦ");break;}
+    if(story.chapter==StoryDirector.Chapter.None&&loop.Finished){if(from=="ChaseEnd")Check(scenesSeen.Contains("Finale:DeathFinale"),"chase end → finale → face tear → epilogue");Check(true,"epilogue finished, menu shows КОНЕЦ");break;}
     if(story.CurrentCard!=lastCard){lastCard=story.CurrentCard;lastProgressAt=Time.realtimeSinceStartup;if(lastCard!=null){checks.Add("CARD "+lastCard.Replace('\n',' '));yield return Shot("card-"+Slug(lastCard));}}
     if(story.Objective!=lastObjective){lastObjective=story.Objective;lastProgressAt=Time.realtimeSinceStartup;checks.Add("TASK "+lastObjective);if(!string.IsNullOrEmpty(lastObjective))yield return Shot("task-"+Slug(lastObjective));}
     Time.timeScale=story.chapter==StoryDirector.Chapter.Night1||story.chapter==StoryDirector.Chapter.Night2||story.chapter==StoryDirector.Chapter.Finale?6:2;
