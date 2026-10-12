@@ -20,7 +20,11 @@ namespace Ataka.Scenario {
    var qa=new GameObject("Finale QA").AddComponent<FinaleQA>();qa.output=Path.GetFullPath(args[i+1]);int b=Array.IndexOf(args,"-finale-branch");if(b>=0&&b+1<args.Length)qa.branch=args[b+1]=="key"?"key":"open";}
   void Log(string message,string trace,LogType type){if(type==LogType.Error||type==LogType.Exception){errors++;checks.Add("ERROR "+message.Split('\n')[0]);}}
   void Check(bool ok,string what){checks.Add((ok?"PASS ":"FAIL ")+what);if(!ok)failures++;File.WriteAllLines(Path.Combine(output,"checks.txt"),checks);}
-  IEnumerator Shot(string name){yield return new WaitForEndOfFrame();if(!Application.isBatchMode)ScreenCapture.CaptureScreenshot(Path.Combine(output,"finale-"+branch+"-"+name+".png"));checks.Add("SHOT finale-"+branch+"-"+name+".png");}
+  // pc28d: written synchronously and kept for the 11.9 pixel checks (the very PNG that is reviewed)
+  Texture2D shot;
+  IEnumerator Shot(string name){yield return new WaitForEndOfFrame();if(!Application.isBatchMode){if(shot)Destroy(shot);shot=ScreenCapture.CaptureScreenshotAsTexture();File.WriteAllBytes(Path.Combine(output,"finale-"+branch+"-"+name+".png"),shot.EncodeToPNG());}checks.Add("SHOT finale-"+branch+"-"+name+".png");}
+  float DarkShare(Bounds r){if(!shot)return -1;int x0=Mathf.Clamp((int)r.min.x,0,shot.width-1),x1=Mathf.Clamp((int)r.max.x,0,shot.width-1),y0=Mathf.Clamp((int)r.min.y,0,shot.height-1),y1=Mathf.Clamp((int)r.max.y,0,shot.height-1);if(x1-x0<4||y1-y0<4)return -1;
+   int n=0,dark=0;for(int y=y0;y<=y1;y+=2)for(int x=x0;x<=x1;x+=2){var c=shot.GetPixel(x,y);n++;if(.2126f*c.r+.7152f*c.g+.0722f*c.b<.05f)dark++;}return dark/(float)n;}
   static void Aim(ScenarioPlayer p,Vector3 at){var d=at-p.head.position;var flat=d;flat.y=0;if(flat.sqrMagnitude<1e-4f)return;p.transform.rotation=Quaternion.LookRotation(flat);p.pitch=Mathf.Clamp(-Mathf.Atan2(d.y,flat.magnitude)*Mathf.Rad2Deg,-80,80);p.head.localRotation=Quaternion.Euler(p.pitch,0,0);}
   bool InFrame(ScenarioPlayer p,Vector3 point,out Vector3 v){var cam=p.view?p.view:Camera.main;v=cam?cam.WorldToViewportPoint(point):Vector3.zero;return cam&&v.z>0&&v.x>=.1f&&v.x<=.9f&&v.y>=.1f&&v.y<=.9f;}
   // Independent visible-geometry check: the camera can be near a shoulder yet wholly inside a scarf.
@@ -86,6 +90,10 @@ namespace Ataka.Scenario {
      if(transformMarks[tm]>=1.2f){var toP=p.transform.position-gr.position;toP.y=0;if(transformMarks[tm]==1.2f)Check(Vector3.Dot(gr.forward,toP.normalized)>.8f,"11.9: she has turned to him by 1.0 s (dot "+Vector3.Dot(gr.forward,toP.normalized).ToString("F2")+")");}
      yield return Shot("transform-"+transformMarks[tm].ToString("0.0",System.Globalization.CultureInfo.InvariantCulture));
      bool head=InFrame(p,rig.head.position,out var hv);checks.Add("TRANSFORM t="+transformMarks[tm]+" top "+rig.Top.ToString("F2")+" scale "+gr.localScale.y.ToString("F2")+" forearm "+rig.forearmScale.ToString("F2")+" hand "+rig.handScale.ToString("F2")+" bow "+rig.headBow.ToString("F0")+" head in frame "+head+" "+hv.ToString("F2"));
+     // pc28d: in the real finale too — at 1.2 her face is not a black mask in the PNG; from 2.0 the rebuilt head closes onto her neck
+     var fsh=story.QaFaceShed;var vcam=p.view?p.view:Camera.main;
+     if(fsh&&fsh.Shown&&transformMarks[tm]==1.2f){var dark=DarkShare(fsh.ScreenFace(vcam));Check(dark>=0&&dark<=.3f,"11.9 at 1.2 s: her face in the PNG is not a black mask ("+(dark*100).ToString("F0")+" % near-black, ≤ 30 %); Guest head still hidden: "+!fsh.GuestShown);}
+     if(fsh&&fsh.Shown&&transformMarks[tm]>=2f){float seam=fsh.SeamError();Check(!float.IsNaN(seam)&&seam<=.04f,"11.9 at "+transformMarks[tm].ToString("F1")+" s: the rebuilt head closes onto her skinned neck (worst seam vertex "+(seam*100).ToString("F1")+" cm, ≤ 4 cm)");}
      if(transformMarks[tm]==3.4f)Check(head&&rig.handScale>2f&&rig.forearmScale>1.4f,"11.9 at 3.4 s: her head in his frame, forearms ×"+rig.forearmScale.ToString("F2")+", hands ×"+rig.handScale.ToString("F2"));
      tm++;continue;}
     if(scenes.PlayingScene=="DeathFinale"&&dm<tearMarks.Length&&scenes.FrameTime>=tearMarks[dm]){

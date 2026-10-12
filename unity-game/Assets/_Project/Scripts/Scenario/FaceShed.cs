@@ -9,9 +9,17 @@ namespace Ataka.Scenario {
  // At(t): 1.0 one eye of the skin slides down · 1.3 the skin splits at the temple · 1.5–2.2 it slides off the chin like
  // wet cloth and hangs at the neck · 2.0 the jaw drops · 2.6 the skin falls off. All follows the RENDERED head (after
  // GranRig, order 560) and her growth. End() removes everything and gives her skinned head back.
+ // pc28d (story28-key-d / face-d: black face at 1.2, a small toothy head floating over a spike of neck at 2.8):
+ //  - everything is built in the Head bone's BIND space (bindposes), not from the pose she happens to stand in: the face
+ //    slice and the Guest's fit were taken along her body's forward while her real head was bowed/tilted, so the upright
+ //    Guest stuck out through her face (the black) and the slice cut the wrong triangles;
+ //  - her Head bone is no longer collapsed to 0.001: that pulled every neck vertex with some Head weight into a spike at
+ //    the pivot (the "floating" head). Her skinned mesh is swapped for a copy without exactly the head triangles we
+ //    rebuild, so the neck stays whole and the rebuilt head (head bone × bind, = her skinning) closes onto it;
+ //  - the Guest's head appears only from the temple seam (1.3); normals come from her mesh (no flat re-shading).
  [DefaultExecutionOrder(560)]
  public sealed class FaceShed:MonoBehaviour {
-  GranRig rig;Transform root,follow,skinT,scalpT,guestT,jawT;Quaternion offset;Vector3 rootScale0,headScale0;
+  GranRig rig;Transform root,follow,skinT,scalpT,guestT,jawT;Quaternion offset;Vector3 rootScale0,headScale0;SkinnedMeshRenderer body;Mesh bodyMesh,headless;int[] seamIndex;Vector3[] seamFrame;
   Mesh skinMesh,scalpMesh,guestMesh,jawMesh;Vector3[] skin0,skinNow;int[] eye,temple;float skinTop,skinBottom,skinWidth;Vector3 jawPivot;
   Vector3 fall,fallVelocity;bool fallen;
   public bool Ready{get;private set;}public bool Shown{get;private set;}
@@ -22,7 +30,6 @@ namespace Ataka.Scenario {
   // pc28c: the exact top over the rendered vertices (Renderer.bounds is the AABB of the rotated mesh and overstates it)
   public float Top{get{if(!Shown)return float.NaN;float top=float.MinValue;foreach(var t in new[]{scalpT,skinT,guestT})if(t&&t.IsChildOf(follow)){var m=t.GetComponent<MeshFilter>().sharedMesh;foreach(var v in m.vertices)top=Mathf.Max(top,t.TransformPoint(v).y);}return top;}}
   public bool Mirrored{get;private set;}public bool GuestInside{get;private set;}public float GuestScale{get;private set;}Vector3 herMin,herMax;
-  static void Flip(List<int> t){for(int i=0;i<t.Count;i+=3){int x=t[i+1];t[i+1]=t[i+2];t[i+2]=x;}}
   // QA: share of a part's triangles that face the camera — her face skin must face him, not show its back
   public float FacingCamera(Transform part,Camera cam){if(!part||!cam)return 0;var m=part.GetComponent<MeshFilter>().sharedMesh;var v=m.vertices;var t=m.triangles;int n=0,f=0;
    for(int i=0;i<t.Length;i+=3){var a=part.TransformPoint(v[t[i]]);var b=part.TransformPoint(v[t[i+1]]);var c=part.TransformPoint(v[t[i+2]]);var nrm=Vector3.Cross(b-a,c-a);var mid=(a+b+c)/3;n++;if(Vector3.Dot(nrm,cam.transform.position-mid)>0)f++;}return n>0?f/(float)n:0;}
@@ -35,25 +42,31 @@ namespace Ataka.Scenario {
   public static FaceShed Create(GranRig rig,GameObject guest){var f=new GameObject("Finale face shed (11.9)").AddComponent<FaceShed>();f.rig=rig;f.Extract(guest);return f;}
   void Extract(GameObject guest){
    rig.Init();var g=rig.transform;root=g;var head=rig.head;var skin=g.GetComponentInChildren<SkinnedMeshRenderer>(true);if(!skin||!head)return;
-   rootScale0=g.lossyScale;headScale0=head.localScale;
-   offset=Quaternion.Inverse(head.rotation)*Quaternion.LookRotation(g.forward,Vector3.up);var frame=head.rotation*offset;var inv=Quaternion.Inverse(frame);
-   follow=new GameObject("follow").transform;follow.SetParent(transform,false);follow.SetPositionAndRotation(head.position,frame);
-   // her head, from the posed (baked, scale-compensated) mesh into the follower frame (x right, y up, z out of her face)
-   var baked=new Mesh();skin.BakeMesh(baked,true);var bv=baked.vertices;var buv=skin.sharedMesh.uv;var bw=skin.sharedMesh.boneWeights;int hi=System.Array.IndexOf(skin.bones,head);var tris=skin.sharedMesh.triangles;Destroy(baked);
-   var local=new Vector3[bv.Length];for(int i=0;i<bv.Length;i++)local[i]=inv*(skin.transform.TransformPoint(bv[i])-head.position);
-   var headTris=new List<int>();for(int i=0;i<tris.Length;i+=3)if(Dominant(bw[tris[i]])==hi&&Dominant(bw[tris[i+1]])==hi&&Dominant(bw[tris[i+2]])==hi)headTris.Add(i);
+   rootScale0=g.lossyScale;headScale0=head.localScale;body=skin;bodyMesh=skin.sharedMesh;
+   if(!bodyMesh.isReadable){Debug.LogError("FaceShed: her mesh must be readable: "+bodyMesh.name);return;}
+   int hi=System.Array.IndexOf(skin.bones,head);if(hi<0||hi>=bodyMesh.bindposes.Length){Debug.LogWarning("FaceShed: Head is not one of her skin bones");return;}
+   // her face frame inside the Head bone (bind pose): forward/up of her body expressed in head-bone space
+   var bind=bodyMesh.bindposes[hi];var faceB=bind.MultiplyVector(skin.transform.InverseTransformDirection(g.forward)).normalized;var upB=bind.MultiplyVector(skin.transform.InverseTransformDirection(g.up));upB=Vector3.ProjectOnPlane(upB,faceB).normalized;
+   offset=Quaternion.LookRotation(faceB,upB);var inv=Quaternion.Inverse(offset);
+   follow=new GameObject("follow").transform;follow.SetParent(transform,false);Mirrored=head.localToWorldMatrix.determinant<0;
+   // her head in that frame (x right, y up, z out of her face): bind-space vertices, normals and UVs of her own mesh
+   var bv=bodyMesh.vertices;var bn=bodyMesh.normals;var buv=bodyMesh.uv;var bw=bodyMesh.boneWeights;var tris=bodyMesh.triangles;
+   var local=new Vector3[bv.Length];var nrm=new Vector3[bv.Length];for(int i=0;i<bv.Length;i++){local[i]=inv*bind.MultiplyPoint3x4(bv[i]);nrm[i]=i<bn.Length?(inv*bind.MultiplyVector(bn[i])).normalized:Vector3.forward;}
+   var headTris=new List<int>();var headTri=new HashSet<int>();for(int i=0;i<tris.Length;i+=3)if(Dominant(bw[tris[i]])==hi&&Dominant(bw[tris[i+1]])==hi&&Dominant(bw[tris[i+2]])==hi){headTris.Add(i);headTri.Add(i/3);}
    if(headTris.Count==0){Debug.LogWarning("FaceShed: no Head-weighted triangles in her mesh");return;}
    float zMin=float.MaxValue,zMax=float.MinValue;foreach(int i in headTris)for(int k=0;k<3;k++){float z=local[tris[i+k]].z;zMin=Mathf.Min(zMin,z);zMax=Mathf.Max(zMax,z);}
    float zFace=Mathf.Lerp(zMin,zMax,.55f);
-   var sv=new List<Vector3>();var suv=new List<Vector2>();var st=new List<int>();var cv=new List<Vector3>();var cuv=new List<Vector2>();var ct=new List<int>();
+   var sv=new List<Vector3>();var suv=new List<Vector2>();var st=new List<int>();var sn=new List<Vector3>();var cv=new List<Vector3>();var cuv=new List<Vector2>();var ct=new List<int>();var cn=new List<Vector3>();
    foreach(int i in headTris){var a=local[tris[i]];var b=local[tris[i+1]];var c=local[tris[i+2]];bool front=(a.z+b.z+c.z)/3>zFace; // the front slice of her head (winding-independent)
-    var V=front?sv:cv;var U=front?suv:cuv;var T=front?st:ct;for(int k=0;k<3;k++){V.Add(local[tris[i+k]]);U.Add(tris[i+k]<buv.Length?buv[tris[i+k]]:Vector2.zero);T.Add(V.Count-1);}}
-   // pc28c: TransformPoint through a mirrored renderer matrix (negative determinant) turns every triangle inside out;
-   // Unity flips culling for the skinned renderer itself, our plain renderer under `follow` would show the backs.
-   Mirrored=skin.transform.localToWorldMatrix.determinant<0;if(Mirrored){Flip(st);Flip(ct);}
+    var V=front?sv:cv;var U=front?suv:cuv;var T=front?st:ct;var N=front?sn:cn;for(int k=0;k<3;k++){V.Add(local[tris[i+k]]);N.Add(nrm[tris[i+k]]);U.Add(tris[i+k]<buv.Length?buv[tris[i+k]]:Vector2.zero);T.Add(V.Count-1);}}
+   // the seam: vertices shared by a rebuilt head triangle and a triangle her skinned (headless) body still draws
+   var kept=new HashSet<int>();for(int i=0;i<tris.Length;i+=3)if(!headTri.Contains(i/3)){kept.Add(tris[i]);kept.Add(tris[i+1]);kept.Add(tris[i+2]);}
+   var seam=new List<int>();foreach(int i in headTris)for(int k=0;k<3;k++)if(kept.Contains(tris[i+k])&&!seam.Contains(tris[i+k]))seam.Add(tris[i+k]);seamIndex=seam.ToArray();seamFrame=new Vector3[seamIndex.Length];for(int i=0;i<seamIndex.Length;i++)seamFrame[i]=local[seamIndex[i]];
+   // her body without exactly those triangles (submeshes kept), swapped in while the rebuilt head shows
+   headless=Instantiate(bodyMesh);headless.name=bodyMesh.name+" (no head, 11.9)";for(int s=0;s<bodyMesh.subMeshCount;s++){var t=bodyMesh.GetTriangles(s);var keep=new List<int>(t.Length);for(int i=0;i<t.Length;i+=3){bool hd=Dominant(bw[t[i]])==hi&&Dominant(bw[t[i+1]])==hi&&Dominant(bw[t[i+2]])==hi;if(!hd){keep.Add(t[i]);keep.Add(t[i+1]);keep.Add(t[i+2]);}}headless.SetTriangles(keep,s);}
    herMin=Vector3.positiveInfinity;herMax=Vector3.negativeInfinity;foreach(var v in sv){herMin=Vector3.Min(herMin,v);herMax=Vector3.Max(herMax,v);}foreach(var v in cv){herMin=Vector3.Min(herMin,v);herMax=Vector3.Max(herMax,v);}
    var mat=new[]{skin.sharedMaterial};
-   skinMesh=Build("her face skin",sv,suv,new[]{st});scalpMesh=Build("her scalp",cv,cuv,new[]{ct});SkinTris=st.Count/3;ScalpTris=ct.Count/3;
+   skinMesh=Build("her face skin",sv,suv,new[]{st});scalpMesh=Build("her scalp",cv,cuv,new[]{ct});skinMesh.SetNormals(sn);scalpMesh.SetNormals(cn);SkinTris=st.Count/3;ScalpTris=ct.Count/3;
    skinT=Part("face skin",skinMesh,mat);scalpT=Part("scalp",scalpMesh,mat);skin0=skinMesh.vertices;skinNow=(Vector3[])skin0.Clone();
    skinTop=float.MinValue;skinBottom=float.MaxValue;float xMax=float.MinValue,xMin=float.MaxValue;foreach(var v in skin0){skinTop=Mathf.Max(skinTop,v.y);skinBottom=Mathf.Min(skinBottom,v.y);xMax=Mathf.Max(xMax,v.x);xMin=Mathf.Min(xMin,v.x);}skinWidth=Mathf.Max(.01f,xMax-xMin);
    // one eye: the skin vertices nearest the painted eye
@@ -94,26 +107,35 @@ namespace Ataka.Scenario {
    else Debug.LogWarning("FaceShed: Guest head bone not found — no grey head under her face");
    foreach(Transform c in follow)c.gameObject.SetActive(false);Ready=SkinTris>0;
   }
-  public void Show(){if(!Ready||Shown)return;Shown=true;foreach(Transform c in follow)c.gameObject.SetActive(true);rig.head.localScale=headScale0*.001f;Place();}
+  public void Show(){if(!Ready||Shown)return;Shown=true;foreach(Transform c in follow)if(c!=guestT&&c!=jawT)c.gameObject.SetActive(true);if(body&&headless)body.sharedMesh=headless;Place();}
+  public bool HeadlessBody=>body&&headless&&body.sharedMesh==headless;public bool GuestShown=>guestT&&guestT.gameObject.activeSelf;
   void LateUpdate(){if(Shown)Place();}
-  void Place(){var head=rig.head;follow.SetPositionAndRotation(head.position,head.rotation*offset);float s=root.lossyScale.y/Mathf.Max(1e-5f,rootScale0.y);follow.localScale=Vector3.one*s;}
+  // the follower IS her head bone (position, rotation, scale incl. her growth) turned into the face frame: a rebuilt
+  // vertex lands where her own skinning puts a Head-weighted vertex
+  void Place(){var head=rig.head;follow.SetPositionAndRotation(head.position,head.rotation*offset);var ls=head.lossyScale;follow.localScale=Vector3.one*((Mathf.Abs(ls.x)+Mathf.Abs(ls.y)+Mathf.Abs(ls.z))/3);}
+  // QA: the largest distance between where her skinned (headless) body draws a seam vertex and where the rebuilt head has it
+  public float SeamError(){if(!Shown||!body||seamIndex==null||seamIndex.Length==0)return float.NaN;var baked=new Mesh();body.BakeMesh(baked,true);var v=baked.vertices;Destroy(baked);float worst=0;
+   for(int i=0;i<seamIndex.Length;i++)if(seamIndex[i]<v.Length)worst=Mathf.Max(worst,Vector3.Distance(body.transform.TransformPoint(v[seamIndex[i]]),follow.TransformPoint(seamFrame[i])));return worst;}
+  public Bounds ScreenFace(Camera cam){var b=skinT?skinT.GetComponent<Renderer>().bounds:new Bounds();var min=new Vector3(1e9f,1e9f,0);var max=new Vector3(-1e9f,-1e9f,0);for(int i=0;i<8;i++){var c=b.center+Vector3.Scale(b.extents,new Vector3((i&1)==0?-1:1,(i&2)==0?-1:1,(i&4)==0?-1:1));var s=cam.WorldToScreenPoint(c);min=Vector3.Min(min,s);max=Vector3.Max(max,s);}var r=new Bounds();r.SetMinMax(new Vector3(min.x,min.y,0),new Vector3(max.x,max.y,0));return r;}
   // t = seconds into 11.9
   public void At(float t){
-   if(!Ready)return;if(t>=.95f)Show();if(!Shown)return;
+   if(!Ready)return;if(t>=.95f)Show();if(!Shown)return;if(t>=1.3f&&guestT&&!guestT.gameObject.activeSelf){guestT.gameObject.SetActive(true);if(jawT)jawT.gameObject.SetActive(true);} // the grey head only once her skin splits
    float h=skinTop-skinBottom;EyeDrop=.035f*Mathf.SmoothStep(0,1,Mathf.Clamp01((t-1f)/.3f));SeamGap=.014f*Mathf.SmoothStep(0,1,Mathf.Clamp01((t-1.3f)/.12f));Slide=Mathf.SmoothStep(0,1,Mathf.Clamp01((t-1.5f)/.7f));JawAngle=38*Mathf.SmoothStep(0,1,Mathf.Clamp01((t-2f)/.25f));
    for(int i=0;i<skin0.Length;i++)skinNow[i]=skin0[i];
    foreach(int i in eye)skinNow[i]+=Vector3.down*EyeDrop;
    foreach(int i in temple)skinNow[i]+=new Vector3(-SeamGap,0,-SeamGap*.6f);
    if(Slide>0)for(int i=0;i<skin0.Length;i++){float yn=Mathf.Clamp01((skin0[i].y-skinBottom)/Mathf.Max(.01f,h));
-    // wet cloth: everything slides down past the chin, the upper part more, folding forward and outwards as it hangs
-    skinNow[i]+=Vector3.down*Slide*h*(.85f+.35f*yn)+Vector3.forward*Slide*.035f*(1-yn)+new Vector3(skin0[i].x*.25f*Slide*yn,0,0);}
-   skinMesh.vertices=skinNow;skinMesh.RecalculateNormals();skinMesh.RecalculateBounds();
+    // wet cloth: everything slides down past the chin, the upper part more, folding forward and outwards as it hangs;
+    // pc28d: it ends hanging from her chin over the neck (SCENARIO «висит на шее»), not on her chest
+    skinNow[i]+=Vector3.down*Slide*h*(.55f+.3f*yn)+Vector3.forward*Slide*.035f*(1-yn)+new Vector3(skin0[i].x*.25f*Slide*yn,0,0);}
+   skinMesh.vertices=skinNow;skinMesh.RecalculateBounds();
    if(jawT)jawT.localRotation=Quaternion.AngleAxis(JawAngle,Vector3.right);
    // 2.6 the skin drops off her and falls to the floor
    if(t>=2.6f&&!fallen&&skinT){fallen=true;skinT.SetParent(transform,true);fallVelocity=Vector3.zero;}
    if(fallen&&skinT&&skinT.position.y>.05f){fallVelocity+=Physics.gravity*Time.deltaTime;skinT.position+=fallVelocity*Time.deltaTime;skinT.rotation=Quaternion.Slerp(skinT.rotation,Quaternion.Euler(80,skinT.eulerAngles.y,0),Time.deltaTime*4);}
   }
-  public void End(){if(rig&&rig.head&&Shown)rig.head.localScale=headScale0;Shown=false;Destroy(gameObject);}
-  void OnDestroy(){if(rig&&rig.head&&Shown)rig.head.localScale=headScale0;foreach(var m in new[]{skinMesh,scalpMesh,guestMesh,jawMesh})if(m)Destroy(m);}
+  void GiveBack(){if(body&&bodyMesh&&body.sharedMesh!=bodyMesh)body.sharedMesh=bodyMesh;if(rig&&rig.head)rig.head.localScale=headScale0;}
+  public void End(){GiveBack();Shown=false;Destroy(gameObject);}
+  void OnDestroy(){GiveBack();foreach(var m in new[]{skinMesh,scalpMesh,guestMesh,jawMesh,headless})if(m)Destroy(m);}
  }
 }

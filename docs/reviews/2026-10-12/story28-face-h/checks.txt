@@ -1,0 +1,55 @@
+PASS stand-in face installed on FaceTearDeath (Ataka.Editor.FinaleFacesInstaller.Install)
+ABSENT Misha's own (15-year-old) face — the 11.10 face is an ADULT Quaternius face, a labelled stand-in
+ABSENT voices — her whisper and his cry are sounds/subtitles only
+PASS 11.9 her head rebuilt from her own triangles (face skin 54, scalp 38) and the Guest's head 748 + jaw 428 triangles
+PASS the Guest's head and jaw were found (Head / Jaw weights)
+PASS staging: she stands at the stove (head top 1,555 m over her feet, 1.45–1.65)
+SHOT face-0.50.png
+FACE t=0,5 shown False eye drop 0,000 seam 0,000 slide 0,00 jaw 0° her head bone scale 1,0000
+SHOT face-0.98.png
+FACE t=0,98 shown True eye drop 0,000 seam 0,000 slide 0,00 jaw 0° her head bone scale 1,0000
+SHOT face-1.20.png
+FACE t=1,2 shown True eye drop 0,032 seam 0,000 slide 0,00 jaw 0° her head bone scale 1,0000
+PASS 1,20: her face in the PNG is not a black mask (20 % of its screen rect near-black, ≤ 30 %); Guest head hidden until the seam: True
+NOTE her head bone matrix mirrored: False; Guest head scale in hers 0,012 (bind space)
+PASS 1.2: her rebuilt face skin faces him (83 % of its triangles front-on) — not its back
+PASS before the slide the Guest's head sits inside her head (no cap over the bun, nothing through her face)
+SHOT face-1.35.png
+FACE t=1,35 shown True eye drop 0,035 seam 0,011 slide 0,00 jaw 0° her head bone scale 1,0000
+PASS 1.0–1.3: one eye of her face slides down 3,5 cm (her body drawn without its head triangles, the rebuilt head shown; head bone not collapsed)
+SHOT face-1.45.png
+FACE t=1,45 shown True eye drop 0,035 seam 0,014 slide 0,00 jaw 0° her head bone scale 1,0000
+PASS 1,45: her face in the PNG is not a black mask (20 % of its screen rect near-black, ≤ 30 %)
+PASS 1.3: the face skin splits at the temple (1,4 cm)
+SHOT face-1.70.png
+FACE t=1,7 shown True eye drop 0,035 seam 0,014 slide 0,27 jaw 0° her head bone scale 1,0000
+SHOT face-2.00.png
+FACE t=2 shown True eye drop 0,035 seam 0,014 slide 0,87 jaw 3° her head bone scale 1,0000
+SHOT face-2.30.png
+FACE t=2,3 shown True eye drop 0,035 seam 0,014 slide 1,00 jaw 38° her head bone scale 1,0000
+PASS 2,30: the rebuilt head closes onto her skinned neck (worst seam vertex 0,0 cm apart, ≤ 4 cm) — no floating head, no spike of neck
+PASS 1.5–2.25: the face skin has slid off the chin (1,00), the Guest's jaw dropped 38°
+PASS the grey head under her face is in his frame (0.50, 0.57, 1.03)
+PASS 2.3: her face skin hangs below her chin (1,46 < 1,54)
+PASS 2.3: the grey head shows its face to him (46 % front-on)
+PASS 2.3: the dropped jaw / mouth is in his frame (0.51, 0.69, 0.90)
+SHOT face-2.70.png
+FACE t=2,7 shown True eye drop 0,035 seam 0,014 slide 1,00 jaw 38° her head bone scale 1,0000
+PASS 2,70: the rebuilt head closes onto her skinned neck (worst seam vertex 0,0 cm apart, ≤ 4 cm) — no floating head, no spike of neck
+PASS 2.6: the face skin has dropped off her
+SHOT face-3.20.png
+FACE t=3,2 shown True eye drop 0,035 seam 0,014 slide 1,00 jaw 38° her head bone scale 1,0000
+PASS 3,20: the rebuilt head closes onto her skinned neck (worst seam vertex 0,0 cm apart, ≤ 4 cm) — no floating head, no spike of neck
+FAIL 11.9 her rendered head top 2,527 m (2.25–2.52 under the 2.5 m ceiling; exact vertices)
+SHOT tear-1.0.png
+TEAR 1,00 no face prop
+SHOT tear-2.1.png
+TEAR 2,11 stand-in face at (0.20, -0.07, 0.35) in frame True (0.81, 0.32, 0.35)
+SHOT tear-2.4.png
+TEAR 2,40 stand-in face at (0.09, 0.01, 0.37) in frame True (0.63, 0.54, 0.37)
+SHOT tear-2.8.png
+TEAR 2,81 stand-in face at (0.00, 0.07, 0.54) in frame True (0.50, 0.63, 0.54)
+PASS 11.10 3.2 beat: the stand-in face hangs in her claw, in his frame
+PASS 11.10: then it is pulled over her face (≤ 6 cm from her face point, 0,019 m)
+PASS nothing left behind: no face skin / Guest head pieces, her own mesh with its head is back on her (Granny)
+PASS no runtime errors (0)

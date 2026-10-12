@@ -1,0 +1,199 @@
+{
+    "scope": "Unity listener mix, pre-OS output; not microphone or loopback",
+    "error": "",
+    "captureModeMutesOutput": true,
+    "clearedOutputCallbacks": 547,
+    "sampleRate": 48000,
+    "channels": 2,
+    "droppedSamples": 0,
+    "formatChanges": 0,
+    "peakActiveVoices": 4,
+    "suppressedOverlaps": 0,
+    "samples": 1120256,
+    "markers": [
+        {
+            "state": "pause",
+            "sample": 55296,
+            "seconds": 0.576,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:clock",
+            "sample": 251904,
+            "seconds": 2.624,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "lap-1",
+            "sample": 251904,
+            "seconds": 2.624,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:finger_crack",
+            "sample": 493568,
+            "seconds": 5.141333333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:wet_tear",
+            "sample": 526336,
+            "seconds": 5.482666666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:shriek",
+            "sample": 548864,
+            "seconds": 5.717333333333333,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:finger_crack",
+            "sample": 577536,
+            "seconds": 6.016,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:finger_crack",
+            "sample": 634880,
+            "seconds": 6.613333333333333,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:finger_crack",
+            "sample": 694272,
+            "seconds": 7.232,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:breath",
+            "sample": 733184,
+            "seconds": 7.637333333333333,
+            "scene": "DeathFinale",
+            "timelineSeconds": 0.0
+        },
+        {
+            "state": "DeathFinale",
+            "sample": 733184,
+            "seconds": 7.637333333333333,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:finger_crack",
+            "sample": 761856,
+            "seconds": 7.936,
+            "scene": "DeathFinale",
+            "timelineSeconds": 0.30075719952583315
+        },
+        {
+            "state": "cue:palms",
+            "sample": 827392,
+            "seconds": 8.618666666666666,
+            "scene": "DeathFinale",
+            "timelineSeconds": 1.000770926475525
+        },
+        {
+            "state": "cue:choked_cry",
+            "sample": 827392,
+            "seconds": 8.618666666666666,
+            "scene": "DeathFinale",
+            "timelineSeconds": 1.000770926475525
+        },
+        {
+            "state": "cue:wet_tear",
+            "sample": 878592,
+            "seconds": 9.152,
+            "scene": "DeathFinale",
+            "timelineSeconds": 1.5146652460098267
+        },
+        {
+            "state": "cue:palms",
+            "sample": 944128,
+            "seconds": 9.834666666666667,
+            "scene": "DeathFinale",
+            "timelineSeconds": 2.204104423522949
+        },
+        {
+            "state": "cue:clock",
+            "sample": 1069056,
+            "seconds": 11.136,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "lap-1",
+            "sample": 1069056,
+            "seconds": 11.136,
+            "scene": "",
+            "timelineSeconds": -1.0
+        }
+    ],
+    "cues": [
+        {
+            "id": "breath",
+            "requested": 1,
+            "started": 1,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "choked_cry",
+            "requested": 1,
+            "started": 1,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "clock",
+            "requested": 2,
+            "started": 2,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "finger_crack",
+            "requested": 5,
+            "started": 5,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "palms",
+            "requested": 2,
+            "started": 2,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "shriek",
+            "requested": 1,
+            "started": 1,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "wet_tear",
+            "requested": 2,
+            "started": 2,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        }
+    ]
+}

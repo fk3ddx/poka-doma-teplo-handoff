@@ -11,14 +11,19 @@ namespace Ataka.Scenario {
  // and on her face. PNGs at fixed times + checks.txt (PASS/FAIL/ABSENT) + result.json; exit 0 = no FAIL.
  public sealed class FaceQA:MonoBehaviour {
   string output;readonly List<string> checks=new List<string>();int errors,failures;
-  [Serializable] class Result {public bool passed;public int failures,errors,skinTris,scalpTris,guestTris,jawTris;public float faceBase,skinFacing,guestFacing,eyeDrop,seamGap,slide,jawAngle,grownTop,faceToHerFace;public bool standInInstalled,leftovers,mirrored,guestInside,skinBelowChin;}
+  [Serializable] class Result {public bool passed;public int failures,errors,skinTris,scalpTris,guestTris,jawTris;public float faceBase,skinFacing,guestFacing,faceDark,seamError,eyeDrop,seamGap,slide,jawAngle,grownTop,faceToHerFace;public bool standInInstalled,leftovers,mirrored,guestInside,skinBelowChin;}
   readonly Result result=new Result();
   [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]static void Boot(){
    var args=Environment.GetCommandLineArgs();int i=Array.IndexOf(args,"-face-qa");if(i<0||i+1>=args.Length)return;
    new GameObject("Face QA").AddComponent<FaceQA>().output=Path.GetFullPath(args[i+1]);}
   void Log(string message,string trace,LogType type){if(type==LogType.Error||type==LogType.Exception){errors++;checks.Add("ERROR "+message.Split('\n')[0]);}}
   void Check(bool ok,string what){checks.Add((ok?"PASS ":"FAIL ")+what);if(!ok)failures++;File.WriteAllLines(Path.Combine(output,"checks.txt"),checks);}
-  IEnumerator Shot(string name){yield return new WaitForEndOfFrame();if(!Application.isBatchMode)ScreenCapture.CaptureScreenshot(Path.Combine(output,name+".png"));checks.Add("SHOT "+name+".png");}
+  // pc28d: the PNG is written synchronously and kept, so the checks below look at the very pixels Codex looks at
+  Texture2D shot;
+  IEnumerator Shot(string name){yield return new WaitForEndOfFrame();if(!Application.isBatchMode){if(shot)Destroy(shot);shot=ScreenCapture.CaptureScreenshotAsTexture();File.WriteAllBytes(Path.Combine(output,name+".png"),shot.EncodeToPNG());}checks.Add("SHOT "+name+".png");}
+  // share of near-black pixels (luma < 0.05) inside a screen rectangle of the last shot; -1 when nothing to look at
+  float DarkShare(Bounds r){if(!shot)return -1;int x0=Mathf.Clamp((int)r.min.x,0,shot.width-1),x1=Mathf.Clamp((int)r.max.x,0,shot.width-1),y0=Mathf.Clamp((int)r.min.y,0,shot.height-1),y1=Mathf.Clamp((int)r.max.y,0,shot.height-1);if(x1-x0<4||y1-y0<4)return -1;
+   int n=0,dark=0;for(int y=y0;y<=y1;y+=2)for(int x=x0;x<=x1;x+=2){var c=shot.GetPixel(x,y);n++;if(.2126f*c.r+.7152f*c.g+.0722f*c.b<.05f)dark++;}return dark/(float)n;}
   static bool InFrame(ScenarioPlayer p,Vector3 point,out Vector3 v){var cam=p.view?p.view:Camera.main;v=cam?cam.WorldToViewportPoint(point):Vector3.zero;return cam&&v.z>0&&v.x>.05f&&v.x<.95f&&v.y>.05f&&v.y<.95f;}
   IEnumerator Start(){
    Directory.CreateDirectory(output);Application.logMessageReceived+=Log;Application.runInBackground=true;Application.targetFrameRate=60;
@@ -40,9 +45,12 @@ namespace Ataka.Scenario {
    while(story.QaFinaleBeat=="transform"&&m<marks.Length){if(Time.time-t0<marks[m]){yield return null;continue;}
     var mark=marks[m];yield return Shot("face-"+mark.ToString("0.00",System.Globalization.CultureInfo.InvariantCulture));fs=story.QaFaceShed;
     if(fs){checks.Add("FACE t="+mark+" shown "+fs.Shown+" eye drop "+fs.EyeDrop.ToString("F3")+" seam "+fs.SeamGap.ToString("F3")+" slide "+fs.Slide.ToString("F2")+" jaw "+fs.JawAngle.ToString("F0")+"° her head bone scale "+(rig?rig.head.localScale.x.ToString("F4"):"?"));
-     if(Mathf.Approximately(mark,1.35f)){result.eyeDrop=fs.EyeDrop;Check(fs.Shown&&fs.EyeDrop>=.03f&&rig.head.localScale.x<headScale.x*.01f,"1.0–1.3: one eye of her face slides down "+(fs.EyeDrop*100).ToString("F1")+" cm (her own skinned head collapsed, the rebuilt one shown)");}
+     if(Mathf.Approximately(mark,1.35f)){result.eyeDrop=fs.EyeDrop;Check(fs.Shown&&fs.EyeDrop>=.03f&&fs.HeadlessBody,"1.0–1.3: one eye of her face slides down "+(fs.EyeDrop*100).ToString("F1")+" cm (her body drawn without its head triangles, the rebuilt head shown; head bone not collapsed)");}
+     // pc28d: what the PNG shows — her face is not a black mask (D: the upright Guest stuck out through it), the head closes onto her neck
+     if(Mathf.Approximately(mark,1.2f)||Mathf.Approximately(mark,1.45f)){var dark=DarkShare(fs.ScreenFace(cam));result.faceDark=Mathf.Max(result.faceDark,dark);Check(dark>=0&&dark<=.3f,mark.ToString("F2")+": her face in the PNG is not a black mask ("+(dark*100).ToString("F0")+" % of its screen rect near-black, ≤ 30 %)"+(Mathf.Approximately(mark,1.2f)?"; Guest head hidden until the seam: "+!fs.GuestShown:""));}
+     if(mark>=2.3f){float seam=fs.SeamError();result.seamError=Mathf.Max(result.seamError,seam);Check(!float.IsNaN(seam)&&seam<=.04f,mark.ToString("F2")+": the rebuilt head closes onto her skinned neck (worst seam vertex "+(seam*100).ToString("F1")+" cm apart, ≤ 4 cm) — no floating head, no spike of neck");}
      if(Mathf.Approximately(mark,1.2f)){result.mirrored=fs.Mirrored;result.guestInside=fs.GuestInside;result.skinFacing=fs.FacingCamera(fs.QaSkin,cam);
-      checks.Add("NOTE her renderer matrix mirrored: "+fs.Mirrored+" (triangles flipped back if so); Guest head scale in hers "+fs.GuestScale.ToString("F3"));
+      checks.Add("NOTE her head bone matrix mirrored: "+fs.Mirrored+"; Guest head scale in hers "+fs.GuestScale.ToString("F3")+" (bind space)");
       Check(result.skinFacing>=.55f,"1.2: her rebuilt face skin faces him ("+(result.skinFacing*100).ToString("F0")+" % of its triangles front-on) — not its back");
       Check(fs.GuestInside,"before the slide the Guest's head sits inside her head (no cap over the bun, nothing through her face)");}
      if(Mathf.Approximately(mark,1.45f)){result.seamGap=fs.SeamGap;Check(fs.SeamGap>=.012f,"1.3: the face skin splits at the temple ("+(fs.SeamGap*100).ToString("F1")+" cm)");}
@@ -65,7 +73,8 @@ namespace Ataka.Scenario {
    Check(inHand,"11.10 3.2 beat: the stand-in face hangs in her claw, in his frame");Check(onFace,"11.10: then it is pulled over her face (≤ 6 cm from her face point, "+result.faceToHerFace.ToString("F3")+" m)");
    while(story.QaFinaleBeat!="done"&&Time.realtimeSinceStartup<until)yield return null;yield return null;
    result.leftovers=GameObject.Find("Finale face shed (11.9)")||(tear&&tear.QaFaceProp);
-   Check(!result.leftovers&&(!rig||(rig.head.localScale-headScale).sqrMagnitude<1e-8f),"nothing left behind: no face skin / Guest head pieces, her skinned head restored");
+   var her=flat.grandmother.GetComponentInChildren<SkinnedMeshRenderer>(true);bool whole=her&&her.sharedMesh&&!her.sharedMesh.name.Contains("(no head");
+   Check(!result.leftovers&&whole&&(!rig||(rig.head.localScale-headScale).sqrMagnitude<1e-8f),"nothing left behind: no face skin / Guest head pieces, her own mesh with its head is back on her ("+(her&&her.sharedMesh?her.sharedMesh.name:"?")+")");
    Check(errors==0,"no runtime errors ("+errors+")");
    result.errors=errors;result.failures=failures;result.passed=failures==0&&errors==0;File.WriteAllText(Path.Combine(output,"result.json"),JsonUtility.ToJson(result,true));
    File.WriteAllLines(Path.Combine(output,"checks.txt"),checks);yield return new WaitForSecondsRealtime(.5f);Application.Quit(result.passed?0:1);
