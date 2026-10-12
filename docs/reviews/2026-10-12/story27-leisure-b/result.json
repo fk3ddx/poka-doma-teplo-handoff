@@ -1,0 +1,21 @@
+{
+    "passed": true,
+    "failures": 0,
+    "errors": 0,
+    "score": 1000,
+    "kills": 10,
+    "shots": 43,
+    "albumImages": 6,
+    "epilogueCaptions": 0,
+    "clockStarts": 0,
+    "consoleFov": 34.05147171020508,
+    "fovAfter": 65.0,
+    "pauseDrift": 0.0,
+    "gamePauseDrift": 0.0,
+    "screen": "saturated 0,3%, brightest 0,91",
+    "epilogueScreen": "",
+    "absent": [
+        "newspaper spread Resources/Teleweek/teleweek_spread.png — programme and crossword drawn in code",
+        "newspaper cover Resources/Teleweek/teleweek_cover.png — procedural newsprint on the sheet"
+    ]
+}

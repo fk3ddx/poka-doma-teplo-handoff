@@ -1,0 +1,33 @@
+PASS action «Поиграть в приставку» offered
+PASS action actually selected by aim/LOS: Поиграть в приставку; blocker none
+PASS console: he sits at the set, control off, the CRT shows the game, the view narrows (FOV 65 → 34)
+SHOT console-1-title.png
+PASS console: Enter starts a round (Play)
+SHOT console-2-play.png
+FAIL console picture on the CRT: coloured sprites and bright text (saturated 0,2%, brightest 0,91)
+PASS console: shots 43, hits 11, score 1100
+PASS console: the game menu freezes the round (drift 0,0000 s)
+SHOT console-3-paused.png
+PASS console: Enter pauses the round («ПАУЗА», drift 0,0000)
+PASS console: Esc belongs to the console while it is on (it does not open the game menu)
+PASS console left (Esc): control, body, FOV 65, set off and feed handed back, Esc opens the menu again
+SHOT console-4-left.png
+PASS action «Посмотреть альбом с бабушкой» offered
+PASS action actually selected by aim/LOS: Посмотреть альбом с бабушкой; blocker none
+PASS album: open, 6 spreads, control off
+SHOT album-01.png
+SHOT album-02.png
+SHOT album-03.png
+SHOT album-04.png
+SHOT album-05.png
+SHOT album-06.png
+PASS album closed: control back
+PASS «Теленеделя» lies on the coffee table (paper sheet)
+PASS action «Почитать «Теленеделю»» offered
+PASS action actually selected by aim/LOS: Почитать «Теленеделю»; blocker none
+PASS «Теленеделя» open
+SHOT teleweek.png
+PASS «Теленеделя» closed: control back
+ABSENT newspaper spread Resources/Teleweek/teleweek_spread.png — programme and crossword drawn in code
+ABSENT newspaper cover Resources/Teleweek/teleweek_cover.png — procedural newsprint on the sheet
+PASS no runtime errors (0)

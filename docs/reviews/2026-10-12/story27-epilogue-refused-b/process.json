@@ -1,0 +1,23 @@
+{
+  "command": [
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\Builds\\ScenarioCore\\Ataka-Loop.exe",
+    "-screen-fullscreen",
+    "0",
+    "-screen-width",
+    "1280",
+    "-screen-height",
+    "720",
+    "-audio-capture",
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\QA\\story27-epilogue-refused-b\\silent-mix.wav",
+    "-logFile",
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\QA\\story27-epilogue-refused-b\\player.log",
+    "-epilogue-qa",
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\QA\\story27-epilogue-refused-b",
+    "-epilogue-refused"
+  ],
+  "build_label": "story27-build-b",
+  "utc": "2026-10-12T18:57:09.954080+00:00",
+  "runtime_sha256": "7d19efca16f035fe1ad785a6b7ebca3d179de30a8ea9c7ce5386ef4e224c0792",
+  "scope": "Real Windows leisure/epilogue QA; cameras staged, actions invoked by QA. Physical input/manual play is not tested. ABSENT entries remain unimplemented. Inspect checks and rendered frames; process success alone is not visual or audio acceptance.",
+  "pid": 21644
+}
