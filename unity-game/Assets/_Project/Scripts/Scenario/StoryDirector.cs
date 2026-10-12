@@ -62,24 +62,26 @@ namespace Ataka.Scenario {
   // ---------- grandmother (approved Katcho, author clips Oidle/Owalk) ----------
   Animation granAnim;string granIdle,granWalk;
   static readonly Dictionary<string,Vector3> Nodes=new Dictionary<string,Vector3>{
-   {"Door",new Vector3(8.05f,0,5.45f)},{"HallA",new Vector3(7.75f,0,4.4f)},{"KitchenDoor",new Vector3(7.25f,0,3.25f)},{"Kitchen",new Vector3(7.5f,0,2.1f)},{"Stove",new Vector3(8.0f,0,1.65f)},
+   {"Door",new Vector3(7.85f,0,5.25f)},{"HallA",new Vector3(7.75f,0,4.4f)},{"KitchenDoor",new Vector3(7.25f,0,3.25f)},{"Kitchen",new Vector3(7.5f,0,2.1f)},{"Stove",new Vector3(8.0f,0,1.65f)},
    {"HallJoint",new Vector3(6.9f,0,5.25f)},{"HallB",new Vector3(5.65f,0,5.3f)},{"Clock",new Vector3(5.5f,0,5.45f)},{"LivingDoor",new Vector3(5.65f,0,4.0f)},{"LivingMid",new Vector3(4.4f,0,3.5f)},
    {"Aisle",new Vector3(4.15f,0,2.8f)},{"Armchair",new Vector3(3.95f,0,1.05f)},{"BedroomDoor",new Vector3(3.2f,0,3.75f)},{"Bedroom",new Vector3(2.0f,0,3.5f)},{"Landing",new Vector3(8.05f,0,6.62f)}};
   static readonly string[][] Edges={new[]{"Landing","Door"},new[]{"Door","HallA"},new[]{"HallA","KitchenDoor"},new[]{"KitchenDoor","Kitchen"},new[]{"Kitchen","Stove"},new[]{"HallA","HallJoint"},new[]{"Door","HallJoint"},
    new[]{"HallJoint","HallB"},new[]{"HallB","Clock"},new[]{"HallB","LivingDoor"},new[]{"LivingDoor","LivingMid"},new[]{"LivingMid","Aisle"},new[]{"Aisle","Armchair"},new[]{"LivingMid","BedroomDoor"},new[]{"BedroomDoor","Bedroom"}};
   string granNode="Door";
-  void GranShow(string node,float yaw){var g=flat.grandmother;g.SetActive(true);granNode=node;g.transform.SetPositionAndRotation(Nodes[node],Quaternion.Euler(0,yaw,0));GranPlay(granIdle);}
+  void GranShow(string node,float yaw){granToken++;granWalking=false;var g=flat.grandmother;g.SetActive(true);granNode=node;g.transform.SetPositionAndRotation(Nodes[node],Quaternion.Euler(0,yaw,0));GranPlay(granIdle);}
   void GranPlay(string clip){if(!granAnim||string.IsNullOrEmpty(clip))return;granAnim.enabled=true;var state=granAnim[clip];if(state==null)return;state.wrapMode=WrapMode.Loop;granAnim.CrossFade(clip,.2f);}
   List<string> Route(string from,string to){var prev=new Dictionary<string,string>{{from,null}};var q=new Queue<string>();q.Enqueue(from);
    while(q.Count>0){var n=q.Dequeue();if(n==to)break;foreach(var e in Edges){string next=e[0]==n?e[1]:e[1]==n?e[0]:null;if(next!=null&&!prev.ContainsKey(next)){prev[next]=n;q.Enqueue(next);}}}
    var path=new List<string>();for(var n=to;n!=null;n=prev.ContainsKey(n)?prev[n]:null)path.Insert(0,n);return path;}
   IEnumerator GranWalk(string to,float speed=.9f){
-   var g=flat.grandmother.transform;if(!flat.grandmother.activeSelf)GranShow(granNode,0);GranPlay(granWalk);granWalking=true;
-   foreach(var node in Route(granNode,to)){var target=Nodes[node];while(true){var d=target-g.position;d.y=0;if(d.magnitude<.05f)break;g.rotation=Quaternion.Slerp(g.rotation,Quaternion.LookRotation(d),1-Mathf.Exp(-8*Time.deltaTime));g.position=Vector3.MoveTowards(g.position,target,speed*Time.deltaTime);yield return null;}granNode=node;}
+   var g=flat.grandmother.transform;if(!flat.grandmother.activeSelf)GranShow(granNode,0);
+   int my=++granToken; // a newer walk order cancels an older one
+   GranPlay(granWalk);granWalking=true;
+   foreach(var node in Route(granNode,to)){var target=Nodes[node];while(true){if(my!=granToken)yield break;var d=target-g.position;d.y=0;if(d.magnitude<.05f)break;g.rotation=Quaternion.Slerp(g.rotation,Quaternion.LookRotation(d),1-Mathf.Exp(-8*Time.deltaTime));g.position=Vector3.MoveTowards(g.position,target,speed*Time.deltaTime);yield return null;}granNode=node;}
    GranPlay(granIdle);granWalking=false;}
   IEnumerator GranFace(Vector3 point,float seconds=.6f){var g=flat.grandmother.transform;var d=point-g.position;d.y=0;if(d.sqrMagnitude<.001f)yield break;var from=g.rotation;var to=Quaternion.LookRotation(d);for(float t=0;t<seconds;t+=Time.deltaTime){g.rotation=Quaternion.Slerp(from,to,t/seconds);yield return null;}g.rotation=to;}
   void GranLookAtPlayerWhenNear(){if(!flat.grandmother.activeSelf||granWalking)return;var g=flat.grandmother.transform;var d=player.transform.position-g.position;d.y=0;if(d.magnitude<2.2f&&d.sqrMagnitude>.01f)g.rotation=Quaternion.Slerp(g.rotation,Quaternion.LookRotation(d),1-Mathf.Exp(-3*Time.deltaTime));}
-  bool granWalking;
+  bool granWalking;int granToken;
   IEnumerator GranGo(string to){yield return GranWalk(to);}
 
   // ---------- lifecycle ----------
@@ -92,9 +94,10 @@ namespace Ataka.Scenario {
   public void Continue(){var s=HasSave?JsonUtility.FromJson<Save>(System.IO.File.ReadAllText(savePath)):null;Begin(s?.chapter??"Prologue",s);}
   void Begin(string at,Save s=null){
    StopAll();loop.Thought("",0);player.hasFlashlight=s!=null&&s.flashlight;belt=s!=null&&s.belt;
+   if(at=="Loop"){chapter=Chapter.Loop;flat.entrance.direction=1;loop.ResumeSavedLap();return;}
    running=StartCoroutine(at switch{"Evening"=>Evening(false),"Night1"=>Night1(false),"Night2"=>Night2(false),"Finale"=>Finale(),_=>Prologue()});
   }
-  public void Abandon(){StopAll();chapter=Chapter.Loop;}
+  public void Abandon(){StopAll();chapter=Chapter.Loop;flat.entrance.direction=1;}
   void StopAll(){if(running!=null)StopCoroutine(running);StopAllCoroutines();acts.Clear();card=null;fade=0;objective="";choiceA=choiceB=null;scenes.Cancel();loop.chase.Stop();sound.ResetWorld();if(tv)tv.storyOn=false;if(strap)strap.enabled=false;}
   void Update(){
    if(!OwnsFlat||player.paused)return;
@@ -107,7 +110,8 @@ namespace Ataka.Scenario {
    loop.Progress.RestoreCheckpoint(1);foreach(var g in flat.conditionGroups)g.SetActive(false);if(flat.dressing)flat.dressing.Apply(1);
    if(warm)flat.look.WarmReturn();else flat.look.Apply(FlatCondition.Blackout);
    flat.kitchen.locked=flat.bath.locked=false;flat.bedroom.locked=false;flat.bedroom.closedAngle=0;flat.living.locked=false;flat.living.open=true;
-   flat.carpet.locked=true;flat.carpet.open=false;flat.entrance.scripted=false;flat.balconyDoor.locked=true;flat.balconyDoor.open=false;flat.balconyDoor.closedAngle=0;
+   // The flat door swings into the hall in the story: the 1 m vestibule leaves no room for an outward swing past the player.
+   flat.carpet.locked=true;flat.carpet.open=false;flat.entrance.scripted=false;flat.entrance.direction=-1;flat.balconyDoor.locked=true;flat.balconyDoor.open=false;flat.balconyDoor.closedAngle=0;
    foreach(var d in flat.wardrobeLeaves)d.localRotation=Quaternion.identity;
    flat.guest.SetActive(false);flat.slipper.SetActive(false);flat.televisionLight.intensity=0;flat.clock.stopped=false;
    if(flat.hallCupboard)flat.hallCupboard.ResetForLap();flat.torchPickup.gameObject.SetActive(!player.hasFlashlight);
@@ -135,7 +139,7 @@ namespace Ataka.Scenario {
   IEnumerator Evening(bool continued){
    chapter=Chapter.Evening;
    if(!continued){loop.Pause(false);Homely(true);flat.stool.SetActive(true);flat.stool.transform.SetPositionAndRotation(new Vector3(7.15f,0,1.2f),Quaternion.identity);player.Place(ScenarioLayout.Spawn,180);GranShow("Kitchen",90);yield return Fade(0,.8f);}
-   Checkpoint("Evening");flat.clock.stopped=true;Clock(19,15);
+   Checkpoint("Evening");flat.clock.stopped=true;Clock(19,15);OfferFlashlight();
    // 4.1
    Task("Повесить куртку и разуться");
    yield return Use(new Vector3(8.72f,1.6f,5.1f),"Повесить куртку");sound.Play("carpet_step",player.transform.position);
@@ -225,6 +229,10 @@ namespace Ataka.Scenario {
    yield return ValyaAtTheDoor(false);
    yield return Night1(true);
   }
+  // "Фонарик в трюмо": the hall cupboard works in every story chapter (LoopDirector handles it only inside the loop).
+  void OfferFlashlight(){var c=flat.hallCupboard;if(!c||player.hasFlashlight)return;OfferCupboardOpen();
+   Offer(()=>c.interaction.position,"Взять фонарик-«жучок»",0,1.7f,Key.E,()=>!player.hasFlashlight&&c.ReadyToTake,()=>{c.Take(player);Say("","Фонарик. F — включить, держать F — подкачать",4);});}
+  void OfferCupboardOpen(){var c=flat.hallCupboard;Offer(()=>c.interaction.position,"Открыть тумбу трюмо",0,1.7f,Key.E,()=>!player.hasFlashlight&&!c.door.open,()=>{sound.Play(c.door.ToggleWithCue(),c.interaction.position);if(!player.hasFlashlight)OfferCupboardOpen();});}
   Light FlameLight(Vector3 at){var g=new GameObject("Gas flame (story)");g.transform.position=at;var l=g.AddComponent<Light>();l.type=LightType.Point;l.color=new Color(.35f,.55f,1);l.intensity=.6f;l.range=1.2f;l.shadows=LightShadows.None;return l;}
 
   IEnumerator ValyaAtTheDoor(bool second){
@@ -259,7 +267,7 @@ namespace Ataka.Scenario {
   IEnumerator Night1(bool continued){
    chapter=Chapter.Night1;night=1;
    if(!continued){loop.Pause(false);Homely(true);flat.clock.stopped=false;flat.entrance.locked=true;flat.stool.SetActive(true);flat.stool.transform.SetPositionAndRotation(new Vector3(5.5f,0,5.8f),Quaternion.identity);player.Place(ScenarioLayout.Spawn,180);yield return Fade(0,.8f);}
-   Checkpoint("Night1");Task("Дождаться бабушку");
+   Checkpoint("Night1");Task("Дождаться бабушку");if(!continued)OfferFlashlight();
    yield return NightMinutesUntil22();
    yield return NightEvents(1,false);
   }
@@ -360,7 +368,7 @@ namespace Ataka.Scenario {
 
   // ---------- 6.1 Rewind ----------
   IEnumerator Rewind(){
-   loop.prompt.text="";fade=1;yield return new WaitForSeconds(1);
+   loop.prompt.text="";acts.Clear();fade=1;yield return new WaitForSeconds(1);
    flat.look.disruption=1;fade=0;Homely(true);flat.balconyDoor.closedAngle=0;
    string[] flashes={"…дверь балкона закрывается сама…","…побелка взлетает обратно на потолок…","…телефон… стук… «Рубин» гаснет внутрь…","…бабушка с вареньем…","…шифоньер. Дедов ремень…","…«тук-тук… тук»…","…лампочка…"};
    foreach(var f in flashes){card=f;sound.Play("clock",ScenarioLayout.Clock);yield return new WaitForSeconds(1.1f);}
@@ -377,7 +385,7 @@ namespace Ataka.Scenario {
    yield return Night2Body();
   }
   IEnumerator Night2Body(){
-   chapter=Chapter.Night2;Task("Запомни, как это было");nightSeconds=21*3600+42*60;NightClock();
+   chapter=Chapter.Night2;Task("Запомни, как это было");OfferFlashlight();nightSeconds=21*3600+42*60;NightClock();
    // Preparation: belt, torch, (candles optional are not implemented)
    Act takeBelt=null,tie=null;
    takeBelt=Offer(()=>flat.wardrobe.position+new Vector3(-.3f,1.3f,0),"Взять дедов ремень",0,2,Key.E,()=>!belt,()=>{belt=true;foreach(var d in flat.wardrobeLeaves)d.localRotation=Quaternion.Euler(0,95,0);sound.Play("door_open",flat.wardrobe.position);Say("","Ремень. Тот самый",2.5f);});
@@ -398,7 +406,7 @@ namespace Ataka.Scenario {
 
   // ---------- 9/10. Loop and chase (existing core) ----------
   IEnumerator EnterLoop(){
-   chapter=Chapter.Loop;objective="";if(strap)strap.enabled=false;flat.clock.stopped=false;
+   chapter=Chapter.Loop;objective="";if(strap)strap.enabled=false;flat.clock.stopped=false;flat.entrance.open=false;flat.entrance.leaf.localRotation=Quaternion.identity;flat.entrance.direction=1;
    loop.EnterLap(1);player.Place(ScenarioLayout.Spawn,180);Checkpoint("Loop");yield break;
   }
   public void ChaseFinished(){if(running!=null)StopCoroutine(running);running=StartCoroutine(Finale());}

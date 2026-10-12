@@ -115,6 +115,9 @@ namespace Ataka.Scenario {
   public void FinishCore(){if(story&&!testing&&(story.chapter==StoryDirector.Chapter.Loop||story.chapter==StoryDirector.Chapter.None)){Finished=true;prompt.text=subtitle.text="";flat.player.chasing=false;foreach(var group in flat.conditionGroups)group.SetActive(false);if(flat.dressing)flat.dressing.Apply(1);story.ChaseFinished();return;}FinishCoreTest();}
   public void EndStory(){story.chapter=StoryDirector.Chapter.None;Finished=true;prompt.text=subtitle.text="";Pause(true);}
   void FinishCoreTest(){Finished=true;prompt.text=subtitle.text="";flat.player.chasing=false;foreach(var group in flat.conditionGroups)group.SetActive(false);if(flat.dressing)flat.dressing.Apply(1);flat.look.WarmReturn();flat.clock.Show(22*3600);flat.player.Place(ScenarioLayout.Spawn,180);Pause(true);}
+  public void ResumeSavedLap(){StopAllCoroutines();scenes.Cancel();chase.Stop();sound.ResetWorld();Finished=false;
+   if(!System.IO.File.Exists(savePath)){EnterLap(1);flat.player.Place(ScenarioLayout.Spawn,180);return;}
+   var s=JsonUtility.FromJson<Save>(System.IO.File.ReadAllText(savePath));flat.player.hasFlashlight=s.flashlight;EnterLap(Mathf.Clamp(s.lap,1,6));flat.player.Place(ScenarioLayout.Spawn,180);if(s.chase)StartCoroutine(BeginChase());}
   void OnGUI(){if(!paused)return;var r=new Rect((Screen.width-620)/2,(Screen.height-560)/2,620,560);GUI.Box(r,"");GUILayout.BeginArea(new Rect(r.x+25,r.y+20,r.width-50,r.height-40));
    GUILayout.Label(Finished?"КОНЕЦ":"АТАКА НА ЗАПОМИНАНИЕ",new GUIStyle(GUI.skin.label){fontSize=24});GUILayout.Space(20);
    GUILayout.Label("Тест по SCENARIO.md. Временные модели и звуки.\nWASD / мышь · Shift — бег · Ctrl — присесть\nE — действие · F — фонарь, удерживать — подкачка\nC — оглянуться в погоне · Esc — пауза",new GUIStyle(GUI.skin.label){fontSize=18,wordWrap=true});GUILayout.Space(25);
@@ -123,7 +126,7 @@ namespace Ataka.Scenario {
    if(story&&story.HasSave&&!story.Active&&GUILayout.Button("Продолжить с сохранения",GUILayout.Height(36))){StopAllCoroutines();scenes.Cancel();chase.Stop();sound.ResetWorld();Finished=false;Pause(false);story.Continue();}
    if(!Finished&&(!story||!story.Active)&&GUILayout.Button("Продолжить (тест петли)",GUILayout.Height(30)))Pause(false);
    if(GUILayout.Button("Петля с начала (тест ядра)",GUILayout.Height(30))){if(story)story.Abandon();StopAllCoroutines();scenes.Cancel();chase.Stop();sound.ResetWorld();Finished=false;flat.player.hasFlashlight=false;EnterLap(1);flat.player.Place(ScenarioLayout.Spawn,180);Pause(false);}
-   if(!Finished&&System.IO.File.Exists(savePath)&&GUILayout.Button("Продолжить с сохранённого круга",GUILayout.Height(32))){if(story)story.Abandon();var s=JsonUtility.FromJson<Save>(System.IO.File.ReadAllText(savePath));StopAllCoroutines();scenes.Cancel();chase.Stop();sound.ResetWorld();flat.player.hasFlashlight=s.flashlight;EnterLap(Mathf.Clamp(s.lap,1,6));flat.player.Place(ScenarioLayout.Spawn,180);Pause(false);if(s.chase)StartCoroutine(BeginChase());}
+   if(!Finished&&System.IO.File.Exists(savePath)&&GUILayout.Button("Продолжить с сохранённого круга",GUILayout.Height(32))){if(story)story.Abandon();ResumeSavedLap();Pause(false);}
    if(GUILayout.Button("Выйти",GUILayout.Height(32)))Application.Quit();GUILayout.EndArea();
   }
   void OnDestroy(){Time.timeScale=1;AudioListener.pause=false;}
