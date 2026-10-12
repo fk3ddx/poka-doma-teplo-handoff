@@ -608,7 +608,7 @@ namespace Ataka.Scenario {
    ("Album/album_03","Мама маленькая.","Мама твоя. Маленькая совсем."),
    ("Album/album_04","Кот Барсик.","Барсик. Всё на балконе сидел, деда ждал."),
    ("Album/album_05","Миша, первый класс.","А это ты. Первый класс, ревел с утра."),
-   ("Album/album_06","Лето 1993, у подъезда. Бабушка, пустой стул с дедовой кепкой, Валя с Тузиком, Миша в центре — и рядом светлое засвеченное пятно.","Это кто тут… не помню. Плёнка, наверное, засветилась.")};
+   ("Album/album_06","Лето 1993, у подъезда.","Это кто тут… не помню. Плёнка, наверное, засветилась.")};
   public const string AlbumEpilogue="Album/album_06_epilogue";
   IEnumerator Read(string title,List<PageViewer.Page> pages,System.Action<int> onPage=null){
    leisure=true;leaveLeisure=false;var p=player;bool had=p.control;p.control=false;var v=Viewer();v.Open(title,pages);int shown=-1;
@@ -945,7 +945,7 @@ namespace Ataka.Scenario {
    QaEpiloguePart="credits";sound.Bed("clock",ScenarioLayout.Clock,true);
    yield return Card("АТАКА НА ЗАПОМИНАНИЕ\n«Пока дома тепло»\n\nСценарий и игра: Дима, Claude, Codex\nГостья, мебель и звуки — авторы CC0 / CC-BY, см. CREDITS.md",6);
    // (4) the album's last spread: three pale spots now (image Resources/Album/album_06_epilogue.png)
-   QaEpiloguePart="album";var v=Viewer();v.Open("Фотоальбом",new[]{new PageViewer.Page{resource=AlbumEpilogue,caption="Лето 1993, у подъезда. Теперь засвеченных пятен три: старое, на месте бабушки — и на месте Миши в центре. Валя с Тузиком улыбаются рядом с пустотой."}});
+   QaEpiloguePart="album";var v=Viewer();v.Open("Фотоальбом",new[]{new PageViewer.Page{resource=AlbumEpilogue,caption="Лето 1993, у подъезда."}});
    yield return new WaitForSeconds(7);
    // the ticking breaks off
    QaEpiloguePart="end";sound.ResetWorld();v.Close();yield return new WaitForSeconds(1.5f);
