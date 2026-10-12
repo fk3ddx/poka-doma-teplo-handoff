@@ -50,10 +50,11 @@ namespace Ataka.Scenario {
   // Finale 3.2 beat (f 3.0–4.2): the right claw hand rises from below the frame to her face and covers it (story25-a:
   // the full-version keys kept it below the frame — the beat showed no hand at all).
   static readonly Key[] RightFinale={
-   new Key(3f,new Vector3(.3f,-.8f,.55f),new Vector3(-.2f,.95f,.15f),new Vector3(0f,0f,-1f)),
-   new Key(3.5f,new Vector3(.14f,-.42f,.6f),new Vector3(-.1f,.98f,.1f),new Vector3(0f,0f,-1f)),
-   new Key(4.2f,new Vector3(.06f,-.05f,.62f),new Vector3(-.05f,1f,.05f),new Vector3(0f,0f,-1f)),
-   new Key(9f,new Vector3(.06f,-.05f,.62f),new Vector3(-.05f,1f,.05f),new Vector3(0f,0f,-1f))};
+   // story25-f: tips ended 0.5 m above her head (origin = forearm end, claws .58 further) and the palm faced the camera.
+   new Key(3f,new Vector3(.3f,-.95f,.5f),new Vector3(-.2f,.95f,.2f),new Vector3(0f,-.1f,1f)),
+   new Key(3.5f,new Vector3(.14f,-.6f,.55f),new Vector3(-.1f,.96f,.2f),new Vector3(0f,-.1f,1f)),
+   new Key(4.2f,new Vector3(.06f,-.26f,.56f),new Vector3(-.05f,.97f,.2f),new Vector3(0f,-.15f,1f)),
+   new Key(9f,new Vector3(.06f,-.26f,.56f),new Vector3(-.05f,.97f,.2f),new Vector3(0f,-.15f,1f))};
   static float FinaleTime(float t)=>t<1.5f?FullTime(t,false):t<2f?Mathf.Lerp(2f,2.6f,(t-1.5f)/.5f):t<2.9f?Mathf.Lerp(3f,4.2f,(t-2f)/.9f):4.2f+(t-2.9f);
   float F(float t)=>Finale?FinaleTime(t):FullTime(t,full);
   public float Duration(bool fullDeath)=>fullDeath?7:3.5f;
@@ -82,8 +83,10 @@ namespace Ataka.Scenario {
    fill.type=LightType.Point;fill.color=fillColor;fill.intensity=0;fill.range=fillRange;fill.shadows=LightShadows.None;
    if(UsingFallback)Debug.LogWarning("FaceTearDeath: ready claw model not installed — temporary proxy hand (see README)");
   }
-  Transform Make(GameObject source,bool mirror){
-   var wrapper=new GameObject(mirror?"Claw L (death)":"Claw R (death)").transform;wrapper.SetParent(head,false);
+  // Finale 11.6б: a loose copy of the READY claw hand, normalised like the death hands (+Z fingers, -Y palm), inactive.
+  public Transform MakeLooseClaw(float length){if(!clawSource)return null;var w=Make(clawSource,false,null,length);w.name="Claw (finale door gap)";return w;}
+  Transform Make(GameObject source,bool mirror,Transform parent=null,float length=-1){
+   if(length<=0)length=clawLength;var wrapper=new GameObject(mirror?"Claw L (death)":"Claw R (death)").transform;wrapper.SetParent(parent?parent:head,false);
    var model=Instantiate(source,wrapper,false);model.name="model";
    var proxy=model.GetComponent<CloseupHand>();Vector3 proxyFingers=Vector3.zero;
    if(proxy&&proxy.palm&&proxy.forearm)proxyFingers=model.transform.InverseTransformDirection(proxy.palm.position-proxy.forearm.position);
@@ -93,7 +96,7 @@ namespace Ataka.Scenario {
    model.transform.localPosition=Vector3.zero;model.transform.localRotation=proxyFingers.sqrMagnitude>1e-6f?Quaternion.FromToRotation(proxyFingers.normalized,Vector3.forward):clawFingers.sqrMagnitude>1e-6f&&clawPalm.sqrMagnitude>1e-6f?Quaternion.Euler(clawEuler)*Quaternion.AngleAxis(clawRoll,Vector3.forward)*Quaternion.Inverse(Quaternion.LookRotation(clawFingers,-clawPalm)):Quaternion.Euler(clawEuler);model.transform.localScale=Vector3.one;
    // Normalise: longest extent = clawLength, wrist at the origin, nails toward +Z.
    var rs=model.GetComponentsInChildren<Renderer>(true);if(rs.Length>0){
-    var b=Local(wrapper,rs);float longest=Mathf.Max(b.size.x,Mathf.Max(b.size.y,b.size.z));if(longest>1e-4f)model.transform.localScale=Vector3.one*(clawLength/longest);
+    var b=Local(wrapper,rs);float longest=Mathf.Max(b.size.x,Mathf.Max(b.size.y,b.size.z));if(longest>1e-4f)model.transform.localScale=Vector3.one*(length/longest);
     b=Local(wrapper,rs);model.transform.localPosition-=new Vector3(b.center.x,b.center.y,b.min.z);
     foreach(var r in rs){r.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;r.receiveShadows=false;if(r is SkinnedMeshRenderer s)s.updateWhenOffscreen=true;
      if(UsingFallback){var block=new MaterialPropertyBlock();block.SetColor("_BaseColor",skinTint);block.SetFloat("_Smoothness",.55f);r.SetPropertyBlock(block);}}

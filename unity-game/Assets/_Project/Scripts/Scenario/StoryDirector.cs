@@ -628,7 +628,12 @@ namespace Ataka.Scenario {
   public bool QaRefusedCard{get;private set;}public GranRig QaRig=>rig;public DoorChain QaChain=>chain;public Transform QaProp(string id)=>Prop(id);
   public void QaFinaleOpen(){openedDoorFinale=true;}
   public const float ChainGap=8.5f;public static readonly Vector3 GapView=new Vector3(6.95f,.02f,5.6f); // his staged view of the chain slot (11.6б)
-  bool chainTaken;(float intensity,Color color)? landingBefore;
+  bool chainTaken;GapClaw gapClaw;float? nearBefore;
+  void NearClip(float v){var cam=scenes.cine;if(!cam)return;var l=cam.Lens;if(!nearBefore.HasValue)nearBefore=l.NearClipPlane;l.NearClipPlane=v;cam.Lens=l;}
+  void RestoreNear(){var cam=scenes.cine;if(!cam||!nearBefore.HasValue)return;var l=cam.Lens;l.NearClipPlane=nearBefore.Value;cam.Lens=l;nearBefore=null;}
+  // QA: the stretching hand — the ready claw while it is on, else the Katcho fingertip.
+  public GapClaw QaGapClaw=>gapClaw;public Vector3 HandTip=>gapClaw&&gapClaw.On?gapClaw.Tip:rig?rig.Tip(true):Vector3.zero;
+  public float QaClawMaxStretch{get;private set;}(float intensity,Color color)? landingBefore;
   void RestoreLanding(){var l=scenes.landingLight;if(l&&landingBefore.HasValue){l.intensity=landingBefore.Value.intensity;l.color=landingBefore.Value.color;}landingBefore=null;}
   IEnumerator HoldLook(ScenarioPlayer p,Vector3 at,Func<bool> until){while(!until()){p.head.rotation=Quaternion.Slerp(p.head.rotation,Quaternion.LookRotation(at-p.head.position),1-Mathf.Exp(-6*Time.deltaTime));yield return null;}} // leaf angle on the chain: ~10 cm between the jamb corner and the free edge (wall 0.35 m)
   public static readonly Vector3 FridgeStand=new Vector3(7.95f,0,2.15f),SinkStand=new Vector3(7.35f,0,1.6f),StoveStand=new Vector3(8.0f,0,1.65f),KettleFront=new Vector3(8.48f,.86f,1.55f),KettleBack=new Vector3(8.48f,.86f,1.85f),TapAt=new Vector3(7.0f,1.16f,1.6f);
@@ -638,7 +643,7 @@ namespace Ataka.Scenario {
   public readonly Dictionary<string,float> QaReachError=new Dictionary<string,float>();
   Vector3 Stand(Vector3 raw){Nav.Ensure();return Nav.Snap(raw,.5f,out var q)?q:raw;}
   GranRig Rig(){if(!rig){rig=flat.grandmother.GetComponent<GranRig>();if(!rig)rig=flat.grandmother.AddComponent<GranRig>();granScale=flat.grandmother.transform.localScale;}rig.Init();return rig;}
-  void FinaleReset(){RestoreLanding();if(rig){rig.ResetAll();flat.grandmother.transform.localScale=granScale;}if(chain)Destroy(chain.gameObject);chain=null;granHeld=false;if(granAnim)granAnim.enabled=true;
+  void FinaleReset(){RestoreLanding();if(gapClaw){Destroy(gapClaw.gameObject);gapClaw=null;}RestoreNear();if(rig){rig.ResetAll();flat.grandmother.transform.localScale=granScale;}if(chain)Destroy(chain.gameObject);chain=null;granHeld=false;if(granAnim)granAnim.enabled=true;
    foreach(var l in FindObjectsByType<Light>(FindObjectsInactive.Include,FindObjectsSortMode.None))if(l.name=="Match flame (story)")Destroy(l.gameObject);}
   IEnumerator Wait(float s){for(float t=0;t<s;t+=Time.deltaTime)yield return null;}
   // She walks a short straight stretch inside one room (the kitchen, the doorway) with the authored walk clip.
@@ -653,7 +658,7 @@ namespace Ataka.Scenario {
    foreach(var h in Physics.RaycastAll(from,d.normalized,d.magnitude-.05f,~(1<<31),QueryTriggerInteraction.Ignore))if(!h.transform.IsChildOf(player.transform)&&!h.transform.IsChildOf(flat.grandmother.transform))return false;return true;}
 
   IEnumerator Finale(){
-   FinaleReset();QaFinaleBeats.Clear();QaReachError.Clear();QaRefusedCard=false;
+   FinaleReset();QaFinaleBeats.Clear();QaReachError.Clear();QaRefusedCard=false;QaClawMaxStretch=0;
    chapter=Chapter.Finale;loop.Pause(false);Homely(true);PropsAfterEvening();Put("Kettle",KettleBack);flat.clock.stopped=false;Clock(22,0);
    flat.stool.SetActive(true);flat.stool.transform.SetPositionAndRotation(new Vector3(5.5f,0,5.8f),Quaternion.identity);if(strap)strap.enabled=false;flat.entrance.locked=true;
    if(flat.look.exterior)flat.look.exterior.Blackout(false);
@@ -696,15 +701,20 @@ namespace Ataka.Scenario {
    var fwd=p.transform.forward;fwd.y=0;fwd.Normalize();var stand=p.transform.position+fwd*.34f;stand.y=0;var outside=new Vector3(7.95f,0,6.7f);
    var g=flat.grandmother;g.SetActive(true);g.transform.SetPositionAndRotation(outside,Quaternion.LookRotation(stand-outside));GranPlay(granIdle);yield return Wait(.6f);
    yield return GranStep(stand,.9f);g.transform.rotation=Quaternion.LookRotation(-fwd);
-   // the hug: her arms round his back, his face pressed to her left shoulder
-   var r=Rig();var hugHeadStart=p.head.position;Beat("hug");Say("Бабушка","Замёрз? Сейчас чайку поставлю",3);
-   r.poleL=-g.transform.right-g.transform.up*.3f;r.poleR=g.transform.right-g.transform.up*.3f;
+   // the hug (story25-f: looking AT her shoulder from 0.25 m filled the frame with her coat and both forearms, which
+   // reached for a point just behind the lens). Cheek to cheek instead: his eye beside her left ear, looking PAST her
+   // into the lit hall and the open door behind her; the back of her head and headscarf at the frame edge, her
+   // shoulder below; her hands meet behind his back, i.e. behind the camera. Near plane .02 for the hug only.
+   var r=Rig();var gt=g.transform;var hugHeadStart=p.head.position;var hugLookStart=p.head.rotation;Beat("hug");Say("Бабушка","Замёрз? Сейчас чайку поставлю",3);NearClip(.02f);
+   r.poleL=-gt.right-gt.up*.3f;r.poleR=gt.right-gt.up*.3f;
    for(float t=0;t<3.2f;t+=Time.deltaTime){
-    var head=p.head.position;var pr=p.transform.right;float w=Mathf.SmoothStep(0,1,Mathf.Clamp01(t/.5f))*(t>2.7f?Mathf.Clamp01((3.2f-t)/.5f):1);
-    r.Reach(false,head+pr*.17f-fwd*.12f-Vector3.up*.32f,w);r.Reach(true,head-pr*.17f-fwd*.12f-Vector3.up*.32f,w);
-    var shoulder=r.upperL.position+Vector3.up*.09f;var hugEye=shoulder+g.transform.forward*.24f+Vector3.up*.08f;float lean=Mathf.SmoothStep(0,1,Mathf.Clamp01(t/.7f))*(t>2.5f?Mathf.Clamp01((3.2f-t)/.7f):1);p.head.position=Vector3.Lerp(hugHeadStart,hugEye,lean);head=p.head.position;p.head.rotation=Quaternion.Slerp(p.head.rotation,Quaternion.LookRotation(shoulder-head),1-Mathf.Exp(-8*Time.deltaTime));
+    float w=Mathf.SmoothStep(0,1,Mathf.Clamp01(t/.5f))*(t>2.7f?Mathf.Clamp01((3.2f-t)/.5f):1);float lean=Mathf.SmoothStep(0,1,Mathf.Clamp01(t/.7f))*(t>2.5f?Mathf.Clamp01((3.2f-t)/.7f):1);
+    var ear=r.head.position-gt.right*.17f+gt.forward*.02f-Vector3.up*.02f;p.head.position=Vector3.Lerp(hugHeadStart,ear,lean);var eye=p.head.position;
+    var past=eye-gt.forward*2+gt.right*.45f-Vector3.up*.35f; // ~12° towards her, ~10° down
+    p.head.rotation=Quaternion.Slerp(hugLookStart,Quaternion.LookRotation(past-eye),lean);
+    var torso=eye+gt.forward*.1f-Vector3.up*.35f;r.Reach(false,torso+gt.forward*.14f+gt.right*.12f,w);r.Reach(true,torso+gt.forward*.14f-gt.right*.12f,w);
     yield return null;}
-   p.head.position=hugHeadStart;r.weightL=r.weightR=0;r.poleL=r.poleR=null;Beat("hug-end");
+   p.head.position=hugHeadStart;RestoreNear();r.weightL=r.weightR=0;r.poleL=r.poleR=null;Beat("hug-end");
    yield return GranStep(g.transform.position-g.transform.forward*.45f+Vector3.zero,.6f);
    HandBack(p,body);
   }
@@ -729,14 +739,22 @@ namespace Ataka.Scenario {
    var gap=new Vector3(7.60f,1.43f,5.955f);var outside=new Vector3(7.72f,1.38f,6.25f);
    yield return GranReach(true,outside,.4f);yield return GranReach(true,gap,.6f,"gap");Beat("grope");
    float seen=0;for(float t=0;t<20&&seen<1.2f;t+=Time.deltaTime){var le=chain.LeafEnd;r.Reach(true,le+new Vector3(-.04f+Mathf.Sin(t*2.3f)*.03f,Mathf.Sin(t*3.1f)*.025f,-.01f),1);if(Sees(r.Tip(true)))seen+=Time.deltaTime;yield return null;}
-   Beat("fingers");float[] cracks={.15f,.6f,1.1f,1.6f};int c=0;
-   for(float t=0;t<2;t+=Time.deltaTime){r.handScale=Mathf.Lerp(1,2.2f,Mathf.SmoothStep(0,1,t/2));r.forearmScale=Mathf.Lerp(1,1.12f,t/2);r.Reach(true,chain.LeafEnd+Vector3.down*.01f,1);
-    if(c<cracks.Length&&t>=cracks[c]){sound.Play("finger_crack",r.Tip(true));c++;}yield return null;}
-   Beat("chain-off");chain.Hold(()=>r.Tip(true));
+   // The fingers stretch (2 s): her block hand lengthens for 0.45 s, then on a crack it IS the ready claw hand (GapClaw,
+   // her own hand collapsed), which keeps lengthening; the long nail lifts the chain; on the way back the claw shrinks
+   // and her ordinary hand returns. Without a ready claw model the block hand stretches as before.
+   Beat("fingers");float[] cracks={.15f,.45f,1.1f,1.6f};int c=0;var claw=GapClaw.Create(r,scenes.faceTear);gapClaw=claw;
+   Vector3 Aim(Vector3 nail)=>claw&&claw.On?nail-(nail-r.upperR.position).normalized*claw.Protrusion:nail; // the wrist target that puts the claw tips on `nail`
+   for(float t=0;t<2;t+=Time.deltaTime){
+    if(claw&&t>=.45f){if(!claw.On)claw.Show(true);claw.stretch=Mathf.Lerp(.62f,1,Mathf.SmoothStep(0,1,(t-.45f)/1.55f));QaClawMaxStretch=Mathf.Max(QaClawMaxStretch,claw.stretch);}
+    else r.handScale=Mathf.Lerp(1,claw?1.6f:2.2f,Mathf.SmoothStep(0,1,claw?t/.45f:t/2));
+    r.forearmScale=Mathf.Lerp(1,1.12f,t/2);r.Reach(true,Aim(chain.LeafEnd+Vector3.down*.01f),1);
+    if(c<cracks.Length&&t>=cracks[c]){sound.Play("finger_crack",HandTip);c++;}yield return null;}
+   Beat("chain-off");chain.Hold(()=>HandTip);
    var from=chain.LeafEnd;var to=chain.Anchor+(chain.LeafEnd-chain.Anchor)*.25f+Vector3.up*.03f;
-   for(float t=0;t<.6f;t+=Time.deltaTime){r.Reach(true,Vector3.Lerp(from,to,Mathf.SmoothStep(0,1,t/.6f)),1);yield return null;}
+   for(float t=0;t<.6f;t+=Time.deltaTime){r.Reach(true,Aim(Vector3.Lerp(from,to,Mathf.SmoothStep(0,1,t/.6f))),1);yield return null;}
    chain.Hang();sound.Play("latch",chain.Anchor); // no chain-jingle recording: the latch clink stands in
-   for(float t=0;t<.4f;t+=Time.deltaTime){r.handScale=Mathf.Lerp(2.2f,1,t/.4f);r.forearmScale=Mathf.Lerp(1.12f,1,t/.4f);yield return null;}r.handScale=r.forearmScale=1;Beat("hand-normal");
+   for(float t=0;t<.4f;t+=Time.deltaTime){if(claw&&claw.On)claw.stretch=Mathf.Lerp(1,.62f,t/.4f);else r.handScale=Mathf.Lerp(2.2f,1,t/.4f);r.forearmScale=Mathf.Lerp(1.12f,1,t/.4f);yield return null;}
+   if(claw){claw.Show(false);sound.Play("finger_crack",r.Tip(true));Destroy(claw.gameObject);gapClaw=null;}r.handScale=r.forearmScale=1;Beat("hand-normal");
    yield return GranReach(true,outside,.4f);yield return GranLower(true,.3f);r.poleR=null;chainTaken=true;yield return null;HandBack(p,body);
    e.scripted=false;e.open=true;sound.Play("door_open",door);yield return Wait(.7f);RestoreLanding();
    Beat("enter");yield return GranStep(Nodes["Door"],.8f);yield return GranFace(player.head.position,.4f);

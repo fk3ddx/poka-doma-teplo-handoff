@@ -13,7 +13,7 @@ namespace Ataka.Scenario {
  // part / recording — they are reported, not passed.
  public sealed class FinaleQA:MonoBehaviour {
   string output,branch="open";readonly List<string> checks=new List<string>();int errors,failures;
-  [Serializable] class Result {public string branch;public bool passed,epilogue,refusedCard;public int failures,errors,beats,cracksDuringFingers;public float transformSeconds,tearSeconds,grownTop,handScaleMax,chainGapDegrees,hugShoulderDistance;public string[] beatOrder,reachErrors;}
+  [Serializable] class Result {public string branch;public bool passed,epilogue,refusedCard;public int failures,errors,beats,cracksDuringFingers;public float clawMaxStretch,transformSeconds,tearSeconds,grownTop,handScaleMax,chainGapDegrees,hugShoulderDistance;public string[] beatOrder,reachErrors;}
   readonly Result result=new Result();
   [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]static void Boot(){
    var args=Environment.GetCommandLineArgs();int i=Array.IndexOf(args,"-finale-qa");if(i<0||i+1>=args.Length)return;
@@ -50,7 +50,7 @@ namespace Ataka.Scenario {
      // beat checks
      var g=flat.grandmother.transform;
      if(beat=="grope"||beat=="fingers"){float ang=Mathf.Abs(Mathf.DeltaAngle(0,flat.entrance.leaf.localEulerAngles.y));result.chainGapDegrees=ang;Check(Mathf.Abs(ang-StoryDirector.ChainGap)<1&&chain.Is==DoorChain.State.Engaged,beat+": the door stands on the chain at "+ang.ToString("F1")+"° (chain "+chain.Is+")");}
-     if(beat=="chain-off")Check(rig.handScale>=2.1f,"chain-off: the hand stretched to "+rig.handScale.ToString("F2")+"× before lifting the chain");
+     if(beat=="chain-off"){var cl=story.QaGapClaw;Check(cl?cl.On&&cl.stretch>=.95f&&rig.handScale<.05f:rig.handScale>=2.1f,cl?"chain-off: the ready claw hand is on (stretch "+cl.stretch.ToString("F2")+"), her block hand collapsed ("+rig.handScale.ToString("F2")+") — one hand, not two":"chain-off: no ready claw — the block hand stretched to "+rig.handScale.ToString("F2")+"×");}
      if(beat=="hand-normal")Check(chain.Is==DoorChain.State.Hanging&&Mathf.Abs(rig.handScale-1)<.01f,"the chain hangs from its slot and the hand is normal again ("+chain.Is+", "+rig.handScale.ToString("F2")+"×)");
      if(beat=="door-locked")Check(flat.entrance.locked&&!flat.entrance.open,"the entrance locks itself behind her");
      if(beat=="strike"){var box=story.QaProp("Matchbox");Check(box&&Vector3.Distance(box.position,rig.Tip(true))<.2f,"strike: the matchbox is in her hand ("+(box?Vector3.Distance(box.position,rig.Tip(true)).ToString("F2"):"none")+" m from the fingertip)");}
@@ -68,7 +68,8 @@ namespace Ataka.Scenario {
     if(hugAt>0&&hm<hugMarks.Length&&Time.time-hugAt>=hugMarks[hm]){var sh=(rig.neck.position+rig.upperL.position)*.5f;float d=Vector3.Distance(p.head.position,sh);if(hm==1){result.hugShoulderDistance=d;Check(d<.45f&&rig.weightL>.9f&&rig.weightR>.9f,"11.6а hug: camera "+d.ToString("F2")+" m from her shoulder, both arms round him (IK "+rig.weightL.ToString("F2")+"/"+rig.weightR.ToString("F2")+")");}
      yield return Shot("hug-"+hugMarks[hm].ToString("0.0",System.Globalization.CultureInfo.InvariantCulture));hm++;continue;}
     if(fingersAt>0&&last=="fingers"){result.handScaleMax=Mathf.Max(result.handScaleMax,rig.handScale);
-     if(!fingerShot&&Time.time-fingersAt>=1f){fingerShot=true;bool vis=InFrame(p,rig.Tip(true),out var v);Check(vis&&rig.Tip(true).z<6.0f,"11.6б the stretching hand is inside the gap and in his view: tip "+rig.Tip(true).ToString("F2")+", viewport "+v.ToString("F2"));yield return Shot("fingers-1.0");}}
+     if(!fingerShot&&Time.time-fingersAt>=1f){fingerShot=true;yield return Shot("fingers-1.0");var tip=story.HandTip;var cl=story.QaGapClaw;bool vis=InFrame(p,tip,out var v);Check(vis&&tip.z<6.0f,"11.6б the stretching hand is inside the gap and in his view: tip "+tip.ToString("F2")+", viewport "+v.ToString("F2"));
+      Check(cl&&cl.On&&rig.handScale<.05f,"11.6б the ready claw hand replaces her block hand at 1.0 s (claw "+(cl?(cl.On?"on, stretch "+cl.stretch.ToString("F2"):"off"):"missing")+", block hand ×"+rig.handScale.ToString("F2")+")");}}
     if(transformAt>0&&last=="transform"&&tm<transformMarks.Length&&Time.time-transformAt>=transformMarks[tm]){
      if(transformMarks[tm]>=1.2f){var toP=p.transform.position-gr.position;toP.y=0;if(transformMarks[tm]==1.2f)Check(Vector3.Dot(gr.forward,toP.normalized)>.8f,"11.9: she has turned to him by 1.0 s (dot "+Vector3.Dot(gr.forward,toP.normalized).ToString("F2")+")");}
      yield return Shot("transform-"+transformMarks[tm].ToString("0.0",System.Globalization.CultureInfo.InvariantCulture));
@@ -92,7 +93,7 @@ namespace Ataka.Scenario {
    Check(result.epilogue,"the epilogue was reached");Check(result.refusedCard==(branch=="key"),"the «Ты не она!» card only when the door was not opened ("+result.refusedCard+")");
    Check(sawFinaleScene&&!sawDeathFull,"11.10 played as DeathFinale (short + 3.2 beat), never DeathFull");
    Check(Mathf.Abs(result.tearSeconds-3.5f)<.6f,"11.10 DeathFinale "+result.tearSeconds.ToString("F2")+" s from its start to the epilogue (3.5 s + reset), not the 7 s DeathFull");
-   if(branch=="key"){result.cracksDuringFingers=crackCount;Check(result.handScaleMax>=2.1f,"11.6б fingers stretched to "+result.handScaleMax.ToString("F2")+"× over 2 s");}
+   if(branch=="key"){result.cracksDuringFingers=crackCount;result.clawMaxStretch=story.QaClawMaxStretch;Check(result.clawMaxStretch>=.95f||result.handScaleMax>=2.1f,"11.6б fingers stretched over 2 s: claw "+result.clawMaxStretch.ToString("F2")+" of full length (from .62), block hand max ×"+result.handScaleMax.ToString("F2"));}
    foreach(var kv in story.QaReachError)Check(kv.Value<.06f,"reach "+kv.Key+": her fingertip ended "+kv.Value.ToString("F3")+" m from the target (arm with hand ≈ 0.62 m)");
    result.reachErrors=new List<string>(story.QaReachError.Keys).ConvertAll(k=>k+"="+story.QaReachError[k].ToString("F3")).ToArray();
    Check(errors==0,"no runtime errors ("+errors+")");
