@@ -140,3 +140,6 @@ Unity-примерка Katcho завершена отдельно от ядра:
 
 
 12.10 Story15: pc01–14 integrated. Actual route checks nine/nine pass after pc12; pc13 fixes grandmother wait at TV (QA yields). Ready OGA CC0 Guest installed as candidate, explicitly NOT accepted final art: short fingers/male body/no crawl. Household audio bank installed, 85 EditMode passes, 17 WAV numeric audit, listening pending. Latest complete flow-e/f FAIL on QA approach/door-pose race, zero runtime errors/routes. story15-build-g adds .65s QA settle; flow-g underway. Claude continues story props and claws. Goal ACTIVE, progress made; no full-game completion or release claim. Details docs/reviews/2026-10-12/story15-windows/README.md.
+
+## 12.10 — Story16: предметы и реальный проход до петли
+Интегрированы pc15/16: готовые чайник, спички, хлеб, ремень, сервиз; сетка проходимости расширена до балкона с проверкой опоры. Windows story16-flow-a прошёл вечер и обе ночи до Loop: errors=0, routeFailures=0. Это постановочный автопилот, не человеческая приёмка. 85/85 EditMode. Кадры и отчёты: docs/reviews/2026-10-12/story16-windows. pc17 (когти из авторской кисти) принят в исходники, ещё не установлен; старые кадры смерти отвергнуты по реальному виду и переданы Claude. Подготовлена существующая CC0-лампочка (11 см), ещё не установлена. Цель активна, игру завершённой не считать.

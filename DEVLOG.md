@@ -591,3 +591,6 @@ Evidence and game screenshots: [Story15 Windows](docs/reviews/2026-10-12/story15
 - Sources/credits: [author's OGA CC0 release](https://opengameart.org/content/3d-horror-game-monster), CREDITS-GUEST.md. Author page independently checked. 17 WAV numeric audit and 85 EditMode passes above remain limited evidence, not listening/art/gameplay acceptance.
 
 The accepted LightLab lighting/VHS and architecture were not regenerated. No new release ZIP is presented as ready. Still required: complete uninterrupted flow, negative branches, actual death-frame review, authored long claws, story props, voices and human playability/visual acceptance.
+
+## 12.10 — Story16: предметы и реальный проход до петли
+Интегрированы pc15/16: готовые чайник, спички, хлеб, ремень, сервиз; сетка проходимости расширена до балкона с проверкой опоры. Windows story16-flow-a прошёл вечер и обе ночи до Loop: errors=0, routeFailures=0. Это постановочный автопилот, не человеческая приёмка. 85/85 EditMode. Кадры и отчёты: docs/reviews/2026-10-12/story16-windows. pc17 (когти из авторской кисти) принят в исходники, ещё не установлен; старые кадры смерти отвергнуты по реальному виду и переданы Claude. Подготовлена существующая CC0-лампочка (11 см), ещё не установлена. Цель активна, игру завершённой не считать.
