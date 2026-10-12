@@ -1,0 +1,13 @@
+{
+  "label": "story27-preview",
+  "build_label": "story27-build-d",
+  "runtime_source": "35a75a3",
+  "manifest_source": "98d1a2d5fe55433c24231daff7600c278ca8e7bc",
+  "archive": "Ataka-story27-preview-win64.zip",
+  "bytes": 155952337,
+  "sha256": "ad0add9c9f48f5f9ac53e1df518d7b909e443a03fdeac98a689b433fcf3880de",
+  "runtime_files_verified": 288,
+  "story23_archive_unchanged": true,
+  "playable": "playable/Story27/Ataka-Loop.exe",
+  "scope": "Intermediate preview; limitations in STORY27-PREVIEW-RU.md; not final artistic or audio acceptance."
+}
