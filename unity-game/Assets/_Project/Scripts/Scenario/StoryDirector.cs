@@ -567,7 +567,10 @@ namespace Ataka.Scenario {
   public readonly List<(string beat,float at)> QaFinaleBeats=new List<(string,float)>();public string QaFinaleBeat{get;private set;}="";
   public bool QaRefusedCard{get;private set;}public GranRig QaRig=>rig;public DoorChain QaChain=>chain;public Transform QaProp(string id)=>Prop(id);
   public void QaFinaleOpen(){openedDoorFinale=true;}
-  public const float ChainGap=8.5f; // leaf angle on the chain: ~10 cm between the jamb corner and the free edge (wall 0.35 m)
+  public const float ChainGap=8.5f;public static readonly Vector3 GapView=new Vector3(6.95f,.02f,5.6f); // his staged view of the chain slot (11.6б)
+  bool chainTaken;(float intensity,Color color)? landingBefore;
+  void RestoreLanding(){var l=scenes.landingLight;if(l&&landingBefore.HasValue){l.intensity=landingBefore.Value.intensity;l.color=landingBefore.Value.color;}landingBefore=null;}
+  IEnumerator HoldLook(ScenarioPlayer p,Vector3 at,Func<bool> until){while(!until()){p.head.rotation=Quaternion.Slerp(p.head.rotation,Quaternion.LookRotation(at-p.head.position),1-Mathf.Exp(-6*Time.deltaTime));yield return null;}} // leaf angle on the chain: ~10 cm between the jamb corner and the free edge (wall 0.35 m)
   public static readonly Vector3 FridgeStand=new Vector3(7.95f,0,2.15f),SinkStand=new Vector3(7.35f,0,1.6f),StoveStand=new Vector3(8.0f,0,1.65f),KettleFront=new Vector3(8.48f,.86f,1.55f),KettleBack=new Vector3(8.48f,.86f,1.85f),TapAt=new Vector3(7.0f,1.16f,1.6f);
   GranRig rig;DoorChain chain;Vector3 granScale;bool granHeld;
   void Beat(string b){QaFinaleBeat=b;QaFinaleBeats.Add((b,Time.time));}
@@ -575,7 +578,7 @@ namespace Ataka.Scenario {
   public readonly Dictionary<string,float> QaReachError=new Dictionary<string,float>();
   Vector3 Stand(Vector3 raw){Nav.Ensure();return Nav.Snap(raw,.5f,out var q)?q:raw;}
   GranRig Rig(){if(!rig){rig=flat.grandmother.GetComponent<GranRig>();if(!rig)rig=flat.grandmother.AddComponent<GranRig>();granScale=flat.grandmother.transform.localScale;}rig.Init();return rig;}
-  void FinaleReset(){if(rig){rig.ResetAll();flat.grandmother.transform.localScale=granScale;}if(chain)Destroy(chain.gameObject);chain=null;granHeld=false;if(granAnim)granAnim.enabled=true;
+  void FinaleReset(){RestoreLanding();if(rig){rig.ResetAll();flat.grandmother.transform.localScale=granScale;}if(chain)Destroy(chain.gameObject);chain=null;granHeld=false;if(granAnim)granAnim.enabled=true;
    foreach(var l in FindObjectsByType<Light>(FindObjectsInactive.Include,FindObjectsSortMode.None))if(l.name=="Match flame (story)")Destroy(l.gameObject);}
   IEnumerator Wait(float s){for(float t=0;t<s;t+=Time.deltaTime)yield return null;}
   // She walks a short straight stretch inside one room (the kitchen, the doorway) with the authored walk clip.
@@ -654,6 +657,14 @@ namespace Ataka.Scenario {
    var g=flat.grandmother;g.SetActive(true);granHeld=true;g.transform.SetPositionAndRotation(new Vector3(7.86f,0,6.36f),Quaternion.Euler(0,180,0));GranPlay(granIdle);
    for(float t=0;t<.45f;t+=Time.deltaTime){e.leaf.localRotation=Quaternion.Euler(0,e.direction*Mathf.Lerp(0,ChainGap,t/.45f),0);yield return null;}
    e.leaf.localRotation=Quaternion.Euler(0,e.direction*ChainGap,0);Physics.SyncTransforms();sound.Play("latch",chain.Anchor);Beat("gap");
+   // story25-key-a: from the hall the 10 cm slot was a black seam and the hand a 30 px blob. The landing light now
+   // shines through the slot (hand, arm and chain read as a silhouette against it) and his view is taken to the wall
+   // beside the door, 0.75 m from the slot, which opens towards him; control returns when the hand has gone.
+   var landing=scenes.landingLight;if(landing){landingBefore=(landing.intensity,landing.color);landing.color=new Color(1,.86f,.66f);landing.intensity=.8f;}
+   var p=player;var body=p.GetComponent<CharacterController>();p.control=false;if(body)body.enabled=false;
+   var slot=new Vector3(7.62f,1.43f,5.93f);var fromFeet=p.transform.position;var fromLook=p.head.rotation;var toFeet=GapView;
+   for(float t=0;t<.9f;t+=Time.deltaTime){float u=Mathf.SmoothStep(0,1,t/.9f);p.transform.position=Vector3.Lerp(fromFeet,toFeet,u);var look=Quaternion.LookRotation(slot-p.head.position);p.head.rotation=Quaternion.Slerp(fromLook,look,u);yield return null;}
+   chainTaken=false;StartCoroutine(HoldLook(p,slot,()=>chainTaken));
    var r=Rig();r.poleR=g.transform.right*.6f-g.transform.up*.8f;
    var gap=new Vector3(7.60f,1.43f,5.955f);var outside=new Vector3(7.72f,1.38f,6.25f);
    yield return GranReach(true,outside,.4f);yield return GranReach(true,gap,.6f,"gap");Beat("grope");
@@ -666,8 +677,8 @@ namespace Ataka.Scenario {
    for(float t=0;t<.6f;t+=Time.deltaTime){r.Reach(true,Vector3.Lerp(from,to,Mathf.SmoothStep(0,1,t/.6f)),1);yield return null;}
    chain.Hang();sound.Play("latch",chain.Anchor); // no chain-jingle recording: the latch clink stands in
    for(float t=0;t<.4f;t+=Time.deltaTime){r.handScale=Mathf.Lerp(2.2f,1,t/.4f);r.forearmScale=Mathf.Lerp(1.12f,1,t/.4f);yield return null;}r.handScale=r.forearmScale=1;Beat("hand-normal");
-   yield return GranReach(true,outside,.4f);yield return GranLower(true,.3f);r.poleR=null;
-   e.scripted=false;e.open=true;sound.Play("door_open",door);yield return Wait(.7f);
+   yield return GranReach(true,outside,.4f);yield return GranLower(true,.3f);r.poleR=null;chainTaken=true;yield return null;HandBack(p,body);
+   e.scripted=false;e.open=true;sound.Play("door_open",door);yield return Wait(.7f);RestoreLanding();
    Beat("enter");yield return GranStep(Nodes["Door"],.8f);yield return GranFace(player.head.position,.4f);
    yield return Line("Бабушка","Чего ж не открываешь, Мишаня?",3);
   }

@@ -47,6 +47,13 @@ namespace Ataka.Scenario {
   // Misha's face and pulls it over hers — on 3.5 s: 0–1.5 short, 1.5–2.0 = full 2.0–2.6, 2.0–2.9 = full 3.0–4.2, black.
   // There is NO mesh of Misha's face: in that beat the claw hand rises into her face empty (see docs 25-finale).
   public bool Finale{get;private set;}
+  // Finale 3.2 beat (f 3.0–4.2): the right claw hand rises from below the frame to her face and covers it (story25-a:
+  // the full-version keys kept it below the frame — the beat showed no hand at all).
+  static readonly Key[] RightFinale={
+   new Key(3f,new Vector3(.3f,-.8f,.55f),new Vector3(-.2f,.95f,.15f),new Vector3(0f,0f,-1f)),
+   new Key(3.5f,new Vector3(.14f,-.42f,.6f),new Vector3(-.1f,.98f,.1f),new Vector3(0f,0f,-1f)),
+   new Key(4.2f,new Vector3(.06f,-.05f,.62f),new Vector3(-.05f,1f,.05f),new Vector3(0f,0f,-1f)),
+   new Key(9f,new Vector3(.06f,-.05f,.62f),new Vector3(-.05f,1f,.05f),new Vector3(0f,0f,-1f))};
   static float FinaleTime(float t)=>t<1.5f?FullTime(t,false):t<2f?Mathf.Lerp(2f,2.6f,(t-1.5f)/.5f):t<2.9f?Mathf.Lerp(3f,4.2f,(t-2f)/.9f):4.2f+(t-2.9f);
   float F(float t)=>Finale?FinaleTime(t):FullTime(t,full);
   public float Duration(bool fullDeath)=>fullDeath?7:3.5f;
@@ -110,7 +117,7 @@ namespace Ataka.Scenario {
   public void Frame(float time,out float pitchUp,out Vector2 shake){
    t=time;float f=F(t);pitchUp=0;shake=Vector2.zero;if(!head)return;
    bool handsIn=f>=.3f&&f<(full?5.2f:Finale?4.3f:3.0f);
-   if(right){right.gameObject.SetActive(handsIn);if(handsIn)Pose(right,RightFull,f,false);}
+   if(right){right.gameObject.SetActive(handsIn);if(handsIn)Pose(right,Finale&&f>=3f?RightFinale:RightFull,f,false);}
    if(left){left.gameObject.SetActive(handsIn&&f<3.0f);if(left.gameObject.activeSelf)Pose(left,LeftFull,f,true);}
    if(fill)fill.intensity=handsIn?fillIntensity*Mathf.Clamp01((f-.25f)/.2f):0;
    float grip=f>=.3f&&f<2.6f?1:0;shake=new Vector2(Mathf.Sin(t*55)*1.5f,Mathf.Cos(t*41))*(1+grip*1.5f);
@@ -132,7 +139,8 @@ namespace Ataka.Scenario {
    }
    if(f>=2.0f){ // the left eye is gone: left half falls dark
     float a=Mathf.Clamp01((f-2.0f)/.35f);GUI.color=new Color(1,1,1,a);GUI.DrawTexture(new Rect(0,0,w*.62f,h),shade,ScaleMode.StretchToFill);
-    GUI.DrawTexture(new Rect(0,0,w*.36f,h),black);GUI.color=Color.white;}
+    if(Finale)GUI.DrawTexture(new Rect(0,0,w*.3f,h),shade,ScaleMode.StretchToFill); // finale: soft falloff, no hard-edged black slab (story25-a)
+    else GUI.DrawTexture(new Rect(0,0,w*.36f,h),black);GUI.color=Color.white;}
    if(full&&t>=5f){ // blood streaks from the top
     float run=Mathf.Clamp01((t-5f)/2f);for(int i=0;i<7;i++){float x=w*(.08f+i*.13f+Mathf.Sin(i*5.3f)*.03f),sw=w*(.025f+.02f*Mathf.Abs(Mathf.Sin(i*2.1f)));GUI.DrawTexture(new Rect(x,0,sw,h*Mathf.Clamp01(run*(1.1f+.4f*Mathf.Sin(i*1.7f)))),streak);}}
   }

@@ -10,6 +10,7 @@ namespace Ataka.Scenario {
   public State Is{get;private set;}=State.Engaged;
   public ScenarioDoor door;public Vector3 anchorLocal=new Vector3(.52f,.45f,.07f);   // entrance-local: wall face beside the opening, 1.45 m
   public Vector3 leafLocal=new Vector3(.84f,1.45f,.03f);                            // hinge-local: inside face of the leaf near its free edge
+  public float thickness=1.8f;
   Transform pivot,model;float length=.146f;System.Func<Vector3> holder;
   public bool Ready=>model;
   public Vector3 Anchor=>door.transform.TransformPoint(anchorLocal);
@@ -37,7 +38,7 @@ namespace Ataka.Scenario {
    var to=Is==State.Engaged?LeafEnd:Is==State.Held&&holder!=null?holder():a+Vector3.down*length;FreeEnd=to;
    var d=to-a;if(d.sqrMagnitude<1e-6f)d=Vector3.down*length;
    pivot.SetPositionAndRotation(a,Quaternion.LookRotation(d.normalized,Mathf.Abs(Vector3.Dot(d.normalized,Vector3.up))>.95f?door.transform.forward:Vector3.up));
-   pivot.localScale=Vector3.one*Mathf.Clamp(d.magnitude/Mathf.Max(.01f,length),.6f,1.5f);
+   pivot.localScale=new Vector3(thickness,thickness,Mathf.Clamp(d.magnitude/Mathf.Max(.01f,length),.6f,1.5f)); // spans exactly, the balls thicker: the 14.6 cm pull chain reads as a door chain
   }
  }
 }
