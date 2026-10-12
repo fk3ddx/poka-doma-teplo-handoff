@@ -44,9 +44,12 @@ namespace Ataka.Scenario {
   void Fire(Act a){a.fired=true;acts.Remove(a);lastProgress=Time.time;a.done?.Invoke();}
   // QA surface for StoryAutopilot (-story-smoke): it may only fire an act after the real aim selection picked it.
   public List<Act> OpenActs=>acts;public Act Aimed=>aimed;public void QaFire(Act a){if(a==aimed)Fire(a);}
+  // A second key on the same aimed spot (peephole E / open R) is reachable whenever its partner is aimed.
+  public void QaFireCompanion(Act a){if(aimed!=null&&(a==aimed||(a.at()-aimed.at()).sqrMagnitude<.05f))Fire(a);}
   public bool Choosing=>choiceA!=null;public void QaChoose(int c){choice=c;}public string CurrentCard=>card;public string Objective=>objective;
   public void QaBegin(string at){Begin(at);}
-  public bool QaBelt=>beltTied;
+  public bool QaBelt=>beltTied;public int QaRestarts{get;private set;}public bool qaAllowSave;
+  public void QaSavePath(string path){savePath=path;}public string SavePath=>savePath;
 
   // ---------- presentation ----------
   void Say(string who,string line,float seconds=0){loop.Thought(string.IsNullOrEmpty(who)?line:who+": «"+line+"»",seconds>0?seconds:Mathf.Clamp(line.Length*.07f,2.5f,7f));}
@@ -90,7 +93,7 @@ namespace Ataka.Scenario {
   void Start(){RememberProps();tv=FindFirstObjectByType<ScenarioTelevision>();var anim=flat.grandmother.GetComponentInChildren<Animation>(true);granAnim=anim;
    if(anim)foreach(AnimationState s in anim){if(s.name.EndsWith("Oidle"))granIdle=s.name;if(s.name.EndsWith("Owalk"))granWalk=s.name;}}
   public bool HasSave=>System.IO.File.Exists(savePath);
-  void Checkpoint(string at){if(loop.testing)return;System.IO.File.WriteAllText(savePath,JsonUtility.ToJson(new Save{chapter=at,flashlight=player.hasFlashlight,belt=belt}));}
+  void Checkpoint(string at){if(loop.testing&&!qaAllowSave)return;System.IO.File.WriteAllText(savePath,JsonUtility.ToJson(new Save{chapter=at,flashlight=player.hasFlashlight,belt=belt}));}
   public void NewGame(){Begin("Prologue");}
   public void Continue(){var s=HasSave?JsonUtility.FromJson<Save>(System.IO.File.ReadAllText(savePath)):null;Begin(s?.chapter??"Prologue",s);}
   void Begin(string at,Save s=null){
@@ -374,10 +377,10 @@ namespace Ataka.Scenario {
   IEnumerator ShortDeath(){yield return scenes.Play("DeathShort");flat.look.disruption=1;yield return new WaitForSeconds(1);flat.look.disruption=0;sound.EndDeathRecovery();}
   IEnumerator RestartAt2200(int which){
    // Deaths 2/3 (SCENARIO 13): VHS jump back to 22:00 of the same night.
-   acts.Clear();Homely(true);flat.entrance.locked=true;flat.clock.stopped=false;if(which==2&&beltTied)TieStrap(true);player.Place(ScenarioLayout.Spawn,180);nightSeconds=22*3600;NightClock();
+   QaRestarts++;acts.Clear();Homely(true);flat.entrance.locked=true;flat.clock.stopped=false;if(which==2&&beltTied)TieStrap(true);player.Place(ScenarioLayout.Spawn,180);nightSeconds=22*3600;NightClock();
    yield return NightEvents(which,true);
   }
-  IEnumerator RestartNight2At2142(){acts.Clear();Homely(true);PropsAfterEvening();belt=false;beltTied=false;TieStrap(false);flat.entrance.locked=true;player.Place(ScenarioLayout.Spawn,180);yield return Night2Body();}
+  IEnumerator RestartNight2At2142(){QaRestarts++;acts.Clear();Homely(true);PropsAfterEvening();belt=false;beltTied=false;TieStrap(false);flat.entrance.locked=true;player.Place(ScenarioLayout.Spawn,180);yield return Night2Body();}
 
   // ---------- 6.1 Rewind ----------
   IEnumerator Rewind(){

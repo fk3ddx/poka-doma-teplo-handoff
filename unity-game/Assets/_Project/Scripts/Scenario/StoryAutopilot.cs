@@ -14,6 +14,8 @@ namespace Ataka.Scenario {
  public sealed class StoryAutopilot:MonoBehaviour {
   LoopDirector loop;StoryDirector story;ScenarioPlayer player;string output;readonly List<string> checks=new List<string>();int errors;bool failed;
   readonly HashSet<string> shots=new HashSet<string>();int peepholes;
+  // -story-branch door-death | no-belt | save : the losing branches and checkpoints the normal run never touches.
+  string branch="";bool doorOpened,branchRestartSeen,saveChecked;int restartsAtBranch=-1;readonly HashSet<string> scenesSeen=new HashSet<string>();
   [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]static void Boot(){
    var args=Environment.GetCommandLineArgs();int i=Array.IndexOf(args,"-story-smoke");if(i<0||i+1>=args.Length)return;
    var go=new GameObject("Story autopilot");var a=go.AddComponent<StoryAutopilot>();a.output=Path.GetFullPath(args[i+1]);}
@@ -26,18 +28,35 @@ namespace Ataka.Scenario {
    Directory.CreateDirectory(output);Application.logMessageReceived+=Log;Application.runInBackground=true;Application.targetFrameRate=60;
    yield return new WaitForSecondsRealtime(2);loop=FindFirstObjectByType<LoopDirector>();story=loop.story;player=loop.flat.player;loop.testing=true;player.automating=true;
    var args=Environment.GetCommandLineArgs();int f=Array.IndexOf(args,"-story-from");string from=f>=0&&f+1<args.Length?args[f+1]:"Prologue";
-   checks.Add("MODE story autopilot from "+from+" (aim-verified fire, 6x nights, no R)");
+   int b=Array.IndexOf(args,"-story-branch");branch=b>=0&&b+1<args.Length?args[b+1]:"";
+   checks.Add("MODE story autopilot from "+from+(branch!=""?" branch "+branch:"")+" (aim-verified fire, 6x nights)");
+   if(branch=="save"){story.qaAllowSave=true;story.QaSavePath(Path.Combine(output,"story-checkpoint.json"));}
    loop.Pause(false);story.QaBegin(from);
    float deadline=Time.realtimeSinceStartup+(from=="Finale"?600:2400);string lastObjective=null,lastCard=null;StoryDirector.Chapter lastChapter=story.chapter;
    while(Time.realtimeSinceStartup<deadline&&!failed){
+    var playing=loop.scenes.PlayingScene;if(!string.IsNullOrEmpty(playing)&&scenesSeen.Add(story.chapter+":"+playing))checks.Add("SCENE "+playing+" in "+story.chapter);
+    if(branch=="door-death"&&doorOpened&&!branchRestartSeen&&story.QaRestarts>restartsAtBranch){branchRestartSeen=true;Check(scenesSeen.Contains(story.chapter+":DeathShort")&&story.chapter==StoryDirector.Chapter.Night1,"opening the door at 22:02 kills (short death) and restarts night 1 at 22:00");}
+    if(branch=="no-belt"&&!branchRestartSeen&&restartsAtBranch>=0&&story.QaRestarts>restartsAtBranch){branchRestartSeen=true;Check(scenesSeen.Contains("Night2:DeathShort")&&story.chapter==StoryDirector.Chapter.Night2,"no belt at 22:05: she enters, short death, restart at 21:42 of night 2");}
+    if(branch=="save"&&!saveChecked&&story.chapter==StoryDirector.Chapter.Night1&&File.Exists(story.SavePath)){
+     saveChecked=true;var text=File.ReadAllText(story.SavePath);Check(text.Contains("Night1"),"checkpoint written at 21:42 of night 1: "+text);
+     story.Continue();yield return new WaitForSeconds(1);Check(story.chapter==StoryDirector.Chapter.Night1&&story.Objective=="Дождаться бабушку","continue from checkpoint resumes night 1");}
+    if(story.chapter==StoryDirector.Chapter.Night2&&restartsAtBranch<0&&branch=="no-belt")restartsAtBranch=story.QaRestarts;
     if(story.chapter!=lastChapter){checks.Add("CHAPTER "+lastChapter+" -> "+story.chapter);lastChapter=story.chapter;yield return Shot("chapter-"+story.chapter);}
-    if(story.chapter==StoryDirector.Chapter.Loop){Check(true,"story reached the loop (lap "+loop.Progress.Lap+")");break;}
+    if(story.chapter==StoryDirector.Chapter.Loop){
+     if(from=="Prologue"||from=="Night1")Check(scenesSeen.Contains("Night1:DeathFull"),"first night ends in the full face-tear death (7.4)");
+     if(branch=="door-death")Check(branchRestartSeen,"door-death branch exercised");if(branch=="no-belt")Check(branchRestartSeen,"no-belt branch exercised");
+     Check(true,"story reached the loop (lap "+loop.Progress.Lap+")");break;}
+    if(branch=="save"&&saveChecked){Check(true,"save branch done");break;}
     if(story.chapter==StoryDirector.Chapter.None&&loop.Finished){Check(true,"epilogue finished, menu shows КОНЕЦ");break;}
     if(story.CurrentCard!=lastCard){lastCard=story.CurrentCard;if(lastCard!=null){checks.Add("CARD "+lastCard.Replace('\n',' '));yield return Shot("card-"+Slug(lastCard));}}
     if(story.Objective!=lastObjective){lastObjective=story.Objective;checks.Add("TASK "+lastObjective);if(!string.IsNullOrEmpty(lastObjective))yield return Shot("task-"+Slug(lastObjective));}
     Time.timeScale=story.chapter==StoryDirector.Chapter.Night1||story.chapter==StoryDirector.Chapter.Night2||story.chapter==StoryDirector.Chapter.Finale?6:2;
     if(story.Choosing){yield return new WaitForSeconds(.5f);story.QaChoose(1);checks.Add("CHOICE 1");continue;}
-    var act=story.OpenActs.FirstOrDefault(a=>!a.fired&&a.key==UnityEngine.InputSystem.Key.E&&(a.when==null||a.when())&&!(a.label=="Глазок"&&peepholes>=1));
+    if(branch=="door-death"&&!doorOpened&&story.chapter==StoryDirector.Chapter.Night1){var r=story.OpenActs.FirstOrDefault(a=>a.label=="Открыть дверь");
+     if(r!=null){restartsAtBranch=story.QaRestarts;yield return Approach(r);var e=story.OpenActs.FirstOrDefault(a=>a.label=="Глазок"&&(r.at()-a.at()).sqrMagnitude<.05f);
+      if(story.Aimed==r||story.Aimed==e){doorOpened=true;checks.Add("ACT [R] Открыть дверь (branch)");story.QaFireCompanion(r);continue;}}}
+    bool skipBelt=branch=="no-belt"&&!branchRestartSeen;
+    var act=story.OpenActs.FirstOrDefault(a=>!a.fired&&a.key==UnityEngine.InputSystem.Key.E&&(a.when==null||a.when())&&!(a.label=="Глазок"&&peepholes>=1)&&!(skipBelt&&(a.label.Contains("ремень")||a.label.Contains("ремнём"))));
     if(act!=null&&player.control&&string.IsNullOrEmpty(loop.scenes.PlayingScene)){
      yield return Approach(act);
      if(story.Aimed==act){checks.Add("ACT "+act.label+(act.hold>0?" (hold "+act.hold+"s skipped)":""));yield return Shot("act-"+Slug(act.label));if(act.label=="Глазок")peepholes++;story.QaFire(act);}

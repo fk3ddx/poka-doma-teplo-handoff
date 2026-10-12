@@ -24,12 +24,9 @@ for label,filename,size,rigged,uid,author in SOURCES:
  extent=hi-lo;scale=size/(extent.z if rigged else max(extent))
  out=outroot/label;out.mkdir(parents=True,exist_ok=True);tex=out/'Textures';tex.mkdir(exist_ok=True)
  if rigged and arm:
-  # Keep the skeleton and every action: scale the whole hierarchy from its root, feet at the origin.
-  root=arm
-  while root.parent:root=root.parent
-  center=Vector(((lo.x+hi.x)/2,(lo.y+hi.y)/2,lo.z))
-  root.location=(root.location-center)*scale;root.scale=root.scale*scale
-  bpy.context.view_layer.update()
+  # Rigged: do NOT touch transforms, rest pose or bind matrices (authors report eyes/mouth drifting after careless
+  # re-scaling). Export as imported; GuestInstaller scales the instance in Unity to the proxy height.
+  scale=1.0
  else:
   center=Vector(((lo.x+hi.x)/2,(lo.y+hi.y)/2,(lo.z+hi.z)/2))
   for o in meshes:
@@ -54,9 +51,9 @@ for label,filename,size,rigged,uid,author in SOURCES:
  for o in bpy.context.scene.objects:
   if o.type in ('MESH','ARMATURE'):o.select_set(True)
  bpy.ops.export_scene.fbx(filepath=str(out/(label+'.fbx')),use_selection=True,object_types={'MESH','ARMATURE'},axis_forward='-Z',axis_up='Y',
-  bake_anim=rigged,bake_anim_use_all_actions=rigged,bake_anim_use_nla_strips=False,add_leaf_bones=False,apply_scale_options='FBX_SCALE_ALL')
+  bake_anim=rigged,bake_anim_use_all_actions=rigged,bake_anim_use_nla_strips=False,add_leaf_bones=False,apply_scale_options='FBX_SCALE_UNITS' if rigged else 'FBX_SCALE_ALL',use_armature_deform_only=False)
  manifest={'id':label,'source':'https://sketchfab.com/3d-models/'+uid,'author':author,'license':'CC-BY-4.0','size':size,'rigged':rigged,'actions':actions,'materials':mats,
-  'changes':['glTF to FBX, uniform scale to '+str(size)+' m','author meshes, UVs, textures and animations unchanged']}
+  'changes':(['glTF to FBX only; transforms, rest pose and bind poses untouched (scaled in Unity)'] if rigged else ['glTF to FBX, uniform scale to '+str(size)+' m'])+['author meshes, UVs, textures and animations unchanged']}
  (out/'manifest.json').write_text(json.dumps(manifest,indent=1,ensure_ascii=False),encoding='utf-8')
  (out/'SOURCE.md').write_text('# '+label+'\n\nAuthor: '+author+'\nSource: https://sketchfab.com/3d-models/'+uid+'\nLicense: CC-BY-4.0 https://creativecommons.org/licenses/by/4.0/\nPrepared by tools/art/prepare_guest.py (scale only).\n',encoding='utf-8')
  print('PREPARED',label,'actions=',actions)
