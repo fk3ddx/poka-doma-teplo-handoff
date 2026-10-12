@@ -20,3 +20,8 @@ Opened original BalconyPalm-1.1 and DeathShort-1.1. Balcony now has a distant da
 Finish a coherent, playable game from menu through the SCENARIO story to the ending: models, textures, dialogue, interactions, death/restart/checkpoints. Detail polishing is deferred. Include a ready monster and visible black claw contact/grab/tear death, not a waving hand. Prior approval gate limiting work to the six-loop prototype is superseded by this direct request. Preserve accepted lighting/VHS and avoid rewriting the project.
 
 Claude has been sent this implementation task in the existing authorized chat, from base 9424136, separate branch claude/playable-complete. Return bounded complete code patches with hashes; Codex builds, runs and sends real frames. No claim of complete game until the complete route is implemented and exercised.
+
+## Menu input attempt
+Normal player PID31860 launched without scenario-smoke and with silent QA capture. Computer-use located the unique game window but screenshot capture failed twice (FrameArrived timeout / window capture timeout), including one refreshed selection and activation. No coordinates were clicked blindly. Only this test process was stopped. Normal menu input remains unverified.
+
+Claude acknowledged the full implementation request and created claude/playable-complete at /home/claude/pc. Observed work includes FaceTearDeath.cs; no new patch received or validated yet. Windows evidence follow-up is queued in the same chat.
