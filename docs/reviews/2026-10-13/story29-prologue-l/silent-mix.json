@@ -1,0 +1,1112 @@
+{
+    "scope": "Unity listener mix, pre-OS output; not microphone or loopback",
+    "error": "",
+    "captureModeMutesOutput": true,
+    "clearedOutputCallbacks": 4605,
+    "sampleRate": 48000,
+    "channels": 2,
+    "droppedSamples": 0,
+    "formatChanges": 0,
+    "peakActiveVoices": 6,
+    "suppressedOverlaps": 0,
+    "samples": 9428992,
+    "markers": [
+        {
+            "state": "pause",
+            "sample": 55296,
+            "seconds": 0.576,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:radio_hiss",
+            "sample": 247808,
+            "seconds": 2.5813333333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:dog_bark",
+            "sample": 249856,
+            "seconds": 2.6026666666666666,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "lap-1",
+            "sample": 249856,
+            "seconds": 2.6026666666666666,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:wind",
+            "sample": 532480,
+            "seconds": 5.546666666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:plant_hum",
+            "sample": 532480,
+            "seconds": 5.546666666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:creak",
+            "sample": 935936,
+            "seconds": 9.749333333333333,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 1486848,
+            "seconds": 15.488,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 1527808,
+            "seconds": 15.914666666666668,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 1568768,
+            "seconds": 16.341333333333336,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 1609728,
+            "seconds": 16.768,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:creak",
+            "sample": 1619968,
+            "seconds": 16.874666666666668,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 1650688,
+            "seconds": 17.194666666666668,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 1691648,
+            "seconds": 17.621333333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 1732608,
+            "seconds": 18.048,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 1771520,
+            "seconds": 18.453333333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 1814528,
+            "seconds": 18.901333333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 1855488,
+            "seconds": 19.328,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 1896448,
+            "seconds": 19.754666666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 1937408,
+            "seconds": 20.181333333333336,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 1978368,
+            "seconds": 20.608,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 2019328,
+            "seconds": 21.034666666666668,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 2060288,
+            "seconds": 21.461333333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 2101248,
+            "seconds": 21.888,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 2140160,
+            "seconds": 22.293333333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 2183168,
+            "seconds": 22.741333333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 2222080,
+            "seconds": 23.14666666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 2265088,
+            "seconds": 23.594666666666666,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 2304000,
+            "seconds": 24.0,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:creak",
+            "sample": 2330624,
+            "seconds": 24.277333333333336,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 2344960,
+            "seconds": 24.426666666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 2383872,
+            "seconds": 24.832,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 2426880,
+            "seconds": 25.28,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 2465792,
+            "seconds": 25.685333333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 2508800,
+            "seconds": 26.133333333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 2547712,
+            "seconds": 26.538666666666669,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 2588672,
+            "seconds": 26.965333333333335,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 2629632,
+            "seconds": 27.392,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 2670592,
+            "seconds": 27.818666666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 2711552,
+            "seconds": 28.245333333333336,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 2754560,
+            "seconds": 28.69333333333333,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 2793472,
+            "seconds": 29.098666666666668,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 2834432,
+            "seconds": 29.525333333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 2875392,
+            "seconds": 29.952,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:creak",
+            "sample": 3041280,
+            "seconds": 31.68,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 3123200,
+            "seconds": 32.53333333333333,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 3166208,
+            "seconds": 32.98133333333333,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 3205120,
+            "seconds": 33.38666666666666,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 3248128,
+            "seconds": 33.834666666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 3289088,
+            "seconds": 34.26133333333333,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 3330048,
+            "seconds": 34.688,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 3368960,
+            "seconds": 35.093333333333337,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 3409920,
+            "seconds": 35.52,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 3448832,
+            "seconds": 35.925333333333337,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:door_open",
+            "sample": 3475456,
+            "seconds": 36.202666666666669,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 3612672,
+            "seconds": 37.632,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 3651584,
+            "seconds": 38.037333333333339,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:creak",
+            "sample": 3655680,
+            "seconds": 38.08,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:door_close",
+            "sample": 3694592,
+            "seconds": 38.48533333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:lamp_hum",
+            "sample": 3696640,
+            "seconds": 38.50666666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 3739648,
+            "seconds": 38.95466666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 3889152,
+            "seconds": 40.512,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 3930112,
+            "seconds": 40.93866666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 3971072,
+            "seconds": 41.36533333333333,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 4012032,
+            "seconds": 41.792,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 4052992,
+            "seconds": 42.218666666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 4091904,
+            "seconds": 42.624,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 4134912,
+            "seconds": 43.072,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 4175872,
+            "seconds": 43.498666666666668,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 4216832,
+            "seconds": 43.925333333333337,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 4257792,
+            "seconds": 44.352,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 4298752,
+            "seconds": 44.778666666666669,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 4337664,
+            "seconds": 45.184,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 4378624,
+            "seconds": 45.61066666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 4417536,
+            "seconds": 46.016,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 4460544,
+            "seconds": 46.464,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 4499456,
+            "seconds": 46.86933333333333,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 4542464,
+            "seconds": 47.31733333333333,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 4583424,
+            "seconds": 47.744,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 4624384,
+            "seconds": 48.17066666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 4663296,
+            "seconds": 48.576,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 4706304,
+            "seconds": 49.024,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 4745216,
+            "seconds": 49.42933333333333,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 4788224,
+            "seconds": 49.87733333333333,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 4827136,
+            "seconds": 50.282666666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 4870144,
+            "seconds": 50.730666666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 5072896,
+            "seconds": 52.842666666666669,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 5111808,
+            "seconds": 53.248,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 5154816,
+            "seconds": 53.696,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 5195776,
+            "seconds": 54.12266666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 5236736,
+            "seconds": 54.54933333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 5275648,
+            "seconds": 54.95466666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 5318656,
+            "seconds": 55.40266666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:tv_on",
+            "sample": 5355520,
+            "seconds": 55.78666666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 5357568,
+            "seconds": 55.808,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 5400576,
+            "seconds": 56.256,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:tv_laughter",
+            "sample": 5588992,
+            "seconds": 58.218666666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 5632000,
+            "seconds": 58.666666666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 5672960,
+            "seconds": 59.093333333333337,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 5713920,
+            "seconds": 59.52,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 5752832,
+            "seconds": 59.925333333333337,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 5795840,
+            "seconds": 60.373333333333338,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 5834752,
+            "seconds": 60.778666666666669,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 5877760,
+            "seconds": 61.22666666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:dog_bark",
+            "sample": 5877760,
+            "seconds": 61.22666666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 5918720,
+            "seconds": 61.653333333333339,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 5959680,
+            "seconds": 62.08,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:dog_bark",
+            "sample": 6033408,
+            "seconds": 62.848,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:dog_bark",
+            "sample": 6187008,
+            "seconds": 64.448,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:dog_bark",
+            "sample": 6338560,
+            "seconds": 66.02666666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:dog_bark",
+            "sample": 6494208,
+            "seconds": 67.648,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:dog_bark",
+            "sample": 6647808,
+            "seconds": 69.248,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 6756352,
+            "seconds": 70.37866666666666,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:doorbell",
+            "sample": 6776832,
+            "seconds": 70.592,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:doorbell",
+            "sample": 6817792,
+            "seconds": 71.01866666666666,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 6952960,
+            "seconds": 72.42666666666666,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 7000064,
+            "seconds": 72.91733333333333,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:latch",
+            "sample": 7041024,
+            "seconds": 73.344,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:latch",
+            "sample": 7084032,
+            "seconds": 73.792,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:latch",
+            "sample": 7120896,
+            "seconds": 74.176,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:door_open",
+            "sample": 7165952,
+            "seconds": 74.64533333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:fridge",
+            "sample": 7165952,
+            "seconds": 74.64533333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:radio",
+            "sample": 7165952,
+            "seconds": 74.64533333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 8024064,
+            "seconds": 83.584,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 8062976,
+            "seconds": 83.98933333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:door_close",
+            "sample": 8083456,
+            "seconds": 84.20266666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:step",
+            "sample": 8237056,
+            "seconds": 85.80266666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:knock",
+            "sample": 8267776,
+            "seconds": 86.12266666666666,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:clock",
+            "sample": 8267776,
+            "seconds": 86.12266666666666,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:knock",
+            "sample": 8286208,
+            "seconds": 86.31466666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:knock",
+            "sample": 8310784,
+            "seconds": 86.57066666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:door_open",
+            "sample": 9213952,
+            "seconds": 95.97866666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:dog_bark",
+            "sample": 9213952,
+            "seconds": 95.97866666666667,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:clock",
+            "sample": 9320448,
+            "seconds": 97.088,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:dog_bark",
+            "sample": 9320448,
+            "seconds": 97.088,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:clock",
+            "sample": 9322496,
+            "seconds": 97.10933333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        },
+        {
+            "state": "cue:clock",
+            "sample": 9426944,
+            "seconds": 98.19733333333334,
+            "scene": "",
+            "timelineSeconds": -1.0
+        }
+    ],
+    "cues": [
+        {
+            "id": "clock",
+            "requested": 4,
+            "started": 4,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "creak",
+            "requested": 5,
+            "started": 5,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "dog_bark",
+            "requested": 9,
+            "started": 9,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "door_close",
+            "requested": 2,
+            "started": 2,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "door_open",
+            "requested": 3,
+            "started": 3,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "doorbell",
+            "requested": 2,
+            "started": 2,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "fridge",
+            "requested": 1,
+            "started": 1,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "knock",
+            "requested": 3,
+            "started": 3,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "lamp_hum",
+            "requested": 1,
+            "started": 1,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "latch",
+            "requested": 3,
+            "started": 3,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "plant_hum",
+            "requested": 1,
+            "started": 1,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "radio",
+            "requested": 1,
+            "started": 1,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "radio_hiss",
+            "requested": 1,
+            "started": 1,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "step",
+            "requested": 96,
+            "started": 96,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "tv_laughter",
+            "requested": 1,
+            "started": 1,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "tv_on",
+            "requested": 1,
+            "started": 1,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        },
+        {
+            "id": "wind",
+            "requested": 1,
+            "started": 1,
+            "limit": 0,
+            "pool": 0,
+            "replaced": 0
+        }
+    ]
+}

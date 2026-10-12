@@ -8,7 +8,7 @@ using UnityEngine.InputSystem.LowLevel;
 namespace Ataka.Scenario {
  [DefaultExecutionOrder(10000)] // Observe after CinemachineBrain.LateUpdate; never drive the camera for a test.
  public sealed class ScenarioSmoke:MonoBehaviour {
-  LoopDirector loop;ScenarioPlayer player;Keyboard keyboard;string output;List<string> checks=new List<string>();int errors;bool failed;
+  LoopDirector loop;ScenarioPlayer player;Keyboard keyboard;string output;List<string> checks=new List<string>();int errors;bool failed;bool integratedFinale;
   static bool headless;
   [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]static void GuardHeadless(){
    var args=Environment.GetCommandLineArgs();headless=Array.IndexOf(args,"-scenario-headless")>=0;
@@ -23,11 +23,12 @@ namespace Ataka.Scenario {
   [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]static void Boot(){var args=Environment.GetCommandLineArgs();int i=Array.IndexOf(args,"-scenario-smoke");if(i>=0&&i+1<args.Length){var s=new GameObject("Scenario smoke").AddComponent<ScenarioSmoke>();s.output=args[i+1];}}
   IEnumerator Start(){
    Directory.CreateDirectory(output);Application.logMessageReceived+=Log;Application.runInBackground=true;Application.targetFrameRate=60;
-   yield return new WaitForSecondsRealtime(2);loop=FindFirstObjectByType<LoopDirector>();player=loop.flat.player;player.automating=true;loop.testing=true;loop.coreTestOnly=true;InputSystem.settings.backgroundBehavior=InputSettings.BackgroundBehavior.IgnoreFocus;keyboard=InputSystem.AddDevice<Keyboard>();
+   yield return new WaitForSecondsRealtime(2);loop=FindFirstObjectByType<LoopDirector>();player=loop.flat.player;player.automating=true;loop.testing=true;integratedFinale=Array.IndexOf(Environment.GetCommandLineArgs(),"-scenario-integrated-finale")>=0;loop.coreTestOnly=!integratedFinale;InputSystem.settings.backgroundBehavior=InputSettings.BackgroundBehavior.IgnoreFocus;keyboard=InputSystem.AddDevice<Keyboard>();
    foreach(var device in InputSystem.devices)if(device is Keyboard&&device!=keyboard)InputSystem.DisableDevice(device);keyboard.MakeCurrent(); // Only this process; no OS input injection.
    var mouse=InputSystem.AddDevice<Mouse>();foreach(var device in InputSystem.devices)if(device is Mouse&&device!=mouse)InputSystem.DisableDevice(device);mouse.MakeCurrent();
    checks.Add("MODE "+(headless?"headless: Null graphics, volume0, synthetic input, no images":"rendered screenshots"));
    yield return Shot("00-menu");loop.Pause(false);checks.Add("menu-to-play");
+   if(integratedFinale){loop.story.QaEnterLoop();yield return null;checks.Add("INTEGRATED real EnterLoop; coreTestOnly=false; finale will continue in this process without QaBegin/FinishCore injection");}
    StartCoroutine(CaptureScenes());StartCoroutine(CaptureVestibules());
    if(Array.IndexOf(Environment.GetCommandLineArgs(),"-scenario-chase-only")>=0){
     // Match the real ChaseStart doorway. Beginning at the normal spawn lets gravity/overlap count as movement.
@@ -88,6 +89,14 @@ namespace Ataka.Scenario {
    }
    if(!failed){yield return Walk(new Vector3(2.25f,0,3.6f));yield return Walk(new Vector3(5.65f,0,3.6f));yield return Walk(new Vector3(5.65f,0,5.35f));yield return Walk(new Vector3(8.05f,0,5.45f));Look(loop.flat.entrance.transform.position);yield return Press(Key.E);yield return WaitBusy();float chaseDeadline=Time.realtimeSinceStartup+5;while(!loop.chase.Active&&Time.realtimeSinceStartup<chaseDeadline)yield return null;Check(loop.chase.Active,"chase entered");Check(player.transform.position.z<7&&player.transform.position.z>4,"chase starts at original hallway coordinates");yield return Shot("chase-start");}
    if(!failed)yield return ChaseRun();
+   if(integratedFinale&&!failed){
+    Check(loop.story.chapter==StoryDirector.Chapter.Finale&&!loop.Finished,"six real laps and clock strikes entered the live finale");
+    StopAllCoroutines();InputSystem.QueueStateEvent(keyboard,new KeyboardState());
+    File.WriteAllLines(Path.Combine(output,"checks.txt"),checks);
+    File.WriteAllText(Path.Combine(output,"core-result.json"),JsonUtility.ToJson(new Result{passed=!failed&&errors==0,errors=errors,lap=loop.Progress.Lap,chase=loop.chase.Active,headless=headless,coreFinished=false,visualVerified=false,graphicsDevice=SystemInfo.graphicsDeviceType.ToString(),listenerVolume=AudioListener.volume},true));
+    if(failed||errors>0){Finish();yield break;}
+    FinaleQA.ContinueCurrent(Path.Combine(output,"finale"),"key");yield break;
+   }
    Finish();
   }
   IEnumerator ObtainFlashlight(){
@@ -173,7 +182,7 @@ namespace Ataka.Scenario {
     if(module.warm&&local.z>2.2f&&local.z<3.8f){
      InputSystem.QueueStateEvent(keyboard,new KeyboardState());Look(module.clock.transform.position);yield return Shot("warm-clock");Check(loop.chase.Progress.Elapsed>=42&&loop.chase.Progress.Elapsed<=50,"warm clock reached within 42–50s");
      InputSystem.QueueStateEvent(keyboard,new KeyboardState(Key.E));yield return new WaitForSeconds(2.15f);InputSystem.QueueStateEvent(keyboard,new KeyboardState());yield return null;yield return null;
-     Check(loop.chase.Progress.Wound,"clock wound by holding E two seconds");yield return Press(Key.E);float endDeadline=Time.realtimeSinceStartup+13;while(!loop.Finished&&Time.realtimeSinceStartup<endDeadline){if(module.transform.localScale!=Vector3.one){Check(false,"warm module collapsed under player");break;}yield return null;}Check(loop.Finished,"ten strikes return to warm apartment");yield return new WaitForSecondsRealtime(.4f);CheckBoundClocks("warm return");yield return Shot("core-end");yield break;
+     Check(loop.chase.Progress.Wound,"clock wound by holding E two seconds");yield return Press(Key.E);float endDeadline=Time.realtimeSinceStartup+13;while(!loop.Finished&&!(integratedFinale&&loop.story.chapter==StoryDirector.Chapter.Finale)&&Time.realtimeSinceStartup<endDeadline){if(module.transform.localScale!=Vector3.one){Check(false,"warm module collapsed under player");break;}yield return null;}Check(integratedFinale?loop.story.chapter==StoryDirector.Chapter.Finale:loop.Finished,integratedFinale?"ten strikes call the live story finale":"ten strikes return to warm apartment");yield return new WaitForSecondsRealtime(.4f);CheckBoundClocks("warm return");yield return Shot("core-end");yield break;
     }
     var localTarget=module.turn&&local.z>CorridorModule.CornerZ-.15f?new Vector3(-1.1f,0,CorridorModule.CornerZ):new Vector3(0,0,module.turn?CorridorModule.CornerZ+.03f:6.35f);
     var direction=module.transform.TransformPoint(localTarget)-player.transform.position;direction.y=0;player.transform.rotation=Quaternion.LookRotation(direction);player.pitch=0;

@@ -12,6 +12,8 @@ namespace Ataka.Scenario {
  // checks.txt (PASS/FAIL/ABSENT), beats.txt, result.json; exit 0 = no FAIL. ABSENT lines are parts with no mesh / rig
  // part / recording — they are reported, not passed.
  public sealed class FinaleQA:MonoBehaviour {
+  bool continueCurrent;
+  public static void ContinueCurrent(string directory,string entryBranch){var qa=new GameObject("Finale QA after real chase").AddComponent<FinaleQA>();qa.output=Path.GetFullPath(directory);qa.branch=entryBranch;qa.continueCurrent=true;}
   string output,branch="open";readonly List<string> checks=new List<string>();int errors,failures;
   [Serializable] class Result {public string branch;public bool passed,epilogue,refusedCard;public int failures,errors,beats,cracksDuringFingers;public float clawMaxStretch,transformSeconds,tearSeconds,grownTop,handScaleMax,chainGapDegrees,hugShoulderDistance;public string[] beatOrder,reachErrors;}
   readonly Result result=new Result();
@@ -46,7 +48,7 @@ namespace Ataka.Scenario {
    Directory.CreateDirectory(output);Application.logMessageReceived+=Log;Application.runInBackground=true;Application.targetFrameRate=60;result.branch=branch;
    yield return new WaitForSecondsRealtime(2);
    var loop=FindFirstObjectByType<LoopDirector>();var story=loop.story;var flat=loop.flat;var p=flat.player;var scenes=loop.scenes;var sound=loop.sound;
-   loop.testing=true;p.automating=true;loop.Pause(false);story.QaBegin("Finale");yield return null;yield return null;
+   loop.testing=true;p.automating=true;loop.Pause(false);if(!continueCurrent)story.QaBegin("Finale");else Check(story.chapter==StoryDirector.Chapter.Finale,"continuing existing finale after real chase; no chapter reset");yield return null;yield return null;
    var rig=story.QaRig;var chain=story.QaChain;
    Check(rig&&rig.Ready,"Katcho rig layer ready (Back, Chest, Neck, Head, Arm_Upper/Lower, Hand L/R found)");
    Check(chain&&chain.Ready,"door chain made from the ready Poly Haven ball chain (pull_chain_light_socket_chain)");

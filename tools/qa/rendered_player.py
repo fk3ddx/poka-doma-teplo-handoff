@@ -3,7 +3,7 @@ Only run when the user allows game windows. Never changes system volume.
 """
 from pathlib import Path
 import argparse,subprocess,json,datetime,hashlib,re
-p=argparse.ArgumentParser();p.add_argument('--label',required=True);p.add_argument('--build-label',required=True);p.add_argument('--mode',choices=['survey','bed-probe','full','door','hall','light-probe'],required=True);a=p.parse_args()
+p=argparse.ArgumentParser();p.add_argument('--label',required=True);p.add_argument('--build-label',required=True);p.add_argument('--mode',choices=['survey','bed-probe','full','integrated','door','hall','light-probe'],required=True);a=p.parse_args()
 for label in (a.label,a.build_label):
  if not re.fullmatch(r'[A-Za-z0-9_-]+',label):raise SystemExit('Simple evidence labels only')
 project=Path(__file__).resolve().parents[2]/'unity-game';build=project/'QA'/a.build_label
@@ -16,6 +16,7 @@ if a.mode in ('survey','bed-probe'):
  if a.mode=='bed-probe':cmd+=['-scenario-bed-probe']
 else:
  cmd+=['-scenario-smoke',str(out),'-scenario-death-skip']
+ if a.mode=='integrated':cmd+=['-scenario-integrated-finale']
  if a.mode=='door':cmd+=['-scenario-door-probe']
  if a.mode=='hall':cmd+=['-scenario-hall-probe']
  if a.mode=='light-probe':cmd+=['-scenario-hall-light-probe']
@@ -23,7 +24,7 @@ info={'command':cmd,'build_label':a.build_label,'mode':a.mode,'utc':datetime.dat
 with (out/'console.log').open('w',encoding='utf-8') as log:
  child=subprocess.Popen(cmd,cwd=exe.parent,stdin=subprocess.DEVNULL,stdout=log,stderr=subprocess.STDOUT,creationflags=subprocess.CREATE_NO_WINDOW|subprocess.BELOW_NORMAL_PRIORITY_CLASS)
  info['pid']=child.pid;(out/'process.json').write_text(json.dumps(info,indent=2),encoding='utf-8');print('RENDERED_PLAYER_PID',child.pid,flush=True)
- try:code=child.wait(timeout=600)
+ try:code=child.wait(timeout=1000 if a.mode=='integrated' else 600)
  except subprocess.TimeoutExpired:child.terminate();child.wait(timeout=30);code=124
  (out/'exit.json').write_text(json.dumps({'pid':child.pid,'exit_code':code}),encoding='utf-8');print('RENDERED_PLAYER_EXIT',code,flush=True)
  if code==0:
@@ -32,6 +33,10 @@ with (out/'console.log').open('w',encoding='utf-8') as log:
    assert len(report['views'])==expected
    assert all((out/v['file']).is_file() for v in report['views'])
   else:
-   result=json.loads((out/'result.json').read_text());assert result['passed'] and result['graphicsDevice']!='Null'
+   result=json.loads((out/('core-result.json' if a.mode=='integrated' else 'result.json')).read_text());assert result['passed'] and result['graphicsDevice']!='Null'
+   if a.mode=='integrated':
+    assert result['lap']==6 and result['errors']==0,result
+    finale=json.loads((out/'finale/result.json').read_text(encoding='utf-8-sig'));assert finale['passed'] and finale['epilogue'] and finale['errors']==0,finale
+    mix=json.loads((out/'silent-mix.json').read_text(encoding='utf-8-sig'));assert mix['captureModeMutesOutput'] and mix['clearedOutputCallbacks']>0 and mix['droppedSamples']==0,mix
    if a.mode=='full':assert result['coreFinished']
  raise SystemExit(code)

@@ -773,3 +773,12 @@ SilhouetteGap is a coarse three-column projected-triangle proxy; screenshots are
 Source997755c / build story28-build-l. Full key L exited0: failures0/errors0, epilogue true,23 ordered beats; transform3.5228s/DeathFinale3.4886s; grownTop2.44160m. All three new silhouette checks2.0/2.8/3.4 report0px. Original2.8 viewed: neck visible, mouth readable; no broad wall gap. Together with FaceL2.30/2.70 and auditF04 this confirms the specific geometry correction from both QA angles. Silent capture passed. No human playthrough or audio acceptance.
 
 Next priority: Claude review L/F original screenshots for remaining visible blockers; consolidate a playable preview with prologue and completed finale. Avoid micro-polish while voices, actor placeholders and complete human route acceptance remain outstanding. Story23/27 ZIP SHA hashes rechecked unchanged. All Unity/player test jobs ended normally. Goal active. No manual Sketchfab downloads needed from the user to continue.
+
+
+# Fresh preview checks and integrated QA
+
+BuildL prologueL PASS/errors0/stuck0: full yard/stairs/flat route77.1m plus step-back into hall (result total78.42m),13 shots, neighbours4.9 and8.1 cleanup verified. Original grandmother-opens inspected; temporary models/voices remain unaccepted even though absent[] is empty. Finale openL PASS/errors0/epilogue,19beats, transform3.521s/DeathFinale3.498s.
+
+Claude reviewed F04/FaceL2.30/KeyL2.8 and confirmed the gap fix. His remaining testing requests: fresh open branch (now completed) and actual six laps→chase→finale in one process. Do NOT pretend a ChaseEnd test directly calling FinishCore covers the latter.
+
+Added QA-only -scenario-integrated-finale / rendered_player --mode integrated. Starts with real StoryDirector.EnterLoop, keeps coreTestOnly=false, walks all existing ScenarioSmoke laps/chase/clock holds. Waits for real Finale chapter rather than core-only Finished. Then FinaleQA.ContinueCurrent takes over the EXISTING chapter without QaBegin or direct FinishCore. Core and finale reports stored separately; process output silently captured. Camera staging/accelerated finale waits remain disclosed. BuildM compiled exit0; integratedM running at this checkpoint, result unknown. No production gameplay changed. Draft STORY29-PREVIEW-RU.md is not a delivered archive yet.

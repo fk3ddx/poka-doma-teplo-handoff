@@ -1,0 +1,22 @@
+{
+  "command": [
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\Builds\\ScenarioCore\\Ataka-Loop.exe",
+    "-screen-fullscreen",
+    "0",
+    "-screen-width",
+    "1280",
+    "-screen-height",
+    "720",
+    "-audio-capture",
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\QA\\story29-prologue-l\\silent-mix.wav",
+    "-logFile",
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\QA\\story29-prologue-l\\player.log",
+    "-prologue-qa",
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\QA\\story29-prologue-l"
+  ],
+  "build_label": "story28-build-l",
+  "utc": "2026-10-12T21:27:02.779760+00:00",
+  "runtime_sha256": "0133f7a0fedee37aa4859464ec6b9c22e7f55dc4951fd052a32ecb833aa21a6d",
+  "scope": "Real Windows prologue QA; route walked with CharacterController, aimed acts invoked. Failed legs may be placed for later evidence but remain FAIL. ABSENT entries remain unimplemented. Inspect checks and rendered frames; process success alone is not visual or audio acceptance.",
+  "pid": 20552
+}
