@@ -1,0 +1,22 @@
+{
+    "passed": true,
+    "failures": 0,
+    "errors": 0,
+    "seeds": 4,
+    "seedOrder": [
+        "mirror",
+        "clock",
+        "radio",
+        "lamp"
+    ],
+    "mirrorFigureRt": 0.060342513024806979,
+    "mirrorFigureScreen": 0.054536547511816028,
+    "clockLagSeconds": 420.0,
+    "lampBefore": 0.0,
+    "lampAfter": 0.14000000059604646,
+    "newsWarmSeconds": 1.095672607421875,
+    "testCard": "mean 0,56/0,56/0,56, brightest 1,00, saturated 10,6%",
+    "news": "mean 0,14/0,14/0,25, brightest 0,98, saturated 0,0%",
+    "announcer": "mean 0,16/0,22/0,64, brightest 0,99, saturated 87,6%",
+    "announcer2": "mean 0,16/0,22/0,64, brightest 0,99, saturated 87,6%"
+}
