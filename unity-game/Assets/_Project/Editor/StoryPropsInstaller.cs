@@ -4,7 +4,8 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using Ataka.Scenario;
 namespace Ataka.Editor {
- // Idempotent: places the ready story props prepared by tools/art/prepare_story_props.py as "STORY <id>" under the flat.
+ // Idempotent: places the ready story props prepared by tools/art/prepare_story_props_open.py (direct downloads)
+ // and tools/art/prepare_story_props.py (Sketchfab: JamJar, Shawl) as "STORY <id>" under the flat.
  // StoryDirector shows, hides and moves them by name. Missing props are skipped with a warning.
  // Ataka.Editor.StoryPropsInstaller.Install  (or InstallAndBuild)
  public static class StoryPropsInstaller {
@@ -18,7 +19,8 @@ namespace Ataka.Editor {
    ("Bread",new Vector3(7.45f,.745f,.45f),15,false),   // out of the bag on the table (4.2)
    ("Cans",new Vector3(7.75f,.745f,.42f),-20,false),
    ("Bulb",new Vector3(5.50f,1.95f,5.92f),0,false),    // new bulb in the sconce (4.4)
-   ("Shawl",new Vector3(2.45f,1.15f,2.30f),90,false)}; // hung inside the wardrobe (4.5)
+   ("Shawl",new Vector3(2.50f,1.15f,1.80f),90,false),  // hung inside the wardrobe (4.5); carcass x2.27–2.76 z1.35–2.25 (story15 export)
+   ("TeaSet",new Vector3(7.66f,.745f,.50f),0,false)}; // teapot, sugar bowl, two cups — set on the table when the tea is poured (4.3, epilogue)
   public static void Install(){
    var scene=EditorSceneManager.OpenScene("Assets/_Project/Scenario/Flat.unity");var flat=Object.FindFirstObjectByType<FlatBindings>();
    foreach(var (id,at,yaw,visible) in Places){

@@ -1,0 +1,26 @@
+{
+ "id": "Kettle",
+ "size": 0.26,
+ "dimensions": [
+  0.194,
+  0.26,
+  0.208
+ ],
+ "source": "https://opengameart.org/content/old-keetle",
+ "author": "DREAM_SEARCH_REPEAT",
+ "license": "CC0-1.0",
+ "materials": [
+  {
+   "name": "Kettle_Material_0",
+   "color": [
+    0.800000011920929,
+    0.800000011920929,
+    0.800000011920929,
+    1.0
+   ],
+   "roughness": 0.5,
+   "texture": "Textures/PavaTextura_png.png",
+   "normal": ""
+  }
+ ]
+}

@@ -1,0 +1,26 @@
+{
+ "id": "Belt",
+ "size": 0.3,
+ "dimensions": [
+  0.287,
+  0.3,
+  0.045
+ ],
+ "source": "https://opengameart.org/content/belt",
+ "author": "Paul Wortmann",
+ "license": "CC0-1.0",
+ "materials": [
+  {
+   "name": "Belt_Material_0",
+   "color": [
+    0.800000011920929,
+    0.800000011920929,
+    0.800000011920929,
+    1.0
+   ],
+   "roughness": 0.6000000238418579,
+   "texture": "Textures/belt_1_001_d_png_002.png",
+   "normal": "Textures/belt_1_001_n_png.png"
+  }
+ ]
+}

@@ -1,5 +1,7 @@
 # Blender 4.x: prepares the story props (SCENARIO 4 / 8) as static FBX + manifest for StoryPropsInstaller.
 # Run: blender --background --python tools/art/prepare_story_props.py -- <downloads folder>
+# Kettle, Matchbox, Bread, Belt and TeaSet now come from direct downloads: tools/art/prepare_story_props_open.py.
+# This script remains for JamJar and Shawl (Sketchfab only — no direct-download source found) and the Poly Haven bulb/cans.
 # Poly Haven (CC0) files are fetched by this script; Sketchfab (CC-BY 4.0) glb files must be downloaded
 # while signed in, into <downloads folder> with the file names below. Credit every CC-BY author in CREDITS.md.
 import bpy,json,re,sys,urllib.request
@@ -10,11 +12,7 @@ downloads=Path(args[0] if args else 'C:/Users/User/Downloads')
 outroot=Path(__file__).resolve().parents[2]/'unity-game/Assets/_Project/Art/ReadyModels/Story'
 # id, source ('ph:<asset>' or glb file name), target longest size (m), uid/author for credits
 SOURCES=[
- ('Kettle','classic_enamel_kettle.glb',.26,'a419d3acf51c41b89137e2c2187c0efa','Yevhenii3d'),
- ('Belt','leather_belt.glb',.95,'8cba1fb2d0b6442cb0b7aa903025676c','Cyril43'),
  ('JamJar','casual_jar_of_raspberry_jam.glb',.14,'61bc4a8ef3184b169ab368946fcf2135','incg5764'),
- ('Matchbox','matchbox.glb',.055,'28007022e93d44848c67623ecfcc0737','poems_obj'),
- ('Bread','bread_loaf.glb',.30,'daf4801f72ae4f9eba9c338afbbb2926','Igrodev'),
  ('Shawl','cozy_winter_shawl.glb',.75,'9ab54de829bb4800b80992e76af96ddc','AwesomeAmbz'),
  ('Bulb','ph:lightbulb_01',.11,'lightbulb_01','Poly Haven'),
  ('Cans','ph:russian_food_cans_01',.16,'russian_food_cans_01','Poly Haven'),

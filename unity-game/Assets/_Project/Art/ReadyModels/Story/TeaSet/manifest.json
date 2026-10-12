@@ -1,0 +1,26 @@
+{
+ "id": "TeaSet",
+ "size": 0.549,
+ "dimensions": [
+  0.549,
+  0.378,
+  0.165
+ ],
+ "source": "https://polyhaven.com/a/tea_set_01",
+ "author": "Rico Cilliers, James Ray Cock, Jurita Burger (Poly Haven)",
+ "license": "CC0-1.0",
+ "materials": [
+  {
+   "name": "TeaSet_Material_0",
+   "color": [
+    0.800000011920929,
+    0.800000011920929,
+    0.800000011920929,
+    1.0
+   ],
+   "roughness": 0.5,
+   "texture": "Textures/tea_set_01_diff.png",
+   "normal": "Textures/tea_set_01_nor_gl.png"
+  }
+ ]
+}

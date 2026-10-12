@@ -266,7 +266,7 @@ namespace Ataka.Scenario {
    Task("Заварить чай");StartCoroutine(KettleBoils());
    yield return Use(new Vector3(8.48f,.95f,1.65f),"Выключить газ — чайник свистит");GasOff();if(flame)Destroy(flame.gameObject);
    Put("JamJar",new Vector3(7.35f,.745f,.62f));Put("Matchbox",new Vector3(8.62f,.86f,1.95f));
-   yield return Use(new Vector3(7.58f,.8f,.55f),"Заварить и разлить чай",1.2f);sound.Play("spoon",TableAt);
+   yield return Use(new Vector3(7.58f,.8f,.55f),"Заварить и разлить чай",1.2f);Show("TeaSet",true);sound.Play("spoon",TableAt);
    yield return Use(new Vector3(7.15f,.5f,1.2f),"Сесть за стол");
    player.control=false;
    yield return Line("Бабушка","Ну, рассказывай. Как в школе?");
@@ -335,9 +335,9 @@ namespace Ataka.Scenario {
   Transform Prop(string id)=>flat.apartment?flat.apartment.Find("STORY "+id):null;
   void Show(string id,bool on){var t=Prop(id);if(t)t.gameObject.SetActive(on);}
   void Put(string id,Vector3 at,bool on=true){var t=Prop(id);if(!t)return;t.position=at;t.gameObject.SetActive(on);}
-  void RememberProps(){foreach(var id in new[]{"Kettle","Matchbox","JamJar","Belt","Bread","Cans","Bulb","Shawl"}){var t=Prop(id);if(t&&!propStart.ContainsKey(id))propStart[id]=(t.position,t.rotation,t.gameObject.activeSelf);}}
+  void RememberProps(){foreach(var id in new[]{"Kettle","Matchbox","JamJar","Belt","Bread","Cans","Bulb","Shawl","TeaSet"}){var t=Prop(id);if(t&&!propStart.ContainsKey(id))propStart[id]=(t.position,t.rotation,t.gameObject.activeSelf);}}
   void PropsAtEveningStart(){foreach(var kv in propStart){var t=Prop(kv.Key);if(!t)continue;t.SetPositionAndRotation(kv.Value.at,kv.Value.rot);t.gameObject.SetActive(kv.Value.on);}}
-  void PropsAfterEvening(){PropsAtEveningStart();Put("Kettle",new Vector3(8.48f,.86f,1.55f));Put("JamJar",new Vector3(7.35f,.745f,.62f));Show("Bulb",true);Show("Shawl",true);}
+  void PropsAfterEvening(){PropsAtEveningStart();Put("Kettle",new Vector3(8.48f,.86f,1.55f));Put("JamJar",new Vector3(7.35f,.745f,.62f));Show("Bulb",true);Show("Shawl",true);Show("TeaSet",true);}
   Light FlameLight(Vector3 at){var g=new GameObject("Gas flame (story)");g.transform.position=at;var l=g.AddComponent<Light>();l.type=LightType.Point;l.color=new Color(.35f,.55f,1);l.intensity=.6f;l.range=1.2f;l.shadows=LightShadows.None;return l;}
 
   IEnumerator ValyaAtTheDoor(bool second){

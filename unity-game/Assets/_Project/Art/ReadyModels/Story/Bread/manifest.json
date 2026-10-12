@@ -1,0 +1,26 @@
+{
+ "id": "Bread",
+ "size": 0.32,
+ "dimensions": [
+  0.21,
+  0.32,
+  0.111
+ ],
+ "source": "https://opengameart.org/content/food-pack-0",
+ "author": "yd",
+ "license": "CC0-1.0",
+ "materials": [
+  {
+   "name": "Bread_Material_0",
+   "color": [
+    0.800000011920929,
+    0.800000011920929,
+    0.800000011920929,
+    1.0
+   ],
+   "roughness": 0.6000000238418579,
+   "texture": "Textures/breadD.png",
+   "normal": "Textures/bread01N_tga.png"
+  }
+ ]
+}

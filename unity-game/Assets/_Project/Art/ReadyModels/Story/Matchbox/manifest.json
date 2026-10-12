@@ -1,0 +1,26 @@
+{
+ "id": "Matchbox",
+ "size": 0.055,
+ "dimensions": [
+  0.038,
+  0.055,
+  0.014
+ ],
+ "source": "https://opengameart.org/content/firebreather-matchbox",
+ "author": "the_mazander_man",
+ "license": "CC-BY-3.0",
+ "materials": [
+  {
+   "name": "Matchbox_Material_0",
+   "color": [
+    0.800000011920929,
+    0.800000011920929,
+    0.800000011920929,
+    1.0
+   ],
+   "roughness": 1.0,
+   "texture": "Textures/match_box_atlas.png",
+   "normal": "Textures/match_box_atlas_n.png"
+  }
+ ]
+}
