@@ -19,7 +19,14 @@ namespace Ataka.Scenario {
   public float EyeDrop{get;private set;}public float SeamGap{get;private set;}public float Slide{get;private set;}public float JawAngle{get;private set;}
   public Transform QaSkin=>skinT;public Transform QaGuestHead=>guestT;public Transform QaJaw=>jawT;
   // what is rendered as her head top now (her skinned head is collapsed): the rebuilt scalp / skin, in world space
-  public float Top{get{if(!Shown)return float.NaN;float top=float.MinValue;foreach(var t in new[]{scalpT,skinT})if(t){var b=t.GetComponent<Renderer>().bounds;top=Mathf.Max(top,b.max.y);}return top;}}
+  // pc28c: the exact top over the rendered vertices (Renderer.bounds is the AABB of the rotated mesh and overstates it)
+  public float Top{get{if(!Shown)return float.NaN;float top=float.MinValue;foreach(var t in new[]{scalpT,skinT,guestT})if(t&&t.IsChildOf(follow)){var m=t.GetComponent<MeshFilter>().sharedMesh;foreach(var v in m.vertices)top=Mathf.Max(top,t.TransformPoint(v).y);}return top;}}
+  public bool Mirrored{get;private set;}public bool GuestInside{get;private set;}public float GuestScale{get;private set;}Vector3 herMin,herMax;
+  static void Flip(List<int> t){for(int i=0;i<t.Count;i+=3){int x=t[i+1];t[i+1]=t[i+2];t[i+2]=x;}}
+  // QA: share of a part's triangles that face the camera — her face skin must face him, not show its back
+  public float FacingCamera(Transform part,Camera cam){if(!part||!cam)return 0;var m=part.GetComponent<MeshFilter>().sharedMesh;var v=m.vertices;var t=m.triangles;int n=0,f=0;
+   for(int i=0;i<t.Length;i+=3){var a=part.TransformPoint(v[t[i]]);var b=part.TransformPoint(v[t[i+1]]);var c=part.TransformPoint(v[t[i+2]]);var nrm=Vector3.Cross(b-a,c-a);var mid=(a+b+c)/3;n++;if(Vector3.Dot(nrm,cam.transform.position-mid)>0)f++;}return n>0?f/(float)n:0;}
+  public Vector3 SkinCentre=>skinT?skinT.GetComponent<Renderer>().bounds.center:Vector3.zero;public Vector3 HerChin=>follow?follow.TransformPoint(new Vector3((herMin.x+herMax.x)/2,herMin.y,herMax.z)):Vector3.zero;
 
   static int Dominant(BoneWeight w){int b=w.boneIndex0;float m=w.weight0;if(w.weight1>m){m=w.weight1;b=w.boneIndex1;}if(w.weight2>m){m=w.weight2;b=w.boneIndex2;}if(w.weight3>m){b=w.boneIndex3;}return b;}
   static Mesh Build(string name,List<Vector3> v,List<Vector2> uv,List<int>[] subs){var m=new Mesh{name=name};m.SetVertices(v);if(uv.Count==v.Count)m.SetUVs(0,uv);m.subMeshCount=subs.Length;for(int i=0;i<subs.Length;i++)m.SetTriangles(subs[i],i);m.RecalculateNormals();m.RecalculateBounds();return m;}
@@ -41,6 +48,10 @@ namespace Ataka.Scenario {
    var sv=new List<Vector3>();var suv=new List<Vector2>();var st=new List<int>();var cv=new List<Vector3>();var cuv=new List<Vector2>();var ct=new List<int>();
    foreach(int i in headTris){var a=local[tris[i]];var b=local[tris[i+1]];var c=local[tris[i+2]];bool front=(a.z+b.z+c.z)/3>zFace; // the front slice of her head (winding-independent)
     var V=front?sv:cv;var U=front?suv:cuv;var T=front?st:ct;for(int k=0;k<3;k++){V.Add(local[tris[i+k]]);U.Add(tris[i+k]<buv.Length?buv[tris[i+k]]:Vector2.zero);T.Add(V.Count-1);}}
+   // pc28c: TransformPoint through a mirrored renderer matrix (negative determinant) turns every triangle inside out;
+   // Unity flips culling for the skinned renderer itself, our plain renderer under `follow` would show the backs.
+   Mirrored=skin.transform.localToWorldMatrix.determinant<0;if(Mirrored){Flip(st);Flip(ct);}
+   herMin=Vector3.positiveInfinity;herMax=Vector3.negativeInfinity;foreach(var v in sv){herMin=Vector3.Min(herMin,v);herMax=Vector3.Max(herMax,v);}foreach(var v in cv){herMin=Vector3.Min(herMin,v);herMax=Vector3.Max(herMax,v);}
    var mat=new[]{skin.sharedMaterial};
    skinMesh=Build("her face skin",sv,suv,new[]{st});scalpMesh=Build("her scalp",cv,cuv,new[]{ct});SkinTris=st.Count/3;ScalpTris=ct.Count/3;
    skinT=Part("face skin",skinMesh,mat);scalpT=Part("scalp",scalpMesh,mat);skin0=skinMesh.vertices;skinNow=(Vector3[])skin0.Clone();
@@ -69,10 +80,14 @@ namespace Ataka.Scenario {
     for(int s=0;s<gm.subMeshCount;s++){hs[s]=new List<int>();js[s]=new List<int>();var t=gm.GetTriangles(s);
      for(int i=0;i<t.Length;i+=3){int d0=Dominant(gw[t[i]]),d1=Dominant(gw[t[i+1]]),d2=Dominant(gw[t[i+2]]);int inJaw=(jawSet.Contains(d0)?1:0)+(jawSet.Contains(d1)?1:0)+(jawSet.Contains(d2)?1:0);bool all=(jawSet.Contains(d0)||under.Contains(d0))&&(jawSet.Contains(d1)||under.Contains(d1))&&(jawSet.Contains(d2)||under.Contains(d2));bool isJaw=all&&inJaw>=2;bool isHead=all&&!isJaw;if(!isJaw&&!isHead)continue;
       var V=isJaw?jv:hv;var U=isJaw?juv:huv;var T=isJaw?js[s]:hs[s];for(int k=0;k<3;k++){var p=grot*(gvs[t[i+k]]-centre);V.Add(p);U.Add(t[i+k]<guv.Length?guv[t[i+k]]:Vector2.zero);T.Add(V.Count-1);if(!isJaw){gTop=Mathf.Max(gTop,p.y);gBot=Mathf.Min(gBot,p.y);}}}}
-    float k2=(h*1.15f)/Mathf.Max(.01f,gTop-gBot); // its face about the height of hers (forehead to chin)
-    var herCentre=new Vector3((xMin+xMax)/2,(skinTop+skinBottom)/2,zFace-.01f);
-    for(int i=0;i<hv.Count;i++)hv[i]=herCentre+hv[i]*k2;for(int i=0;i<jv.Count;i++)jv[i]=herCentre+jv[i]*k2;
-    var jawBone=gj>=0?gb[gj].inverse.MultiplyPoint(Vector3.zero):centre;jawPivot=herCentre+grot*(jawBone-centre)*k2;
+    // pc28c (story28-key-c: it stood over her bun like a cap and floated over the neck): the Guest's head AND jaw are fitted
+    // INSIDE her rebuilt head (92 % of the tightest axis) and stand on her chin, so nothing of it shows until her face slides.
+    var gMin=Vector3.positiveInfinity;var gMax=Vector3.negativeInfinity;foreach(var p in hv){gMin=Vector3.Min(gMin,p);gMax=Vector3.Max(gMax,p);}foreach(var p in jv){gMin=Vector3.Min(gMin,p);gMax=Vector3.Max(gMax,p);}
+    var gSize=gMax-gMin;var herSize=herMax-herMin;float k2=.92f*Mathf.Min(herSize.x/Mathf.Max(.01f,gSize.x),Mathf.Min(herSize.y/Mathf.Max(.01f,gSize.y),herSize.z/Mathf.Max(.01f,gSize.z)));
+    var shift=new Vector3((herMin.x+herMax.x)/2-(gMin.x+gMax.x)/2*k2,herMin.y+.01f-gMin.y*k2,(herMin.z+herMax.z)/2-(gMin.z+gMax.z)/2*k2-.005f);
+    for(int i=0;i<hv.Count;i++)hv[i]=shift+hv[i]*k2;for(int i=0;i<jv.Count;i++)jv[i]=shift+jv[i]*k2;GuestScale=k2;
+    var jawBone=gj>=0?gb[gj].inverse.MultiplyPoint(Vector3.zero):centre;jawPivot=shift+grot*(jawBone-centre)*k2;
+    GuestInside=true;foreach(var p in hv)if(p.x<herMin.x-.005f||p.x>herMax.x+.005f||p.y<herMin.y-.005f||p.y>herMax.y+.005f||p.z<herMin.z-.005f||p.z>herMax.z+.005f){GuestInside=false;break;}
     for(int i=0;i<jv.Count;i++)jv[i]-=jawPivot; // the jaw mesh hinges at its joint
     var gmats=gs.sharedMaterials;guestMesh=Build("Guest head",hv,huv,hs);jawMesh=Build("Guest jaw",jv,juv,js);GuestTris=hv.Count/3;JawTris=jv.Count/3;
     guestT=Part("Guest head (under her face)",guestMesh,gmats);jawT=Part("Guest jaw",jawMesh,gmats);jawT.localPosition=jawPivot;}

@@ -11,7 +11,7 @@ namespace Ataka.Scenario {
  // and on her face. PNGs at fixed times + checks.txt (PASS/FAIL/ABSENT) + result.json; exit 0 = no FAIL.
  public sealed class FaceQA:MonoBehaviour {
   string output;readonly List<string> checks=new List<string>();int errors,failures;
-  [Serializable] class Result {public bool passed;public int failures,errors,skinTris,scalpTris,guestTris,jawTris;public float eyeDrop,seamGap,slide,jawAngle,grownTop,faceToHerFace;public bool standInInstalled,leftovers;}
+  [Serializable] class Result {public bool passed;public int failures,errors,skinTris,scalpTris,guestTris,jawTris;public float faceBase,skinFacing,guestFacing,eyeDrop,seamGap,slide,jawAngle,grownTop,faceToHerFace;public bool standInInstalled,leftovers,mirrored,guestInside,skinBelowChin;}
   readonly Result result=new Result();
   [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]static void Boot(){
    var args=Environment.GetCommandLineArgs();int i=Array.IndexOf(args,"-face-qa");if(i<0||i+1>=args.Length)return;
@@ -33,17 +33,28 @@ namespace Ataka.Scenario {
    float t0=Time.time;rig=flat.grandmother.GetComponent<GranRig>();if(rig&&rig.head)headScale=rig.head.localScale;yield return null;var fs=story.QaFaceShed;
    Check(fs&&fs.Ready,"11.9 her head rebuilt from her own triangles (face skin "+(fs?fs.SkinTris:0)+", scalp "+(fs?fs.ScalpTris:0)+") and the Guest's head "+(fs?fs.GuestTris:0)+" + jaw "+(fs?fs.JawTris:0)+" triangles");
    if(fs){result.skinTris=fs.SkinTris;result.scalpTris=fs.ScalpTris;result.guestTris=fs.GuestTris;result.jawTris=fs.JawTris;Check(fs.GuestTris>0&&fs.JawTris>0,"the Guest's head and jaw were found (Head / Jaw weights)");}
+   // pc28c: the staging must be hers standing (story28-face-c started from the hanging pose: 0.90 m → grown 3.98 m)
+   yield return null;result.faceBase=story.QaFaceBase;Check(result.faceBase>1.45f&&result.faceBase<1.65f,"staging: she stands at the stove (head top "+result.faceBase.ToString("F3")+" m over her feet, 1.45–1.65)");
+   var cam=p.view?p.view:Camera.main;
    float[] marks={.5f,.98f,1.2f,1.35f,1.45f,1.7f,2f,2.3f,2.7f,3.2f};int m=0;
    while(story.QaFinaleBeat=="transform"&&m<marks.Length){if(Time.time-t0<marks[m]){yield return null;continue;}
     var mark=marks[m];yield return Shot("face-"+mark.ToString("0.00",System.Globalization.CultureInfo.InvariantCulture));fs=story.QaFaceShed;
     if(fs){checks.Add("FACE t="+mark+" shown "+fs.Shown+" eye drop "+fs.EyeDrop.ToString("F3")+" seam "+fs.SeamGap.ToString("F3")+" slide "+fs.Slide.ToString("F2")+" jaw "+fs.JawAngle.ToString("F0")+"° her head bone scale "+(rig?rig.head.localScale.x.ToString("F4"):"?"));
      if(Mathf.Approximately(mark,1.35f)){result.eyeDrop=fs.EyeDrop;Check(fs.Shown&&fs.EyeDrop>=.03f&&rig.head.localScale.x<headScale.x*.01f,"1.0–1.3: one eye of her face slides down "+(fs.EyeDrop*100).ToString("F1")+" cm (her own skinned head collapsed, the rebuilt one shown)");}
+     if(Mathf.Approximately(mark,1.2f)){result.mirrored=fs.Mirrored;result.guestInside=fs.GuestInside;result.skinFacing=fs.FacingCamera(fs.QaSkin,cam);
+      checks.Add("NOTE her renderer matrix mirrored: "+fs.Mirrored+" (triangles flipped back if so); Guest head scale in hers "+fs.GuestScale.ToString("F3"));
+      Check(result.skinFacing>=.55f,"1.2: her rebuilt face skin faces him ("+(result.skinFacing*100).ToString("F0")+" % of its triangles front-on) — not its back");
+      Check(fs.GuestInside,"before the slide the Guest's head sits inside her head (no cap over the bun, nothing through her face)");}
      if(Mathf.Approximately(mark,1.45f)){result.seamGap=fs.SeamGap;Check(fs.SeamGap>=.012f,"1.3: the face skin splits at the temple ("+(fs.SeamGap*100).ToString("F1")+" cm)");}
      if(Mathf.Approximately(mark,2.3f)){result.slide=fs.Slide;result.jawAngle=fs.JawAngle;Vector3 v=Vector3.zero;bool seen=fs.QaGuestHead&&InFrame(p,fs.QaGuestHead.position,out v);
       Check(fs.Slide>.95f&&fs.JawAngle>=30,"1.5–2.25: the face skin has slid off the chin ("+fs.Slide.ToString("F2")+"), the Guest's jaw dropped "+fs.JawAngle.ToString("F0")+"°");Check(seen,"the grey head under her face is in his frame "+v.ToString("F2"));}
+     if(Mathf.Approximately(mark,2.3f)){result.skinBelowChin=fs.SkinCentre.y<fs.HerChin.y;result.guestFacing=fs.FacingCamera(fs.QaGuestHead,cam);
+      Check(result.skinBelowChin,"2.3: her face skin hangs below her chin ("+fs.SkinCentre.y.ToString("F2")+" < "+fs.HerChin.y.ToString("F2")+")");
+      Check(result.guestFacing>=.4f,"2.3: the grey head shows its face to him ("+(result.guestFacing*100).ToString("F0")+" % front-on)");
+      Vector3 jv=Vector3.zero;Check(fs.QaJaw&&InFrame(p,fs.QaJaw.position,out jv),"2.3: the dropped jaw / mouth is in his frame "+jv.ToString("F2"));}
      if(Mathf.Approximately(mark,2.7f)&&fs.QaSkin)Check(fs.QaSkin.parent==fs.transform,"2.6: the face skin has dropped off her");}
     m++;}
-   while(story.QaFinaleBeat!="tear"&&Time.realtimeSinceStartup<until)yield return null;result.grownTop=story.QaGrownTop;checks.Add("TOP rendered head top after 11.9: "+result.grownTop.ToString("F2")+" m (FinaleQA judges 2.25–2.52)");
+   while(story.QaFinaleBeat!="tear"&&Time.realtimeSinceStartup<until)yield return null;result.grownTop=story.QaGrownTop;Check(result.grownTop>=2.25f&&result.grownTop<=2.52f,"11.9 her rendered head top "+result.grownTop.ToString("F3")+" m (2.25–2.52 under the 2.5 m ceiling; exact vertices)");
    // 11.10: the 3.2 beat — the face in her claw, then on her face
    float[] tm={1f,2.1f,2.4f,2.8f};int k=0;bool inHand=false,onFace=false;
    while(story.QaFinaleBeat=="tear"&&Time.realtimeSinceStartup<until){

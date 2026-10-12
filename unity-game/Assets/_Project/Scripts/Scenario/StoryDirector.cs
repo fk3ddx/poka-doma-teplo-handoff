@@ -889,7 +889,7 @@ namespace Ataka.Scenario {
    var r=Rig();var g=flat.grandmother.transform;var p=player;p.control=false;if(granAnim)granAnim.enabled=false;Beat("transform");
    var from=g.rotation;var face=p.transform.position-g.position;face.y=0;var to=Quaternion.LookRotation(face);
    float h0=Mathf.Max(1,r.Top-g.position.y),grow=2.4f/h0;var baseScale=g.localScale;
-   Debug.Log("FACE_BASE top="+r.Top+" root="+g.position+" scale="+baseScale+" h0="+h0+" grow="+grow+" idle="+granIdle+" bone="+r.head.position);
+   QaFaceBase=h0;Debug.Log("FACE_BASE top="+r.Top+" root="+g.position+" scale="+baseScale+" h0="+h0+" grow="+grow+" idle="+granIdle+" bone="+r.head.position);
    float[] cracks={1f,1.9f,2.5f,3.1f};int c=0;bool seam=false,shriek=false,off=false;
    if(faceShed)faceShed.End();faceShed=FaceShed.Create(r,flat.guest); // pc28: her face skin, the Guest's head and jaw under it
    for(float t=0;t<3.5f;t+=Time.deltaTime){
@@ -908,12 +908,14 @@ namespace Ataka.Scenario {
     yield return null;}
    yield return new WaitForEndOfFrame();QaGrownTop=Mathf.Max(r.MeasureTop(),faceShed&&faceShed.Shown?faceShed.Top:0);
   }
-  public float QaGrownTop{get;private set;}FaceShed faceShed;public FaceShed QaFaceShed=>faceShed;
+  public float QaGrownTop{get;private set;}public float QaFaceBase{get;private set;}FaceShed faceShed;public FaceShed QaFaceShed=>faceShed; // QaFaceBase: her head top over her feet when 11.9 starts (standing ≈ 1.55)
   // QA (-face-qa): 11.9 and 11.10 alone — her at the stove with her back to him, then the transformation and the tear.
   public void QaFaceFinale(){StopAll();running=StartCoroutine(QaFaceRun());}
   IEnumerator QaFaceRun(){chapter=Chapter.Finale;loop.Pause(false);Homely(true);PropsAfterEvening();Put("Kettle",KettleFront);FinaleReset();Rig();
-   var g=flat.grandmother;g.SetActive(true);granHeld=true;g.transform.SetPositionAndRotation(Stand(StoveStand),Quaternion.LookRotation(StoveAt-Stand(StoveStand)));GranPlay(granIdle);
-   player.Place(new Vector3(7.3f,.02f,2.55f),0);yield return null;var d=g.transform.position+Vector3.up*1.3f-player.head.position;player.transform.rotation=Quaternion.LookRotation(new Vector3(d.x,0,d.z));yield return new WaitForSeconds(1);
+   var g=flat.grandmother;g.SetActive(true);granHeld=true;g.transform.SetPositionAndRotation(Stand(StoveStand),Quaternion.LookRotation(StoveAt-Stand(StoveStand)));
+   // pc28c: a hard idle restart — story28-face-c began from the sampled hanging pose (head top 0.90 m over her feet → grow ×2.67, 3.98 m)
+   if(granAnim){granAnim.enabled=true;granAnim.Stop();if(!string.IsNullOrEmpty(granIdle)){granAnim.Play(granIdle);granAnim.Sample();}}GranPlay(granIdle);
+   player.Place(new Vector3(7.3f,.02f,2.55f),0);yield return null;var d=g.transform.position+Vector3.up*1.3f-player.head.position;player.transform.rotation=Quaternion.LookRotation(new Vector3(d.x,0,d.z));yield return new WaitForSeconds(1.5f);
    Beat("question");yield return FinaleTransformation();Beat("tear");if(faceShed){faceShed.End();faceShed=null;}yield return scenes.Play("DeathFinale");sound.EndDeathRecovery();FinaleReset();Beat("done");}
   IEnumerator PeepholeGrandmother(){
    // 11.5: the grandmother looks perfect through the fish-eye. No breath, and Tuzik is silent.
