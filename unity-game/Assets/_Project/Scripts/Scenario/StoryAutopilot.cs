@@ -67,7 +67,7 @@ namespace Ataka.Scenario {
     if(act!=null&&player.control&&string.IsNullOrEmpty(loop.scenes.PlayingScene)){
      yield return Approach(act);
      if(story.Aimed==act){lastProgressAt=Time.realtimeSinceStartup;checks.Add("ACT "+act.label+(act.hold>0?" (hold "+act.hold+"s skipped)":""));yield return Shot("act-"+Slug(act.label));if(act.label=="Глазок")peepholes++;story.QaFire(act);}
-     else{Check(false,"aim did not select '"+act.label+"' at "+act.at()+" from "+player.head.position+" (selected: "+(story.Aimed!=null?story.Aimed.label:"none")+")");break;}
+     else{checks.Add("LOS blocker: "+story.QaLosBlocker(player.head.position,act.at()));yield return Shot("FAILED-aim-"+Slug(act.label));Check(false,"aim did not select '"+act.label+"' at "+act.at()+" from "+player.head.position+" (selected: "+(story.Aimed!=null?story.Aimed.label:"none")+")");break;}
     }
     // Finale refusal path (11.6б): after one look through the peephole, step away from the door.
     if(story.chapter==StoryDirector.Chapter.Finale&&!loop.flat.entrance.open&&peepholes>=1&&story.OpenActs.Any(a=>a.label=="Глазок")&&Vector3.Distance(player.transform.position,loop.flat.entrance.transform.position)<2.4f)player.Place(new Vector3(5.65f,.02f,5.3f),90);
@@ -92,15 +92,28 @@ namespace Ataka.Scenario {
    return best;}
   void ValidateRoutes(string when){var report=new List<string>();var bad=story.QaValidateRoutes(report);routeFailures+=bad.Count;checks.Add("ROUTES at "+when);checks.AddRange(report);
    foreach(var r in bad)checks.Add("ROUTE-BLOCKED "+r);checks.Add((bad.Count==0?"PASS":"FAIL")+" grandmother routes around furniture at "+when+" ("+bad.Count+" failures; run continues)");Write();}
+  // Stand where a player could: free floor for his capsule, within reach, the SAME line-of-sight rule as the prompt,
+  // and a walking route from where he is (room doors on that route are opened as he would). Nearest such spot wins.
+  // LOS is never relaxed; with no valid spot the failure is reported with the blocker path and a FAILED frame.
   IEnumerator Approach(StoryDirector.Act act){
-   var target=act.at();var flat=player.transform.position;var away=flat-target;away.y=0;if(away.sqrMagnitude<.01f)away=Vector3.back;away.Normalize();
-   float distance=target.y<.6f?Mathf.Min(.9f,act.range*.6f):Mathf.Min(1.1f,act.range*.7f);
-   // Do not stand inside or behind a wall/door: stop short of the first obstacle on the floor line.
-   var origin=new Vector3(target.x,1f,target.z);
-   foreach(var hit in Physics.RaycastAll(origin,away,distance+.4f,~(1<<31),QueryTriggerInteraction.Ignore))if(!hit.transform.IsChildOf(player.transform)&&hit.distance>.05f)distance=Mathf.Min(distance,Mathf.Max(.45f,hit.distance-.35f));
-   var feet=new Vector3(target.x,.02f,target.z)+away*distance;
-   var look=target-(feet+Vector3.up*1.55f);float yaw=Quaternion.LookRotation(new Vector3(look.x,0,look.z)).eulerAngles.y;float pitch=-Mathf.Atan2(look.y,new Vector2(look.x,look.z).magnitude)*Mathf.Rad2Deg;
-   player.Place(feet,yaw,pitch);yield return null;yield return null;
+   var target=act.at();var body=player.GetComponent<CharacterController>();float r=body?body.radius:.3f,h=body?body.height:1.8f,eyeH=player.crouched?.94f:1.55f;
+   var from=player.transform.position;Vector3 best=Vector3.zero;float bestScore=float.MaxValue;List<ScenarioDoor> bestDoors=null;var hits=new Collider[16];
+   for(float radius=.55f;radius<=Mathf.Max(.6f,act.range-.2f);radius+=.15f)for(int k=0;k<32;k++){
+    float a=k*Mathf.PI*2/32;var feet=new Vector3(target.x+Mathf.Cos(a)*radius,.02f,target.z+Mathf.Sin(a)*radius);var eye=feet+Vector3.up*eyeH;
+    if(Vector3.Distance(eye,target)>act.range-.05f)continue;
+    int n=Physics.OverlapCapsuleNonAlloc(feet+Vector3.up*(r+.06f),feet+Vector3.up*(h-r),r,hits,~(1<<31),QueryTriggerInteraction.Ignore);bool blocked=false;
+    for(int i=0;i<n;i++)if(!hits[i].transform.IsChildOf(player.transform)){blocked=true;break;}
+    if(blocked||!story.QaReachable(eye,target))continue;
+    float score=Vector3.Distance(new Vector3(from.x,0,from.z),new Vector3(feet.x,0,feet.z))+Mathf.Abs(radius-.85f);if(score>=bestScore)continue;
+    var doors=story.QaPlayerRoute(from,feet);if(doors==null)continue;best=feet;bestScore=score;bestDoors=doors;}
+   if(bestDoors==null){
+    var away=from-target;away.y=0;if(away.sqrMagnitude<.01f)away=Vector3.back;var eye=target+away.normalized*.9f;eye.y=from.y+eyeH;
+    checks.Add("APPROACH-FAILED '"+act.label+"' target "+target.ToString("F2")+": no free spot within "+act.range.ToString("F1")+" m with line of sight and a walking route; from "+eye.ToString("F2")+" first blocker: "+story.QaLosBlocker(eye,target));
+    var look0=target-eye;player.Place(new Vector3(eye.x,.02f,eye.z),Quaternion.LookRotation(new Vector3(look0.x,0,look0.z)).eulerAngles.y);yield return null;yield return Shot("FAILED-approach-"+Slug(act.label));yield break;}
+   foreach(var d in bestDoors)if(!d.open&&!d.locked){d.open=true;checks.Add("QA opens "+d.name+" on the way to '"+act.label+"'");}
+   if(bestDoors.Count>0)yield return new WaitForSeconds(.8f);
+   var look=target-(best+Vector3.up*eyeH);float yaw=Quaternion.LookRotation(new Vector3(look.x,0,look.z)).eulerAngles.y;float pitch=-Mathf.Atan2(look.y,new Vector2(look.x,look.z).magnitude)*Mathf.Rad2Deg;
+   player.Place(best,yaw,pitch);yield return null;yield return null;
   }
   [Serializable]class Result{public bool passed;public string chapter;public int errors,routeFailures;}
  }

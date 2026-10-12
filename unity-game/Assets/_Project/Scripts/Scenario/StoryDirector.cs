@@ -50,6 +50,13 @@ namespace Ataka.Scenario {
    foreach(var hit in Physics.RaycastAll(eye,d/length,length,~(1<<31),QueryTriggerInteraction.Ignore)){
     if(hit.transform.IsChildOf(player.transform)||hit.transform.IsChildOf(flat.grandmother.transform))continue;if(hit.distance<length-.4f)return false;}
    return true;}
+  // QA: the same line-of-sight rule as the prompt, its first blocker as a full path with bounds, and a walkable route
+  // for the player (her grid, closed room doors may be opened — as the player would).
+  public bool QaReachable(Vector3 eye,Vector3 point)=>Reachable(eye,point);
+  public string QaLosBlocker(Vector3 eye,Vector3 point){var d=point-eye;float length=d.magnitude;if(length<.05f)return "none";RaycastHit first=default;bool any=false;
+   foreach(var hit in Physics.RaycastAll(eye,d/length,length,~(1<<31),QueryTriggerInteraction.Ignore)){if(hit.transform.IsChildOf(player.transform)||hit.transform.IsChildOf(flat.grandmother.transform))continue;if(hit.distance<length-.4f&&(!any||hit.distance<first.distance)){first=hit;any=true;}}
+   return any?GranNav.PathOf(first.collider.transform)+" ["+first.collider.GetType().Name+"] at "+first.point.ToString("F2")+" bounds c="+first.collider.bounds.center.ToString("F2")+" size="+first.collider.bounds.size.ToString("F2"):"none";}
+  public List<ScenarioDoor> QaPlayerRoute(Vector3 from,Vector3 to){Nav.Ensure();var r=Nav.Find(from,to,QaCanOpen);return r.steps!=null?r.crossed:null;}
   void Fire(Act a){a.fired=true;acts.Remove(a);lastProgress=Time.time;a.done?.Invoke();}
   // QA surface for StoryAutopilot (-story-smoke): it may only fire an act after the real aim selection picked it.
   public List<Act> OpenActs=>acts;public Act Aimed=>aimed;public void QaFire(Act a){if(a==aimed)Fire(a);}

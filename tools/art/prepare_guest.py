@@ -34,8 +34,9 @@ def save_materials(label,objs,tex):
  for o in objs:
   for slot in o.material_slots:
    m=slot.material
-   if not m or m.name in seen or not m.use_nodes:continue
-   seen.add(m.name);m.name=label+'_Material_'+str(len(mats));p=next((n for n in m.node_tree.nodes if n.type=='BSDF_PRINCIPLED'),None)
+   # Identity, not name: the name changes on the next line, so a shared material must not be renamed twice.
+   if not m or m.as_pointer() in seen or not m.use_nodes:continue
+   seen.add(m.as_pointer());m.name=label+'_Material_'+str(len(mats));p=next((n for n in m.node_tree.nodes if n.type=='BSDF_PRINCIPLED'),None)
    if not p:continue
    e={'name':m.name,'color':list(p.inputs['Base Color'].default_value),'roughness':p.inputs['Roughness'].default_value,'texture':'','normal':''}
    for n in m.node_tree.nodes:
@@ -79,6 +80,9 @@ def cut_right_hand(meshes,bones=None):
   kill=[v for v in bm.verts if sum(w for g,w in v[deform].items() if g in keep)<.5]
   bmesh.ops.delete(bm,geom=kill,context='VERTS');bm.to_mesh(dup.data);bm.free()
   for m in list(dup.modifiers):dup.modifiers.remove(m)
+  # The claw gets its own material copies, so renaming them for GuestClaw never renames GuestBody's materials.
+  for slot in dup.material_slots:
+   if slot.material:slot.material=slot.material.copy()
   if len(dup.data.vertices)<20:bpy.data.objects.remove(dup);continue
   if not best or len(dup.data.vertices)>len(best.data.vertices):best=dup
  return best
@@ -106,3 +110,9 @@ elif opt('--claw') and opt('--claw')!='from-body':
  cm=save_materials('GuestClaw',hand,cout/'Textures');export(hand,cout/'GuestClaw.fbx',False)
  write_meta(cout,'GuestClaw',opt('--claw-source'),opt('--claw-author'),opt('--claw-license'),{'materials':cm,'changes':['format conversion, scaled to 0.46 m']})
  print('PREPARED GuestClaw from separate file')
+# Verify: every exported FBX re-imports with exactly the material names its manifest lists (GuestInstaller maps by name).
+for folder in [p for p in (outroot/'GuestBody',outroot/'GuestClaw') if (p/(p.name+'.fbx')).exists()]:
+ bpy.ops.wm.read_factory_settings(use_empty=True);bpy.ops.import_scene.fbx(filepath=str(folder/(folder.name+'.fbx')))
+ got=sorted({s.material.name for o in bpy.context.scene.objects if o.type=='MESH' for s in o.material_slots if s.material})
+ want=sorted(e['name'] for e in json.loads((folder/'manifest.json').read_text(encoding='utf-8'))['materials'])
+ print(('VERIFY OK ' if got==want else 'VERIFY FAIL ')+folder.name+' fbx='+str(got)+' manifest='+str(want))
