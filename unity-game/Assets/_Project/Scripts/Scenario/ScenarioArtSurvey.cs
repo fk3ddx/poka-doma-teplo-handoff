@@ -23,7 +23,7 @@ namespace Ataka.Scenario {
     V("01-entry-dresser",new Vector3(8.05f,.02f,5.65f),new Vector3(7.1f,1.15f,3.8f)),
     V("02-hall-clock",new Vector3(6.15f,.02f,5.35f),new Vector3(4.8f,1.2f,5.5f)),
     V("03-living-wide",new Vector3(3.25f,.02f,3.65f),new Vector3(5.5f,1.05f,1.45f)),
-    V("04-living-reverse",new Vector3(5.8f,.02f,.8f),new Vector3(3.4f,1.1f,3.5f)),
+    V("04-living-reverse",new Vector3(5.35f,.02f,.8f),new Vector3(3.4f,1.1f,3.5f)),
     V("05-bedroom-door",new Vector3(3.25f,.02f,3.6f),new Vector3(2.2f,1.25f,3.85f)),
     V("06-bedroom-bed",new Vector3(2.4f,.02f,3.4f),new Vector3(.7f,.85f,1.6f)),
     V("07-wardrobe-clearance",new Vector3(1.2f,.02f,3.0f),new Vector3(2.2f,1.15f,3.9f)),

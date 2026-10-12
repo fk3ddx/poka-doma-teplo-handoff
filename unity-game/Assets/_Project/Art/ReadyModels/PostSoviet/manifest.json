@@ -1,0 +1,199 @@
+{
+  "assets": [
+    {
+      "id": "Stove",
+      "height": 0.85,
+      "dimensions_blender": [
+        0.624119222164154,
+        0.5637014508247375,
+        0.8500000238418579
+      ],
+      "author_meshes": [
+        "oven_oven_0"
+      ]
+    },
+    {
+      "id": "Fridge",
+      "height": 1.55,
+      "dimensions_blender": [
+        0.7708362340927124,
+        0.8088234066963196,
+        1.5500000715255737
+      ],
+      "author_meshes": [
+        "fridge_freezer&toilet&&sink_0"
+      ]
+    },
+    {
+      "id": "KitchenCabinet",
+      "height": 0.82,
+      "dimensions_blender": [
+        0.571282684803009,
+        0.4731956720352173,
+        0.8199999928474426
+      ],
+      "author_meshes": [
+        "kitchen shelf_freezer&toilet&&sink_0"
+      ]
+    },
+    {
+      "id": "Sideboard",
+      "height": 1.9,
+      "dimensions_blender": [
+        1.3289507627487183,
+        0.7648091316223145,
+        1.899999976158142
+      ],
+      "author_meshes": [
+        "closet_sofa&sideboard&table_0",
+        "closet_glass_0"
+      ]
+    },
+    {
+      "id": "DiningTable",
+      "height": 0.74,
+      "dimensions_blender": [
+        1.4589489698410034,
+        0.7268184423446655,
+        0.7400000095367432
+      ],
+      "author_meshes": [
+        "table_sofa&sideboard&table_0"
+      ]
+    }
+  ],
+  "materials": [
+    {
+      "name": "PS_0",
+      "glass": false,
+      "color": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "texture": "author_0.png"
+    },
+    {
+      "name": "PS_1",
+      "glass": false,
+      "color": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "texture": "author_1.png"
+    },
+    {
+      "name": "PS_2",
+      "glass": false,
+      "color": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "texture": "author_2.png"
+    },
+    {
+      "name": "PS_3",
+      "glass": true,
+      "color": [
+        0.001998554459213267,
+        0.22519228147584977,
+        0.15461183947249446,
+        0.20368314493017978
+      ]
+    },
+    {
+      "name": "PS_4",
+      "glass": false,
+      "color": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "texture": "author_3.png"
+    },
+    {
+      "name": "PS_5",
+      "glass": false,
+      "color": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "texture": "author_4.png"
+    },
+    {
+      "name": "PS_6",
+      "glass": false,
+      "color": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "texture": "author_5.png"
+    },
+    {
+      "name": "PS_7",
+      "glass": false,
+      "color": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "texture": "author_6.png"
+    },
+    {
+      "name": "PS_8",
+      "glass": false,
+      "color": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "texture": "author_7.png"
+    },
+    {
+      "name": "PS_9",
+      "glass": false,
+      "color": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "texture": "author_8.png"
+    },
+    {
+      "name": "PS_10",
+      "glass": false,
+      "color": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "texture": "author_9.png"
+    },
+    {
+      "name": "PS_11",
+      "glass": false,
+      "color": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "texture": "author_10.png"
+    }
+  ],
+  "source_sha256": "b785681f25be5d71ef10f7b15dfac207fb3ffe65115e54f91c45880edf7d0cf7"
+}

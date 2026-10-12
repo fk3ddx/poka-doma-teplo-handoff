@@ -3,7 +3,7 @@ Official -batchmode -nographics plus hidden startup/console and below-normal pri
 """
 from pathlib import Path
 import argparse,subprocess,json,datetime,re
-parser=argparse.ArgumentParser();parser.add_argument('operation',choices=['door-tests','bedroom06-apply','bedside-smallprops','bedroom07-apply','bedroom07-final','hall09-apply','hall10-apply','core-build']);parser.add_argument('--label',required=True);parser.add_argument('--verify-unheld-lock',action='store_true');args=parser.parse_args()
+parser=argparse.ArgumentParser();parser.add_argument('operation',choices=['door-tests','bedroom06-apply','bedside-smallprops','bedroom07-apply','bedroom07-final','hall09-apply','hall10-apply','apartment11-apply','core-build']);parser.add_argument('--label',required=True);parser.add_argument('--verify-unheld-lock',action='store_true');args=parser.parse_args()
 assert re.fullmatch(r'[A-Za-z0-9_-]+',args.label), 'Output label must be a simple directory name'
 project=Path(__file__).resolve().parents[2]/'unity-game';out=project/'QA'/args.label
 lock=project/'Temp/UnityLockfile'
@@ -26,6 +26,7 @@ editor=Path('C:/Users/User/UnityEditors/6000.3.26f1/Editor/Unity.exe');assert ed
 cmd=[str(editor),'-batchmode','-nographics','-silent-crashes','-job-worker-count','2','-projectPath',str(project),'-logFile',str(out/'editor.log')]
 if args.operation=='door-tests':cmd+=['-runTests','-testPlatform','EditMode','-testFilter','Ataka.Tests.ScenarioDoorSafetyTests','-testResults',str(out/'tests.xml')]
 elif args.operation=='bedroom06-apply':cmd+=['-executeMethod','Ataka.Editor.BedroomArt06.ApplyPreparedArt','-quit']
+elif args.operation=='apartment11-apply':cmd+=['-executeMethod','Ataka.Editor.ApartmentArt11.Install','-quit']
 elif args.operation=='hall10-apply':cmd+=['-executeMethod','Ataka.Editor.HallArt10.Install','-quit']
 elif args.operation=='hall09-apply':cmd+=['-executeMethod','Ataka.Editor.HallArt09.Install','-quit']
 elif args.operation=='bedroom07-final':cmd+=['-executeMethod','Ataka.Editor.BedroomArt07.ApplyReview07','-quit']

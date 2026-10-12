@@ -11,14 +11,14 @@ namespace Ataka.Editor {
   [Serializable] class Manifest {public AssetEntry[] assets;}
   static Manifest manifest;
   public static GameObject TryPlace(string proxy,Vector3 position,Vector3 maximumSize,float yaw,Transform parent){
-   string id=proxy switch {"loungeSofa"=>"SovietSofa","loungeChair"=>"SovietArmchair","tableCoffee"=>"SovietCoffeeTable",_=>null};
+   string id=proxy switch {"loungeSofa"=>"SovietSofa","loungeChair"=>"SovietArmchair","tableCoffee"=>"SovietCoffeeTable","readyShelf"=>"SovietShelf","readyTV"=>"SovietTV","readyDiningChair"=>"SovietDiningChair",_=>null};
    if(id==null)return null;
    manifest??=JsonUtility.FromJson<Manifest>(File.ReadAllText(Folder+"/manifest.json"));
    var entry=manifest.assets.First(x=>x.id==id);
    var source=AssetDatabase.LoadAssetAtPath<GameObject>(Folder+"/"+id+".fbx");
    if(!source)throw new Exception("Missing prepared CC0 asset: "+id);
    var root=new GameObject("READY CC0 "+id);root.transform.SetParent(parent,false);
-   var model=(GameObject)PrefabUtility.InstantiatePrefab(source);model.transform.SetParent(root.transform,false);model.transform.localRotation=Quaternion.identity;
+   var model=(GameObject)PrefabUtility.InstantiatePrefab(source);model.transform.SetParent(root.transform,false);// Preserve author FBX axis conversion on the root.
    var renderers=model.GetComponentsInChildren<Renderer>();
    foreach(var r in renderers){var mats=r.sharedMaterials;for(int i=0;i<mats.Length;i++){
     var link=entry.materials.FirstOrDefault(x=>x.name==mats[i].name);

@@ -1,0 +1,10 @@
+{
+  "file": "Ataka-apartment11-win64.zip",
+  "bytes": 116957796,
+  "sha256": "e867cc903ff80c435410a717f4d4db440362d0eceb2ea362231f40d00c41d225",
+  "runtime_sha256": "7d9b0306636c73afe466a6e7a356f4808293ef17874a16dee9a4c1a6a6e6a17e",
+  "build": "apartment11-build-d",
+  "visual_survey": "apartment11-survey-d",
+  "gameplay": "apartment11-full-d: 50 PASS, errors0, coreFinished true",
+  "note": "Candidate, not accepted final art. Preserves Hall10 archive."
+}

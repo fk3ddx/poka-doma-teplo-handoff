@@ -35,6 +35,7 @@ namespace Ataka.Scenario {
     loop.chase.Begin();yield return ChaseRun();Finish();yield break;
    }
    yield return ObtainFlashlight();
+   if(Array.IndexOf(Environment.GetCommandLineArgs(),"-scenario-hall-light-probe")>=0){Finish();yield break;}
    if(Array.IndexOf(Environment.GetCommandLineArgs(),"-scenario-hall-probe")>=0){
     foreach(var root in loop.flat.apartment.GetComponentsInChildren<Transform>())if(root.name.StartsWith("READY hallway"))foreach(var r in root.GetComponentsInChildren<Renderer>())checks.Add("HALL_MESH "+root.name+" / "+r.name+" bounds="+r.bounds+" enabled="+r.enabled+" active="+r.gameObject.activeInHierarchy+" material="+r.sharedMaterial.name);
     var reflection=FindFirstObjectByType<HallReflections>();var mirror=loop.flat.hallCupboard.GetComponentsInChildren<Renderer>();foreach(var r in mirror)if(r.name.Contains("mirror_0"))Look(r.bounds.center);
@@ -94,7 +95,8 @@ namespace Ataka.Scenario {
    yield return Walk(new Vector3(8.10f,0,4.05f));yield return new WaitForSeconds(.8f);Look(cupboard.interaction.position);
    Check(cupboard.ReadyToTake,"cupboard resumes opening after step back");
    yield return Press(Key.LeftCtrl);yield return new WaitForSeconds(.2f);var pickupBounds=loop.flat.torchPickup.GetComponentInChildren<Renderer>().bounds;foreach(var r in loop.flat.torchPickup.GetComponentsInChildren<Renderer>())pickupBounds.Encapsulate(r.bounds);Look(pickupBounds.center);yield return new WaitForSeconds(.2f);
-   Check(ScenarioSight.Clear(player.transform,player.head.position,pickupBounds.center),"flashlight visible inside open authored compartment");yield return Shot("hall-cupboard-open-flashlight");
+   if(Array.IndexOf(Environment.GetCommandLineArgs(),"-scenario-hall-light-probe")>=0){yield return HallLightProbe.Run(loop.flat,output,Look);yield break;}
+   Check(ScenarioSight.Clear(player.transform,player.head.position,pickupBounds.center),"pickup line of sight has no geometric obstruction");yield return Shot("hall-cupboard-open-flashlight");
    if(Array.IndexOf(Environment.GetCommandLineArgs(),"-scenario-hall-probe")>=0){loop.flat.look.WarmReturn();yield return new WaitForSeconds(.6f);yield return Shot("diagnostic-warm-open-flashlight");loop.flat.look.Apply(FlatCondition.Familiar);}
 
    Look(cupboard.interaction.position);yield return Press(Key.E);yield return new WaitForSeconds(.2f);Check(player.hasFlashlight&&!loop.flat.torchPickup.gameObject.activeSelf,"second E takes flashlight from cupboard");

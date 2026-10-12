@@ -67,3 +67,8 @@ Granny Katcho одобрена по авторскому превью («да н
 - Тапки — готовые House slippers, headless_christ, CC-BY 4.0, источник выше. Два экземпляра ранее подготовленной модели длиной 28 см.
 
 Текстуры импорта ограничены 512 px, bilinear. Ни одна из этих замен не является утверждением художественной приёмки прихожей.
+
+## Apartment11 — крупная мебель и поверхности
+- Post-soviet furniture set with dithering, mariakrasinska: https://sketchfab.com/3d-models/post-soviet-furniture-set-with-dithering-e179fb17eb884ad2b0a2ade519ea42a7 — CC BY4 (https://creativecommons.org/licenses/by/4.0/), согласно полю лицензии и окну скачивания. Описание автора также говорит CC0; используем более строгую атрибуцию. Выделены предметы, нормализован масштаб, материалы перенесены в URP; исходная геометрия/UV/текстуры сохранены.
+- ambientCG Tiles107: https://ambientcg.com/view?id=Tiles107 — CC0, https://docs.ambientcg.com/license/ . Оригинальные карты1K; тонировка материала в движке.
+- Poly Haven: https://polyhaven.com/a/painted_plaster_wall , https://polyhaven.com/a/linoleum_brown , https://polyhaven.com/a/square_tiled_wall — CC0 https://polyhaven.com/license . Источники карт и контрольные суммы рядом с текстурами.
