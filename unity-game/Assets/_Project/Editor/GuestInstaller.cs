@@ -39,6 +39,18 @@ namespace Ataka.Editor {
    Vector3 ac=Vector3.zero,cc=Vector3.zero;foreach(var q in all)ac+=q;foreach(var q in claws)cc+=q;ac/=all.Count;cc/=claws.Count;
    var f=(cc-ac).normalized;var tip=claws.OrderByDescending(q=>Vector3.Dot(q-ac,f)).First();var palm=Vector3.ProjectOnPlane(tip-ac,f).normalized;
    death.clawFingers=f;death.clawPalm=palm;Debug.Log("GUEST_CLAW orientation fingers="+f.ToString("F3")+" palm="+palm.ToString("F3")+" roll="+death.clawRoll);}
+  // The face axis in head-bone space must not depend on the pose the prefab happens to show in the editor (the
+  // creature's Idle turns the head ±45°). Bind pose: bone-to-mesh rotation = inverse(bindpose), and in the bind pose
+  // the creature faces the model's forward (its chest faces the player in every story frame). Fallback: head→Jaw pivot,
+  // a child joint rigidly attached to the head (rest: straight ahead, 22° up).
+  static Vector3 FaceAxis(GameObject model,Transform head,Transform jaw,Vector3 forward){
+   if(!head)return Vector3.zero;
+   foreach(var smr in model.GetComponentsInChildren<SkinnedMeshRenderer>(true)){
+    int i=Array.IndexOf(smr.bones,head);var mesh=smr.sharedMesh;if(i<0||!mesh||i>=mesh.bindposes.Length)continue;
+    var restHead=mesh.bindposes[i].inverse.rotation;var meshForward=smr.transform.InverseTransformDirection(forward);
+    var axis=(Quaternion.Inverse(restHead)*meshForward).normalized;Debug.Log("GUEST_BODY face axis from bind pose "+axis.ToString("F3"));return axis;}
+   if(jaw){var axis=(Quaternion.Inverse(head.rotation)*(jaw.position-head.position)).normalized;Debug.Log("GUEST_BODY face axis from head→Jaw "+axis.ToString("F3"));return axis;}
+   Debug.LogWarning("GUEST_BODY no bind pose and no Jaw: head look-at disabled");return Vector3.zero;}
   static string Pick(string[] names,params string[] keys){foreach(var k in keys){var hit=names.FirstOrDefault(n=>n.ToLowerInvariant().Contains(k));if(hit!=null)return hit;}return null;}
   public static void Install(){
    var scene=EditorSceneManager.OpenScene("Assets/_Project/Scenario/Flat.unity");var flat=UnityEngine.Object.FindFirstObjectByType<FlatBindings>();
@@ -68,7 +80,7 @@ namespace Ataka.Editor {
     var visual=guest.GetComponent<GuestVisual>()??guest.gameObject.AddComponent<GuestVisual>();visual.proxyRenderers=proxy;visual.model=model.transform;
     // Head look-at basis in the bind pose: the parent of "Jaw" (or a bone named Head) and the creature's forward in its space.
     var jaw=model.GetComponentsInChildren<Transform>(true).FirstOrDefault(t=>t.name=="Jaw");var headBone=jaw?jaw.parent:model.GetComponentsInChildren<Transform>(true).FirstOrDefault(t=>t.name.ToLowerInvariant()=="head");
-    var look=guest.GetComponent<GuestLookAt>()??guest.gameObject.AddComponent<GuestLookAt>();look.headBone=headBone;look.headFaceLocal=headBone?Quaternion.Inverse(headBone.rotation)*guest.forward:Vector3.zero;Debug.Log("GUEST_BODY head bone "+(headBone?headBone.name:"none"));
+    var look=guest.GetComponent<GuestLookAt>()??guest.gameObject.AddComponent<GuestLookAt>();look.headBone=headBone;look.headFaceLocal=FaceAxis(model,headBone,jaw,guest.forward);Debug.Log("GUEST_BODY head bone "+(headBone?headBone.name:"none"));
     visual.player=model.GetComponentInChildren<Animation>(true);
     var names=visual.player?visual.player.Cast<AnimationState>().Select(s=>s.name).ToArray():new string[0];
     visual.idle=Pick(names,"idle","stand")??names.FirstOrDefault();visual.walk=Pick(names,"walk");visual.run=Pick(names,"run","sprint");visual.crawl=Pick(names,"crawl","creep");

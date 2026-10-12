@@ -286,7 +286,8 @@ namespace Ataka.Scenario {
    yield return Line("Бабушка","Ох ты… Мишаня, табуретку с кухни возьми, лампочки на антресоли");
    Task("Поменять лампочку в бра");
    yield return Use(()=>flat.stool.transform.position+Vector3.up*.4f,"Взять табуретку",0,2);flat.stool.SetActive(false);
-   yield return Use(new Vector3(6.6f,1.2f,5.25f),"Поставить табуретку под антресолью",0,2.2f);
+   yield return Use(new Vector3(6.6f,.3f,5.4f),"Поставить табуретку под антресолью",0,2.2f);
+   flat.stool.SetActive(true);flat.stool.transform.SetPositionAndRotation(new Vector3(6.6f,0,5.4f),Quaternion.identity);
    Put("Bulb",BulbOnShelf); // visible on the antresol before it is taken
    yield return Use(()=>Prop("Bulb")&&Prop("Bulb").gameObject.activeSelf?Prop("Bulb").position+Vector3.up*.05f:new Vector3(6.6f,2.2f,5.25f),"Достать лампочку с антресоли",0,2.6f);Show("Bulb",false);
    yield return UseHeld(ScenarioLayout.Clock+new Vector3(0,.9f,.1f),"Выкрутить старую и вкрутить новую",2,2.6f,"bulb",ScenarioLayout.Clock+new Vector3(0,.9f,.1f));
@@ -340,7 +341,7 @@ namespace Ataka.Scenario {
   void Put(string id,Vector3 at,bool on=true){var t=Prop(id);if(!t)return;t.position=at;t.gameObject.SetActive(on);}
   void RememberProps(){foreach(var id in new[]{"Kettle","Matchbox","JamJar","Belt","Bread","Cans","Bulb","Shawl","TeaSet","Bag","Corvalol"}){var t=Prop(id);if(t&&!propStart.ContainsKey(id))propStart[id]=(t.position,t.rotation,t.gameObject.activeSelf);}}
   void PropsAtEveningStart(){foreach(var kv in propStart){var t=Prop(kv.Key);if(!t)continue;t.SetPositionAndRotation(kv.Value.at,kv.Value.rot);t.gameObject.SetActive(kv.Value.on);}}
-  static readonly Vector3 BulbOnShelf=new Vector3(6.72f,2.12f,5.25f);
+  static readonly Vector3 BulbOnShelf=new Vector3(6.75f,2.293f,5.71f); // on the top front edge of the hall antresol (AntresolInstaller: cabinet x6.19–7.01 z5.67–6.0 y1.65–2.29)
   static readonly Vector3 BagAtDoor=new Vector3(8.35f,0,5.45f),BagOnTable=new Vector3(7.95f,.745f,.62f),CorvalolOnTable=new Vector3(7.25f,.745f,.75f);
   void PropsAfterEvening(){PropsAtEveningStart();Show("Bag",false);Show("Corvalol",false);Put("Kettle",new Vector3(8.48f,.86f,1.55f));Put("JamJar",new Vector3(7.35f,.745f,.62f));Show("Bulb",true);Show("Shawl",true);Show("TeaSet",true);}
   Light FlameLight(Vector3 at){var g=new GameObject("Gas flame (story)");g.transform.position=at;var l=g.AddComponent<Light>();l.type=LightType.Point;l.color=new Color(.35f,.55f,1);l.intensity=.6f;l.range=1.2f;l.shadows=LightShadows.None;return l;}
