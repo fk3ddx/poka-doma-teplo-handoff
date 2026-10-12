@@ -30,3 +30,27 @@ Kenney: [Impact Sounds](https://kenney.nl/assets/impact-sounds) and [RPG Audio](
 Edits: mono downmix, transient or cycle selection, short edge fades / 80 ms loop crossfade, transient peak target -1 dBFS; long sounds RMS target -20 dBFS constrained by a -3 dBFS peak ceiling; PCM16 at original sample rate. See `art-sources/Audio/processed-manifest.json`. Review all edits by listening before final selection.
 
 Known substitutions: Western Electric phone is not a verified Soviet telephone; chime comes from a Gustav Becker Westminster recording; wet pasta foley stands in for Guest palm impacts. Finger crack is recorded knuckle foley; wet tear is a short chicken-carcass foley edit; choked cry is an acted adult male pain grunt, not the final Misha actor. Tinnitus is an intentionally synthesized effect, not a field recording. Existing phone and grandmother synthetic speech is unchanged and temporary. No claim of historically exact sound or natural actor performance.
+
+## Household pass — 2026-10-12 (Claude, `tools/audio/prepare_household.py`)
+
+License checked on each sound page when fetched. These are again public HQ MP3 previews, not original downloads. Edit intervals are in `art-sources/Audio/processed-household-manifest.json`; listening review is pending.
+
+| Role | Author and source | License |
+|---|---|---|
+| kettle-whistle | [wlabarron — 507937](https://freesound.org/people/wlabarron/sounds/507937/) | [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| match | [scalywhale — 423811](https://freesound.org/people/scalywhale/sounds/423811/) | [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| gas-ignite | [apintofmild — 649092](https://freesound.org/people/apintofmild/sounds/649092/) | [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| tap-fill | [nickmaysoundmusic — 503559](https://freesound.org/people/nickmaysoundmusic/sounds/503559/) | [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| spoon | [cupido-1 — 433539](https://freesound.org/people/cupido-1/sounds/433539/) | [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| clock-wind | [Gerent — 558732](https://freesound.org/people/Gerent/sounds/558732/) | [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| bulb | [domrodrig — 119089](https://freesound.org/people/domrodrig/sounds/119089/) | [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| tv | [TRP — 616850](https://freesound.org/people/TRP/sounds/616850/) | [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| crt-whine | [Fission9 — 693863](https://freesound.org/people/Fission9/sounds/693863/) | [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| drip | [eimear123 — 323142](https://freesound.org/people/eimear123/sounds/323142/) | [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| switch | [handygaber — 499771](https://freesound.org/people/handygaber/sounds/499771/) | [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| breaker | [CheatinSloth — 770481](https://freesound.org/people/CheatinSloth/sounds/770481/) | [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| car-pass | [robotjay — 275164](https://freesound.org/people/robotjay/sounds/275164/) | [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| doorbell | [misperpodcast — 733560](https://freesound.org/people/misperpodcast/sounds/733560/) | [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+
+`radio_loop.wav` is a loop cut from the project's own `radio_original_waltz.wav` (`unity-game/tools/art/make_audio.py`), a temporary stand-in for the radio point.
+The 425 Hz busy tone and the 1 kHz test-card tone are generated at runtime in `ScenarioSound` because they are electronic signals; neither is a field recording.

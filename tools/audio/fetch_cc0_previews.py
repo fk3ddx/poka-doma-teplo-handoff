@@ -6,6 +6,10 @@ items=[('phone','mycompasstv',456433),('clock','Vrymaa',797574),('chime','claudi
 items += [('shriek','DigestContent',449702),('palms','fordps3',262588),('heartbeat','loudernoises',332821),('wind','poots',627793),('rope','harveyism',130364),('scratch','nickyg11p',390869),('fridge','RCSound99',651210)]
 items += [('crack','Joao_Janz',477640),('tear','ProductionNow',234236),('tear-short','aust_paul',30931)]
 items += [('pain-cry','MrFossy',547208),('tinnitus','Sclolex',210533)]
+# Household pass (SCENARIO 4 / 6 / 11 / 14): kitchen, clock key, TV, electricity, night street.
+items += [('kettle-whistle','wlabarron',507937),('match','scalywhale',423811),('gas-ignite','apintofmild',649092),('tap-fill','nickmaysoundmusic',503559)]
+items += [('spoon','cupido-1',433539),('clock-wind','Gerent',558732),('bulb','domrodrig',119089),('tv','TRP',616850)]
+items += [('crt-whine','Fission9',693863),('drip','eimear123',323142),('switch','handygaber',499771),('breaker','CheatinSloth',770481),('car-pass','robotjay',275164),('doorbell','misperpodcast',733560)]
 existing=json.loads((root/'manifest.json').read_text(encoding='utf-8')) if (root/'manifest.json').exists() else []
 results=[]
 for role,user,ident in items:

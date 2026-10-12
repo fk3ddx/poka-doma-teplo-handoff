@@ -8,7 +8,7 @@ namespace Ataka.Scenario {
   public AudioClip phoneWarning,grandmotherKnock;public ScenarioSoundBank bank;
   public bool quiet; public bool DeathRecovery{get;private set;} public bool calibrating;AudioClip reversedPhone;LoopDirector loop;
   const int PoolSize=32;
-  sealed class Voice {public AudioSource source;public AudioLowPassFilter low;public AudioHighPassFilter high;public ScenarioSoundCue cue;public Transform anchor;public bool wanted,bypassQuiet;public float baseGain,fade,occluded,obstructionTarget,tailGain=1,tailTarget=1,startedAt;}
+  sealed class Voice {public AudioSource source;public AudioLowPassFilter low;public AudioHighPassFilter high;public ScenarioSoundCue cue;public Transform anchor;public bool wanted,bypassQuiet,released;public float baseGain,fade,occluded,obstructionTarget,tailGain=1,tailTarget=1,startedAt;}
   readonly Dictionary<string,ScenarioSoundCue> cues=new Dictionary<string,ScenarioSoundCue>();
   readonly Dictionary<ScenarioSoundCue,AnimationCurve> curves=new Dictionary<ScenarioSoundCue,AnimationCurve>();
   readonly Dictionary<string,int> lastClips=new Dictionary<string,int>();
@@ -30,7 +30,13 @@ namespace Ataka.Scenario {
     var low=obj.AddComponent<AudioLowPassFilter>();low.cutoffFrequency=22000;var high=obj.AddComponent<AudioHighPassFilter>();high.cutoffFrequency=10;
     voices[i]=new Voice{source=source,low=low,high=high};
    }
+   // Telephone-exchange and test-card signals are electronic tones by nature (AUDIO-PLAN: synthesis only for such signals).
+   if(!cues.ContainsKey("busy"))cues["busy"]=new ScenarioSoundCue{id="busy",clips=new[]{Tone("Busy tone 425 Hz",425,4.2f,.35f)},bus=ScenarioBus.Voice,gainDb=-16,pitchVariation=0,spatial=false,maxInstances=1,priority=20};
+   if(!cues.ContainsKey("test_tone"))cues["test_tone"]=new ScenarioSoundCue{id="test_tone",clips=new[]{Tone("Test card 1 kHz",1000,2.6f,0)},bus=ScenarioBus.World,gainDb=-20,pitchVariation=0,maxInstances=1,priority=60,maxDistance=14};
   }
+  static AudioClip Tone(string name,float hz,float seconds,float cadence){const int rate=22050;int n=(int)(seconds*rate);var data=new float[n];
+   for(int i=0;i<n;i++){float t=i/(float)rate;bool on=cadence<=0||((int)(t/cadence))%2==0;float local=cadence>0?t%cadence:t;float edge=Mathf.Clamp01(local/.004f)*Mathf.Clamp01(((cadence>0?cadence:seconds)-local)/.004f);data[i]=on?.5f*edge*Mathf.Sin(2*Mathf.PI*hz*t):0;}
+   var clip=AudioClip.Create(name,n,1,rate,false);clip.SetData(data,0);return clip;}
   void Start(){if(phoneWarning){var data=new float[phoneWarning.samples*phoneWarning.channels];phoneWarning.GetData(data,0);int ch=phoneWarning.channels;for(int i=0;i<phoneWarning.samples/2;i++)for(int c=0;c<ch;c++){int a=i*ch+c,b=(phoneWarning.samples-1-i)*ch+c;float value=data[a];data[a]=data[b];data[b]=value;}reversedPhone=AudioClip.Create("Phone reversed",phoneWarning.samples,ch,phoneWarning.frequency,false);reversedPhone.SetData(data,0);}}
   public float Speak(bool reversed,Vector3 position){StopCue("phone");StopCue("phone_voice");var clip=reversed?reversedPhone:phoneWarning;if(!clip)return 0;var v=StartVoice(VoiceCue,clip,position,null,true,true);if(v!=null){v.low.cutoffFrequency=3400;v.high.cutoffFrequency=300;}return clip.length;}
   public void Grandmother(Vector3 position){if(!grandmotherKnock)return;var v=StartVoice(DoorVoiceCue,grandmotherKnock,position,null,false,false);if(v!=null)v.low.cutoffFrequency=1200;}
@@ -51,20 +57,33 @@ namespace Ataka.Scenario {
    if(count>=cue.maxInstances){if(cue.id=="chime"&&oldest!=null){available=oldest;stats.replaced++;}else{SuppressedOverlaps++;stats.limit++;return null;}}
    // Never steal an active voice/clock tail for a lower-priority event.
    if(available==null){SuppressedOverlaps++;stats.pool++;return null;}
-   var voice=available;var s=voice.source;voice.cue=cue;voice.anchor=anchor;voice.bypassQuiet=bypassQuiet;voice.wanted=true;voice.fade=cue.loop?0:1;voice.occluded=0;voice.obstructionTarget=0;voice.baseGain=Mathf.Pow(10,cue.gainDb/20);voice.tailGain=voice.tailTarget=1;voice.startedAt=Time.time;stats.started++;
+   var voice=available;var s=voice.source;voice.cue=cue;voice.anchor=anchor;voice.bypassQuiet=bypassQuiet;voice.wanted=true;voice.released=false;voice.fade=cue.loop?0:1;voice.occluded=0;voice.obstructionTarget=0;voice.baseGain=Mathf.Pow(10,cue.gainDb/20);voice.tailGain=voice.tailTarget=1;voice.startedAt=Time.time;stats.started++;
    s.Stop();s.transform.position=position;s.clip=clip;s.loop=cue.loop;s.spatialBlend=force2D||!cue.spatial?0:1;s.minDistance=cue.minDistance;s.maxDistance=cue.maxDistance;if(!curves.TryGetValue(cue,out var curve)){curve=new AnimationCurve(new Keyframe(0,1),new Keyframe(cue.minDistance/cue.maxDistance,1),new Keyframe(.5f,.25f),new Keyframe(1,0));curves.Add(cue,curve);}s.SetCustomCurve(AudioSourceCurveType.CustomRolloff,curve);s.priority=cue.priority;s.pitch=1+UnityEngine.Random.Range(-cue.pitchVariation,cue.pitchVariation);s.volume=0;s.ignoreListenerPause=false;
    s.outputAudioMixerGroup=bank&&bank.groups!=null&&bank.groups.Length>(int)cue.bus?bank.groups[(int)cue.bus]:null;
    voice.low.cutoffFrequency=22000;voice.high.cutoffFrequency=10;s.Play();CueStarted?.Invoke(cue.id);if(cue.loop)s.time=UnityEngine.Random.Range(0,Mathf.Max(0,clip.length-.1f));return voice;
   }
   void EnsureLoop(string id,Transform anchor){
    foreach(var v in voices)if(v.cue!=null&&v.cue.id==id&&v.anchor==anchor&&v.source.isPlaying){v.wanted=true;return;}
-   if(!cues.TryGetValue(id,out var cue)||cue.clips.Length==0)return;StartVoice(cue,cue.clips[ChooseClip(cue)],anchor?anchor.position:listener.position,anchor,false,false);
+   if(!cues.TryGetValue(id,out var cue)||cue.clips==null||cue.clips.Length==0){if(missing.Add(id))Debug.LogWarning("Missing recorded sound: "+id);return;}StartVoice(cue,cue.clips[ChooseClip(cue)],anchor?anchor.position:listener.position,anchor,false,false);
   }
+  // Story-owned household beds (fridge, radio point, gas, kettle, TV) and sporadic details (drips, a car outside).
+  // Only the story turns them on; the loop keeps SCENARIO 14's dead silence + clock. ResetWorld clears them all.
+  readonly Dictionary<string,Transform> bedAnchors=new Dictionary<string,Transform>();readonly HashSet<string> beds=new HashSet<string>();
+  sealed class Sporadic {public string id;public Vector3 at;public float min,max,next;}readonly Dictionary<string,Sporadic> sporadic=new Dictionary<string,Sporadic>();
+  static readonly HashSet<string> NarrowBand=new HashSet<string>{"radio"};
+  public bool BedOn(string id)=>beds.Contains(id);
+  public void Bed(string id,Vector3 at,bool on){
+   if(!bedAnchors.TryGetValue(id,out var t)||!t){t=new GameObject("Bed "+id).transform;t.SetParent(transform,false);bedAnchors[id]=t;}
+   t.position=at;if(on)beds.Add(id);else beds.Remove(id);}
+  public void Every(string id,Vector3 at,float min,float max,bool on){if(on)sporadic[id]=new Sporadic{id=id,at=at,min=min,max=max,next=Time.time+UnityEngine.Random.Range(min,max)};else sporadic.Remove(id);}
+  public void ClearBeds(){beds.Clear();sporadic.Clear();}
+  // A one-shot that should end softly when the player lets go of a held action (tap, clock key, bulb).
+  public void ReleaseCue(string id){if(voices==null)return;foreach(var v in voices)if(v.cue!=null&&v.cue.id==id)v.released=true;}
   public void StopCue(string id){if(voices==null)return;foreach(var v in voices)if(v.cue!=null&&v.cue.id==id){v.source.Stop();v.cue=null;}}
   // Scene-owned one-shots must not resume when its envelope is released.
   public void BeginDeathRecovery(){DeathRecovery=true;foreach(var id in new[]{"breath","palms","finger_crack","choked_cry","wet_tear"})StopCue(id);}
   public void EndDeathRecovery(){DeathRecovery=false;quiet=false;}
-  public void ResetWorld(){DeathRecovery=false;if(voices!=null)foreach(var v in voices){v.source.Stop();v.cue=null;}quiet=false;worldGain=1;travel=0;hadFeet=false;}
+  public void ResetWorld(){DeathRecovery=false;ClearBeds();if(voices!=null)foreach(var v in voices){v.source.Stop();v.cue=null;}quiet=false;worldGain=1;travel=0;hadFeet=false;}
   public void ShiftWorld(Vector3 delta){if(voices!=null)foreach(var v in voices)if(v.cue!=null&&!v.anchor&&v.source.spatialBlend>0)v.source.transform.position+=delta;}
   void Update(){
    if(paused||!loop||!bank||!listener)return;
@@ -75,14 +94,17 @@ namespace Ataka.Scenario {
     else if(clock&&!hanging&&!loop.flat.clock.stopped)EnsureLoop("clock",clock); // a stopped grandfather clock is silent (evening before 4.6, 22:07)
     if(!chase&&!hanging&&(loop.Progress.Lap==2||loop.Progress.Lap==3))EnsureLoop("wind",loop.flat.balcony);
     if((hanging&&sceneTime<4.9f)||loop.HangingWaiting)EnsureLoop("rope",loop.flat.grandmother.transform);
+    foreach(var id in beds)EnsureLoop(id,bedAnchors[id]);
+    foreach(var e in sporadic.Values)if(Time.time>=e.next){e.next=Time.time+UnityEngine.Random.Range(e.min,e.max);PlayInternal(e.id,e.at,null,false);}
    }
    worldGain=Mathf.MoveTowards(worldGain,quiet?0:1,Time.deltaTime/(quiet?.05f:.3f));obstructionTimer-=Time.deltaTime;bool testObstruction=obstructionTimer<=0;if(testObstruction)obstructionTimer=.1f;
    foreach(var v in voices){
     if(v.cue==null)continue;var s=v.source;if(!s.isPlaying){v.cue=null;continue;}if(v.anchor)s.transform.position=v.anchor.position;
     if(testObstruction&&s.spatialBlend>0){var d=s.transform.position-listener.position;float length=d.magnitude;v.obstructionTarget=!calibrating&&!(v.cue.id=="chime"&&length<2)&&length>.25f&&Physics.Raycast(listener.position,d.normalized,out var hit,length-.15f,~(1<<31),QueryTriggerInteraction.Ignore)&&(!v.anchor||!hit.transform.IsChildOf(v.anchor))?1:0;}
     v.occluded=Mathf.MoveTowards(v.occluded,v.obstructionTarget,Time.deltaTime/.15f);
-    if(!v.cue.id.StartsWith("phone_",StringComparison.Ordinal)&&v.cue.id!="door_voice")v.low.cutoffFrequency=Mathf.Lerp(v.low.cutoffFrequency,v.occluded>0?1800:22000,1-Mathf.Exp(-Time.deltaTime/ .15f));
-    v.fade=Mathf.MoveTowards(v.fade,v.cue.loop&&!v.wanted?0:1,Time.deltaTime/.2f);
+    if(NarrowBand.Contains(v.cue.id)){v.low.cutoffFrequency=v.occluded>0?1500:3200;v.high.cutoffFrequency=260;}
+    else if(!v.cue.id.StartsWith("phone_",StringComparison.Ordinal)&&v.cue.id!="door_voice"&&v.cue.id!="busy")v.low.cutoffFrequency=Mathf.Lerp(v.low.cutoffFrequency,v.occluded>0?1800:22000,1-Mathf.Exp(-Time.deltaTime/ .15f));
+    v.fade=Mathf.MoveTowards(v.fade,(v.cue.loop&&!v.wanted)||v.released?0:1,Time.deltaTime/(v.released?.35f:.2f));
     v.tailGain=Mathf.MoveTowards(v.tailGain,v.tailTarget,Time.deltaTime/.15f);float gain=v.bypassQuiet?1:worldGain;float sceneGain=1;
     // The short death is silent from black (2.5s); the hanging vision from disappearance (5s).
     // Explicit foreground selection preserves the later latch without globally dropping Play calls.
@@ -90,7 +112,7 @@ namespace Ataka.Scenario {
     if(hanging){bool foreground=v.cue.id=="rope"||v.cue.id=="breath"||v.cue.id=="tinnitus";sceneGain=foreground?Mathf.Clamp01((5-sceneTime)/.1f):v.cue.id=="latch"&&sceneTime>=6?1:Mathf.Clamp01(1-sceneTime/.05f);}
     if(DeathRecovery)sceneGain=0;
     s.volume=v.baseGain*v.fade*gain*v.tailGain*Mathf.Lerp(1,.5f,v.occluded)*sceneGain;
-    if(v.cue.loop&&!v.wanted&&v.fade<=0){s.Stop();v.cue=null;}
+    if(((v.cue.loop&&!v.wanted)||v.released)&&v.fade<=0){s.Stop();v.cue=null;v.released=false;}
    }
    PeakVoiceCount=Mathf.Max(PeakVoiceCount,ActiveVoiceCount);if(!calibrating)Steps();
   }

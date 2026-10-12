@@ -21,11 +21,14 @@ namespace Ataka.Scenario {
   [Serializable] class Save {public string chapter;public bool flashlight,belt;}
 
   // ---------- interaction (all story actions go through one aimed-target list) ----------
-  public sealed class Act {public Func<Vector3> at;public string label;public float range=1.8f,hold,cos=.86f;public Key key=Key.E;public Func<bool> when;public bool fired;public Action done;}
+  public sealed class Act {public Func<Vector3> at;public string label;public float range=1.8f,hold,cos=.86f;public Key key=Key.E;public Func<bool> when;public bool fired;public Action done;public Action<bool> holding;}
   readonly List<Act> acts=new List<Act>();Act aimed;float held;
   Act Offer(Func<Vector3> at,string label,float hold=0,float range=1.8f,Key key=Key.E,Func<bool> when=null,Action done=null){var a=new Act{at=at,label=label,hold=hold,range=range,key=key,when=when,done=done};acts.Add(a);return a;}
   IEnumerator Use(Vector3 point,string label,float hold=0,float range=1.8f){var a=Offer(()=>point,label,hold,range);while(!a.fired)yield return null;}
   IEnumerator Use(Func<Vector3> at,string label,float hold=0,float range=1.8f){var a=Offer(at,label,hold,range);while(!a.fired)yield return null;}
+  // A held action with its own sound while the key is down (tap, clock key, bulb); the sound fades if let go.
+  IEnumerator UseHeld(Vector3 point,string label,float hold,float range,string cue,Vector3 soundAt){var a=Offer(()=>point,label,hold,range);a.holding=on=>{if(on)sound.Play(cue,soundAt);else sound.ReleaseCue(cue);};while(!a.fired)yield return null;}
+  Act holdingAct;void Holding(Act a){if(holdingAct==a)return;var was=holdingAct;holdingAct=a;was?.holding?.Invoke(false);a?.holding?.Invoke(true);}
   void Withdraw(Act a){if(a!=null)acts.Remove(a);}
   void TickActs(){
    aimed=null;float best=-1;var eye=player.head.position;var forward=player.head.forward;
@@ -33,9 +36,9 @@ namespace Ataka.Scenario {
    string text="";
    if(aimed!=null){
     var k=Keyboard.current;bool pressed=k!=null&&k[aimed.key].wasPressedThisFrame,down=k!=null&&k[aimed.key].isPressed;string key=aimed.key==Key.E?"E":aimed.key.ToString();
-    if(aimed.hold<=0){text="["+key+"] "+aimed.label;if(pressed)Fire(aimed);}
-    else{held=down?held+Time.deltaTime:0;text="["+key+" удерживать] "+aimed.label+(held>0?"  "+Mathf.RoundToInt(100*Mathf.Clamp01(held/aimed.hold))+"%":"");if(held>=aimed.hold){held=0;Fire(aimed);}}
-   }else held=0;
+    if(aimed.hold<=0){Holding(null);text="["+key+"] "+aimed.label;if(pressed)Fire(aimed);}
+    else{held=down?held+Time.deltaTime:0;Holding(held>0?aimed:null);text="["+key+" удерживать] "+aimed.label+(held>0?"  "+Mathf.RoundToInt(100*Mathf.Clamp01(held/aimed.hold))+"%":"");if(held>=aimed.hold){held=0;Holding(null);Fire(aimed);}}
+   }else{held=0;Holding(null);}
    // Two prompts on one door (peephole / open) are shown together.
    foreach(var a in acts.ToArray())if(a!=aimed&&!a.fired&&(a.when==null||a.when())&&aimed!=null&&(a.at()-aimed.at()).sqrMagnitude<.05f){var k=Keyboard.current;text+="   ["+a.key+"] "+a.label;if(k!=null&&k[a.key].wasPressedThisFrame)Fire(a);}
    loop.prompt.text=text;
@@ -118,7 +121,7 @@ namespace Ataka.Scenario {
    running=StartCoroutine(at switch{"Evening"=>Evening(false),"Night1"=>Night1(false),"Night2"=>Night2(false),"Finale"=>Finale(),_=>Prologue()});
   }
   public void Abandon(){StopAll();chapter=Chapter.Loop;flat.entrance.direction=1;}
-  void StopAll(){if(running!=null)StopCoroutine(running);StopAllCoroutines();acts.Clear();card=null;fade=0;objective="";choiceA=choiceB=null;scenes.Cancel();loop.chase.Stop();sound.ResetWorld();if(tv)tv.storyOn=false;if(strap)strap.enabled=false;}
+  void StopAll(){if(running!=null)StopCoroutine(running);StopAllCoroutines();acts.Clear();holdingAct=null;kettleBoiling=false;card=null;fade=0;objective="";choiceA=choiceB=null;scenes.Cancel();loop.chase.Stop();sound.ResetWorld();if(tv)tv.storyOn=false;if(strap)strap.enabled=false;}
   void Update(){
    if(granBody)granBody.enabled=OwnsFlat&&chapter!=Chapter.Ended; // in the loop the hanging vision needs clear sight to her
    if(!OwnsFlat||player.paused)return;
@@ -140,6 +143,16 @@ namespace Ataka.Scenario {
    if(flat.hallCupboard)flat.hallCupboard.ResetForLap();flat.torchPickup.gameObject.SetActive(!player.hasFlashlight);
   }
 
+  // ---------- household sound (SCENARIO 14): beds the story owns; the loop keeps dead silence + clock ----------
+  static readonly Vector3 FridgeAt=new Vector3(8.24f,1f,2.43f),RadioAt=new Vector3(8.73f,1.45f,2f),SinkAt=new Vector3(6.9f,.95f,1.6f),StoveAt=new Vector3(8.48f,.95f,1.65f),TableAt=new Vector3(7.58f,.8f,.55f),StreetAt=new Vector3(4.5f,-3f,-9f);
+  void HouseSound(bool radio,bool night){sound.Bed("fridge",FridgeAt,true);sound.Bed("radio",RadioAt,radio);sound.Every("drip",SinkAt,4,9,night);sound.Every("car",StreetAt,45,110,night);}
+  // Before a frightening event the world goes out in layers: radio, fridge, drips/street (the clock stays).
+  IEnumerator HouseQuiet(){sound.Bed("radio",RadioAt,false);yield return new WaitForSeconds(.6f);sound.Bed("fridge",FridgeAt,false);yield return new WaitForSeconds(.6f);sound.Every("drip",SinkAt,0,0,false);sound.Every("car",StreetAt,0,0,false);}
+  IEnumerator LightGas(){sound.Play("switch",StoveAt);sound.Play("match",StoveAt);yield return new WaitForSeconds(.5f);sound.Play("gas_ignite",StoveAt);sound.Bed("gas",StoveAt,true);}
+  void GasOff(bool click=true){if(click)sound.Play("switch",StoveAt);sound.Bed("gas",StoveAt,false);sound.Bed("kettle",StoveAt,false);sound.ReleaseCue("kettle_rise");kettleBoiling=false;}
+  bool kettleBoiling;
+  IEnumerator KettleBoils(){kettleBoiling=true;sound.Play("kettle_rise",StoveAt);for(float t=0;t<6.5f;t+=Time.deltaTime){if(!kettleBoiling)yield break;yield return null;}if(kettleBoiling)sound.Bed("kettle",StoveAt,true);}
+
   // ---------- 3. Prologue (only the door scene exists in the flat) ----------
   IEnumerator Prologue(){
    chapter=Chapter.Evening;loop.Pause(false);fade=1;Homely(true);
@@ -149,8 +162,9 @@ namespace Ataka.Scenario {
    yield return Card("Подъезд, пятый этаж. Холодно — изо рта идёт пар.\nЗа дверью 59 лает Тузик.",3.5f);
    yield return Fade(0,1.2f);player.control=true;Task("Позвонить в квартиру 60");
    yield return Use(flat.entrance.transform.position+Vector3.up*.3f,"Позвонить");
-   sound.Play("knock",flat.entrance.transform.position);yield return new WaitForSeconds(1.2f);sound.Play("latch",flat.entrance.transform.position);yield return new WaitForSeconds(.5f);
-   GranShow("Door",0);flat.entrance.locked=false;flat.entrance.open=true;sound.Play("door_open",flat.entrance.transform.position);
+   sound.Play("doorbell",flat.entrance.transform.position);yield return new WaitForSeconds(.45f);sound.Play("doorbell",flat.entrance.transform.position);yield return new WaitForSeconds(2.2f);
+   sound.Play("latch",flat.entrance.transform.position);yield return new WaitForSeconds(.45f);sound.Play("latch",flat.entrance.transform.position);yield return new WaitForSeconds(.4f);sound.Play("latch",flat.entrance.transform.position);yield return new WaitForSeconds(.4f);
+   HouseSound(true,false);GranShow("Door",0);flat.entrance.locked=false;flat.entrance.open=true;sound.Play("door_open",flat.entrance.transform.position);
    yield return Line("Бабушка","Мишаня! Приехал! Замёрз весь — ну-ка, заходи, разувайся. Мать звонила, сказала — с сумкой, тяжёлой небось");
    StartCoroutine(GranGo("Kitchen"));Task("Войти");
    while(player.transform.position.z>5.85f)yield return null;
@@ -162,7 +176,7 @@ namespace Ataka.Scenario {
   IEnumerator Evening(bool continued){
    chapter=Chapter.Evening;
    if(!continued){loop.Pause(false);Homely(true);flat.stool.SetActive(true);flat.stool.transform.SetPositionAndRotation(new Vector3(7.15f,0,1.2f),Quaternion.identity);player.Place(ScenarioLayout.Spawn,180);GranShow("Kitchen",90);yield return Fade(0,.8f);}
-   Checkpoint("Evening");flat.clock.stopped=true;Clock(19,15);OfferFlashlight();PropsAtEveningStart();
+   Checkpoint("Evening");HouseSound(true,false);flat.clock.stopped=true;Clock(19,15);OfferFlashlight();PropsAtEveningStart();
    // 4.1
    Task("Повесить куртку и разуться");
    yield return Use(new Vector3(8.72f,1.6f,5.1f),"Повесить куртку");sound.Play("carpet_step",player.transform.position);
@@ -178,10 +192,10 @@ namespace Ataka.Scenario {
    // 4.3
    Clock(19,30);Task("Поставить чайник");
    yield return Use(new Vector3(8.24f,1.58f,2.43f),"Взять спички с ЗиЛа");Show("Matchbox",false);
-   yield return Use(new Vector3(8.48f,.9f,1.65f),"Открыть газ и зажечь конфорку",.6f);sound.Play("latch",new Vector3(8.48f,.9f,1.65f));
+   yield return Use(new Vector3(8.48f,.9f,1.65f),"Открыть газ и зажечь конфорку",.6f);yield return LightGas();
    var flame=FlameLight(new Vector3(8.48f,.95f,1.65f));
    yield return Use(()=>Prop("Kettle")?Prop("Kettle").position+Vector3.up*.12f:new Vector3(8.48f,.95f,1.85f),"Взять чайник",0,2);Show("Kettle",false);
-   yield return Use(new Vector3(6.9f,1f,1.6f),"Набрать воду в чайник",3);
+   yield return UseHeld(new Vector3(6.9f,1f,1.6f),"Набрать воду в чайник",3,1.8f,"tap",SinkAt);
    yield return Use(new Vector3(8.48f,.95f,1.65f),"Поставить чайник на огонь");Put("Kettle",new Vector3(8.48f,.86f,1.55f));
    yield return Line("Бабушка","Пока греется — сходи на балкон, банку вишнёвого принеси. Только дверь там… шпингалет заедает. Дед всё ремнём её подвязывал, пока не помер, а я так и не починила",8);
    Task("Принести с балкона банку вишнёвого");
@@ -191,10 +205,10 @@ namespace Ataka.Scenario {
    yield return Use(flat.balcony.position+Vector3.up*.9f,"Закрыть балконную дверь");
    flat.balconyDoor.open=false;flat.balconyDoor.closedAngle=1.6f;sound.Play("door_close",flat.balcony.position);
    yield return Line("","Не закрывается толком");
-   Task("Заварить чай");
-   yield return Use(new Vector3(8.48f,.95f,1.65f),"Выключить газ — чайник свистит");if(flame)Destroy(flame.gameObject);
+   Task("Заварить чай");StartCoroutine(KettleBoils());
+   yield return Use(new Vector3(8.48f,.95f,1.65f),"Выключить газ — чайник свистит");GasOff();if(flame)Destroy(flame.gameObject);
    Put("JamJar",new Vector3(7.35f,.745f,.62f));Put("Matchbox",new Vector3(8.62f,.86f,1.95f));
-   yield return Use(new Vector3(7.58f,.8f,.55f),"Заварить и разлить чай",1.2f);
+   yield return Use(new Vector3(7.58f,.8f,.55f),"Заварить и разлить чай",1.2f);sound.Play("spoon",TableAt);
    yield return Use(new Vector3(7.15f,.5f,1.2f),"Сесть за стол");
    player.control=false;
    yield return Line("Бабушка","Ну, рассказывай. Как в школе?");
@@ -207,14 +221,14 @@ namespace Ataka.Scenario {
    // 4.4
    Task("Выйти в прихожую");
    while(player.transform.position.z<3.0f)yield return null;
-   var sconce=flat.look.warm.Length>1?flat.look.warm[1]:null;float sconceWas=sconce?sconce.intensity:0;if(sconce)sconce.intensity=0;sound.Play("latch",ScenarioLayout.Clock+Vector3.up);
+   var sconce=flat.look.warm.Length>1?flat.look.warm[1]:null;float sconceWas=sconce?sconce.intensity:0;if(sconce)sconce.intensity=0;sound.Play("switch",ScenarioLayout.Clock+Vector3.up*1.2f);
    StartCoroutine(GranGo("HallA"));
    yield return Line("Бабушка","Ох ты… Мишаня, табуретку с кухни возьми, лампочки на антресоли");
    Task("Поменять лампочку в бра");
    yield return Use(()=>flat.stool.transform.position+Vector3.up*.4f,"Взять табуретку",0,2);flat.stool.SetActive(false);
    yield return Use(new Vector3(6.6f,1.2f,5.25f),"Поставить табуретку под антресолью",0,2.2f);
    yield return Use(new Vector3(6.6f,2.2f,5.25f),"Достать лампочку с антресоли",0,2.6f);
-   yield return Use(ScenarioLayout.Clock+new Vector3(0,.9f,.1f),"Выкрутить старую и вкрутить новую",2,2.6f);
+   yield return UseHeld(ScenarioLayout.Clock+new Vector3(0,.9f,.1f),"Выкрутить старую и вкрутить новую",2,2.6f,"bulb",ScenarioLayout.Clock+new Vector3(0,.9f,.1f));
    Show("Bulb",true);if(sconce)sconce.intensity=Mathf.Max(sconceWas,1.8f);flat.stool.SetActive(true);flat.stool.transform.SetPositionAndRotation(new Vector3(5.5f,0,5.8f),Quaternion.identity);
    yield return GranGo("Door");
    yield return Line("Бабушка","Если свет выбьет — вот тут пробки, кнопочку нажать. Дед подписал");
@@ -233,7 +247,7 @@ namespace Ataka.Scenario {
    // 4.6
    yield return GranGo("Clock");Task("Завести дедовы часы");
    yield return Line("Бабушка","Заведи-ка, у меня пальцы не те уже. Ключ сверху");
-   yield return Use(ScenarioLayout.Clock+Vector3.up*.25f,"Завести часы ключом",3,2);
+   yield return UseHeld(ScenarioLayout.Clock+Vector3.up*.25f,"Завести часы ключом",3,2,"clock_wind",ScenarioLayout.Clock+Vector3.up*1.6f);
    yield return Use(ScenarioLayout.Clock-Vector3.up*.3f,"Толкнуть маятник",0,2);
    flat.clock.stopped=false;Clock(21,0);
    yield return Line("Бабушка","Дед говорил: пока часы идут — дом помнит. Суеверный был");
@@ -245,10 +259,10 @@ namespace Ataka.Scenario {
    Clock(21,30);Task("Включить новости");
    yield return Line("Бабушка","Мишаня, включи-ка новости");
    yield return Use(()=>flat.televisionScreen?flat.televisionScreen.bounds.center:flat.television.position,"Включить «Рубин»",0,2.4f);
-   if(tv)tv.storyOn=true;flat.televisionLight.intensity=.12f;
+   if(tv)tv.storyOn=true;flat.televisionLight.intensity=.12f;sound.Play("switch",flat.television.position);sound.Play("tv_on",flat.television.position);sound.Bed("crt_whine",flat.television.position,true);
    foreach(var l in new[]{"…Сегодня в милицию снова обратились жители Заречного района.","В квартире по улице Строителей обнаружен накрытый стол и включённый свет. По словам соседей, в квартире никто не проживал.","Однако на фотографиях, изъятых из квартиры, — пустые места рядом с людьми…","Специалисты рекомендуют: не открывайте дверь в позднее время. И — что бы ни случилось — запомните свой дом. Как следует запомните."})
     yield return Line("Диктор",l,5);
-   yield return Line("Бабушка","Нечего на ночь глядеть");if(tv)tv.storyOn=false;flat.televisionLight.intensity=0;
+   yield return Line("Бабушка","Нечего на ночь глядеть");if(tv)tv.storyOn=false;flat.televisionLight.intensity=0;sound.Bed("crt_whine",flat.television.position,false);sound.Play("switch",flat.television.position);
    if(flat.look.icon)flat.look.icon.intensity=.14f;Clock(21,38);
    // 4.9
    yield return ValyaAtTheDoor(false);
@@ -270,6 +284,7 @@ namespace Ataka.Scenario {
 
   IEnumerator ValyaAtTheDoor(bool second){
    Task("");
+   sound.Bed("radio",RadioAt,false);
    if(!second){Clock(21,40);sound.Play("knock",flat.entrance.transform.position);yield return new WaitForSeconds(.25f);sound.Play("knock",flat.entrance.transform.position);yield return new WaitForSeconds(.25f);sound.Play("knock",flat.entrance.transform.position);
     yield return Line("Голос Вали за дверью","Нинок! Нинок, открой!");
     yield return GranGo("Door");GranShow("Door",0);flat.entrance.locked=false;flat.entrance.open=true;sound.Play("door_open",flat.entrance.transform.position);
@@ -300,19 +315,20 @@ namespace Ataka.Scenario {
   IEnumerator Night1(bool continued){
    chapter=Chapter.Night1;night=1;
    if(!continued){loop.Pause(false);Homely(true);flat.clock.stopped=false;flat.entrance.locked=true;flat.stool.SetActive(true);flat.stool.transform.SetPositionAndRotation(new Vector3(5.5f,0,5.8f),Quaternion.identity);player.Place(ScenarioLayout.Spawn,180);yield return Fade(0,.8f);}
-   if(!continued)PropsAfterEvening();Checkpoint("Night1");Task("Дождаться бабушку");if(!continued)OfferFlashlight();
+   if(!continued)PropsAfterEvening();Checkpoint("Night1");HouseSound(false,true);Task("Дождаться бабушку");if(!continued)OfferFlashlight();
    yield return NightMinutesUntil22();
    yield return NightEvents(1,false);
   }
   IEnumerator NightEvents(int which,bool from2200Restart){
-   // 22:00 announcer
-   if(tv)tv.storyOn=true;flat.televisionLight.intensity=.12f;sound.Play("chime",flat.television.position);
+   // 22:00 everything goes quiet, then the set turns itself on: test card, 1 kHz, announcer
+   yield return HouseQuiet();yield return new WaitForSeconds(1.2f);
+   if(tv)tv.storyOn=true;flat.televisionLight.intensity=.12f;sound.Play("tv_on",flat.television.position);sound.Bed("crt_whine",flat.television.position,true);yield return new WaitForSeconds(.4f);sound.Play("test_tone",flat.television.position);yield return new WaitForSeconds(2.8f);
    foreach(var l in new[]{"Внимание. Жителям Заречного района.","Атака на запоминание.","Не открывайте дверь. Не отвечайте знакомым голосам. Она боится света.","Запомните всё."})yield return Line("«Рубин», диктор",l,3.2f);
    if(which==2){yield return new WaitForSeconds(1.5f);yield return Line("«Рубин», диктор","Ты же помнишь, Миша?",3.5f);}
-   if(tv)tv.storyOn=false;flat.televisionLight.intensity=0;
+   if(tv)tv.storyOn=false;flat.televisionLight.intensity=0;sound.Bed("crt_whine",flat.television.position,false);
    // 22:00:30 the house across goes dark, 22:01 blackout
-   yield return NightTo(22,0,1);if(flat.look.exterior)flat.look.exterior.Blackout(true);sound.StopCue("fridge");
-   yield return NightTo(22,1,12);flat.look.Apply(FlatCondition.Blackout);sound.Play("latch",ScenarioLayout.Spawn+Vector3.up*1.7f);
+   yield return NightTo(22,0,1);if(flat.look.exterior)flat.look.exterior.Blackout(true);
+   yield return NightTo(22,1,12);flat.look.Apply(FlatCondition.Blackout);sound.Play("breaker",new Vector3(8.75f,1.8f,5.5f));
    if(!player.hasFlashlight)Say("",which==1?"Темно… Фонарик был где-то…":"Фонарик в трюмо. Бабушка говорила",4);
    yield return NightTo(22,2,10);
    // 22:02 knocks at the entrance; E = peephole, R = open (death)
@@ -336,7 +352,7 @@ namespace Ataka.Scenario {
     sound.StopCue("phone");
     if(which==1){float d=sound.Speak(false,flat.phone.position);Say("Бабушка, шёпотом","Мишаня… Это я, я у Вали… Тут Коля… Коли нет, Мишаня, тут никого нет… Это не я за дверью! Не открывай!..",Mathf.Max(5,d));yield return new WaitForSeconds(Mathf.Max(5,d));sound.PlayReceiver("phone_shriek");yield return new WaitForSeconds(1.2f);}
     else{sound.PlayReceiver("phone_breath");yield return Line("Бабушка, растерянно","Мишаня?.. Я у Вали… А Вали нет. Тут пустая квартира, Мишаня, обои ободраны… Я не помню, зачем пришла. Мишаня, а ты… ты кто?..",8);}
-    Say("","…короткие гудки",2);
+    sound.PlayReceiver("busy");Say("","…короткие гудки",3);
    }
    // 22:04 scratching across the roof toward the balcony
    yield return NightTo(22,4,6);
@@ -418,7 +434,7 @@ namespace Ataka.Scenario {
    yield return Night2Body();
   }
   IEnumerator Night2Body(){
-   chapter=Chapter.Night2;Task("Запомни, как это было");OfferFlashlight();nightSeconds=21*3600+42*60;NightClock();
+   chapter=Chapter.Night2;Task("Запомни, как это было");OfferFlashlight();HouseSound(false,true);nightSeconds=21*3600+42*60;NightClock();
    // Preparation: belt, torch, (candles optional are not implemented)
    Act takeBelt=null,tie=null;
    takeBelt=Offer(()=>flat.wardrobe.position+new Vector3(-.3f,1.3f,0),"Взять дедов ремень",0,2,Key.E,()=>!belt,()=>{belt=true;Show("Belt",false);foreach(var d in flat.wardrobeLeaves)d.localRotation=Quaternion.Euler(0,95,0);sound.Play("door_open",flat.wardrobe.position);Say("","Ремень. Тот самый",2.5f);});
@@ -449,7 +465,7 @@ namespace Ataka.Scenario {
    chapter=Chapter.Finale;loop.Pause(false);Homely(true);PropsAfterEvening();Put("Kettle",new Vector3(8.48f,.86f,1.85f));flat.clock.stopped=false;Clock(22,0);
    flat.stool.SetActive(true);flat.stool.transform.SetPositionAndRotation(new Vector3(5.5f,0,5.8f),Quaternion.identity);if(strap)strap.enabled=false;flat.entrance.locked=true;
    if(flat.look.exterior)flat.look.exterior.Blackout(false);
-   player.Place(ScenarioLayout.Spawn,180);Checkpoint("Finale");Task("Дождаться бабушку");
+   player.Place(ScenarioLayout.Spawn,180);Checkpoint("Finale");Task("Дождаться бабушку");HouseSound(true,false);
    yield return new WaitForSeconds(2);Say("","Получилось?..",3);
    nightSeconds=22*3600;yield return NightTo(22,10,75);
    // 22:10 the right knock
@@ -468,16 +484,18 @@ namespace Ataka.Scenario {
    else{yield return Line("Голос бабушки за дверью","Я своим ключом, Мишаня",3);sound.Play("latch",flat.entrance.transform.position);flat.entrance.locked=false;flat.entrance.open=true;sound.Play("finger_crack",flat.entrance.transform.position);
     yield return new WaitForSeconds(2);GranShow("Door",180);yield return Line("Бабушка","Чего ж не открываешь, Мишаня?",3);}
    yield return GranWalk("Stove");Put("Kettle",new Vector3(8.48f,.86f,1.55f));flat.entrance.open=false;flat.entrance.locked=true;sound.Play("latch",flat.entrance.transform.position);
-   Task("");var flame=FlameLight(new Vector3(8.48f,.95f,1.65f));
-   yield return Line("","Она напевает. Газ, вода из крана — точно как ты вечером",4);
+   Task("");Say("","Она напевает. Спички, газ, вода из крана — точно как ты вечером",6);
+   yield return LightGas();var flame=FlameLight(new Vector3(8.48f,.95f,1.65f));yield return new WaitForSeconds(1.2f);
+   sound.Play("tap",SinkAt);yield return new WaitForSeconds(3.2f);sound.ReleaseCue("tap");yield return new WaitForSeconds(1);
    for(float t=0;t<20&&Vector3.Distance(player.transform.position,Nodes["Stove"])>2.4f;t+=Time.deltaTime)yield return null;
    yield return GranFace(Nodes["Stove"]+Vector3.right,0.1f);
-   Say("","…чайник начинает свистеть",3);yield return new WaitForSeconds(2.5f);
+   StartCoroutine(KettleBoils());yield return new WaitForSeconds(4);
    yield return Line("Бабушка (не оборачиваясь)","Мишаня… а ты меня помнишь?",4);
    // 11.9 transformation (3.5 s) then 11.10 face tear
    yield return GranFace(player.head.position,1.5f);sound.Play("finger_crack",flat.grandmother.transform.position);
    var g=flat.guest;var at=flat.grandmother.transform.position;flat.grandmother.SetActive(false);g.SetActive(true);g.GetComponent<ProxyPose>().Stand();g.transform.position=at;var face=player.transform.position-at;face.y=0;g.transform.rotation=Quaternion.LookRotation(face);
-   var full=g.transform.localScale;sound.Play("shriek",at);
+   // 11.9: the whistle turns into her shriek; the radio song breaks off.
+   var full=g.transform.localScale;GasOff(false);sound.Bed("radio",RadioAt,false);sound.Bed("fridge",FridgeAt,false);sound.Play("shriek",at);
    for(float t=0;t<2;t+=Time.deltaTime){g.transform.localScale=full*Mathf.Lerp(.7f,1.04f,t/2);yield return null;}
    if(flame)Destroy(flame.gameObject);
    yield return scenes.Play("DeathFull");sound.EndDeathRecovery();
