@@ -914,7 +914,7 @@ namespace Ataka.Scenario {
   IEnumerator QaFaceRun(){chapter=Chapter.Finale;loop.Pause(false);Homely(true);PropsAfterEvening();Put("Kettle",KettleFront);FinaleReset();Rig();
    var g=flat.grandmother;g.SetActive(true);granHeld=true;g.transform.SetPositionAndRotation(Stand(StoveStand),Quaternion.LookRotation(StoveAt-Stand(StoveStand)));
    // pc28c: a hard idle restart — story28-face-c began from the sampled hanging pose (head top 0.90 m over her feet → grow ×2.67, 3.98 m)
-   if(granAnim){granAnim.enabled=true;granAnim.Stop();if(!string.IsNullOrEmpty(granIdle)){granAnim.Play(granIdle);granAnim.Sample();}}GranPlay(granIdle);
+   if(granAnim){granAnim.enabled=true;granAnim.Stop();if(!string.IsNullOrEmpty(granIdle)){granAnim.Play(granIdle);granAnim[granIdle].time=0;granAnim[granIdle].clip.SampleAnimation(granAnim.gameObject,0);granAnim.Sample();}}GranPlay(granIdle);
    player.Place(new Vector3(7.3f,.02f,2.55f),0);yield return null;var d=g.transform.position+Vector3.up*1.3f-player.head.position;player.transform.rotation=Quaternion.LookRotation(new Vector3(d.x,0,d.z));yield return new WaitForSeconds(1.5f);
    Beat("question");yield return FinaleTransformation();Beat("tear");if(faceShed){faceShed.End();faceShed=null;}yield return scenes.Play("DeathFinale");sound.EndDeathRecovery();FinaleReset();Beat("done");}
   IEnumerator PeepholeGrandmother(){

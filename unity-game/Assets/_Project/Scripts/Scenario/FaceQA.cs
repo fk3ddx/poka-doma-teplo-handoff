@@ -26,7 +26,7 @@ namespace Ataka.Scenario {
    var loop=FindFirstObjectByType<LoopDirector>();var story=loop.story;var flat=loop.flat;var p=flat.player;var scenes=loop.scenes;var tear=scenes.faceTear;
    loop.testing=true;p.automating=true;loop.Pause(false);
    result.standInInstalled=tear&&tear.standInFace&&tear.standInFaceMaterial;Check(result.standInInstalled,"stand-in face installed on FaceTearDeath (Ataka.Editor.FinaleFacesInstaller.Install)");
-   checks.Add("ABSENT Misha's own (12-year-old) face — the 11.10 face is an ADULT Quaternius face, a labelled stand-in");
+   checks.Add("ABSENT Misha's own (15-year-old) face — the 11.10 face is an ADULT Quaternius face, a labelled stand-in");
    checks.Add("ABSENT voices — her whisper and his cry are sounds/subtitles only");
    var rig=flat.grandmother.GetComponent<GranRig>();Vector3 headScale=rig&&rig.head?rig.head.localScale:Vector3.one;
    story.QaFaceFinale();float until=Time.realtimeSinceStartup+60;while(story.QaFinaleBeat!="transform"&&Time.realtimeSinceStartup<until)yield return null;
