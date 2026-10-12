@@ -40,7 +40,8 @@ namespace Ataka.Scenario {
    foreach(var a in acts.ToArray())if(a!=aimed&&!a.fired&&(a.when==null||a.when())&&aimed!=null&&(a.at()-aimed.at()).sqrMagnitude<.05f){var k=Keyboard.current;text+="   ["+a.key+"] "+a.label;if(k!=null&&k[a.key].wasPressedThisFrame)Fire(a);}
    loop.prompt.text=text;
   }
-  void Fire(Act a){a.fired=true;acts.Remove(a);a.done?.Invoke();}
+  float lastProgress;
+  void Fire(Act a){a.fired=true;acts.Remove(a);lastProgress=Time.time;a.done?.Invoke();}
   // QA surface for StoryAutopilot (-story-smoke): it may only fire an act after the real aim selection picked it.
   public List<Act> OpenActs=>acts;public Act Aimed=>aimed;public void QaFire(Act a){if(a==aimed)Fire(a);}
   public bool Choosing=>choiceA!=null;public void QaChoose(int c){choice=c;}public string CurrentCard=>card;public string Objective=>objective;
@@ -50,7 +51,7 @@ namespace Ataka.Scenario {
   // ---------- presentation ----------
   void Say(string who,string line,float seconds=0){loop.Thought(string.IsNullOrEmpty(who)?line:who+": «"+line+"»",seconds>0?seconds:Mathf.Clamp(line.Length*.07f,2.5f,7f));}
   IEnumerator Line(string who,string line,float seconds=0){float s=seconds>0?seconds:Mathf.Clamp(line.Length*.07f,2.5f,7f);Say(who,line,s);yield return new WaitForSeconds(s);}
-  void Task(string text){objective=text;}
+  void Task(string text){objective=text;lastProgress=Time.time;}
   void Clock(int h,int m,float s=0){flat.clock.Show(h*3600+m*60+s);}
   IEnumerator Fade(float to,float seconds){float from=fade;for(float t=0;t<seconds;t+=Time.deltaTime){fade=Mathf.Lerp(from,to,t/seconds);yield return null;}fade=to;}
   IEnumerator Card(string text,float seconds){card=text;yield return new WaitForSeconds(seconds);card=null;}
@@ -103,6 +104,8 @@ namespace Ataka.Scenario {
    if(!OwnsFlat||player.paused)return;
    if(chapter!=Chapter.Ended&&!loop.Busy&&string.IsNullOrEmpty(scenes.PlayingScene))TickActs();else loop.prompt.text="";
    GranLookAtPlayerWhenNear();
+   // SCENARIO 12: idle 40 s in the evening -> current task reminder.
+   if(chapter==Chapter.Evening&&!string.IsNullOrEmpty(objective)&&objective!="Свободное время"&&Time.time-lastProgress>40){lastProgress=Time.time;Say("","Бабушка просила… "+objective.ToLowerInvariant(),3.5f);}
   }
 
   // Common world state for the apartment outside the loop: warm, doors normal, loop props hidden.
