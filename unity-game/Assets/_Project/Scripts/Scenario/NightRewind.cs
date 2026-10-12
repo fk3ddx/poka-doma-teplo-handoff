@@ -9,7 +9,8 @@ namespace Ataka.Scenario {
  // the Guest) plus the one-shot sounds that played.
  // Evening memories: the world state of four real evening moments (tea with jam, the belt in the wardrobe, her
  // "tap-tap… tap", the new bulb) with a DIRECTED camera aimed at the subject's real bounds (props / her head), pulled
- // back no further than the walls allow. They are saved with the night-1 checkpoint and restored on Continue.
+ // back no further than the walls allow (her memory: into her face from the head bone). The belt inside the wardrobe gets
+ // the rewind's own memory light (intensity only). They are saved with the night-1 checkpoint and restored on Continue.
  // Playback (frozen, no side effects, while the game is paused): 1 s black silence (reversed sounds prepared here,
  // bounded cache) → the night in reverse with reversed sound and growing ticking → evening flashes (her animation
  // frozen) → white flash → frozen VHS pause frame → PLAY into night 2, standing.
@@ -50,6 +51,9 @@ namespace Ataka.Scenario {
    var d=new List<ScenarioDoor>();foreach(var x in new[]{flat.entrance,flat.kitchen,flat.bath,flat.bedroom,flat.living,flat.balconyDoor})if(x&&x.leaf)d.Add(x);doors=d.ToArray();
    var l=new List<Light>();void Add(Light x){if(x&&!l.Contains(x))l.Add(x);}foreach(var x in flat.look.warm)Add(x);foreach(var x in flat.look.cold)Add(x);Add(flat.look.icon);Add(flat.televisionLight);Add(scenes.landingLight);lights=l.ToArray();
    tv=FindFirstObjectByType<ScenarioTelevision>();
+   // The memory's own light: always enabled, intensity 0 except while a memory that needs it is on screen (the belt
+   // inside the wardrobe). The flat's accepted lights are not touched for it.
+   memoryLight=new GameObject("Rewind memory light").AddComponent<Light>();memoryLight.transform.SetParent(transform,false);memoryLight.type=LightType.Spot;memoryLight.spotAngle=60;memoryLight.innerSpotAngle=30;memoryLight.color=new Color(1,.8f,.6f);memoryLight.range=2.5f;memoryLight.shadows=LightShadows.None;memoryLight.intensity=0;
    stride=8+doors.Length+lights.Length+7;data=new float[Capacity*stride];
   }
   // ---------- recording ----------
@@ -75,7 +79,30 @@ namespace Ataka.Scenario {
   // ---------- evening memories: the real state, a directed camera ----------
   public Vector3? GranHead(){var g=flat.grandmother;if(!g.activeInHierarchy)return null;var rs=g.GetComponentsInChildren<Renderer>();if(rs.Length==0)return null;var b=rs[0].bounds;foreach(var r in rs)b.Encapsulate(r.bounds);return new Vector3(b.center.x,b.max.y-.12f,b.center.z);}
   public Vector3? PropCenter(string id){var t=prop?.Invoke(id);if(!t||!t.gameObject.activeInHierarchy)return null;var rs=t.GetComponentsInChildren<Renderer>();if(rs.Length==0)return t.position;var b=rs[0].bounds;foreach(var r in rs)b.Encapsulate(r.bounds);return b.center;}
-  public Vector3? SubjectPoint(string subject)=>subject=="gran"?GranHead():PropCenter(subject);
+  public Vector3? SubjectPoint(string subject)=>subject=="gran"?GranFacePoint()??GranHead():PropCenter(subject);
+  // Her face direction from the bind pose of the Katcho head bone (the frozen idle frame may have the head turned).
+  Transform granHeadBone;Vector3 granFaceLocal;
+  public Vector3? GranFace(){
+   var g=flat.grandmother;if(!g.activeInHierarchy)return null;
+   if(!granHeadBone){var pose=g.GetComponent<NinaHangingPose>();var skin=g.GetComponentInChildren<SkinnedMeshRenderer>(true);if(!pose||!pose.head||!skin||!skin.sharedMesh)return null;int i=Array.IndexOf(skin.bones,pose.head);var binds=skin.sharedMesh.bindposes;if(i<0||i>=binds.Length)return null;
+    granFaceLocal=binds[i].MultiplyVector(skin.transform.InverseTransformDirection(g.transform.forward)).normalized;granHeadBone=pose.head;}
+   return granHeadBone.TransformDirection(granFaceLocal);}
+  public Vector3? GranFacePoint(){var f=GranFace();return f.HasValue?granHeadBone.position+f.Value*.07f+Vector3.up*.03f:(Vector3?)null;}
+  // QA: cosine between her face direction and the direction to the camera (1 = looking straight into it).
+  public float GranFacingCamera(){var f=GranFace();var at=GranFacePoint();if(!f.HasValue||!at.HasValue)return -1;return Vector3.Dot(f.Value.normalized,(flat.player.head.position-at.Value).normalized);}
+  // QA: mean luma (sRGB, 0..1) and 10–90 % spread of a screen capture around a world point — a darkness floor, not art acceptance.
+  public bool Readable(Texture2D frame,Vector3 point,out string why){
+   var cam=flat.player.view?flat.player.view:Camera.main;if(!frame||!cam){why="no frame";return false;}
+   var v=cam.WorldToViewportPoint(point);int w=frame.width,h=frame.height,x0=Mathf.Clamp(Mathf.RoundToInt((v.x-.1f)*w),0,w-1),x1=Mathf.Clamp(Mathf.RoundToInt((v.x+.1f)*w),x0+1,w),y0=Mathf.Clamp(Mathf.RoundToInt((v.y-.12f)*h),0,h-1),y1=Mathf.Clamp(Mathf.RoundToInt((v.y+.12f)*h),y0+1,h);
+   var px=frame.GetPixels(x0,y0,x1-x0,y1-y0);var luma=new float[px.Length];double sum=0;for(int i=0;i<px.Length;i++){luma[i]=.2126f*px[i].r+.7152f*px[i].g+.0722f*px[i].b;sum+=luma[i];}Array.Sort(luma);
+   float mean=(float)(sum/Mathf.Max(1,luma.Length)),spread=luma.Length>0?luma[luma.Length*9/10]-luma[luma.Length/10]:0;
+   LastLuma=mean;why="luma "+mean.ToString("F2")+", spread "+spread.ToString("F2")+" around the subject (floor .15 / .08)";return mean>=.15f&&spread>=.08f;}
+  public float LastLuma{get;private set;}Light memoryLight;
+  // Fill for a memory whose subject sits inside furniture: a soft spot from just above the camera onto the subject, so
+  // the open wardrobe's interior and the belt are lit and the leaves at the frame edges are not. Calibrate in QA with
+  // -rewind-belt-fill <intensity>.
+  public float beltFill=2.5f;
+  float MemoryFill(string id)=>id=="belt"?beltFill:0;
   bool Ignored(Transform t)=>t.IsChildOf(flat.player.transform)||t.IsChildOf(flat.grandmother.transform)||t.IsChildOf(flat.guest.transform);
   // From the subject towards `from`, stopping 0.18 m before the first wall/furniture (never closer than 0.55 m).
   Vector3 Boom(Vector3 target,Vector3 from,float distance){
@@ -87,7 +114,7 @@ namespace Ataka.Scenario {
    string subject=id=="tea"?(PropCenter("TeaSet")!=null?"TeaSet":"JamJar"):id=="belt"?"Belt":id=="bulb"?"Bulb":"gran";
    var target=SubjectPoint(subject);Vector3 cam;Quaternion rot;
    if(target.HasValue){
-    Vector3 from=id=="tea"?new Vector3(-.35f,.6f,.75f):id=="belt"?new Vector3(-1,.3f,0):id=="bulb"?new Vector3(0,-.35f,-1):gr.transform.forward+Vector3.up*.12f;
+    Vector3 from=id=="tea"?new Vector3(-.35f,.6f,.75f):id=="belt"?new Vector3(-1,.3f,0):id=="bulb"?new Vector3(0,-.35f,-1):(GranFace()??gr.transform.forward)+Vector3.up*.12f;
     float dist=id=="tea"?1.15f:id=="belt"?.95f:id=="bulb"?1.05f:1.5f;
     cam=Boom(target.Value,from,dist);rot=Quaternion.LookRotation(target.Value-cam);
    }else{cam=flat.player.head.position;rot=flat.player.head.rotation;subject="player view";}
@@ -175,11 +202,15 @@ namespace Ataka.Scenario {
    flat.guest.SetActive(false);var gr=flat.grandmother;gr.SetActive(m.gran);if(m.gran)gr.transform.SetPositionAndRotation(m.granAt,m.granRot);
    for(int i=0;i<m.leaves.Length&&i<flat.wardrobeLeaves.Length;i++)flat.wardrobeLeaves[i].localRotation=Quaternion.Euler(0,m.leaves[i],0);
    for(int i=0;i<m.light.Length&&i<lights.Length;i++)lights[i].intensity=m.light[i];
-   if(tv)tv.storyOn=false;CurrentMemory=m.id;CurrentSubject=SubjectPoint(m.subject);
+   if(m.subject=="gran"){var at=GranFacePoint();var f=GranFace();if(at.HasValue&&f.HasValue){var d=f.Value;d.y=0;if(d.sqrMagnitude<.01f)d=gr.transform.forward;var cam=Boom(at.Value,d.normalized+Vector3.up*.12f,1.5f);var look=Quaternion.LookRotation(at.Value-cam).eulerAngles; // into her face, wherever the frozen frame turned her head
+    p.transform.SetPositionAndRotation(cam-Vector3.up*1.55f,Quaternion.Euler(0,look.y,0));p.head.localRotation=Quaternion.Euler(Mathf.DeltaAngle(0,look.x),0,0);}}
+   var subject=SubjectPoint(m.subject);float fill=MemoryFill(m.id);
+   if(memoryLight){memoryLight.intensity=subject.HasValue?fill:0;if(subject.HasValue){var from=p.head.position+Vector3.up*.15f;memoryLight.transform.SetPositionAndRotation(from,Quaternion.LookRotation(subject.Value-from));}}
+   if(tv)tv.storyOn=false;CurrentMemory=m.id;CurrentSubject=subject;
   }
   // Back to what the night left (intensities, torch, wardrobe, TV, door ownership/state) before night 2 is set up.
   void Restore(){
-   restored=true;scenes.Cancel();
+   restored=true;if(memoryLight)memoryLight.intensity=0;scenes.Cancel();
    if(lightsBefore!=null)for(int i=0;i<lights.Length;i++)lights[i].intensity=lightsBefore[i];
    var p=flat.player;if(p.flashlight)p.flashlight.intensity=torchBefore;p.crouched=crouchedBefore;p.head.localPosition=Vector3.up*eyeBefore; // night 2 setup stands the player up itself
    if(leavesBefore!=null)for(int i=0;i<leavesBefore.Length&&i<flat.wardrobeLeaves.Length;i++)flat.wardrobeLeaves[i].localRotation=Quaternion.Euler(0,leavesBefore[i],0);
@@ -195,7 +226,7 @@ namespace Ataka.Scenario {
     if(!restored)Restore(); // cancelled mid-playback: put back the night's own lights, torch, wardrobe, TV and doors
     freeze?.Invoke(false);
     var p=flat.player;var body=p.GetComponent<CharacterController>();if(body)body.enabled=true;p.control=true;p.head.localRotation=Quaternion.Euler(p.pitch,0,0);p.head.localPosition=Vector3.up*(p.crouched?.94f:1.55f);
-    sound.RewindTick(0);sound.quiet=false;sound.ClearReversed();flat.look.disruption=0;
+    sound.RewindTick(0);sound.quiet=false;sound.ClearReversed();flat.look.disruption=0;if(memoryLight)memoryLight.intensity=0;
    }
    Stop();Active=false;freeze=null;Phase="";osd="";black=white=band=0;CurrentMemory="";CurrentSubject=null;scriptedBefore=lockedBefore=openBefore=null;lightsBefore=leavesBefore=doorAngleBefore=null;
   }

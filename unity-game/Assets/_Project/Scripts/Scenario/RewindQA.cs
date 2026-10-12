@@ -10,6 +10,7 @@ namespace Ataka.Scenario {
  // rewind, per-channel sample reversal, bounded recording, and NO residue after it ends (control, body, camera, doors,
  // light enable flags, ticking, quiet, VHS, Guest, grandmother animation) — also when cancelled mid-rewind.
  // Camera height: crouched stops on the route and crouched from 22:05 to the death; replay/PLAY/cancel heights checked.
+ // The (crouched) death: death-<pose>-<t>.png at 0.3/1.3/3.4/4.6 s with the -death-qa Guest head check.
  // Pause: no CueStarted / rewind_tick request while paused.
  // The four evening memories are STAGED here (the evening is not played in this run) and are reported as such.
  // Output: checks.txt (PASS/FAIL lines), result.json (numbers), rewind-timeline.txt (what played, rewind clock vs the
@@ -17,7 +18,7 @@ namespace Ataka.Scenario {
  // -audio-capture <wav> to record it silently with ScenarioAudioCapture.
  public sealed class RewindQA:MonoBehaviour {
   string output;readonly List<string> checks=new List<string>();int errors;
-  [Serializable] class Result {public bool passed;public float rewindActiveSeconds,rewindRealSeconds,pauseRealSeconds,pauseClockDrift;public int pauseCueStarts,pauseTickRequests,tickRequested,tickStarted,tickLimited,reversedRequested,reversedStarted,reversedLimited,crouchedSamples,standingSamples,playbackCrouchedFrames,playbackStandingFrames,eyeMismatches;public bool diedCrouched;public float playEye;public int bytesRecordingReserved,bytesReversedCache,reversedPrepared,reversedSkipped,memoriesRestoredFromSave,visibilityFailures;public int samples,capacity,floatsPerSample,bytesReserved,bytesUsed,soundsRecorded,memoriesStaged,journalEntries,reverseOrderViolations,distinctCameraPositions,failures,errors;public string chapterAfter;}
+  [Serializable] class Result {public bool passed;public float rewindActiveSeconds,rewindRealSeconds,pauseRealSeconds,pauseClockDrift;public int darkFrames,deathShots;public float knockFacing,beltLuma,beltFill;public int pauseCueStarts,pauseTickRequests,tickRequested,tickStarted,tickLimited,reversedRequested,reversedStarted,reversedLimited,crouchedSamples,standingSamples,playbackCrouchedFrames,playbackStandingFrames,eyeMismatches;public bool diedCrouched;public float playEye;public int bytesRecordingReserved,bytesReversedCache,reversedPrepared,reversedSkipped,memoriesRestoredFromSave,visibilityFailures;public int samples,capacity,floatsPerSample,bytesReserved,bytesUsed,soundsRecorded,memoriesStaged,journalEntries,reverseOrderViolations,distinctCameraPositions,failures,errors;public string chapterAfter;}
   readonly Result result=new Result();
   static readonly float[] Marks={.5f,1.2f,2f,3f,4f,5f,5.8f,6.5f,7f,7.5f,7.9f,8.4f,9f,9.5f};
   // Two crouched stops (Ctrl, the ordinary hiding pose) and, from 22:05, crouched until the death — the rewind must replay both heights.
@@ -52,6 +53,7 @@ namespace Ataka.Scenario {
    Directory.CreateDirectory(output);Application.logMessageReceived+=Log;Application.runInBackground=true;Application.targetFrameRate=60;
    yield return new WaitForSecondsRealtime(2);
    var loop=FindFirstObjectByType<LoopDirector>();var story=loop.story;var flat=loop.flat;var p=flat.player;var scenes=loop.scenes;var r=story.Rewinder;
+   {var args=Environment.GetCommandLineArgs();int f=Array.IndexOf(args,"-rewind-belt-fill");if(f>=0&&f+1<args.Length&&float.TryParse(args[f+1],System.Globalization.NumberStyles.Float,System.Globalization.CultureInfo.InvariantCulture,out var v))r.beltFill=v;result.beltFill=r.beltFill;checks.Add("NOTE belt memory light intensity "+r.beltFill.ToString(System.Globalization.CultureInfo.InvariantCulture));}
    loop.testing=true;p.automating=true;loop.Pause(false);story.QaBegin("Night1");yield return new WaitForSecondsRealtime(1.5f);
    Check(r.Recording,"night 1 recording started at 21:42");
    story.QaRememberEvening();checks.Add("NOTE evening memories staged by QA ("+r.MemoriesRecorded+"); in play they are taken at the real evening moments (StoryAutopilot run)");
@@ -72,6 +74,20 @@ namespace Ataka.Scenario {
    Check(r.Samples>0&&r.Samples<=NightRewind.Capacity&&!r.Recording,"recording bounded and stopped before the death");
    for(int i=0;i<r.Samples;i++){float e=r.EyeAt(i);if(e<1)result.crouchedSamples++;else if(e>1.5f)result.standingSamples++;}
    Check(result.crouchedSamples>0&&result.standingSamples>0,"camera height recorded: "+result.crouchedSamples+" crouched samples (eye < 1 m), "+result.standingSamples+" standing; died "+(result.diedCrouched?"crouched":"standing"));
+   // The death itself (crouched when the route left the player crouched): frames + the Guest's head check as in -death-qa,
+   // so a death that runs but is not seen is not taken on trust.
+   var deathMarks=new[]{.3f,1.3f,3.4f,4.6f};int dm=0,headsInFrame=0;
+   while(scenes.PlayingScene=="DeathFull"&&Time.realtimeSinceStartup<until+60){
+    if(dm<deathMarks.Length&&scenes.FrameTime>=deathMarks[dm]){
+     yield return new WaitForEndOfFrame();string file="death-"+(result.diedCrouched?"crouched":"standing")+"-"+deathMarks[dm].ToString("0.0",System.Globalization.CultureInfo.InvariantCulture)+".png";if(!Application.isBatchMode)ScreenCapture.CaptureScreenshot(Path.Combine(output,file));
+     var g=flat.guest.transform;checks.Add("SHOT "+file+" FrameTime "+scenes.FrameTime.ToString("F2")+" eye "+p.head.localPosition.y.ToString("F2")+" m (world "+p.head.position.y.ToString("F2")+") pitch "+Mathf.DeltaAngle(0,p.head.localEulerAngles.x).ToString("F0")+" torch "+(p.flashlight.enabled?"on":"off")+" guest "+(flat.guest.activeSelf?g.position.ToString("F2")+" tilt "+Vector3.Angle(g.up,Vector3.up).ToString("F0"):"hidden"));
+     if(flat.guest.activeSelf&&Vector3.Angle(g.up,Vector3.up)>5)Check(false,file+": Guest tilted "+Vector3.Angle(g.up,Vector3.up).ToString("F0")+"°");
+     if(flat.guest.activeSelf&&scenes.FrameTime>=.3f&&scenes.FrameTime<=1.35f){var look=flat.guest.GetComponent<GuestLookAt>();
+      if(!look||!look.headBone)Check(false,file+": ready head bone missing");
+      else{var at=p.view.WorldToViewportPoint(look.headBone.position);bool central=at.z>0&&at.x>=.1f&&at.x<=.9f&&at.y>=.1f&&at.y<=.9f;if(central)headsInFrame++;Check(central,file+": Guest head in the central frame "+at.ToString("F3"));}}
+     dm++;continue;}
+    yield return null;}
+   result.deathShots=dm;Check(dm==deathMarks.Length&&headsInFrame>0,"death "+(result.diedCrouched?"crouched":"standing")+" captured: "+dm+"/"+deathMarks.Length+" frames, Guest head in frame in "+headsInFrame+" of the early marks (0.3, 1.3)");
    while(!r.Active&&Time.realtimeSinceStartup<until+60)yield return null;
    var lightsBefore=LightStates(); // baseline at the rewind's own start (after DeathFull has re-enabled the torch)
    string lastKey="";int peakUsed=0,peakCache=0;
@@ -84,7 +100,10 @@ namespace Ataka.Scenario {
     // Every evening memory and PLAY: the subject (prop bounds / her head bounds) must really be in the frame and unobstructed.
     string key=r.Phase=="evening"?"evening-"+r.CurrentMemory:r.Phase=="play"?"play":"";
     if(key!=""&&key!=lastKey&&r.Phase=="evening"&&!r.CurrentSubject.HasValue&&r.CurrentMemory!=""){lastKey=key;result.visibilityFailures++;Check(false,"memory "+r.CurrentMemory+" has no subject in the scene (prop missing or grandmother hidden) — it would show an arbitrary view");}
-    if(key!=""&&key!=lastKey&&(r.Phase!="evening"||r.CurrentSubject.HasValue)){lastKey=key;yield return new WaitForEndOfFrame();if(!Application.isBatchMode)ScreenCapture.CaptureScreenshot(Path.Combine(output,"rewind-"+key+".png"));
+    if(key!=""&&key!=lastKey&&(r.Phase!="evening"||r.CurrentSubject.HasValue)){lastKey=key;yield return new WaitForEndOfFrame();Texture2D frame=null;if(!Application.isBatchMode){ScreenCapture.CaptureScreenshot(Path.Combine(output,"rewind-"+key+".png"));frame=ScreenCapture.CaptureScreenshotAsTexture();}
+     // Not art acceptance: the subject region must not be near-black (the belt was "visible" by raycast yet unreadable).
+     var lit=r.Phase=="evening"?r.CurrentSubject:r.GranFacePoint()??r.GranHead();if(lit.HasValue&&frame){bool bright=r.Readable(frame,lit.Value,out var lw);if(key=="evening-belt")result.beltLuma=r.LastLuma;if(!bright)result.darkFrames++;Check(bright,key+": subject region not dark — "+lw);}if(frame)Destroy(frame);
+     if(r.Phase=="evening"&&r.CurrentMemory=="knock"){float facing=r.GranFacingCamera();result.knockFacing=facing;Check(facing>=.5f,"memory knock: her face turned to the camera (cos "+facing.ToString("F2")+", ≥ 0.5)");}
      if(r.Phase=="evening"){var mem=new List<NightRewind.Memory>(r.Memories).Find(x=>x.id==r.CurrentMemory);bool g=mem!=null&&mem.subject=="gran";bool vis=r.Visible(r.CurrentSubject.Value,g,out var why);if(!vis)result.visibilityFailures++;Check(vis,"memory "+r.CurrentMemory+": subject "+(mem!=null?mem.subject:"?")+" visible — "+why);}
      else{var head=r.GranHead();bool vis=head.HasValue&&r.Visible(head.Value,true,out var why)&&Vector3.Distance(p.head.position,head.Value)>=1f;string w2=head.HasValue?(r.Visible(head.Value,true,out var w)?w:w)+", head "+Vector3.Distance(p.head.position,head.Value).ToString("F2")+" m from the camera":"grandmother hidden";if(!vis)result.visibilityFailures++;Check(vis,"PLAY: her head in frame and ≥ 1 m away — "+w2);}}
     if(!pauseTested&&r.Clock>4){pauseTested=true;float c0=r.Clock;var pos0=p.transform.position;var head0=p.head.localRotation;var pt0=Cue(loop.sound,"rewind_tick");loop.Pause(true);loop.sound.CueStarted+=countCue;float pr=Time.realtimeSinceStartup;yield return new WaitForEndOfFrame();if(!Application.isBatchMode)ScreenCapture.CaptureScreenshot(Path.Combine(output,"rewind-paused.png"));yield return new WaitForSecondsRealtime(.5f);float c1=r.Clock;var pos1=p.transform.position;var head1=p.head.localRotation;loop.sound.CueStarted-=countCue;var pt1=Cue(loop.sound,"rewind_tick");loop.Pause(false);
