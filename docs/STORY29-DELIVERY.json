@@ -1,0 +1,12 @@
+{
+  "archive": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\builds\\Ataka-story29-preview-win64.zip",
+  "playable": "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\playable\\Story29\\Ataka-Loop.exe",
+  "bytes": 190085615,
+  "sha256": "641982a4046610275fd82449f661037b8ec1112f92593a124e6d1ced4a4cceb7",
+  "build_label": "story29-build-n",
+  "source_head": "963cda13b0b652cc99ec89383e524b2ddb6deb90",
+  "runtime_files_verified": 289,
+  "crc": "passed",
+  "qa": "PrologueL,FaceL,KeyL,OpenL,IntegratedN; see docs/STORY29-PREVIEW-RU.md",
+  "status": "intermediate playtest; not final art or voice acceptance"
+}
