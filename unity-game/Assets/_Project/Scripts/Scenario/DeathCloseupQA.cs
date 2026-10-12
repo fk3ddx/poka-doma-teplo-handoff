@@ -41,7 +41,7 @@ namespace Ataka.Scenario {
     loop.sound.EndDeathRecovery();yield return new WaitForSeconds(.5f);
    }
    checks.Add((errors==0?"PASS":"FAIL")+" no runtime errors ("+errors+")");
-   File.WriteAllLines(Path.Combine(output,"checks.txt"),checks);yield return new WaitForSecondsRealtime(1);Application.Quit(errors>0?1:0);
+   File.WriteAllLines(Path.Combine(output,"checks.txt"),checks);yield return new WaitForSecondsRealtime(1);Application.Quit(errors>0||checks.Exists(c=>c.StartsWith("FAIL "))?1:0);
   }
  }
 }
