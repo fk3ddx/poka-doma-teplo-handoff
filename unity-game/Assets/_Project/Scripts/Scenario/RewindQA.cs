@@ -15,7 +15,7 @@ namespace Ataka.Scenario {
  // -audio-capture <wav> to record it silently with ScenarioAudioCapture.
  public sealed class RewindQA:MonoBehaviour {
   string output;readonly List<string> checks=new List<string>();int errors;
-  [Serializable] class Result {public bool passed;public float rewindActiveSeconds,rewindRealSeconds,pauseRealSeconds,pauseClockDrift;public int samples,capacity,floatsPerSample,bytesReserved,bytesUsed,soundsRecorded,memoriesStaged,journalEntries,reverseOrderViolations,distinctCameraPositions,failures,errors;public string chapterAfter;}
+  [Serializable] class Result {public bool passed;public float rewindActiveSeconds,rewindRealSeconds,pauseRealSeconds,pauseClockDrift;public int bytesRecordingReserved,bytesReversedCache,reversedPrepared,reversedSkipped,memoriesRestoredFromSave,visibilityFailures;public int samples,capacity,floatsPerSample,bytesReserved,bytesUsed,soundsRecorded,memoriesStaged,journalEntries,reverseOrderViolations,distinctCameraPositions,failures,errors;public string chapterAfter;}
   readonly Result result=new Result();
   static readonly float[] Marks={.5f,1.2f,2f,3f,4f,5f,5.8f,6.5f,7f,7.5f,7.9f,8.4f,9f,9.5f};
   static readonly (Vector3 at,float yaw,float pitch)[] Route={(new Vector3(7.9f,.02f,4.6f),0,0),(new Vector3(5.6f,.02f,5.2f),270,-10),(new Vector3(5.6f,.02f,3.6f),180,0),(new Vector3(4.6f,.02f,1.5f),200,15),(new Vector3(7.4f,.02f,3.5f),180,5),(new Vector3(7.0f,.02f,3.9f),20,0)};
@@ -34,8 +34,8 @@ namespace Ataka.Scenario {
    Check(Mathf.Abs(Mathf.DeltaAngle(0,p.head.localEulerAngles.z))<.5f&&Mathf.Abs(Mathf.DeltaAngle(0,p.head.localEulerAngles.y))<.5f,when+": camera has no leftover jitter/roll");
    foreach(var d in new[]{flat.entrance,flat.kitchen,flat.bath,flat.bedroom,flat.living,flat.balconyDoor}){if(!d||!d.leaf)continue;float err=Mathf.Abs(Mathf.DeltaAngle(Mathf.DeltaAngle(0,d.leaf.localEulerAngles.y),Target(d)));
     Check(!d.scripted&&err<3,when+": door "+d.name+" "+(d.open?"open":"closed")+", not scripted, leaf at its target ("+err.ToString("F1")+"°)");}
-   int changed=0;foreach(var s in lightsBefore)if(s.l&&(s.l.enabled!=s.enabled||s.l.gameObject.activeInHierarchy!=s.active))changed++;
-   Check(changed==0,when+": no light object enabled/disabled ("+changed+" changed of "+lightsBefore.Count+")");
+   var changed=new List<string>();foreach(var s in lightsBefore)if(s.l&&(s.l.enabled!=s.enabled||s.l.gameObject.activeInHierarchy!=s.active))changed.Add(GranNav.PathOf(s.l.transform)+" enabled "+s.enabled+"→"+s.l.enabled+", active "+s.active+"→"+s.l.gameObject.activeInHierarchy);
+   Check(changed.Count==0,when+": no light object enabled/disabled since the rewind started ("+changed.Count+" of "+lightsBefore.Count+(changed.Count>0?": "+string.Join("; ",changed):"")+")");
    Check(!loop.sound.RewindTickActive,when+": rewind ticking stopped");Check(!loop.sound.quiet,when+": world sound not muted");
    Check(flat.look.disruption<.01f,when+": VHS disruption back to 0");Check(!flat.guest.activeSelf,when+": Guest hidden");
    var anim=flat.grandmother.GetComponentInChildren<Animation>(true);Check(!anim||anim.enabled,when+": grandmother animation running");
@@ -46,7 +46,12 @@ namespace Ataka.Scenario {
    var loop=FindFirstObjectByType<LoopDirector>();var story=loop.story;var flat=loop.flat;var p=flat.player;var scenes=loop.scenes;var r=story.Rewinder;
    loop.testing=true;p.automating=true;loop.Pause(false);story.QaBegin("Night1");yield return new WaitForSecondsRealtime(1.5f);
    Check(r.Recording,"night 1 recording started at 21:42");
-   story.QaRememberEvening();checks.Add("NOTE evening memories staged by QA ("+r.MemoriesRecorded+"); in play they are taken at the real evening moments");
+   story.QaRememberEvening();checks.Add("NOTE evening memories staged by QA ("+r.MemoriesRecorded+"); in play they are taken at the real evening moments (StoryAutopilot run)");
+   // Saved with the night-1 checkpoint, forgotten, then restored by Continue (the path a player takes after quitting).
+   var staged=r.Export();story.qaAllowSave=true;story.QaSavePath(Path.Combine(output,"story-checkpoint.json"));story.QaCheckpoint("Night1");r.ForgetEvening();
+   story.Continue();yield return new WaitForSecondsRealtime(1.5f);int same=0;
+   foreach(var a in staged)foreach(var b in r.Memories)if(a.id==b.id&&(a.cam-b.cam).sqrMagnitude<1e-4f&&a.subject==b.subject)same++;
+   result.memoriesRestoredFromSave=same;Check(staged.Length==4&&same==4&&story.chapter==StoryDirector.Chapter.Night1&&r.Recording,"the four memories survive a save + Continue at night 1 ("+same+"/"+staged.Length+", "+story.chapter+")");
    // The real night at 6x, the player walking a route so the rewind has something to play back.
    int k=0;float nextMove=0;float until=Time.realtimeSinceStartup+300;
    while(scenes.PlayingScene!="DeathFull"&&Time.realtimeSinceStartup<until){
@@ -55,19 +60,29 @@ namespace Ataka.Scenario {
     yield return null;}
    Time.timeScale=1;Check(scenes.PlayingScene=="DeathFull","the real night 1 reached its 22:07 death");
    checks.Add("RECORDING "+r.Samples+" samples × "+r.FloatsPerSample+" floats (cap "+NightRewind.Capacity+" = "+(NightRewind.Capacity/NightRewind.Rate)+" s at "+NightRewind.Rate+" Hz), "+r.CuesRecorded+" sounds, "+r.MemoriesRecorded+" memories; memory used "+(r.BytesUsed/1024)+" KiB of "+(r.BytesReserved/1024)+" KiB reserved up front");
-   result.samples=r.Samples;result.capacity=NightRewind.Capacity;result.floatsPerSample=r.FloatsPerSample;result.bytesReserved=r.BytesReserved;result.bytesUsed=r.BytesUsed;result.soundsRecorded=r.CuesRecorded;result.memoriesStaged=r.MemoriesRecorded;
+   result.samples=r.Samples;result.capacity=NightRewind.Capacity;result.floatsPerSample=r.FloatsPerSample;result.bytesReserved=r.BytesReserved;result.bytesRecordingReserved=r.BytesRecordingReserved;result.soundsRecorded=r.CuesRecorded;result.memoriesStaged=r.MemoriesRecorded;
    Check(r.Samples>0&&r.Samples<=NightRewind.Capacity&&!r.Recording,"recording bounded and stopped before the death");
-   var lightsBefore=LightStates();
    while(!r.Active&&Time.realtimeSinceStartup<until+60)yield return null;
+   var lightsBefore=LightStates(); // baseline at the rewind's own start (after DeathFull has re-enabled the torch)
+   string lastKey="";int peakUsed=0,peakCache=0;
    float started=Time.time,startedReal=Time.realtimeSinceStartup;int m=0;bool pauseTested=false;var seen=new HashSet<string>();var positions=new HashSet<Vector3Int>();
    while(r.Active){
-    seen.Add(r.Phase);if(r.Phase=="reverse")positions.Add(Vector3Int.RoundToInt(p.transform.position*10));
-    if(!pauseTested&&r.Clock>4){pauseTested=true;float c0=r.Clock;var pos0=p.transform.position;loop.Pause(true);float pr=Time.realtimeSinceStartup;yield return new WaitForSecondsRealtime(.5f);float c1=r.Clock;var pos1=p.transform.position;loop.Pause(false);
+    seen.Add(r.Phase);peakUsed=Mathf.Max(peakUsed,r.BytesUsed);peakCache=Mathf.Max(peakCache,r.BytesReversedCache);if(r.Phase=="reverse")positions.Add(Vector3Int.RoundToInt(p.transform.position*10));
+    // Every evening memory and PLAY: the subject (prop bounds / her head bounds) must really be in the frame and unobstructed.
+    string key=r.Phase=="evening"?"evening-"+r.CurrentMemory:r.Phase=="play"?"play":"";
+    if(key!=""&&key!=lastKey&&r.Phase=="evening"&&!r.CurrentSubject.HasValue&&r.CurrentMemory!=""){lastKey=key;result.visibilityFailures++;Check(false,"memory "+r.CurrentMemory+" has no subject in the scene (prop missing or grandmother hidden) — it would show an arbitrary view");}
+    if(key!=""&&key!=lastKey&&(r.Phase!="evening"||r.CurrentSubject.HasValue)){lastKey=key;yield return new WaitForEndOfFrame();if(!Application.isBatchMode)ScreenCapture.CaptureScreenshot(Path.Combine(output,"rewind-"+key+".png"));
+     if(r.Phase=="evening"){var mem=new List<NightRewind.Memory>(r.Memories).Find(x=>x.id==r.CurrentMemory);bool g=mem!=null&&mem.subject=="gran";bool vis=r.Visible(r.CurrentSubject.Value,g,out var why);if(!vis)result.visibilityFailures++;Check(vis,"memory "+r.CurrentMemory+": subject "+(mem!=null?mem.subject:"?")+" visible — "+why);}
+     else{var head=r.GranHead();bool vis=head.HasValue&&r.Visible(head.Value,true,out var why)&&Vector3.Distance(p.head.position,head.Value)>=1f;string w2=head.HasValue?(r.Visible(head.Value,true,out var w)?w:w)+", head "+Vector3.Distance(p.head.position,head.Value).ToString("F2")+" m from the camera":"grandmother hidden";if(!vis)result.visibilityFailures++;Check(vis,"PLAY: her head in frame and ≥ 1 m away — "+w2);}}
+    if(!pauseTested&&r.Clock>4){pauseTested=true;float c0=r.Clock;var pos0=p.transform.position;loop.Pause(true);float pr=Time.realtimeSinceStartup;yield return new WaitForEndOfFrame();if(!Application.isBatchMode)ScreenCapture.CaptureScreenshot(Path.Combine(output,"rewind-paused.png"));yield return new WaitForSecondsRealtime(.5f);float c1=r.Clock;var pos1=p.transform.position;loop.Pause(false);
      result.pauseRealSeconds=Time.realtimeSinceStartup-pr;result.pauseClockDrift=c1-c0;Check(Mathf.Abs(c1-c0)<.001f&&(pos1-pos0).sqrMagnitude<1e-6f,"pause in the middle: "+result.pauseRealSeconds.ToString("F2")+" s real, rewind clock "+c0.ToString("F2")+" → "+c1.ToString("F2")+", camera did not move");}
     if(m<Marks.Length&&r.Clock>=Marks[m]){
      yield return new WaitForEndOfFrame();string file="rewind-"+Marks[m].ToString("0.0",System.Globalization.CultureInfo.InvariantCulture)+".png";if(!Application.isBatchMode)ScreenCapture.CaptureScreenshot(Path.Combine(output,file));
      checks.Add("SHOT "+file+" clock "+r.Clock.ToString("F2")+" phase "+r.Phase+" disruption "+flat.look.disruption.ToString("F2")+" ticking "+loop.sound.RewindTickActive+" player "+p.transform.position.ToString("F2")+" guest "+(flat.guest.activeSelf?"shown":"hidden")+" grandmother "+(flat.grandmother.activeSelf?"shown":"hidden"));m++;continue;}
     yield return null;}
+   result.bytesUsed=peakUsed;result.bytesReversedCache=peakCache;result.reversedPrepared=r.ReversedPrepared;result.reversedSkipped=r.ReversedSkipped;
+   checks.Add("MEMORY peak used "+(peakUsed/1024)+" KiB (recording "+(r.Samples*r.FloatsPerSample*4/1024)+", reversed clips "+(peakCache/1024)+" for "+r.ReversedPrepared+" clips, "+r.ReversedSkipped+" over budget) of "+(r.BytesReserved/1024)+" KiB ceiling ("+(r.BytesRecordingReserved/1024)+" recording/cues/journal + "+(NightRewind.ReversedBudgetBytes/1024)+" reversed-audio budget); after the rewind the cache holds "+(r.BytesReversedCache/1024)+" KiB");
+   Check(r.BytesReversedCache==0&&peakCache<=NightRewind.ReversedBudgetBytes,"reversed-audio cache within budget during the rewind and freed after it");
    float took=r.LastActiveSeconds;result.rewindActiveSeconds=took;result.rewindRealSeconds=Time.realtimeSinceStartup-startedReal;
    Check(took>=8&&took<=10.5f,"rewind active game time "+took.ToString("F2")+" s (8–10 s incl. silence, flash, freeze, PLAY); real "+result.rewindRealSeconds.ToString("F2")+" s incl. the 0.5 s pause; Time.time span "+(Time.time-started).ToString("F2"));
    // Reverse chronology: every frame/sound shown during the reverse phase comes from an earlier night time than the one before it.

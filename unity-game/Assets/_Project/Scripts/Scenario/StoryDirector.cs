@@ -18,7 +18,7 @@ namespace Ataka.Scenario {
   ScenarioTelevision tv;string objective="";string card;float fade;bool belt,beltTied,openedDoorFinale;int night;
   Coroutine running;LineRenderer strap;
   string savePath;
-  [Serializable] class Save {public string chapter;public bool flashlight,belt;}
+  [Serializable] class Save {public string chapter;public bool flashlight,belt;public NightRewind.Memory[] memories;} // memories: the four real evening moments for the 6.1 rewind
 
   // ---------- interaction (all story actions go through one aimed-target list) ----------
   public sealed class Act {public Func<Vector3> at;public string label;public float range=1.8f,hold,cos=.86f;public Key key=Key.E;public Func<bool> when;public bool fired;public Action done;public Action<bool> holding;}
@@ -70,13 +70,19 @@ namespace Ataka.Scenario {
   public void QaBegin(string at){Begin(at);}
   // QA: the real night sequence from 22:00 (announcer, knocks, phone, balcony, hunt, 22:07 death) without the evening.
   // QA (RewindQA): the four evening memories staged at their real places when the evening was not played in this run.
-  public void QaRememberEvening(){
-   rewind.ForgetEvening();var lookAt=new System.Func<Vector3,Vector3,float>((a,b)=>Mathf.Atan2(b.x-a.x,b.z-a.z)*Mathf.Rad2Deg);
-   var kitchen=Nodes["Kitchen"];var seat=new Vector3(7.2f,.02f,1.3f);GranShow("Kitchen",lookAt(kitchen,seat));player.Place(seat,lookAt(seat,kitchen),8);rewind.Remember("tea","spoon");
-   GranShow("HallB",lookAt(Nodes["HallB"],new Vector3(5.5f,0,5.0f)));player.Place(new Vector3(5.5f,.02f,5.0f),0,-35);rewind.Remember("bulb","bulb");
-   flat.grandmother.SetActive(false);foreach(var d in flat.wardrobeLeaves)d.localRotation=Quaternion.Euler(0,95,0);player.Place(new Vector3(1.55f,.02f,1.8f),90,8);rewind.Remember("belt","door_open");
-   foreach(var d in flat.wardrobeLeaves)d.localRotation=Quaternion.identity;
-   GranShow("Door",180);player.Place(new Vector3(7.95f,.02f,4.5f),0,0);rewind.Remember("knock","knock");flat.grandmother.SetActive(false);}
+  // The four evening moments in their canonical state (props after the evening, her at her real places). Used for a
+  // night-1 save made before memories were saved, and by RewindQA (which does not play the evening). The camera of each
+  // memory is directed by NightRewind at the subject's bounds, so the player's own position does not matter here.
+  void RememberCanonicalEvening(){
+   var feet=player.transform.position;var yaw=player.transform.eulerAngles.y;var look=Mathf.DeltaAngle(0,player.head.localEulerAngles.x);bool granWas=flat.grandmother.activeSelf;
+   var lookAt=new System.Func<Vector3,Vector3,float>((a,b)=>Mathf.Atan2(b.x-a.x,b.z-a.z)*Mathf.Rad2Deg);
+   GranShow("Kitchen",lookAt(Nodes["Kitchen"],new Vector3(7.66f,0,.5f)));rewind.Remember("tea","spoon");
+   flat.grandmother.SetActive(false);rewind.Remember("bulb","bulb");
+   foreach(var d in flat.wardrobeLeaves)d.localRotation=Quaternion.Euler(0,95,0);rewind.Remember("belt","door_open");foreach(var d in flat.wardrobeLeaves)d.localRotation=Quaternion.identity;
+   GranShow("Door",180);rewind.Remember("knock","knock");
+   flat.grandmother.SetActive(granWas);player.Place(feet,yaw,look);}
+  public void QaRememberEvening(){rewind.ForgetEvening();RememberCanonicalEvening();}
+  public void QaCheckpoint(string at){Checkpoint(at);}
   public void QaReplayRewind(){if(running!=null)StopCoroutine(running);running=StartCoroutine(Rewind());}
   public void QaCancelRewind(){if(running!=null)StopCoroutine(running);running=null;if(rewind)rewind.Cleanup();}
   public void QaNightEvents(int which){chapter=which==1?Chapter.Night1:Chapter.Night2;night=which;if(running!=null)StopCoroutine(running);nightSeconds=22*3600;NightClock();running=StartCoroutine(NightEvents(which,false));}
@@ -183,14 +189,14 @@ namespace Ataka.Scenario {
 
   // ---------- lifecycle ----------
   void Awake(){if(!loop)loop=GetComponent<LoopDirector>();savePath=System.IO.Path.Combine(Application.persistentDataPath,"story-checkpoint.json");}
-  void Start(){rewind=GetComponent<NightRewind>();if(!rewind)rewind=gameObject.AddComponent<NightRewind>();rewind.loop=loop;
+  void Start(){rewind=GetComponent<NightRewind>();if(!rewind)rewind=gameObject.AddComponent<NightRewind>();rewind.loop=loop;rewind.prop=Prop;
    granBody=flat.grandmother.GetComponent<CapsuleCollider>();if(!granBody){granBody=flat.grandmother.AddComponent<CapsuleCollider>();}var gs=flat.grandmother.transform.lossyScale;granBody.radius=GranNav.Radius/Mathf.Max(.01f,Mathf.Max(gs.x,gs.z));granBody.height=GranNav.Height/Mathf.Max(.01f,gs.y);granBody.center=Vector3.up*granBody.height*.5f;granBody.direction=1;granBody.enabled=false;
    RememberProps();tv=FindFirstObjectByType<ScenarioTelevision>();var anim=flat.grandmother.GetComponentInChildren<Animation>(true);granAnim=anim;
    if(anim)foreach(AnimationState s in anim){if(s.name.EndsWith("Oidle"))granIdle=s.name;if(s.name.EndsWith("Owalk"))granWalk=s.name;}}
   public bool HasSave=>System.IO.File.Exists(savePath);
-  void Checkpoint(string at){if(loop.testing&&!qaAllowSave)return;System.IO.File.WriteAllText(savePath,JsonUtility.ToJson(new Save{chapter=at,flashlight=player.hasFlashlight,belt=belt}));}
+  void Checkpoint(string at){if(loop.testing&&!qaAllowSave)return;System.IO.File.WriteAllText(savePath,JsonUtility.ToJson(new Save{chapter=at,flashlight=player.hasFlashlight,belt=belt,memories=rewind?rewind.Export():null}));}
   public void NewGame(){Begin("Prologue");}
-  public void Continue(){var s=HasSave?JsonUtility.FromJson<Save>(System.IO.File.ReadAllText(savePath)):null;Begin(s?.chapter??"Prologue",s);}
+  public void Continue(){var s=HasSave?JsonUtility.FromJson<Save>(System.IO.File.ReadAllText(savePath)):null;rewind.Import(s?.memories);Begin(s?.chapter??"Prologue",s);}
   void Begin(string at,Save s=null){
    StopAll();loop.Thought("",0);if(at=="Prologue"||at=="Evening")rewind.ForgetEvening();player.hasFlashlight=s!=null&&s.flashlight;belt=s!=null&&s.belt;
    if(at=="Loop"){chapter=Chapter.Loop;flat.entrance.direction=1;loop.ResumeSavedLap();return;}
@@ -202,7 +208,7 @@ namespace Ataka.Scenario {
    if(granBody)granBody.enabled=OwnsFlat&&chapter!=Chapter.Ended; // in the loop the hanging vision needs clear sight to her
    if(!OwnsFlat||player.paused)return;
    if(chapter!=Chapter.Ended&&!loop.Busy&&string.IsNullOrEmpty(scenes.PlayingScene))TickActs();else loop.prompt.text="";
-   GranLookAtPlayerWhenNear();
+   if(!rewind||!rewind.Active)GranLookAtPlayerWhenNear(); // frozen during the rewind
    // SCENARIO 12: idle 40 s in the evening -> current task reminder.
    if(chapter==Chapter.Evening&&!string.IsNullOrEmpty(objective)&&objective!="Свободное время"&&Time.time-lastProgress>40){lastProgress=Time.time;Say("","Бабушка просила… "+objective.ToLowerInvariant(),3.5f);}
   }
@@ -376,7 +382,7 @@ namespace Ataka.Scenario {
     yield return Line("Голос Вали за дверью","Нинок! Нинок, открой!");
     yield return GranGo("Door");GranShow("Door",0);flat.entrance.locked=false;flat.entrance.open=true;sound.Play("door_open",flat.entrance.transform.position);
     yield return Line("Тётя Валя (на площадке)","Нинок, Коле плохо, давление, я одна боюсь — посиди со мной, а?",5);}
-   else{GranShow("Door",180);flat.entrance.locked=false;flat.entrance.open=true;player.Place(new Vector3(7.95f,.02f,5.0f),0);}
+   else{GranShow("Door",180);flat.entrance.locked=false;flat.entrance.open=true;player.Place(new Vector3(7.95f,.02f,3.85f),0);}
    yield return GranFace(player.head.position);
    yield return Line("Бабушка","Мишаня, я у Вали, на полчасика. Никому не открывай. Я своим ключом. А если стучать буду — свои стучат вот так, слушай…",7);
    sound.Play("knock",flat.entrance.transform.position);yield return new WaitForSeconds(.22f);sound.Play("knock",flat.entrance.transform.position);yield return new WaitForSeconds(.7f);sound.Play("knock",flat.entrance.transform.position);
@@ -404,7 +410,7 @@ namespace Ataka.Scenario {
   IEnumerator Night1(bool continued){
    chapter=Chapter.Night1;night=1;
    if(!continued){loop.Pause(false);Homely(true);flat.clock.stopped=false;flat.entrance.locked=true;flat.stool.SetActive(true);flat.stool.transform.SetPositionAndRotation(new Vector3(5.5f,0,5.8f),Quaternion.identity);player.Place(ScenarioLayout.Spawn,180);yield return Fade(0,.8f);}
-   if(!continued)PropsAfterEvening();Checkpoint("Night1");rewind.Begin();HouseSound(false,true);Task("Дождаться бабушку");if(!continued)OfferFlashlight();
+   if(!continued)PropsAfterEvening();if(rewind.MemoriesRecorded<4){Debug.Log("REWIND evening memories missing ("+rewind.MemoriesRecorded+"): canonical ones");RememberCanonicalEvening();}Checkpoint("Night1");rewind.Begin();HouseSound(false,true);Task("Дождаться бабушку");if(!continued)OfferFlashlight();
    yield return NightMinutesUntil22();
    yield return NightEvents(1,false);
   }
@@ -513,7 +519,7 @@ namespace Ataka.Scenario {
   // The first frame of night 2 (21:40, Valya at the door — ValyaAtTheDoor(true) continues from exactly here).
   void PrepareNight2(){
    acts.Clear();card=null;fade=0;loop.prompt.text="";Homely(true);PropsAfterEvening();flat.balconyDoor.closedAngle=0;flat.clock.stopped=false;Clock(21,40);
-   flat.entrance.locked=false;flat.entrance.open=true;player.Place(new Vector3(7.95f,.02f,5.0f),0);GranShow("Door",180);
+   flat.entrance.locked=false;flat.entrance.open=true;player.Place(new Vector3(7.95f,.02f,3.85f),0);GranShow("Door",180);
   }
 
   // ---------- 8. Second night ----------
@@ -618,7 +624,7 @@ namespace Ataka.Scenario {
    big??=new GUIStyle(GUI.skin.label){fontSize=28,alignment=TextAnchor.MiddleCenter,wordWrap=true};small??=new GUIStyle(GUI.skin.label){fontSize=22,alignment=TextAnchor.MiddleCenter,wordWrap=true};task??=new GUIStyle(GUI.skin.label){fontSize=18};
    if(fade>0||card!=null){GUI.color=new Color(0,0,0,card!=null?Mathf.Max(fade,.92f):fade);GUI.DrawTexture(new Rect(0,0,Screen.width,Screen.height),Texture2D.whiteTexture);GUI.color=Color.white;}
    if(card!=null)GUI.Label(new Rect(Screen.width*.12f,Screen.height*.2f,Screen.width*.76f,Screen.height*.6f),card,big);
-   if(!string.IsNullOrEmpty(objective)&&card==null&&!player.paused&&!scenes.InDeath)GUI.Label(new Rect(24,20,Screen.width*.5f,30),"Задача: "+objective,task);
+   if(!string.IsNullOrEmpty(objective)&&card==null&&!player.paused&&!scenes.InDeath&&!(rewind&&rewind.Active))GUI.Label(new Rect(24,20,Screen.width*.5f,30),"Задача: "+objective,task);
    if(choiceA!=null){GUI.Label(new Rect(Screen.width*.2f,Screen.height*.62f,Screen.width*.6f,40),"[1] "+choiceA,small);GUI.Label(new Rect(Screen.width*.2f,Screen.height*.62f+44,Screen.width*.6f,40),"[2] "+choiceB,small);}
   }
  }

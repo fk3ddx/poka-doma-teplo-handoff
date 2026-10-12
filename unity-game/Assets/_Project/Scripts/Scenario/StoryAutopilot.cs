@@ -14,6 +14,8 @@ namespace Ataka.Scenario {
  public sealed class StoryAutopilot:MonoBehaviour {
   LoopDirector loop;StoryDirector story;ScenarioPlayer player;string output;readonly List<string> checks=new List<string>();int errors;bool failed;
   readonly HashSet<string> shots=new HashSet<string>();int peepholes;
+  bool rewindSeen;string lastRewindKey="";
+  static string Why(NightRewind rw,Vector3 point,bool gran){rw.Visible(point,gran,out var why);return why;}
   // -story-branch door-death | no-belt | save : the losing branches and checkpoints the normal run never touches.
   int routeFailures;string branch="";bool doorOpened,branchRestartSeen,saveChecked;int restartsAtBranch=-1;readonly HashSet<string> scenesSeen=new HashSet<string>();
   [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]static void Boot(){
@@ -37,6 +39,17 @@ namespace Ataka.Scenario {
    yield return new WaitForSecondsRealtime(.8f);ValidateRoutes("start of "+story.chapter);
    lastProgressAt=Time.realtimeSinceStartup;float deadline=Time.realtimeSinceStartup+(from=="Finale"||from=="ChaseEnd"?600:2400);if(from=="ChaseEnd")yield return null;string lastObjective=null,lastCard=null;StoryDirector.Chapter lastChapter=story.chapter;
    while(Time.realtimeSinceStartup<deadline&&!failed){
+    // 6.1 rewind: real time (x1); the four memories taken in THIS run's evening (no staging), a frame of each and of PLAY.
+    var rw=story.Rewinder;
+    if(rw&&rw.Active){
+     Time.timeScale=1;
+     if(!rewindSeen){rewindSeen=true;var ids=new List<string>();foreach(var m in rw.Memories)ids.Add(m.id+"→"+m.subject);checks.Add("REWIND started: "+rw.Samples+" night samples, "+rw.CuesRecorded+" sounds, memories taken in this run (not staged): "+rw.MemoriesRecorded+" ["+string.Join(", ",ids)+"]");Check(rw.MemoriesRecorded==4,"the real evening produced all four memories (tea, bulb, belt, knock)");}
+     string key=rw.Phase=="evening"?"evening-"+rw.CurrentMemory:rw.Phase=="play"?"play":rw.Phase=="reverse"&&rw.Clock>2?"reverse":"";
+     if(key!=""&&key!=lastRewindKey){lastRewindKey=key;yield return Shot("rewind-"+key);
+      if(rw.Phase=="evening"){var sub=rw.CurrentSubject;string subject="";foreach(var m in rw.Memories)if(m.id==rw.CurrentMemory)subject=m.subject;
+       Check(sub.HasValue&&rw.Visible(sub.Value,subject=="gran",out var why1),"rewind memory "+rw.CurrentMemory+" shows its subject "+subject+" — "+(sub.HasValue?Why(rw,sub.Value,subject=="gran"):"no subject in the scene"));}
+      else if(rw.Phase=="play"){var head=rw.GranHead();Check(head.HasValue&&rw.Visible(head.Value,true,out var why2)&&Vector3.Distance(player.head.position,head.Value)>=1f,"rewind PLAY frame shows her head ≥ 1 m away — "+(head.HasValue?Why(rw,head.Value,true)+", "+Vector3.Distance(player.head.position,head.Value).ToString("F2")+" m":"grandmother hidden"));}}
+     yield return null;continue;}
     var playing=loop.scenes.PlayingScene;if(!string.IsNullOrEmpty(playing)&&scenesSeen.Add(story.chapter+":"+playing))checks.Add("SCENE "+playing+" in "+story.chapter);
     if(branch=="door-death"&&doorOpened&&!branchRestartSeen&&story.QaRestarts>restartsAtBranch){branchRestartSeen=true;Check(scenesSeen.Contains(story.chapter+":DeathShort")&&story.chapter==StoryDirector.Chapter.Night1,"opening the door at 22:02 kills (short death) and restarts night 1 at 22:00");}
     if(branch=="no-belt"&&!branchRestartSeen&&restartsAtBranch>=0&&story.QaRestarts>restartsAtBranch){branchRestartSeen=true;Check(scenesSeen.Contains("Night2:DeathShort")&&story.chapter==StoryDirector.Chapter.Night2,"no belt at 22:05: she enters, short death, restart at 21:42 of night 2");}

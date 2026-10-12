@@ -88,11 +88,16 @@ namespace Ataka.Scenario {
    if(!clip)return null;if(reversed.TryGetValue(clip,out var r)&&r)return r;
    if(clip.loadState!=AudioDataLoadState.Loaded)clip.LoadAudioData();int ch=clip.channels,n=clip.samples;var data=new float[n*ch];if(!clip.GetData(data,0))return null;
    var back=new float[data.Length];for(int f=0;f<n;f++)for(int c=0;c<ch;c++)back[f*ch+c]=data[(n-1-f)*ch+c];
-   r=AudioClip.Create(clip.name+" (reversed)",n,ch,clip.frequency,false);r.SetData(back,0);reversed[clip]=r;return r;}
+   r=AudioClip.Create(clip.name+" (reversed)",n,ch,clip.frequency,false);r.SetData(back,0);reversed[clip]=r;ReversedBytes+=n*ch*4;return r;}
+  public int ReversedBytes{get;private set;} // PCM float held by the reversed copies
+  // Bounded: reverse now (outside the audible part of the rewind) only if the cache stays within budgetBytes.
+  public bool PrepareReversed(AudioClip clip,int budgetBytes){if(!clip)return false;if(reversed.TryGetValue(clip,out var r)&&r)return true;if(ReversedBytes+clip.samples*clip.channels*4>budgetBytes)return false;return Reversed(clip);}
+  public void ClearReversed(){foreach(var r in reversed.Values)if(r)Destroy(r);reversed.Clear();ReversedBytes=0;}
   public AudioClip FirstClip(string id)=>!string.IsNullOrEmpty(id)&&cues.TryGetValue(id,out var cue)&&cue.clips!=null&&cue.clips.Length>0?cue.clips[0]:null;
   readonly ScenarioSoundCue RewindCue=new ScenarioSoundCue{id="rewind",bus=ScenarioBus.Stinger,gainDb=-7,pitchVariation=0,spatial=false,maxInstances=8,priority=30};
   readonly ScenarioSoundCue RewindTickCue=new ScenarioSoundCue{id="rewind_tick",bus=ScenarioBus.Stinger,gainDb=-4,pitchVariation=0,spatial=false,loop=true,maxInstances=1,priority=25};
-  public void PlayReversed(AudioClip clip,float speed){var r=Reversed(clip);if(!r)return;var v=StartVoice(RewindCue,r,listener.position,null,true,true);if(v!=null)v.source.pitch=speed;}
+  // Plays only a clip prepared beforehand (PrepareReversed): no reversal work while the rewind is audible.
+  public void PlayReversed(AudioClip clip,float speed){if(!clip||!reversed.TryGetValue(clip,out var r)||!r)return;var v=StartVoice(RewindCue,r,listener.position,null,true,true);if(v!=null)v.source.pitch=speed;}
   Voice tick;
   public bool RewindTickActive=>tick!=null&&tick.cue==RewindTickCue&&tick.source.isPlaying;
   // The grandfather clock ticking that grows through the rewind (amount 0..1; 0 releases it).
