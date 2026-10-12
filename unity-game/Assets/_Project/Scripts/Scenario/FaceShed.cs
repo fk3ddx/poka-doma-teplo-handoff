@@ -83,7 +83,10 @@ namespace Ataka.Scenario {
    // normals inward, same weights): culled from outside, it shows only through the opening once her face is gone, so the
    // Guest sits inside her opened head instead of floating in a hollow one
    var bn=bodyMesh.normals;var LV=new List<Vector3>(bv);var LN=new List<Vector3>(bn.Length==bv.Length?bn:new Vector3[bv.Length]);var LU=new List<Vector2>(buv.Length==bv.Length?buv:new Vector2[bv.Length]);var LW=new List<BoneWeight>(bw);var LT=new List<int>(faceTris);
-   for(int i=0;i<tris.Length;i+=3){bool hd=Dominant(bw[tris[i]])==hi&&Dominant(bw[tris[i+1]])==hi&&Dominant(bw[tris[i+2]])==hi;bool f=InFace(buv[tris[i]])&&InFace(buv[tris[i+1]])&&InFace(buv[tris[i+2]]);if(!hd||f)continue;
+   // pc28h (story28-face-audit-e 04: a strip of wall under the head at 2.3): the lining also covers her NECK from inside —
+   // behind her open jaw there is only the inside of the neck, which was culled and showed the wall through her
+   int ni=-1;for(int b=0;b<skin.bones.Length;b++)if(skin.bones[b]&&skin.bones[b].name=="Neck")ni=b;
+   for(int i=0;i<tris.Length;i+=3){int d0=Dominant(bw[tris[i]]),d1=Dominant(bw[tris[i+1]]),d2=Dominant(bw[tris[i+2]]);bool hd=(d0==hi||d0==ni)&&(d1==hi||d1==ni)&&(d2==hi||d2==ni);bool f=InFace(buv[tris[i]])&&InFace(buv[tris[i+1]])&&InFace(buv[tris[i+2]]);if(!hd||f)continue;
     foreach(int k in new[]{0,2,1}){int src=tris[i+k];LV.Add(bv[src]);LN.Add(-LN[src]);LU.Add(buv[src]);LW.Add(bw[src]);LT.Add(LV.Count-1);}}
    faceMesh=new Mesh{name=bodyMesh.name+" (face skin + head lining, 11.9)"};faceMesh.SetVertices(LV);faceMesh.SetNormals(LN);faceMesh.SetUVs(0,LU);faceMesh.boneWeights=LW.ToArray();faceMesh.bindposes=bodyMesh.bindposes;faceMesh.subMeshCount=1;faceMesh.SetTriangles(LT,0);faceMesh.RecalculateBounds();liningTriangles=LT.GetRange(faceTris.Count,LT.Count-faceTris.Count).ToArray();
    faceIdx=new List<int>(used).ToArray();face0=new Vector3[faceIdx.Length];for(int i=0;i<faceIdx.Length;i++)face0[i]=local[faceIdx[i]];mesh0=faceMesh.vertices;meshNow=(Vector3[])mesh0.Clone();
@@ -118,8 +121,12 @@ namespace Ataka.Scenario {
     // pc28c (story28-key-c: it stood over her bun like a cap and floated over the neck): the Guest's head AND jaw are fitted
     // INSIDE her rebuilt head (92 % of the tightest axis) and stand on her chin, so nothing of it shows until her face slides.
     var gMin=Vector3.positiveInfinity;var gMax=Vector3.negativeInfinity;foreach(var p in hv){gMin=Vector3.Min(gMin,p);gMax=Vector3.Max(gMax,p);}foreach(var p in jv){gMin=Vector3.Min(gMin,p);gMax=Vector3.Max(gMax,p);}
-    var gSize=gMax-gMin;var herSize=herMax-herMin;float k2=.92f*Mathf.Min(herSize.x/Mathf.Max(.01f,gSize.x),Mathf.Min(herSize.y/Mathf.Max(.01f,gSize.y),herSize.z/Mathf.Max(.01f,gSize.z)));
-    var shift=new Vector3((herMin.x+herMax.x)/2-(gMin.x+gMax.x)/2*k2,herMin.y+.01f-gMin.y*k2,(herMin.z+herMax.z)/2-(gMin.z+gMax.z)/2*k2-.005f);
+    var gSize=gMax-gMin;var herSize=herMax-herMin;
+    // pc28h: the Guest's face fills the OPENING her face leaves — from her chin to her brow, just behind where her face
+    // was (it was fitted by the narrowest axis of the whole head and sat high, leaving her chin region empty)
+    float faceFront=float.MinValue;foreach(var v in face0)faceFront=Mathf.Max(faceFront,v.z);
+    float k2=Mathf.Min(.92f*herSize.x/Mathf.Max(.01f,gSize.x),Mathf.Min(.95f*herSize.z/Mathf.Max(.01f,gSize.z),1.02f*(skinTop-skinBottom)/Mathf.Max(.01f,gSize.y)));
+    var shift=new Vector3((herMin.x+herMax.x)/2-(gMin.x+gMax.x)/2*k2,skinBottom-gMin.y*k2,faceFront-.02f-gMax.z*k2);
     for(int i=0;i<hv.Count;i++)hv[i]=shift+hv[i]*k2;for(int i=0;i<jv.Count;i++)jv[i]=shift+jv[i]*k2;GuestScale=k2;
     var jawBone=gj>=0?gb[gj].inverse.MultiplyPoint(Vector3.zero):centre;jawPivot=shift+grot*(jawBone-centre)*k2;
     GuestInside=true;foreach(var p in hv)if(p.x<herMin.x-.005f||p.x>herMax.x+.005f||p.y<herMin.y-.005f||p.y>herMax.y+.005f||p.z<herMin.z-.005f||p.z>herMax.z+.005f){GuestInside=false;break;}
@@ -146,6 +153,19 @@ namespace Ataka.Scenario {
   public List<Vector3> FaceSamples(Camera cam){var list=new List<Vector3>();if(!cam||!body||faceIdx==null)return list;var r=Shown&&!fallen&&face?face:body;var m=new Mesh();r.BakeMesh(m,true);var v=m.vertices;Destroy(m);
    var t=faceTriangles;for(int i=0;i<t.Length;i+=3){if(t[i+2]>=v.Length)continue;var a=r.transform.TransformPoint(v[t[i]]);var b=r.transform.TransformPoint(v[t[i+1]]);var c=r.transform.TransformPoint(v[t[i+2]]);var mid=(a+b+c)/3;if(Vector3.Dot(Vector3.Cross(b-a,c-a),cam.transform.position-mid)<=0)continue;var s=cam.WorldToScreenPoint(mid);if(s.z>0)list.Add(s);}return list;}
   public Vector3 SkinCentre{get{if(fallen&&fallT)return fallT.GetComponent<Renderer>().bounds.center;if(!face||!face.gameObject.activeInHierarchy)return Vector3.zero;var m=new Mesh();face.BakeMesh(m,true);var v=m.vertices;Destroy(m);var c=Vector3.zero;foreach(int i in faceIdx)c+=face.transform.TransformPoint(v[i]);return c/faceIdx.Length;}}
+  // QA (pc28h): is her silhouette one piece on screen? All front-facing triangles actually drawn now — her body, the face
+  // skin + lining copy, the Guest's head and jaw — are projected; three vertical lines through her head (centre, ±8 px)
+  // are walked from the crown to her chest; returns the longest run of pixels no triangle covers (the wall showing through)
+  public int SilhouetteGap(Camera cam){if(!cam||!body||!rig||!rig.head)return -1;var tri=new List<Vector3>();
+   void Add(Renderer r,Mesh baked,int[] t,bool skinned){if(!r||!r.enabled||!r.gameObject.activeInHierarchy)return;var v=baked.vertices;for(int i=0;i+2<t.Length;i+=3){if(t[i+2]>=v.Length)continue;var a=r.transform.TransformPoint(v[t[i]]);var b=r.transform.TransformPoint(v[t[i+1]]);var c=r.transform.TransformPoint(v[t[i+2]]);if(Vector3.Dot(Vector3.Cross(b-a,c-a),cam.transform.position-(a+b+c)/3)<=0)continue;tri.Add(cam.WorldToScreenPoint(a));tri.Add(cam.WorldToScreenPoint(b));tri.Add(cam.WorldToScreenPoint(c));}}
+   var mb=new Mesh();body.BakeMesh(mb,true);Add(body,mb,body.sharedMesh.triangles,true);Destroy(mb);
+   if(face&&face.gameObject.activeInHierarchy){var mf=new Mesh();face.BakeMesh(mf,true);Add(face,mf,faceMesh.triangles,true);Destroy(mf);}
+   foreach(var t in new[]{guestT,jawT})if(t&&t.gameObject.activeInHierarchy){var m=t.GetComponent<MeshFilter>().sharedMesh;Add(t.GetComponent<Renderer>(),m,m.triangles,false);}
+   var head=cam.WorldToScreenPoint(rig.head.position);float top=cam.WorldToScreenPoint(new Vector3(rig.head.position.x,float.IsNaN(renderedTop)?rig.head.position.y+.3f:renderedTop,rig.head.position.z)).y;var chestT=rig.head.parent?rig.head.parent.parent:null;float bottom=chestT?cam.WorldToScreenPoint(chestT.position).y:head.y-60;
+   if(head.z<=0||top<=bottom)return -1;int worst=0;
+   foreach(float dx in new[]{0f,-8f,8f}){int run=0;bool started=false;for(float y=top;y>=bottom;y-=1){bool hit=false;var q=new Vector2(head.x+dx,y);for(int i=0;i<tri.Count&&!hit;i+=3)hit=Inside(q,tri[i],tri[i+1],tri[i+2]);if(hit){started=true;run=0;}else if(started){run++;worst=Mathf.Max(worst,run);}}}
+   return worst;}
+  static bool Inside(Vector2 p,Vector3 a,Vector3 b,Vector3 c){if(a.z<=0||b.z<=0||c.z<=0)return false;float d1=(p.x-b.x)*(a.y-b.y)-(a.x-b.x)*(p.y-b.y),d2=(p.x-c.x)*(b.y-c.y)-(b.x-c.x)*(p.y-c.y),d3=(p.x-a.x)*(c.y-a.y)-(c.x-a.x)*(p.y-a.y);bool neg=d1<0||d2<0||d3<0,pos=d1>0||d2>0||d3>0;return !(neg&&pos);}
   public Vector3 HerChin=>follow?follow.TransformPoint(new Vector3((herMin.x+herMax.x)/2,skinBottom,herMax.z)):Vector3.zero;
   public Bounds ScreenFace(Camera cam){var pts=FaceSamples(cam);var r=new Bounds();if(pts.Count==0)return r;var min=pts[0];var max=pts[0];foreach(var p in pts){min=Vector3.Min(min,p);max=Vector3.Max(max,p);}r.SetMinMax(new Vector3(min.x,min.y,0),new Vector3(max.x,max.y,0));return r;}
   // t = seconds into 11.9
@@ -159,8 +179,9 @@ namespace Ataka.Scenario {
     foreach(int k in temple)d[k]+=new Vector3(-SeamGap,0,SeamGap*.3f);
     if(Slide>0)for(int k=0;k<face0.Length;k++){float yn=Mathf.Clamp01((face0[k].y-skinBottom)/Mathf.Max(.01f,h));
      // wet cloth: it slides down past her chin, the upper part more, folding forward and outwards; it ends hanging from
-     // her chin over the throat (SCENARIO «висит на шее»): its top edge reaches her chin, not her chest (pc28f)
-     d[k]+=Vector3.down*Slide*h*(.55f+.4f*yn)+Vector3.forward*Slide*(.03f+.03f*(1-yn))+new Vector3(face0[k].x*.25f*Slide*yn,0,0);}
+     // her chin over the throat (SCENARIO «висит на шее»): its top edge stays just over her chin, overlapping the Guest's
+     // jaw, so face, jaw and throat read as one column from above and from below (pc28h)
+     d[k]+=Vector3.down*Slide*h*(.5f+.35f*yn)+Vector3.forward*Slide*(.03f+.03f*(1-yn))+new Vector3(face0[k].x*.25f*Slide*yn,0,0);}
     // frame offsets → her mesh space (the face skin is skinned with her own weights)
     for(int k=0;k<faceIdx.Length;k++)meshNow[faceIdx[k]]=mesh0[faceIdx[k]]+meshFromFrame.MultiplyVector(d[k]);faceMesh.vertices=meshNow;}
    if(jawT)jawT.localRotation=Quaternion.AngleAxis(JawAngle,Vector3.right);

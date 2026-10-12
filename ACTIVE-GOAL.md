@@ -309,3 +309,12 @@ All output silently captured. No human visual/audio acceptance; no complete pc28
 Build story28-build-k, runtime tested without new source changes. Exit0 / PASS / failures0 / errors0 / epilogue true / 23 ordered beats. Transform3.525s, DeathFinale3.487s, grownTop2.44149m. Face/mouth visibility checks that failed in keyJ now pass. Original transform1.2/2.8 inspected; face and mouth are readable. Ceiling hotspot also exists in J; not introduced by this patch. Silent capture confirmed by runner.
 
 This does NOT accept the whole transformation visually: faceK2.30 and auditE04 still prove the open chin/neck gap from the other angle. Claude has read E03/E04 and acknowledged a geometric gap; he is correcting it on2270610. No manual/audio acceptance. Story23/27 preserved. Full key run is automated with staging and accelerated waits, not a human playthrough.
+
+
+# pc28h geometry: Face L and frozen audit F
+
+Applied Claude patch SHA256 315b641df49061000ea9a356d44f092b076be8b005e3ecc69ac0317d0ccfb70e after full C# review and clean apply-check. BuildL exit0. FaceL PASS/failures0/errors0, silhouetteGap0, height2.4404m, key .344 on/.061 off. AuditF completed/errors0.
+
+Viewed original lit2.30/2.70 and unlit F04: the broad wall strip under the head seen in E04 is gone. Head, inner neck and hanging face skin now overlap continuously from these angles. This confirms the specific gap fix, NOT final model quality or full art approval. Claude added Neck triangles to the inner lining, fitted Guest into the face opening, reduced face slide. Accepted scene lighting unchanged.
+
+SilhouetteGap is a coarse three-column projected-triangle proxy; screenshots are the decisive evidence. Its BakeMesh scale convention has not been independently revalidated here. Legacy guestFacing and seamError remain non-measurements. Full key L in progress at this checkpoint. Voices and human visual/audio acceptance still missing; Story23/27 unchanged.

@@ -11,7 +11,7 @@ namespace Ataka.Scenario {
  // and on her face. PNGs at fixed times + checks.txt (PASS/FAIL/ABSENT) + result.json; exit 0 = no FAIL.
  public sealed class FaceQA:MonoBehaviour {
   string output;readonly List<string> checks=new List<string>();int errors,failures;
-  [Serializable] class Result {public bool passed;public int failures,errors,skinTris,scalpTris,guestTris,jawTris;public float faceBase,skinFacing,guestFacing,faceDark,seamError,ownFaceLuma,faceLuma,mouthLuma,keyOnLuma,keyOffLuma,eyeDrop,seamGap,slide,jawAngle,grownTop,faceToHerFace;public bool standInInstalled,leftovers,mirrored,guestInside,skinBelowChin;}
+  [Serializable] class Result {public bool passed;public int failures,errors,skinTris,scalpTris,guestTris,jawTris;public int silhouetteGap;public float faceBase,skinFacing,guestFacing,faceDark,seamError,ownFaceLuma,faceLuma,mouthLuma,keyOnLuma,keyOffLuma,eyeDrop,seamGap,slide,jawAngle,grownTop,faceToHerFace;public bool standInInstalled,leftovers,mirrored,guestInside,skinBelowChin;}
   readonly Result result=new Result();
   [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]static void Boot(){
    var args=Environment.GetCommandLineArgs();int i=Array.IndexOf(args,"-face-qa");if(i<0||i+1>=args.Length)return;
@@ -54,6 +54,8 @@ namespace Ataka.Scenario {
       Check(own.n>0&&own.mean>=.1f&&own.dark<=.15f,"0.9: her face is lit in the PNG (mean luma "+own.mean.ToString("F3")+" ≥ 0.10, near-black "+(own.dark*100).ToString("F0")+" % ≤ 15 %) — not a black mask");}
      if(Mathf.Approximately(mark,1.2f)||Mathf.Approximately(mark,1.45f)){var skinL=FaceLuma(fs.FaceSamples(cam));result.faceLuma=Mathf.Max(result.faceLuma,skinL.mean);result.faceDark=Mathf.Max(result.faceDark,skinL.dark);
       Check(skinL.n>0&&skinL.dark<=.15f&&skinL.mean>=Mathf.Max(.1f,.75f*ownFace),mark.ToString("F2")+": the face skin in the PNG is lit like her own face at 0.9 (mean luma "+skinL.mean.ToString("F3")+" vs "+ownFace.ToString("F3")+", near-black "+(skinL.dark*100).ToString("F0")+" % ≤ 15 %)"+(Mathf.Approximately(mark,1.2f)?"; Guest still hidden: "+!fs.GuestShown:""));}
+     // pc28h: from 2.3 her silhouette is one piece — no run of uncovered pixels on the column crown→chest (drawn triangles)
+     if(mark>=2.3f){int gap=fs.SilhouetteGap(cam);result.silhouetteGap=Mathf.Max(result.silhouetteGap,gap);Check(gap>=0&&gap<=4,mark.ToString("F2")+": her silhouette is whole from crown to chest (longest uncovered run "+gap+" px ≤ 4 on three columns through her head)");}
      // pc28e: from 2.3 the mouth must read (not a black hole): the pixels round the dropped jaw
      if(mark>=2.3f&&fs.QaJaw){var js=cam.WorldToScreenPoint(fs.QaJaw.position);float jl=WindowLuma(js,6);result.mouthLuma=Mathf.Max(result.mouthLuma,jl);Check(js.z>0&&jl>=.06f,mark.ToString("F2")+": the Guest's mouth reads in the PNG (luma "+jl.ToString("F3")+" ≥ 0.06 round the jaw)");}
      if(Mathf.Approximately(mark,1.2f)){result.mirrored=fs.Mirrored;result.guestInside=fs.GuestInside;result.skinFacing=fs.FaceSamples(cam).Count/(float)Mathf.Max(1,fs.SkinTris);
