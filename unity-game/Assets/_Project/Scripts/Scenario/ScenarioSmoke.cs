@@ -23,7 +23,7 @@ namespace Ataka.Scenario {
   [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]static void Boot(){var args=Environment.GetCommandLineArgs();int i=Array.IndexOf(args,"-scenario-smoke");if(i>=0&&i+1<args.Length){var s=new GameObject("Scenario smoke").AddComponent<ScenarioSmoke>();s.output=args[i+1];}}
   IEnumerator Start(){
    Directory.CreateDirectory(output);Application.logMessageReceived+=Log;Application.runInBackground=true;Application.targetFrameRate=60;
-   yield return new WaitForSecondsRealtime(2);loop=FindFirstObjectByType<LoopDirector>();player=loop.flat.player;player.automating=true;loop.testing=true;InputSystem.settings.backgroundBehavior=InputSettings.BackgroundBehavior.IgnoreFocus;keyboard=InputSystem.AddDevice<Keyboard>();
+   yield return new WaitForSecondsRealtime(2);loop=FindFirstObjectByType<LoopDirector>();player=loop.flat.player;player.automating=true;loop.testing=true;loop.coreTestOnly=true;InputSystem.settings.backgroundBehavior=InputSettings.BackgroundBehavior.IgnoreFocus;keyboard=InputSystem.AddDevice<Keyboard>();
    foreach(var device in InputSystem.devices)if(device is Keyboard&&device!=keyboard)InputSystem.DisableDevice(device);keyboard.MakeCurrent(); // Only this process; no OS input injection.
    var mouse=InputSystem.AddDevice<Mouse>();foreach(var device in InputSystem.devices)if(device is Mouse&&device!=mouse)InputSystem.DisableDevice(device);mouse.MakeCurrent();
    checks.Add("MODE "+(headless?"headless: Null graphics, volume0, synthetic input, no images":"rendered screenshots"));

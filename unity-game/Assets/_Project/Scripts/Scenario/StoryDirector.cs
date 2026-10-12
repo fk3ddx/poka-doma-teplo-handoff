@@ -29,7 +29,7 @@ namespace Ataka.Scenario {
   void Withdraw(Act a){if(a!=null)acts.Remove(a);}
   void TickActs(){
    aimed=null;float best=-1;var eye=player.head.position;var forward=player.head.forward;
-   foreach(var a in acts){if(a.fired||(a.when!=null&&!a.when()))continue;var d=a.at()-eye;if(d.magnitude>a.range)continue;float dot=Vector3.Dot(forward,d.normalized);if(dot>a.cos&&dot>best){best=dot;aimed=a;}}
+   foreach(var a in acts){if(a.fired||(a.when!=null&&!a.when()))continue;var point=a.at();var d=point-eye;if(d.magnitude>a.range)continue;float dot=Vector3.Dot(forward,d.normalized);if(dot>a.cos&&dot>best&&Reachable(eye,point)){best=dot;aimed=a;}}
    string text="";
    if(aimed!=null){
     var k=Keyboard.current;bool pressed=k!=null&&k[aimed.key].wasPressedThisFrame,down=k!=null&&k[aimed.key].isPressed;string key=aimed.key==Key.E?"E":aimed.key.ToString();
@@ -41,6 +41,12 @@ namespace Ataka.Scenario {
    loop.prompt.text=text;
   }
   float lastProgress;
+  // No action through walls: the first thing on the line from the eye must be the target's own surface
+  // (within 0.4 m of the target point), never a wall, door or furniture in between.
+  bool Reachable(Vector3 eye,Vector3 point){var d=point-eye;float length=d.magnitude;if(length<.05f)return true;
+   foreach(var hit in Physics.RaycastAll(eye,d/length,length,~(1<<31),QueryTriggerInteraction.Ignore)){
+    if(hit.transform.IsChildOf(player.transform)||hit.transform.IsChildOf(flat.grandmother.transform))continue;if(hit.distance<length-.4f)return false;}
+   return true;}
   void Fire(Act a){a.fired=true;acts.Remove(a);lastProgress=Time.time;a.done?.Invoke();}
   // QA surface for StoryAutopilot (-story-smoke): it may only fire an act after the real aim selection picked it.
   public List<Act> OpenActs=>acts;public Act Aimed=>aimed;public void QaFire(Act a){if(a==aimed)Fire(a);}
@@ -72,6 +78,13 @@ namespace Ataka.Scenario {
   static readonly string[][] Edges={new[]{"Landing","Door"},new[]{"Door","HallA"},new[]{"HallA","KitchenDoor"},new[]{"KitchenDoor","Kitchen"},new[]{"Kitchen","Stove"},new[]{"HallA","HallJoint"},new[]{"Door","HallJoint"},
    new[]{"HallJoint","HallB"},new[]{"HallB","Clock"},new[]{"HallB","LivingDoor"},new[]{"LivingDoor","LivingMid"},new[]{"LivingMid","Aisle"},new[]{"Aisle","Armchair"},new[]{"LivingMid","BedroomDoor"},new[]{"BedroomDoor","Bedroom"}};
   string granNode="Door";
+  // QA: every edge of the grandmother's walking graph swept with her capsule; returns blocked edges with collider names.
+  public List<string> QaValidateRoutes(){var bad=new List<string>();var cols=new Collider[16];
+   foreach(var e in Edges){var a=Nodes[e[0]];var b=Nodes[e[1]];var names=new HashSet<string>();
+    for(float t=0;t<=1;t+=.1f){var p=Vector3.Lerp(a,b,t);int n=Physics.OverlapCapsuleNonAlloc(p+Vector3.up*.3f,p+Vector3.up*1.3f,.2f,cols,~(1<<31),QueryTriggerInteraction.Ignore);
+     for(int i=0;i<n;i++){var c=cols[i];if(c.transform.IsChildOf(player.transform)||c.transform.IsChildOf(flat.grandmother.transform)||c.transform.IsChildOf(flat.guest.transform))continue;if(c.GetComponentInParent<ScenarioDoor>()&&c.GetComponentInParent<ScenarioDoor>().open)continue;names.Add(c.name);}}
+    if(names.Count>0)bad.Add(e[0]+"→"+e[1]+": "+string.Join(", ",names));}
+   return bad;}
   void GranShow(string node,float yaw){granToken++;granWalking=false;var g=flat.grandmother;g.SetActive(true);granNode=node;g.transform.SetPositionAndRotation(Nodes[node],Quaternion.Euler(0,yaw,0));GranPlay(granIdle);}
   void GranPlay(string clip){if(!granAnim||string.IsNullOrEmpty(clip))return;granAnim.enabled=true;var state=granAnim[clip];if(state==null)return;state.wrapMode=WrapMode.Loop;granAnim.CrossFade(clip,.2f);}
   List<string> Route(string from,string to){var prev=new Dictionary<string,string>{{from,null}};var q=new Queue<string>();q.Enqueue(from);
@@ -81,16 +94,19 @@ namespace Ataka.Scenario {
    var g=flat.grandmother.transform;if(!flat.grandmother.activeSelf)GranShow(granNode,0);
    int my=++granToken; // a newer walk order cancels an older one
    GranPlay(granWalk);granWalking=true;
-   foreach(var node in Route(granNode,to)){var target=Nodes[node];while(true){if(my!=granToken)yield break;var d=target-g.position;d.y=0;if(d.magnitude<.05f)break;g.rotation=Quaternion.Slerp(g.rotation,Quaternion.LookRotation(d),1-Mathf.Exp(-8*Time.deltaTime));g.position=Vector3.MoveTowards(g.position,target,speed*Time.deltaTime);yield return null;}granNode=node;}
+   foreach(var node in Route(granNode,to)){var target=Nodes[node];while(true){if(my!=granToken)yield break;var d=target-g.position;d.y=0;if(d.magnitude<.05f)break;g.rotation=Quaternion.Slerp(g.rotation,Quaternion.LookRotation(d),1-Mathf.Exp(-8*Time.deltaTime));if(PlayerInTheWay(g.position,target)){GranPlay(granIdle);yield return null;GranPlay(granWalk);continue;}g.position=Vector3.MoveTowards(g.position,target,speed*Time.deltaTime);yield return null;}granNode=node;}
    GranPlay(granIdle);granWalking=false;}
   IEnumerator GranFace(Vector3 point,float seconds=.6f){var g=flat.grandmother.transform;var d=point-g.position;d.y=0;if(d.sqrMagnitude<.001f)yield break;var from=g.rotation;var to=Quaternion.LookRotation(d);for(float t=0;t<seconds;t+=Time.deltaTime){g.rotation=Quaternion.Slerp(from,to,t/seconds);yield return null;}g.rotation=to;}
   void GranLookAtPlayerWhenNear(){if(!flat.grandmother.activeSelf||granWalking)return;var g=flat.grandmother.transform;var d=player.transform.position-g.position;d.y=0;if(d.magnitude<2.2f&&d.sqrMagnitude>.01f)g.rotation=Quaternion.Slerp(g.rotation,Quaternion.LookRotation(d),1-Mathf.Exp(-3*Time.deltaTime));}
-  bool granWalking;int granToken;
+  bool granWalking;int granToken;CapsuleCollider granBody;
+  bool PlayerInTheWay(Vector3 from,Vector3 to){var p=player.transform.position;p.y=0;from.y=0;to.y=0;var seg=to-from;float len=seg.magnitude;if(len<.01f)return false;
+   float along=Vector3.Dot(p-from,seg/len);if(along<0||along>Mathf.Min(len,.9f))return false;return Vector3.Distance(from+seg/len*along,p)<.5f;}
   IEnumerator GranGo(string to){yield return GranWalk(to);}
 
   // ---------- lifecycle ----------
   void Awake(){if(!loop)loop=GetComponent<LoopDirector>();savePath=System.IO.Path.Combine(Application.persistentDataPath,"story-checkpoint.json");}
-  void Start(){RememberProps();tv=FindFirstObjectByType<ScenarioTelevision>();var anim=flat.grandmother.GetComponentInChildren<Animation>(true);granAnim=anim;
+  void Start(){granBody=flat.grandmother.GetComponent<CapsuleCollider>();if(!granBody){granBody=flat.grandmother.AddComponent<CapsuleCollider>();granBody.radius=.22f;granBody.height=1.5f;granBody.center=Vector3.up*.75f;}granBody.enabled=false;
+   RememberProps();tv=FindFirstObjectByType<ScenarioTelevision>();var anim=flat.grandmother.GetComponentInChildren<Animation>(true);granAnim=anim;
    if(anim)foreach(AnimationState s in anim){if(s.name.EndsWith("Oidle"))granIdle=s.name;if(s.name.EndsWith("Owalk"))granWalk=s.name;}}
   public bool HasSave=>System.IO.File.Exists(savePath);
   void Checkpoint(string at){if(loop.testing&&!qaAllowSave)return;System.IO.File.WriteAllText(savePath,JsonUtility.ToJson(new Save{chapter=at,flashlight=player.hasFlashlight,belt=belt}));}
@@ -104,6 +120,7 @@ namespace Ataka.Scenario {
   public void Abandon(){StopAll();chapter=Chapter.Loop;flat.entrance.direction=1;}
   void StopAll(){if(running!=null)StopCoroutine(running);StopAllCoroutines();acts.Clear();card=null;fade=0;objective="";choiceA=choiceB=null;scenes.Cancel();loop.chase.Stop();sound.ResetWorld();if(tv)tv.storyOn=false;if(strap)strap.enabled=false;}
   void Update(){
+   if(granBody)granBody.enabled=OwnsFlat&&chapter!=Chapter.Ended; // in the loop the hanging vision needs clear sight to her
    if(!OwnsFlat||player.paused)return;
    if(chapter!=Chapter.Ended&&!loop.Busy&&string.IsNullOrEmpty(scenes.PlayingScene))TickActs();else loop.prompt.text="";
    GranLookAtPlayerWhenNear();

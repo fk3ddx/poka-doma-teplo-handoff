@@ -9,7 +9,7 @@ namespace Ataka.Scenario {
   public Text subtitle,prompt; public LoopProgress Progress{get;private set;}=new LoopProgress();
   public bool Busy{get;private set;}public bool Finished{get;private set;}
   public bool testing;public string LastEvent{get;private set;}="";
-  public StoryDirector story; // the whole game around the loop (prologue → evening → nights → loop → chase → finale)
+  public StoryDirector story;public bool coreTestOnly; // set by ScenarioSmoke: the chase ends in the old core-test menu instead of the finale // the whole game around the loop (prologue → evening → nights → loop → chase → finale)
   bool hangingDoorOpened;float hangingEntryTime;
   public bool HangingWaiting=>Progress.Lap==5&&hangingDoorOpened&&!Busy&&!Progress.EventComplete;
   float thoughtUntil,phoneTimer,balconyTimer,tvWatch,gateWait,balconySeen;bool phoneAnswered,peepholeSeen,returning,clockThought;
@@ -112,7 +112,7 @@ namespace Ataka.Scenario {
   public IEnumerator Death(int lap){Busy=true;yield return scenes.Play("DeathShort");flat.look.disruption=1;yield return new WaitForSeconds(1);flat.look.disruption=0;EnterLap(lap);flat.player.Place(ScenarioLayout.Spawn,180);sound.EndDeathRecovery();Busy=false;}
   IEnumerator BeginChase(){Busy=true;chase.PrepareEntry();yield return scenes.Play("ChaseStart");chase.Begin();Busy=false;}
   // After the chase: the story finale (11), unless an automated core test is running.
-  public void FinishCore(){if(story&&!testing&&(story.chapter==StoryDirector.Chapter.Loop||story.chapter==StoryDirector.Chapter.None)){Finished=true;prompt.text=subtitle.text="";flat.player.chasing=false;foreach(var group in flat.conditionGroups)group.SetActive(false);if(flat.dressing)flat.dressing.Apply(1);story.ChaseFinished();return;}FinishCoreTest();}
+  public void FinishCore(){if(story&&!coreTestOnly&&(story.chapter==StoryDirector.Chapter.Loop||story.chapter==StoryDirector.Chapter.None)){Finished=false;prompt.text=subtitle.text="";flat.player.chasing=false;foreach(var group in flat.conditionGroups)group.SetActive(false);if(flat.dressing)flat.dressing.Apply(1);story.ChaseFinished();return;}FinishCoreTest();}
   public void EndStory(){story.chapter=StoryDirector.Chapter.None;Finished=true;prompt.text=subtitle.text="";Pause(true);}
   void FinishCoreTest(){Finished=true;prompt.text=subtitle.text="";flat.player.chasing=false;foreach(var group in flat.conditionGroups)group.SetActive(false);if(flat.dressing)flat.dressing.Apply(1);flat.look.WarmReturn();flat.clock.Show(22*3600);flat.player.Place(ScenarioLayout.Spawn,180);Pause(true);}
   public void ResumeSavedLap(){StopAllCoroutines();scenes.Cancel();chase.Stop();sound.ResetWorld();Finished=false;

@@ -15,7 +15,7 @@ namespace Ataka.Scenario {
   LoopDirector loop;StoryDirector story;ScenarioPlayer player;string output;readonly List<string> checks=new List<string>();int errors;bool failed;
   readonly HashSet<string> shots=new HashSet<string>();int peepholes;
   // -story-branch door-death | no-belt | save : the losing branches and checkpoints the normal run never touches.
-  string branch="";bool doorOpened,branchRestartSeen,saveChecked;int restartsAtBranch=-1;readonly HashSet<string> scenesSeen=new HashSet<string>();
+  int routeFailures;string branch="";bool doorOpened,branchRestartSeen,saveChecked;int restartsAtBranch=-1;readonly HashSet<string> scenesSeen=new HashSet<string>();
   [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]static void Boot(){
    var args=Environment.GetCommandLineArgs();int i=Array.IndexOf(args,"-story-smoke");if(i<0||i+1>=args.Length)return;
    var go=new GameObject("Story autopilot");var a=go.AddComponent<StoryAutopilot>();a.output=Path.GetFullPath(args[i+1]);}
@@ -31,8 +31,10 @@ namespace Ataka.Scenario {
    int b=Array.IndexOf(args,"-story-branch");branch=b>=0&&b+1<args.Length?args[b+1]:"";
    checks.Add("MODE story autopilot from "+from+(branch!=""?" branch "+branch:"")+" (aim-verified fire, 6x nights)");
    if(branch=="save"){story.qaAllowSave=true;story.QaSavePath(Path.Combine(output,"story-checkpoint.json"));}
-   loop.Pause(false);story.QaBegin(from);
-   float deadline=Time.realtimeSinceStartup+(from=="Finale"?600:2400);string lastObjective=null,lastCard=null;StoryDirector.Chapter lastChapter=story.chapter;
+   var routes=story.QaValidateRoutes();routeFailures=routes.Count;foreach(var r in routes)checks.Add("ROUTE-BLOCKED "+r);checks.Add((routes.Count==0?"PASS":"FAIL")+" grandmother walking graph clear of furniture ("+routes.Count+" blocked edges; run continues)");
+   loop.Pause(false);
+   if(from=="ChaseEnd"){story.Abandon();loop.FinishCore();checks.Add("FinishCore called as at the end of the chase (10 strikes)");}else story.QaBegin(from);
+   float deadline=Time.realtimeSinceStartup+(from=="Finale"||from=="ChaseEnd"?600:2400);if(from=="ChaseEnd")yield return null;string lastObjective=null,lastCard=null;StoryDirector.Chapter lastChapter=story.chapter;
    while(Time.realtimeSinceStartup<deadline&&!failed){
     var playing=loop.scenes.PlayingScene;if(!string.IsNullOrEmpty(playing)&&scenesSeen.Add(story.chapter+":"+playing))checks.Add("SCENE "+playing+" in "+story.chapter);
     if(branch=="door-death"&&doorOpened&&!branchRestartSeen&&story.QaRestarts>restartsAtBranch){branchRestartSeen=true;Check(scenesSeen.Contains(story.chapter+":DeathShort")&&story.chapter==StoryDirector.Chapter.Night1,"opening the door at 22:02 kills (short death) and restarts night 1 at 22:00");}
@@ -47,7 +49,7 @@ namespace Ataka.Scenario {
      if(branch=="door-death")Check(branchRestartSeen,"door-death branch exercised");if(branch=="no-belt")Check(branchRestartSeen,"no-belt branch exercised");
      Check(true,"story reached the loop (lap "+loop.Progress.Lap+")");break;}
     if(branch=="save"&&saveChecked){Check(true,"save branch done");break;}
-    if(story.chapter==StoryDirector.Chapter.None&&loop.Finished){Check(true,"epilogue finished, menu shows КОНЕЦ");break;}
+    if(story.chapter==StoryDirector.Chapter.None&&loop.Finished){if(from=="ChaseEnd")Check(scenesSeen.Contains("Finale:DeathFull"),"chase end → finale → face tear → epilogue");Check(true,"epilogue finished, menu shows КОНЕЦ");break;}
     if(story.CurrentCard!=lastCard){lastCard=story.CurrentCard;if(lastCard!=null){checks.Add("CARD "+lastCard.Replace('\n',' '));yield return Shot("card-"+Slug(lastCard));}}
     if(story.Objective!=lastObjective){lastObjective=story.Objective;checks.Add("TASK "+lastObjective);if(!string.IsNullOrEmpty(lastObjective))yield return Shot("task-"+Slug(lastObjective));}
     Time.timeScale=story.chapter==StoryDirector.Chapter.Night1||story.chapter==StoryDirector.Chapter.Night2||story.chapter==StoryDirector.Chapter.Finale?6:2;
@@ -74,7 +76,7 @@ namespace Ataka.Scenario {
    Time.timeScale=1;
    if(Time.realtimeSinceStartup>=deadline)Check(false,"story timeout in chapter "+story.chapter+" task '"+story.Objective+"'");
    Check(errors==0,"no runtime errors ("+errors+")");
-   File.WriteAllText(Path.Combine(output,"result.json"),JsonUtility.ToJson(new Result{passed=!failed&&errors==0,chapter=story.chapter.ToString(),errors=errors}));Write();
+   File.WriteAllText(Path.Combine(output,"result.json"),JsonUtility.ToJson(new Result{passed=!failed&&errors==0&&routeFailures==0,chapter=story.chapter.ToString(),errors=errors,routeFailures=routeFailures}));Write();
    yield return new WaitForSecondsRealtime(.5f);Application.Quit(failed||errors>0?1:0);
   }
   IEnumerator Approach(StoryDirector.Act act){
@@ -87,6 +89,6 @@ namespace Ataka.Scenario {
    var look=target-(feet+Vector3.up*1.55f);float yaw=Quaternion.LookRotation(new Vector3(look.x,0,look.z)).eulerAngles.y;float pitch=-Mathf.Atan2(look.y,new Vector2(look.x,look.z).magnitude)*Mathf.Rad2Deg;
    player.Place(feet,yaw,pitch);yield return null;yield return null;
   }
-  [Serializable]class Result{public bool passed;public string chapter;public int errors;}
+  [Serializable]class Result{public bool passed;public string chapter;public int errors,routeFailures;}
  }
 }
