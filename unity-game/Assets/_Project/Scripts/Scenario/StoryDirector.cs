@@ -64,6 +64,8 @@ namespace Ataka.Scenario {
   public void QaFireCompanion(Act a){if(aimed!=null&&(a==aimed||(a.at()-aimed.at()).sqrMagnitude<.05f))Fire(a);}
   public bool Choosing=>choiceA!=null;public void QaChoose(int c){choice=c;}public string CurrentCard=>card;public string Objective=>objective;
   public void QaBegin(string at){Begin(at);}
+  // QA: the real night sequence from 22:00 (announcer, knocks, phone, balcony, hunt, 22:07 death) without the evening.
+  public void QaNightEvents(int which){chapter=which==1?Chapter.Night1:Chapter.Night2;night=which;if(running!=null)StopCoroutine(running);nightSeconds=22*3600;NightClock();running=StartCoroutine(NightEvents(which,false));}
   public bool QaBelt=>beltTied;public int QaRestarts{get;private set;}public bool qaAllowSave;
   public void QaSavePath(string path){savePath=path;}public string SavePath=>savePath;
 

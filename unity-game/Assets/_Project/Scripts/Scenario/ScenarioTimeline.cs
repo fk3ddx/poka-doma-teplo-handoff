@@ -25,6 +25,7 @@ namespace Ataka.Scenario {
    foreach(var r in guestRenderers)if(r)r.SetPropertyBlock(on?silhouette:null);
   }
   public void BalconyWaiting(float reach=0){flat.guest.SetActive(true);GuestSilhouette(true);var g=flat.guest.transform;g.localScale=guestScale;g.rotation=Quaternion.Euler(0,0,180);var pose=flat.guest.GetComponent<ProxyPose>();pose.HangInverted(balconyPalm,0);HeadAt(g,new Vector3(5.175f,1.8f,-.3f));if(reach>0)pose.HangInverted(balconyPalm,reach);}
+  float deathEntryPitch;
   public float screenBlack,screenRed,screenWhite;Quaternion startHead,chaseStartRotation,chaseTargetRotation;Vector3 startGuest,startHeadPosition;bool fired;float lastTime;Vector3 guestScale;
   void Awake(){guestScale=flat.guest.transform.localScale;faceTear=GetComponent<FaceTearDeath>();if(!faceTear)faceTear=gameObject.AddComponent<FaceTearDeath>();var suspension=gameObject.AddComponent<HangingRope>();suspension.scene=this;var floorCue=gameObject.AddComponent<HangingFloorCue>();floorCue.scene=this;}
   public void Cancel(){GuestSilhouette(false);{var gv=flat.guest.GetComponent<GuestLookAt>();if(gv)gv.target=null;}flat.player.lookDuringScene=false;flat.player.flashlight.transform.localRotation=Quaternion.identity;if(InDeath)sound.BeginDeathRecovery();sound.EndDeathRecovery();if(faceTear)faceTear.End();PlayingScene=null;FrameTime=0;director.Stop();screenBlack=screenWhite=screenRed=0;flat.look.peephole=flat.look.disruption=0;flat.player.control=true;flat.player.head.localPosition=Vector3.up*(flat.player.crouched?.94f:1.55f);if(leftHand)leftHand.gameObject.SetActive(false);if(rightHand)rightHand.gameObject.SetActive(false);flat.guest.SetActive(false);flat.grandmother.SetActive(false);}
@@ -45,6 +46,12 @@ namespace Ataka.Scenario {
    var timeline=name=="UnderBed"?underBed:name=="BalconyPalm"?balcony:name=="Television"?television:name=="HangingVision"?hanging:name=="Peephole"?peephole:name=="DeathShort"||name=="DeathFull"?death:chaseStart;
    flat.player.control=false;flat.player.lookDuringScene=name=="HangingVision";startHead=flat.player.head.localRotation;startHeadPosition=flat.player.head.localPosition;fired=false;lastTime=-1;screenBlack=screenRed=screenWhite=0;
    var g=flat.guest.transform;flat.guest.GetComponent<ProxyPose>().Stand();g.position=flat.player.head.position+flat.player.head.forward*.65f-Vector3.up*1.6f;g.rotation=Quaternion.LookRotation(-flat.player.head.forward,Vector3.up);startGuest=g.position;
+   if(DeathScene(name)){
+    // 7.4 from ANY entry: she stands upright on his horizontal heading (the entry look may be ±80° after a hunt or the
+    // balcony), and the camera's entry pitch blends to level during the lunge — no tilted body, no view into her chest.
+    var level=flat.player.transform.forward;level.y=0;if(level.sqrMagnitude<1e-4f)level=Vector3.forward;level.Normalize();
+    g.rotation=Quaternion.LookRotation(-level,Vector3.up);g.position=flat.player.head.position+level*.65f-Vector3.up*1.6f;startGuest=g.position;
+    deathEntryPitch=Mathf.DeltaAngle(0,flat.player.head.localEulerAngles.x);var gv=flat.guest.GetComponent<GuestVisual>();if(gv)gv.groundY=float.NaN;}
    flat.guest.SetActive(false);flat.grandmother.SetActive(false);
    skipHeld=0;
    if(DeathScene(name)){
@@ -107,7 +114,7 @@ namespace Ataka.Scenario {
     flat.guest.SetActive(full?t<4.8f:t<2.5f);guest.localScale=guestScale;guest.position=startGuest;HeadAt(guest,head.position+body*.62f+Vector3.up*(.10f+lift));
     var gv=flat.guest.GetComponent<GuestLookAt>();if(gv)gv.target=head.position; // her face turns to him (the authored Idle looks aside) // her face 0.62 m ahead, above his eyes; the arms reach him (an authored body at 0.3 m filled the frame)
     var lens=cine.Lens;lens.FieldOfView=Mathf.Lerp(70,55,Mathf.Clamp01(t/.08f));cine.Lens=lens;
-    head.localRotation=startHead*Quaternion.Euler(pitchUp+shake.x,shake.y,0);
+    head.localRotation=Quaternion.Euler(deathEntryPitch*(1-Mathf.SmoothStep(0,1,Mathf.Clamp01(t/.18f)))+pitchUp+shake.x,shake.y,0);
     SoundAt(t,0,"breath",head.position);SoundAt(t,.3f,"finger_crack",head.position);
     if(full){
      if(lastTime<.8f&&t>=.8f)loop.Thought("…Мишаня…",1.4f);
