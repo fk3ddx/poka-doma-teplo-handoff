@@ -11,13 +11,13 @@ namespace Ataka.Scenario {
   public bool testing;public string LastEvent{get;private set;}="";
   bool hangingDoorOpened;float hangingEntryTime;
   public bool HangingWaiting=>Progress.Lap==5&&hangingDoorOpened&&!Busy&&!Progress.EventComplete;
-  float thoughtUntil,phoneTimer,balconyTimer,tvWatch,gateWait;bool phoneAnswered,peepholeSeen,returning,clockThought;
+  float thoughtUntil,phoneTimer,balconyTimer,tvWatch,gateWait,balconySeen;bool phoneAnswered,peepholeSeen,returning,clockThought;
   string savePath;bool paused=true,initializing=true;float knockTimer;int knockIndex;
   void Start(){savePath=System.IO.Path.Combine(Application.persistentDataPath,"scenario-core-checkpoint.json");EnterLap(1);initializing=false;Pause(true);}
   public void Pause(bool value){paused=value;flat.player.Pause(value);Time.timeScale=value?0:1;AudioListener.pause=value;sound.paused=value;}
   public void Thought(string text,float seconds=4){subtitle.text=text;thoughtUntil=Time.time+seconds;}
   public void EnterLap(int n){
-   scenes.GetComponent<HangingFloorCue>()?.ResetCue();Progress.RestoreCheckpoint(n);Busy=false;hangingDoorOpened=false;hangingEntryTime=0;phoneAnswered=false;peepholeSeen=false;returning=false;clockThought=false;tvWatch=0;gateWait=0;
+   scenes.GetComponent<HangingFloorCue>()?.ResetCue();Progress.RestoreCheckpoint(n);Busy=false;hangingDoorOpened=false;hangingEntryTime=0;phoneAnswered=false;peepholeSeen=false;returning=false;clockThought=false;tvWatch=0;gateWait=0;balconySeen=0;
    flat.look.Apply(laps[n-1].condition);flat.clock.Show(Progress.ClockSeconds);flat.carpet.locked=true;flat.carpet.open=false;flat.entrance.open=false;flat.entrance.locked=true;
    if(flat.dressing)flat.dressing.Apply(n);
    flat.living.open=true;flat.living.locked=false;flat.entrance.scripted=false;flat.bedroom.open=n!=5;flat.bedroom.locked=n==5;flat.bedroom.closedAngle=n==5?Mathf.Asin(.2f/.8f)*Mathf.Rad2Deg:0;flat.kitchen.locked=flat.bath.locked=true;
@@ -28,6 +28,8 @@ namespace Ataka.Scenario {
    flat.stool.transform.SetPositionAndRotation(new Vector3(5.5f,0,5.8f),Quaternion.identity);flat.slipper.SetActive(true);flat.slipper.transform.SetPositionAndRotation(ScenarioLayout.WardrobeSlipper,Quaternion.identity);
    flat.televisionLight.intensity=n==4?.1f:0;phoneTimer=0;balconyTimer=0;knockTimer=0;knockIndex=0;
    if(!initializing)SaveCheckpoint(false);
+   // Orientation for a first-time player: the lap's minute, as on the hall clock (SCENARIO 9.3).
+   Thought(laps[n-1].hour+":"+laps[n-1].minute.ToString("00"),2.5f);
   }
   [Serializable] class Save{public int lap=1;public bool flashlight,chase;}
   public void SaveCheckpoint(bool inChase){if(!testing)System.IO.File.WriteAllText(savePath,JsonUtility.ToJson(new Save{lap=Progress.Lap,flashlight=flat.player.hasFlashlight,chase=inChase}));}
@@ -51,9 +53,13 @@ namespace Ataka.Scenario {
    foreach(var door in new[]{flat.kitchen,flat.bath,flat.bedroom,flat.living})if(!(door==flat.bedroom&&Progress.Lap==5&&phoneAnswered)&&focus==door.transform){prompt.text=door.locked?"[E] Закрыто":"[E] Дверь";if(e){sound.Play(door.ToggleWithCue(),door.transform.position);}}
    if(Near(flat.clock.transform,2)&&Progress.Lap==2&&!clockThought){Thought("Часы идут назад. Это та же ночь. Только наоборот");clockThought=true;}
    if(Progress.Lap==1&&!Progress.EventComplete&&p.head.position.x<2.6f&&Vector3.Distance(p.transform.position,flat.wardrobe.position)<1.5f&&ScenarioSight.Clear(p.transform,p.head.position,flat.wardrobe.position+Vector3.up))StartCoroutine(Event(LapGate.Wardrobe));
-   if(Progress.Lap==2&&!Progress.EventComplete){balconyTimer+=Time.deltaTime;if(balconyTimer>3){balconyTimer=0;sound.Play("breath",flat.bed.position);}if(Near(flat.bed,2)&&p.crouched&&Looking(flat.bed,.65f)){prompt.text="[E] Посмотреть под кровать";if(e)StartCoroutine(Event(LapGate.UnderBed));}}
+   if(Progress.Lap==2&&!Progress.EventComplete){balconyTimer+=Time.deltaTime;if(balconyTimer>3){balconyTimer=0;sound.Play("breath",flat.bed.position);}if(Near(flat.bed,2)&&Looking(flat.bed,.65f)){if(!p.crouched)prompt.text="[Ctrl] Присесть";else{prompt.text="[E] Посмотреть под кровать";if(e)StartCoroutine(Event(LapGate.UnderBed));}}}
    if(Progress.Lap==3&&!Progress.EventComplete){scenes.BalconyWaiting();balconyTimer+=Time.deltaTime;if(balconyTimer>8){balconyTimer=0;sound.Play("balcony",flat.balcony.position);}
-    if(Vector3.Distance(p.transform.position,new Vector3(flat.balcony.position.x,p.transform.position.y,flat.balcony.position.z))<1.5f)StartCoroutine(Event(LapGate.BalconyPalm));}
+    // The lap route crosses the living room ~3.5 m from the glass, so a clear look must also fire the gate, not only the 1.5 m approach.
+    var glass=flat.balcony.position+new Vector3(0,.4f,.25f);
+    bool seen=Vector3.Distance(p.head.position,glass)<4.6f&&Looking(flat.balcony,.93f)&&ScenarioSight.Clear(p.transform,p.head.position,glass);
+    balconySeen=seen?balconySeen+Time.deltaTime:0;
+    if(balconySeen>=.6f||Vector3.Distance(p.transform.position,new Vector3(flat.balcony.position.x,p.transform.position.y,flat.balcony.position.z))<1.5f)StartCoroutine(Event(LapGate.BalconyPalm));}
    if(Progress.Lap==4&&!Progress.EventComplete&&Near(flat.television,3)&&Looking(flat.television,.93f)){tvWatch+=Time.deltaTime;if(tvWatch>=3)StartCoroutine(Event(LapGate.Television));}else if(Progress.Lap==4)tvWatch=0;
    if(Progress.Lap==5){if(!phoneAnswered){phoneTimer+=Time.deltaTime;if(phoneTimer>3){phoneTimer=0;sound.Play("phone",flat.phone.position);}
      if(focus==flat.phone){prompt.text="[E] Снять трубку";if(e)StartCoroutine(Phone());}}
@@ -73,6 +79,8 @@ namespace Ataka.Scenario {
     if(e){flat.carpet.locked=!Progress.CarpetDoorUnlocked;sound.Play(flat.carpet.ToggleWithCue(),flat.carpet.transform.position);if(!Progress.CarpetDoorUnlocked)Thought(Progress.Lap==6?"Стучат… Она у двери. Как тогда":"Закрыто");}
     if(Progress.Lap==1&&gateWait>10&&!Progress.EventComplete){Thought("Закрыто. Что-то тут не так… шифоньер");gateWait=-1000;}
     if(Progress.Lap==2&&gateWait>20&&!Progress.EventComplete){Thought("Под кроватью… дышит");gateWait=-1000;}
+    if(Progress.Lap==3&&gateWait>10&&!Progress.EventComplete){Thought("Балкон… За стеклом кто-то есть");gateWait=-1000;}
+    if(Progress.Lap==4&&gateWait>10&&!Progress.EventComplete){Thought("Телевизор в зале… он включён");gateWait=-1000;}
    }
    var vestibuleLocal=flat.sourceVestibule.InverseTransformPoint(p.transform.position);
    if(Progress.CarpetDoorUnlocked&&Mathf.Abs(vestibuleLocal.z)<=.16f&&Mathf.Abs(vestibuleLocal.x)<=.18f)StartCoroutine(Warp());
@@ -81,6 +89,7 @@ namespace Ataka.Scenario {
     else if(Progress.Lap==6){prompt.text="[E] Глазок   [R] Открыть дверь";if(e&&!peepholeSeen)StartCoroutine(Event(LapGate.Peephole));if(Keyboard.current?.rKey.wasPressedThisFrame==true)StartCoroutine(Death(6));}
    }
    if(Progress.Lap==6&&peepholeSeen)StartCoroutine(BeginChase());
+   if(prompt.text==""&&p.TorchNeedsPump)prompt.text="[F] удерживать — подкачать фонарик";
   }
   IEnumerator Phone(){Busy=true;yield return new WaitForSeconds(sound.Speak(true,flat.phone.position));Thought("…Это не я за дверью! Не открывай!..",sound.PhoneDuration);yield return new WaitForSeconds(sound.Speak(false,flat.phone.position));sound.PlayReceiver("phone_shriek");yield return new WaitForSeconds(1.2f);sound.PlayReceiver("phone_breath");sound.Play("breath",flat.player.transform.position-flat.player.transform.forward-flat.player.transform.right*.5f);phoneAnswered=true;Busy=false;}
   public IEnumerator Event(LapGate gate){

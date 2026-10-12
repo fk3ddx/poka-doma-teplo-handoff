@@ -56,7 +56,12 @@ namespace Ataka.Scenario {
     Check(loop.Progress.Lap==lap,"lap "+lap+" entered");yield return null;CheckBoundClocks("lap "+lap);
     if(lap==5){Check(loop.flat.bedroom.locked&&!loop.flat.bedroom.open,"fifth bedroom locked before phone");Check(Mathf.Abs(loop.flat.bedroom.closedAngle-Mathf.Asin(.2f/.8f)*Mathf.Rad2Deg)<.01f,"fifth bedroom has 20cm ajar gap");yield return Walk(new Vector3(7.65f,0,3.8f));Look(loop.flat.phone.position);yield return Press(Key.E);yield return WaitBusy();}
     yield return Walk(new Vector3(7.9f,0,5.35f));yield return Walk(new Vector3(5.65f,0,5.35f));yield return Shot("lap"+lap+"-clock");yield return Walk(new Vector3(5.65f,0,3.6f));
-    if(lap==3){yield return Walk(new Vector3(5.25f,0,1.15f));yield return WaitBusy();yield return Walk(new Vector3(5.65f,0,3.6f));}
+    if(lap==3){
+     // A human crosses the living room ~3.4 m from the glass; the gate must fire from that route view, not only at 1.5 m.
+     Look(loop.flat.balcony.position);float viewDeadline=Time.realtimeSinceStartup+1.5f;while(!loop.Busy&&!loop.Progress.EventComplete&&Time.realtimeSinceStartup<viewDeadline)yield return null;
+     checks.Add((loop.Busy||loop.Progress.EventComplete?"PASS":"WARN")+" lap 3 balcony gate from route view at "+player.transform.position);
+     if(!loop.Busy&&!loop.Progress.EventComplete)yield return Walk(new Vector3(5.25f,0,1.15f));
+     yield return WaitBusy();Check(loop.Progress.EventComplete,"lap 3 balcony gate complete");yield return Walk(new Vector3(5.65f,0,3.6f));}
     if(lap==4){Look(loop.flat.television.position);yield return new WaitForSeconds(3.5f);yield return WaitBusy();}
     yield return Walk(new Vector3(3.25f,0,3.6f));
     if(lap==5){

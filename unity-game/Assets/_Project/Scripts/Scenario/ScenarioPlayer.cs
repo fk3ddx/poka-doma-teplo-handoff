@@ -8,6 +8,8 @@ namespace Ataka.Scenario {
   public bool control=true,paused=true,chasing,hasFlashlight,crouched,automating;
   public float sensitivity=.085f;public float pitch;public bool LookingBack{get;private set;}
   public float ActualSpeed{get;private set;}
+  // The dynamo torch fades in ~10 s; until the player has pumped it once, the director shows how.
+  public bool TorchNeedsPump=>hasFlashlight&&torch&&charge<2.5f&&!pumpedOnce;bool pumpedOnce;
   CharacterController body; float vy,charge=10,pressDuration; bool torch=true;int suppress;
   public Vector3 routeForward=Vector3.forward;
   void Awake(){body=GetComponent<CharacterController>();}
@@ -27,7 +29,7 @@ namespace Ataka.Scenario {
    var before=transform.position;vy=body.isGrounded?-2:Mathf.Max(-20,vy-20*Time.deltaTime);body.Move(((transform.right*axis.x+transform.forward*axis.y)*speed+Vector3.up*vy)*Time.deltaTime);
    var displacement=transform.position-before;displacement.y=0;ActualSpeed=displacement.magnitude/Mathf.Max(.0001f,Time.deltaTime);
    if(k.fKey.wasPressedThisFrame)pressDuration=0;
-   if(k.fKey.isPressed){pressDuration+=Time.deltaTime;if(pressDuration>.25f){torch=true;charge=Mathf.Min(10,charge+Time.deltaTime*6);}}
+   if(k.fKey.isPressed){pressDuration+=Time.deltaTime;if(pressDuration>.25f){torch=true;pumpedOnce=true;charge=Mathf.Min(10,charge+Time.deltaTime*6);}}
    else {if(k.fKey.wasReleasedThisFrame&&pressDuration<=.25f)torch=!torch;if(torch)charge=Mathf.Max(0,charge-Time.deltaTime);}
    flashlight.intensity=hasFlashlight&&torch?Mathf.Lerp(.3f,3,charge/10):0;
   }

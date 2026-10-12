@@ -12,10 +12,18 @@ namespace Ataka.Scenario {
   public DeathVeil veil;int deathsViewed;float skipHeld;
   public string PlayingScene{get;private set;}public float FrameTime{get;private set;}
   void HeadAt(Transform actor,Vector3 point){var animator=actor.GetComponent<Animator>();var bone=animator.GetBoneTransform(HumanBodyBones.Head);actor.position+=point-bone.position;}
-  public void BalconyWaiting(){flat.guest.SetActive(true);var g=flat.guest.transform;g.localScale=guestScale;g.rotation=Quaternion.Euler(0,0,180);HeadAt(g,new Vector3(5.175f,1.8f,-.3f));}
+  // Lap 3 (SCENARIO 9.4): a dark upside-down silhouette behind the balcony glass; the palm comes from her own arm, not a detached close-up hand.
+  public Vector3 balconyPalm=new Vector3(5.12f,1.42f,-.05f);
+  MaterialPropertyBlock silhouette;Renderer[] guestRenderers;
+  void GuestSilhouette(bool on){
+   if(guestRenderers==null)guestRenderers=flat.guest.GetComponentsInChildren<Renderer>(true);
+   if(silhouette==null){silhouette=new MaterialPropertyBlock();silhouette.SetColor("_BaseColor",new Color(.025f,.022f,.02f,1));silhouette.SetFloat("_Smoothness",0);}
+   foreach(var r in guestRenderers)if(r)r.SetPropertyBlock(on?silhouette:null);
+  }
+  public void BalconyWaiting(float reach=0){flat.guest.SetActive(true);GuestSilhouette(true);var g=flat.guest.transform;g.localScale=guestScale;g.rotation=Quaternion.Euler(0,0,180);var pose=flat.guest.GetComponent<ProxyPose>();pose.HangInverted(balconyPalm,0);HeadAt(g,new Vector3(5.175f,1.8f,-.3f));if(reach>0)pose.HangInverted(balconyPalm,reach);}
   public float screenBlack,screenRed,screenWhite;Quaternion startHead,chaseStartRotation,chaseTargetRotation;Vector3 startGuest,startHeadPosition;bool fired;float lastTime;Vector3 guestScale;
   void Awake(){guestScale=flat.guest.transform.localScale;var suspension=gameObject.AddComponent<HangingRope>();suspension.scene=this;var floorCue=gameObject.AddComponent<HangingFloorCue>();floorCue.scene=this;}
-  public void Cancel(){flat.player.lookDuringScene=false;flat.player.flashlight.transform.localRotation=Quaternion.identity;if(PlayingScene=="DeathShort")sound.BeginDeathRecovery();sound.EndDeathRecovery();PlayingScene=null;FrameTime=0;director.Stop();screenBlack=screenWhite=screenRed=0;flat.look.peephole=flat.look.disruption=0;flat.player.control=true;flat.player.head.localPosition=Vector3.up*(flat.player.crouched?.94f:1.55f);if(leftHand)leftHand.gameObject.SetActive(false);if(rightHand)rightHand.gameObject.SetActive(false);flat.guest.SetActive(false);flat.grandmother.SetActive(false);}
+  public void Cancel(){GuestSilhouette(false);flat.player.lookDuringScene=false;flat.player.flashlight.transform.localRotation=Quaternion.identity;if(PlayingScene=="DeathShort")sound.BeginDeathRecovery();sound.EndDeathRecovery();PlayingScene=null;FrameTime=0;director.Stop();screenBlack=screenWhite=screenRed=0;flat.look.peephole=flat.look.disruption=0;flat.player.control=true;flat.player.head.localPosition=Vector3.up*(flat.player.crouched?.94f:1.55f);if(leftHand)leftHand.gameObject.SetActive(false);if(rightHand)rightHand.gameObject.SetActive(false);flat.guest.SetActive(false);flat.grandmother.SetActive(false);}
   void PlaceHangingStool(){
    var stool=flat.stool;stool.transform.SetPositionAndRotation(new Vector3(1.30f,0,2.62f),Quaternion.Euler(0,0,-90));
    var rs=stool.GetComponentsInChildren<Renderer>();if(rs.Length==0)return;var bounds=rs[0].bounds;foreach(var r in rs)bounds.Encapsulate(r.bounds);
@@ -28,7 +36,7 @@ namespace Ataka.Scenario {
    if(rope){rope.startWidth=rope.endWidth=.018f;rope.enabled=true;rope.SetPosition(0,new Vector3(1.65f,2.5f,2.3f));rope.SetPosition(1,flat.grandmother.GetComponent<NinaHangingPose>().NeckPosition);}
   }
   public IEnumerator Play(string name){
-   PlayingScene=name;
+   PlayingScene=name;GuestSilhouette(false);
    if(name=="ChaseStart"){chaseStartRotation=flat.player.head.rotation;var direction=ChaseCorridor.EntryOrigin-flat.player.head.position;direction.y=0;chaseTargetRotation=Quaternion.LookRotation(direction);}
    var timeline=name=="UnderBed"?underBed:name=="BalconyPalm"?balcony:name=="Television"?television:name=="HangingVision"?hanging:name=="Peephole"?peephole:name=="DeathShort"?death:chaseStart;
    flat.player.control=false;flat.player.lookDuringScene=name=="HangingVision";startHead=flat.player.head.localRotation;startHeadPosition=flat.player.head.localPosition;fired=false;lastTime=-1;screenBlack=screenRed=screenWhite=0;
@@ -51,8 +59,7 @@ namespace Ataka.Scenario {
     flat.guest.SetActive(true);guest.localScale=guestScale;guest.rotation=Quaternion.Euler(90,180,0);HeadAt(guest,flat.bed.position);
     if(t>=1){HeadAt(guest,Vector3.Lerp(flat.bed.position,head.position+head.forward*.25f,Mathf.Clamp01((t-1)*10)));screenWhite=Mathf.Max(0,1-(t-1)*5);SoundAt(t,1,"shriek",head.position);}
    }else if(name=="BalconyPalm"){
-    BalconyWaiting();SoundAt(t,0,"balcony",flat.balcony.position);
-    if(rightHand)rightHand.World(new Vector3(5.175f,1.3f,Mathf.Lerp(-.35f,-.015f,Mathf.Clamp01(t*10))),Vector3.up);
+    BalconyWaiting(Mathf.Clamp01(t*8));SoundAt(t,0,"balcony",flat.balcony.position);
    }else if(name=="Television"){
     flat.televisionLight.intensity=0;SoundAt(t,0,"latch",flat.television.position);
    }else if(name=="HangingVision"){
