@@ -85,7 +85,7 @@ namespace Ataka.Scenario {
     Check(loop.Progress.CarpetDoorUnlocked,"gate "+lap+" released by event");if(hangingOnly){Finish();yield break;}yield return Press(Key.E);yield return new WaitForSeconds(.7f);
     if(loop.flat.carpet.BlockedByPlayer){checks.Add("DOOR stopped at original approach; step clear per Claude review05");yield return Walk(new Vector3(1.1f,0,3.05f));yield return new WaitForSeconds(1);}
     yield return Walk(new Vector3(.9f,0,5.1f));yield return new WaitForSeconds(1);
-    Look(loop.flat.entrance.transform.position);yield return Press(Key.E);yield return new WaitForSeconds(.7f);yield return Walk(new Vector3(8.05f,0,5.55f));
+    Look(loop.flat.entrance.transform.position);yield return Press(Key.E);yield return new WaitForSeconds(.7f);DumpReturnDoor("return after E");yield return Walk(new Vector3(8.05f,0,5.55f));
    }
    if(!failed){yield return Walk(new Vector3(2.25f,0,3.6f));yield return Walk(new Vector3(5.65f,0,3.6f));yield return Walk(new Vector3(5.65f,0,5.35f));yield return Walk(new Vector3(8.05f,0,5.45f));Look(loop.flat.entrance.transform.position);yield return Press(Key.E);yield return WaitBusy();float chaseDeadline=Time.realtimeSinceStartup+5;while(!loop.chase.Active&&Time.realtimeSinceStartup<chaseDeadline)yield return null;Check(loop.chase.Active,"chase entered");Check(player.transform.position.z<7&&player.transform.position.z>4,"chase starts at original hallway coordinates");yield return Shot("chase-start");}
    if(!failed)yield return ChaseRun();
@@ -192,10 +192,15 @@ namespace Ataka.Scenario {
   IEnumerator Walk(Vector3 target){if(failed)yield break;float start=Time.realtimeSinceStartup;int startLap=loop.Progress.Lap;bool startChase=loop.chase.Active;
    while(Vector2.Distance(new Vector2(player.transform.position.x,player.transform.position.z),new Vector2(target.x,target.z))>.12f){
     if(loop.Progress.Lap!=startLap||loop.chase.Active!=startChase||loop.scenes.PlayingScene=="HangingVision")break;
-    if(Time.realtimeSinceStartup-start>12){Check(false,"walk blocked toward "+target+" at "+player.transform.position+" yaw="+player.transform.eulerAngles.y+" W="+Keyboard.current.wKey.isPressed+" control="+player.control+" speed="+player.ActualSpeed+" paused="+player.paused);yield return Shot("FAILED-walk");break;}
+    if(Time.realtimeSinceStartup-start>12){DumpReturnDoor("blocked walk");Check(false,"walk blocked toward "+target+" at "+player.transform.position+" yaw="+player.transform.eulerAngles.y+" W="+Keyboard.current.wKey.isPressed+" control="+player.control+" speed="+player.ActualSpeed+" paused="+player.paused);yield return Shot("FAILED-walk");break;}
     var dir=target-player.transform.position;dir.y=0;player.transform.rotation=Quaternion.LookRotation(dir);player.pitch=5;
     InputSystem.QueueStateEvent(keyboard,new KeyboardState(Key.W));yield return null;
    }InputSystem.QueueStateEvent(keyboard,new KeyboardState());yield return null;checks.Add("WALK "+player.transform.position+" target="+target);if(player.transform.position.y < -.2f){Check(false,"fell below floor");yield return Shot("FAILED-floor");}
+  }
+  void DumpReturnDoor(string phase){
+   var d=loop.flat.entrance;var cc=player.GetComponent<CharacterController>();
+   checks.Add("RETURN_DOOR "+phase+" player="+player.transform.position.ToString("F3")+" door="+d.transform.position.ToString("F3")+" pivot="+d.leaf.position.ToString("F3")+" dir="+d.direction+" angle="+Mathf.DeltaAngle(0,d.leaf.localEulerAngles.y)+" open="+d.open+" locked="+d.locked+" blocked="+d.BlockedByPlayer+" scripted="+d.scripted+" prompt="+loop.prompt.text);
+   if(cc){var c=cc.transform.TransformPoint(cc.center);float h=Mathf.Max(0,cc.height*.5f-cc.radius);foreach(var col in Physics.OverlapCapsule(c+Vector3.up*h,c-Vector3.up*h,cc.radius+.08f,~0,QueryTriggerInteraction.Ignore))if(col!=cc)checks.Add("NEAR_CAPSULE "+col.name+" parent="+(col.transform.parent?col.transform.parent.name:"none")+" bounds="+col.bounds);}
   }
   void CheckBoundClocks(string phase){
    int bound=0;foreach(var face in FindObjectsByType<ClockFace>(FindObjectsSortMode.None))if(face.timeSource==loop.flat.clock){bound++;Check(Mathf.Abs(face.seconds-loop.flat.clock.seconds)<.01f,phase+" bedside clock follows scenario time");}

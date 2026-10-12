@@ -341,3 +341,7 @@ Added QA-only -scenario-integrated-finale / rendered_player --mode integrated. S
 BuildM exit0. IntegratedM exits1/errors0 at lap2 after first warp. Natural original route, no waypoint bypass: target(8.05,0,5.55), stuck(8.27,.02,6.49), yaw193, controltrue/speed0. FAILED-walk shows door surface. Core started with real EnterLoop, which explicitly sets entrance.direction=1, unlike story Homely direction=-1 (inward to hallway). Suspect outward leaf sweeps into the returning player's one-metre tambour; must diagnose actual blocker before changing anything. Do not hide by staging player or deleting collider.
 
 Archive NOT released. Fresh prologueL and openL both passed; those do not cover this loop return. Send exact evidence to Claude; inspect door angles, capsule and collider if necessary. Goal active; failed runner ended, no Unity/player left alive.
+
+
+# pc30 door correction under integrated test
+Applied pc-30-loop-door-b371567.patch SHA25647d70710648d6086ddde4dbbcfcd274a8387180d442c8d3e2f72260427c4992a after reading whole patch/clean apply-check. StoryDirector uses shared InwardSwing=-1 for Begin Loop/Abandon/EnterLoop/Homely. Previously EnterLoop restored+1 contrary to authored scene. ScenarioDoor safety, collider and QA walking targets unchanged. Added QA-only door angle/state and nearby capsule colliders on return/failure. BuildN compiled exit0; integratedN running, no result yet. No archive released.

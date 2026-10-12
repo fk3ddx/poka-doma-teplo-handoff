@@ -201,10 +201,14 @@ namespace Ataka.Scenario {
   public void Continue(){var s=HasSave?JsonUtility.FromJson<Save>(System.IO.File.ReadAllText(savePath)):null;rewind.Import(s?.memories);Begin(s?.chapter??"Prologue",s);}
   void Begin(string at,Save s=null){
    StopAll();loop.Thought("",0);if(at=="Prologue"||at=="Evening")rewind.ForgetEvening();player.hasFlashlight=s!=null&&s.flashlight;belt=s!=null&&s.belt;
-   if(at=="Loop"){chapter=Chapter.Loop;flat.entrance.direction=1;loop.ResumeSavedLap();return;}
+   if(at=="Loop"){chapter=Chapter.Loop;flat.entrance.direction=InwardSwing;loop.ResumeSavedLap();return;}
    running=StartCoroutine(at switch{"Evening"=>Evening(false),"Night1"=>Night1(false),"Night2"=>Night2(false),"Finale"=>Finale(),_=>Prologue()});
   }
-  public void Abandon(){StopAll();chapter=Chapter.Loop;flat.entrance.direction=1;}
+  public void Abandon(){StopAll();chapter=Chapter.Loop;flat.entrance.direction=InwardSwing;}
+  // The flat door (Entrance60, z 6.03) always swings INTO THE HALL, as ScenarioBuilder authors it. The tambour behind it is
+  // 1.05 m deep and the leaf 0.9 m: swung outwards (+1, pc-f87beac) it met the player the loop's warp had just put there,
+  // the door's safety opened only a crack, and he could never get back in (story29-integrated-m, lap 2).
+  const float InwardSwing=-1;
   void StopAll(){EndPrologue();Neighbours(false);EndMirrorSeed();EndGlimpse();ResetLeisure();if(rewind)rewind.Cleanup();FinaleReset();if(running!=null)StopCoroutine(running);StopAllCoroutines();acts.Clear();holdingAct=null;kettleBoiling=false;card=null;fade=0;objective="";choiceA=choiceB=null;scenes.Cancel();loop.chase.Stop();sound.ResetWorld();if(tv){tv.storyOn=false;tv.show=ScenarioTelevision.Show.None;}if(bedside)bedside.timeSource=flat.clock;QaInFreeTime=false;if(strap)strap.enabled=false;}
   void Update(){
    if(granBody)granBody.enabled=OwnsFlat&&chapter!=Chapter.Ended; // in the loop the hanging vision needs clear sight to her
@@ -224,7 +228,7 @@ namespace Ataka.Scenario {
    // continued evening (grandmother already in the kitchen) or a second playthrough after lap 5 cannot shut the player out.
    flat.kitchen.open=true;flat.bedroom.open=true;
    // The flat door swings into the hall in the story: the 1 m vestibule leaves no room for an outward swing past the player.
-   flat.carpet.locked=true;flat.carpet.open=false;flat.entrance.scripted=false;flat.entrance.direction=-1;flat.balconyDoor.locked=true;flat.balconyDoor.open=false;flat.balconyDoor.closedAngle=0;
+   flat.carpet.locked=true;flat.carpet.open=false;flat.entrance.scripted=false;flat.entrance.direction=InwardSwing;flat.balconyDoor.locked=true;flat.balconyDoor.open=false;flat.balconyDoor.closedAngle=0;
    foreach(var d in flat.wardrobeLeaves)d.localRotation=Quaternion.identity;
    flat.guest.SetActive(false);flat.slipper.SetActive(false);flat.televisionLight.intensity=0;flat.clock.stopped=false;
    if(flat.hallCupboard)flat.hallCupboard.ResetForLap();flat.torchPickup.gameObject.SetActive(!player.hasFlashlight);
@@ -667,7 +671,7 @@ namespace Ataka.Scenario {
 
   // ---------- 9/10. Loop and chase (existing core) ----------
   IEnumerator EnterLoop(){
-   chapter=Chapter.Loop;objective="";if(strap)strap.enabled=false;flat.clock.stopped=false;flat.entrance.open=false;flat.entrance.leaf.localRotation=Quaternion.identity;flat.entrance.direction=1;
+   chapter=Chapter.Loop;objective="";if(strap)strap.enabled=false;flat.clock.stopped=false;flat.entrance.open=false;flat.entrance.leaf.localRotation=Quaternion.identity;flat.entrance.direction=InwardSwing;
    loop.EnterLap(1);player.Place(ScenarioLayout.Spawn,180);Checkpoint("Loop");yield break;
   }
   public void ChaseFinished(){if(running!=null)StopCoroutine(running);running=StartCoroutine(Finale());}
