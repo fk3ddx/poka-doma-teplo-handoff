@@ -1,0 +1,24 @@
+{
+    "utc": "2026-10-12T14:32:44.0666381Z",
+    "chapter": "Evening",
+    "objective": "Поставить чайник",
+    "card": "",
+    "scene": "",
+    "actions": [],
+    "player": {
+        "x": 7.62999963760376,
+        "y": 0.014999885112047196,
+        "z": 1.6499998569488526
+    },
+    "grandmother": {
+        "x": 7.469669818878174,
+        "y": 0.0,
+        "z": 2.0981826782226564
+    },
+    "playerControl": true,
+    "paused": false,
+    "grandmotherActive": true,
+    "grandmotherWalking": false,
+    "timeScale": 2.0,
+    "unchangedSeconds": 0.0
+}

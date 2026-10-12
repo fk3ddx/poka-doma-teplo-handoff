@@ -1,0 +1,25 @@
+{
+  "command": [
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\Builds\\ScenarioCore\\Ataka-Loop.exe",
+    "-screen-fullscreen",
+    "0",
+    "-screen-width",
+    "1280",
+    "-screen-height",
+    "720",
+    "-audio-capture",
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\QA\\story15-flow-d\\silent-mix.wav",
+    "-logFile",
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\QA\\story15-flow-d\\player.log",
+    "-story-smoke",
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\QA\\story15-flow-d",
+    "-story-from",
+    "Prologue"
+  ],
+  "build_label": "story15-build-c",
+  "chapter": "Prologue",
+  "utc": "2026-10-12T14:18:46.455581+00:00",
+  "runtime_sha256": "0a21f3dba7b9841e7df169f73876c4face9c6fab6e5ee6672353ea2edcf73aad",
+  "scope": "Authored StoryAutopilot stages camera at actions, skips holds, accelerates nights. Checks story flow; not walking route/art/manual menu acceptance.",
+  "pid": 33592
+}

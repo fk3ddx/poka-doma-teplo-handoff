@@ -96,6 +96,9 @@ namespace Ataka.Scenario {
   // and a walking route from where he is (room doors on that route are opened as he would). Nearest such spot wins.
   // LOS is never relaxed; with no valid spot the failure is reported with the blocker path and a FAILED frame.
   IEnumerator Approach(StoryDirector.Act act){
+   // The preceding action may have just started opening a door. Query after its physical pose settles,
+   // not in the same frame as open=true; this changes only the explicit QA driver.
+   yield return new WaitForSeconds(.65f);Physics.SyncTransforms();
    var target=act.at();var body=player.GetComponent<CharacterController>();float r=body?body.radius:.3f,h=body?body.height:1.8f,eyeH=player.crouched?.94f:1.55f;
    var from=player.transform.position;Vector3 best=Vector3.zero;float bestScore=float.MaxValue;List<ScenarioDoor> bestDoors=null;var hits=new Collider[16];
    for(float radius=.55f;radius<=Mathf.Max(.6f,act.range-.2f);radius+=.15f)for(int k=0;k<32;k++){

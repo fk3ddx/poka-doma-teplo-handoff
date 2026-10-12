@@ -577,3 +577,17 @@ Windows Direct3D11, обзор 50 кадров и полный автомати�
 
 
 Evidence and game screenshots: [Story15 Windows](docs/reviews/2026-10-12/story15-windows/README.md).
+
+
+## 2026-10-12 — Story15, pc12–14: kitchen routes and authored Guest candidate
+
+## Update: pc12–14 and candidate Guest installed
+- pc12: all nine actual Unity route checks PASS (including opened kitchen/entrance leaves). Furniture collisions preserved.
+- pc13: authored OGA CC0 creature and right forearm installed in the real scene; Unity recognizes Idle/Jump/Run/Walk. Normal map imported as NormalMap; GuestVisual safely handles early enable. This is a CANDIDATE: male torso, short fingers, no grandmother face and no crawl animation. It does not satisfy the requested final Guest/long black claws. Claude explicitly received that rejection of final-art status.
+- pc13 flow-e: routes 0 failures, runtime 0 errors. QA yielded the narrow TV passage and grandmother reached Landing and left. Whole result FAIL because the old one-direction Approach aimed at the lock from behind the jamb.
+- pc14 flow-f: routes 0 failures, runtime 0 errors. Adaptive Approach exposed a race at the balcony: sampled the jar before the leaf opened, then the same jar became aimed during the FAILED screenshot. Result FAIL, not player-path acceptance.
+- Local follow-up waits .65 game seconds before sampling QA approach; no runtime LOS, furniture or door safety logic changed. Compiled in story15-build-g. story15-flow-g is the next run; its result is not yet claimed here.
+- StoryRuntimeProbe only activates with -story-smoke. It records live positions/state and actual timed DeathFull/DeathShort screenshots; never moves actors or changes story state.
+- Sources/credits: [author's OGA CC0 release](https://opengameart.org/content/3d-horror-game-monster), CREDITS-GUEST.md. Author page independently checked. 17 WAV numeric audit and 85 EditMode passes above remain limited evidence, not listening/art/gameplay acceptance.
+
+The accepted LightLab lighting/VHS and architecture were not regenerated. No new release ZIP is presented as ready. Still required: complete uninterrupted flow, negative branches, actual death-frame review, authored long claws, story props, voices and human playability/visual acceptance.

@@ -1,0 +1,26 @@
+{
+    "utc": "2026-10-12T14:28:15.4013194Z",
+    "chapter": "Evening",
+    "objective": "Закрыть дверь на замок и цепочку",
+    "card": "",
+    "scene": "",
+    "actions": [
+        "Закрыть замок"
+    ],
+    "player": {
+        "x": 7.02696418762207,
+        "y": 0.01499994471669197,
+        "z": 5.625776290893555
+    },
+    "grandmother": {
+        "x": 8.067997932434082,
+        "y": 0.0,
+        "z": 6.585789203643799
+    },
+    "playerControl": true,
+    "paused": false,
+    "grandmotherActive": false,
+    "grandmotherWalking": false,
+    "timeScale": 2.0,
+    "unchangedSeconds": 0.0
+}

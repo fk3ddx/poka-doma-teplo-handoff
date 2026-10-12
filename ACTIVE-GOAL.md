@@ -137,3 +137,6 @@ Unity-примерка Katcho завершена отдельно от ядра:
 
 ## 12.10 — прямое поручение Димы: Claude пишет код
 Приоритет изменён: быстрее довести ядро до играбельного состояния, полировку деталей отложить. Claude теперь не только ревьюер: ему поручены самостоятельные правки актуального кода в отдельной ветке от checkpoint Apartment12. Codex не меняет параллельно те же файлы; принимает коммиты, собирает Windows, проходит маршрут и возвращает реальные скриншоты/ошибки. Успешный автотест не означает принятую играбельность. Свет/VHS сохранять, новых сюжетов не придумывать.
+
+
+12.10 Story15: pc01–14 integrated. Actual route checks nine/nine pass after pc12; pc13 fixes grandmother wait at TV (QA yields). Ready OGA CC0 Guest installed as candidate, explicitly NOT accepted final art: short fingers/male body/no crawl. Household audio bank installed, 85 EditMode passes, 17 WAV numeric audit, listening pending. Latest complete flow-e/f FAIL on QA approach/door-pose race, zero runtime errors/routes. story15-build-g adds .65s QA settle; flow-g underway. Claude continues story props and claws. Goal ACTIVE, progress made; no full-game completion or release claim. Details docs/reviews/2026-10-12/story15-windows/README.md.
