@@ -1,0 +1,23 @@
+ORIGINAL Granny triangles=456 body=0.69755	0.50902	0.00000	7.97500
+0.00000	0.00000	0.86353	0.00071
+0.50902	-0.69755	0.00000	1.62500
+0.00000	0.00000	0.00000	1.00000
+ head=0.68896	-0.13970	-0.50150	7.90074
+0.13509	0.85134	-0.05157	1.30123
+0.50276	-0.03731	0.70109	1.70910
+0.00000	0.00000	0.00000	1.00000
+ bind=1.00000	0.00000	0.00000	0.00000
+0.00000	-0.22268	0.97489	-1.53895
+0.00000	-0.97489	-0.22268	0.29856
+0.00000	0.00000	0.00000	1.00000
+
+BODY_MATERIAL Granny shader=Universal Render Pipeline/Lit texture=granny color=RGBA(1.000, 1.000, 1.000, 1.000)
+PART face skin active=True bounds=Center: (7.87, 1.41, 1.73), Extents: (0.14, 0.17, 0.16) mat=Granny
+PART scalp active=True bounds=Center: (7.93, 1.45, 1.63), Extents: (0.15, 0.14, 0.17) mat=Granny
+PART Guest head (under her face) active=False bounds=Center: (7.91, 1.42, 1.67), Extents: (0.16, 0.16, 0.19) mat=GuestBody_Material_0_URP
+PART Guest jaw active=False bounds=Center: (7.87, 1.33, 1.74), Extents: (0.11, 0.08, 0.11) mat=GuestBody_Material_0_URP
+SHOT 01-rebuilt-lit
+SHOT 02-original-lit
+SHOT 03-original-unlit
+SHOT 04-rebuilt-unlit
+COMPARE only: screenshots diagnose light vs texture/geometry, not art approval
