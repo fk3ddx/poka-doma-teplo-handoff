@@ -10,6 +10,10 @@ args=sys.argv[sys.argv.index('--')+1:] if '--' in sys.argv else []
 cache=Path(args[0] if args else 'C:/Users/User/Downloads/story-open');cache.mkdir(parents=True,exist_ok=True)
 outroot=Path(__file__).resolve().parents[2]/'unity-game/Assets/_Project/Art/ReadyModels/Story'
 OGA='https://opengameart.org/sites/default/files/'
+PP='https://static.poly.pizza/'
+# Material colour overrides (installer has no transparency): the jam jar's opaque 'glass' becomes cherry glass so the jam reads.
+TINT={'JamJar':{'lambert2SG':((.32,.04,.06,1),.12)}}
+ONLY=set(args[1].split(',')) if len(args)>1 else None  # e.g. JamJar,Shawl,Cans — rebuild only these
 # id, download, file inside, objects (None = all meshes), longest size m (None = keep real scale), textures {diffuse, normal}, author, license, page
 SOURCES=[
  ('Kettle',OGA+'pava.blend','pava.blend',None,.26,None,'DREAM_SEARCH_REPEAT','CC0-1.0','https://opengameart.org/content/old-keetle'),
@@ -17,6 +21,12 @@ SOURCES=[
  ('Bread',OGA+'foodPackOGACC0.blend','foodPackOGACC0.blend',['bread'],.32,{'diffuse':'packed:breadD','normal':'packed:bread01N.tga'},'yd','CC0-1.0','https://opengameart.org/content/food-pack-0'),
  ('Belt',OGA+'belt_1.zip','belt_1/belt_1.blend',None,.30,{'diffuse':'belt_1/textures/belt_1_001_d.png','normal':'belt_1/textures/belt_1_001_n.png'},'Paul Wortmann','CC0-1.0','https://opengameart.org/content/belt'),
  ('TeaSet','ph:tea_set_01','tea_set_01.gltf',None,None,None,'Rico Cilliers, James Ray Cock, Jurita Burger (Poly Haven)','CC0-1.0','https://polyhaven.com/a/tea_set_01'),
+ # Poly Pizza (direct GLB, no sign-in). Google Poly archive models: original author shown by Poly Pizza as "Poly by Google".
+ ('JamJar',PP+'46c56d53-8640-405c-a561-ea25cc5d0b77.glb','46c56d53-8640-405c-a561-ea25cc5d0b77.glb',None,.14,None,'Poly by Google (via Poly Pizza)','CC-BY-3.0','https://poly.pizza/m/3jQoqeTyeLC'),
+ ('Shawl',PP+'d81a47b9-df2a-43d3-9589-76f1b203d983.glb','d81a47b9-df2a-43d3-9589-76f1b203d983.glb',['Line002'],.45,None,'Poly by Google (via Poly Pizza)','CC-BY-3.0','https://poly.pizza/m/5CEwkJvkU9V'),
+ ('Bag',PP+'2bc244a8-c709-4cb1-aba1-1f24beb6b9c5.glb','2bc244a8-c709-4cb1-aba1-1f24beb6b9c5.glb',None,.50,None,'Quaternius (via Poly Pizza)','CC0-1.0','https://poly.pizza/m/Wq1JPPqHZS'),
+ ('Corvalol',PP+'a441a76e-cc50-48a7-bc0a-430a5e242ef9.glb','a441a76e-cc50-48a7-bc0a-430a5e242ef9.glb',None,.09,None,'Quaternius (via Poly Pizza)','CC0-1.0','https://poly.pizza/m/Pc8dM9Ja4V'),
+ ('Cans','ph:russian_food_cans_01','russian_food_cans_01.gltf',None,None,None,'Kosan Aziz (Poly Haven)','CC0-1.0','https://polyhaven.com/a/russian_food_cans_01'),
 ]
 # Tea set laid out for one table: teapot, sugar bowl, two cups on saucers (metres, around the bottom-centre).
 TEA_LAYOUT={'teapot_01':(0,0),'teapot_01_lid':(0,0),'sugar_cup_01':(.2,-.06),'sugar_cup_01_lid':(.2,-.06),'cup_small_01':(-.2,.12),'saucer_circular_03':(-.2,.12),'cup_small_02':(.2,.16),'saucer_circular_04':(.2,.16)}
@@ -43,7 +53,9 @@ def load(path,only):
   with bpy.data.libraries.load(str(path)) as (src,dst):dst.objects=list(src.objects);dst.images=list(src.images)
   for o in dst.objects:
    if o and o.type=='MESH' and (only is None or o.name in only):bpy.context.scene.collection.objects.link(o)
- elif ext in('.glb','.gltf'):bpy.ops.import_scene.gltf(filepath=str(path))
+ elif ext in('.glb','.gltf'):
+  bpy.ops.import_scene.gltf(filepath=str(path))
+  for o in [o for o in bpy.context.scene.objects if o.type=='MESH' and only and o.name not in only]:bpy.data.objects.remove(o,do_unlink=True)
  return [o for o in bpy.context.scene.objects if o.type=='MESH']
 def image(spec,base):
  if spec.startswith('packed:'):return bpy.data.images.get(spec[7:])
@@ -81,9 +93,14 @@ def save_materials(label,objs,tex):
  return mats
 
 for label,url,inner,only,size,tex,author,license,page in SOURCES:
+ if ONLY and label not in ONLY:continue
  base=fetch(url,inner);path=base/inner
  if not path.exists():print('MISSING',path);continue
  meshes=load(path,only)
+ for o in meshes:
+  for sl in o.material_slots:
+   t=TINT.get(label,{}).get(sl.material.name if sl.material else '')
+   if t:bp=sl.material.node_tree.nodes.get('Principled BSDF');bp.inputs['Base Color'].default_value=t[0];bp.inputs['Roughness'].default_value=t[1]
  if label=='TeaSet':meshes=layout_tea(meshes)
  if tex:wire(meshes,tex,base)
  if label=='Bread':  # the author's loaf stands on its end (Y-up source); lay it on the table

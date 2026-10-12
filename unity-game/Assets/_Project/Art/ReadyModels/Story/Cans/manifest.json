@@ -1,0 +1,26 @@
+{
+ "id": "Cans",
+ "size": 0.142,
+ "dimensions": [
+  0.142,
+  0.046,
+  0.085
+ ],
+ "source": "https://polyhaven.com/a/russian_food_cans_01",
+ "author": "Kosan Aziz (Poly Haven)",
+ "license": "CC0-1.0",
+ "materials": [
+  {
+   "name": "Cans_Material_0",
+   "color": [
+    0.800000011920929,
+    0.800000011920929,
+    0.800000011920929,
+    1.0
+   ],
+   "roughness": 0.5,
+   "texture": "Textures/russian_food_cans_01_diff.png",
+   "normal": "Textures/russian_food_cans_01_nor_gl.png"
+  }
+ ]
+}

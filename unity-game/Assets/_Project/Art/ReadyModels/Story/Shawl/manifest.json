@@ -1,0 +1,26 @@
+{
+ "id": "Shawl",
+ "size": 0.45,
+ "dimensions": [
+  0.45,
+  0.302,
+  0.065
+ ],
+ "source": "https://poly.pizza/m/5CEwkJvkU9V",
+ "author": "Poly by Google (via Poly Pizza)",
+ "license": "CC-BY-3.0",
+ "materials": [
+  {
+   "name": "Shawl_Material_0",
+   "color": [
+    0.17249999940395355,
+    0.12939999997615814,
+    0.12939999997615814,
+    1.0
+   ],
+   "roughness": 0.9900000095367432,
+   "texture": "",
+   "normal": ""
+  }
+ ]
+}

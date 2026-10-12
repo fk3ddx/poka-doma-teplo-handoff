@@ -234,7 +234,7 @@ namespace Ataka.Scenario {
   IEnumerator Evening(bool continued){
    chapter=Chapter.Evening;
    if(!continued){loop.Pause(false);Homely(true);flat.stool.SetActive(true);flat.stool.transform.SetPositionAndRotation(new Vector3(7.15f,0,1.2f),Quaternion.identity);player.Place(ScenarioLayout.Spawn,180);GranShow("Kitchen",90);yield return Fade(0,.8f);}
-   Checkpoint("Evening");HouseSound(true,false);flat.clock.stopped=true;Clock(19,15);OfferFlashlight();PropsAtEveningStart();
+   Checkpoint("Evening");HouseSound(true,false);Put("Bag",BagAtDoor);Show("Corvalol",false);flat.clock.stopped=true;Clock(19,15);OfferFlashlight();PropsAtEveningStart();
    // 4.1
    Task("Повесить куртку и разуться");
    yield return Use(new Vector3(8.72f,1.6f,5.1f),"Повесить куртку");sound.Play("carpet_step",player.transform.position);
@@ -242,10 +242,12 @@ namespace Ataka.Scenario {
    yield return Line("Бабушка","Тапки дедовы надевай, твои малы уже");
    // 4.2
    Clock(19,20);Task("Разобрать сумку на кухне");
-   yield return Use(new Vector3(7.58f,.8f,.6f),"Поставить сумку на стол");Show("Bread",true);Show("Cans",true);
+   yield return Use(()=>Prop("Bag")&&Prop("Bag").gameObject.activeSelf?Prop("Bag").position+Vector3.up*.25f:new Vector3(7.58f,.8f,.6f),"Взять сумку",0,2.2f);Show("Bag",false);
+   yield return Use(new Vector3(7.58f,.8f,.6f),"Поставить сумку на стол");Put("Bag",BagOnTable);Show("Bread",true);Show("Cans",true);
    yield return Use(new Vector3(7.4f,.8f,.6f),"Батон — в хлебницу");Show("Bread",false);
    yield return Use(new Vector3(6.85f,1.5f,1.6f),"Шпроты — в шкаф");Show("Cans",false);
    yield return Use(()=>flat.grandmother.transform.position+Vector3.up*1.2f,"Отдать «Корвалол» бабушке",0,2);
+   Put("Corvalol",CorvalolOnTable);Show("Bag",false); // she keeps the bottle by the table; the bag goes to the room
    yield return Line("Бабушка","Вот спасибо, а то кончился");
    // 4.3
    Clock(19,30);Task("Поставить чайник");
@@ -285,9 +287,10 @@ namespace Ataka.Scenario {
    Task("Поменять лампочку в бра");
    yield return Use(()=>flat.stool.transform.position+Vector3.up*.4f,"Взять табуретку",0,2);flat.stool.SetActive(false);
    yield return Use(new Vector3(6.6f,1.2f,5.25f),"Поставить табуретку под антресолью",0,2.2f);
-   yield return Use(new Vector3(6.6f,2.2f,5.25f),"Достать лампочку с антресоли",0,2.6f);
+   Put("Bulb",BulbOnShelf); // visible on the antresol before it is taken
+   yield return Use(()=>Prop("Bulb")&&Prop("Bulb").gameObject.activeSelf?Prop("Bulb").position+Vector3.up*.05f:new Vector3(6.6f,2.2f,5.25f),"Достать лампочку с антресоли",0,2.6f);Show("Bulb",false);
    yield return UseHeld(ScenarioLayout.Clock+new Vector3(0,.9f,.1f),"Выкрутить старую и вкрутить новую",2,2.6f,"bulb",ScenarioLayout.Clock+new Vector3(0,.9f,.1f));
-   Show("Bulb",true);if(sconce)sconce.intensity=Mathf.Max(sconceWas,1.8f);flat.stool.SetActive(true);flat.stool.transform.SetPositionAndRotation(new Vector3(5.5f,0,5.8f),Quaternion.identity);
+   if(propStart.TryGetValue("Bulb",out var bulbHome))Put("Bulb",bulbHome.at);else Show("Bulb",true);if(sconce)sconce.intensity=Mathf.Max(sconceWas,1.8f);flat.stool.SetActive(true);flat.stool.transform.SetPositionAndRotation(new Vector3(5.5f,0,5.8f),Quaternion.identity);
    yield return GranGo("Door");
    yield return Line("Бабушка","Если свет выбьет — вот тут пробки, кнопочку нажать. Дед подписал");
    yield return Line("Бабушка","Табуретку оставь, потом унесу");
@@ -335,9 +338,11 @@ namespace Ataka.Scenario {
   Transform Prop(string id)=>flat.apartment?flat.apartment.Find("STORY "+id):null;
   void Show(string id,bool on){var t=Prop(id);if(t)t.gameObject.SetActive(on);}
   void Put(string id,Vector3 at,bool on=true){var t=Prop(id);if(!t)return;t.position=at;t.gameObject.SetActive(on);}
-  void RememberProps(){foreach(var id in new[]{"Kettle","Matchbox","JamJar","Belt","Bread","Cans","Bulb","Shawl","TeaSet"}){var t=Prop(id);if(t&&!propStart.ContainsKey(id))propStart[id]=(t.position,t.rotation,t.gameObject.activeSelf);}}
+  void RememberProps(){foreach(var id in new[]{"Kettle","Matchbox","JamJar","Belt","Bread","Cans","Bulb","Shawl","TeaSet","Bag","Corvalol"}){var t=Prop(id);if(t&&!propStart.ContainsKey(id))propStart[id]=(t.position,t.rotation,t.gameObject.activeSelf);}}
   void PropsAtEveningStart(){foreach(var kv in propStart){var t=Prop(kv.Key);if(!t)continue;t.SetPositionAndRotation(kv.Value.at,kv.Value.rot);t.gameObject.SetActive(kv.Value.on);}}
-  void PropsAfterEvening(){PropsAtEveningStart();Put("Kettle",new Vector3(8.48f,.86f,1.55f));Put("JamJar",new Vector3(7.35f,.745f,.62f));Show("Bulb",true);Show("Shawl",true);Show("TeaSet",true);}
+  static readonly Vector3 BulbOnShelf=new Vector3(6.72f,2.12f,5.25f);
+  static readonly Vector3 BagAtDoor=new Vector3(8.35f,0,5.45f),BagOnTable=new Vector3(7.95f,.745f,.62f),CorvalolOnTable=new Vector3(7.25f,.745f,.75f);
+  void PropsAfterEvening(){PropsAtEveningStart();Show("Bag",false);Show("Corvalol",false);Put("Kettle",new Vector3(8.48f,.86f,1.55f));Put("JamJar",new Vector3(7.35f,.745f,.62f));Show("Bulb",true);Show("Shawl",true);Show("TeaSet",true);}
   Light FlameLight(Vector3 at){var g=new GameObject("Gas flame (story)");g.transform.position=at;var l=g.AddComponent<Light>();l.type=LightType.Point;l.color=new Color(.35f,.55f,1);l.intensity=.6f;l.range=1.2f;l.shadows=LightShadows.None;return l;}
 
   IEnumerator ValyaAtTheDoor(bool second){
@@ -357,6 +362,7 @@ namespace Ataka.Scenario {
     yield return Choose("«Ба, не уходи!»","Промолчать",10);
     if(choice==1)yield return Line("Бабушка","Да что ты, Мишаня, белый весь… Валя одна, Коле плохо. Полчасика. Закройся",5);
    }else yield return Line("Бабушка","Запомнил? Фонарик в трюмо, если свет выбьет. Всё, закройся");
+   Show("Corvalol",false); // 4.9: «берёт «Корвалол»»
    yield return GranWalk("Landing");flat.grandmother.SetActive(false);
    flat.entrance.open=false;sound.Play("door_close",flat.entrance.transform.position);
    Task("Закрыть дверь на замок и цепочку");

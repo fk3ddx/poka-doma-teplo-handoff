@@ -1,0 +1,62 @@
+{
+ "id": "Corvalol",
+ "size": 0.09,
+ "dimensions": [
+  0.025,
+  0.025,
+  0.09
+ ],
+ "source": "https://poly.pizza/m/Pc8dM9Ja4V",
+ "author": "Quaternius (via Poly Pizza)",
+ "license": "CC0-1.0",
+ "materials": [
+  {
+   "name": "Corvalol_Material_0",
+   "color": [
+    0.02648024819791317,
+    0.02648024819791317,
+    0.02648024819791317,
+    1.0
+   ],
+   "roughness": 0.41508710384368896,
+   "texture": "",
+   "normal": ""
+  },
+  {
+   "name": "Corvalol_Material_1",
+   "color": [
+    0.10628693550825119,
+    0.022293290123343468,
+    0.015060690231621265,
+    1.0
+   ],
+   "roughness": 0.41508710384368896,
+   "texture": "",
+   "normal": ""
+  },
+  {
+   "name": "Corvalol_Material_2",
+   "color": [
+    0.18126223981380463,
+    0.11280037462711334,
+    0.03616064786911011,
+    1.0
+   ],
+   "roughness": 0.41508710384368896,
+   "texture": "",
+   "normal": ""
+  },
+  {
+   "name": "Corvalol_Material_3",
+   "color": [
+    0.23654793202877045,
+    0.18066221475601196,
+    0.14239056408405304,
+    1.0
+   ],
+   "roughness": 0.41508710384368896,
+   "texture": "",
+   "normal": ""
+  }
+ ]
+}

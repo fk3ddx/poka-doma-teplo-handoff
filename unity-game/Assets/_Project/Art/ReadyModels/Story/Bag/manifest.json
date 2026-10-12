@@ -1,0 +1,50 @@
+{
+ "id": "Bag",
+ "size": 0.5,
+ "dimensions": [
+  0.5,
+  0.304,
+  0.391
+ ],
+ "source": "https://poly.pizza/m/Wq1JPPqHZS",
+ "author": "Quaternius (via Poly Pizza)",
+ "license": "CC0-1.0",
+ "materials": [
+  {
+   "name": "Bag_Material_0",
+   "color": [
+    0.1100621446967125,
+    0.059953805059194565,
+    0.04087359085679054,
+    1.0
+   ],
+   "roughness": 0.41508710384368896,
+   "texture": "",
+   "normal": ""
+  },
+  {
+   "name": "Bag_Material_1",
+   "color": [
+    0.07880128175020218,
+    0.04352632164955139,
+    0.029992107301950455,
+    1.0
+   ],
+   "roughness": 0.41508710384368896,
+   "texture": "",
+   "normal": ""
+  },
+  {
+   "name": "Bag_Material_2",
+   "color": [
+    0.48305344581604004,
+    0.3762306571006775,
+    0.07870187610387802,
+    1.0
+   ],
+   "roughness": 0.41508710384368896,
+   "texture": "",
+   "normal": ""
+  }
+ ]
+}
