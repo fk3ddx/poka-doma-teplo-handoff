@@ -1,0 +1,185 @@
+{
+    "scope": "Diagnostic ONLY: staged cameras16/17/18, normal lap1; then same lighting with textile normal maps disabled; then original materials with icon spot/halo intensity0 to locate the red band; then original materials/light with flashlight intensity2. Neither override is production art or an approved change. View17 hides lace.",
+    "views": [
+        {
+            "file": "lap1-16-bedroom-bedding-detail.png",
+            "mode": "lap1",
+            "feet": {
+                "x": 1.25,
+                "y": 0.019999999552965165,
+                "z": 1.7999999523162842
+            },
+            "target": {
+                "x": 0.5,
+                "y": 0.8999999761581421,
+                "z": 1.0499999523162842
+            },
+            "fov": 65.0
+        },
+        {
+            "file": "lap1-17-bedroom-bedding-without-lace.png",
+            "mode": "lap1",
+            "feet": {
+                "x": 1.25,
+                "y": 0.019999999552965165,
+                "z": 1.7999999523162842
+            },
+            "target": {
+                "x": 0.5,
+                "y": 0.8999999761581421,
+                "z": 1.0499999523162842
+            },
+            "fov": 65.0
+        },
+        {
+            "file": "lap1-18-bedroom-bedside-detail.png",
+            "mode": "lap1",
+            "feet": {
+                "x": 1.899999976158142,
+                "y": 0.019999999552965165,
+                "z": 1.649999976158142
+            },
+            "target": {
+                "x": 1.2200000286102296,
+                "y": 0.6299999952316284,
+                "z": 1.0
+            },
+            "fov": 65.0
+        },
+        {
+            "file": "diagnostic-no-normal-16-bedroom-bedding-detail.png",
+            "mode": "diagnostic-no-normal",
+            "feet": {
+                "x": 1.25,
+                "y": 0.019999999552965165,
+                "z": 1.7999999523162842
+            },
+            "target": {
+                "x": 0.5,
+                "y": 0.8999999761581421,
+                "z": 1.0499999523162842
+            },
+            "fov": 65.0
+        },
+        {
+            "file": "diagnostic-no-normal-17-bedroom-bedding-without-lace.png",
+            "mode": "diagnostic-no-normal",
+            "feet": {
+                "x": 1.25,
+                "y": 0.019999999552965165,
+                "z": 1.7999999523162842
+            },
+            "target": {
+                "x": 0.5,
+                "y": 0.8999999761581421,
+                "z": 1.0499999523162842
+            },
+            "fov": 65.0
+        },
+        {
+            "file": "diagnostic-no-normal-18-bedroom-bedside-detail.png",
+            "mode": "diagnostic-no-normal",
+            "feet": {
+                "x": 1.899999976158142,
+                "y": 0.019999999552965165,
+                "z": 1.649999976158142
+            },
+            "target": {
+                "x": 1.2200000286102296,
+                "y": 0.6299999952316284,
+                "z": 1.0
+            },
+            "fov": 65.0
+        },
+        {
+            "file": "diagnostic-no-icon-light-16-bedroom-bedding-detail.png",
+            "mode": "diagnostic-no-icon-light",
+            "feet": {
+                "x": 1.25,
+                "y": 0.019999999552965165,
+                "z": 1.7999999523162842
+            },
+            "target": {
+                "x": 0.5,
+                "y": 0.8999999761581421,
+                "z": 1.0499999523162842
+            },
+            "fov": 65.0
+        },
+        {
+            "file": "diagnostic-no-icon-light-17-bedroom-bedding-without-lace.png",
+            "mode": "diagnostic-no-icon-light",
+            "feet": {
+                "x": 1.25,
+                "y": 0.019999999552965165,
+                "z": 1.7999999523162842
+            },
+            "target": {
+                "x": 0.5,
+                "y": 0.8999999761581421,
+                "z": 1.0499999523162842
+            },
+            "fov": 65.0
+        },
+        {
+            "file": "diagnostic-no-icon-light-18-bedroom-bedside-detail.png",
+            "mode": "diagnostic-no-icon-light",
+            "feet": {
+                "x": 1.899999976158142,
+                "y": 0.019999999552965165,
+                "z": 1.649999976158142
+            },
+            "target": {
+                "x": 1.2200000286102296,
+                "y": 0.6299999952316284,
+                "z": 1.0
+            },
+            "fov": 65.0
+        },
+        {
+            "file": "diagnostic-flashlight-16-bedroom-bedding-detail.png",
+            "mode": "diagnostic-flashlight",
+            "feet": {
+                "x": 1.25,
+                "y": 0.019999999552965165,
+                "z": 1.7999999523162842
+            },
+            "target": {
+                "x": 0.5,
+                "y": 0.8999999761581421,
+                "z": 1.0499999523162842
+            },
+            "fov": 65.0
+        },
+        {
+            "file": "diagnostic-flashlight-17-bedroom-bedding-without-lace.png",
+            "mode": "diagnostic-flashlight",
+            "feet": {
+                "x": 1.25,
+                "y": 0.019999999552965165,
+                "z": 1.7999999523162842
+            },
+            "target": {
+                "x": 0.5,
+                "y": 0.8999999761581421,
+                "z": 1.0499999523162842
+            },
+            "fov": 65.0
+        },
+        {
+            "file": "diagnostic-flashlight-18-bedroom-bedside-detail.png",
+            "mode": "diagnostic-flashlight",
+            "feet": {
+                "x": 1.899999976158142,
+                "y": 0.019999999552965165,
+                "z": 1.649999976158142
+            },
+            "target": {
+                "x": 1.2200000286102296,
+                "y": 0.6299999952316284,
+                "z": 1.0
+            },
+            "fov": 65.0
+        }
+    ]
+}

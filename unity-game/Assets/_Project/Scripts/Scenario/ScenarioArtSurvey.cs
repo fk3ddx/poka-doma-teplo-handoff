@@ -40,15 +40,17 @@ namespace Ataka.Scenario {
     V("18-bedroom-bedside-detail",new Vector3(1.9f,.02f,1.65f),new Vector3(1.22f,.63f,1.0f))
    };
    bool materialProbe=Array.IndexOf(Environment.GetCommandLineArgs(),"-scenario-bed-probe")>=0;
+   float originalIconIntensity=flat.look.icon.intensity;Light iconHalo=null;foreach(var l in flat.apartment.GetComponentsInChildren<Light>())if(l.name=="Icon glass halo")iconHalo=l;float originalHaloIntensity=iconHalo?iconHalo.intensity:0;
    var originals=new Dictionary<Renderer,Material[]>();var diagnosticMaterials=new List<Material>();
    foreach(var r in flat.apartment.GetComponentsInChildren<Renderer>())if(r.name.StartsWith("Textile upright pillow")||r.name=="Textile mattress")originals.Add(r,r.sharedMaterials);
-   foreach(string mode in materialProbe?new[]{"lap1","diagnostic-no-normal","diagnostic-flashlight"}:new[]{"lap1","warm-return"}){
+   foreach(string mode in materialProbe?new[]{"lap1","diagnostic-no-normal","diagnostic-no-icon-light","diagnostic-flashlight"}:new[]{"lap1","warm-return"}){
     foreach(var pair in originals){
      if(mode=="diagnostic-no-normal"){
       var materials=new Material[pair.Value.Length];for(int i=0;i<materials.Length;i++){var m=new Material(pair.Value[i]);m.DisableKeyword("_NORMALMAP");m.SetFloat("_BumpScale",0);materials[i]=m;diagnosticMaterials.Add(m);}pair.Key.sharedMaterials=materials;
      }else pair.Key.sharedMaterials=pair.Value;
     }
     if(mode=="warm-return")flat.look.WarmReturn();else flat.look.Apply(FlatCondition.Familiar);
+    flat.look.icon.intensity=mode=="diagnostic-no-icon-light"?0:originalIconIntensity;if(iconHalo)iconHalo.intensity=mode=="diagnostic-no-icon-light"?0:originalHaloIntensity;
     foreach(var view in views){
      if(materialProbe&&!view.file.StartsWith("16-")&&!view.file.StartsWith("17-")&&!view.file.StartsWith("18-"))continue;
      foreach(var r in laceRenderers)r.enabled=!view.file.StartsWith("17-");
@@ -61,8 +63,9 @@ namespace Ataka.Scenario {
      records.Add(new ViewRecord{file=file,mode=mode,feet=view.feet,target=view.target,fov=view.fov});
     }
    }
+   flat.look.icon.intensity=originalIconIntensity;if(iconHalo)iconHalo.intensity=originalHaloIntensity;
    foreach(var pair in originals)pair.Key.sharedMaterials=pair.Value;foreach(var m in diagnosticMaterials)Destroy(m);
-   var report=new Report{views=records.ToArray()};if(materialProbe)report.scope="Diagnostic ONLY: staged cameras16/17/18, normal lap1; then same lighting with textile normal maps disabled; then original materials with flashlight intensity2. Neither override is production art or an approved change. View17 hides lace.";
+   var report=new Report{views=records.ToArray()};if(materialProbe)report.scope="Diagnostic ONLY: staged cameras16/17/18, normal lap1; then same lighting with textile normal maps disabled; then original materials with icon spot/halo intensity0 to locate the red band; then original materials/light with flashlight intensity2. Neither override is production art or an approved change. View17 hides lace.";
    File.WriteAllText(Path.Combine(output,"survey.json"),JsonUtility.ToJson(report,true));Application.Quit();
   }
   static ViewRecord A(string id,float x,float z,float yaw,float pitch){var feet=new Vector3(x,.02f,z);return new ViewRecord{file=id,feet=feet,target=feet+Vector3.up*1.55f+Quaternion.Euler(-pitch,yaw+180,0)*Vector3.forward*2,fov=68};}

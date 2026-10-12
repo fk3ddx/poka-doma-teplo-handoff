@@ -1,0 +1,14 @@
+MODE rendered screenshots
+menu-to-play
+WALK (7.67, 0.01, 3.89) target=(7.65, 0.00, 3.80)
+PASS flashlight pickup
+DOOR_PROBE before=(0.86, 0.01, 3.75) after=(0.86, 0.01, 3.75) angle=40,32777
+PASS blocked door displaces player <=1mm in 2s
+PASS door stays requested open while blocked
+WALK (1.07, 0.01, 3.14) target=(1.10, 0.00, 3.05)
+PASS door resumes to95 within1s after stepping clear
+DOOR_PROBE moving maxSideways=0 end=(0.86, 0.01, 4.05)
+PASS opening leaf does not shove approaching player sideways
+WALK (1.08, 0.01, 3.14) target=(1.10, 0.00, 3.05)
+WALK (8.03, 0.02, 6.66) target=(0.90, 0.00, 5.10)
+PASS door closes behind player and vestibule maps to lap2

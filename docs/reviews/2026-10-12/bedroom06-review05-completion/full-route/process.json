@@ -1,0 +1,23 @@
+{
+  "pid": 35476,
+  "command": [
+    "U:\\unity-game\\Builds\\ScenarioCore\\Ataka-Loop.exe",
+    "-screen-fullscreen",
+    "0",
+    "-screen-width",
+    "1280",
+    "-screen-height",
+    "720",
+    "-scenario-smoke",
+    "U:\\unity-game\\QA\\Bedroom06-latch-full",
+    "-audio-capture",
+    "U:\\unity-game\\QA\\Bedroom06-latch-full\\silent-mix.wav",
+    "-logFile",
+    "U:\\unity-game\\QA\\Bedroom06-latch-full\\player.log",
+    "-scenario-death-skip"
+  ],
+  "build_label": "Bedroom06-latch-build",
+  "runtime_sha256": "47447e76adb428c0391b6c8184bb34bfc529782366ff45a1c2e12330bd82cce9",
+  "utc": "2026-10-12T08:01:23.750619+00:00",
+  "scope": "Actual Direct3D Windows runtime, synthetic in-process input; audio output cleared by capture. Not human/art acceptance."
+}

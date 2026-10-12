@@ -3,35 +3,50 @@ namespace Ataka.Scenario {
  public sealed class ScenarioDoor:MonoBehaviour {
   public Transform leaf;public bool locked,open;public float direction=1;
   public float closedAngle;public bool scripted;float shake;
-  BoxCollider[] solids;CharacterController playerBody;
+  BoxCollider[] solids;CharacterController playerBody;bool openingNudge;
   public bool BlockedByPlayer{get;private set;}
   public bool IsClosed => !open && leaf && Quaternion.Angle(leaf.localRotation,Quaternion.identity)<.5f;
-  public void Toggle(){if(locked){shake=.3f;return;}open=!open;}
+  public void Toggle(){if(locked){shake=.3f;return;}open=!open;openingNudge=open&&OpeningRestricted();}
+  // Review05: a blocked handle still clicks and opens a safe visible crack, never pushing the capsule.
+  public string ToggleWithCue(){Toggle();return locked||openingNudge?"latch":open?"door_open":"door_close";}
+  void ResolveSolids(){
+   if(solids==null&&leaf)solids=leaf.GetComponentsInChildren<BoxCollider>(true);
+   if(!playerBody){var p=FindFirstObjectByType<ScenarioPlayer>();if(p)playerBody=p.GetComponent<CharacterController>();}
+  }
+  bool OpeningRestricted(){
+   if(!leaf)return false;ResolveSolids();
+   float current=RotationDistance(Quaternion.identity,leaf.localRotation);if(current>=20)return false;
+   for(float angle=current+1;angle<21;angle+=1)if(TouchesPlayer(Quaternion.Euler(0,direction*Mathf.Min(angle,20),0)))return true;
+   return false;
+  }
+  bool TouchesPlayer(Quaternion rotation){
+   if(!playerBody||!playerBody.enabled||!playerBody.gameObject.activeInHierarchy)return false;
+   var world=leaf.parent?leaf.parent.rotation*rotation:rotation;var delta=world*Quaternion.Inverse(leaf.rotation);
+   foreach(var box in solids){
+    if(!box||!box.enabled||box.isTrigger||!box.gameObject.activeInHierarchy)continue;
+    var center=leaf.position+delta*(box.transform.TransformPoint(box.center)-leaf.position);
+    var half=Vector3.Scale(box.size*.5f,Abs(box.transform.lossyScale));
+    if(CapsuleTouchesBox(playerBody,center,delta*box.transform.rotation,half,.02f))return true;
+   }
+   return false;
+  }
   void Update(){Advance(Time.deltaTime);}
   // Use the live capsule pose, not an overlap query against potentially stale physics broadphase state.
   // No CharacterController.Move, teleport, or camera correction is performed by a door.
   public void Advance(float dt){
    BlockedByPlayer=false;if(!leaf||scripted||dt<=0)return;
-   if(solids==null)solids=leaf.GetComponentsInChildren<BoxCollider>(true);
-   if(!playerBody){var p=FindFirstObjectByType<ScenarioPlayer>();if(p)playerBody=p.GetComponent<CharacterController>();}
-   float target=open?direction*95:direction*closedAngle;
+   ResolveSolids();
+   if(!open||openingNudge&&!OpeningRestricted())openingNudge=false;
+   BlockedByPlayer=openingNudge;
+   float target=open?direction*(openingNudge?5:95):direction*closedAngle;
    if(shake>0){shake-=dt;target+=Mathf.Sin(shake*90)*2;}
    var start=leaf.localRotation;var next=Quaternion.Slerp(start,Quaternion.Euler(0,target,0),1-Mathf.Exp(-dt*10));
    float angle=RotationDistance(start,next);if(angle<.0001f)return;
    int steps=Mathf.Max(1,Mathf.CeilToInt(angle/1));
-   var originalWorld=leaf.rotation;var safe=start;
+   var safe=start;
    for(int step=1;step<=steps;step++){
     var rotation=Quaternion.Slerp(start,next,(float)step/steps);
-    var world=leaf.parent?leaf.parent.rotation*rotation:rotation;
-    var delta=world*Quaternion.Inverse(originalWorld);
-    foreach(var box in solids){
-     if(!box||!box.enabled||box.isTrigger||!box.gameObject.activeInHierarchy)continue;
-     var center=leaf.position+delta*(box.transform.TransformPoint(box.center)-leaf.position);
-     var scale=Abs(box.transform.lossyScale);var half=Vector3.Scale(box.size*.5f,scale);
-     if(playerBody&&playerBody.enabled&&playerBody.gameObject.activeInHierarchy&&CapsuleTouchesBox(playerBody,center,delta*box.transform.rotation,half,.02f)){
-      BlockedByPlayer=true;Apply(safe);return;
-     }
-    }
+    if(TouchesPlayer(rotation)){BlockedByPlayer=true;Apply(safe);return;}
     safe=rotation;
    }
    Apply(next);

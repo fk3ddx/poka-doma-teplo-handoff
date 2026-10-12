@@ -1,0 +1,11 @@
+{
+    "passed": true,
+    "chase": false,
+    "headless": false,
+    "coreFinished": false,
+    "visualVerified": false,
+    "errors": 0,
+    "lap": 2,
+    "graphicsDevice": "Direct3D11",
+    "listenerVolume": 1.0
+}

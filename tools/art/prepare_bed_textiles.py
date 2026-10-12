@@ -16,13 +16,18 @@ def obj(name,verts,faces,mat):
 # Mattress: rounded textile block, not newly invented bed furniture.
 bpy.ops.mesh.primitive_cube_add(size=1,location=(0,0,.52));m=bpy.context.object;m.name='Textile mattress';m.dimensions=(.86,1.88,.14);bpy.ops.object.transform_apply(location=False,rotation=False,scale=True);m.data.materials.append(linen);b=m.modifiers.new('Rounded fabric edges','BEVEL');b.width=.045;b.segments=3;bpy.ops.object.modifier_apply(modifier=b.name)
 for f in m.data.polygons:f.use_smooth=True
-# Coverlet: continuous grid, folds fall over both sides, open at pillow end.
-v=[];f=[];nx=26;ny=34
+# Review05 item3: cover the exposed white mattress block at the pillow end.
+# Extend the existing cloth, leaving authored bed/frame and pillow shapes unchanged.
+v=[];f=[];nx=26;ny=50
 for j in range(ny+1):
- y=-.30+j/ny*1.20
+ y=-.94+j/ny*1.84
  for i in range(nx+1):
   x=-.56+i/nx*1.12;drop=max(0,abs(x)-.43)*1.05+max(0,y-.84)*2.0
-  z=.612-drop+.007*math.sin(y*27+x*9)+.003*math.sin(y*61-x*14)
+  # Flatten the part beneath the pillows to the mattress support height.
+  # Its top stays below pillow bottom .595, without moving the accepted pillows.
+  head=max(0,min(1,(-y-.30)/.20));head=head*head*(3-2*head)
+  waves=.007*math.sin(y*27+x*9)+.003*math.sin(y*61-x*14)
+  z=(.612*(1-head)+.592*head)-drop+waves*(1-.9*head)
   v.append((x,y,z))
 for j in range(ny):
  for i in range(nx):a=j*(nx+1)+i;f.append((a,a+1,a+nx+2,a+nx+1))

@@ -5,6 +5,19 @@ using UnityEditor.SceneManagement;
 using Ataka.Scenario;
 namespace Ataka.Tests {
  public sealed class ScenarioDoorSafetyTests {
+  [Test] public void RestrictedHandleClicksAndNudgesSafelyThenResumes(){
+   var setup=EditorSceneManager.GetSceneManagerSetup();
+   try{
+    EditorSceneManager.OpenScene("Assets/_Project/Scenario/Flat.unity");var flat=Object.FindFirstObjectByType<FlatBindings>();var door=flat.carpet;var body=flat.player.GetComponent<CharacterController>();
+    door.leaf.localRotation=Quaternion.identity;door.open=false;door.locked=false;
+    body.enabled=false;flat.player.transform.position=new Vector3(.86f,.02f,4.10f);body.enabled=true;Physics.SyncTransforms();var before=flat.player.transform.position;
+    Assert.That(door.ToggleWithCue(),Is.EqualTo("latch"),"A capsule within the first20degrees needs handle feedback, not a full hinge cue");
+    for(int i=0;i<120;i++){door.Advance(1f/60);Physics.SyncTransforms();foreach(var box in door.leaf.GetComponentsInChildren<BoxCollider>())Assert.That(Physics.ComputePenetration(box,box.transform.position,box.transform.rotation,body,body.transform.position,body.transform.rotation,out _,out float depth)&&depth>.001f,Is.False);}
+    float angle=Mathf.Abs(Mathf.DeltaAngle(0,door.leaf.localEulerAngles.y));Assert.That(angle,Is.InRange(3f,5.01f));Assert.That(door.BlockedByPlayer,Is.True);Assert.That(flat.player.transform.position,Is.EqualTo(before));
+    body.enabled=false;flat.player.transform.position=new Vector3(1.1f,.02f,3.05f);body.enabled=true;Physics.SyncTransforms();for(int i=0;i<60;i++)door.Advance(1f/60);
+    Assert.That(Quaternion.Angle(door.leaf.localRotation,Quaternion.Euler(0,95*door.direction,0)),Is.LessThan(.5f));Assert.That(door.ToggleWithCue(),Is.EqualTo("door_close"));
+   }finally{if(setup.Length>0&&setup.All(v=>!string.IsNullOrEmpty(v.path)))EditorSceneManager.RestoreSceneManagerSetup(setup);else EditorSceneManager.NewScene(NewSceneSetup.EmptyScene);}
+  }
   [Test] public void SmallSmoothedStepsReachTheRequestedEndpoint(){
    var root=new GameObject("Isolated door endpoint regression");
    try{

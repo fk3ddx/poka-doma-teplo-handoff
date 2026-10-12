@@ -39,7 +39,7 @@ namespace Ataka.Scenario {
    if(Progress.Lap==6&&!peepholeSeen){knockTimer+=Time.deltaTime;if(knockTimer>=(knockIndex<3?.7f:5)){knockTimer=0;if(knockIndex<3){sound.Play("knock",flat.entrance.transform.position);knockIndex++;if(knockIndex==3)sound.Grandmother(flat.entrance.transform.position);}else knockIndex=0;}}
    if(!p.hasFlashlight&&Near(flat.torchPickup)&&Looking(flat.torchPickup)){prompt.text="[E] Фонарик-«жучок»";if(e){p.hasFlashlight=true;flat.torchPickup.gameObject.SetActive(false);}}
    if(returning){flat.entrance.locked=false;if(p.transform.position.z<5.6f){flat.entrance.open=false;flat.entrance.locked=true;returning=false;}}
-   foreach(var door in new[]{flat.kitchen,flat.bath,flat.bedroom,flat.living})if(!(door==flat.bedroom&&Progress.Lap==5&&phoneAnswered)&&Near(door.transform)&&Looking(door.transform)){prompt.text=door.locked?"[E] Закрыто":"[E] Дверь";if(e){door.Toggle();sound.Play(door.locked?"latch":door.open?"door_open":"door_close",door.transform.position);}}
+   foreach(var door in new[]{flat.kitchen,flat.bath,flat.bedroom,flat.living})if(!(door==flat.bedroom&&Progress.Lap==5&&phoneAnswered)&&Near(door.transform)&&Looking(door.transform)){prompt.text=door.locked?"[E] Закрыто":"[E] Дверь";if(e){sound.Play(door.ToggleWithCue(),door.transform.position);}}
    if(Near(flat.clock.transform,2)&&Progress.Lap==2&&!clockThought){Thought("Часы идут назад. Это та же ночь. Только наоборот");clockThought=true;}
    if(Progress.Lap==1&&!Progress.EventComplete&&p.head.position.x<2.6f&&Vector3.Distance(p.transform.position,flat.wardrobe.position)<1.5f&&ScenarioSight.Clear(p.transform,p.head.position,flat.wardrobe.position+Vector3.up))StartCoroutine(Event(LapGate.Wardrobe));
    if(Progress.Lap==2&&!Progress.EventComplete){balconyTimer+=Time.deltaTime;if(balconyTimer>3){balconyTimer=0;sound.Play("breath",flat.bed.position);}if(Near(flat.bed,2)&&p.crouched&&Looking(flat.bed,.65f)){prompt.text="[E] Посмотреть под кровать";if(e)StartCoroutine(Event(LapGate.UnderBed));}}
@@ -61,14 +61,14 @@ namespace Ataka.Scenario {
     }}
    if(Near(flat.carpet.transform,1.6f)&&Looking(flat.carpet.transform,.7f)){
     prompt.text=Progress.CarpetDoorUnlocked?"[E] Открыть":"[E] Закрыто";gateWait+=Time.deltaTime;
-    if(e){flat.carpet.locked=!Progress.CarpetDoorUnlocked;flat.carpet.Toggle();if(!Progress.CarpetDoorUnlocked)Thought(Progress.Lap==6?"Стучат… Она у двери. Как тогда":"Закрыто");}
+    if(e){flat.carpet.locked=!Progress.CarpetDoorUnlocked;sound.Play(flat.carpet.ToggleWithCue(),flat.carpet.transform.position);if(!Progress.CarpetDoorUnlocked)Thought(Progress.Lap==6?"Стучат… Она у двери. Как тогда":"Закрыто");}
     if(Progress.Lap==1&&gateWait>10&&!Progress.EventComplete){Thought("Закрыто. Что-то тут не так… шифоньер");gateWait=-1000;}
     if(Progress.Lap==2&&gateWait>20&&!Progress.EventComplete){Thought("Под кроватью… дышит");gateWait=-1000;}
    }
    var vestibuleLocal=flat.sourceVestibule.InverseTransformPoint(p.transform.position);
    if(Progress.CarpetDoorUnlocked&&Mathf.Abs(vestibuleLocal.z)<=.16f&&Mathf.Abs(vestibuleLocal.x)<=.18f)StartCoroutine(Warp());
    if(Near(flat.entrance.transform,1.8f)&&Looking(flat.entrance.transform,.6f)){
-    if(returning){prompt.text="[E] Открыть";if(e)flat.entrance.Toggle();}
+    if(returning){prompt.text="[E] Открыть";if(e)sound.Play(flat.entrance.ToggleWithCue(),flat.entrance.transform.position);}
     else if(Progress.Lap==6){prompt.text="[E] Глазок   [R] Открыть дверь";if(e&&!peepholeSeen)StartCoroutine(Event(LapGate.Peephole));if(Keyboard.current?.rKey.wasPressedThisFrame==true)StartCoroutine(Death(6));}
    }
    if(Progress.Lap==6&&peepholeSeen)StartCoroutine(BeginChase());

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="8" result="Passed" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-12 07:56:37Z" end-time="2026-10-12 07:56:40Z" duration="2,9547188">
+  <test-suite type="TestSuite" id="1000" name="Атака на запоминание" fullname="Атака на запоминание" runstate="Runnable" testcasecount="85" result="Passed" start-time="2026-10-12 07:56:37Z" end-time="2026-10-12 07:56:40Z" duration="2.954719" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1107" name="Ataka.EditModeTests.dll" fullname="C:/Users/User/.codex/.chatgpt-projects/g-p-6aca43271b448191badfa7321ad904d3/github-upload/Igra-FULL-HANDOFF/unity-game/Library/ScriptAssemblies/Ataka.EditModeTests.dll" runstate="Runnable" testcasecount="85" result="Passed" start-time="2026-10-12 07:56:37Z" end-time="2026-10-12 07:56:40Z" duration="2.942523" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="5604" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1108" name="Ataka" fullname="Ataka" runstate="Runnable" testcasecount="85" result="Passed" start-time="2026-10-12 07:56:37Z" end-time="2026-10-12 07:56:40Z" duration="2.940897" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1109" name="Tests" fullname="Ataka.Tests" runstate="Runnable" testcasecount="85" result="Passed" start-time="2026-10-12 07:56:37Z" end-time="2026-10-12 07:56:40Z" duration="2.939699" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestFixture" id="1085" name="ScenarioDoorSafetyTests" fullname="Ataka.Tests.ScenarioDoorSafetyTests" classname="Ataka.Tests.ScenarioDoorSafetyTests" runstate="Runnable" testcasecount="8" result="Passed" start-time="2026-10-12 07:56:37Z" end-time="2026-10-12 07:56:40Z" duration="2.936917" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="ParameterizedMethod" id="1095" name="ActualCarpetDoorNeverSweepsThroughPlayerAndResumesWhenClear" fullname="Ataka.Tests.ScenarioDoorSafetyTests.ActualCarpetDoorNeverSweepsThroughPlayerAndResumesWhenClear" classname="Ataka.Tests.ScenarioDoorSafetyTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-10-12 07:56:37Z" end-time="2026-10-12 07:56:39Z" duration="1.760534" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1091" name="ActualCarpetDoorNeverSweepsThroughPlayerAndResumesWhenClear(0.86f,0.01666667f,False)" fullname="Ataka.Tests.ScenarioDoorSafetyTests.ActualCarpetDoorNeverSweepsThroughPlayerAndResumesWhenClear(0.86f,0.01666667f,False)" methodname="ActualCarpetDoorNeverSweepsThroughPlayerAndResumesWhenClear" classname="Ataka.Tests.ScenarioDoorSafetyTests" runstate="Runnable" seed="217220482" result="Passed" start-time="2026-10-12 07:56:37Z" end-time="2026-10-12 07:56:38Z" duration="0.580276" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1092" name="ActualCarpetDoorNeverSweepsThroughPlayerAndResumesWhenClear(0.97f,0.01666667f,False)" fullname="Ataka.Tests.ScenarioDoorSafetyTests.ActualCarpetDoorNeverSweepsThroughPlayerAndResumesWhenClear(0.97f,0.01666667f,False)" methodname="ActualCarpetDoorNeverSweepsThroughPlayerAndResumesWhenClear" classname="Ataka.Tests.ScenarioDoorSafetyTests" runstate="Runnable" seed="1929003851" result="Passed" start-time="2026-10-12 07:56:38Z" end-time="2026-10-12 07:56:38Z" duration="0.399357" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1093" name="ActualCarpetDoorNeverSweepsThroughPlayerAndResumesWhenClear(0.86f,0.25f,False)" fullname="Ataka.Tests.ScenarioDoorSafetyTests.ActualCarpetDoorNeverSweepsThroughPlayerAndResumesWhenClear(0.86f,0.25f,False)" methodname="ActualCarpetDoorNeverSweepsThroughPlayerAndResumesWhenClear" classname="Ataka.Tests.ScenarioDoorSafetyTests" runstate="Runnable" seed="1549389299" result="Passed" start-time="2026-10-12 07:56:38Z" end-time="2026-10-12 07:56:39Z" duration="0.388246" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1094" name="ActualCarpetDoorNeverSweepsThroughPlayerAndResumesWhenClear(0.86f,0.01666667f,True)" fullname="Ataka.Tests.ScenarioDoorSafetyTests.ActualCarpetDoorNeverSweepsThroughPlayerAndResumesWhenClear(0.86f,0.01666667f,True)" methodname="ActualCarpetDoorNeverSweepsThroughPlayerAndResumesWhenClear" classname="Ataka.Tests.ScenarioDoorSafetyTests" runstate="Runnable" seed="741738664" result="Passed" start-time="2026-10-12 07:56:39Z" end-time="2026-10-12 07:56:39Z" duration="0.384793" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="ParameterizedMethod" id="1090" name="NativeControllerGravityDoesNotGetPushedByTheOpeningDoor" fullname="Ataka.Tests.ScenarioDoorSafetyTests.NativeControllerGravityDoesNotGetPushedByTheOpeningDoor" classname="Ataka.Tests.ScenarioDoorSafetyTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-12 07:56:39Z" end-time="2026-10-12 07:56:40Z" duration="0.776663" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1088" name="NativeControllerGravityDoesNotGetPushedByTheOpeningDoor(False)" fullname="Ataka.Tests.ScenarioDoorSafetyTests.NativeControllerGravityDoesNotGetPushedByTheOpeningDoor(False)" methodname="NativeControllerGravityDoesNotGetPushedByTheOpeningDoor" classname="Ataka.Tests.ScenarioDoorSafetyTests" runstate="Runnable" seed="732863167" result="Passed" start-time="2026-10-12 07:56:39Z" end-time="2026-10-12 07:56:40Z" duration="0.386205" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[NATIVE_CC before=(0.86, 0.01, 3.75) after=(0.86, 0.01, 3.75) playerFirst=False
+]]></output>
+              </test-case>
+              <test-case id="1089" name="NativeControllerGravityDoesNotGetPushedByTheOpeningDoor(True)" fullname="Ataka.Tests.ScenarioDoorSafetyTests.NativeControllerGravityDoesNotGetPushedByTheOpeningDoor(True)" methodname="NativeControllerGravityDoesNotGetPushedByTheOpeningDoor" classname="Ataka.Tests.ScenarioDoorSafetyTests" runstate="Runnable" seed="646798121" result="Passed" start-time="2026-10-12 07:56:40Z" end-time="2026-10-12 07:56:40Z" duration="0.388544" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[NATIVE_CC before=(0.86, 0.01, 3.75) after=(0.86, 0.01, 3.75) playerFirst=True
+]]></output>
+              </test-case>
+            </test-suite>
+            <test-case id="1086" name="RestrictedHandleClicksAndNudgesSafelyThenResumes" fullname="Ataka.Tests.ScenarioDoorSafetyTests.RestrictedHandleClicksAndNudgesSafelyThenResumes" methodname="RestrictedHandleClicksAndNudgesSafelyThenResumes" classname="Ataka.Tests.ScenarioDoorSafetyTests" runstate="Runnable" seed="1115014546" result="Passed" start-time="2026-10-12 07:56:40Z" end-time="2026-10-12 07:56:40Z" duration="0.385345" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1087" name="SmallSmoothedStepsReachTheRequestedEndpoint" fullname="Ataka.Tests.ScenarioDoorSafetyTests.SmallSmoothedStepsReachTheRequestedEndpoint" methodname="SmallSmoothedStepsReachTheRequestedEndpoint" classname="Ataka.Tests.ScenarioDoorSafetyTests" runstate="Runnable" seed="449740727" result="Passed" start-time="2026-10-12 07:56:40Z" end-time="2026-10-12 07:56:40Z" duration="0.004362" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[Saving results to: C:/Users/User/AppData/LocalLow/AtakaProject/Атака на запоминание\TestResults.xml
+]]></output>
+            </test-case>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>
