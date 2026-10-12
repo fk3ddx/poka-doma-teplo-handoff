@@ -31,7 +31,7 @@ namespace Ataka.Scenario {
   IEnumerator Fire(StoryDirector story,ScenarioPlayer p,string label,Func<Vector3> at,float stand){
    StoryDirector.Act act=null;float until=Time.time+20;while(Time.time<until&&act==null){act=story.OpenActs.Find(a=>a.label==label&&!a.fired&&(a.when==null||a.when()));if(act==null)yield return null;}
    Check(act!=null,"action «"+label+"» offered");if(act==null)yield break;var point=at();var feet=point+(p.transform.position-point).normalized*stand;
-   var d=p.transform.position-point;d.y=0;feet=point+(d.sqrMagnitude>.01f?d.normalized:Vector3.left)*stand;feet.y=.02f;p.Place(feet,0);yield return null;Aim(p,point);for(int i=0;i<40&&story.Aimed!=act;i++){Aim(p,point);yield return null;}story.QaFire(act);yield return null;}
+   var d=p.transform.position-point;d.y=0;feet=point+(d.sqrMagnitude>.01f?d.normalized:Vector3.left)*stand;feet.y=.02f;p.Place(feet,0);yield return null;Aim(p,point);for(int i=0;i<40&&story.Aimed!=act;i++){Aim(p,point);yield return null;}Check(story.Aimed==act,"action actually selected by aim/LOS: "+label+"; blocker "+story.QaLosBlocker(p.head.position,point));if(story.Aimed!=act){yield return Shot("FAILED-action");yield break;}story.QaFire(act);yield return null;}
   IEnumerator Start(){
    Directory.CreateDirectory(output);Application.logMessageReceived+=Log;Application.runInBackground=true;Application.targetFrameRate=60;
    yield return new WaitForSecondsRealtime(2);
@@ -44,6 +44,8 @@ namespace Ataka.Scenario {
   }
   IEnumerator Leisure(LoopDirector loop,StoryDirector story,FlatBindings flat,ScenarioPlayer p,ScenarioTelevision tv){
    story.QaFreeTimeAndNews();yield return new WaitForSeconds(1);float fov0=story.QaFov;
+   // Approach the actual screen from the living-room side, as in EveningQA; default spawn is behind its wall.
+   var tvAt=flat.televisionScreen?flat.televisionScreen.bounds.center:flat.television.position;p.Place(new Vector3(tvAt.x-1.6f,.02f,tvAt.z),90);yield return null;
    // the console
    yield return Fire(story,p,"Поиграть в приставку",()=>flat.televisionScreen?flat.televisionScreen.bounds.center:flat.television.position,1.6f);
    yield return new WaitForSeconds(1);var game=story.QaConsole;result.consoleFov=story.QaFov;
@@ -78,7 +80,7 @@ namespace Ataka.Scenario {
    story.QaEpilogue(refused);float until=Time.realtimeSinceStartup+90;int shot=0;string lastCaption="";bool screenChecked=false,albumShot=false,creditsShot=false;
    while(!loop.Finished&&Time.realtimeSinceStartup<until){
     if(story.QaEpiloguePart=="news"&&tv.caption!=lastCaption&&!string.IsNullOrEmpty(tv.caption)){lastCaption=tv.caption;yield return new WaitForSeconds(.6f);yield return Shot("epilogue-news-"+(++shot));
-     if(!screenChecked){screenChecked=true;var s=Screen(tv,"epilogue-news",out var sat,out var br);result.epilogueScreen=s;Check(tv.storyOn&&tv.show==ScenarioTelevision.Show.News&&br>.6f,"epilogue: «Новости Заречья» on the real CRT ("+s+")");}continue;}
+     if(!screenChecked){screenChecked=true;var s=Screen(tv,"epilogue-news",out var sat,out var br);result.epilogueScreen=s;Check(loop.subtitle.horizontalOverflow==UnityEngine.HorizontalWrapMode.Wrap&&loop.subtitle.preferredHeight<=loop.subtitle.rectTransform.rect.height,"long news subtitles wrap inside the safe area (height "+loop.subtitle.preferredHeight.ToString("F0")+" / "+loop.subtitle.rectTransform.rect.height.ToString("F0")+")");Check(tv.storyOn&&tv.show==ScenarioTelevision.Show.News&&br>.6f,"epilogue: «Новости Заречья» on the real CRT ("+s+")");}continue;}
     if(story.QaEpiloguePart=="credits"&&!creditsShot){creditsShot=true;yield return new WaitForSeconds(1);yield return Shot("epilogue-credits");continue;}
     if(story.QaEpiloguePart=="album"&&!albumShot){albumShot=true;yield return new WaitForSeconds(.5f);yield return Shot("epilogue-album");var v=story.QaViewer;if(v&&v.Current!=null&&!v.Current.loaded)absent.Add("epilogue album image Resources/"+StoryDirector.AlbumEpilogue+".png — paper placeholder shown");result.clockStarts=clocks;Check(clocks>0,"credits and album over the ticking clock ("+clocks+" clock starts)");continue;}
     yield return null;}

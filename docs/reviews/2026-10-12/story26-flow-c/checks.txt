@@ -1,0 +1,109 @@
+MODE story autopilot from Prologue (aim-verified fire, 6x nights)
+ROUTES at start of Evening
+ROUTE capsule r=0,22 h=1,5 lift=0,08 grid=0,05 m; runtime collider world r=0,220 h=1,500; doors c0,o19,c0,o19,o19,c0,c0,c0,(7.2, 0.0, 1.2)
+ROUTE Door→Kitchen 3,4 m
+ROUTE Kitchen→HallA 2,5 m
+ROUTE HallA→Door 0,9 m
+ROUTE Door→HallB 2,2 m
+ROUTE HallB→Clock 0,1 m
+ROUTE Clock→Armchair 5,0 m
+ROUTE Armchair→Door 6,7 m
+ROUTE Door→Landing 1,5 m opening Entrance60
+ROUTE Door→Landing with opened leaf 1,5 m
+ROUTE Door→Stove 4,0 m
+PASS grandmother routes around furniture at start of Evening (0 failures; run continues)
+CARD 15 ноября 1996. 19:10
+TASK 
+CARD Подъезд, пятый этаж. Холодно — изо рта идёт пар. За дверью 59 лает Тузик.
+TASK Позвонить в квартиру 60
+ACT Позвонить
+TASK Войти
+TASK Повесить куртку и разуться
+ACT Открыть тумбу трюмо
+ACT Взять фонарик-«жучок»
+ACT Повесить куртку
+ACT Переобуться в тапки
+TASK Разобрать сумку на кухне
+ACT Взять сумку
+ACT Поставить сумку на стол
+ACT Батон — в хлебницу
+ACT Шпроты — в шкаф
+ACT Отдать «Корвалол» бабушке
+TASK Поставить чайник
+ACT Взять спички с ЗиЛа
+ACT Открыть газ и зажечь конфорку (hold 0,6s skipped)
+ACT Взять чайник
+ACT Набрать воду в чайник (hold 3s skipped)
+ACT Поставить чайник на огонь
+TASK Принести с балкона банку вишнёвого
+ACT Отодвинуть шпингалет (заедает) (hold 2s skipped)
+ACT Взять банку варенья
+ACT Закрыть балконную дверь
+TASK Заварить чай
+ACT Выключить газ — чайник свистит
+ACT Заварить и разлить чай (hold 1,2s skipped)
+ACT Сесть за стол
+CHOICE 1
+CHOICE 1
+TASK Выйти в прихожую
+QA-YIELD player (7.74, 0.02, 3.63) -> (1.90, 0.02, 3.60) for gran (7.38, 0.00, 3.35) walking to HallA waiting 2,5s
+TASK Поменять лампочку в бра
+ACT Взять табуретку
+ACT Поставить табуретку под антресолью
+ACT Достать лампочку с антресоли
+ACT Выкрутить старую и вкрутить новую (hold 2s skipped)
+TASK Отнести платок в шифоньер
+ACT Открыть шифоньер
+ACT Повесить платок на плечики
+TASK Завести дедовы часы
+ACT Завести часы ключом (hold 3s skipped)
+ACT Толкнуть маятник
+TASK Свободное время
+STALL? chapter Evening task 'Свободное время' player (4.90, 0.01, 5.30) gran (4.35, 0.00, 1.28) standing at Armchair scene '' acts [Открыть тумбу трюмо]
+TASK Включить новости
+ACT Включить «Рубин»
+TASK 
+QA-YIELD player (5.51, 0.04, 3.29) -> (1.90, 0.02, 3.60) for gran (5.41, 0.00, 2.41) walking to Door waiting 2,5s
+TASK Закрыть дверь на замок и цепочку
+ACT Закрыть замок
+ACT Накинуть цепочку
+CHAPTER Evening -> Night1
+TASK Дождаться бабушку
+STALL? chapter Night1 task 'Дождаться бабушку' player (7.26, 0.01, 5.70) gran hidden scene '' acts [Открыть тумбу трюмо]
+STALL? chapter Night1 task 'Дождаться бабушку' player (7.26, 0.01, 5.70) gran hidden scene '' acts [Открыть тумбу трюмо]
+ACT Глазок
+SCENE Peephole in Night1
+ACT Снять трубку
+SCENE DeathFull in Night1
+REWIND started: 2877 night samples, 54 sounds, memories taken in this run (not staged): 4 [tea→TeaSet, bulb→Bulb, belt→Belt, knock→gran]
+PASS the real evening produced all four memories (tea, bulb, belt, knock)
+PASS rewind evening-knock: subject region not dark — luma 0,24, spread 0,21 around the subject (floor .15 / .08)
+PASS rewind knock: her face turned to the camera (cos 1,00)
+PASS rewind memory knock shows its subject gran — viewport (0,50, 0,50), 1,50 m, line of sight clear
+PASS rewind evening-belt: subject region not dark — luma 0,19, spread 0,29 around the subject (floor .15 / .08)
+PASS rewind memory belt shows its subject Belt — viewport (0,50, 0,50), 0,95 m, line of sight clear
+PASS rewind evening-bulb: subject region not dark — luma 0,71, spread 0,86 around the subject (floor .15 / .08)
+PASS rewind memory bulb shows its subject Bulb — viewport (0,50, 0,50), 1,05 m, line of sight clear
+PASS rewind evening-tea: subject region not dark — luma 0,23, spread 0,24 around the subject (floor .15 / .08)
+PASS rewind memory tea shows its subject TeaSet — viewport (0,50, 0,50), 1,15 m, line of sight clear
+PASS rewind play: subject region not dark — luma 0,19, spread 0,33 around the subject (floor .15 / .08)
+PASS rewind PLAY frame shows her head ≥ 1 m away — viewport (0,47, 0,43), 1,34 m, line of sight clear, 1,34 m
+CHAPTER Night1 -> Night2
+TASK 
+CARD Это уже было
+CHOICE 1
+CHOICE 1
+TASK Закрыть дверь на замок и цепочку
+ACT Закрыть замок
+ACT Накинуть цепочку
+TASK Запомни, как это было
+ACT Взять дедов ремень
+ACT Закрыть шпингалет и подвязать дверь ремнём (hold 2s skipped)
+STALL? chapter Night2 task 'Запомни, как это было' player (4.57, 0.01, 0.60) gran hidden scene '' acts []
+STALL? chapter Night2 task 'Запомни, как это было' player (4.57, 0.01, 0.60) gran hidden scene '' acts []
+ACT Снять трубку
+TASK 
+CHAPTER Night2 -> Loop
+PASS first night ends in the full face-tear death (7.4)
+PASS story reached the loop (lap 1)
+PASS no runtime errors (0)

@@ -1,0 +1,3 @@
+PASS action «Поиграть в приставку» offered
+FAIL console: he sits at the set, control off, the CRT shows the game, the view narrows (FOV 65 → 65)
+PASS no runtime errors (0)

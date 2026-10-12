@@ -14,7 +14,8 @@ namespace Ataka.Scenario {
   public bool HangingWaiting=>Progress.Lap==5&&hangingDoorOpened&&!Busy&&!Progress.EventComplete;
   float thoughtUntil,phoneTimer,balconyTimer,tvWatch,gateWait,balconySeen;bool phoneAnswered,peepholeSeen,returning,clockThought;
   string savePath;bool paused=true,initializing=true;float knockTimer;int knockIndex;
-  void Start(){savePath=System.IO.Path.Combine(Application.persistentDataPath,"scenario-core-checkpoint.json");story=GetComponent<StoryDirector>();if(!story)story=gameObject.AddComponent<StoryDirector>();story.loop=this;EnterLap(1);initializing=false;Pause(true);}
+  void FitSubtitles(){if(!subtitle)return;subtitle.horizontalOverflow=HorizontalWrapMode.Wrap;subtitle.verticalOverflow=VerticalWrapMode.Overflow;subtitle.alignment=TextAnchor.LowerCenter;var rect=subtitle.rectTransform;rect.anchorMin=new Vector2(.07f,.035f);rect.anchorMax=new Vector2(.93f,.23f);rect.offsetMin=rect.offsetMax=Vector2.zero;}
+  void Start(){FitSubtitles();savePath=System.IO.Path.Combine(Application.persistentDataPath,"scenario-core-checkpoint.json");story=GetComponent<StoryDirector>();if(!story)story=gameObject.AddComponent<StoryDirector>();story.loop=this;EnterLap(1);initializing=false;Pause(true);}
   public void Pause(bool value){paused=value;flat.player.Pause(value);Time.timeScale=value?0:1;AudioListener.pause=value;sound.paused=value;}
   public void Thought(string text,float seconds=4){subtitle.text=text;thoughtUntil=Time.time+seconds;}
   public void EnterLap(int n){

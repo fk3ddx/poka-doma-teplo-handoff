@@ -83,3 +83,7 @@ Granny Katcho одобрена по авторскому превью («да н
 Additional author attribution and licenses: [story props](CREDITS-STORY-PROPS.md), [Guest body and claw](CREDITS-GUEST.md), [recorded sound bank](CREDITS-AUDIO.md). Include these three documents alongside this file in every new Windows archive.
 
 Story bulb reuses Josh Dean / Poly Haven [lightbulb_01](https://polyhaven.com/a/lightbulb_01), CC0; uniformly scaled to 11 cm and bottom-centred. No new geometry.
+
+
+## Story27 — fictional album images
+Seven images made for this project with the built-in image_gen tool (12 October 2026): six fictional family memories and the matching epilogue variant. These are AI-generated game art, not photographs of the user or a real family. Prompts/provenance: art-source/album/prompts.json and README.md. Runtime: unity-game/Assets/_Project/Resources/Album. Original console sprites and chip sound sequences in ConsoleGame.cs / ScenarioSound.cs were authored for this project by Claude; no third-party game ROM or sprites used.

@@ -1,0 +1,18 @@
+{
+    "passed": true,
+    "failures": 0,
+    "errors": 0,
+    "score": 0,
+    "kills": 0,
+    "shots": 0,
+    "albumImages": 0,
+    "epilogueCaptions": 3,
+    "clockStarts": 2,
+    "consoleFov": 0.0,
+    "fovAfter": 0.0,
+    "pauseDrift": 0.0,
+    "gamePauseDrift": 0.0,
+    "screen": "",
+    "epilogueScreen": "saturated 0,0%, brightest 0,98",
+    "absent": []
+}

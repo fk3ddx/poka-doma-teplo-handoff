@@ -1,0 +1,10 @@
+SHOT epilogue-news-1.png
+PASS epilogue: «Новости Заречья» on the real CRT (saturated 0,0%, brightest 0,98)
+SHOT epilogue-news-2.png
+SHOT epilogue-news-3.png
+SHOT epilogue-credits.png
+SHOT epilogue-album.png
+PASS credits and album over the ticking clock (2 clock starts)
+PASS epilogue news: 3 lines, the «Ты не она!» line absent (door opened)
+PASS epilogue ended: story finished, FOV back, set off, no VHS left
+PASS no runtime errors (0)
