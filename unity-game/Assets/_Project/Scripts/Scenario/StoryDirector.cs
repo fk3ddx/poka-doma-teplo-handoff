@@ -56,6 +56,10 @@ namespace Ataka.Scenario {
   public string QaLosBlocker(Vector3 eye,Vector3 point){var d=point-eye;float length=d.magnitude;if(length<.05f)return "none";RaycastHit first=default;bool any=false;
    foreach(var hit in Physics.RaycastAll(eye,d/length,length,~(1<<31),QueryTriggerInteraction.Ignore)){if(hit.transform.IsChildOf(player.transform)||hit.transform.IsChildOf(flat.grandmother.transform))continue;if(hit.distance<length-.4f&&(!any||hit.distance<first.distance)){first=hit;any=true;}}
    return any?GranNav.PathOf(first.collider.transform)+" ["+first.collider.GetType().Name+"] at "+first.point.ToString("F2")+" bounds c="+first.collider.bounds.center.ToString("F2")+" size="+first.collider.bounds.size.ToString("F2"):"none";}
+  // QA: a walking route that crosses NO closed door (doors as they are now).
+  public bool QaWalkableNow(Vector3 from,Vector3 to){Nav.Invalidate();Nav.Ensure();return Nav.Find(from,to,null).steps!=null;}
+  public static Vector3 QaNode(string name)=>Nodes[name];
+  public void QaEnterLoop(){StopAll();running=StartCoroutine(EnterLoop());} // the real story→loop hand-off of 22:07, night 2
   public List<ScenarioDoor> QaPlayerRoute(Vector3 from,Vector3 to){Nav.Ensure();var r=Nav.Find(from,to,QaCanOpen);return r.steps!=null?r.crossed:null;}
   void Fire(Act a){a.fired=true;acts.Remove(a);lastProgress=Time.time;a.done?.Invoke();}
   // QA surface for StoryAutopilot (-story-smoke): it may only fire an act after the real aim selection picked it.
@@ -196,6 +200,9 @@ namespace Ataka.Scenario {
    loop.Progress.RestoreCheckpoint(1);foreach(var g in flat.conditionGroups)g.SetActive(false);if(flat.dressing)flat.dressing.Apply(1);
    if(warm)flat.look.WarmReturn();else flat.look.Apply(FlatCondition.Blackout);
    flat.kitchen.locked=flat.bath.locked=false;flat.bedroom.locked=false;flat.bedroom.closedAngle=0;flat.living.locked=false;flat.living.open=true;
+   // The story has no room-door action (only the loop has one): the warm flat keeps the kitchen and bedroom open, so a
+   // continued evening (grandmother already in the kitchen) or a second playthrough after lap 5 cannot shut the player out.
+   flat.kitchen.open=true;flat.bedroom.open=true;
    // The flat door swings into the hall in the story: the 1 m vestibule leaves no room for an outward swing past the player.
    flat.carpet.locked=true;flat.carpet.open=false;flat.entrance.scripted=false;flat.entrance.direction=-1;flat.balconyDoor.locked=true;flat.balconyDoor.open=false;flat.balconyDoor.closedAngle=0;
    foreach(var d in flat.wardrobeLeaves)d.localRotation=Quaternion.identity;

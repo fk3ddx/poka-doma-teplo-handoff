@@ -21,7 +21,7 @@ namespace Ataka.Scenario {
    scenes.GetComponent<HangingFloorCue>()?.ResetCue();Progress.RestoreCheckpoint(n);Busy=false;hangingDoorOpened=false;hangingEntryTime=0;phoneAnswered=false;peepholeSeen=false;returning=false;clockThought=false;tvWatch=0;gateWait=0;balconySeen=0;
    flat.look.Apply(laps[n-1].condition);flat.clock.Show(Progress.ClockSeconds);flat.carpet.locked=true;flat.carpet.open=false;flat.entrance.open=false;flat.entrance.locked=true;
    if(flat.dressing)flat.dressing.Apply(n);
-   flat.living.open=true;flat.living.locked=false;flat.entrance.scripted=false;flat.bedroom.open=n!=5;flat.bedroom.locked=n==5;flat.bedroom.closedAngle=n==5?Mathf.Asin(.2f/.8f)*Mathf.Rad2Deg:0;flat.kitchen.locked=flat.bath.locked=true;
+   flat.living.open=true;flat.living.locked=false;flat.entrance.scripted=false;flat.bedroom.open=n!=5;flat.bedroom.locked=n==5;flat.bedroom.closedAngle=n==5?Mathf.Asin(.2f/.8f)*Mathf.Rad2Deg:0;flat.kitchen.locked=flat.bath.locked=true;flat.kitchen.open=flat.bath.open=false;
    foreach(var d in flat.wardrobeLeaves)d.localRotation=Quaternion.Euler(0,n==1?95:0,0);
    for(int i=0;i<flat.conditionGroups.Length;i++)flat.conditionGroups[i].SetActive(i==n-1);
    if(flat.hallCupboard)flat.hallCupboard.ResetForLap();
@@ -118,15 +118,17 @@ namespace Ataka.Scenario {
   public void ResumeSavedLap(){StopAllCoroutines();scenes.Cancel();chase.Stop();sound.ResetWorld();Finished=false;
    if(!System.IO.File.Exists(savePath)){EnterLap(1);flat.player.Place(ScenarioLayout.Spawn,180);return;}
    var s=JsonUtility.FromJson<Save>(System.IO.File.ReadAllText(savePath));flat.player.hasFlashlight=s.flashlight;EnterLap(Mathf.Clamp(s.lap,1,6));flat.player.Place(ScenarioLayout.Spawn,180);if(s.chase)StartCoroutine(BeginChase());}
+  // Core-loop test buttons only with an explicit -qa argument (the Development preview build for Dima must not offer them).
+  static readonly bool QaMenu=Array.IndexOf(Environment.GetCommandLineArgs(),"-qa")>=0;public static bool QaMenuShown=>QaMenu;
   void OnGUI(){if(!paused)return;var r=new Rect((Screen.width-620)/2,(Screen.height-560)/2,620,560);GUI.Box(r,"");GUILayout.BeginArea(new Rect(r.x+25,r.y+20,r.width-50,r.height-40));
    GUILayout.Label(Finished?"КОНЕЦ":"АТАКА НА ЗАПОМИНАНИЕ",new GUIStyle(GUI.skin.label){fontSize=24});GUILayout.Space(20);
-   GUILayout.Label("Тест по SCENARIO.md. Временные модели и звуки.\nWASD / мышь · Shift — бег · Ctrl — присесть\nE — действие · F — фонарь, удерживать — подкачка\nC — оглянуться в погоне · Esc — пауза",new GUIStyle(GUI.skin.label){fontSize=18,wordWrap=true});GUILayout.Space(25);
+   GUILayout.Label((QaMenu?"QA: тест по SCENARIO.md.":"Сквозная preview-сборка: часть сцен пока титры, модели и звуки временные.")+"\nWASD / мышь · Shift — бег · Ctrl — присесть\nE — действие · F — фонарь, удерживать — подкачка\nC — оглянуться в погоне · Esc — пауза",new GUIStyle(GUI.skin.label){fontSize=18,wordWrap=true});GUILayout.Space(25);
    if(!Finished&&story&&story.Active&&GUILayout.Button("Продолжить",GUILayout.Height(42)))Pause(false);
    if(GUILayout.Button("Новая игра",GUILayout.Height(42))){StopAllCoroutines();scenes.Cancel();chase.Stop();sound.ResetWorld();Finished=false;flat.player.hasFlashlight=false;Pause(false);story.NewGame();}
    if(story&&story.HasSave&&!story.Active&&GUILayout.Button("Продолжить с сохранения",GUILayout.Height(36))){StopAllCoroutines();scenes.Cancel();chase.Stop();sound.ResetWorld();Finished=false;Pause(false);story.Continue();}
-   if(!Finished&&(!story||!story.Active)&&GUILayout.Button("Продолжить (тест петли)",GUILayout.Height(30)))Pause(false);
-   if(GUILayout.Button("Петля с начала (тест ядра)",GUILayout.Height(30))){if(story)story.Abandon();StopAllCoroutines();scenes.Cancel();chase.Stop();sound.ResetWorld();Finished=false;flat.player.hasFlashlight=false;EnterLap(1);flat.player.Place(ScenarioLayout.Spawn,180);Pause(false);}
-   if(!Finished&&System.IO.File.Exists(savePath)&&GUILayout.Button("Продолжить с сохранённого круга",GUILayout.Height(32))){if(story)story.Abandon();ResumeSavedLap();Pause(false);}
+   if(QaMenu&&!Finished&&(!story||!story.Active)&&GUILayout.Button("Продолжить (тест петли)",GUILayout.Height(30)))Pause(false);
+   if(QaMenu&&GUILayout.Button("Петля с начала (тест ядра)",GUILayout.Height(30))){if(story)story.Abandon();StopAllCoroutines();scenes.Cancel();chase.Stop();sound.ResetWorld();Finished=false;flat.player.hasFlashlight=false;EnterLap(1);flat.player.Place(ScenarioLayout.Spawn,180);Pause(false);}
+   if(QaMenu&&!Finished&&System.IO.File.Exists(savePath)&&GUILayout.Button("Продолжить с сохранённого круга",GUILayout.Height(32))){if(story)story.Abandon();ResumeSavedLap();Pause(false);}
    if(GUILayout.Button("Выйти",GUILayout.Height(32)))Application.Quit();GUILayout.EndArea();
   }
   void OnDestroy(){Time.timeScale=1;AudioListener.pause=false;}
