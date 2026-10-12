@@ -1,0 +1,33 @@
+{
+  "captureModeMutesOutput": true,
+  "clearedOutputCallbacks": 3952,
+  "sampleRate": 48000,
+  "channels": 2,
+  "droppedSamples": 0,
+  "formatChanges": 0,
+  "peakActiveVoices": 10,
+  "seconds": 84.26666666666667,
+  "peak": 0.4760931730270386,
+  "rms": 0.0215852539986372,
+  "samplesAboveOne": 0,
+  "rewindCues": [
+    {
+      "id": "rewind",
+      "requested": 73,
+      "started": 61,
+      "limit": 12,
+      "pool": 0,
+      "replaced": 0
+    },
+    {
+      "id": "rewind_tick",
+      "requested": 152,
+      "started": 32,
+      "limit": 120,
+      "pool": 0,
+      "replaced": 0
+    }
+  ],
+  "listened": false,
+  "scope": "Numerical silent listener capture, not artistic audio acceptance. Rewind ticking restarts/suppression under pause are a defect, sent to Claude."
+}
