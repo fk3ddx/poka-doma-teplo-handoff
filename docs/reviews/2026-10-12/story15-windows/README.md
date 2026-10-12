@@ -35,3 +35,6 @@ These are actual game captures, not concept images. Test stages the player and s
 - Sources/credits: [author's OGA CC0 release](https://opengameart.org/content/3d-horror-game-monster), CREDITS-GUEST.md. Author page independently checked. 17 WAV numeric audit and 85 EditMode passes above remain limited evidence, not listening/art/gameplay acceptance.
 
 The accepted LightLab lighting/VHS and architecture were not regenerated. No new release ZIP is presented as ready. Still required: complete uninterrupted flow, negative branches, actual death-frame review, authored long claws, story props, voices and human playability/visual acceptance.
+
+## Flow-g: evening + two nights reached Loop
+Actual Windows result: passed=true, errors=0, routeFailures=0. Nine grandmother routes passed. Autopilot stages positions/skips holds/accelerates nights; not a human walking or art acceptance. Death observation exposed a close-up issue: large overexposed wrist fills the frame, claws not readable. See [contact sheet](story15-flow-g/death-contact-sheet.jpg) and original timed frames. Sent to Claude for correction; not accepted as final death art.

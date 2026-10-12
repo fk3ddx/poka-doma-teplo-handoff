@@ -1,0 +1,24 @@
+{
+    "utc": "2026-10-12T14:39:35.0401571Z",
+    "chapter": "Night2",
+    "objective": "Запомни, как это было",
+    "card": "",
+    "scene": "",
+    "actions": [],
+    "player": {
+        "x": 7.2052812576293949,
+        "y": 0.01499982550740242,
+        "z": 2.7147023677825929
+    },
+    "grandmother": {
+        "x": 8.074999809265137,
+        "y": 0.0,
+        "z": 6.625
+    },
+    "playerControl": true,
+    "paused": false,
+    "grandmotherActive": false,
+    "grandmotherWalking": false,
+    "timeScale": 6.0,
+    "unchangedSeconds": 5.0001983642578129
+}

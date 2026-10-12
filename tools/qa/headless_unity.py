@@ -3,7 +3,7 @@ Official -batchmode -nographics plus hidden startup/console and below-normal pri
 """
 from pathlib import Path
 import argparse,subprocess,json,datetime,re
-parser=argparse.ArgumentParser();parser.add_argument('operation',choices=['guest-build','audio-build','story-spatial','kitchen13-build','edit-tests','door-tests','bedroom06-apply','bedside-smallprops','bedroom07-apply','bedroom07-final','hall09-apply','hall10-apply','apartment11-apply','apartment12-build','core-build']);parser.add_argument('--label',required=True);parser.add_argument('--verify-unheld-lock',action='store_true');args=parser.parse_args()
+parser=argparse.ArgumentParser();parser.add_argument('operation',choices=['story-props-build','guest-build','audio-build','story-spatial','kitchen13-build','edit-tests','door-tests','bedroom06-apply','bedside-smallprops','bedroom07-apply','bedroom07-final','hall09-apply','hall10-apply','apartment11-apply','apartment12-build','core-build']);parser.add_argument('--label',required=True);parser.add_argument('--verify-unheld-lock',action='store_true');args=parser.parse_args()
 assert re.fullmatch(r'[A-Za-z0-9_-]+',args.label), 'Output label must be a simple directory name'
 project=Path(__file__).resolve().parents[2]/'unity-game';out=project/'QA'/args.label
 lock=project/'Temp/UnityLockfile'
@@ -27,6 +27,7 @@ cmd=[str(editor),'-batchmode','-nographics','-silent-crashes','-job-worker-count
 if args.operation=='edit-tests':cmd+=['-runTests','-testPlatform','EditMode','-testResults',str(out/'tests.xml')]
 elif args.operation=='door-tests':cmd+=['-runTests','-testPlatform','EditMode','-testFilter','Ataka.Tests.ScenarioDoorSafetyTests','-testResults',str(out/'tests.xml')]
 elif args.operation=='bedroom06-apply':cmd+=['-executeMethod','Ataka.Editor.BedroomArt06.ApplyPreparedArt','-quit']
+elif args.operation=='story-props-build':cmd+=['-executeMethod','Ataka.Editor.StoryPropsInstaller.InstallAndBuild','-quit']
 elif args.operation=='guest-build':cmd+=['-executeMethod','Ataka.Editor.GuestInstaller.InstallAndBuild','-quit']
 elif args.operation=='audio-build':cmd+=['-executeMethod','Ataka.Editor.ScenarioAudioBuilder.InstallAndBuild','-quit']
 elif args.operation=='story-spatial':cmd+=['-executeMethod','Ataka.Editor.StorySpatialAudit.Export','-quit']
