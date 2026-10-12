@@ -43,6 +43,12 @@ namespace Ataka.Scenario {
    new Key(9f,new Vector3(-.9f,-.9f,.4f),new Vector3(.4f,.6f,-.4f),new Vector3(1f,0f,0f))};
   // Short version keeps the same gestures on the compressed 3.5 s clock of 7.4.
   static float FullTime(float t,bool full)=>full?t:t<.3f?t:t<1f?Mathf.Lerp(.3f,1.6f,(t-.3f)/.7f):t<1.5f?Mathf.Lerp(1.6f,2.0f,(t-1f)/.5f):Mathf.Lerp(2.0f,3.0f,(t-1.5f)/1f);
+  // 11.10 finale: the short 7.4 (lunge, hands, nails, tear) and then the full version's 3.2 beat — her hand rises with
+  // Misha's face and pulls it over hers — on 3.5 s: 0–1.5 short, 1.5–2.0 = full 2.0–2.6, 2.0–2.9 = full 3.0–4.2, black.
+  // There is NO mesh of Misha's face: in that beat the claw hand rises into her face empty (see docs 25-finale).
+  public bool Finale{get;private set;}
+  static float FinaleTime(float t)=>t<1.5f?FullTime(t,false):t<2f?Mathf.Lerp(2f,2.6f,(t-1.5f)/.5f):t<2.9f?Mathf.Lerp(3f,4.2f,(t-2f)/.9f):4.2f+(t-2.9f);
+  float F(float t)=>Finale?FinaleTime(t):FullTime(t,full);
   public float Duration(bool fullDeath)=>fullDeath?7:3.5f;
   void Awake(){
    dot=Blob(32,false);drip=Blob(32,true);streak=Gradient(8,64,true);shade=Gradient(64,8,false);black=Solid(Color.black);
@@ -60,8 +66,8 @@ namespace Ataka.Scenario {
    tex.Apply();return tex;}
   static Texture2D Solid(Color c){var tex=new Texture2D(1,1,TextureFormat.RGBA32,false);tex.SetPixel(0,0,c);tex.Apply();return tex;}
 
-  public void Begin(Transform cameraHead,bool fullDeath,GameObject fallback){
-   head=cameraHead;full=fullDeath;t=0;End();
+  public void Begin(Transform cameraHead,bool fullDeath,GameObject fallback,bool finale=false){
+   head=cameraHead;full=fullDeath&&!finale;Finale=finale;t=0;End();
    var source=clawSource;UsingFallback=!source;if(!source)source=fallback;
    if(!source){Debug.LogError("FaceTearDeath: no claw model and no fallback");return;}
    right=Make(source,false);left=Make(source,true);
@@ -102,22 +108,23 @@ namespace Ataka.Scenario {
 
   // Returns the camera pitch offset (degrees, negative = look up) and the shake for this moment.
   public void Frame(float time,out float pitchUp,out Vector2 shake){
-   t=time;float f=FullTime(t,full);pitchUp=0;shake=Vector2.zero;if(!head)return;
-   bool handsIn=f>=.3f&&f<(full?5.2f:3.0f);
+   t=time;float f=F(t);pitchUp=0;shake=Vector2.zero;if(!head)return;
+   bool handsIn=f>=.3f&&f<(full?5.2f:Finale?4.3f:3.0f);
    if(right){right.gameObject.SetActive(handsIn);if(handsIn)Pose(right,RightFull,f,false);}
    if(left){left.gameObject.SetActive(handsIn&&f<3.0f);if(left.gameObject.activeSelf)Pose(left,LeftFull,f,true);}
    if(fill)fill.intensity=handsIn?fillIntensity*Mathf.Clamp01((f-.25f)/.2f):0;
    float grip=f>=.3f&&f<2.6f?1:0;shake=new Vector2(Mathf.Sin(t*55)*1.5f,Mathf.Cos(t*41))*(1+grip*1.5f);
    if(full&&f>=.8f&&f<4.5f)pitchUp=-22*Mathf.SmoothStep(0,1,Mathf.Clamp01((f-.8f)/.3f));
+   if(Finale&&f>=3f)pitchUp=-22*Mathf.SmoothStep(0,1,Mathf.Clamp01((f-3f)/.3f)); // looking up at her as she pulls the face on
   }
-  public float FlapTime(float time)=>FullTime(time,full)-.5f;   // DeathVeil runs 1.5→2.25 on its own clock
-  public float Red(float time){float f=FullTime(time,full);return f<2?0:.5f*Mathf.Clamp01((f-2)*2);} // a red tint (alpha ≤ .43), not an opaque card: the hands stay visible
-  public float Black(float time)=>full?Mathf.Clamp01((time-5.6f)/1.2f):time>=2.5f?1:0;
+  public float FlapTime(float time)=>F(time)-.5f;   // DeathVeil runs 1.5→2.25 on its own clock
+  public float Red(float time){float f=F(time);return f<2?0:.5f*Mathf.Clamp01((f-2)*2);} // a red tint (alpha ≤ .43), not an opaque card: the hands stay visible
+  public float Black(float time)=>full?Mathf.Clamp01((time-5.6f)/1.2f):Finale?Mathf.Clamp01((time-2.9f)/.1f):time>=2.5f?1:0;
   public float Disruption(float time)=>full?Mathf.Clamp01((time-5f)/1.5f):0;
   public void End(){if(right)Destroy(right.gameObject);if(left)Destroy(left.gameObject);if(fill)Destroy(fill.gameObject);right=left=null;fill=null;t=-1;}
 
   void OnGUI(){
-   if(t<0||!head)return;float f=FullTime(t,full);float w=Screen.width,h=Screen.height;
+   if(t<0||!head)return;float f=F(t);float w=Screen.width,h=Screen.height;
    if(f>=1.5f){ // four punctures under the nails at the hairline, then blood runs down
     float grow=Mathf.Clamp01((f-1.5f)/.25f);for(int i=0;i<4;i++){float x=w*(.38f+i*.075f+Mathf.Sin(i*7.1f)*.01f),s=h*.03f*grow;
      GUI.DrawTexture(new Rect(x-s/2,h*.02f,s,s),dot);

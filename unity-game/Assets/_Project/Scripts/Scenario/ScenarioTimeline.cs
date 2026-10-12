@@ -12,9 +12,9 @@ namespace Ataka.Scenario {
   public DeathVeil veil;int deathsViewed;float skipHeld;
   public string PlayingScene{get;private set;}public float FrameTime{get;private set;}
   public FaceTearDeath faceTear;
-  public bool InDeath=>PlayingScene=="DeathShort"||PlayingScene=="DeathFull";
-  public float DeathSilence=>PlayingScene=="DeathFull"?6.6f:2.5f;
-  bool DeathScene(string name)=>name=="DeathShort"||name=="DeathFull";
+  public bool InDeath=>PlayingScene=="DeathShort"||PlayingScene=="DeathFull"||PlayingScene=="DeathFinale";
+  public float DeathSilence=>PlayingScene=="DeathFull"?6.6f:PlayingScene=="DeathFinale"?2.9f:2.5f;
+  bool DeathScene(string name)=>name=="DeathShort"||name=="DeathFull"||name=="DeathFinale"; // DeathFinale: 11.10, short + the 3.2 face beat
   void HeadAt(Transform actor,Vector3 point){var animator=actor.GetComponent<Animator>();var bone=animator.GetBoneTransform(HumanBodyBones.Head);actor.position+=point-bone.position;}
   // Lap 3 (SCENARIO 9.4): a dark upside-down silhouette behind the balcony glass; the palm comes from her own arm, not a detached close-up hand.
   public Vector3 balconyPalm=new Vector3(5.12f,1.42f,-.05f);
@@ -43,7 +43,7 @@ namespace Ataka.Scenario {
   public IEnumerator Play(string name){
    PlayingScene=name;GuestSilhouette(false);
    if(name=="ChaseStart"){chaseStartRotation=flat.player.head.rotation;var direction=ChaseCorridor.EntryOrigin-flat.player.head.position;direction.y=0;chaseTargetRotation=Quaternion.LookRotation(direction);}
-   var timeline=name=="UnderBed"?underBed:name=="BalconyPalm"?balcony:name=="Television"?television:name=="HangingVision"?hanging:name=="Peephole"?peephole:name=="DeathShort"||name=="DeathFull"?death:chaseStart;
+   var timeline=name=="UnderBed"?underBed:name=="BalconyPalm"?balcony:name=="Television"?television:name=="HangingVision"?hanging:name=="Peephole"?peephole:DeathScene(name)?death:chaseStart;
    flat.player.control=false;flat.player.lookDuringScene=name=="HangingVision";startHead=flat.player.head.localRotation;startHeadPosition=flat.player.head.localPosition;fired=false;lastTime=-1;screenBlack=screenRed=screenWhite=0;
    var g=flat.guest.transform;flat.guest.GetComponent<ProxyPose>().Stand();g.position=flat.player.head.position+flat.player.head.forward*.65f-Vector3.up*1.6f;g.rotation=Quaternion.LookRotation(-flat.player.head.forward,Vector3.up);startGuest=g.position;
    if(DeathScene(name)){
@@ -56,13 +56,13 @@ namespace Ataka.Scenario {
    skipHeld=0;
    if(DeathScene(name)){
     // 7.4: driven by its own clock so the full (7 s) and short (3.5 s) versions share one staging.
-    bool full=name=="DeathFull";faceTear.Begin(flat.player.head,full,rightHand?rightHand.gameObject:null);
+    bool full=name=="DeathFull";faceTear.Begin(flat.player.head,full,rightHand?rightHand.gameObject:null,name=="DeathFinale");
     flat.player.flashlight.enabled=false; // the torch is knocked away: a spot at 0.3 m blew her skin out to a white disc (re-enabled at the end as before)
     var near=cine.Lens;near.NearClipPlane=.02f;cine.Lens=near;
     float duration=faceTear.Duration(full);
     for(float clock=0;clock<duration;clock+=Time.deltaTime){
      Evaluate(name,clock);
-     if(!full&&deathsViewed>0){skipHeld=UnityEngine.InputSystem.Keyboard.current?.eKey.isPressed==true?skipHeld+Time.deltaTime:0;if(skipHeld>=.6f)break;}
+     if(!full&&name!="DeathFinale"&&deathsViewed>0){skipHeld=UnityEngine.InputSystem.Keyboard.current?.eKey.isPressed==true?skipHeld+Time.deltaTime:0;if(skipHeld>=.6f)break;}
      yield return null;}
     deathsViewed++;sound.BeginDeathRecovery();faceTear.End();flat.look.disruption=0;{var gv=flat.guest.GetComponent<GuestLookAt>();if(gv)gv.target=null;}
    }else{
@@ -110,8 +110,8 @@ namespace Ataka.Scenario {
     // nails pierce the hairline, the face is torn down, (full) she lifts it away, the clock strikes once, blood and black.
     bool full=name=="DeathFull";sound.quiet=true;if(veil)veil.At(faceTear.FlapTime(t));
     faceTear.Frame(t,out float pitchUp,out Vector2 shake);
-    var body=flat.player.transform.forward;float lift=full&&t>=.8f&&t<4.8f?Mathf.SmoothStep(0,1,Mathf.Clamp01((t-.8f)/.3f))*.2f:0;
-    flat.guest.SetActive(full?t<4.8f:t<2.5f);guest.localScale=guestScale;guest.position=startGuest;HeadAt(guest,head.position+body*.62f+Vector3.up*(.10f+lift));
+    var body=flat.player.transform.forward;float lift=full&&t>=.8f&&t<4.8f?Mathf.SmoothStep(0,1,Mathf.Clamp01((t-.8f)/.3f))*.2f:name=="DeathFinale"&&t>=2f?Mathf.SmoothStep(0,1,Mathf.Clamp01((t-2f)/.3f))*.2f:0;
+    flat.guest.SetActive(full?t<4.8f:name=="DeathFinale"?t<2.9f:t<2.5f);guest.localScale=guestScale;guest.position=startGuest;HeadAt(guest,head.position+body*.62f+Vector3.up*(.10f+lift));
     var gv=flat.guest.GetComponent<GuestLookAt>();if(gv)gv.target=head.position; // her face turns to him (the authored Idle looks aside) // her face 0.62 m ahead, above his eyes; the arms reach him (an authored body at 0.3 m filled the frame)
     var lens=cine.Lens;lens.FieldOfView=Mathf.Lerp(70,55,Mathf.Clamp01(t/.08f));cine.Lens=lens;
     head.localRotation=Quaternion.Euler(deathEntryPitch*(1-Mathf.SmoothStep(0,1,Mathf.Clamp01(t/.18f)))+pitchUp+shake.x,shake.y,0);
@@ -119,7 +119,7 @@ namespace Ataka.Scenario {
     if(full){
      if(lastTime<.8f&&t>=.8f)loop.Thought("…Мишаня…",1.4f);
      SoundAt(t,1.5f,"palms",head.position);SoundAt(t,1.5f,"choked_cry",head.position);SoundAt(t,2f,"wet_tear",head.position);SoundAt(t,3.2f,"palms",head.position);SoundAt(t,4.5f,"chime",head.position);
-    }else{SoundAt(t,1,"palms",head.position);SoundAt(t,1,"choked_cry",head.position);SoundAt(t,1.5f,"wet_tear",head.position);}
+    }else{SoundAt(t,1,"palms",head.position);SoundAt(t,1,"choked_cry",head.position);SoundAt(t,1.5f,"wet_tear",head.position);if(name=="DeathFinale")SoundAt(t,2.2f,"palms",head.position);} // finale: the wet slap of the face pulled on
     screenRed=faceTear.Red(t);screenBlack=faceTear.Black(t);flat.look.disruption=faceTear.Disruption(t);
    }else if(name=="ChaseStart"){
     var leaf=flat.entrance.leaf;

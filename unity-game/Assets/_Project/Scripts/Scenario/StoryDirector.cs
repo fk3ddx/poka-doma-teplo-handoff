@@ -182,7 +182,7 @@ namespace Ataka.Scenario {
   public string QaGranState=>flat.grandmother.activeSelf?"gran "+flat.grandmother.transform.position.ToString("F2")+(granWalking?" walking to "+granTarget+" waiting "+granWaiting.ToString("F1")+"s":" standing at "+granNode):"gran hidden";
   public Vector3 QaGranPosition=>flat.grandmother.transform.position;public Vector3? QaGranGoal=>granTarget!=null?Nodes[granTarget]:(Vector3?)null;
   IEnumerator GranFace(Vector3 point,float seconds=.6f){var g=flat.grandmother.transform;var d=point-g.position;d.y=0;if(d.sqrMagnitude<.001f)yield break;var from=g.rotation;var to=Quaternion.LookRotation(d);for(float t=0;t<seconds;t+=Time.deltaTime){g.rotation=Quaternion.Slerp(from,to,t/seconds);yield return null;}g.rotation=to;}
-  void GranLookAtPlayerWhenNear(){if(!flat.grandmother.activeSelf||granWalking)return;var g=flat.grandmother.transform;var d=player.transform.position-g.position;d.y=0;if(d.magnitude<2.2f&&d.sqrMagnitude>.01f)g.rotation=Quaternion.Slerp(g.rotation,Quaternion.LookRotation(d),1-Mathf.Exp(-3*Time.deltaTime));}
+  void GranLookAtPlayerWhenNear(){if(!flat.grandmother.activeSelf||granWalking||granHeld)return;var g=flat.grandmother.transform;var d=player.transform.position-g.position;d.y=0;if(d.magnitude<2.2f&&d.sqrMagnitude>.01f)g.rotation=Quaternion.Slerp(g.rotation,Quaternion.LookRotation(d),1-Mathf.Exp(-3*Time.deltaTime));}
   bool granWalking;int granToken;CapsuleCollider granBody;
   bool PlayerInTheWay(Vector3 from,Vector3 to){var p=player.transform.position;p.y=0;from.y=0;to.y=0;var seg=to-from;float len=seg.magnitude;if(len<.01f)return false;
    float along=Vector3.Dot(p-from,seg/len);if(along<0||along>Mathf.Min(len,.9f))return false;return Vector3.Distance(from+seg/len*along,p)<.5f;}
@@ -204,7 +204,7 @@ namespace Ataka.Scenario {
    running=StartCoroutine(at switch{"Evening"=>Evening(false),"Night1"=>Night1(false),"Night2"=>Night2(false),"Finale"=>Finale(),_=>Prologue()});
   }
   public void Abandon(){StopAll();chapter=Chapter.Loop;flat.entrance.direction=1;}
-  void StopAll(){if(rewind)rewind.Cleanup();if(running!=null)StopCoroutine(running);StopAllCoroutines();acts.Clear();holdingAct=null;kettleBoiling=false;card=null;fade=0;objective="";choiceA=choiceB=null;scenes.Cancel();loop.chase.Stop();sound.ResetWorld();if(tv)tv.storyOn=false;if(strap)strap.enabled=false;}
+  void StopAll(){if(rewind)rewind.Cleanup();FinaleReset();if(running!=null)StopCoroutine(running);StopAllCoroutines();acts.Clear();holdingAct=null;kettleBoiling=false;card=null;fade=0;objective="";choiceA=choiceB=null;scenes.Cancel();loop.chase.Stop();sound.ResetWorld();if(tv)tv.storyOn=false;if(strap)strap.enabled=false;}
   void Update(){
    if(granBody)granBody.enabled=OwnsFlat&&chapter!=Chapter.Ended; // in the loop the hanging vision needs clear sight to her
    if(!OwnsFlat||player.paused)return;
@@ -560,46 +560,160 @@ namespace Ataka.Scenario {
   public void ChaseFinished(){if(running!=null)StopCoroutine(running);running=StartCoroutine(Finale());}
 
   // ---------- 11. Finale ----------
+  // 11.6–11.10 on the approved Katcho rig (GranRig: arm IK, held props, bone length, tint) and a ready ball chain
+  // (DoorChain). Not made (no mesh / no rig part / no recording): her eye sliding, the temple seam, the face sliding off
+  // the chin, the jaw, Misha's face mesh in 11.10, the ring, finger bones, humming / coat / chain sounds, voices.
+  // QA (FinaleQA): the beats in order with the game time they started.
+  public readonly List<(string beat,float at)> QaFinaleBeats=new List<(string,float)>();public string QaFinaleBeat{get;private set;}="";
+  public bool QaRefusedCard{get;private set;}public GranRig QaRig=>rig;public DoorChain QaChain=>chain;public Transform QaProp(string id)=>Prop(id);
+  public void QaFinaleOpen(){openedDoorFinale=true;}
+  public const float ChainGap=8.5f; // leaf angle on the chain: ~10 cm between the jamb corner and the free edge (wall 0.35 m)
+  public static readonly Vector3 FridgeStand=new Vector3(7.95f,0,2.15f),SinkStand=new Vector3(7.35f,0,1.6f),StoveStand=new Vector3(8.0f,0,1.65f),KettleFront=new Vector3(8.48f,.86f,1.55f),KettleBack=new Vector3(8.48f,.86f,1.85f),TapAt=new Vector3(7.0f,1.16f,1.6f);
+  GranRig rig;DoorChain chain;Vector3 granScale;bool granHeld;
+  void Beat(string b){QaFinaleBeat=b;QaFinaleBeats.Add((b,Time.time));}
+  // QA: how far her fingertip ended from each reach target (the arm is 0.62 m with the hand; IK clamps beyond that).
+  public readonly Dictionary<string,float> QaReachError=new Dictionary<string,float>();
+  Vector3 Stand(Vector3 raw){Nav.Ensure();return Nav.Snap(raw,.5f,out var q)?q:raw;}
+  GranRig Rig(){if(!rig){rig=flat.grandmother.GetComponent<GranRig>();if(!rig)rig=flat.grandmother.AddComponent<GranRig>();granScale=flat.grandmother.transform.localScale;}rig.Init();return rig;}
+  void FinaleReset(){if(rig){rig.ResetAll();flat.grandmother.transform.localScale=granScale;}if(chain)Destroy(chain.gameObject);chain=null;granHeld=false;if(granAnim)granAnim.enabled=true;
+   foreach(var l in FindObjectsByType<Light>(FindObjectsInactive.Include,FindObjectsSortMode.None))if(l.name=="Match flame (story)")Destroy(l.gameObject);}
+  IEnumerator Wait(float s){for(float t=0;t<s;t+=Time.deltaTime)yield return null;}
+  // She walks a short straight stretch inside one room (the kitchen, the doorway) with the authored walk clip.
+  IEnumerator GranStep(Vector3 to,float speed=.8f){var g=flat.grandmother.transform;to.y=g.position.y;GranPlay(granWalk);
+   while((g.position-to).sqrMagnitude>.0004f){var d=to-g.position;d.y=0;if(d.sqrMagnitude>1e-4f)g.rotation=Quaternion.Slerp(g.rotation,Quaternion.LookRotation(d),1-Mathf.Exp(-10*Time.deltaTime));g.position=Vector3.MoveTowards(g.position,to,speed*Time.deltaTime);yield return null;}
+   GranPlay(granIdle);}
+  // Her right fingertip to a point over `seconds` (smooth), weight up to 1.
+  IEnumerator GranReach(bool right,Vector3 to,float seconds,string qa=null){var r=Rig();var from=r.Tip(right);float w0=right?r.weightR:r.weightL;
+   for(float t=0;t<seconds;t+=Time.deltaTime){float u=Mathf.SmoothStep(0,1,t/seconds);r.Reach(right,Vector3.Lerp(from,to,u),Mathf.Lerp(w0,1,u));yield return null;}r.Reach(right,to,1);if(qa!=null){yield return null;QaReachError[qa]=Vector3.Distance(r.Tip(right),to);}}
+  IEnumerator GranLower(bool right,float seconds){var r=Rig();float w0=right?r.weightR:r.weightL;var at=right?r.targetR:r.targetL;for(float t=0;t<seconds;t+=Time.deltaTime){r.Reach(right,at,Mathf.Lerp(w0,0,t/seconds));yield return null;}r.Reach(right,at,0);}
+  bool Sees(Vector3 point){var cam=player.view?player.view:Camera.main;if(!cam)return false;var v=cam.WorldToViewportPoint(point);if(v.z<.2f||v.x<.15f||v.x>.85f||v.y<.15f||v.y>.85f)return false;var from=cam.transform.position;var d=point-from;
+   foreach(var h in Physics.RaycastAll(from,d.normalized,d.magnitude-.05f,~(1<<31),QueryTriggerInteraction.Ignore))if(!h.transform.IsChildOf(player.transform)&&!h.transform.IsChildOf(flat.grandmother.transform))return false;return true;}
+
   IEnumerator Finale(){
-   chapter=Chapter.Finale;loop.Pause(false);Homely(true);PropsAfterEvening();Put("Kettle",new Vector3(8.48f,.86f,1.85f));flat.clock.stopped=false;Clock(22,0);
+   FinaleReset();QaFinaleBeats.Clear();QaReachError.Clear();QaRefusedCard=false;
+   chapter=Chapter.Finale;loop.Pause(false);Homely(true);PropsAfterEvening();Put("Kettle",KettleBack);flat.clock.stopped=false;Clock(22,0);
    flat.stool.SetActive(true);flat.stool.transform.SetPositionAndRotation(new Vector3(5.5f,0,5.8f),Quaternion.identity);if(strap)strap.enabled=false;flat.entrance.locked=true;
    if(flat.look.exterior)flat.look.exterior.Blackout(false);
-   player.Place(ScenarioLayout.Spawn,180);Checkpoint("Finale");Task("Дождаться бабушку");HouseSound(true,false);
+   chain=DoorChain.Create(flat.entrance);chain.Engage();Rig();
+   player.Place(ScenarioLayout.Spawn,180);Checkpoint("Finale");Task("Дождаться бабушку");HouseSound(true,false);Beat("22:00");
    yield return new WaitForSeconds(2);Say("","Получилось?..",3);
    nightSeconds=22*3600;yield return NightTo(22,10,75);
    // 22:10 the right knock
-   bool peeped=false;openedDoorFinale=false;
+   bool peeped=false;openedDoorFinale=false;Beat("knock");
    sound.Play("knock",flat.entrance.transform.position);yield return new WaitForSeconds(.22f);sound.Play("knock",flat.entrance.transform.position);yield return new WaitForSeconds(.7f);sound.Play("knock",flat.entrance.transform.position);
    yield return Line("Голос бабушки за дверью","Мишаня, это я. Открывай, замёрзла",3.5f);
    var peep=Offer(()=>flat.entrance.transform.position+Vector3.up*.5f,"Глазок",0,1.8f,Key.E,null,()=>peeped=true);
    var open=Offer(()=>flat.entrance.transform.position+Vector3.up*.5f,"Открыть: два замка и цепочка",0,1.8f,Key.R,null,()=>openedDoorFinale=true);
-   float away=0;
+   float away=0;Beat("choice");
    while(!openedDoorFinale&&away<15){
     if(peeped){peeped=false;Withdraw(peep);yield return PeepholeGrandmother();peep=Offer(()=>flat.entrance.transform.position+Vector3.up*.5f,"Глазок",0,1.8f,Key.E,null,()=>peeped=true);}
     away=Vector3.Distance(player.transform.position,flat.entrance.transform.position)>2.2f?away+Time.deltaTime:0;yield return null;}
-   Withdraw(peep);Withdraw(open);
-   if(openedDoorFinale){sound.Play("latch",flat.entrance.transform.position);yield return new WaitForSeconds(.3f);sound.Play("latch",flat.entrance.transform.position);flat.entrance.locked=false;flat.entrance.open=true;GranShow("Door",180);
-    yield return Line("Бабушка","Замёрз? Сейчас чайку поставлю",3);}
-   else{yield return Line("Голос бабушки за дверью","Я своим ключом, Мишаня",3);sound.Play("latch",flat.entrance.transform.position);flat.entrance.locked=false;flat.entrance.open=true;sound.Play("finger_crack",flat.entrance.transform.position);
-    yield return new WaitForSeconds(2);GranShow("Door",180);yield return Line("Бабушка","Чего ж не открываешь, Мишаня?",3);}
-   yield return GranWalk("Stove");Put("Kettle",new Vector3(8.48f,.86f,1.55f));flat.entrance.open=false;flat.entrance.locked=true;sound.Play("latch",flat.entrance.transform.position);
-   Task("");Say("","Она напевает. Спички, газ, вода из крана — точно как ты вечером",6);
-   yield return LightGas();var flame=FlameLight(new Vector3(8.48f,.95f,1.65f));yield return new WaitForSeconds(1.2f);
-   sound.Play("tap",SinkAt);yield return new WaitForSeconds(3.2f);sound.ReleaseCue("tap");yield return new WaitForSeconds(1);
-   for(float t=0;t<20&&Vector3.Distance(player.transform.position,Nodes["Stove"])>2.4f;t+=Time.deltaTime)yield return null;
-   yield return GranFace(Nodes["Stove"]+Vector3.right,0.1f);
-   StartCoroutine(KettleBoils());yield return new WaitForSeconds(4);
-   yield return Line("Бабушка (не оборачиваясь)","Мишаня… а ты меня помнишь?",4);
-   // 11.9 transformation (3.5 s) then 11.10 face tear
-   yield return GranFace(player.head.position,1.5f);sound.Play("finger_crack",flat.grandmother.transform.position);
-   var g=flat.guest;var at=flat.grandmother.transform.position;flat.grandmother.SetActive(false);g.SetActive(true);g.GetComponent<ProxyPose>().Stand();g.transform.position=at;var face=player.transform.position-at;face.y=0;g.transform.rotation=Quaternion.LookRotation(face);
-   // 11.9: the whistle turns into her shriek; the radio song breaks off.
-   var full=g.transform.localScale;GasOff(false);sound.Bed("radio",RadioAt,false);sound.Bed("fridge",FridgeAt,false);sound.Play("shriek",at);
-   for(float t=0;t<2;t+=Time.deltaTime){g.transform.localScale=full*Mathf.Lerp(.7f,1.04f,t/2);yield return null;}
-   if(flame)Destroy(flame.gameObject);
-   yield return scenes.Play("DeathFull");sound.EndDeathRecovery();
-   yield return Epilogue(!openedDoorFinale);
+   Withdraw(peep);Withdraw(open);Task("");
+   if(openedDoorFinale)yield return FinaleOpened();else yield return FinaleOwnKey();
+   // 11.7 the door locks itself behind her; she goes to the kitchen
+   flat.entrance.scripted=false;flat.entrance.open=false;flat.entrance.locked=true;sound.Play("latch",flat.entrance.transform.position);Beat("door-locked");
+   yield return GranWalk("Stove");yield return GranFace(StoveAt,.3f);Beat("stove");
+   for(float t=0;t<20&&Vector3.Distance(player.transform.position,Nodes["Stove"])>3.2f;t+=Time.deltaTime)yield return null; // the only way is after her
+   yield return FinaleStove();
+   // 11.8 back to him at the stove; the kettle starts to whistle
+   Say("","Она напевает. Радио играет",5);yield return Wait(6);
+   StartCoroutine(KettleBoils());Beat("whistle");yield return new WaitForSeconds(4);
+   Beat("question");yield return Line("Бабушка (не оборачиваясь)","Мишаня… а ты меня помнишь?",4);
+   yield return FinaleTransformation();
+   // 11.10 the short face tear with the 3.2 beat of the full one (3.5 s), then 11.11 black and silence
+   Beat("tear");yield return scenes.Play("DeathFinale");sound.EndDeathRecovery();FinaleReset();
+   Beat("epilogue");yield return Epilogue(!openedDoorFinale);
   }
+  // 11.6а: two locks and the chain; she comes in and hugs him, his face at her shoulder (the headscarf in frame).
+  IEnumerator FinaleOpened(){
+   var door=flat.entrance.transform.position;Beat("open");granHeld=true;
+   sound.Play("latch",door);yield return Wait(.35f);sound.Play("latch",door);yield return Wait(.3f);chain.Hang();sound.Play("latch",chain.Anchor);yield return Wait(.25f);
+   flat.entrance.locked=false;flat.entrance.open=true;sound.Play("door_open",door);
+   var p=player;var body=p.GetComponent<CharacterController>();p.control=false;if(body)body.enabled=false;
+   var fwd=p.transform.forward;fwd.y=0;fwd.Normalize();var stand=p.transform.position+fwd*.34f;stand.y=0;var outside=new Vector3(7.95f,0,6.7f);
+   var g=flat.grandmother;g.SetActive(true);g.transform.SetPositionAndRotation(outside,Quaternion.LookRotation(stand-outside));GranPlay(granIdle);yield return Wait(.6f);
+   yield return GranStep(stand,.9f);g.transform.rotation=Quaternion.LookRotation(-fwd);
+   // the hug: her arms round his back, his face pressed to her left shoulder
+   var r=Rig();Beat("hug");Say("Бабушка","Замёрз? Сейчас чайку поставлю",3);
+   r.poleL=-g.transform.right-g.transform.up*.3f;r.poleR=g.transform.right-g.transform.up*.3f;
+   for(float t=0;t<3.2f;t+=Time.deltaTime){
+    var head=p.head.position;var pr=p.transform.right;float w=Mathf.SmoothStep(0,1,Mathf.Clamp01(t/.5f))*(t>2.7f?Mathf.Clamp01((3.2f-t)/.5f):1);
+    r.Reach(false,head+pr*.17f-fwd*.12f-Vector3.up*.32f,w);r.Reach(true,head-pr*.17f-fwd*.12f-Vector3.up*.32f,w);
+    var shoulder=(r.neck.position+r.upperL.position)*.5f+Vector3.up*.06f;p.head.rotation=Quaternion.Slerp(p.head.rotation,Quaternion.LookRotation(shoulder-head),1-Mathf.Exp(-8*Time.deltaTime));
+    yield return null;}
+   r.weightL=r.weightR=0;r.poleL=r.poleR=null;Beat("hug-end");
+   yield return GranStep(g.transform.position-g.transform.forward*.45f+Vector3.zero,.6f);
+   HandBack(p,body);
+  }
+  void HandBack(ScenarioPlayer p,CharacterController body){var e=p.head.rotation.eulerAngles;p.transform.rotation=Quaternion.Euler(0,e.y,0);p.pitch=Mathf.Clamp(Mathf.DeltaAngle(0,e.x),-80,80);p.head.localRotation=Quaternion.Euler(p.pitch,0,0);if(body)body.enabled=true;p.control=true;}
+  // 11.6б: her own key; the door stops on the chain (~10 cm); her hand gropes through the gap until he sees it, the
+  // fingers (the one-bone hand) stretch for 2 s with cracking, the long nail lifts the chain off, the hand is normal again.
+  IEnumerator FinaleOwnKey(){
+   var e=flat.entrance;var door=e.transform.position;Beat("key");
+   yield return Line("Голос бабушки за дверью","Я своим ключом, Мишаня",3);sound.Play("latch",door);e.locked=false;e.scripted=true;e.open=false;
+   var g=flat.grandmother;g.SetActive(true);granHeld=true;g.transform.SetPositionAndRotation(new Vector3(7.86f,0,6.36f),Quaternion.Euler(0,180,0));GranPlay(granIdle);
+   for(float t=0;t<.45f;t+=Time.deltaTime){e.leaf.localRotation=Quaternion.Euler(0,e.direction*Mathf.Lerp(0,ChainGap,t/.45f),0);yield return null;}
+   e.leaf.localRotation=Quaternion.Euler(0,e.direction*ChainGap,0);Physics.SyncTransforms();sound.Play("latch",chain.Anchor);Beat("gap");
+   var r=Rig();r.poleR=g.transform.right*.6f-g.transform.up*.8f;
+   var gap=new Vector3(7.60f,1.43f,5.955f);var outside=new Vector3(7.72f,1.38f,6.25f);
+   yield return GranReach(true,outside,.4f);yield return GranReach(true,gap,.6f,"gap");Beat("grope");
+   float seen=0;for(float t=0;t<20&&seen<1.2f;t+=Time.deltaTime){var le=chain.LeafEnd;r.Reach(true,le+new Vector3(-.04f+Mathf.Sin(t*2.3f)*.03f,Mathf.Sin(t*3.1f)*.025f,-.01f),1);if(Sees(r.Tip(true)))seen+=Time.deltaTime;yield return null;}
+   Beat("fingers");float[] cracks={.15f,.6f,1.1f,1.6f};int c=0;
+   for(float t=0;t<2;t+=Time.deltaTime){r.handScale=Mathf.Lerp(1,2.2f,Mathf.SmoothStep(0,1,t/2));r.forearmScale=Mathf.Lerp(1,1.12f,t/2);r.Reach(true,chain.LeafEnd+Vector3.down*.01f,1);
+    if(c<cracks.Length&&t>=cracks[c]){sound.Play("finger_crack",r.Tip(true));c++;}yield return null;}
+   Beat("chain-off");chain.Hold(()=>r.Tip(true));
+   var from=chain.LeafEnd;var to=chain.Anchor+(chain.LeafEnd-chain.Anchor)*.25f+Vector3.up*.03f;
+   for(float t=0;t<.6f;t+=Time.deltaTime){r.Reach(true,Vector3.Lerp(from,to,Mathf.SmoothStep(0,1,t/.6f)),1);yield return null;}
+   chain.Hang();sound.Play("latch",chain.Anchor); // no chain-jingle recording: the latch clink stands in
+   for(float t=0;t<.4f;t+=Time.deltaTime){r.handScale=Mathf.Lerp(2.2f,1,t/.4f);r.forearmScale=Mathf.Lerp(1.12f,1,t/.4f);yield return null;}r.handScale=r.forearmScale=1;Beat("hand-normal");
+   yield return GranReach(true,outside,.4f);yield return GranLower(true,.3f);r.poleR=null;
+   e.scripted=false;e.open=true;sound.Play("door_open",door);yield return Wait(.7f);
+   Beat("enter");yield return GranStep(Nodes["Door"],.8f);yield return GranFace(player.head.position,.4f);
+   yield return Line("Бабушка","Чего ж не открываешь, Мишаня?",3);
+  }
+  // 11.7: matches from the ZiL, gas, water from the tap, the kettle on the fire — what Misha did in the evening.
+  IEnumerator FinaleStove(){
+   var r=Rig();var g=flat.grandmother.transform;var box=Prop("Matchbox");var kettle=Prop("Kettle");
+   Beat("matches");yield return GranStep(Stand(FridgeStand),.7f);if(box)yield return GranFace(box.position,.3f);
+   if(box){yield return GranReach(true,box.position+Vector3.up*.02f,.6f,"matchbox");r.Hold(box,true);}
+   yield return GranReach(true,g.position+g.forward*.28f+Vector3.up*1.12f,.4f);Beat("strike");sound.Play("match",r.Tip(true));
+   var match=new GameObject("Match flame (story)").AddComponent<Light>();match.type=LightType.Point;match.color=new Color(1,.7f,.35f);match.intensity=.35f;match.range=.7f;match.shadows=LightShadows.None;match.transform.position=r.Tip(true)+Vector3.up*.03f;r.Hold(match.transform,true);
+   yield return GranStep(Stand(StoveStand),.7f);yield return GranFace(StoveAt,.25f);
+   yield return GranReach(true,StoveAt+new Vector3(-.12f,.03f,0),.5f,"burner");
+   Beat("gas");yield return LightGas();var flame=FlameLight(StoveAt);flameLight=flame;r.Release(match.transform);Destroy(match.gameObject);if(box){r.Release(box);box.gameObject.SetActive(false);} // the matches go into her pocket
+   yield return GranLower(true,.3f); // the kettle is on the back burner, on her left: the left hand takes it
+   Beat("kettle");if(kettle){yield return GranReach(false,kettle.position+Vector3.up*.2f,.6f,"kettle");r.Hold(kettle,false);}
+   yield return GranReach(false,g.position+g.forward*.3f-g.right*.15f+Vector3.up*1.05f,.35f);yield return GranStep(Stand(SinkStand),.7f);yield return GranFace(SinkAt,.25f);
+   yield return GranReach(false,TapAt,.5f,"tap");Beat("water");sound.Play("tap",SinkAt);Say("","Она напевает",3);yield return Wait(3.2f);sound.ReleaseCue("tap");
+   yield return GranReach(false,g.position+g.forward*.3f-g.right*.15f+Vector3.up*1.05f,.35f);yield return GranStep(Stand(StoveStand),.7f);yield return GranFace(StoveAt,.25f);
+   if(kettle){yield return GranReach(false,KettleFront+Vector3.up*.2f,.6f,"kettle-front");r.Release(kettle);kettle.SetPositionAndRotation(KettleFront,Quaternion.Euler(0,90,0));}
+   Beat("kettle-on");yield return GranLower(false,.5f);
+  }
+  Light flameLight;
+  // 11.9 (3.5 s): she turns, her face still; the head jerks (the eye/seam/face/jaw have no mesh: see the header); the
+  // skin greys; she straightens and grows to 2.4 m, bowing her head under the 2.5 m ceiling; forearms and hands
+  // stretch; the whistle runs into her shriek; joints crack on each movement.
+  IEnumerator FinaleTransformation(){
+   var r=Rig();var g=flat.grandmother.transform;var p=player;p.control=false;if(granAnim)granAnim.enabled=false;Beat("transform");
+   var from=g.rotation;var face=p.transform.position-g.position;face.y=0;var to=Quaternion.LookRotation(face);
+   float h0=Mathf.Max(1,r.Top-g.position.y),grow=2.4f/h0;var baseScale=g.localScale;
+   float[] cracks={1f,1.9f,2.5f,3.1f};int c=0;bool seam=false,shriek=false,off=false;
+   for(float t=0;t<3.5f;t+=Time.deltaTime){
+    g.rotation=Quaternion.Slerp(from,to,Mathf.SmoothStep(0,1,Mathf.Clamp01(t/1f)));
+    r.headRoll=Mathf.Lerp(0,9,Mathf.Clamp01((t-1f)/.15f));
+    if(!seam&&t>=1.3f){seam=true;sound.Play("wet_tear",r.head.position);}
+    r.tint=Color.Lerp(Color.white,new Color(.6f,.62f,.58f),Mathf.SmoothStep(0,1,Mathf.Clamp01((t-1.5f)/.9f)));
+    float u=Mathf.SmoothStep(0,1,Mathf.Clamp01((t-1.6f)/1.9f));r.straighten=u;g.localScale=baseScale*Mathf.Lerp(1,grow,u);r.forearmScale=Mathf.Lerp(1,1.55f,u);r.handScale=Mathf.Lerp(1,2.2f,u);
+    r.headBow=12*Mathf.SmoothStep(0,1,Mathf.Clamp01((t-1.5f)/.6f))+35*Mathf.Clamp01((r.Top-2.3f)/.15f);
+    var eye=p.head.position;var pr=p.transform.right;r.Reach(false,eye+pr*.45f+Vector3.down*.2f,.55f*u);r.Reach(true,eye-pr*.45f+Vector3.down*.2f,.55f*u);
+    if(!shriek&&t>=1.5f){shriek=true;sound.Play("shriek",g.position);}
+    if(!off&&t>=2.1f){off=true;GasOff(false);sound.Bed("radio",RadioAt,false);sound.Bed("fridge",FridgeAt,false);if(flameLight)Destroy(flameLight.gameObject);}
+    if(c<cracks.Length&&t>=cracks[c]){sound.Play("finger_crack",g.position+Vector3.up*1.4f);c++;}
+    var look=r.head.position+g.forward*.1f;p.head.rotation=Quaternion.Slerp(p.head.rotation,Quaternion.LookRotation(look-eye),1-Mathf.Exp(-6*Time.deltaTime));
+    yield return null;}
+   QaGrownTop=r.MeasureTop();
+  }
+  public float QaGrownTop{get;private set;}
   IEnumerator PeepholeGrandmother(){
    // 11.5: the grandmother looks perfect through the fish-eye. No breath, and Tuzik is silent.
    var p=player;var head=p.head;var savedPos=head.localPosition;var savedRot=head.localRotation;p.control=false;flat.look.peephole=1;
@@ -610,7 +724,7 @@ namespace Ataka.Scenario {
   IEnumerator Epilogue(bool refused){
    chapter=Chapter.Ended;objective="";loop.prompt.text="";fade=1;yield return new WaitForSeconds(2);
    yield return Card("НОВОСТИ ЗАРЕЧЬЯ\n\n«…В квартире номер шестьдесят по улице Строителей обнаружены накрытый стол, два стакана чая и включённый чайник. По данным жилконторы, квартира пустует с девяносто первого года. Соседка, Валентина Ивановна, утверждает, что никогда не видела жильцов этой квартиры…»",9);
-   if(refused)yield return Card("«…однако, по её словам, в тот вечер она слышала, как мальчик за дверью кричал: „Ты не она!“»",5);
+   if(refused){QaRefusedCard=true;}if(refused)yield return Card("«…однако, по её словам, в тот вечер она слышала, как мальчик за дверью кричал: „Ты не она!“»",5);
    yield return Card("АТАКА НА ЗАПОМИНАНИЕ\n«Пока дома тепло»\n\nСценарий и игра: Дима, Claude, Codex\nГостья, мебель и звуки — авторы CC0 / CC-BY, см. CREDITS.md",6);
    yield return Card("Фотоальбом. Последний разворот: лето 1993, у подъезда.\nВаля с Тузиком улыбаются рядом с пустотой.\nТеперь засвеченных пятен три: старое, на месте бабушки — и на месте Миши в центре.",7);
    sound.ResetWorld();yield return new WaitForSeconds(1.5f);
