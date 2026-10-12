@@ -50,6 +50,10 @@ namespace Ataka.Scenario {
   public float TipLength(bool right)=>(right?handR:handL).TransformVector(right?tipLocalR:tipLocalL).magnitude;
   Vector3 lastTipL,lastTipR,lastHead;bool tipSampled;
   public Vector3 HeadPosition=>tipSampled?transform.TransformPoint(lastHead):head.position;
+  Bounds renderedHeadBounds;bool headBoundsSampled;
+  // The Head bone is a neck pivot, not the centre of the visible head/scarf. Frame a hug from the rendered surface.
+  public Vector3 HugEye=>headBoundsSampled?transform.TransformPoint(new Vector3(renderedHeadBounds.min.x,renderedHeadBounds.center.y,renderedHeadBounds.center.z))-transform.right*.10f+Vector3.up*.02f:HeadPosition-transform.right*.4f;
+  public Bounds RenderedHeadBounds=>renderedHeadBounds;
   Vector3 RawTip(bool right)=>(right?handR:handL).TransformPoint(right?tipLocalR:tipLocalL);
   // Story coroutines run after Update, when last frame's IK has been undone for Animation. Queries must read the
   // last rendered pose, in actor-local coordinates so a walk/turn still moves it correctly this frame.
@@ -84,6 +88,7 @@ namespace Ataka.Scenario {
    if(!Ready)return;
    if(Active){for(int i=0;i<posed.Length;i++)pose[i]=posed[i].localRotation;Apply();appliedLast=true;}
    lastTipL=transform.InverseTransformPoint(RawTip(false));lastTipR=transform.InverseTransformPoint(RawTip(true));lastHead=transform.InverseTransformPoint(head.position);tipSampled=true;
+   headBoundsSampled=false;foreach(var v in headVertices){var q=transform.InverseTransformPoint(head.TransformPoint(v));if(!headBoundsSampled){renderedHeadBounds=new Bounds(q,Vector3.zero);headBoundsSampled=true;}else renderedHeadBounds.Encapsulate(q);}
    if(tint!=Color.white){skin.GetPropertyBlock(block);var c=baseColor*tint;c.a=baseColor.a;block.SetColor("_BaseColor",c);block.SetColor("_Color",c);skin.SetPropertyBlock(block);tinted=true;}
    else if(tinted){skin.SetPropertyBlock(null);tinted=false;}
   }

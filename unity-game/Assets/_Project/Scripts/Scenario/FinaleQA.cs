@@ -23,6 +23,18 @@ namespace Ataka.Scenario {
   IEnumerator Shot(string name){yield return new WaitForEndOfFrame();if(!Application.isBatchMode)ScreenCapture.CaptureScreenshot(Path.Combine(output,"finale-"+branch+"-"+name+".png"));checks.Add("SHOT finale-"+branch+"-"+name+".png");}
   static void Aim(ScenarioPlayer p,Vector3 at){var d=at-p.head.position;var flat=d;flat.y=0;if(flat.sqrMagnitude<1e-4f)return;p.transform.rotation=Quaternion.LookRotation(flat);p.pitch=Mathf.Clamp(-Mathf.Atan2(d.y,flat.magnitude)*Mathf.Rad2Deg,-80,80);p.head.localRotation=Quaternion.Euler(p.pitch,0,0);}
   bool InFrame(ScenarioPlayer p,Vector3 point,out Vector3 v){var cam=p.view?p.view:Camera.main;v=cam?cam.WorldToViewportPoint(point):Vector3.zero;return cam&&v.z>0&&v.x>=.1f&&v.x<=.9f&&v.y>=.1f&&v.y<=.9f;}
+  // Independent visible-geometry check: the camera can be near a shoulder yet wholly inside a scarf.
+  static float HugOcclusion(GranRig rig,Camera cam){
+   var skin=rig.GetComponentInChildren<SkinnedMeshRenderer>();if(!skin||!cam)return 1;
+   var mesh=new Mesh();skin.BakeMesh(mesh,true);var v=mesh.vertices;var tris=mesh.triangles;
+   for(int i=0;i<v.Length;i++)v[i]=skin.transform.TransformPoint(v[i]);int blocked=0,total=0;
+   for(int y=0;y<5;y++)for(int x=0;x<7;x++){
+    var ray=cam.ViewportPointToRay(new Vector3(.1f+x*.8f/6,.15f+y*.7f/4,0));bool hit=false;
+    for(int i=0;i<tris.Length&&!hit;i+=3){var a=v[tris[i]];var e1=v[tris[i+1]]-a;var e2=v[tris[i+2]]-a;var h=Vector3.Cross(ray.direction,e2);float det=Vector3.Dot(e1,h);if(Mathf.Abs(det)<1e-7f)continue;
+     float inv=1/det;var q=ray.origin-a;float u=Vector3.Dot(q,h)*inv;if(u<0||u>1)continue;var cr=Vector3.Cross(q,e1);float w=Vector3.Dot(ray.direction,cr)*inv;if(w<0||u+w>1)continue;float dist=Vector3.Dot(e2,cr)*inv;hit=dist>0&&dist<.7f;}
+    if(hit)blocked++;total++;}
+   Destroy(mesh);return (float)blocked/total;
+  }
   IEnumerator Start(){
    Directory.CreateDirectory(output);Application.logMessageReceived+=Log;Application.runInBackground=true;Application.targetFrameRate=60;result.branch=branch;
    yield return new WaitForSecondsRealtime(2);
@@ -65,7 +77,7 @@ namespace Ataka.Scenario {
     // per-frame: the watcher looks at her in the kitchen; timed shots inside the hug / transformation / tear
     var gr=flat.grandmother.transform;if(scenes.PlayingScene=="DeathFinale")sawFinaleScene=true;if(scenes.PlayingScene=="DeathFull")sawDeathFull=true;
     if(inKitchen&&p.control&&flat.grandmother.activeSelf)Aim(p,gr.position+Vector3.up*1.1f);
-    if(hugAt>0&&hm<hugMarks.Length&&Time.time-hugAt>=hugMarks[hm]){yield return Shot("hug-"+hugMarks[hm].ToString("0.0",System.Globalization.CultureInfo.InvariantCulture));var sh=(rig.neck.position+rig.upperL.position)*.5f;float d=Vector3.Distance(p.head.position,sh);if(hm==1){result.hugShoulderDistance=d;Check(d<.45f&&rig.weightL>.9f&&rig.weightR>.9f,"11.6а hug: camera "+d.ToString("F2")+" m from her shoulder, both arms round him (IK "+rig.weightL.ToString("F2")+"/"+rig.weightR.ToString("F2")+")");}
+    if(hugAt>0&&hm<hugMarks.Length&&Time.time-hugAt>=hugMarks[hm]){yield return Shot("hug-"+hugMarks[hm].ToString("0.0",System.Globalization.CultureInfo.InvariantCulture));var sh=(rig.neck.position+rig.upperL.position)*.5f;float d=Vector3.Distance(p.head.position,sh);if(hm==1){result.hugShoulderDistance=d;float coverage=HugOcclusion(rig,p.view);checks.Add("HUG head local bounds "+rig.RenderedHeadBounds+", bone "+rig.HeadPosition.ToString("F3")+", eye "+p.head.position.ToString("F3")+", rendered camera "+p.view.transform.position.ToString("F3"));Check(coverage<.65f,"hug visible mesh covers "+coverage.ToString("P0")+" of sampled view (<65%); room remains visible");Check(d<.45f&&rig.weightL>.9f&&rig.weightR>.9f,"11.6а hug: camera "+d.ToString("F2")+" m from her shoulder, both arms round him (IK "+rig.weightL.ToString("F2")+"/"+rig.weightR.ToString("F2")+")");}
      hm++;continue;}
     if(fingersAt>0&&last=="fingers"){result.handScaleMax=Mathf.Max(result.handScaleMax,rig.handScale);
      if(!fingerShot&&Time.time-fingersAt>=1f){fingerShot=true;yield return Shot("fingers-1.0");var tip=story.HandTip;var cl=story.QaGapClaw;bool vis=InFrame(p,tip,out var v);Check(vis&&tip.z<6.0f,"11.6б the stretching hand is inside the gap and in his view: tip "+tip.ToString("F2")+", viewport "+v.ToString("F2"));
