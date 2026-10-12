@@ -8120,6 +8120,7 @@ MonoBehaviour:
   timeSource: {fileID: 0}
   label: {fileID: 0}
   seconds: 79620
+  stopped: 0
 --- !u!4 &214924189
 Transform:
   m_ObjectHideFlags: 0
@@ -8532,6 +8533,7 @@ MonoBehaviour:
   timeSource: {fileID: 0}
   label: {fileID: 0}
   seconds: 79620
+  stopped: 0
 --- !u!4 &227469570
 Transform:
   m_ObjectHideFlags: 0
@@ -25988,6 +25990,7 @@ MonoBehaviour:
   timeSource: {fileID: 0}
   label: {fileID: 0}
   seconds: 79620
+  stopped: 0
 --- !u!4 &693023912
 Transform:
   m_ObjectHideFlags: 0
@@ -29799,6 +29802,7 @@ MonoBehaviour:
   timeSource: {fileID: 0}
   label: {fileID: 0}
   seconds: 79620
+  stopped: 0
 --- !u!4 &807240456
 Transform:
   m_ObjectHideFlags: 0
@@ -32203,6 +32207,7 @@ MonoBehaviour:
   timeSource: {fileID: 0}
   label: {fileID: 0}
   seconds: 79620
+  stopped: 0
 --- !u!1 &880977108
 GameObject:
   m_ObjectHideFlags: 0
@@ -62671,6 +62676,7 @@ MonoBehaviour:
   timeSource: {fileID: 0}
   label: {fileID: 0}
   seconds: 79620
+  stopped: 0
 --- !u!4 &1469818422
 Transform:
   m_ObjectHideFlags: 0
@@ -83165,6 +83171,8 @@ MonoBehaviour:
   visitor: {fileID: 44393803}
   screen: {fileID: 230168647}
   screenMaterial: {fileID: 2100000, guid: 089575d6024af624ca9bb94873e9b2ef, type: 2}
+  storyOn: 0
+  storyColor: {r: 0.35, g: 0.45, b: 0.75, a: 1}
 --- !u!114 &2037055184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83248,6 +83256,7 @@ MonoBehaviour:
   rope: {fileID: 335744121}
   landingLight: {fileID: 903713211}
   veil: {fileID: 2037055185}
+  faceTear: {fileID: 0}
   balconyPalm: {x: 5.12, y: 1.42, z: -0.05}
   screenBlack: 0
   screenRed: 0
@@ -83299,6 +83308,8 @@ MonoBehaviour:
   subtitle: {fileID: 1035547286}
   prompt: {fileID: 1089195501}
   testing: 0
+  story: {fileID: 0}
+  coreTestOnly: 0
 --- !u!4 &2037055190
 Transform:
   m_ObjectHideFlags: 0
@@ -85054,6 +85065,7 @@ MonoBehaviour:
   timeSource: {fileID: 0}
   label: {fileID: 0}
   seconds: 79620
+  stopped: 0
 --- !u!4 &2104273396
 Transform:
   m_ObjectHideFlags: 0
@@ -89853,6 +89865,7 @@ MonoBehaviour:
   timeSource: {fileID: 873512027}
   label: {fileID: 0}
   seconds: 79620
+  stopped: 0
 --- !u!4 &8141806214050325267
 Transform:
   m_ObjectHideFlags: 0

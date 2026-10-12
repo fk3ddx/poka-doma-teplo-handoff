@@ -1,0 +1,37 @@
+MODE story autopilot from Prologue (aim-verified fire, 6x nights)
+ROUTES at start of Evening
+ROUTE capsule r=0,22 h=1,5 lift=0,08 grid=0,05 m; runtime collider world r=0,220 h=1,500; doors c0,c0,c0,o19,o19,c0,c0,(7.2, 0.0, 1.2)
+ROUTE node KitchenDoor (7.25, 0.00, 3.25) → free floor (7.38, 0.00, 3.28) (0,13 m); at the authored spot: Flat geometry — SCENARIO section 1/READY hallway Dresser09/Dresser/___________________wood_0 [MeshCollider] bounds c=(7.10, 0.38, 3.51) size=(0.02, 0.29, 0.58); Flat geometry — SCENARIO section 1/READY hallway Dresser09/Dresser/__________________.002_wood_0 [MeshCollider] bounds c=(6.89, 0.38, 3.80) size=(0.43, 0.33, 1.20)
+ROUTE node Stove (8.00, 0.00, 1.65) → free floor (7.93, 0.00, 1.63) (0,08 m); at the authored spot: Flat geometry — SCENARIO section 1/READY PostSoviet Stove [BoxCollider] bounds c=(8.48, 0.43, 1.65) size=(0.56, 0.85, 0.62)
+ROUTE node Aisle (4.15, 0.00, 2.80) → free floor (4.18, 0.00, 2.88) (0,08 m); at the authored spot: nothing within 0,00 m
+ROUTE node Armchair (3.95, 0.00, 1.05) → free floor (4.18, 0.00, 1.03) (0,23 m); at the authored spot: Flat geometry — SCENARIO section 1/READY CC0 SovietSofa [BoxCollider] bounds c=(3.42, 0.43, 1.90) size=(1.00, 0.85, 2.39)
+ROUTE HallA→Door 0,9 m
+ROUTE Door→HallB 2,2 m
+ROUTE HallB→Clock 0,2 m
+ROUTE Clock→Armchair 5,4 m
+ROUTE Armchair→Door 7,0 m
+ROUTE Door→Landing 1,5 m opening Entrance60
+ROUTE Door→Landing with opened leaf 1,5 m
+ROUTE-BLOCKED Door→Kitchen: no route; closest reachable (7.38, 0.00, 3.13) (1,09 m short); blockers there: Flat geometry — SCENARIO section 1/Kitchen door/Hinge/Architectural door leaf [BoxCollider] bounds c=(7.25, 1.00, 2.95) size=(0.70, 2.00, 0.05) (closed leaf of Kitchen door); Flat geometry — SCENARIO section 1/Kitchen south [BoxCollider] bounds c=(8.20, 1.25, 2.95) size=(1.20, 2.50, 0.10); Flat geometry — SCENARIO section 1/READY hallway Dresser09/Dresser/___________________wood_0 [MeshCollider] bounds c=(7.10, 0.38, 3.51) size=(0.02, 0.29, 0.58); Flat geometry — SCENARIO section 1/READY hallway Dresser09/Dresser/__________________.002_wood_0 [MeshCollider] bounds c=(6.89, 0.38, 3.80) size=(0.43, 0.33, 1.20)
+ROUTE-BLOCKED Kitchen→HallA: no route; closest reachable (7.33, 0.00, 3.08) (1,47 m short); blockers there: Flat geometry — SCENARIO section 1/Kitchen door/Hinge/Architectural door leaf [BoxCollider] bounds c=(7.25, 1.00, 2.95) size=(0.70, 2.00, 0.05) (closed leaf of Kitchen door); Flat geometry — SCENARIO section 1/Kitchen south [BoxCollider] bounds c=(8.20, 1.25, 2.95) size=(1.20, 2.50, 0.10); Flat geometry — SCENARIO section 1/READY hallway Dresser09/Dresser/___________________wood_0 [MeshCollider] bounds c=(7.10, 0.38, 3.51) size=(0.02, 0.29, 0.58); Flat geometry — SCENARIO section 1/READY hallway Dresser09/Dresser/__________________.002_wood_0 [MeshCollider] bounds c=(6.89, 0.38, 3.80) size=(0.43, 0.33, 1.20)
+ROUTE-BLOCKED Door→Stove: no route; closest reachable (7.93, 0.00, 3.28) (1,65 m short); blockers there: Flat geometry — SCENARIO section 1/Kitchen south [BoxCollider] bounds c=(8.20, 1.25, 2.95) size=(1.20, 2.50, 0.10)
+FAIL grandmother routes around furniture at start of Evening (3 failures; run continues)
+CARD 15 ноября 1996. 19:10
+TASK 
+CARD Подъезд, пятый этаж. Холодно — изо рта идёт пар. За дверью 59 лает Тузик.
+TASK Позвонить в квартиру 60
+ACT Позвонить
+TASK Войти
+TASK Повесить куртку и разуться
+ACT Открыть тумбу трюмо
+ACT Взять фонарик-«жучок»
+ACT Повесить куртку
+ACT Переобуться в тапки
+TASK Разобрать сумку на кухне
+ACT Поставить сумку на стол
+ACT Батон — в хлебницу
+ACT Шпроты — в шкаф
+ACT Отдать «Корвалол» бабушке
+TASK Поставить чайник
+FAIL aim did not select 'Взять спички с ЗиЛа' at (8.24, 1.58, 2.43) from (8.14, 1.57, 3.24) (selected: none)
+PASS no runtime errors (0)

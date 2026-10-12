@@ -1,0 +1,55 @@
+MODE story autopilot from Prologue (aim-verified fire, 6x nights)
+ROUTE-BLOCKED Landing→Door: Architectural door leaf
+ROUTE-BLOCKED HallA→KitchenDoor: ___________________wood_0, __________________.002_wood_0
+ROUTE-BLOCKED KitchenDoor→Kitchen: ___________________wood_0, __________________.002_wood_0, Architectural door leaf
+ROUTE-BLOCKED Kitchen→Stove: READY PostSoviet Fridge
+ROUTE-BLOCKED Aisle→Armchair: READY CC0 SovietSofa
+FAIL grandmother walking graph clear of furniture (5 blocked edges; run continues)
+CARD 15 ноября 1996. 19:10
+TASK 
+CARD Подъезд, пятый этаж. Холодно — изо рта идёт пар. За дверью 59 лает Тузик.
+TASK Позвонить в квартиру 60
+ACT Позвонить
+TASK Войти
+TASK Повесить куртку и разуться
+ACT Открыть тумбу трюмо
+ACT Взять фонарик-«жучок»
+ACT Повесить куртку
+ACT Переобуться в тапки
+TASK Разобрать сумку на кухне
+ACT Поставить сумку на стол
+ACT Батон — в хлебницу
+ACT Шпроты — в шкаф
+ACT Отдать «Корвалол» бабушке
+TASK Поставить чайник
+ACT Взять спички с ЗиЛа
+ACT Открыть газ и зажечь конфорку (hold 0,6s skipped)
+ACT Взять чайник
+ACT Набрать воду в чайник (hold 3s skipped)
+ACT Поставить чайник на огонь
+TASK Принести с балкона банку вишнёвого
+ACT Отодвинуть шпингалет (заедает) (hold 2s skipped)
+ACT Взять банку варенья
+ACT Закрыть балконную дверь
+TASK Заварить чай
+ACT Выключить газ — чайник свистит
+ACT Заварить и разлить чай (hold 1,2s skipped)
+ACT Сесть за стол
+CHOICE 1
+CHOICE 1
+TASK Выйти в прихожую
+TASK Поменять лампочку в бра
+ACT Взять табуретку
+ACT Поставить табуретку под антресолью
+ACT Достать лампочку с антресоли
+ACT Выкрутить старую и вкрутить новую (hold 2s skipped)
+TASK Отнести платок в шифоньер
+ACT Открыть шифоньер
+ACT Повесить платок на плечики
+TASK Завести дедовы часы
+ACT Завести часы ключом (hold 3s skipped)
+ACT Толкнуть маятник
+TASK Свободное время
+TASK Включить новости
+FAIL aim did not select 'Включить «Рубин»' at (6.10, 0.85, 2.25) from (5.70, 1.59, 3.28) (selected: none)
+PASS no runtime errors (0)

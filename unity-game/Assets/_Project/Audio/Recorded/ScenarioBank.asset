@@ -406,6 +406,211 @@ MonoBehaviour:
     priority: 100
     spatial: 1
     loop: 1
+  - id: match
+    clips:
+    - {fileID: 8300000, guid: 48e7ce0652e325f4b93945e330d44fd9, type: 3}
+    bus: 1
+    gainDb: -8
+    pitchVariation: 0.025
+    minDistance: 1
+    maxDistance: 12
+    maxInstances: 1
+    priority: 100
+    spatial: 1
+    loop: 0
+  - id: gas_ignite
+    clips:
+    - {fileID: 8300000, guid: 195afb72e3799e7438f681c1a933d27e, type: 3}
+    bus: 2
+    gainDb: -9
+    pitchVariation: 0.025
+    minDistance: 1
+    maxDistance: 12
+    maxInstances: 1
+    priority: 100
+    spatial: 1
+    loop: 0
+  - id: gas
+    clips:
+    - {fileID: 8300000, guid: e17033843fe0e7645b8174e6b2471d9b, type: 3}
+    bus: 0
+    gainDb: -26
+    pitchVariation: 0
+    minDistance: 1
+    maxDistance: 4
+    maxInstances: 1
+    priority: 100
+    spatial: 1
+    loop: 1
+  - id: tap
+    clips:
+    - {fileID: 8300000, guid: 42a1b43086eb2d04c9417c739c06a36c, type: 3}
+    bus: 2
+    gainDb: -10
+    pitchVariation: 0
+    minDistance: 1
+    maxDistance: 6
+    maxInstances: 1
+    priority: 100
+    spatial: 1
+    loop: 0
+  - id: kettle_rise
+    clips:
+    - {fileID: 8300000, guid: da52310db933f7a4c8dbb3cad5b0eb1e, type: 3}
+    bus: 2
+    gainDb: -10
+    pitchVariation: 0
+    minDistance: 1
+    maxDistance: 12
+    maxInstances: 1
+    priority: 100
+    spatial: 1
+    loop: 0
+  - id: kettle
+    clips:
+    - {fileID: 8300000, guid: 94e54d2ea45745f4792169ce25b568b5, type: 3}
+    bus: 2
+    gainDb: -11
+    pitchVariation: 0
+    minDistance: 1
+    maxDistance: 12
+    maxInstances: 1
+    priority: 100
+    spatial: 1
+    loop: 1
+  - id: spoon
+    clips:
+    - {fileID: 8300000, guid: a9641a8d565c7804c8716db48549ae00, type: 3}
+    bus: 1
+    gainDb: -12
+    pitchVariation: 0.025
+    minDistance: 1
+    maxDistance: 12
+    maxInstances: 1
+    priority: 100
+    spatial: 1
+    loop: 0
+  - id: drip
+    clips:
+    - {fileID: 8300000, guid: eebb0b33986737245985c0914ab82fee, type: 3}
+    - {fileID: 8300000, guid: 554624cd965a9964e902f6765d864b40, type: 3}
+    bus: 2
+    gainDb: -22
+    pitchVariation: 0.025
+    minDistance: 1
+    maxDistance: 5
+    maxInstances: 2
+    priority: 100
+    spatial: 1
+    loop: 0
+  - id: clock_wind
+    clips:
+    - {fileID: 8300000, guid: a9551f6e24046594d9bc15eaf4488406, type: 3}
+    bus: 1
+    gainDb: -9
+    pitchVariation: 0
+    minDistance: 1
+    maxDistance: 12
+    maxInstances: 1
+    priority: 100
+    spatial: 1
+    loop: 0
+  - id: bulb
+    clips:
+    - {fileID: 8300000, guid: b389de117355137418771fdbf2e94a3f, type: 3}
+    bus: 1
+    gainDb: -14
+    pitchVariation: 0.025
+    minDistance: 1
+    maxDistance: 12
+    maxInstances: 1
+    priority: 100
+    spatial: 1
+    loop: 0
+  - id: switch
+    clips:
+    - {fileID: 8300000, guid: 8b739f27934f0f84cafab9d9e433eb87, type: 3}
+    bus: 2
+    gainDb: -12
+    pitchVariation: 0.025
+    minDistance: 1
+    maxDistance: 12
+    maxInstances: 2
+    priority: 100
+    spatial: 1
+    loop: 0
+  - id: breaker
+    clips:
+    - {fileID: 8300000, guid: ee5d2691384435449a330b4061603caf, type: 3}
+    bus: 2
+    gainDb: -6
+    pitchVariation: 0
+    minDistance: 1
+    maxDistance: 14
+    maxInstances: 1
+    priority: 100
+    spatial: 1
+    loop: 0
+  - id: tv_on
+    clips:
+    - {fileID: 8300000, guid: 55da176841baccd4295c2d91d9878a6d, type: 3}
+    bus: 2
+    gainDb: -10
+    pitchVariation: 0
+    minDistance: 1
+    maxDistance: 10
+    maxInstances: 1
+    priority: 100
+    spatial: 1
+    loop: 0
+  - id: crt_whine
+    clips:
+    - {fileID: 8300000, guid: d79094f1b1402be4b82ff039867c9c46, type: 3}
+    bus: 2
+    gainDb: -34
+    pitchVariation: 0
+    minDistance: 1
+    maxDistance: 5
+    maxInstances: 1
+    priority: 100
+    spatial: 1
+    loop: 1
+  - id: doorbell
+    clips:
+    - {fileID: 8300000, guid: 7378ff42b825c3145aded803eaa97534, type: 3}
+    bus: 2
+    gainDb: -8
+    pitchVariation: 0
+    minDistance: 1
+    maxDistance: 14
+    maxInstances: 2
+    priority: 100
+    spatial: 1
+    loop: 0
+  - id: car
+    clips:
+    - {fileID: 8300000, guid: 8668367e219104846bd0fe6175d5515e, type: 3}
+    bus: 0
+    gainDb: -24
+    pitchVariation: 0.025
+    minDistance: 1
+    maxDistance: 30
+    maxInstances: 1
+    priority: 100
+    spatial: 1
+    loop: 0
+  - id: radio
+    clips:
+    - {fileID: 8300000, guid: d46a8e6124a3b954d94681ae9bc1cbe4, type: 3}
+    bus: 0
+    gainDb: -24
+    pitchVariation: 0
+    minDistance: 1
+    maxDistance: 5
+    maxInstances: 1
+    priority: 100
+    spatial: 1
+    loop: 1
   mixer: {fileID: 24100000, guid: 206f65289fcba12488dd26ad26aeef33, type: 2}
   groups:
   - {fileID: -8406426117807232985, guid: 206f65289fcba12488dd26ad26aeef33, type: 2}

@@ -1,0 +1,155 @@
+[
+  {
+    "file": "unity-game/Assets/_Project/Audio/Recorded/match_strike.wav",
+    "mono": true,
+    "seconds": 1.3999773242630384,
+    "peak_dbfs": -0.9998544876801003,
+    "clipped": 0,
+    "hash_matches": true,
+    "audition": "not listened"
+  },
+  {
+    "file": "unity-game/Assets/_Project/Audio/Recorded/gas_ignite.wav",
+    "mono": true,
+    "seconds": 2.8000208333333334,
+    "peak_dbfs": -0.9998544876801003,
+    "clipped": 0,
+    "hash_matches": true,
+    "audition": "not listened"
+  },
+  {
+    "file": "unity-game/Assets/_Project/Audio/Recorded/gas_hiss_loop.wav",
+    "mono": true,
+    "seconds": 2.82,
+    "peak_dbfs": -7.75459564134797,
+    "clipped": 0,
+    "hash_matches": true,
+    "audition": "not listened"
+  },
+  {
+    "file": "unity-game/Assets/_Project/Audio/Recorded/tap_fill.wav",
+    "mono": true,
+    "seconds": 6.3,
+    "peak_dbfs": -2.9999878172428636,
+    "clipped": 0,
+    "hash_matches": true,
+    "audition": "not listened"
+  },
+  {
+    "file": "unity-game/Assets/_Project/Audio/Recorded/kettle_rise.wav",
+    "mono": true,
+    "seconds": 7.5,
+    "peak_dbfs": -5.555108525913227,
+    "clipped": 0,
+    "hash_matches": true,
+    "audition": "not listened"
+  },
+  {
+    "file": "unity-game/Assets/_Project/Audio/Recorded/kettle_whistle_loop.wav",
+    "mono": true,
+    "seconds": 5.92,
+    "peak_dbfs": -9.813540437601725,
+    "clipped": 0,
+    "hash_matches": true,
+    "audition": "not listened"
+  },
+  {
+    "file": "unity-game/Assets/_Project/Audio/Recorded/spoon_clink.wav",
+    "mono": true,
+    "seconds": 1.6000226757369616,
+    "peak_dbfs": -0.9998544876801003,
+    "clipped": 0,
+    "hash_matches": true,
+    "audition": "not listened"
+  },
+  {
+    "file": "unity-game/Assets/_Project/Audio/Recorded/drip_00.wav",
+    "mono": true,
+    "seconds": 1.2,
+    "peak_dbfs": -1.000151903819357,
+    "clipped": 0,
+    "hash_matches": true,
+    "audition": "not listened"
+  },
+  {
+    "file": "unity-game/Assets/_Project/Audio/Recorded/drip_01.wav",
+    "mono": true,
+    "seconds": 1.2,
+    "peak_dbfs": -1.000151903819357,
+    "clipped": 0,
+    "hash_matches": true,
+    "audition": "not listened"
+  },
+  {
+    "file": "unity-game/Assets/_Project/Audio/Recorded/clock_wind.wav",
+    "mono": true,
+    "seconds": 8.0,
+    "peak_dbfs": -1.000151903819357,
+    "clipped": 0,
+    "hash_matches": true,
+    "audition": "not listened"
+  },
+  {
+    "file": "unity-game/Assets/_Project/Audio/Recorded/bulb_screw.wav",
+    "mono": true,
+    "seconds": 1.5,
+    "peak_dbfs": -0.9998544876801003,
+    "clipped": 0,
+    "hash_matches": true,
+    "audition": "not listened"
+  },
+  {
+    "file": "unity-game/Assets/_Project/Audio/Recorded/switch_click.wav",
+    "mono": true,
+    "seconds": 0.4,
+    "peak_dbfs": -1.000151903819357,
+    "clipped": 0,
+    "hash_matches": true,
+    "audition": "not listened"
+  },
+  {
+    "file": "unity-game/Assets/_Project/Audio/Recorded/breaker.wav",
+    "mono": true,
+    "seconds": 0.9,
+    "peak_dbfs": -1.000151903819357,
+    "clipped": 0,
+    "hash_matches": true,
+    "audition": "not listened"
+  },
+  {
+    "file": "unity-game/Assets/_Project/Audio/Recorded/tv_on.wav",
+    "mono": true,
+    "seconds": 2.2,
+    "peak_dbfs": -1.000151903819357,
+    "clipped": 0,
+    "hash_matches": true,
+    "audition": "not listened"
+  },
+  {
+    "file": "unity-game/Assets/_Project/Audio/Recorded/crt_whine_loop.wav",
+    "mono": true,
+    "seconds": 9.92,
+    "peak_dbfs": -14.338748038567328,
+    "clipped": 0,
+    "hash_matches": true,
+    "audition": "not listened"
+  },
+  {
+    "file": "unity-game/Assets/_Project/Audio/Recorded/doorbell.wav",
+    "mono": true,
+    "seconds": 4.500020833333333,
+    "peak_dbfs": -1.000151903819357,
+    "clipped": 0,
+    "hash_matches": true,
+    "audition": "not listened"
+  },
+  {
+    "file": "unity-game/Assets/_Project/Audio/Recorded/car_pass.wav",
+    "mono": true,
+    "seconds": 10.8,
+    "peak_dbfs": -2.9999878172428636,
+    "clipped": 0,
+    "hash_matches": true,
+    "audition": "not listened"
+  }
+]
