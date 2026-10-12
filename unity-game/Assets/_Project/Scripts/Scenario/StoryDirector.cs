@@ -205,7 +205,7 @@ namespace Ataka.Scenario {
    running=StartCoroutine(at switch{"Evening"=>Evening(false),"Night1"=>Night1(false),"Night2"=>Night2(false),"Finale"=>Finale(),_=>Prologue()});
   }
   public void Abandon(){StopAll();chapter=Chapter.Loop;flat.entrance.direction=1;}
-  void StopAll(){EndMirrorSeed();EndGlimpse();if(rewind)rewind.Cleanup();FinaleReset();if(running!=null)StopCoroutine(running);StopAllCoroutines();acts.Clear();holdingAct=null;kettleBoiling=false;card=null;fade=0;objective="";choiceA=choiceB=null;scenes.Cancel();loop.chase.Stop();sound.ResetWorld();if(tv){tv.storyOn=false;tv.show=ScenarioTelevision.Show.None;}if(bedside)bedside.timeSource=flat.clock;QaInFreeTime=false;if(strap)strap.enabled=false;}
+  void StopAll(){EndMirrorSeed();EndGlimpse();ResetLeisure();if(rewind)rewind.Cleanup();FinaleReset();if(running!=null)StopCoroutine(running);StopAllCoroutines();acts.Clear();holdingAct=null;kettleBoiling=false;card=null;fade=0;objective="";choiceA=choiceB=null;scenes.Cancel();loop.chase.Stop();sound.ResetWorld();if(tv){tv.storyOn=false;tv.show=ScenarioTelevision.Show.None;}if(bedside)bedside.timeSource=flat.clock;QaInFreeTime=false;if(strap)strap.enabled=false;}
   void Update(){
    if(granBody)granBody.enabled=OwnsFlat&&chapter!=Chapter.Ended; // in the loop the hanging vision needs clear sight to her
    if(!OwnsFlat||player.paused)return;
@@ -263,7 +263,7 @@ namespace Ataka.Scenario {
   IEnumerator Evening(bool continued){
    chapter=Chapter.Evening;
    if(!continued){loop.Pause(false);Homely(true);flat.stool.SetActive(true);flat.stool.transform.SetPositionAndRotation(new Vector3(7.15f,0,1.2f),Quaternion.identity);player.Place(ScenarioLayout.Spawn,180);GranShow("Kitchen",90);yield return Fade(0,.8f);}
-   Checkpoint("Evening");HouseSound(true,false);PropsAtEveningStart();if(flat.look.icon)flat.look.icon.intensity=0; // 4.7/4.8: the icon lamp is lit later (by itself or by her)
+   Checkpoint("Evening");HouseSound(true,false);PropsAtEveningStart();EnsurePaper();if(flat.look.icon)flat.look.icon.intensity=0; // 4.7/4.8: the icon lamp is lit later (by itself or by her)
    Put("Bag",BagAtDoor);Show("Corvalol",false);flat.clock.stopped=true;Clock(19,15);OfferFlashlight();
    // 4.1
    Task("Повесить куртку и разуться");
@@ -553,6 +553,86 @@ namespace Ataka.Scenario {
   }
   public void ChaseFinished(){if(running!=null)StopCoroutine(running);running=StartCoroutine(Finale());}
 
+  // ---------- 4.7 leisure: the console on the «Рубин», the album with her, «Теленеделя» ----------
+  // Each is offered during the free time and can be left at any moment (Esc or E); camera, control, pause and Esc are
+  // handed back exactly. While one is open Esc belongs to it (LoopDirector does not open the game menu).
+  bool leisure;int escapeFrame=-1;float leisureFov=-1;
+  // cut off by StopAll (menu / new game / chapter change): nothing of the console or the reader stays behind
+  void ResetLeisure(){if(console){console.End();console=null;}if(viewer)viewer.Close();if(leisureFov>0)Lens(leisureFov);leisureFov=-1;leisure=false;leaveLeisure=false;}Act consoleAct,albumAct,paperAct;ConsoleGame console;PageViewer viewer;Transform paperProp;bool leaveLeisure;
+  public bool EscapeTaken=>leisure||Time.frameCount==escapeFrame;
+  public bool QaLeisure=>leisure;public ConsoleGame QaConsole=>console;public PageViewer QaViewer=>Viewer();public Transform QaPaper=>paperProp;
+  public void QaLeaveLeisure()=>leaveLeisure=true; // what Esc does
+  public float QaFov=>scenes.cine?scenes.cine.Lens.FieldOfView:0;
+  PageViewer Viewer(){if(!viewer){viewer=gameObject.GetComponent<PageViewer>();if(!viewer)viewer=gameObject.AddComponent<PageViewer>();viewer.player=player;}return viewer;}
+  bool LeaveKey(bool alsoE){var k=Keyboard.current;bool esc=k!=null&&k.escapeKey.wasPressedThisFrame;if(esc)escapeFrame=Time.frameCount;bool v=leaveLeisure||esc||(alsoE&&k!=null&&k.eKey.wasPressedThisFrame);leaveLeisure=false;return v;}
+  Vector3 ScreenAt=>flat.televisionScreen?flat.televisionScreen.bounds.center:flat.television.position;
+  // His place in front of the set: the «Рубин» stands in the wall unit at x 6.5 with its screen to the sofa (−x).
+  Vector3 SeatFeet(){var f=ScreenAt+Vector3.left*1.15f;f.y=.02f;return f;}
+  void OfferLeisure(){
+   Withdraw(consoleAct);Withdraw(albumAct);Withdraw(paperAct);EnsurePaper();
+   consoleAct=Offer(()=>ScreenAt,"Поиграть в приставку",0,2.4f,Key.E,()=>QaInFreeTime&&!leisure,()=>StartCoroutine(PlayConsole()));
+   albumAct=Offer(()=>flat.grandmother.transform.position+Vector3.up*1.1f,"Посмотреть альбом с бабушкой",0,2.2f,Key.E,()=>QaInFreeTime&&!leisure&&flat.grandmother.activeSelf&&!granWalking,()=>StartCoroutine(ReadAlbum()));
+   paperAct=Offer(()=>paperProp?paperProp.position:new Vector3(4.66f,.46f,2.1f),"Почитать «Теленеделю»",0,1.8f,Key.E,()=>!leisure&&(chapter==Chapter.Evening),()=>StartCoroutine(ReadPaper()));}
+  void EndLeisure(){leaveLeisure=true;Withdraw(consoleAct);Withdraw(albumAct);Withdraw(paperAct);consoleAct=albumAct=paperAct=null;}
+  // «Теленеделя» on the coffee table: a flat paper sheet (a plane with a texture — explicitly allowed), under the books.
+  void EnsurePaper(){
+   if(paperProp)return;var at=new Vector3(4.66f,1.2f,2.08f);float top=float.MaxValue;foreach(var h in Physics.RaycastAll(at,Vector3.down,1.2f,~(1<<31),QueryTriggerInteraction.Ignore))if(h.point.y>.3f)top=Mathf.Min(top,h.point.y);if(top==float.MaxValue)top=.45f; // the table top, not the books on it
+   var g=new GameObject("STORY Теленеделя (paper sheet)");g.transform.position=new Vector3(at.x,top+.003f,at.z);g.transform.rotation=Quaternion.Euler(0,15,0);
+   var mesh=new Mesh{name="newspaper sheet"};mesh.vertices=new[]{new Vector3(-.15f,0,-.2f),new Vector3(.15f,0,-.2f),new Vector3(.15f,0,.2f),new Vector3(-.15f,0,.2f)};mesh.uv=new[]{new Vector2(0,0),new Vector2(1,0),new Vector2(1,1),new Vector2(0,1)};mesh.triangles=new[]{0,2,1,0,3,2};mesh.RecalculateNormals();mesh.RecalculateBounds();
+   g.AddComponent<MeshFilter>().sharedMesh=mesh;var r=g.AddComponent<MeshRenderer>();var shader=Shader.Find("Universal Render Pipeline/Lit");var m=shader?new Material(shader):tv?new Material(tv.screenMaterial):null;
+   if(m){var tex=PageViewer.Load(PaperCover)??PaperTexture();m.SetTexture("_BaseMap",tex);m.SetColor("_BaseColor",Color.white);if(m.HasProperty("_Smoothness"))m.SetFloat("_Smoothness",.1f);r.sharedMaterial=m;}paperProp=g.transform;}
+  public const string PaperCover="Teleweek/teleweek_cover",PaperSpread="Teleweek/teleweek_spread";
+  // Until a cover image is supplied: newsprint with a masthead band, columns of grey "text" and a crossword grid.
+  static Texture2D PaperTexture(){const int w=256,h=342;var t=new Texture2D(w,h,TextureFormat.RGBA32,true){name="Теленеделя (procedural)"};var r=new System.Random(15);
+   for(int y=0;y<h;y++)for(int x=0;x<w;x++){Color c=new Color(.82f,.8f,.74f);if(y>h-46&&y<h-10)c=new Color(.62f,.14f,.12f);
+    else if(y<h-56&&y>150&&x%84>8&&x%84<78&&(y/6)%2==0&&r.NextDouble()<.92)c=new Color(.42f,.41f,.39f);
+    else if(y<=140&&y>20&&x>130&&x<240){int gx=(x-130)/11,gy=(y-20)/11;bool line=(x-130)%11==0||(y-20)%11==0;c=line?new Color(.25f,.25f,.25f):((gx*7+gy*3)%5==0?new Color(.15f,.15f,.15f):new Color(.9f,.88f,.82f));}
+    else if(y<=140&&y>20&&x<120&&(y/6)%2==0&&r.NextDouble()<.9)c=new Color(.45f,.44f,.42f);
+    t.SetPixel(x,y,c);}t.Apply();return t;}
+  IEnumerator PlayConsole(){
+   leisure=true;leaveLeisure=false;var p=player;var body=p.GetComponent<CharacterController>();p.control=false;if(body)body.enabled=false;
+   var cam=scenes.cine;float fov0=cam?cam.Lens.FieldOfView:65;leisureFov=fov0;var from=p.transform.position;var look0=p.head.rotation;var seat=SeatFeet();
+   for(float t=0;t<.7f;t+=Time.deltaTime){float u=Mathf.SmoothStep(0,1,t/.7f);p.transform.position=Vector3.Lerp(from,seat,u);p.head.rotation=Quaternion.Slerp(look0,Quaternion.LookRotation(ScreenAt-p.head.position),u);Lens(Mathf.Lerp(fov0,34,u));yield return null;}
+   if(tv){tv.storyOn=true;tv.show=ScenarioTelevision.Show.Game;tv.caption="";}flat.televisionLight.intensity=.12f;sound.Play("switch",flat.television.position);sound.Play("tv_on",flat.television.position);
+   console=ConsoleGame.Begin(tv,sound,flat.television.position);
+   while(!LeaveKey(false)&&QaInFreeTime){p.head.rotation=Quaternion.LookRotation(ScreenAt-p.head.position);yield return null;}
+   console.End();console=null;if(tv){tv.show=ScenarioTelevision.Show.None;tv.storyOn=false;}flat.televisionLight.intensity=0;sound.Play("switch",flat.television.position);
+   for(float t=0;t<.4f;t+=Time.deltaTime){Lens(Mathf.Lerp(34,fov0,t/.4f));yield return null;}Lens(fov0);
+   leisureFov=-1;HandBack(p,body);leisure=false;if(QaInFreeTime)OfferLeisure();}
+  void Lens(float fov){var cam=scenes.cine;if(!cam)return;var l=cam.Lens;l.FieldOfView=fov;cam.Lens=l;}
+  // SCENARIO 4.7 album: six spreads; the last one is the group photo of summer 1993 with a pale spot beside Misha.
+  // Images (2:1 spreads, PNG): Resources/Album/album_01 … album_06; the epilogue's version album_06_epilogue.
+  public static readonly (string resource,string caption,string line)[] AlbumSpreads={
+   ("Album/album_01","Дед, молодой.","Дед твой. Красивый был, да?"),
+   ("Album/album_02","Свадьба.","Свадьба наша. Холодно было, а мы смеёмся."),
+   ("Album/album_03","Мама маленькая.","Мама твоя. Маленькая совсем."),
+   ("Album/album_04","Кот Барсик.","Барсик. Всё на балконе сидел, деда ждал."),
+   ("Album/album_05","Миша, первый класс.","А это ты. Первый класс, ревел с утра."),
+   ("Album/album_06","Лето 1993, у подъезда. Бабушка, пустой стул с дедовой кепкой, Валя с Тузиком, Миша в центре — и рядом светлое засвеченное пятно.","Это кто тут… не помню. Плёнка, наверное, засветилась.")};
+  public const string AlbumEpilogue="Album/album_06_epilogue";
+  IEnumerator Read(string title,List<PageViewer.Page> pages,System.Action<int> onPage=null){
+   leisure=true;leaveLeisure=false;var p=player;bool had=p.control;p.control=false;var v=Viewer();v.Open(title,pages);int shown=-1;
+   while(v.IsOpen){if(v.Index!=shown){shown=v.Index;onPage?.Invoke(shown);}var k=Keyboard.current;
+    if(LeaveKey(true)){v.Close();break;}
+    if(k!=null&&(k.dKey.wasPressedThisFrame||k.rightArrowKey.wasPressedThisFrame||k.spaceKey.wasPressedThisFrame))v.Next();if(k!=null&&(k.aKey.wasPressedThisFrame||k.leftArrowKey.wasPressedThisFrame))v.Previous();
+    yield return null;}
+   p.control=had;leisure=false;if(QaInFreeTime)OfferLeisure();}
+  IEnumerator ReadAlbum(){
+   if(flat.grandmother.activeSelf)yield return GranFace(player.head.position,.3f);
+   var pages=new List<PageViewer.Page>();foreach(var s in AlbumSpreads)pages.Add(new PageViewer.Page{resource=s.resource,caption=s.caption});
+   yield return Read("Фотоальбом",pages,i=>Say("Бабушка",AlbumSpreads[i].line,4));}
+  IEnumerator ReadPaper(){
+   var page=new PageViewer.Page{resource=PaperSpread,caption="",draw=DrawTeleweek};yield return Read("«Теленеделя»",new List<PageViewer.Page>{page});}
+  // The programme for 15 November (invented, no real channels or shows) and a crossword, drawn on the paper page.
+  static readonly string[] Programme={"ПОНЕДЕЛЬНИК, 15 НОЯБРЯ","","ПЕРВАЯ ПРОГРАММА","7.00 Утренняя зарядка","9.15 Мультфильмы: «Варежка-путешественница»","15.30 Концерт по заявкам","18.45 «Сельский час»","21.30 НОВОСТИ ЗАРЕЧЬЯ","22.00 Фильм «Тёплый дом» (2 серии)","","ВТОРАЯ ПРОГРАММА","19.00 «Знатоки двора»","20.40 Сказка на ночь","22.00 Настроечная таблица"};
+  static readonly string[] Clues={"По горизонтали: 1. Дедовы … с маятником (4). 3. Держит дверь на ночь (7). 5. Горит у иконы (8).","По вертикали: 2. Его заводят ключом сверху (8). 4. Кто стучит «тук-тук… тук» (6)."};
+  void DrawTeleweek(Rect a){
+   var big=new GUIStyle(GUI.skin.label){fontSize=Mathf.RoundToInt(a.height*.07f),fontStyle=FontStyle.Bold};var txt=new GUIStyle(GUI.skin.label){fontSize=Mathf.RoundToInt(a.height*.032f),wordWrap=true};
+   GUI.color=new Color(.55f,.12f,.1f);GUI.Label(new Rect(a.x+a.width*.04f,a.y+a.height*.02f,a.width*.9f,a.height*.1f),"ТЕЛЕНЕДЕЛЯ",big);GUI.color=new Color(.15f,.13f,.11f);
+   float y=a.y+a.height*.14f;foreach(var line in Programme){GUI.Label(new Rect(a.x+a.width*.05f,y,a.width*.45f,a.height*.05f),line,txt);y+=a.height*.045f;}
+   float cell=a.height*.06f;var g0=new Vector2(a.x+a.width*.58f,a.y+a.height*.16f);int[,] grid={{1,1,1,1,0,0,0},{0,0,1,0,0,0,0},{1,1,1,1,1,1,1},{0,0,1,0,1,0,0},{1,1,1,1,1,1,1},{0,0,1,0,1,0,0},{0,0,0,0,1,0,0}};
+   for(int gy=0;gy<7;gy++)for(int gx=0;gx<7;gx++){var rc=new Rect(g0.x+gx*cell,g0.y+gy*cell,cell-1,cell-1);GUI.color=grid[gy,gx]==1?new Color(.95f,.93f,.88f):new Color(.15f,.13f,.11f);GUI.DrawTexture(rc,Texture2D.whiteTexture);}
+   GUI.color=new Color(.15f,.13f,.11f);GUI.Label(new Rect(g0.x,g0.y+7.4f*cell,a.width*.38f,a.height*.3f),string.Join("\n",Clues),txt);}
   // ---------- 4.7 free time (21:00 → 21:30) and 4.8 news ----------
   // Free time with the four "anxious seeds" (SCENARIO 4.7), one at a time and only where Misha is:
   //  1 mirror  — in the dresser mirror a dark figure taller than the doorway stands behind him for 0.3 s. It is the
@@ -572,7 +652,7 @@ namespace Ataka.Scenario {
   bool InKitchen(Vector3 p)=>p.x>6.6f&&p.z<2.95f&&p.z>-.1f;bool InBedroom(Vector3 p)=>p.x<2.85f&&p.z<4.45f&&p.z>-.1f;
   bool Looking(Vector3 at,float cos){var d=at-player.head.position;return Vector3.Dot(player.head.forward,d.normalized)>cos;}
   IEnumerator FreeTime(){
-   Task("Свободное время");QaSeeds.Clear();QaInFreeTime=true;lampLitItself=false;StartCoroutine(GranGo("Armchair"));
+   Task("Свободное время");QaSeeds.Clear();QaInFreeTime=true;lampLitItself=false;StartCoroutine(GranGo("Armchair"));OfferLeisure();
    sound.Bed("radio",RadioAt,false); // she switched the radio point off for the news later
    var bed=Bedside();if(bed)bed.timeSource=null;
    var done=new HashSet<string>();float lastSeed=-99;
@@ -589,7 +669,8 @@ namespace Ataka.Scenario {
     if(ready&&!done.Contains("radio")&&freeSeconds>6&&InKitchen(p)){done.Add("radio");lastSeed=freeSeconds;QaSeeds.Add(("radio",Time.time));sound.Play("radio_hiss",RadioAt);StartCoroutine(SayLater(1.6f,"Радио же выключено…"));}
     if(ready&&!done.Contains("lamp")&&flat.look.icon&&InBedroom(p)&&Looking(flat.look.icon.transform.position,.8f)){done.Add("lamp");lastSeed=freeSeconds;QaSeeds.Add(("lamp",Time.time));lampLitItself=true;yield return LampLights();}
     yield return null;}
-   if(bed){bed.timeSource=flat.clock;}EndGlimpse();QaInFreeTime=false;
+   if(bed){bed.timeSource=flat.clock;}EndGlimpse();QaInFreeTime=false;EndLeisure();
+   while(leisure)yield return null; // the console / album hands the camera back first
   }
   IEnumerator SayLater(float s,string line){yield return new WaitForSeconds(s);Say("",line,3);}
   IEnumerator LampLights(){var l=flat.look.icon;for(float t=0;t<.7f;t+=Time.deltaTime){l.intensity=.14f*Mathf.Clamp01(t/.7f)*(.6f+.4f*Mathf.PerlinNoise(t*30,.2f));yield return null;}l.intensity=.14f;}
@@ -831,16 +912,39 @@ namespace Ataka.Scenario {
    for(float t=0;t<4.5f;t+=Time.deltaTime){head.position=new Vector3(8.05f,1.5f,6.22f);head.rotation=Quaternion.identity;yield return null;}
    flat.look.peephole=0;head.localPosition=savedPos;head.localRotation=savedRot;p.control=true;g.SetActive(was);
   }
+  // SCENARIO 11.1 epilogue, on the set itself: (1) after 11.11's black, the «Рубин» in the empty flat — grainy VHS news,
+  // «Новости Заречья», the camera creeping towards it; (2) if he did not open, the extra line about «Ты не она!»;
+  // (3) credits over the ticking clock; (4) the last album spread, now with three pale spots; the ticking cuts off.
+  static readonly string[] EpilogueNews={"…В квартире номер шестьдесят по улице Строителей обнаружены накрытый стол, два стакана чая и включённый чайник.","По данным жилконторы, квартира пустует с девяносто первого года.","Соседка, Валентина Ивановна, утверждает, что никогда не видела жильцов этой квартиры…"};
+  const string EpilogueRefused="…однако, по её словам, в тот вечер она слышала, как мальчик за дверью кричал: «Ты не она!»";
+  public readonly List<string> QaEpilogueCaptions=new List<string>();public string QaEpiloguePart{get;private set;}="";
+  public void QaEpilogue(bool refused){StopAll();openedDoorFinale=!refused;running=StartCoroutine(QaEpilogueRun(refused));}
+  IEnumerator QaEpilogueRun(bool refused){chapter=Chapter.Finale;loop.Pause(false);Homely(true);PropsAfterEvening();Put("Kettle",KettleFront);flat.clock.stopped=false;Clock(22,12);yield return Epilogue(refused);}
   IEnumerator Epilogue(bool refused){
-   chapter=Chapter.Ended;objective="";loop.prompt.text="";fade=1;yield return new WaitForSeconds(2);
-   yield return Card("НОВОСТИ ЗАРЕЧЬЯ\n\n«…В квартире номер шестьдесят по улице Строителей обнаружены накрытый стол, два стакана чая и включённый чайник. По данным жилконторы, квартира пустует с девяносто первого года. Соседка, Валентина Ивановна, утверждает, что никогда не видела жильцов этой квартиры…»",9);
-   if(refused){QaRefusedCard=true;}if(refused)yield return Card("«…однако, по её словам, в тот вечер она слышала, как мальчик за дверью кричал: „Ты не она!“»",5);
+   chapter=Chapter.Ended;objective="";loop.prompt.text="";fade=1;QaEpilogueCaptions.Clear();QaEpiloguePart="black";yield return new WaitForSeconds(2);
+   // (1) the empty flat at night, the set on, the camera at the sofa creeping towards the screen
+   var p=player;var body=p.GetComponent<CharacterController>();p.control=false;if(body)body.enabled=false;flat.grandmother.SetActive(false);flat.guest.SetActive(false);
+   float fov0=scenes.cine?scenes.cine.Lens.FieldOfView:65;var start=ScreenAt+Vector3.left*2.2f;start.y=.02f;var end=ScreenAt+Vector3.left*1.45f;end.y=.02f;
+   p.transform.position=start;p.head.rotation=Quaternion.LookRotation(ScreenAt-p.head.position);Lens(42);
+   if(tv){tv.storyOn=true;tv.show=ScenarioTelevision.Show.News;tv.caption="";}flat.televisionLight.intensity=.12f;sound.Bed("crt_whine",flat.television.position,true);flat.look.disruption=.35f;
+   QaEpiloguePart="news";var lines=new List<string>(EpilogueNews);if(refused){lines.Add(EpilogueRefused);QaRefusedCard=true;}float total=1.2f+lines.Count*5.5f,clock=0;
+   for(float t=0;t<1.2f;t+=Time.deltaTime){fade=1-t/1.2f;Creep(p,start,end,(clock+=Time.deltaTime)/total);yield return null;}fade=0;
+   foreach(var l in lines){if(tv)tv.caption=l;QaEpilogueCaptions.Add(l);Say("Диктор",l,5.5f);for(float t=0;t<5.5f;t+=Time.deltaTime){Creep(p,start,end,(clock+=Time.deltaTime)/total);flat.look.disruption=.3f+.08f*Mathf.PerlinNoise(Time.time*3,.5f);yield return null;}}
+   for(float t=0;t<1f;t+=Time.deltaTime){fade=t;yield return null;}fade=1;
+   if(tv){tv.show=ScenarioTelevision.Show.None;tv.storyOn=false;}flat.televisionLight.intensity=0;sound.Bed("crt_whine",flat.television.position,false);flat.look.disruption=0;loop.Thought("",0);
+   // (3) credits over the ticking clock
+   QaEpiloguePart="credits";sound.Bed("clock",ScenarioLayout.Clock,true);
    yield return Card("АТАКА НА ЗАПОМИНАНИЕ\n«Пока дома тепло»\n\nСценарий и игра: Дима, Claude, Codex\nГостья, мебель и звуки — авторы CC0 / CC-BY, см. CREDITS.md",6);
-   yield return Card("Фотоальбом. Последний разворот: лето 1993, у подъезда.\nВаля с Тузиком улыбаются рядом с пустотой.\nТеперь засвеченных пятен три: старое, на месте бабушки — и на месте Миши в центре.",7);
-   sound.ResetWorld();yield return new WaitForSeconds(1.5f);
+   // (4) the album's last spread: three pale spots now (image Resources/Album/album_06_epilogue.png)
+   QaEpiloguePart="album";var v=Viewer();v.Open("Фотоальбом",new[]{new PageViewer.Page{resource=AlbumEpilogue,caption="Лето 1993, у подъезда. Теперь засвеченных пятен три: старое, на месте бабушки — и на месте Миши в центре. Валя с Тузиком улыбаются рядом с пустотой."}});
+   yield return new WaitForSeconds(7);
+   // the ticking breaks off
+   QaEpiloguePart="end";sound.ResetWorld();v.Close();yield return new WaitForSeconds(1.5f);
+   Lens(fov0);p.head.localRotation=Quaternion.identity;if(body)body.enabled=true;p.control=true;
    if(!loop.testing&&System.IO.File.Exists(savePath))System.IO.File.Delete(savePath);
    loop.EndStory();
   }
+  void Creep(ScenarioPlayer p,Vector3 a,Vector3 b,float u){p.transform.position=Vector3.Lerp(a,b,Mathf.SmoothStep(0,1,Mathf.Clamp01(u)));p.head.rotation=Quaternion.LookRotation(ScreenAt-p.head.position);}
 
   // ---------- GUI ----------
   GUIStyle big,small,task;

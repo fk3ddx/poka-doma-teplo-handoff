@@ -9,7 +9,8 @@ namespace Ataka.Scenario {
   // announcer screen with his words as on-screen text. A small studio on layer 31 (TV-only, far below the flat) is
   // filmed by the existing feed camera into the same render texture. There is NO announcer figure (no model): his
   // look into the camera is not shown. None = the previous plain lit colour (also what the 6.1 rewind replays).
-  public enum Show {None,TestCard,News,Announcer}
+  public enum Show {None,TestCard,News,Announcer,Game} // Game (pc27): the set-top console, its sprites live under Studio
+  [System.NonSerialized] public bool instant; // the 6.1 rewind replays the picture as recorded: no tube warm-up
   [System.NonSerialized] public Show show;[System.NonSerialized] public string caption="";
   public RenderTexture QaFeed=>texture;public bool QaFeedOn=>feed&&feed.enabled;public int QaFeedMask=>feed?feed.cullingMask:0;
   public float Brightness{get;private set;}Show shown;float since;
@@ -34,6 +35,7 @@ namespace Ataka.Scenario {
     px[y*w+x]=c;}
    t.SetPixels(px);t.Apply();return t;}
   TextMesh Text(string name,Vector3 at,Color color){var go=new GameObject(name);go.layer=31;go.transform.SetParent(studio,false);go.transform.localPosition=at;var m=go.AddComponent<TextMesh>();var font=Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");m.font=font;go.GetComponent<MeshRenderer>().sharedMaterial=font.material;m.fontSize=64;m.characterSize=.1f;m.anchor=TextAnchor.MiddleCenter;m.alignment=TextAlignment.Center;m.color=color;return m;}
+  public Transform Studio{get{BuildStudio();return studio;}}
   void BuildStudio(){
    if(studio)return;studio=new GameObject("Rubin broadcast studio (TV layer)").transform;studio.position=new Vector3(0,-200,0);studio.gameObject.layer=31;
    testCard=TestCard();cardSprite=Sprite.Create(testCard,new Rect(0,0,testCard.width,testCard.height),new Vector2(.5f,.5f),128);
@@ -46,14 +48,14 @@ namespace Ataka.Scenario {
   void Broadcast(){
    BuildStudio();if(show!=shown){if(shown==Show.None)since=Time.time;shown=show;}
    // the picture comes up as the tube warms (4.8: "картинка проявляется"), and only flickers on a channel change
-   Brightness=Mathf.Clamp01((Time.time-since)/1.2f)*(.94f+.06f*Mathf.PerlinNoise(Time.time*7,.3f));
+   Brightness=(instant?1:Mathf.Clamp01((Time.time-since)/1.2f))*(.94f+.06f*Mathf.PerlinNoise(Time.time*7,.3f));
    feed.enabled=true;feed.cullingMask=1<<31;feed.clearFlags=CameraClearFlags.SolidColor;feed.orthographic=true;feed.orthographicSize=.75f;
    feed.transform.SetPositionAndRotation(studio.position+Vector3.back*2,Quaternion.identity);
    card.enabled=show==Show.TestCard;
    feed.backgroundColor=show==Show.Announcer?new Color(.08f,.16f,.62f):show==Show.News?new Color(.04f,.06f,.18f):Color.black;
-   string head=show==Show.TestCard?"ЗАРЕЧЬЕ":show==Show.News?"НОВОСТИ ЗАРЕЧЬЯ":"";
+   string head=show==Show.TestCard?"ЗАРЕЧЬЕ":show==Show.News?"НОВОСТИ ЗАРЕЧЬЯ":""; // Game: no titles, the game draws its own
    Fit(title,head,show==Show.TestCard?.7f:1.7f,show==Show.TestCard?.14f:.24f);title.transform.localPosition=show==Show.TestCard?new Vector3(0,.58f,-.01f):new Vector3(0,.5f,-.01f);
-   string body=show==Show.TestCard?"":Wrap(caption??"",show==Show.Announcer?22:30);
+   string body=show==Show.TestCard||show==Show.Game?"":Wrap(caption??"",show==Show.Announcer?22:30);
    Fit(words,body,1.8f,show==Show.Announcer?.95f:.8f);
    words.color=show==Show.News?new Color(.92f,.92f,.85f):Color.white;
    material.SetColor("_BaseColor",Color.white*Brightness);

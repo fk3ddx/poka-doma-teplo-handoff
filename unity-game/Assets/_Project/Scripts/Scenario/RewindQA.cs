@@ -18,7 +18,7 @@ namespace Ataka.Scenario {
  // -audio-capture <wav> to record it silently with ScenarioAudioCapture.
  public sealed class RewindQA:MonoBehaviour {
   string output;readonly List<string> checks=new List<string>();int errors;
-  [Serializable] class Result {public bool passed;public float rewindActiveSeconds,rewindRealSeconds,pauseRealSeconds,pauseClockDrift;public int darkFrames,deathShots;public float knockFacing,knockPoseError,beltLuma,beltFill;public int memoriesWithPose;public int pauseCueStarts,pauseTickRequests,tickRequested,tickStarted,tickLimited,reversedRequested,reversedStarted,reversedLimited,crouchedSamples,standingSamples,playbackCrouchedFrames,playbackStandingFrames,eyeMismatches;public bool diedCrouched;public float playEye;public int bytesRecordingReserved,bytesReversedCache,reversedPrepared,reversedSkipped,memoriesRestoredFromSave,visibilityFailures;public int samples,capacity,floatsPerSample,bytesReserved,bytesUsed,soundsRecorded,memoriesStaged,journalEntries,reverseOrderViolations,distinctCameraPositions,failures,errors;public string chapterAfter;}
+  [Serializable] class Result {public string tvLive,tvReplayed;public int tvBlueFrames;public bool passed;public float rewindActiveSeconds,rewindRealSeconds,pauseRealSeconds,pauseClockDrift;public int darkFrames,deathShots;public float knockFacing,knockPoseError,beltLuma,beltFill;public int memoriesWithPose;public int pauseCueStarts,pauseTickRequests,tickRequested,tickStarted,tickLimited,reversedRequested,reversedStarted,reversedLimited,crouchedSamples,standingSamples,playbackCrouchedFrames,playbackStandingFrames,eyeMismatches;public bool diedCrouched;public float playEye;public int bytesRecordingReserved,bytesReversedCache,reversedPrepared,reversedSkipped,memoriesRestoredFromSave,visibilityFailures;public int samples,capacity,floatsPerSample,bytesReserved,bytesUsed,soundsRecorded,memoriesStaged,journalEntries,reverseOrderViolations,distinctCameraPositions,failures,errors;public string chapterAfter;}
   readonly Result result=new Result();
   static readonly float[] Marks={.5f,1.2f,2f,3f,4f,5f,5.8f,6.5f,7f,7.5f,7.9f,8.4f,9f,9.5f};
   // Two crouched stops (Ctrl, the ordinary hiding pose) and, from 22:05, crouched until the death — the rewind must replay both heights.
@@ -69,10 +69,14 @@ namespace Ataka.Scenario {
    result.memoriesRestoredFromSave=same;Check(staged.Length==4&&same==4&&story.chapter==StoryDirector.Chapter.Night1&&r.Recording,"the four memories survive a save + Continue at night 1 ("+same+"/"+staged.Length+", "+story.chapter+")");
    // The real night at 6x, the player walking a route so the rewind has something to play back.
    int k=0;float nextMove=0;float until=Time.realtimeSinceStartup+300;var liveEye=new List<(float t,float eye)>();
+   // pc27: what the «Рубин» showed live (22:00 test card → announcer captions) and, later, what the rewind shows
+   var tv=FindFirstObjectByType<ScenarioTelevision>();var liveTv=new List<string>();var playTv=new List<string>();int blueFrames=0,announcerFrames=0;
+   string TvKey()=>tv&&tv.storyOn&&tv.show!=ScenarioTelevision.Show.None?tv.show+(tv.show==ScenarioTelevision.Show.Announcer?":"+tv.caption:""):"";
+   void Note(List<string> list){var key=TvKey();if(key!=""&&(list.Count==0||list[list.Count-1]!=key))list.Add(key);}
    while(scenes.PlayingScene!="DeathFull"&&Time.realtimeSinceStartup<until){
     bool scene=!string.IsNullOrEmpty(scenes.PlayingScene);Time.timeScale=scene?1:6;
     if(!scene&&p.control&&Time.realtimeSinceStartup>nextMove){var w=Route[k++%Route.Length];p.crouched=w.crouch||story.QaNightSeconds>=22*3600+5*60;p.Place(w.at,w.yaw,w.pitch);nextMove=Time.realtimeSinceStartup+1.5f;}
-    yield return null;if(r.Recording)liveEye.Add((r.RecordingTime,p.head.localPosition.y));}
+    yield return null;if(r.Recording){liveEye.Add((r.RecordingTime,p.head.localPosition.y));Note(liveTv);}}
    Time.timeScale=1;Check(scenes.PlayingScene=="DeathFull","the real night 1 reached its 22:07 death");result.diedCrouched=p.crouched;
    checks.Add("RECORDING "+r.Samples+" samples × "+r.FloatsPerSample+" floats (cap "+NightRewind.Capacity+" = "+(NightRewind.Capacity/NightRewind.Rate)+" s at "+NightRewind.Rate+" Hz), "+r.CuesRecorded+" sounds, "+r.MemoriesRecorded+" memories; memory used "+(r.BytesUsed/1024)+" KiB of "+(r.BytesReserved/1024)+" KiB reserved up front");
    result.samples=r.Samples;result.capacity=NightRewind.Capacity;result.floatsPerSample=r.FloatsPerSample;result.bytesReserved=r.BytesReserved;result.bytesRecordingReserved=r.BytesRecordingReserved;result.soundsRecorded=r.CuesRecorded;result.memoriesStaged=r.MemoriesRecorded;
@@ -99,6 +103,7 @@ namespace Ataka.Scenario {
    int pauseCues=0;Action<string> countCue=id=>pauseCues++;var tick0=Cue(loop.sound,"rewind_tick");var rev0=Cue(loop.sound,"rewind");
    float started=Time.time,startedReal=Time.realtimeSinceStartup;int m=0;bool pauseTested=false;bool playChecked=false;var seen=new HashSet<string>();var positions=new HashSet<Vector3Int>();
    while(r.Active){
+    if(r.Phase=="reverse"){Note(playTv);if(tv&&tv.storyOn&&tv.show==ScenarioTelevision.Show.Announcer){announcerFrames++;var rt=tv.QaFeed;if(rt&&tv.Brightness>.9f){var was=RenderTexture.active;RenderTexture.active=rt;var px=new Texture2D(8,8,TextureFormat.RGBA32,false);px.ReadPixels(new Rect(4,4,8,8),0,0);px.Apply();RenderTexture.active=was;var c=px.GetPixel(4,4);Destroy(px);if(c.b>c.r+.2f)blueFrames++;}}}
     if(r.Phase=="reverse"&&r.Samples>1){float eye=p.head.localPosition.y;if(eye<1)result.playbackCrouchedFrames++;else if(eye>1.5f)result.playbackStandingFrames++;float live=LiveEye(liveEye,r.CurrentSource,out bool edge);if(!edge&&Mathf.Abs(live-eye)>.05f){if(result.eyeMismatches++<5)checks.Add("NOTE camera height at night time "+r.CurrentSource.ToString("F2")+": replayed "+eye.ToString("F2")+" m, live "+live.ToString("F2")+" m");}}
     if(r.Phase=="play"&&!playChecked){playChecked=true;result.playEye=p.head.localPosition.y;Check(!p.crouched&&Mathf.Abs(p.head.localPosition.y-1.55f)<.01f,"PLAY: night 2 starts standing (crouched "+p.crouched+", eye "+p.head.localPosition.y.ToString("F2")+" m; died "+(result.diedCrouched?"crouched":"standing")+")");}
     seen.Add(r.Phase);peakUsed=Mathf.Max(peakUsed,r.BytesUsed);peakCache=Mathf.Max(peakCache,r.BytesReversedCache);if(r.Phase=="reverse")positions.Add(Vector3Int.RoundToInt(p.transform.position*10));
@@ -123,6 +128,14 @@ namespace Ataka.Scenario {
     Check(result.tickStarted==1&&result.tickLimited==0,"rewind ticking is ONE voice for the whole rewind: rewind_tick requested "+result.tickRequested+", started "+result.tickStarted+", limited "+result.tickLimited);
     checks.Add("SOUND reversed one-shots requested "+result.reversedRequested+", started "+result.reversedStarted+", limited "+result.reversedLimited+" (8 at a time)");}
    Check(result.playbackCrouchedFrames>0&&result.playbackStandingFrames>0&&result.eyeMismatches==0,"camera height replayed as recorded: "+result.playbackCrouchedFrames+" crouched / "+result.playbackStandingFrames+" standing frames, "+result.eyeMismatches+" frames off the live height by > 5 cm");
+   // pc27: the replayed set must show the recorded PICTURE (announcer screen with his words, test card), in reverse order
+   {var liveCaps=liveTv.FindAll(x=>x.StartsWith("Announcer:"));var playCaps=playTv.FindAll(x=>x.StartsWith("Announcer:"));var reversed=new List<string>(liveCaps);reversed.Reverse();
+    int matched=0,j=0;foreach(var c in playCaps){while(j<reversed.Count&&reversed[j]!=c)j++;if(j<reversed.Count){matched++;j++;}}
+    int cardLive=liveTv.IndexOf("TestCard"),cardPlay=playTv.IndexOf("TestCard"),lastAnnPlay=playTv.FindLastIndex(x=>x.StartsWith("Announcer:"));
+    result.tvLive=string.Join(" | ",liveTv);result.tvReplayed=string.Join(" | ",playTv);result.tvBlueFrames=blueFrames;
+    Check(liveCaps.Count>=4&&cardLive>=0,"live night: the 22:00 test card and "+liveCaps.Count+" announcer captions were on the screen");
+    Check(playCaps.Count>=2&&matched==playCaps.Count&&cardPlay>lastAnnPlay,"rewind replays the screen backwards: "+playCaps.Count+" announcer captions, all in reverse recorded order ("+matched+"), the test card after them");
+    Check(announcerFrames==0||blueFrames>0,"replayed announcer frames show the blue screen on the CRT at full brightness ("+blueFrames+" of "+announcerFrames+" frames)");}
    result.bytesUsed=peakUsed;result.bytesReversedCache=peakCache;result.reversedPrepared=r.ReversedPrepared;result.reversedSkipped=r.ReversedSkipped;
    checks.Add("MEMORY peak used "+(peakUsed/1024)+" KiB (recording "+(r.Samples*r.FloatsPerSample*4/1024)+", reversed clips "+(peakCache/1024)+" for "+r.ReversedPrepared+" clips, "+r.ReversedSkipped+" over budget) of "+(r.BytesReserved/1024)+" KiB ceiling ("+(r.BytesRecordingReserved/1024)+" recording/cues/journal + "+(NightRewind.ReversedBudgetBytes/1024)+" reversed-audio budget); after the rewind the cache holds "+(r.BytesReversedCache/1024)+" KiB");
    Check(r.BytesReversedCache==0&&peakCache<=NightRewind.ReversedBudgetBytes,"reversed-audio cache within budget during the rewind and freed after it");

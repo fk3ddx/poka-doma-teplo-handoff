@@ -38,7 +38,7 @@ namespace Ataka.Scenario {
   bool Near(Transform t,float distance=1.65f)=>Vector3.Distance(flat.player.head.position,t.position)<distance;
   bool Looking(Transform t,float cosine=.86f)=>Vector3.Dot(flat.player.head.forward,(t.position-flat.player.head.position).normalized)>cosine;
   void Update(){
-   if(Keyboard.current?.escapeKey.wasPressedThisFrame==true){Pause(!paused);return;}
+   if(Keyboard.current?.escapeKey.wasPressedThisFrame==true&&!(story&&story.EscapeTaken)){Pause(!paused);return;} // Esc leaves the console / album first (pc27)
    if(Time.time>thoughtUntil)subtitle.text="";if(paused||Finished||chase.Active)return;if(story&&story.OwnsFlat)return;prompt.text="";
    if(Busy)return;var p=flat.player;var focus=interactionFocus.Select(flat);bool e=Keyboard.current?.eKey.wasPressedThisFrame==true;
    if(Progress.Lap==6&&!peepholeSeen){knockTimer+=Time.deltaTime;if(knockTimer>=(knockIndex<3?.7f:5)){knockTimer=0;if(knockIndex<3){sound.Play("knock",flat.entrance.transform.position);knockIndex++;if(knockIndex==3)sound.Grandmother(flat.entrance.transform.position);}else knockIndex=0;}}

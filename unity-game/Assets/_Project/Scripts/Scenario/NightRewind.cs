@@ -55,10 +55,13 @@ namespace Ataka.Scenario {
    // The memory's own light: always enabled, intensity 0 except while a memory that needs it is on screen (the belt
    // inside the wardrobe). The flat's accepted lights are not touched for it.
    memoryLight=new GameObject("Rewind memory light").AddComponent<Light>();memoryLight.transform.SetParent(transform,false);memoryLight.type=LightType.Spot;memoryLight.spotAngle=60;memoryLight.innerSpotAngle=30;memoryLight.color=new Color(1,.8f,.6f);memoryLight.range=2.5f;memoryLight.shadows=LightShadows.None;memoryLight.intensity=0;
-   stride=8+doors.Length+lights.Length+7;data=new float[Capacity*stride];
+   stride=8+doors.Length+lights.Length+7+2; // +2 (pc27): what the «Рубин» SHOWS (test card / announcer…) and which captiondata=new float[Capacity*stride];
   }
   // ---------- recording ----------
-  public void Begin(){Setup();count=0;first=0;cues.Clear();Recording=true;nextSample=0;startedAt=Time.time;sound.VoiceClip-=OnVoice;sound.VoiceClip+=OnVoice;}
+  // Captions of the night's broadcasts, stored once; a sample keeps only the index (pc27).
+  readonly List<string> captionTable=new List<string>();
+  float CaptionId(string c){if(string.IsNullOrEmpty(c))return -1;int i=captionTable.IndexOf(c);if(i<0&&captionTable.Count<64){captionTable.Add(c);i=captionTable.Count-1;}return i;}
+  public void Begin(){Setup();count=0;first=0;cues.Clear();captionTable.Clear();Recording=true;nextSample=0;startedAt=Time.time;sound.VoiceClip-=OnVoice;sound.VoiceClip+=OnVoice;}
   public void Stop(){Recording=false;if(sound)sound.VoiceClip-=OnVoice;}
   public void ForgetEvening(){memories.Clear();}
   public Memory[] Export()=>memories.ToArray();
@@ -75,7 +78,7 @@ namespace Ataka.Scenario {
    data[o+6]=p.flashlight&&p.flashlight.enabled?p.flashlight.intensity:0;data[o+7]=p.head.localPosition.y;o+=8;
    foreach(var d in doors)data[o++]=Mathf.DeltaAngle(0,d.leaf.localEulerAngles.y);
    foreach(var l in lights)data[o++]=l.intensity;
-   var g=flat.guest.transform;data[o++]=tv&&tv.storyOn?1:0;data[o++]=flat.guest.activeSelf?1:0;data[o++]=g.position.x;data[o++]=g.position.y;data[o++]=g.position.z;data[o++]=g.eulerAngles.y;data[o++]=g.up.y;
+   var g=flat.guest.transform;data[o++]=tv&&tv.storyOn?1:0;data[o++]=flat.guest.activeSelf?1:0;data[o++]=g.position.x;data[o++]=g.position.y;data[o++]=g.position.z;data[o++]=g.eulerAngles.y;data[o++]=g.up.y;data[o++]=tv?(int)tv.show:0;data[o++]=CaptionId(tv?tv.caption:null);
   }
   // ---------- evening memories: the real state, a directed camera ----------
   public Vector3? GranHead(){var g=flat.grandmother;if(!g.activeInHierarchy)return null;var rs=g.GetComponentsInChildren<Renderer>();if(rs.Length==0)return null;var b=rs[0].bounds;foreach(var r in rs)b.Encapsulate(r.bounds);return new Vector3(b.center.x,b.max.y-.12f,b.center.z);}
@@ -146,7 +149,7 @@ namespace Ataka.Scenario {
   public float EyeAt(int sample)=>sample>=0&&sample<count?S(sample,7):0; // QA: recorded camera height
   Action<bool> freeze;
   public IEnumerator Play(Action prepareNight2,Action<bool> freezeGrandmother){
-   Setup();Stop();Active=true;freeze=freezeGrandmother;Phase="black";var p=flat.player;var body=p.GetComponent<CharacterController>();
+   Setup();Stop();Active=true;if(tv)tv.instant=true;freeze=freezeGrandmother;Phase="black";var p=flat.player;var body=p.GetComponent<CharacterController>();
    Journal.Clear();LastActiveSeconds=0;CurrentMemory="";CurrentSubject=null;
    // ScenarioDoor.Advance returns while scripted, so the replayed leaf poses are not overwritten by the door's own Update.
    scriptedBefore=new bool[doors.Length];lockedBefore=new bool[doors.Length];openBefore=new bool[doors.Length];doorAngleBefore=new float[doors.Length];
@@ -204,6 +207,7 @@ namespace Ataka.Scenario {
    foreach(var l in lights){l.intensity=Mathf.Lerp(S(a,o),S(b,o),w);o++;}
    if(tv)tv.storyOn=S(a,o)>.5f;o++;
    bool guest=S(a,o)>.5f;o++;var g=flat.guest;
+   if(tv){tv.show=(ScenarioTelevision.Show)Mathf.RoundToInt(S(a,o+5));int ci=Mathf.RoundToInt(S(a,o+6));tv.caption=ci>=0&&ci<captionTable.Count?captionTable[ci]:"";} // the picture, not only the lit tube
    if(guest){
     var gp=new Vector3(S(a,o),S(a,o+1),S(a,o+2));bool hanging=S(a,o+4)<0;
     if(hanging){if(!guestHanging||!g.activeSelf)scenes.BalconyWaiting(0);guestHanging=true;}
@@ -220,7 +224,7 @@ namespace Ataka.Scenario {
     p.transform.SetPositionAndRotation(cam-Vector3.up*1.55f,Quaternion.Euler(0,look.y,0));p.head.localRotation=Quaternion.Euler(Mathf.DeltaAngle(0,look.x),0,0);}}
    var subject=SubjectPoint(m.subject);float fill=MemoryFill(m.id);
    if(memoryLight){memoryLight.intensity=subject.HasValue?fill:0;if(subject.HasValue){var from=p.head.position+Vector3.up*.15f;memoryLight.transform.SetPositionAndRotation(from,Quaternion.LookRotation(subject.Value-from));}}
-   if(tv)tv.storyOn=false;CurrentMemory=m.id;CurrentSubject=subject;
+   if(tv){tv.storyOn=false;tv.show=ScenarioTelevision.Show.None;tv.caption="";}CurrentMemory=m.id;CurrentSubject=subject;
   }
   // Back to what the night left (intensities, torch, wardrobe, TV, door ownership/state) before night 2 is set up.
   void Restore(){
@@ -230,11 +234,11 @@ namespace Ataka.Scenario {
    if(leavesBefore!=null)for(int i=0;i<leavesBefore.Length&&i<flat.wardrobeLeaves.Length;i++)flat.wardrobeLeaves[i].localRotation=Quaternion.Euler(0,leavesBefore[i],0);
    if(scriptedBefore!=null)for(int i=0;i<doors.Length;i++){var d=doors[i];d.scripted=scriptedBefore[i];d.locked=lockedBefore[i];d.open=openBefore[i];d.leaf.localRotation=Quaternion.Euler(0,doorAngleBefore[i],0);}
    Physics.SyncTransforms();
-   if(tv)tv.storyOn=false;
+   if(tv){tv.storyOn=false;tv.show=ScenarioTelevision.Show.None;tv.caption="";}
   }
   // Leaves exactly where ScenarioDoor would settle for the open/closed state night 2 asked for.
   void SnapDoors(){foreach(var d in doors){d.leaf.localRotation=Quaternion.Euler(0,d.open?d.direction*95:d.direction*d.closedAngle,0);}Physics.SyncTransforms();}
-  public void Cleanup(){
+  public void Cleanup(){if(tv)tv.instant=false;
    if(!Active&&!Recording)return;
    if(Active){
     if(!restored)Restore(); // cancelled mid-playback: put back the night's own lights, torch, wardrobe, TV and doors

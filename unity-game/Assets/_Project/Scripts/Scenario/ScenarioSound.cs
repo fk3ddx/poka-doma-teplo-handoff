@@ -34,12 +34,20 @@ namespace Ataka.Scenario {
    if(!cues.ContainsKey("busy"))cues["busy"]=new ScenarioSoundCue{id="busy",clips=new[]{Tone("Busy tone 425 Hz",425,4.2f,.35f)},bus=ScenarioBus.Voice,gainDb=-16,pitchVariation=0,spatial=false,maxInstances=1,priority=20};
    // 4.7 seed: the switched-off kitchen radio point hisses by itself (procedural, like the 1 kHz test tone).
    if(!cues.ContainsKey("radio_hiss"))cues["radio_hiss"]=new ScenarioSoundCue{id="radio_hiss",clips=new[]{Hiss("Radio point hiss",4.2f)},bus=ScenarioBus.World,gainDb=-14,pitchVariation=0,maxInstances=1,priority=60,maxDistance=9};
+   // 4.7 console (pc27): square-wave / noise chip sounds, synthesised like the test tone; played at the «Рубин»
+   foreach(var (id,notes,len,noise,gain) in new (string,float[],float,bool,float)[]{("nes_shot",new[]{1320f,990f,660f},.03f,false,-20f),("nes_boom",new[]{0f},.28f,true,-18f),("nes_hit",new[]{392f,330f,262f,196f},.1f,false,-16f),("nes_start",new[]{523f,659f,784f,1047f},.08f,false,-18f),("nes_over",new[]{392f,370f,349f,330f,0f,262f},.16f,false,-16f)})
+    if(!cues.ContainsKey(id))cues[id]=new ScenarioSoundCue{id=id,clips=new[]{Chip(id,notes,len,noise)},bus=ScenarioBus.World,gainDb=gain,pitchVariation=0,maxInstances=4,priority=70,maxDistance=10};
    if(!cues.ContainsKey("test_tone"))cues["test_tone"]=new ScenarioSoundCue{id="test_tone",clips=new[]{Tone("Test card 1 kHz",1000,2.6f,0)},bus=ScenarioBus.World,gainDb=-20,pitchVariation=0,maxInstances=1,priority=60,maxDistance=14};
   }
   // Band-limited noise with a slow crackle, faded in and out (a radio point between stations).
   static AudioClip Hiss(string name,float seconds){const int rate=22050;int n=(int)(seconds*rate);var data=new float[n];var r=new System.Random(4);float lp=0,lp2=0;
    for(int i=0;i<n;i++){float t=i/(float)rate;float white=(float)(r.NextDouble()*2-1);lp+=(white-lp)*.35f;lp2+=(lp-lp2)*.5f;float crackle=r.NextDouble()<.0008?(float)(r.NextDouble()*2-1)*.8f:0;
     float env=Mathf.Clamp01(t/.25f)*Mathf.Clamp01((seconds-t)/.6f)*(.75f+.25f*Mathf.Sin(t*2.3f));data[i]=(lp2*.55f+crackle)*env;}
+   var clip=AudioClip.Create(name,n,1,rate,false);clip.SetData(data,0);return clip;}
+  // A run of square-wave notes (0 Hz = rest) or a decaying noise burst, 8-bit style.
+  static AudioClip Chip(string name,float[] notes,float noteSeconds,bool noise){const int rate=22050;int per=(int)(noteSeconds*rate),n=per*notes.Length;var data=new float[n];var r=new System.Random(7);
+   for(int i=0;i<n;i++){int k=i/per;float t=(i%per)/(float)rate,env=Mathf.Clamp01(1-t/noteSeconds*.7f);float v;
+    if(noise)v=((r.Next(2)*2-1)*.5f)*Mathf.Clamp01(1-i/(float)n);else v=notes[k]<=0?0:(Mathf.Repeat(t*notes[k],1)<.5f?.35f:-.35f)*env;data[i]=v;}
    var clip=AudioClip.Create(name,n,1,rate,false);clip.SetData(data,0);return clip;}
   static AudioClip Tone(string name,float hz,float seconds,float cadence){const int rate=22050;int n=(int)(seconds*rate);var data=new float[n];
    for(int i=0;i<n;i++){float t=i/(float)rate;bool on=cadence<=0||((int)(t/cadence))%2==0;float local=cadence>0?t%cadence:t;float edge=Mathf.Clamp01(local/.004f)*Mathf.Clamp01(((cadence>0?cadence:seconds)-local)/.004f);data[i]=on?.5f*edge*Mathf.Sin(2*Mathf.PI*hz*t):0;}
