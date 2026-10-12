@@ -1,0 +1,9 @@
+{
+  "archive": "Ataka-bedroom07-review06-win64.zip",
+  "bytes": 111036556,
+  "sha256": "89c57760f023c62914708ce152a283b94d953e07df684645ef8ce9401c4f1675",
+  "runtime_sha256": "f4948e64efc6a76fd7c6fd97967ac89fa94d2e134e2b43c2579f114d37329f9e",
+  "build_label": "review06-art-final-build",
+  "crc_verified": true,
+  "scope": "Windows checkpoint; art review06 incomplete, full runtime report separate."
+}

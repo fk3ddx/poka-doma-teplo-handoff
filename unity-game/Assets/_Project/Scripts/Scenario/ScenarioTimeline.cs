@@ -21,7 +21,7 @@ namespace Ataka.Scenario {
    var rs=stool.GetComponentsInChildren<Renderer>();if(rs.Length==0)return;var bounds=rs[0].bounds;foreach(var r in rs)bounds.Encapsulate(r.bounds);
    stool.transform.position+=new Vector3(1.30f-bounds.center.x,.004f-bounds.min.y,2.62f-bounds.center.z);
   }
-  void PlaceHangingSlipper(bool visible){flat.slipper.SetActive(visible);flat.slipper.transform.SetPositionAndRotation(new Vector3(1.58f,.004f,2.36f),Quaternion.Euler(0,30,0));}
+  void PlaceHangingSlipper(bool visible){flat.slipper.SetActive(visible);flat.slipper.transform.SetPositionAndRotation(new Vector3(1.75f,.004f,2.32f),Quaternion.Euler(0,30,0));}
   public void PrepareHanging(){
    flat.grandmother.SetActive(true);flat.grandmother.GetComponent<NinaHangingPose>().Evaluate(0,flat.player.head.position);
    PlaceHangingStool();PlaceHangingSlipper(false);GetComponent<HangingFloorCue>().Prepare();

@@ -20150,27 +20150,27 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 40451d2629e666e4482e0334798b445e, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.55
+      value: 0.3979899
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 40451d2629e666e4482e0334798b445e, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.55
+      value: 0.3979899
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 40451d2629e666e4482e0334798b445e, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.55
+      value: 0.3979899
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 40451d2629e666e4482e0334798b445e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.23537369
+      value: 0.20165232
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 40451d2629e666e4482e0334798b445e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.7858334
+      value: 1.742
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 40451d2629e666e4482e0334798b445e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.41537368
+      value: 0.39165235
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 40451d2629e666e4482e0334798b445e, type: 3}
       propertyPath: m_LocalRotation.w
@@ -22251,9 +22251,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1047450329}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.33, y: 1.6025, z: 0.33}
-  m_LocalScale: {x: 0.6, y: 0.035, z: 0.6}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.62, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 670078616}
@@ -22314,7 +22314,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1047450329}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 4300000, guid: 1b6d7383851fdf7478567c2b16478755, type: 2}
 --- !u!1 &1053088079
 GameObject:
   m_ObjectHideFlags: 0
@@ -27438,9 +27438,9 @@ Light:
   m_Enabled: 1
   serializedVersion: 12
   m_Type: 2
-  m_Color: {r: 1, g: 0.05, b: 0.015, a: 1}
-  m_Intensity: 0.018
-  m_Range: 0.5
+  m_Color: {r: 1, g: 0.28, b: 0.1, a: 1}
+  m_Intensity: 0.012
+  m_Range: 0.4
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize2D: {x: 0.5, y: 0.5}
@@ -33109,27 +33109,27 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 40451d2629e666e4482e0334798b445e, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.55
+      value: 0.3979899
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 40451d2629e666e4482e0334798b445e, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.55
+      value: 0.3979899
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 40451d2629e666e4482e0334798b445e, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.55
+      value: 0.3979899
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 40451d2629e666e4482e0334798b445e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.41537368
+      value: 0.39165235
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 40451d2629e666e4482e0334798b445e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.7858334
+      value: 1.742
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 40451d2629e666e4482e0334798b445e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.2353737
+      value: 0.20165233
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 40451d2629e666e4482e0334798b445e, type: 3}
       propertyPath: m_LocalRotation.w

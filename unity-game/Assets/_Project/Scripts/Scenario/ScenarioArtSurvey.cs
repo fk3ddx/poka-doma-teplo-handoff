@@ -41,9 +41,13 @@ namespace Ataka.Scenario {
    };
    bool materialProbe=Array.IndexOf(Environment.GetCommandLineArgs(),"-scenario-bed-probe")>=0;
    float originalIconIntensity=flat.look.icon.intensity;Light iconHalo=null;foreach(var l in flat.apartment.GetComponentsInChildren<Light>())if(l.name=="Icon glass halo")iconHalo=l;float originalHaloIntensity=iconHalo?iconHalo.intensity:0;
+   var bedFrameShadows=new Dictionary<Renderer,UnityEngine.Rendering.ShadowCastingMode>();
+   var bedRoot=flat.apartment.Find("READY Poly Haven iron bed with textured linen");
+   if(bedRoot)foreach(var r in bedRoot.GetComponentsInChildren<Renderer>())if(!r.name.StartsWith("Textile"))bedFrameShadows.Add(r,r.shadowCastingMode);
    var originals=new Dictionary<Renderer,Material[]>();var diagnosticMaterials=new List<Material>();
-   foreach(var r in flat.apartment.GetComponentsInChildren<Renderer>())if(r.name.StartsWith("Textile upright pillow")||r.name=="Textile mattress")originals.Add(r,r.sharedMaterials);
-   foreach(string mode in materialProbe?new[]{"lap1","diagnostic-no-normal","diagnostic-no-icon-light","diagnostic-flashlight"}:new[]{"lap1","warm-return"}){
+   foreach(var r in flat.apartment.GetComponentsInChildren<Renderer>())if(r.name.StartsWith("Textile upright pillow")||r.name=="Textile mattress"||r.name=="Textile coverlet")originals.Add(r,r.sharedMaterials);
+   foreach(string mode in materialProbe?new[]{"lap1","diagnostic-no-normal","diagnostic-no-icon-light","diagnostic-no-frame-shadow","diagnostic-flashlight"}:new[]{"lap1","warm-return"}){
+    foreach(var entry in bedFrameShadows)entry.Key.shadowCastingMode=mode=="diagnostic-no-frame-shadow"?UnityEngine.Rendering.ShadowCastingMode.Off:entry.Value;
     foreach(var pair in originals){
      if(mode=="diagnostic-no-normal"){
       var materials=new Material[pair.Value.Length];for(int i=0;i<materials.Length;i++){var m=new Material(pair.Value[i]);m.DisableKeyword("_NORMALMAP");m.SetFloat("_BumpScale",0);materials[i]=m;diagnosticMaterials.Add(m);}pair.Key.sharedMaterials=materials;
@@ -64,8 +68,9 @@ namespace Ataka.Scenario {
     }
    }
    flat.look.icon.intensity=originalIconIntensity;if(iconHalo)iconHalo.intensity=originalHaloIntensity;
+   foreach(var entry in bedFrameShadows)entry.Key.shadowCastingMode=entry.Value;
    foreach(var pair in originals)pair.Key.sharedMaterials=pair.Value;foreach(var m in diagnosticMaterials)Destroy(m);
-   var report=new Report{views=records.ToArray()};if(materialProbe)report.scope="Diagnostic ONLY: staged cameras16/17/18, normal lap1; then same lighting with textile normal maps disabled; then original materials with icon spot/halo intensity0 to locate the red band; then original materials/light with flashlight intensity2. Neither override is production art or an approved change. View17 hides lace.";
+   var report=new Report{views=records.ToArray()};if(materialProbe)report.scope="Diagnostic ONLY: staged cameras16/17/18, normal lap1; then same lighting with textile normal maps disabled; then original materials with icon spot/halo intensity0 to locate the red band; then original lighting with ONLY ready bed-frame shadow casting disabled; then original materials/light with flashlight intensity2. Neither override is production art or an approved change. View17 hides lace.";
    File.WriteAllText(Path.Combine(output,"survey.json"),JsonUtility.ToJson(report,true));Application.Quit();
   }
   static ViewRecord A(string id,float x,float z,float yaw,float pitch){var feet=new Vector3(x,.02f,z);return new ViewRecord{file=id,feet=feet,target=feet+Vector3.up*1.55f+Quaternion.Euler(-pitch,yaw+180,0)*Vector3.forward*2,fov=68};}
