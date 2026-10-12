@@ -18,14 +18,20 @@ namespace Ataka.Scenario {
   public static float Duration=>Black+Reverse+Evening+Flash+Freeze+PlayTag;
   FlatBindings flat=>loop.flat;ScenarioSound sound=>loop.sound;ScenarioTimeline scenes=>loop.scenes;
   ScenarioDoor[] doors;Light[] lights;ScenarioTelevision tv;int stride;float[] data;int count,first;float nextSample,startedAt;
-  struct Cue {public AudioClip clip;public float t;}
+  struct Cue {public AudioClip clip;public float t;public string id;}
   readonly List<Cue> cues=new List<Cue>();const int CueCapacity=256;
   public sealed class Memory {public string id,cue;public Vector3 feet;public float yaw,pitch;public bool gran;public Vector3 granAt;public Quaternion granRot;public float[] leaves,light;}
   readonly List<Memory> memories=new List<Memory>();
   public bool Recording{get;private set;}public bool Active{get;private set;}public float Time01{get;private set;}public float Clock{get;private set;}public string Phase{get;private set;}="";
   public int Samples=>count;public int CuesRecorded=>cues.Count;public int MemoriesRecorded=>memories.Count;
   public int BytesReserved=>(data!=null?data.Length*4:0)+CueCapacity*16;
-  string osd="";float black,white,band;bool[] scriptedBefore;float[] lightsBefore,leavesBefore;bool restored;
+  public int BytesUsed=>count*stride*4+cues.Count*16;public int FloatsPerSample=>stride;
+  // QA journal of one playback: what was shown/heard at which rewind time, with the ORIGINAL night time it came from.
+  public struct Played {public float clock,source;public string what;}
+  public readonly List<Played> Journal=new List<Played>();const int JournalCapacity=600;
+  public float LastActiveSeconds{get;private set;}
+  void Note(float clock,float source,string what){if(Journal.Count<JournalCapacity)Journal.Add(new Played{clock=clock,source=source,what=what});}
+  string osd="";float black,white,band;bool[] scriptedBefore,lockedBefore,openBefore;float[] lightsBefore,leavesBefore,doorAngleBefore;bool restored;
 
   void Setup(){
    if(data!=null)return;
@@ -39,7 +45,7 @@ namespace Ataka.Scenario {
   public void Stop(){Recording=false;if(sound)sound.VoiceClip-=OnVoice;}
   public void ForgetEvening(){memories.Clear();}
   void OnVoice(string id,AudioClip clip){if(!Recording||!clip||id=="step"||id=="carpet_step"||id=="rewind")return; // footsteps would crowd out the night's events
-   if(cues.Count>=CueCapacity)cues.RemoveAt(0);cues.Add(new Cue{clip=clip,t=Time.time-startedAt});}
+   if(cues.Count>=CueCapacity)cues.RemoveAt(0);cues.Add(new Cue{clip=clip,t=Time.time-startedAt,id=id});}
   void Update(){
    if(!Recording||flat.player.paused||Time.time<nextSample)return;nextSample=Time.time+1/Rate;
    int slot;if(count<Capacity){slot=(first+count)%Capacity;count++;}else{slot=first;first=(first+1)%Capacity;}
@@ -63,7 +69,10 @@ namespace Ataka.Scenario {
   Action<bool> freeze;
   public IEnumerator Play(Action prepareNight2,Action<bool> freezeGrandmother){
    Setup();Stop();Active=true;freeze=freezeGrandmother;Phase="black";var p=flat.player;var body=p.GetComponent<CharacterController>();
-   scriptedBefore=new bool[doors.Length];for(int i=0;i<doors.Length;i++){scriptedBefore[i]=doors[i].scripted;doors[i].scripted=true;}
+   Journal.Clear();LastActiveSeconds=0;
+   // ScenarioDoor.Advance returns while scripted, so the replayed leaf poses are not overwritten by the door's own Update.
+   scriptedBefore=new bool[doors.Length];lockedBefore=new bool[doors.Length];openBefore=new bool[doors.Length];doorAngleBefore=new float[doors.Length];
+   for(int i=0;i<doors.Length;i++){var d=doors[i];scriptedBefore[i]=d.scripted;lockedBefore[i]=d.locked;openBefore[i]=d.open;doorAngleBefore[i]=Mathf.DeltaAngle(0,d.leaf.localEulerAngles.y);d.scripted=true;}
    lightsBefore=new float[lights.Length];for(int i=0;i<lights.Length;i++)lightsBefore[i]=lights[i].intensity;
    restored=false;if(body)body.enabled=false;p.control=false;sound.quiet=true;loop.prompt.text="";
    leavesBefore=new float[flat.wardrobeLeaves.Length];for(int i=0;i<leavesBefore.Length;i++)leavesBefore[i]=Mathf.DeltaAngle(0,flat.wardrobeLeaves[i].localEulerAngles.y);
@@ -80,14 +89,15 @@ namespace Ataka.Scenario {
       ApplySample(a,b,w,ref guestHanging);
       // sounds of the samples just passed, played backwards
       float tA=S(a,5),tB=lastSample<count?S(lastSample,5):float.MaxValue;
-      for(int i=cues.Count-1;i>=0;i--)if(cues[i].t>=tA&&cues[i].t<tB)sound.PlayReversed(cues[i].clip,1.6f);
+      for(int i=cues.Count-1;i>=0;i--)if(cues[i].t>=tA&&cues[i].t<tB){sound.PlayReversed(cues[i].clip,1.6f);Note(t,cues[i].t,"sound "+cues[i].id+" ("+cues[i].clip.name+")");}
+      if(a!=lastSample)Note(t,tA,"frame "+a);
       lastSample=a;
      }
      flat.clock.Show(Mathf.Lerp(22*3600+7*60,21*3600+42*60,u));
     }
     else if(t<Black+Reverse+Evening){
      Phase="evening";float e=(t-Black-Reverse)/Evening;sound.RewindTick(1);flat.look.disruption=.75f+.2f*Mathf.PerlinNoise(t*9,.7f);band=1-e;
-     if(order.Length>0){int k=Mathf.Min(order.Length-1,Mathf.FloorToInt(e*order.Length));if(k!=shownMemory){shownMemory=k;ApplyMemory(order[k]);var clip=sound.FirstClip(order[k].cue);if(clip)sound.PlayReversed(clip,1.4f);}}
+     if(order.Length>0){int k=Mathf.Min(order.Length-1,Mathf.FloorToInt(e*order.Length));if(k!=shownMemory){shownMemory=k;ApplyMemory(order[k]);Note(t,-1,"evening "+order[k].id);var clip=sound.FirstClip(order[k].cue);if(clip)sound.PlayReversed(clip,1.4f);}}
      flat.clock.Show(Mathf.Lerp(21*3600+42*60,21*3600+40*60,e));
     }
     else if(t<Black+Reverse+Evening+Flash){
@@ -96,7 +106,7 @@ namespace Ataka.Scenario {
     }
     else if(t<total-PlayTag){Phase="freeze";white=0;osd="II";band=0;var j=Mathf.Sin(t*71)*.25f;p.head.localRotation=Quaternion.Euler(j,Mathf.Sin(t*53)*.2f,0);flat.look.disruption=.3f+.05f*Mathf.Sin(t*40);}
     else{Phase="play";osd="► PLAY";p.head.localRotation=Quaternion.identity;freezeGrandmother?.Invoke(false);flat.look.disruption=Mathf.Lerp(.3f,0,(t-(total-PlayTag))/PlayTag);}
-    yield return null;t+=Time.deltaTime;
+    yield return null;t+=Time.deltaTime;LastActiveSeconds=t; // game time only: Time.deltaTime is 0 while the game is paused
    }
    if(!prepared){Restore();prepareNight2?.Invoke();SnapDoors();}
    Cleanup();
@@ -126,7 +136,8 @@ namespace Ataka.Scenario {
    restored=true;scenes.Cancel();
    if(lightsBefore!=null)for(int i=0;i<lights.Length;i++)lights[i].intensity=lightsBefore[i];
    if(leavesBefore!=null)for(int i=0;i<leavesBefore.Length&&i<flat.wardrobeLeaves.Length;i++)flat.wardrobeLeaves[i].localRotation=Quaternion.Euler(0,leavesBefore[i],0);
-   if(scriptedBefore!=null)for(int i=0;i<doors.Length;i++)doors[i].scripted=scriptedBefore[i];
+   if(scriptedBefore!=null)for(int i=0;i<doors.Length;i++){var d=doors[i];d.scripted=scriptedBefore[i];d.locked=lockedBefore[i];d.open=openBefore[i];d.leaf.localRotation=Quaternion.Euler(0,doorAngleBefore[i],0);}
+   Physics.SyncTransforms();
    if(tv)tv.storyOn=false;
   }
   // Leaves exactly where ScenarioDoor would settle for the open/closed state night 2 asked for.
@@ -139,7 +150,7 @@ namespace Ataka.Scenario {
     var p=flat.player;var body=p.GetComponent<CharacterController>();if(body)body.enabled=true;p.control=true;p.head.localRotation=Quaternion.Euler(p.pitch,0,0);
     sound.RewindTick(0);sound.quiet=false;flat.look.disruption=0;
    }
-   Stop();Active=false;freeze=null;Phase="";osd="";black=white=band=0;scriptedBefore=null;lightsBefore=null;leavesBefore=null;
+   Stop();Active=false;freeze=null;Phase="";osd="";black=white=band=0;scriptedBefore=lockedBefore=openBefore=null;lightsBefore=leavesBefore=doorAngleBefore=null;
   }
   Texture2D noise;
   void OnGUI(){

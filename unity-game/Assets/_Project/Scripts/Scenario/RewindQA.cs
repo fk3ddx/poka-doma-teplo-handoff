@@ -10,15 +10,20 @@ namespace Ataka.Scenario {
  // rewind, per-channel sample reversal, bounded recording, and NO residue after it ends (control, body, camera, doors,
  // light enable flags, ticking, quiet, VHS, Guest, grandmother animation) — also when cancelled mid-rewind.
  // The four evening memories are STAGED here (the evening is not played in this run) and are reported as such.
+ // Output: checks.txt (PASS/FAIL lines), result.json (numbers), rewind-timeline.txt (what played, rewind clock vs the
+ // original night time), rewind-<t>.png. Exit 0 = all PASS. Sound goes only through the game listener; add
+ // -audio-capture <wav> to record it silently with ScenarioAudioCapture.
  public sealed class RewindQA:MonoBehaviour {
   string output;readonly List<string> checks=new List<string>();int errors;
+  [Serializable] class Result {public bool passed;public float rewindActiveSeconds,rewindRealSeconds,pauseRealSeconds,pauseClockDrift;public int samples,capacity,floatsPerSample,bytesReserved,bytesUsed,soundsRecorded,memoriesStaged,journalEntries,reverseOrderViolations,distinctCameraPositions,failures,errors;public string chapterAfter;}
+  readonly Result result=new Result();
   static readonly float[] Marks={.5f,1.2f,2f,3f,4f,5f,5.8f,6.5f,7f,7.5f,7.9f,8.4f,9f,9.5f};
   static readonly (Vector3 at,float yaw,float pitch)[] Route={(new Vector3(7.9f,.02f,4.6f),0,0),(new Vector3(5.6f,.02f,5.2f),270,-10),(new Vector3(5.6f,.02f,3.6f),180,0),(new Vector3(4.6f,.02f,1.5f),200,15),(new Vector3(7.4f,.02f,3.5f),180,5),(new Vector3(7.0f,.02f,3.9f),20,0)};
   [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]static void Boot(){
    var args=Environment.GetCommandLineArgs();int i=Array.IndexOf(args,"-rewind-qa");if(i<0||i+1>=args.Length)return;
    new GameObject("Rewind QA").AddComponent<RewindQA>().output=Path.GetFullPath(args[i+1]);}
   void Log(string message,string trace,LogType type){if(type==LogType.Error||type==LogType.Exception){errors++;checks.Add("ERROR "+message.Split('\n')[0]);}}
-  void Check(bool ok,string what){checks.Add((ok?"PASS ":"FAIL ")+what);File.WriteAllLines(Path.Combine(output,"checks.txt"),checks);}
+  void Check(bool ok,string what){checks.Add((ok?"PASS ":"FAIL ")+what);if(!ok)result.failures++;File.WriteAllLines(Path.Combine(output,"checks.txt"),checks);}
   List<(Light l,bool enabled,bool active)> LightStates(){var r=new List<(Light,bool,bool)>();foreach(var l in FindObjectsByType<Light>(FindObjectsInactive.Include,FindObjectsSortMode.InstanceID))r.Add((l,l.enabled,l.gameObject.activeInHierarchy));return r;}
   static float Target(ScenarioDoor d)=>d.open?d.direction*95:d.direction*d.closedAngle;
   void Residue(string when,LoopDirector loop,List<(Light l,bool enabled,bool active)> lightsBefore){
@@ -49,24 +54,31 @@ namespace Ataka.Scenario {
     if(!scene&&p.control&&Time.realtimeSinceStartup>nextMove){var w=Route[k++%Route.Length];p.Place(w.at,w.yaw,w.pitch);nextMove=Time.realtimeSinceStartup+1.5f;}
     yield return null;}
    Time.timeScale=1;Check(scenes.PlayingScene=="DeathFull","the real night 1 reached its 22:07 death");
-   checks.Add("RECORDING "+r.Samples+" samples (cap "+NightRewind.Capacity+"), "+r.CuesRecorded+" sounds, "+r.MemoriesRecorded+" memories, "+(r.BytesReserved/1024)+" KiB reserved");
+   checks.Add("RECORDING "+r.Samples+" samples × "+r.FloatsPerSample+" floats (cap "+NightRewind.Capacity+" = "+(NightRewind.Capacity/NightRewind.Rate)+" s at "+NightRewind.Rate+" Hz), "+r.CuesRecorded+" sounds, "+r.MemoriesRecorded+" memories; memory used "+(r.BytesUsed/1024)+" KiB of "+(r.BytesReserved/1024)+" KiB reserved up front");
+   result.samples=r.Samples;result.capacity=NightRewind.Capacity;result.floatsPerSample=r.FloatsPerSample;result.bytesReserved=r.BytesReserved;result.bytesUsed=r.BytesUsed;result.soundsRecorded=r.CuesRecorded;result.memoriesStaged=r.MemoriesRecorded;
    Check(r.Samples>0&&r.Samples<=NightRewind.Capacity&&!r.Recording,"recording bounded and stopped before the death");
    var lightsBefore=LightStates();
    while(!r.Active&&Time.realtimeSinceStartup<until+60)yield return null;
-   float started=Time.time;int m=0;bool pauseTested=false;var seen=new HashSet<string>();var positions=new HashSet<Vector3Int>();
+   float started=Time.time,startedReal=Time.realtimeSinceStartup;int m=0;bool pauseTested=false;var seen=new HashSet<string>();var positions=new HashSet<Vector3Int>();
    while(r.Active){
     seen.Add(r.Phase);if(r.Phase=="reverse")positions.Add(Vector3Int.RoundToInt(p.transform.position*10));
-    if(!pauseTested&&r.Clock>4){pauseTested=true;float c0=r.Clock;loop.Pause(true);yield return new WaitForSecondsRealtime(1);float c1=r.Clock;loop.Pause(false);Check(Mathf.Abs(c1-c0)<.001f,"Esc pause holds the rewind ("+c0.ToString("F2")+" → "+c1.ToString("F2")+")");}
+    if(!pauseTested&&r.Clock>4){pauseTested=true;float c0=r.Clock;var pos0=p.transform.position;loop.Pause(true);float pr=Time.realtimeSinceStartup;yield return new WaitForSecondsRealtime(.5f);float c1=r.Clock;var pos1=p.transform.position;loop.Pause(false);
+     result.pauseRealSeconds=Time.realtimeSinceStartup-pr;result.pauseClockDrift=c1-c0;Check(Mathf.Abs(c1-c0)<.001f&&(pos1-pos0).sqrMagnitude<1e-6f,"pause in the middle: "+result.pauseRealSeconds.ToString("F2")+" s real, rewind clock "+c0.ToString("F2")+" → "+c1.ToString("F2")+", camera did not move");}
     if(m<Marks.Length&&r.Clock>=Marks[m]){
      yield return new WaitForEndOfFrame();string file="rewind-"+Marks[m].ToString("0.0",System.Globalization.CultureInfo.InvariantCulture)+".png";if(!Application.isBatchMode)ScreenCapture.CaptureScreenshot(Path.Combine(output,file));
      checks.Add("SHOT "+file+" clock "+r.Clock.ToString("F2")+" phase "+r.Phase+" disruption "+flat.look.disruption.ToString("F2")+" ticking "+loop.sound.RewindTickActive+" player "+p.transform.position.ToString("F2")+" guest "+(flat.guest.activeSelf?"shown":"hidden")+" grandmother "+(flat.grandmother.activeSelf?"shown":"hidden"));m++;continue;}
     yield return null;}
-   float took=Time.time-started;
-   Check(took>=8&&took<=10.5f,"rewind lasts "+took.ToString("F2")+" s (8–10 s incl. silence, flash, freeze, PLAY)");
+   float took=r.LastActiveSeconds;result.rewindActiveSeconds=took;result.rewindRealSeconds=Time.realtimeSinceStartup-startedReal;
+   Check(took>=8&&took<=10.5f,"rewind active game time "+took.ToString("F2")+" s (8–10 s incl. silence, flash, freeze, PLAY); real "+result.rewindRealSeconds.ToString("F2")+" s incl. the 0.5 s pause; Time.time span "+(Time.time-started).ToString("F2"));
+   // Reverse chronology: every frame/sound shown during the reverse phase comes from an earlier night time than the one before it.
+   var lines=new List<string>{"rewind_clock\tnight_time\twhat"};float last=float.MaxValue;int violations=0;
+   foreach(var e in r.Journal){lines.Add(e.clock.ToString("F2")+"\t"+(e.source<0?"evening":e.source.ToString("F2"))+"\t"+e.what);if(e.source>=0){if(e.source>last+.001f)violations++;last=e.source;}}
+   File.WriteAllLines(Path.Combine(output,"rewind-timeline.txt"),lines);result.journalEntries=r.Journal.Count;result.reverseOrderViolations=violations;
+   Check(r.Journal.Count>10&&violations==0,"frames and sounds played in reverse chronology ("+r.Journal.Count+" entries, "+violations+" out of order) — rewind-timeline.txt");
    Check(seen.Contains("black")&&seen.Contains("reverse")&&seen.Contains("evening")&&seen.Contains("flash")&&seen.Contains("freeze")&&seen.Contains("play"),"all phases ran: "+string.Join(",",seen));
-   Check(positions.Count>5,"the night camera was really played back ("+positions.Count+" distinct positions)");
+   result.distinctCameraPositions=positions.Count;Check(positions.Count>5,"the night camera was really played back ("+positions.Count+" distinct positions)");
    yield return new WaitForSeconds(.5f);
-   Check(story.chapter==StoryDirector.Chapter.Night2,"rewind hands over to night 2 ("+story.chapter+")");
+   result.chapterAfter=story.chapter.ToString();Check(story.chapter==StoryDirector.Chapter.Night2&&p.control,"rewind hands over to night 2 with control=true ("+story.chapter+", control "+p.control+")");
    Check(flat.grandmother.activeSelf&&Vector3.Distance(flat.grandmother.transform.position,StoryDirector.QaNode("Door"))<.7f,"night 2 starts with her at the door");
    Residue("after rewind",loop,lightsBefore);
    // Per-channel reversal on a synthetic stereo clip (frames reversed, channel order kept).
@@ -74,10 +86,16 @@ namespace Ataka.Scenario {
    bool ok=rev&&rev.GetData(back,0)&&Mathf.Approximately(back[0],.5f)&&Mathf.Approximately(back[1],-.5f)&&Mathf.Approximately(back[8],.1f)&&Mathf.Approximately(back[9],-.1f);
    Check(ok,"audio reversed per channel by samples ("+(rev?string.Join(",",back):"null")+")");
    // Cancel mid-rewind (menu / new game): nothing may stay behind.
-   lightsBefore=LightStates();story.QaReplayRewind();while(!(r.Active&&r.Phase=="reverse"&&r.Clock>3))yield return null;
-   checks.Add("CANCEL at clock "+r.Clock.ToString("F2")+" phase "+r.Phase);story.QaBegin("Night2");yield return new WaitForSeconds(1.5f);
+   lightsBefore=LightStates();var doorsBefore=new List<(ScenarioDoor d,bool scripted,bool locked,bool open,float angle)>();
+   foreach(var d in new[]{flat.entrance,flat.kitchen,flat.bath,flat.bedroom,flat.living,flat.balconyDoor})if(d&&d.leaf)doorsBefore.Add((d,d.scripted,d.locked,d.open,Mathf.DeltaAngle(0,d.leaf.localEulerAngles.y)));
+   story.QaReplayRewind();while(!(r.Active&&r.Phase=="reverse"&&r.Clock>3))yield return null;
+   int scriptedDuring=0;foreach(var b in doorsBefore)if(b.d.scripted)scriptedDuring++;Check(scriptedDuring==doorsBefore.Count,"during the replay every door is scripted, so ScenarioDoor.Update does not overwrite the replayed leaves ("+scriptedDuring+"/"+doorsBefore.Count+")");
+   checks.Add("CANCEL at clock "+r.Clock.ToString("F2")+" phase "+r.Phase);story.QaCancelRewind();
+   foreach(var b in doorsBefore){var d=b.d;float err=Mathf.Abs(Mathf.DeltaAngle(Mathf.DeltaAngle(0,d.leaf.localEulerAngles.y),b.angle));Check(d.scripted==b.scripted&&d.locked==b.locked&&d.open==b.open&&err<.5f,"cancel restores door "+d.name+": scripted "+d.scripted+", locked "+d.locked+", open "+d.open+", angle error "+err.ToString("F2")+"°");}
+   story.QaBegin("Night2");yield return new WaitForSeconds(1.5f);
    Residue("after cancel",loop,lightsBefore);
    Check(errors==0,"no runtime errors ("+errors+")");
+   result.errors=errors;result.passed=result.failures==0;File.WriteAllText(Path.Combine(output,"result.json"),JsonUtility.ToJson(result,true));
    File.WriteAllLines(Path.Combine(output,"checks.txt"),checks);yield return new WaitForSecondsRealtime(.5f);Application.Quit(checks.Exists(c=>c.StartsWith("FAIL "))?1:0);
   }
  }

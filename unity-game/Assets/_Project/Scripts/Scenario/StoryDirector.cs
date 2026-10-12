@@ -78,6 +78,7 @@ namespace Ataka.Scenario {
    foreach(var d in flat.wardrobeLeaves)d.localRotation=Quaternion.identity;
    GranShow("Door",180);player.Place(new Vector3(7.95f,.02f,4.5f),0,0);rewind.Remember("knock","knock");flat.grandmother.SetActive(false);}
   public void QaReplayRewind(){if(running!=null)StopCoroutine(running);running=StartCoroutine(Rewind());}
+  public void QaCancelRewind(){if(running!=null)StopCoroutine(running);running=null;if(rewind)rewind.Cleanup();}
   public void QaNightEvents(int which){chapter=which==1?Chapter.Night1:Chapter.Night2;night=which;if(running!=null)StopCoroutine(running);nightSeconds=22*3600;NightClock();running=StartCoroutine(NightEvents(which,false));}
   public bool QaBelt=>beltTied;public int QaRestarts{get;private set;}public bool qaAllowSave;
   public void QaSavePath(string path){savePath=path;}public string SavePath=>savePath;
