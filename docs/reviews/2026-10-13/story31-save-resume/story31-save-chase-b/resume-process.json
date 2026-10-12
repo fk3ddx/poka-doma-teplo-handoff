@@ -1,0 +1,28 @@
+{
+  "pid": 8772,
+  "command": [
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\Builds\\ScenarioCore\\Ataka-Loop.exe",
+    "-screen-fullscreen",
+    "0",
+    "-screen-width",
+    "1280",
+    "-screen-height",
+    "720",
+    "-audio-capture",
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\QA\\story31-save-chase-b\\resume-silent-mix.wav",
+    "-logFile",
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\QA\\story31-save-chase-b\\resume-player.log",
+    "-qa-save-dir",
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\QA\\story31-save-chase-b\\qa-saves",
+    "-save-resume-qa",
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\QA\\story31-save-chase-b",
+    "-save-resume-case",
+    "chase",
+    "-save-resume-phase",
+    "resume",
+    "-scenario-death-skip"
+  ],
+  "runtime_sha256": "6b0b43911f0265376ccc9284fc0e59a30ba27bf397ea90c586face0577436885",
+  "build_label": "story31-build-b",
+  "utc": "2026-10-12T22:08:39.208679+00:00"
+}

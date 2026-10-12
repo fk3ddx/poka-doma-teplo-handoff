@@ -1,0 +1,16 @@
+MODE rendered screenshots
+RESUMED by SaveResumeQA through the menu's Continue; lap 6 chase True chapter Loop
+PASS the saved chase is running again after Continue
+PASS pause freezes chase clock
+PASS stall death restarts chase
+PASS repeat death available for skip
+PASS held E skips repeat death
+PASS skipped death restarts chase
+CAMERA gap=0 cornerFrame=1913 sampledLateFrame=1913
+PASS camera follows rigid shift after normal LateUpdate
+PASS warm clock reached within 42–50s
+PASS clock wound by holding E two seconds
+PASS ten strikes call the live story finale
+PASS warm return bedside clock follows scenario time
+PASS warm return ready bedside clock has time source
+PASS the resumed chase and its clock strikes entered the live finale

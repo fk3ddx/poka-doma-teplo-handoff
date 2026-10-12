@@ -1,0 +1,22 @@
+MODE rendered screenshots
+RESUMED by SaveResumeQA through the menu's Continue; lap 2 chase False chapter Loop
+PASS the flashlight came back with the save
+PASS lap 2 entered
+PASS lap 2 bedside clock follows scenario time
+PASS lap 2 ready bedside clock has time source
+WALK (7.95, 0.01, 5.44) target=(7.90, 0.00, 5.35)
+WALK (5.75, 0.01, 5.35) target=(5.65, 0.00, 5.35)
+WALK (5.66, 0.02, 3.70) target=(5.65, 0.00, 3.60)
+WALK (3.34, 0.01, 3.59) target=(3.25, 0.00, 3.60)
+WALK (2.40, 0.01, 3.60) target=(2.30, 0.00, 3.60)
+WALK (1.48, 0.01, 3.14) target=(1.40, 0.00, 3.10)
+UNDERBED crouch=True distance=1,249914 dot=1 prompt=[E] Посмотреть под кровать
+WALK (0.97, 0.01, 3.67) target=(0.90, 0.00, 3.75)
+PASS gate 2 released by event
+DOOR stopped at original approach; step clear per Claude review05
+WALK (1.08, 0.01, 3.15) target=(1.10, 0.00, 3.05)
+WALK (8.03, 0.02, 6.66) target=(0.90, 0.00, 5.10)
+RETURN_DOOR return after E player=(8.029, 0.020, 6.655) door=(8.050, 1.000, 6.030) pivot=(8.500, 0.000, 6.030) dir=-1 angle=-94,93759 open=True locked=False blocked=False scripted=False prompt=[F] удерживать — подкачать фонарик
+NEAR_CAPSULE Vestibule floor parent=Destination local frame bounds=Center: (8.05, -0.05, 6.56), Extents: (0.55, 0.05, 0.53)
+WALK (8.05, 0.01, 5.66) target=(8.05, 0.00, 5.55)
+PASS lap 3 entered

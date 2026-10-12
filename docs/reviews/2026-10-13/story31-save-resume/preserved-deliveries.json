@@ -1,0 +1,17 @@
+{
+  "23": {
+    "zip": "Ataka-story23-preview-win64.zip",
+    "sha256": "5fce4236f69d2e0ff677ce46934090db37416d90ed4ea207e815e0894626fd11",
+    "unchanged": true
+  },
+  "27": {
+    "zip": "Ataka-story27-preview-win64.zip",
+    "sha256": "ad0add9c9f48f5f9ac53e1df518d7b909e443a03fdeac98a689b433fcf3880de",
+    "unchanged": true
+  },
+  "29": {
+    "zip": "Ataka-story29-preview-win64.zip",
+    "sha256": "641982a4046610275fd82449f661037b8ec1112f92593a124e6d1ced4a4cceb7",
+    "unchanged": true
+  }
+}

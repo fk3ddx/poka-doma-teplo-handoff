@@ -1,0 +1,71 @@
+{
+  "story31-save-reject-a": {
+    "case": "reject",
+    "exit": 1,
+    "results": {
+      "exit_nonzero": true,
+      "reported": true,
+      "qa_folder_empty": true
+    }
+  },
+  "story31-save-lap2-a": {
+    "case": "lap2",
+    "stage_exit": 0,
+    "resume_exit": 0,
+    "results": {
+      "stage": true,
+      "resume": true,
+      "silent_capture": true,
+      "rendered_evidence": true,
+      "unchanged_until_continue": true,
+      "walk": true
+    }
+  },
+  "story31-save-chase-a": {
+    "case": "chase",
+    "stage_exit": 0,
+    "resume_exit": 0,
+    "results": {
+      "stage": true,
+      "resume": true,
+      "silent_capture": true,
+      "rendered_evidence": true,
+      "unchanged_until_continue": true,
+      "chase": true,
+      "finale": true,
+      "epilogue": true,
+      "story_save_deleted_after_epilogue": true
+    }
+  },
+  "story31-save-chase-b": {
+    "case": "chase",
+    "stage_exit": 0,
+    "resume_exit": 0,
+    "results": {
+      "stage": true,
+      "resume": true,
+      "silent_capture": true,
+      "rendered_evidence": true,
+      "unchanged_until_continue": true,
+      "chase": true,
+      "finale": true,
+      "epilogue": true,
+      "story_save_deleted_after_epilogue": true
+    }
+  },
+  "story31-save-finale-b": {
+    "case": "finale",
+    "stage_exit": 0,
+    "resume_exit": 0,
+    "results": {
+      "stage": true,
+      "resume": true,
+      "silent_capture": true,
+      "rendered_evidence": true,
+      "unchanged_until_continue": true,
+      "finale": true,
+      "epilogue": true,
+      "story_save_deleted_after_epilogue": true
+    }
+  }
+}

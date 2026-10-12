@@ -1,0 +1,14 @@
+MODE rendered screenshots
+RESUMED by SaveResumeQA through the menu's Continue; lap 6 chase True chapter Loop
+PASS the saved chase is running again after Continue
+PASS pause freezes chase clock
+RESUMED_CHASE run starts at (8.05, 0.08, 5.65) elapsed 0,10 deaths 0 (no Place, no Begin, no deliberate death)
+PASS no death between Continue and the run
+CAMERA gap=0 cornerFrame=510 sampledLateFrame=510
+PASS camera follows rigid shift after normal LateUpdate
+PASS warm clock reached within 42–50s
+PASS clock wound by holding E two seconds
+PASS ten strikes call the live story finale
+PASS warm return bedside clock follows scenario time
+PASS warm return ready bedside clock has time source
+PASS the resumed chase and its clock strikes entered the live finale

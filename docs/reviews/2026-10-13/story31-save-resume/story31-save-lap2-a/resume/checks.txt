@@ -1,0 +1,14 @@
+PASS both checkpoints redirected to the QA folder C:\Users\User\.codex\.chatgpt-projects\g-p-6aca43271b448191badfa7321ad904d3\github-upload\Igra-FULL-HANDOFF\unity-game\QA\story31-save-lap2-a\qa-saves (story C:\Users\User\.codex\.chatgpt-projects\g-p-6aca43271b448191badfa7321ad904d3\github-upload\Igra-FULL-HANDOFF\unity-game\QA\story31-save-lap2-a\qa-saves\story-checkpoint.json, loop C:\Users\User\.codex\.chatgpt-projects\g-p-6aca43271b448191badfa7321ad904d3\github-upload\Igra-FULL-HANDOFF\unity-game\QA\story31-save-lap2-a\qa-saves\scenario-core-checkpoint.json; player's folder C:\Users\User\AppData\LocalLow\AtakaProject\Атака — тест петли untouched)
+FOUND story {"chapter":"Loop","flashlight":false,"belt":false,"memories":[]}
+FOUND loop {"lap":2,"flashlight":true,"chase":false}
+PASS a fresh process opens on the menu with «Продолжить с сохранения» offered (save present, no story running)
+SHOT resume-menu.png
+PASS before Continue both SavePaths are in the QA folder (story C:\Users\User\.codex\.chatgpt-projects\g-p-6aca43271b448191badfa7321ad904d3\github-upload\Igra-FULL-HANDOFF\unity-game\QA\story31-save-lap2-a\qa-saves\story-checkpoint.json, loop C:\Users\User\.codex\.chatgpt-projects\g-p-6aca43271b448191badfa7321ad904d3\github-upload\Igra-FULL-HANDOFF\unity-game\QA\story31-save-lap2-a\qa-saves\scenario-core-checkpoint.json)
+HASH boot story 258d5037b48fdaddc2311e301f38d0f1e7b4fafd38416c130ba82eeb8503ed41 loop 1a3d3f1aad4c656d1144f239e9110a84997c19803f7c65bcc97a288ba1bf9869 / before Continue story 258d5037b48fdaddc2311e301f38d0f1e7b4fafd38416c130ba82eeb8503ed41 loop 1a3d3f1aad4c656d1144f239e9110a84997c19803f7c65bcc97a288ba1bf9869
+PASS the checkpoints were not rewritten between process start and Continue
+CONTINUED chapter Loop lap 2 flashlight True chase False door direction -1 at (8.05, 0.01, 5.65)
+PASS Continue restored the loop at lap 2 with the flashlight, no chase
+PASS the flat door swings into the hall (the tambour return stays open)
+PASS he stands at the lap's start
+SHOT resume-lap2.png
+PASS no runtime errors (0)

@@ -190,7 +190,7 @@ namespace Ataka.Scenario {
   IEnumerator GranGo(string to){yield return GranWalk(to);}
 
   // ---------- lifecycle ----------
-  void Awake(){if(!loop)loop=GetComponent<LoopDirector>();savePath=System.IO.Path.Combine(Application.persistentDataPath,"story-checkpoint.json");}
+  void Awake(){if(!loop)loop=GetComponent<LoopDirector>();savePath=ScenarioSaves.File("story-checkpoint.json");}
   void Start(){rewind=GetComponent<NightRewind>();if(!rewind)rewind=gameObject.AddComponent<NightRewind>();rewind.loop=loop;rewind.prop=Prop;
    granBody=flat.grandmother.GetComponent<CapsuleCollider>();if(!granBody){granBody=flat.grandmother.AddComponent<CapsuleCollider>();}var gs=flat.grandmother.transform.lossyScale;granBody.radius=GranNav.Radius/Mathf.Max(.01f,Mathf.Max(gs.x,gs.z));granBody.height=GranNav.Height/Mathf.Max(.01f,gs.y);granBody.center=Vector3.up*granBody.height*.5f;granBody.direction=1;granBody.enabled=false;
    RememberProps();tv=FindFirstObjectByType<ScenarioTelevision>();var anim=flat.grandmother.GetComponentInChildren<Animation>(true);granAnim=anim;
@@ -1079,7 +1079,7 @@ namespace Ataka.Scenario {
    // the ticking breaks off
    QaEpiloguePart="end";sound.ResetWorld();v.Close();yield return new WaitForSeconds(1.5f);
    Lens(fov0);p.head.localRotation=Quaternion.identity;if(body)body.enabled=true;p.control=true;
-   if(!loop.testing&&System.IO.File.Exists(savePath))System.IO.File.Delete(savePath);
+   if((!loop.testing||qaAllowSave)&&System.IO.File.Exists(savePath))System.IO.File.Delete(savePath); // the story is over: no Continue (QA may let it happen under -qa-save-dir)
    loop.EndStory();
   }
   void Creep(ScenarioPlayer p,Vector3 a,Vector3 b,float u){p.transform.position=Vector3.Lerp(a,b,Mathf.SmoothStep(0,1,Mathf.Clamp01(u)));p.head.rotation=Quaternion.LookRotation(ScreenAt-p.head.position);}

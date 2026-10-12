@@ -807,3 +807,12 @@ Silent capture12561 cleared callbacks,0 drops,0 format changes. Viewed core-end:
 # Story29 intermediate delivery (immutable)
 Created builds/Ataka-story29-preview-win64.zip:190085615bytes, SHA256641982a4046610275fd82449f661037b8ec1112f92593a124e6d1ced4a4cceb7, source963cda1/build story29-build-n. ZIP CRC passed; extracted into playable/Story29 and all289 runtime file hashes verified. Do NOT overwrite this delivery. docs/STORY29-DELIVERY.json + STORY29-PREVIEW-RU.md identify scope/limitations. Story23 and Story27 still preserved. Not launched for human with sound.
 Next: user can test New Game. Goal remains active, not complete. Voices, temporary actors, hallway-face lighting, saved-game resume validation and whole human playthrough remain. Claude confirmed the fixed geometry and reviewed integrated QA code; no more FaceShed changes without a new defect. No live Unity/player jobs remain. User manual Sketchfab download is not required to continue.
+
+
+## 2026-10-13 — Story31: продолжение после полного перезапуска
+
+Совместно с Claude добавлена изолированная Windows-проверка настоящего сохранения/Continue. 8 успешных процессов writer/reader для второго круга, погони (два варианта) и финала, плюс один ожидаемый отказ неверного QA-пути. Круг 2 с фонариком прошёл через тамбур до круга 3. Строгий вариант погони стартует с позиции Continue без постановки/смерти, добегает за 42–50 с и через часы входит в настоящий финал до эпилога. Отдельно Finale → Continue → эпилог. Все успешные прогоны: 0 ошибок, хеши сохранений неизменны при boot, тихий аудиозахват без потерь. После эпилога story-save удалён. Личные сохранения не читались и не изменялись. Неверный путь QA отклонён.
+
+Код: общий выбор пути сохранений только при QA-флаге, метод кнопки Continue, разрешение штатного удаления QA-сохранения после эпилога; визуал и обычная логика не менялись. Исправлен дефект предложенного теста (комментарий скрывал CheckBoundClocks). Последний билд story31-build-b; исходные записи A/B сохранены. SHA ZIP Story23/27/29 повторно совпали. Новый пользовательский ZIP не выпускался, Story29 остаётся выданной версией.
+
+Ограничения: состояние до записи поставлено настоящими методами игры; Continue вызывается методом кнопки, без мышиного клика. Петля/погоня проходят контроллером; камера финала и ожидания автоматизированы. Срыв во время записи, человеческое прохождение и слуховая приёмка не проверены. Временные актёры и неутверждённые голоса остаются. Отчёт и оригинальные кадры: docs/reviews/2026-10-13/story31-save-resume/README.md.

@@ -1,0 +1,15 @@
+{
+  "case": "finale",
+  "stage_exit": 0,
+  "resume_exit": 0,
+  "results": {
+    "stage": true,
+    "resume": true,
+    "silent_capture": true,
+    "rendered_evidence": true,
+    "unchanged_until_continue": true,
+    "finale": true,
+    "epilogue": true,
+    "story_save_deleted_after_epilogue": true
+  }
+}

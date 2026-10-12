@@ -15,7 +15,7 @@ namespace Ataka.Scenario {
   float thoughtUntil,phoneTimer,balconyTimer,tvWatch,gateWait,balconySeen;bool phoneAnswered,peepholeSeen,returning,clockThought;
   string savePath;bool paused=true,initializing=true;float knockTimer;int knockIndex;
   void FitSubtitles(){if(!subtitle)return;subtitle.horizontalOverflow=HorizontalWrapMode.Wrap;subtitle.verticalOverflow=VerticalWrapMode.Overflow;subtitle.alignment=TextAnchor.LowerCenter;var rect=subtitle.rectTransform;rect.anchorMin=new Vector2(.07f,.035f);rect.anchorMax=new Vector2(.93f,.23f);rect.offsetMin=rect.offsetMax=Vector2.zero;}
-  void Start(){FitSubtitles();savePath=System.IO.Path.Combine(Application.persistentDataPath,"scenario-core-checkpoint.json");story=GetComponent<StoryDirector>();if(!story)story=gameObject.AddComponent<StoryDirector>();story.loop=this;EnterLap(1);initializing=false;Pause(true);}
+  void Start(){FitSubtitles();savePath=ScenarioSaves.File("scenario-core-checkpoint.json");story=GetComponent<StoryDirector>();if(!story)story=gameObject.AddComponent<StoryDirector>();story.loop=this;EnterLap(1);initializing=false;Pause(true);}
   public void Pause(bool value){paused=value;flat.player.Pause(value);Time.timeScale=value?0:1;AudioListener.pause=value;sound.paused=value;}
   public void Thought(string text,float seconds=4){subtitle.text=text;thoughtUntil=Time.time+seconds;}
   public void EnterLap(int n){
@@ -34,6 +34,10 @@ namespace Ataka.Scenario {
    Thought(laps[n-1].hour+":"+laps[n-1].minute.ToString("00"),2.5f);
   }
   [Serializable] class Save{public int lap=1;public bool flashlight,chase;}
+  public string SavePath=>savePath;
+  // the menu's «Продолжить с сохранения» (SaveResumeQA calls exactly this after a process restart)
+  public bool OffersContinue=>story&&story.HasSave&&!story.Active;
+  public void ContinueFromSave(){StopAllCoroutines();scenes.Cancel();chase.Stop();sound.ResetWorld();Finished=false;Pause(false);story.Continue();}
   public void SaveCheckpoint(bool inChase){if(!testing)System.IO.File.WriteAllText(savePath,JsonUtility.ToJson(new Save{lap=Progress.Lap,flashlight=flat.player.hasFlashlight,chase=inChase}));}
   readonly ScenarioFocus interactionFocus=new ScenarioFocus();
   bool Near(Transform t,float distance=1.65f)=>Vector3.Distance(flat.player.head.position,t.position)<distance;
@@ -126,7 +130,7 @@ namespace Ataka.Scenario {
    GUILayout.Label((QaMenu?"QA: тест по SCENARIO.md.":"Сквозная preview-сборка: часть сцен пока титры, модели и звуки временные.")+"\nWASD / мышь · Shift — бег · Ctrl — присесть\nE — действие · F — фонарь, удерживать — подкачка\nC — оглянуться в погоне · Esc — пауза",new GUIStyle(GUI.skin.label){fontSize=18,wordWrap=true});GUILayout.Space(25);
    if(!Finished&&story&&story.Active&&GUILayout.Button("Продолжить",GUILayout.Height(42)))Pause(false);
    if(GUILayout.Button("Новая игра",GUILayout.Height(42))){StopAllCoroutines();scenes.Cancel();chase.Stop();sound.ResetWorld();Finished=false;flat.player.hasFlashlight=false;Pause(false);story.NewGame();}
-   if(story&&story.HasSave&&!story.Active&&GUILayout.Button("Продолжить с сохранения",GUILayout.Height(36))){StopAllCoroutines();scenes.Cancel();chase.Stop();sound.ResetWorld();Finished=false;Pause(false);story.Continue();}
+   if(OffersContinue&&GUILayout.Button("Продолжить с сохранения",GUILayout.Height(36)))ContinueFromSave();
    if(QaMenu&&!Finished&&(!story||!story.Active)&&GUILayout.Button("Продолжить (тест петли)",GUILayout.Height(30)))Pause(false);
    if(QaMenu&&GUILayout.Button("Петля с начала (тест ядра)",GUILayout.Height(30))){if(story)story.Abandon();StopAllCoroutines();scenes.Cancel();chase.Stop();sound.ResetWorld();Finished=false;flat.player.hasFlashlight=false;EnterLap(1);flat.player.Place(ScenarioLayout.Spawn,180);Pause(false);}
    if(QaMenu&&!Finished&&System.IO.File.Exists(savePath)&&GUILayout.Button("Продолжить с сохранённого круга",GUILayout.Height(32))){if(story)story.Abandon();ResumeSavedLap();Pause(false);}

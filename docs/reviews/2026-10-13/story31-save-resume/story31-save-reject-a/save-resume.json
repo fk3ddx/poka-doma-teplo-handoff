@@ -1,0 +1,9 @@
+{
+  "case": "reject",
+  "exit": 1,
+  "results": {
+    "exit_nonzero": true,
+    "reported": true,
+    "qa_folder_empty": true
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "pid": 5736,
+  "command": [
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\Builds\\ScenarioCore\\Ataka-Loop.exe",
+    "-screen-fullscreen",
+    "0",
+    "-screen-width",
+    "1280",
+    "-screen-height",
+    "720",
+    "-audio-capture",
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\QA\\story31-save-lap2-a\\stage-silent-mix.wav",
+    "-logFile",
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\QA\\story31-save-lap2-a\\stage-player.log",
+    "-qa-save-dir",
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\QA\\story31-save-lap2-a\\qa-saves",
+    "-save-resume-qa",
+    "C:\\Users\\User\\.codex\\.chatgpt-projects\\g-p-6aca43271b448191badfa7321ad904d3\\github-upload\\Igra-FULL-HANDOFF\\unity-game\\QA\\story31-save-lap2-a",
+    "-save-resume-case",
+    "lap2",
+    "-save-resume-phase",
+    "stage",
+    "-scenario-death-skip"
+  ],
+  "runtime_sha256": "237b73d46be01d620d979fd89b72784d0f3e2bd93c4439fc379aebcf1689c898",
+  "build_label": "story31-build-a",
+  "utc": "2026-10-12T22:03:12.604135+00:00"
+}

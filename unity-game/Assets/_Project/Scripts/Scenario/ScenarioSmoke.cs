@@ -9,6 +9,9 @@ namespace Ataka.Scenario {
  [DefaultExecutionOrder(10000)] // Observe after CinemachineBrain.LateUpdate; never drive the camera for a test.
  public sealed class ScenarioSmoke:MonoBehaviour {
   LoopDirector loop;ScenarioPlayer player;Keyboard keyboard;string output;List<string> checks=new List<string>();int errors;bool failed;bool integratedFinale;
+  // SaveResumeQA: after the real menu Continue in a fresh process — walk the resumed lap to the next one, or run the resumed chase into the finale
+  int resumeLap;bool resumeChase;
+  public static void ResumeAfterContinue(string directory,int lap,bool chase){var s=new GameObject("Scenario smoke after Continue").AddComponent<ScenarioSmoke>();s.output=directory;s.resumeLap=chase?0:lap;s.resumeChase=chase;}
   static bool headless;
   [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]static void GuardHeadless(){
    var args=Environment.GetCommandLineArgs();headless=Array.IndexOf(args,"-scenario-headless")>=0;
@@ -23,19 +26,23 @@ namespace Ataka.Scenario {
   [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]static void Boot(){var args=Environment.GetCommandLineArgs();int i=Array.IndexOf(args,"-scenario-smoke");if(i>=0&&i+1<args.Length){var s=new GameObject("Scenario smoke").AddComponent<ScenarioSmoke>();s.output=args[i+1];}}
   IEnumerator Start(){
    Directory.CreateDirectory(output);Application.logMessageReceived+=Log;Application.runInBackground=true;Application.targetFrameRate=60;
-   yield return new WaitForSecondsRealtime(2);loop=FindFirstObjectByType<LoopDirector>();player=loop.flat.player;player.automating=true;loop.testing=true;integratedFinale=Array.IndexOf(Environment.GetCommandLineArgs(),"-scenario-integrated-finale")>=0;loop.coreTestOnly=!integratedFinale;InputSystem.settings.backgroundBehavior=InputSettings.BackgroundBehavior.IgnoreFocus;keyboard=InputSystem.AddDevice<Keyboard>();
+   if(resumeLap==0&&!resumeChase)yield return new WaitForSecondsRealtime(2); // after Continue the game is already running: no idle seconds in a live chase
+   loop=FindFirstObjectByType<LoopDirector>();player=loop.flat.player;player.automating=true;loop.testing=true;integratedFinale=Array.IndexOf(Environment.GetCommandLineArgs(),"-scenario-integrated-finale")>=0||resumeChase;loop.coreTestOnly=!integratedFinale;InputSystem.settings.backgroundBehavior=InputSettings.BackgroundBehavior.IgnoreFocus;keyboard=InputSystem.AddDevice<Keyboard>();
    foreach(var device in InputSystem.devices)if(device is Keyboard&&device!=keyboard)InputSystem.DisableDevice(device);keyboard.MakeCurrent(); // Only this process; no OS input injection.
    var mouse=InputSystem.AddDevice<Mouse>();foreach(var device in InputSystem.devices)if(device is Mouse&&device!=mouse)InputSystem.DisableDevice(device);mouse.MakeCurrent();
    checks.Add("MODE "+(headless?"headless: Null graphics, volume0, synthetic input, no images":"rendered screenshots"));
-   yield return Shot("00-menu");loop.Pause(false);checks.Add("menu-to-play");
-   if(integratedFinale){loop.story.QaEnterLoop();yield return null;checks.Add("INTEGRATED real EnterLoop; coreTestOnly=false; finale will continue in this process without QaBegin/FinishCore injection");}
+   bool resumed=resumeLap>0||resumeChase;if(resumed)checks.Add("RESUMED by SaveResumeQA through the menu's Continue; lap "+loop.Progress.Lap+" chase "+loop.chase.Active+" chapter "+loop.story.chapter);
+   if(!resumed){yield return Shot("00-menu");loop.Pause(false);checks.Add("menu-to-play");}
+   if(integratedFinale&&!resumed){loop.story.QaEnterLoop();yield return null;checks.Add("INTEGRATED real EnterLoop; coreTestOnly=false; finale will continue in this process without QaBegin/FinishCore injection");}
    StartCoroutine(CaptureScenes());StartCoroutine(CaptureVestibules());
+   if(resumeChase){float d=Time.realtimeSinceStartup+8;while(!loop.chase.Active&&Time.realtimeSinceStartup<d)yield return null;Check(loop.chase.Active,"the saved chase is running again after Continue");yield return Shot("resume-chase-start");
+    if(!failed)yield return ChaseRun(true);if(!failed){yield return HandToFinale();yield break;}Finish();yield break;}
    if(Array.IndexOf(Environment.GetCommandLineArgs(),"-scenario-chase-only")>=0){
     // Match the real ChaseStart doorway. Beginning at the normal spawn lets gravity/overlap count as movement.
     loop.EnterLap(6);player.hasFlashlight=true;player.Place(new Vector3(8.05f,.02f,5.35f),-90);
     loop.chase.Begin();yield return ChaseRun();Finish();yield break;
    }
-   yield return ObtainFlashlight();
+   if(resumeLap>0)Check(player.hasFlashlight,"the flashlight came back with the save");else yield return ObtainFlashlight();
    if(Array.IndexOf(Environment.GetCommandLineArgs(),"-scenario-hall-light-probe")>=0){Finish();yield break;}
    if(Array.IndexOf(Environment.GetCommandLineArgs(),"-scenario-hall-probe")>=0){
     foreach(var root in loop.flat.apartment.GetComponentsInChildren<Transform>())if(root.name.StartsWith("READY hallway"))foreach(var r in root.GetComponentsInChildren<Renderer>())checks.Add("HALL_MESH "+root.name+" / "+r.name+" bounds="+r.bounds+" enabled="+r.enabled+" active="+r.gameObject.activeInHierarchy+" material="+r.sharedMaterial.name);
@@ -53,8 +60,9 @@ namespace Ataka.Scenario {
    }
    if(Array.IndexOf(Environment.GetCommandLineArgs(),"-scenario-door-probe")>=0){yield return DoorSafetyProbe();Finish();yield break;}
    bool hangingOnly=Array.IndexOf(Environment.GetCommandLineArgs(),"-scenario-hanging-only")>=0;if(hangingOnly)loop.EnterLap(5);
-   for(int lap=hangingOnly?5:1;lap<=6&&!failed;lap++){
-    Check(loop.Progress.Lap==lap,"lap "+lap+" entered");yield return null;CheckBoundClocks("lap "+lap);
+   for(int lap=resumeLap>0?resumeLap:hangingOnly?5:1;lap<=6&&!failed;lap++){
+    Check(loop.Progress.Lap==lap,"lap "+lap+" entered");if(resumeLap>0&&lap>resumeLap){yield return Shot("resume-next-lap");Finish();yield break;} // The resumed lap was walked and its return through the tambour led into the next.
+    yield return null;CheckBoundClocks("lap "+lap);
     if(lap==5){Check(loop.flat.bedroom.locked&&!loop.flat.bedroom.open,"fifth bedroom locked before phone");Check(Mathf.Abs(loop.flat.bedroom.closedAngle-Mathf.Asin(.2f/.8f)*Mathf.Rad2Deg)<.01f,"fifth bedroom has 20cm ajar gap");yield return Walk(new Vector3(7.65f,0,3.8f));Look(loop.flat.phone.position);yield return Press(Key.E);yield return WaitBusy();}
     yield return Walk(new Vector3(7.9f,0,5.35f));yield return Walk(new Vector3(5.65f,0,5.35f));yield return Shot("lap"+lap+"-clock");yield return Walk(new Vector3(5.65f,0,3.6f));
     if(lap==3){
@@ -89,15 +97,17 @@ namespace Ataka.Scenario {
    }
    if(!failed){yield return Walk(new Vector3(2.25f,0,3.6f));yield return Walk(new Vector3(5.65f,0,3.6f));yield return Walk(new Vector3(5.65f,0,5.35f));yield return Walk(new Vector3(8.05f,0,5.45f));Look(loop.flat.entrance.transform.position);yield return Press(Key.E);yield return WaitBusy();float chaseDeadline=Time.realtimeSinceStartup+5;while(!loop.chase.Active&&Time.realtimeSinceStartup<chaseDeadline)yield return null;Check(loop.chase.Active,"chase entered");Check(player.transform.position.z<7&&player.transform.position.z>4,"chase starts at original hallway coordinates");yield return Shot("chase-start");}
    if(!failed)yield return ChaseRun();
-   if(integratedFinale&&!failed){
-    Check(loop.story.chapter==StoryDirector.Chapter.Finale&&!loop.Finished,"six real laps and clock strikes entered the live finale");
+   if(integratedFinale&&!failed){yield return HandToFinale();yield break;}
+   Finish();
+  }
+  // the live finale after the real chase: the core part is recorded, then FinaleQA follows the same running finale
+  IEnumerator HandToFinale(){
+    Check(loop.story.chapter==StoryDirector.Chapter.Finale&&!loop.Finished,resumeChase?"the resumed chase and its clock strikes entered the live finale":"six real laps and clock strikes entered the live finale");
     StopAllCoroutines();InputSystem.QueueStateEvent(keyboard,new KeyboardState());
     File.WriteAllLines(Path.Combine(output,"checks.txt"),checks);
     File.WriteAllText(Path.Combine(output,"core-result.json"),JsonUtility.ToJson(new Result{passed=!failed&&errors==0,errors=errors,lap=loop.Progress.Lap,chase=loop.chase.Active,headless=headless,coreFinished=false,visualVerified=false,graphicsDevice=SystemInfo.graphicsDeviceType.ToString(),listenerVolume=AudioListener.volume},true));
     if(failed||errors>0){Finish();yield break;}
     FinaleQA.ContinueCurrent(Path.Combine(output,"finale"),"key");yield break;
-   }
-   Finish();
   }
   IEnumerator ObtainFlashlight(){
    var cupboard=loop.flat.hallCupboard;
@@ -151,10 +161,13 @@ namespace Ataka.Scenario {
    }
   }
   IEnumerator CaptureScenes(){var captured=new HashSet<string>();while(!loop.Finished){var scene=loop.scenes.PlayingScene;float t=loop.scenes.FrameTime;if(!string.IsNullOrEmpty(scene)){foreach(float at in new[]{.4f,1.1f,1.7f,2.1f,2.4f,2.6f,2.9f,3.6f,4.3f,4.6f,5.1f}){string key=scene+"-"+at.ToString("0.0",System.Globalization.CultureInfo.InvariantCulture);if(t>=at&&t<at+.1f&&!captured.Contains(key)){captured.Add(key);yield return Shot("scene-"+key);break;}}}yield return null;}}
-  IEnumerator ChaseRun(){
+  // fromContinue (SaveResumeQA): the chase restored by the menu's Continue is run straight from where it put him — the
+  // deliberate stall death and the death-skip below are left to the ordinary chase tests; any death on the way FAILs
+  IEnumerator ChaseRun(bool fromContinue=false){
    InputSystem.QueueStateEvent(keyboard,new KeyboardState());
    float elapsed=loop.chase.Progress.Elapsed;loop.Pause(true);yield return new WaitForSecondsRealtime(.5f);Check(Mathf.Abs(loop.chase.Progress.Elapsed-elapsed)<.01f,"pause freezes chase clock");loop.Pause(false);
-   int deaths=loop.chase.DeathCount;float deadline=Time.realtimeSinceStartup+18;
+   if(fromContinue){checks.Add("RESUMED_CHASE run starts at "+player.transform.position.ToString("F2")+" elapsed "+loop.chase.Progress.Elapsed.ToString("F2")+" deaths "+loop.chase.DeathCount+" (no Place, no Begin, no deliberate death)");Check(loop.chase.DeathCount==0,"no death between Continue and the run");}
+   float deadline=Time.realtimeSinceStartup+18;if(!fromContinue){int deaths=loop.chase.DeathCount;
    while(loop.chase.DeathCount==deaths||loop.chase.Ending){if(Time.realtimeSinceStartup>deadline){Check(false,"stall death restart timeout");yield break;}yield return null;}
    Check(loop.chase.Active&&loop.chase.Progress.Elapsed<.5f,"stall death restarts chase");
    if(Array.IndexOf(Environment.GetCommandLineArgs(),"-scenario-death-skip")>=0){
@@ -168,7 +181,7 @@ namespace Ataka.Scenario {
     Check(Time.time-skipStarted<1,"held E skips repeat death");
     while(loop.chase.Ending&&Time.realtimeSinceStartup<waitDeadline)yield return null;
     Check(loop.chase.DeathCount==beforeSkip+1&&!loop.chase.Ending,"skipped death restarts chase");
-   }
+   }}
    deadline=Time.realtimeSinceStartup+85;int startDeaths=loop.chase.DeathCount;bool cornerCaptured=false;yield return Shot("chase-hallway-entry");
    while(!loop.Finished&&!failed){
     if(Time.realtimeSinceStartup>deadline||loop.chase.DeathCount!=startDeaths){Check(false,"chase route failed at "+player.transform.position+" elapsed="+loop.chase.Progress.Elapsed);yield return Shot("FAILED-chase");yield break;}

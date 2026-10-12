@@ -1,0 +1,7 @@
+PASS both checkpoints redirected to the QA folder C:\Users\User\.codex\.chatgpt-projects\g-p-6aca43271b448191badfa7321ad904d3\github-upload\Igra-FULL-HANDOFF\unity-game\QA\story31-save-finale-b\qa-saves (story C:\Users\User\.codex\.chatgpt-projects\g-p-6aca43271b448191badfa7321ad904d3\github-upload\Igra-FULL-HANDOFF\unity-game\QA\story31-save-finale-b\qa-saves\story-checkpoint.json, loop C:\Users\User\.codex\.chatgpt-projects\g-p-6aca43271b448191badfa7321ad904d3\github-upload\Igra-FULL-HANDOFF\unity-game\QA\story31-save-finale-b\qa-saves\scenario-core-checkpoint.json; player's folder C:\Users\User\AppData\LocalLow\AtakaProject\Атака — тест петли untouched)
+SHOT stage-finale.png
+PASS story checkpoint written by StoryDirector.Checkpoint: {"chapter":"Finale","flashlight":false,"belt":false,"memories":[]}
+PASS saved chapter Finale
+HASH staged story a0611936208dd7b74d4c309a0a56265cd8790fffe52766e9f63a635d1ddf5579 loop (none)
+STAGED — this process now quits; run the same case with -save-resume-phase resume in a NEW process
+PASS no runtime errors (0)

@@ -1,0 +1,15 @@
+PASS both checkpoints redirected to the QA folder C:\Users\User\.codex\.chatgpt-projects\g-p-6aca43271b448191badfa7321ad904d3\github-upload\Igra-FULL-HANDOFF\unity-game\QA\story31-save-finale-b\qa-saves (story C:\Users\User\.codex\.chatgpt-projects\g-p-6aca43271b448191badfa7321ad904d3\github-upload\Igra-FULL-HANDOFF\unity-game\QA\story31-save-finale-b\qa-saves\story-checkpoint.json, loop C:\Users\User\.codex\.chatgpt-projects\g-p-6aca43271b448191badfa7321ad904d3\github-upload\Igra-FULL-HANDOFF\unity-game\QA\story31-save-finale-b\qa-saves\scenario-core-checkpoint.json; player's folder C:\Users\User\AppData\LocalLow\AtakaProject\Атака — тест петли untouched)
+FOUND story {"chapter":"Finale","flashlight":false,"belt":false,"memories":[]}
+FOUND loop (none)
+PASS a fresh process opens on the menu with «Продолжить с сохранения» offered (save present, no story running)
+SHOT resume-menu.png
+PASS before Continue both SavePaths are in the QA folder (story C:\Users\User\.codex\.chatgpt-projects\g-p-6aca43271b448191badfa7321ad904d3\github-upload\Igra-FULL-HANDOFF\unity-game\QA\story31-save-finale-b\qa-saves\story-checkpoint.json, loop C:\Users\User\.codex\.chatgpt-projects\g-p-6aca43271b448191badfa7321ad904d3\github-upload\Igra-FULL-HANDOFF\unity-game\QA\story31-save-finale-b\qa-saves\scenario-core-checkpoint.json)
+HASH boot story a0611936208dd7b74d4c309a0a56265cd8790fffe52766e9f63a635d1ddf5579 loop (none) / before Continue story a0611936208dd7b74d4c309a0a56265cd8790fffe52766e9f63a635d1ddf5579 loop (none)
+PASS the checkpoints were not rewritten between process start and Continue
+CONTINUED chapter Finale lap 1 flashlight False chase False door direction -1 at (8.05, 0.01, 5.65)
+PASS Continue restored the finale from its start (22:00, «Дождаться бабушку»)
+SHOT resume-finale.png
+PASS no runtime errors (0)
+PASS the continued story reached its end (epilogue)
+PASS the epilogue deleted the story checkpoint C:\Users\User\.codex\.chatgpt-projects\g-p-6aca43271b448191badfa7321ad904d3\github-upload\Igra-FULL-HANDOFF\unity-game\QA\story31-save-finale-b\qa-saves\story-checkpoint.json (no Continue after the end)
+PASS no runtime errors (0)
