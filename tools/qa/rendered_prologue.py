@@ -1,13 +1,14 @@
 """Rendered SCENARIO 3 prologue QA with silent audio capture; never alters delivered builds."""
 from pathlib import Path
 import argparse,subprocess,json,datetime,hashlib,re
-p=argparse.ArgumentParser();p.add_argument('--label',required=True);p.add_argument('--build-label',required=True);a=p.parse_args()
+p=argparse.ArgumentParser();p.add_argument('--label',required=True);p.add_argument('--build-label',required=True);p.add_argument('--neighbours-only',action='store_true');a=p.parse_args()
 for v in (a.label,a.build_label):
  if not re.fullmatch(r'[A-Za-z0-9_-]+',v):raise SystemExit('Simple labels only')
 project=Path(__file__).resolve().parents[2]/'unity-game';build=project/'QA'/a.build_label
 assert json.loads((build/'exit.json').read_text())['exit_code']==0
 exe=project/'Builds/ScenarioCore/Ataka-Loop.exe';out=project/'QA'/a.label;out.mkdir(parents=True,exist_ok=False)
 cmd=[str(exe),'-screen-fullscreen','0','-screen-width','1280','-screen-height','720','-audio-capture',str(out/'silent-mix.wav'),'-logFile',str(out/'player.log'),'-prologue-qa',str(out)]
+if a.neighbours_only:cmd+=['-neighbours-only']
 info={'command':cmd,'build_label':a.build_label,'utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'runtime_sha256':hashlib.sha256((exe.parent/'Ataka-Loop_Data/Managed/Ataka.Runtime.dll').read_bytes()).hexdigest(),'scope':'Real Windows prologue QA; route walked with CharacterController, aimed acts invoked. Failed legs may be placed for later evidence but remain FAIL. ABSENT entries remain unimplemented. Inspect checks and rendered frames; process success alone is not visual or audio acceptance.'}
 with (out/'console.log').open('w',encoding='utf-8') as log:
  child=subprocess.Popen(cmd,cwd=exe.parent,stdin=subprocess.DEVNULL,stdout=log,stderr=subprocess.STDOUT,creationflags=subprocess.CREATE_NO_WINDOW|subprocess.BELOW_NORMAL_PRIORITY_CLASS)
@@ -19,7 +20,7 @@ with (out/'console.log').open('w',encoding='utf-8') as log:
   checks=(out/'checks.txt').read_text(encoding='utf-8-sig');assert 'FAIL ' not in checks and 'ERROR ' not in checks,checks
   result=json.loads((out/'result.json').read_text(encoding='utf-8-sig'));assert result['passed'] and result['failures']==0 and result['errors']==0,result
   assert result['installed'] and result['stuckLegs']==0,result
-  assert len(list(out.glob('prologue-*.png')))>=12,'Incomplete rendered evidence'
+  assert len(list(out.glob('prologue-*.png')))>=(2 if a.neighbours_only else 12),'Incomplete rendered evidence'
   mix=json.loads((out/'silent-mix.json').read_text(encoding='utf-8-sig'))
   assert mix['captureModeMutesOutput'] and mix['clearedOutputCallbacks']>0,'Silent capture was not confirmed'
   assert not mix['error'] and mix['droppedSamples']==0 and mix['formatChanges']==0,mix

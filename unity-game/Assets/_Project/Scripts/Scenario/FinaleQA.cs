@@ -23,6 +23,9 @@ namespace Ataka.Scenario {
   // pc28d: written synchronously and kept for the 11.9 pixel checks (the very PNG that is reviewed)
   Texture2D shot;
   IEnumerator Shot(string name){foreach(char c in Path.GetInvalidFileNameChars())name=name.Replace(c,'-');yield return new WaitForEndOfFrame();if(!Application.isBatchMode){if(shot)Destroy(shot);shot=ScreenCapture.CaptureScreenshotAsTexture();File.WriteAllBytes(Path.Combine(output,"finale-"+branch+"-"+name+".png"),shot.EncodeToPNG());}checks.Add("SHOT finale-"+branch+"-"+name+".png");}
+  // pc28e: the brightness of the very pixels her face covers in the PNG (face-skin triangle centres facing him)
+  (float mean,float dark,int n) FaceLuma(List<Vector3> pts){if(!shot||pts.Count==0)return(-1,-1,0);float sum=0;int d=0,n=0;foreach(var s in pts){int x=(int)s.x,y=(int)s.y;if(x<0||y<0||x>=shot.width||y>=shot.height)continue;var c=shot.GetPixel(x,y);float l=.2126f*c.r+.7152f*c.g+.0722f*c.b;sum+=l;n++;if(l<.05f)d++;}return n==0?(-1,-1,0):(sum/n,d/(float)n,n);}
+  float WindowLuma(Vector3 s,int r){if(!shot)return -1;float sum=0;int n=0;for(int y=(int)s.y-r;y<=(int)s.y+r;y++)for(int x=(int)s.x-r;x<=(int)s.x+r;x++){if(x<0||y<0||x>=shot.width||y>=shot.height)continue;var c=shot.GetPixel(x,y);sum+=.2126f*c.r+.7152f*c.g+.0722f*c.b;n++;}return n==0?-1:sum/n;}
   float DarkShare(Bounds r){if(!shot)return -1;int x0=Mathf.Clamp((int)r.min.x,0,shot.width-1),x1=Mathf.Clamp((int)r.max.x,0,shot.width-1),y0=Mathf.Clamp((int)r.min.y,0,shot.height-1),y1=Mathf.Clamp((int)r.max.y,0,shot.height-1);if(x1-x0<4||y1-y0<4)return -1;
    int n=0,dark=0;for(int y=y0;y<=y1;y+=2)for(int x=x0;x<=x1;x+=2){var c=shot.GetPixel(x,y);n++;if(.2126f*c.r+.7152f*c.g+.0722f*c.b<.05f)dark++;}return dark/(float)n;}
   static void Aim(ScenarioPlayer p,Vector3 at){var d=at-p.head.position;var flat=d;flat.y=0;if(flat.sqrMagnitude<1e-4f)return;p.transform.rotation=Quaternion.LookRotation(flat);p.pitch=Mathf.Clamp(-Mathf.Atan2(d.y,flat.magnitude)*Mathf.Rad2Deg,-80,80);p.head.localRotation=Quaternion.Euler(p.pitch,0,0);}
@@ -51,7 +54,7 @@ namespace Ataka.Scenario {
    int crackCount=0;Action<string> cue=id=>{if(id=="finger_crack")crackCount++;};sound.CueStarted+=cue;
    var hall=new Vector3(7.8f,.02f,3.55f);var gap=new Vector3(7.62f,1.43f,5.94f);var kitchen=new Vector3(7.45f,.02f,2.75f);
    string last="";int index=0;float until=Time.realtimeSinceStartup+420;float transformAt=-1,tearAt=-1,fingersAt=-1;bool inKitchen=false,fingerShot=false,sawFinaleScene=false,sawDeathFull=false;int tm=0,dm=0,hm=0;
-   float[] transformMarks={.5f,1.2f,2f,2.8f,3.4f},tearMarks={.3f,1f,1.6f,2.3f,2.7f,3.2f},hugMarks={.5f,1.5f,2.5f};float hugAt=-1;
+   float ownFace=-1;float[] transformMarks={.5f,.9f,1.2f,2f,2.8f,3.4f},tearMarks={.3f,1f,1.6f,2.3f,2.7f,3.2f},hugMarks={.5f,1.5f,2.5f};float hugAt=-1;
    while(!loop.Finished&&Time.realtimeSinceStartup<until){
     string beat=story.QaFinaleBeat;
     Time.timeScale=beat=="22:00"||(branch=="key"&&beat=="choice")?6:1;
@@ -92,8 +95,10 @@ namespace Ataka.Scenario {
      bool head=InFrame(p,rig.head.position,out var hv);checks.Add("TRANSFORM t="+transformMarks[tm]+" top "+rig.Top.ToString("F2")+" scale "+gr.localScale.y.ToString("F2")+" forearm "+rig.forearmScale.ToString("F2")+" hand "+rig.handScale.ToString("F2")+" bow "+rig.headBow.ToString("F0")+" head in frame "+head+" "+hv.ToString("F2"));
      // pc28d: in the real finale too — at 1.2 her face is not a black mask in the PNG; from 2.0 the rebuilt head closes onto her neck
      var fsh=story.QaFaceShed;var vcam=p.view?p.view:Camera.main;
-     if(fsh&&fsh.Shown&&transformMarks[tm]==1.2f){var dark=DarkShare(fsh.ScreenFace(vcam));Check(dark>=0&&dark<=.3f,"11.9 at 1.2 s: her face in the PNG is not a black mask ("+(dark*100).ToString("F0")+" % near-black, ≤ 30 %); Guest head still hidden: "+!fsh.GuestShown);}
-     if(fsh&&fsh.Shown&&transformMarks[tm]>=2f){float seam=fsh.SeamError();Check(!float.IsNaN(seam)&&seam<=.04f,"11.9 at "+transformMarks[tm].ToString("F1")+" s: the rebuilt head closes onto her skinned neck (worst seam vertex "+(seam*100).ToString("F1")+" cm, ≤ 4 cm)");}
+     // pc28e: the very pixels of her face — at 0.9 her own face, at 1.2 the cut face skin lit like it; from 2.0 the mouth reads
+     if(fsh&&transformMarks[tm]==.9f){var own=FaceLuma(fsh.FaceSamples(vcam));ownFace=own.mean;Check(own.n>0&&own.mean>=.1f&&own.dark<=.15f,"11.9 at 0.9 s: her own face is lit in the PNG (mean luma "+own.mean.ToString("F3")+" ≥ 0.10, near-black "+(own.dark*100).ToString("F0")+" % ≤ 15 %)");}
+     if(fsh&&fsh.Shown&&transformMarks[tm]==1.2f){var sk=FaceLuma(fsh.FaceSamples(vcam));Check(sk.n>0&&sk.dark<=.15f&&sk.mean>=Mathf.Max(.1f,.75f*ownFace),"11.9 at 1.2 s: the face skin is lit like her own face (mean luma "+sk.mean.ToString("F3")+" vs "+ownFace.ToString("F3")+", near-black "+(sk.dark*100).ToString("F0")+" %); Guest still hidden: "+!fsh.GuestShown);}
+     if(fsh&&fsh.Shown&&transformMarks[tm]>=2f&&fsh.QaJaw){var js=vcam.WorldToScreenPoint(fsh.QaJaw.position);float jl=WindowLuma(js,6);Check(js.z>0&&jl>=.06f,"11.9 at "+transformMarks[tm].ToString("F1")+" s: the Guest's mouth reads in the PNG (luma "+jl.ToString("F3")+" ≥ 0.06 round the jaw)");}
      if(transformMarks[tm]==3.4f)Check(head&&rig.handScale>2f&&rig.forearmScale>1.4f,"11.9 at 3.4 s: her head in his frame, forearms ×"+rig.forearmScale.ToString("F2")+", hands ×"+rig.handScale.ToString("F2"));
      tm++;continue;}
     if(scenes.PlayingScene=="DeathFinale"&&dm<tearMarks.Length&&scenes.FrameTime>=tearMarks[dm]){

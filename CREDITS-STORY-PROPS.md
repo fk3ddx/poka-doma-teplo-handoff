@@ -14,3 +14,11 @@ Prepared by `tools/art/prepare_story_props_open.py`: author geometry, UVs and te
 | Cans | https://polyhaven.com/a/russian_food_cans_01 | Kosan Aziz | CC0 |
 | Bag | https://poly.pizza/m/Wq1JPPqHZS | Quaternius | CC0 |
 | Corvalol | https://poly.pizza/m/Pc8dM9Ja4V («Bottle», scaled to 9 cm) | Quaternius | CC0 |
+
+
+## Prologue neighbours and notice (Story29)
+
+- Tuzik: Quaternius Animal Pack Dog, CC0; original source and source record in `art-source/prologue/QuaterniusDog` and `quaternius-source.json`. Claude added UVs and the original ginger coat texture; Blender/FBX/texture retained in `art-source/prologue/Tuzik`.
+- Valya: recolour of the existing Katcho granny (same face, explicitly a temporary stand-in); original base-model attribution remains in the character credits. Raspberry robe / blue kerchief texture in `art-source/prologue/Valya`.
+- Missing-person notice: original generated texture using the built-in OpenAI image tool, exact text from SCENARIO 3.5. Prompt, source record and SHA256 in `art-source/prologue/MissingPerson`. Not a photograph of a real person.
+- Attic padlock: temporary texture on crossed quads from pc29c, not a final ready-made model.

@@ -1,0 +1,13 @@
+{
+    "passed": true,
+    "installed": true,
+    "failures": 0,
+    "errors": 0,
+    "blinkSpread": 0.0,
+    "routeMetres": 1.1174218654632569,
+    "stuckLegs": 0,
+    "yardPuffs": 0,
+    "fifthPuffs": 0,
+    "beats": [],
+    "absent": []
+}

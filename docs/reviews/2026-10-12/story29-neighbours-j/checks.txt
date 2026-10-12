@@ -1,0 +1,13 @@
+PASS the prologue set is installed (Ataka.Editor.PrologueInstaller.Install)
+PASS walk «step back into hall before the evening neighbours» with the CharacterController
+PASS 4.9 both doors open for Valya (the tambour's too)
+PASS 4.9 Valya and Tuzik stand on the landing at the open doors
+PASS 4.9 Valya visible geometry: height 1,605 m, feet -0,001 m (target 1,6)
+PASS 4.9 Tuzik visible geometry: height 0,416 m, feet -0,002 m (target 0,42)
+SHOT prologue-12-valya-at-the-door.png
+PASS after 4.9 (or when cut off) the neighbours are gone, the tambour door shut
+PASS 8.1 Night2: both doors open again, as in 4.9
+PASS 8.1 Night2: Valya and Tuzik on the landing again
+SHOT prologue-13-night2-valya.png
+PASS after 8.1 (cut off) the neighbours are gone, the tambour door shut
+PASS no runtime errors (0)

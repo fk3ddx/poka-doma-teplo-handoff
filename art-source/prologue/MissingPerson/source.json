@@ -1,0 +1,9 @@
+{
+  "source": "OpenAI built-in image generation tool",
+  "type": "original generated game prop texture",
+  "scenario": "SCENARIO.md section 3.5, exact missing-person notice text",
+  "prompt": "prompt.txt",
+  "sha256": "ab8b057f743b0ca51cd1d786d10e66115b185d999eea1e84a5c42a7c472c4a7a",
+  "edits": "No post-generation image edits. Unity texture import only.",
+  "status": "Viewed in real Windows prologue G notice screen; no human art acceptance."
+}

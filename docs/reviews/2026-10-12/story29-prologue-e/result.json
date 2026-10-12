@@ -1,0 +1,28 @@
+{
+    "passed": false,
+    "installed": true,
+    "failures": 3,
+    "errors": 0,
+    "blinkSpread": 0.949999988079071,
+    "routeMetres": 75.69780731201172,
+    "stuckLegs": 1,
+    "yardPuffs": 3,
+    "fifthPuffs": 3,
+    "beats": [
+        "black",
+        "yard",
+        "roof",
+        "entrance",
+        "slam",
+        "notice",
+        "tv56",
+        "fifth",
+        "landing5",
+        "ring",
+        "open",
+        "inside"
+    ],
+    "absent": [
+        "notice picture Resources/Prologue/missing_person.png (photo bleached white + the text) — drawn by code until then"
+    ]
+}

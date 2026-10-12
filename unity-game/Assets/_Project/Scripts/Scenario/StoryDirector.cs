@@ -350,8 +350,8 @@ namespace Ataka.Scenario {
   IEnumerator QaValyaRun(bool second){chapter=Chapter.Evening;loop.Pause(false);Homely(true);PropsAfterEvening();GranShow(second?"Door":"Armchair",second?180:0);yield return ValyaAtTheDoor(second);PBeat(second?"valya2-done":"valya-done");}
   bool neighboursOn; // pc29b: while Valya is at the door the tambour's outer door stands open; any cut-off shuts it again
   void Neighbours(bool on){
-   if(!on){if(neighboursOn){neighboursOn=false;var outer=OuterDoor();if(outer){outer.open=false;outer.locked=true;}}if(barking!=null)StopCoroutine(barking);barking=null;if(valya)Destroy(valya);if(tuzik)Destroy(tuzik);valya=tuzik=null;var ps=prologue?prologue:FindFirstObjectByType<PrologueSet>(FindObjectsInactive.Include);if(ps&&!ps.IsOn&&ps.stairLights.Length>0&&ps.stairLights[0])ps.stairLights[0].intensity=0;return;}
-   neighboursOn=true;var set=prologue?prologue:FindFirstObjectByType<PrologueSet>(FindObjectsInactive.Include);if(set&&set.stairLights.Length>0&&set.stairLights[0])set.stairLights[0].intensity=set.stairIntensity[0]; // the fifth-floor bulb, so she is seen
+   if(!on){if(neighboursOn){neighboursOn=false;var outer=OuterDoor();if(outer){outer.open=false;outer.locked=true;}}if(barking!=null)StopCoroutine(barking);barking=null;if(valya)Destroy(valya);if(tuzik)Destroy(tuzik);valya=tuzik=null;var ps=prologue?prologue:FindFirstObjectByType<PrologueSet>(FindObjectsInactive.Include);if(ps&&!ps.IsOn)for(int i=0;i<ps.stairLights.Length;i++)if(ps.stairLights[i]&&ps.stairLights[i].transform.position.y>-1)ps.stairLights[i].intensity=0;return;}
+   neighboursOn=true;var set=prologue?prologue:FindFirstObjectByType<PrologueSet>(FindObjectsInactive.Include);if(set&&!set.IsOn)for(int i=0;i<set.stairLights.Length;i++)if(set.stairLights[i]&&set.stairLights[i].transform.position.y>-1)set.stairLights[i].intensity=set.stairIntensity[i]; // the fifth-floor bulb and its downlight, so she is seen (pc29c)
    var v=Resources.Load<GameObject>(ValyaResource);if(v)valya=Instantiate(v,new Vector3(8.05f,0,7.8f),Quaternion.Euler(0,180,0));
    var d=Resources.Load<GameObject>(TuzikResource);if(d)tuzik=Instantiate(d,new Vector3(7.62f,0,7.55f),Quaternion.Euler(0,165,0));
    if(!sound.Has("dog_bark"))sound.Register("dog_bark",Resources.Load<AudioClip>(BarkResource),-8,16,2);if(sound.Has("dog_bark"))barking=StartCoroutine(Bark());}
@@ -1011,13 +1011,16 @@ namespace Ataka.Scenario {
    QaFaceBase=h0;Debug.Log("FACE_BASE top="+r.Top+" root="+g.position+" scale="+baseScale+" h0="+h0+" grow="+grow+" idle="+granIdle+" bone="+r.head.position);
    float[] cracks={1f,1.9f,2.5f,3.1f};int c=0;bool seam=false,shriek=false,off=false;
    if(faceShed)faceShed.End();faceShed=FaceShed.Create(r,flat.guest); // pc28: her face skin, the Guest's head and jaw under it
+   // pc28f: H/I grew to 2.524–2.527 (straightening adds height on top of 2.4/h0): her RENDERED head top (FaceShed, after
+   // GranRig's layer) holds her under 2.44 m — the scale never grows past what keeps the top there
+   float ceilingFit=1;const float TopCap=2.44f;
    for(float t=0;t<3.5f;t+=Time.deltaTime){
-    faceShed.At(t);
+    faceShed.At(t);{float top=faceShed.Top;if(!float.IsNaN(top)&&top>TopCap){float over=top-g.position.y;if(over>.1f)ceilingFit*=Mathf.Clamp((TopCap-g.position.y)/over,.9f,1f);}}
     g.rotation=Quaternion.Slerp(from,to,Mathf.SmoothStep(0,1,Mathf.Clamp01(t/1f)));
     r.headRoll=Mathf.Lerp(0,9,Mathf.Clamp01((t-1f)/.15f));
     if(!seam&&t>=1.3f){seam=true;sound.Play("wet_tear",r.head.position);}
     r.tint=Color.Lerp(Color.white,new Color(.6f,.62f,.58f),Mathf.SmoothStep(0,1,Mathf.Clamp01((t-1.5f)/.9f)));
-    float u=Mathf.SmoothStep(0,1,Mathf.Clamp01((t-1.6f)/1.9f));r.straighten=u;g.localScale=baseScale*Mathf.Lerp(1,grow,u);r.forearmScale=Mathf.Lerp(1,1.55f,u);r.handScale=Mathf.Lerp(1,2.2f,u);
+    float u=Mathf.SmoothStep(0,1,Mathf.Clamp01((t-1.6f)/1.9f));r.straighten=u;g.localScale=baseScale*Mathf.Lerp(1,grow,u)*ceilingFit;r.forearmScale=Mathf.Lerp(1,1.55f,u);r.handScale=Mathf.Lerp(1,2.2f,u);
     r.headBow=12*Mathf.SmoothStep(0,1,Mathf.Clamp01((t-1.5f)/.6f))+35*Mathf.Clamp01(((faceShed&&faceShed.Shown?faceShed.Top:r.Top)-2.3f)/.15f); // same top as before: her head is the rebuilt one from 0.95 s
     var eye=p.head.position;var pr=p.transform.right;var reachAt=eye+p.head.forward*.55f+Vector3.down*.35f;r.Reach(false,reachAt+pr*.32f,u);r.Reach(true,reachAt-pr*.32f,u);
     if(!shriek&&t>=1.5f){shriek=true;sound.Play("shriek",g.position);}

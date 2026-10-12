@@ -67,6 +67,7 @@ namespace Ataka.Scenario {
    var mouse=InputSystem.AddDevice<Mouse>();foreach(var device in InputSystem.devices)if(device is Mouse&&device!=mouse)InputSystem.DisableDevice(device);mouse.MakeCurrent();
    var set=FindFirstObjectByType<PrologueSet>(FindObjectsInactive.Include);result.installed=set;Check(set,"the prologue set is installed (Ataka.Editor.PrologueInstaller.Install)");
    if(!set){Finish();yield break;}
+   if(Array.IndexOf(Environment.GetCommandLineArgs(),"-neighbours-only")>=0){story.QaStopAll();p.Place(new Vector3(7.85f,.02f,5.4f),0);yield return NeighboursCheck(story,flat,p,story.OuterDoor());Finish();yield break;}
    foreach(var l in set.stairLights)Check(l&&l.intensity==0,"before the prologue the stair light "+(l?l.name:"?")+" is off");
    float G=set.lobby.position.y-.02f,door=set.entranceDoor.transform.position.z;
    story.QaBegin("Prologue");
@@ -105,7 +106,7 @@ namespace Ataka.Scenario {
    int fifthBarkStart=barkCount;if(!Resources.Load<AudioClip>(StoryDirector.BarkResource))absent.Add("Tuzik's bark Resources/"+StoryDirector.BarkResource+" (silent until supplied)");
    yield return WatchBreath(story,7.5f);result.fifthPuffs=puffs;Check(puffs>=2&&faded,"3.7 breath steam on the cold landing: "+puffs+" puffs in 7.5 s, fading between them="+faded);
    if(Resources.Load<AudioClip>(StoryDirector.BarkResource))Check(barkCount>fifthBarkStart,"3.7 recorded dog_bark cue actually emitted behind59 during landing wait");
-   Aim(p,set.hatch.position);yield return null;yield return Shot("prologue-10-attic-hatch");absent.Add("the torn padlock on the attic hatch: no model (the hatch itself is the M1 authored one)");
+   Aim(p,set.padlock?set.padlock.position:set.hatch.position);yield return null;yield return Shot("prologue-10-attic-hatch");if(set.padlock){Vector3 lv=Vector3.zero;var lc=p.view?p.view:Camera.main;if(lc)lv=lc.WorldToViewportPoint(set.padlock.position);Check(lc&&lv.z>0&&lv.x>.1f&&lv.x<.9f&&lv.y>.1f&&lv.y<.9f,"3.7 the torn padlock (sprite) hangs from the hatch in his view "+lv.ToString("F2"));}else absent.Add("the torn padlock on the attic hatch (reinstall: Ataka.Editor.PrologueInstaller.Install)");
    // 3.8 the ring at 60
    var outer=story.OuterDoor();yield return Walk(p,"fifth-floor landing → in front of 60",set.landing5.position);yield return Wait(()=>story.QaPrologueBeat=="landing5",3);Check(story.QaPrologueBeat=="landing5","3.8 at flat 60's door");
    yield return Fire(story,p,"Позвонить",(outer?outer.transform.position:flat.entrance.transform.position)+Vector3.up*.3f);yield return Wait(()=>story.QaPrologueBeat=="open",8);yield return new WaitForSeconds(1.2f);
@@ -113,18 +114,22 @@ namespace Ataka.Scenario {
    // into the flat once she has said her line and gone to the kitchen: the evening begins; nothing of the prologue left on
    yield return Wait(()=>story.Objective=="Войти",20);yield return new WaitForSeconds(1.5f);
    yield return Walk(p,"into the flat",new Vector3(8.05f,0,6.6f),new Vector3(7.85f,0,5.4f));yield return Wait(()=>story.QaPrologueBeat=="inside",6);yield return new WaitForSeconds(1);
-   bool allOff=!set.IsOn;foreach(var l in set.stairLights)allOff&=l.intensity==0;foreach(var l in set.yardLights)allOff&=l.intensity==0;allOff&=set.blinkLight.intensity==0;
+   bool allOff=!set.IsOn;foreach(var l in set.stairLights)allOff&=l.intensity==0;foreach(var l in set.yardLights)allOff&=l.intensity==0;allOff&=set.blinkLight.intensity==0;allOff&=!set.blinkSpot||set.blinkSpot.intensity==0;if(set.onlyDuring!=null)foreach(var g in set.onlyDuring)allOff&=!g||!g.activeSelf;
    Check(story.QaPrologueBeat=="inside"&&allOff&&!story.QaYardSnow&&!story.QaBreath&&(!outer||(!outer.open&&outer.locked))&&!sound.BedOn("wind")&&!sound.BedOn("plant_hum")&&!sound.BedOn("lamp_hum"),"3.9 inside: the doors closed, the stairwell/yard lights back to 0, no snow, no breath, no yard sounds");
    result.beats=story.QaPrologueBeats.ToArray();checks.Add("BEATS "+string.Join(" → ",result.beats));checks.Add("ROUTE walked "+result.routeMetres.ToString("F1")+" m, stuck legs "+result.stuckLegs);
+   yield return NeighboursCheck(story,flat,p,outer);
+   Finish();
+  }
+  IEnumerator NeighboursCheck(StoryDirector story,FlatBindings flat,ScenarioPlayer p,ScenarioDoor outer){
    // 4.9: Valya and Tuzik on the landing
    bool models=Resources.Load<GameObject>(StoryDirector.ValyaResource)&&Resources.Load<GameObject>(StoryDirector.TuzikResource);
+   p.control=true;yield return Walk(p,"step back into hall before the evening neighbours",new Vector3(7.85f,0,4.1f));
    story.QaValyaAtTheDoor();yield return Wait(()=>(outer&&outer.open)||story.QaNeighbours,30);yield return new WaitForSeconds(1);Check(!outer||outer.open,"4.9 both doors open for Valya (the tambour's too)");
-   if(models)Check(story.QaNeighbours,"4.9 Valya and Tuzik stand on the landing at the open doors");else absent.Add("Valya and Tuzik models Resources/"+StoryDirector.ValyaResource+" / "+StoryDirector.TuzikResource+" (4.9 and 8.1 are voices only until supplied)");
+   if(models){Check(story.QaNeighbours,"4.9 Valya and Tuzik stand on the landing at the open doors");foreach(string who in new[]{"Valya","Tuzik"}){var model=GameObject.Find(who+"(Clone)");var rs=model?model.GetComponentsInChildren<Renderer>():new Renderer[0];var bounds=new Bounds();bool firstVertex=true;foreach(var r in rs){if(r is SkinnedMeshRenderer skin){var vertices=skin.sharedMesh.vertices;var weights=skin.sharedMesh.boneWeights;var binds=skin.sharedMesh.bindposes;var bones=skin.bones;var matrices=new Matrix4x4[bones.Length];for(int bi=0;bi<bones.Length;bi++)matrices[bi]=bones[bi].localToWorldMatrix*binds[bi];for(int vi=0;vi<vertices.Length;vi++){var w=weights[vi];var world=matrices[w.boneIndex0].MultiplyPoint3x4(vertices[vi])*w.weight0+matrices[w.boneIndex1].MultiplyPoint3x4(vertices[vi])*w.weight1+matrices[w.boneIndex2].MultiplyPoint3x4(vertices[vi])*w.weight2+matrices[w.boneIndex3].MultiplyPoint3x4(vertices[vi])*w.weight3;if(firstVertex){bounds=new Bounds(world,Vector3.zero);firstVertex=false;}else bounds.Encapsulate(world);}}else if(firstVertex){bounds=r.bounds;firstVertex=false;}else bounds.Encapsulate(r.bounds);}float target=who=="Valya"?1.6f:.42f;Check(rs.Length>0&&Mathf.Abs(bounds.size.y-target)<.12f&&Mathf.Abs(bounds.min.y)<.08f,"4.9 "+who+" visible geometry: height "+bounds.size.y.ToString("F3")+" m, feet "+bounds.min.y.ToString("F3")+" m (target "+target+")");}}else absent.Add("Valya and Tuzik models Resources/"+StoryDirector.ValyaResource+" / "+StoryDirector.TuzikResource+" (4.9 and 8.1 are subtitles until supplied)");
    Aim(p,new Vector3(8.05f,1.3f,7.8f));yield return Shot("prologue-12-valya-at-the-door");story.QaStopAll();yield return null;Check(!story.QaNeighbours&&(!outer||!outer.open),"after 4.9 (or when cut off) the neighbours are gone, the tambour door shut");
    // 8.1: Night2 after the rewind — «ровно тот же момент, что в 4.9»
    story.QaValyaAtTheDoor(true);yield return new WaitForSeconds(1);Check(!outer||outer.open,"8.1 Night2: both doors open again, as in 4.9");if(models)Check(story.QaNeighbours,"8.1 Night2: Valya and Tuzik on the landing again");
    Aim(p,new Vector3(8.05f,1.3f,7.8f));yield return Shot("prologue-13-night2-valya");story.QaStopAll();yield return null;Check(!story.QaNeighbours&&(!outer||!outer.open),"after 8.1 (cut off) the neighbours are gone, the tambour door shut");
-   Finish();
   }
   void Finish(){result.absent=absent.ToArray();foreach(var a in absent)checks.Add("ABSENT "+a);Check(errors==0,"no runtime errors ("+errors+")");result.errors=errors;result.failures=failures;result.passed=failures==0&&errors==0;
    File.WriteAllText(Path.Combine(output,"result.json"),JsonUtility.ToJson(result,true));File.WriteAllLines(Path.Combine(output,"checks.txt"),checks);Application.Quit(result.passed?0:1);}

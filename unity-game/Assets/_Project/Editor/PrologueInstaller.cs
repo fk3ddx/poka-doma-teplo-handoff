@@ -15,17 +15,17 @@ namespace Ataka.Editor {
  // (2.8 m). Materials are the existing Art/M1Materials and CC0 assets; nothing new is modelled. All its lights start at
  // intensity 0 (PrologueSet switches them during the prologue only); the accepted flat lights / VHS are checked unchanged.
  public static class PrologueInstaller {
-  const string M="Assets/_Project/Art/M1Materials/",Out="Assets/_Project/Art/Prologue/",RootName="Prologue вЂў north yard and stairwell (M1 style)";
+  const string M="Assets/_Project/Art/M1Materials/",Out="Assets/_Project/Art/Prologue/",RootName="Prologue • north yard and stairwell (M1 style)";
   const float H=2.8f,Dz=.9f,Ground=-12.6f;
-  // SCENARIO 3.2: В«Р”Рѕ РїРѕРґСЉРµР·РґР° 40 РјВ» вЂ” the start at the garages is 40 m from the entrance door (z 12.65); the garages and
+  // SCENARIO 3.2: «До подъезда 40 м» — the start at the garages is 40 m from the entrance door (z 12.65); the garages and
   // the yard reach 7.35 m further north than pc29 (which had 33 m)
-  const float Route=40,Far=7.35f,YardLen=46.5f,YardMid=12.75f+YardLen/2;
+  const float Route=40,Far=7.35f,YardLen=46.5f,YardMid=12.75f+YardLen/2,West=-24,East=40;
   static Transform root;static readonly Dictionary<string,Material> mats=new Dictionary<string,Material>();
   static Material Mat(string n){if(!mats.TryGetValue(n,out var m)){m=AssetDatabase.LoadAssetAtPath<Material>(M+n+".mat");if(!m)throw new System.Exception("Missing material "+n);mats[n]=m;}return m;}
   static GameObject Box(string name,Vector3 p,Vector3 s,string mat,bool collider=true){var g=GameObject.CreatePrimitive(PrimitiveType.Cube);g.name=name;g.transform.SetParent(root,false);g.transform.localPosition=p;g.transform.localScale=s;g.GetComponent<Renderer>().sharedMaterial=Mat(mat);if(!collider)Object.DestroyImmediate(g.GetComponent<Collider>());return g;}
   static GameObject Span(string name,Vector3 a,Vector3 b,string mat,bool collider=true)=>Box(name,(a+b)/2,new Vector3(Mathf.Abs(b.x-a.x),Mathf.Abs(b.y-a.y),Mathf.Abs(b.z-a.z)),mat,collider);
   // pc29b: an invisible walking ramp over a flight. His CharacterController steps 0.10 m and a step rises 0.117 m, so the
-  // capsule walks the ramp laid on the step nosings (26В°, under the 45В° slope limit); the steps themselves are visual only.
+  // capsule walks the ramp laid on the step nosings (26°, under the 45° slope limit); the steps themselves are visual only.
   static void Ramp(string name,float x,float width,Vector3 low,Vector3 high){var g=GameObject.CreatePrimitive(PrimitiveType.Cube);g.name=name;g.transform.SetParent(root,false);var a=new Vector3(x,low.y,low.z);var b=new Vector3(x,high.y,high.z);var dir=(b-a).normalized;var up=Vector3.Cross(dir,Vector3.right).normalized;if(up.y<0)up=-up;g.transform.localRotation=Quaternion.LookRotation(dir,up);g.transform.localPosition=(a+b)/2-up*.05f;g.transform.localScale=new Vector3(width,.1f,(b-a).magnitude);Object.DestroyImmediate(g.GetComponent<MeshRenderer>());Object.DestroyImmediate(g.GetComponent<MeshFilter>());}
   static void Rod(string name,Vector3 a,Vector3 b,float r,string mat){var g=GameObject.CreatePrimitive(PrimitiveType.Cylinder);g.name=name;g.transform.SetParent(root,false);g.transform.localPosition=(a+b)/2;g.transform.localRotation=Quaternion.FromToRotation(Vector3.up,b-a);g.transform.localScale=new Vector3(r*2,(b-a).magnitude/2,r*2);g.GetComponent<Renderer>().sharedMaterial=Mat(mat);Object.DestroyImmediate(g.GetComponent<Collider>());}
   static GameObject Quad(string name,Vector3 p,Quaternion rot,Vector2 size,Material mat){var g=GameObject.CreatePrimitive(PrimitiveType.Quad);g.name=name;g.transform.SetParent(root,false);g.transform.localPosition=p;g.transform.localRotation=rot;g.transform.localScale=new Vector3(size.x,size.y,1);g.GetComponent<Renderer>().sharedMaterial=mat;Object.DestroyImmediate(g.GetComponent<Collider>());return g;}
@@ -41,12 +41,27 @@ namespace Ataka.Editor {
     else if(y<130&&y>20&&x>24&&x<w-24&&(y/6)%2==0&&r.NextDouble()<.8)c=new Color(.3f,.28f,.27f);t.SetPixel(x,y,c);}t.Apply();return t;}
   static Texture2D MailboxTexture(){const int w=256,h=160;var t=new Texture2D(w,h);for(int y=0;y<h;y++)for(int x=0;x<w;x++){int cx=x%42,cy=y%40;var c=new Color(.32f,.42f,.47f);if(cx<2||cy<2)c=new Color(.12f,.14f,.15f);else if(cy>28&&cy<32&&cx>8&&cx<34)c=new Color(.05f,.05f,.05f);else if(cy>8&&cy<14&&cx>16&&cx<26)c=new Color(.75f,.72f,.6f);t.SetPixel(x,y,c);}t.Apply();return t;}
   static Vector3 Flat(Vector3 v)=>new Vector3(v.x,0,v.z);
+  // a steel padlock body with a keyhole; its shackle torn out of the left socket and bent outwards (alpha 0 elsewhere)
+  static Texture2D PadlockTexture(){const int w=64,h=96;var t=new Texture2D(w,h,TextureFormat.RGBA32,false);var clear=new Color(0,0,0,0);for(int y=0;y<h;y++)for(int x=0;x<w;x++)t.SetPixel(x,y,clear);
+   for(int y=4;y<54;y++)for(int x=10;x<54;x++){float shade=.22f+.12f*(1-Mathf.Abs(x-32)/22f)-.05f*(y<10?1:0);bool hole=(x-32)*(x-32)+(y-30)*(y-30)<20||(x>=31&&x<=33&&y>=18&&y<30);t.SetPixel(x,y,hole?new Color(.02f,.02f,.02f,1):new Color(shade,shade*1.04f,shade*1.08f,1));}
+   for(int i=0;i<40;i++){float a=i/39f;int rx=Mathf.RoundToInt(46+Mathf.Sin(a*Mathf.PI)*6),ry=54+Mathf.RoundToInt(a*28);for(int d=-2;d<=2;d++)t.SetPixel(rx+d,ry,new Color(.5f,.5f,.48f,1));} // the right leg still in its socket, rising
+   for(int i=0;i<34;i++){float a=i/33f;int lx=Mathf.RoundToInt(46-a*30-Mathf.Sin(a*Mathf.PI)*4),ly=82-Mathf.RoundToInt(a*a*14);for(int d=-2;d<=2;d++)t.SetPixel(lx,ly+d,new Color(.5f,.5f,.48f,1));} // over the top and bent out sideways, free
+   t.Apply();return t;}
+  static Material CutoutMat(string name,Texture2D tex){var m=new Material(Shader.Find("Universal Render Pipeline/Lit")){name=name};m.SetTexture("_BaseMap",tex);m.SetFloat("_AlphaClip",1);m.SetFloat("_Cutoff",.5f);m.EnableKeyword("_ALPHATEST_ON");m.SetFloat("_Cull",0);m.SetFloat("_Smoothness",.35f);m.SetFloat("_Metallic",.6f);string p=Out+name+".mat";AssetDatabase.DeleteAsset(p);AssetDatabase.CreateAsset(m,p);return m;}
+  // a soft sodium glow, brightest just above the window, fading to nothing at every edge (additive: black adds nothing)
+  static Texture2D GlowTexture(){const int w=128,h=128;var t=new Texture2D(w,h);for(int y=0;y<h;y++)for(int x=0;x<w;x++){float dx=(x-64)/64f,dy=(y-50)/70f;float r=Mathf.Clamp01(1-Mathf.Sqrt(dx*dx+dy*dy));float g=r*r*.42f;t.SetPixel(x,y,new Color(g,g*.62f,g*.3f,1));}t.Apply();return t;}
+  static Material GlowMat(string name,Texture2D tex){var m=new Material(Shader.Find("Universal Render Pipeline/Unlit")){name=name};m.SetTexture("_BaseMap",tex);m.SetFloat("_Surface",1);m.SetFloat("_Blend",2);m.SetFloat("_SrcBlend",(float)UnityEngine.Rendering.BlendMode.One);m.SetFloat("_DstBlend",(float)UnityEngine.Rendering.BlendMode.One);m.SetFloat("_ZWrite",0);m.SetOverrideTag("RenderType","Transparent");m.EnableKeyword("_SURFACE_TYPE_TRANSPARENT");m.renderQueue=(int)UnityEngine.Rendering.RenderQueue.Transparent;string p=Out+name+".mat";AssetDatabase.DeleteAsset(p);AssetDatabase.CreateAsset(m,p);return m;}
+  // pc29c: metre UVs like the authored ApartmentFacades (metreUv): a primitive cube stretches its texture once over each
+  // face, so a 5 m wall or a 0.9 m step read as flat colour. Box-projected from the cube's world position and size.
+  static void MetreUVs(){string dir=Out+"Meshes/";Directory.CreateDirectory(dir);AssetDatabase.Refresh();int meshIndex=0;foreach(var f in root.GetComponentsInChildren<MeshFilter>(true)){if(!f.sharedMesh||f.sharedMesh.name!="Cube")continue;var src=f.sharedMesh;var m=Object.Instantiate(src);m.name="Prologue box (metre UV)";var v=src.vertices;var n=src.normals;var uv=new Vector2[v.Length];var t=f.transform;
+    for(int i=0;i<v.Length;i++){var p=t.TransformPoint(v[i]);var wn=t.TransformDirection(n[i]);uv[i]=Mathf.Abs(wn.y)>.5f?new Vector2(p.x,p.z):Mathf.Abs(wn.x)>.5f?new Vector2(p.z,p.y):new Vector2(p.x,p.y);}m.uv=uv;m.RecalculateTangents();string path=dir+"box-"+(meshIndex++).ToString("D4")+".asset";var saved=AssetDatabase.LoadAssetAtPath<Mesh>(path);if(saved){EditorUtility.CopySerialized(m,saved);Object.DestroyImmediate(m);EditorUtility.SetDirty(saved);}else{AssetDatabase.CreateAsset(m,path);saved=m;}f.sharedMesh=saved;}}
   [MenuItem("Ataka/Prologue/Install yard and stairwell")]
-  public static void InstallAndBuild(){Install();ScenarioBuilder.Build();}
+  public static void InstallAndBuild(){NeighboursInstaller.Install();Install();ScenarioBuilder.Build();}
   public static void Install(){
    Directory.CreateDirectory(Out);AssetDatabase.Refresh();
    var scene=EditorSceneManager.OpenScene("Assets/_Project/Scenario/Flat.unity");var flat=Object.FindFirstObjectByType<FlatBindings>();
-   foreach(var old in scene.GetRootGameObjects().Where(g=>g.name==RootName).ToArray())Object.DestroyImmediate(old);
+   // pc29c: also the root saved under a mis-decoded name (bf3a17c's file had been re-saved as cp1251: "Prologue вЂў …")
+   foreach(var old in scene.GetRootGameObjects().Where(g=>g.name==RootName||g.name.EndsWith("north yard and stairwell (M1 style)")).ToArray())Object.DestroyImmediate(old);
    var accepted=Object.FindObjectsByType<Light>(FindObjectsInactive.Include,FindObjectsSortMode.InstanceID);string before=string.Join("\n",accepted.Select(l=>EditorJsonUtility.ToJson(l)));string vhs=EditorJsonUtility.ToJson(flat.look.vhs);
    // Swing into the vestibule, away from a visitor ringing on the landing.
    foreach(var d in Object.FindObjectsByType<ScenarioDoor>(FindObjectsInactive.Include,FindObjectsSortMode.None))if(d.name=="Entry vestibule closed outer door"){d.direction=-1;EditorUtility.SetDirty(d);}
@@ -60,6 +75,8 @@ namespace Ataka.Editor {
    for(int k=5;k>=1;k--){float y=-(5-k)*H;
     Box("Floor "+k+" landing",new Vector3(7.7f,y-.1f,8.1f),new Vector3(2.3f,.2f,1.8f),"Concrete");
     foreach(float x in new[]{6.55f,8.85f})Box("Floor "+k+" green paint",new Vector3(x+(x<7?.105f:-.105f),y+.7f,9.9f),new Vector3(.009f,1.4f,5.4f),"StairGreen",false);
+    foreach(float x in new[]{6.55f,8.85f})Box("Floor "+k+" half-landing green paint",new Vector3(x+(x<7?.105f:-.105f),y-1.4f+.7f,11.0f),new Vector3(.009f,1.4f,3.2f),"StairGreen",false);
+    Box("Floor "+k+" half-landing green paint (rear)",new Vector3(7.7f,y-1.4f+.7f,12.545f),new Vector3(2.1f,1.4f,.009f),"StairGreen",false);
     // half landing and the two flights below this floor (the lowest pair ends in the lobby)
     float half=y-1.4f;Box("Floor "+k+" half landing",new Vector3(7.7f,half-.1f,12.0f),new Vector3(2.3f,.2f,.9f),"Concrete");
     for(int i=0;i<12;i++){float z=8.13f+Dz+i*.235f,top=y-(i+1)*1.4f/12;
@@ -81,20 +98,29 @@ namespace Ataka.Editor {
     // the bare bulb of each landing (the third floor's is the dying one)
     var bulb=GameObject.CreatePrimitive(PrimitiveType.Sphere);bulb.name="Landing bare bulb";bulb.transform.SetParent(root,false);bulb.transform.localPosition=new Vector3(8.25f,y+2.26f,7.45f+Dz);bulb.transform.localScale=new Vector3(.08f,.12f,.08f);bulb.GetComponent<Renderer>().sharedMaterial=Mat("Bulb");Object.DestroyImmediate(bulb.GetComponent<Collider>());
     Rod("Bulb wire",new Vector3(8.25f,y+2.31f,7.45f+Dz),new Vector3(8.25f,y+2.49f,7.45f+Dz),.004f,"Black");
-    var l=Lamp("Prologue landing bulb floor "+k,new Vector3(8.25f,y+2.17f,7.45f+Dz),new Color(1,.78f,.52f),4);if(k==3)set.blinkLight=l;else stair.Add(l);
+    var l=Lamp("Prologue landing bulb floor "+k,new Vector3(8.25f,y+2.17f,7.45f+Dz),new Color(1,.78f,.52f),5);
+    // pc29c (story29-prologue-c 07/09 were black): the bulb is a point fill plus a downlight with soft shadows, scaled like
+    // the accepted «Entrance warm pool» (spot 8, 115°); the balusters, steps and handrail now throw shadows
+    var down=Lamp("Prologue landing downlight floor "+k,new Vector3(8.25f,y+2.15f,7.45f+Dz),new Color(1,.76f,.5f),6.5f,LightType.Spot);down.transform.localRotation=Quaternion.Euler(90,0,0);down.spotAngle=130;down.innerSpotAngle=55;down.shadows=LightShadows.Soft;
+    if(k==3){set.blinkLight=l;set.blinkSpot=down;}else{stair.Add(l);stair.Add(down);}
     if(k==4)set.door56=Mark("Door 56 (TV behind it)",new Vector3(6.9f,y,7.22f+Dz));
     if(k==5){set.door59=Mark("Door 59 (Tuzik behind it)",new Vector3(6.9f,y,7.22f+Dz));set.landing5=Mark("Fifth floor landing (in front of 60)",new Vector3(8.05f,y+.02f,7.75f),180);}}
    // fifth floor: closes the gaps round the existing tambour, the attic hatch over the landing, the old graffiti
    Span("Fifth floor landing south (west of the tambour)",new Vector3(6.65f,0,7.08f),new Vector3(7.5f,2.6f,7.18f),"StairGreen");Span("Fifth floor landing south (east of the tambour)",new Vector3(8.6f,0,7.08f),new Vector3(8.75f,2.6f,7.18f),"StairGreen");
    Box("Fifth floor threshold",new Vector3(8.05f,-.09f,7.14f),new Vector3(.9f,.18f,.12f),"Concrete");
    set.hatch=Box("Attic hatch",new Vector3(7.64f,2.485f,7.4f+Dz),new Vector3(.73f,.028f,.88f),"Wood",false).transform;
+   // pc29c 3.7: the padlock hangs torn from the hasp, its shackle bent open — an original 2D sprite on two crossed quads
+   var lockMat=CutoutMat("PrologueTornPadlock",SaveTexture("torn_padlock.png",PadlockTexture()));var lockAt=new Vector3(7.64f,2.385f,7.4f+Dz-.43f);
+   set.padlock=Quad("Torn padlock (sprite)",lockAt,Quaternion.identity,new Vector2(.075f,.11f),lockMat).transform;Quad("Torn padlock (sprite, crossed)",lockAt,Quaternion.Euler(0,90,0),new Vector2(.075f,.11f),lockMat).transform.SetParent(set.padlock,true);
+   Box("Hatch hasp",new Vector3(7.64f,2.462f,7.4f+Dz-.43f),new Vector3(.03f,.02f,.05f),"Metal",false);
    Quad("Graffiti",new Vector3(6.659f,1.65f,8.77f+Dz),Quaternion.Euler(0,-90,0),new Vector2(.55f,.13f),Mat("Graffiti"));
    // ---- the lobby (half a floor below the first floor), mailboxes, notice board, the entrance door
    set.lobby=Mark("Lobby",new Vector3(7.7f,Ground+.02f,11.6f));Box("Lobby floor",new Vector3(7.7f,Ground-.1f,10.9f),new Vector3(2.3f,.2f,3.5f),"Concrete");
    Span("Under the first-floor landing",new Vector3(6.65f,Ground,7.2f),new Vector3(8.75f,-11.3f,9.0f),"StairGreen");
    var mail=TextureMat("PrologueMailboxes",SaveTexture("mailboxes_procedural.png",MailboxTexture()));Quad("Mailboxes",new Vector3(6.662f,Ground+1.35f,10.6f),Quaternion.Euler(0,-90,0),new Vector2(1.0f,.62f),mail);
-   var noticeMat=TextureMat("PrologueNotice",SaveTexture("missing_person_procedural.png",NoticeTexture()));var board=Quad("Notice board В«РџР РћРџРђР› Р§Р•Р›РћР’Р•РљВ»",new Vector3(8.738f,Ground+1.45f,10.9f),Quaternion.Euler(0,90,0),new Vector2(.42f,.56f),noticeMat);set.notice=board.transform;set.noticeRenderer=board.GetComponent<Renderer>();
+   var noticeMat=TextureMat("PrologueNotice",SaveTexture("missing_person_procedural.png",NoticeTexture()));var board=Quad("Notice board «ПРОПАЛ ЧЕЛОВЕК»",new Vector3(8.738f,Ground+1.45f,10.9f),Quaternion.Euler(0,90,0),new Vector2(.42f,.56f),noticeMat);set.notice=board.transform;set.noticeRenderer=board.GetComponent<Renderer>();
    stair.Add(Lamp("Prologue lobby bulb",new Vector3(7.7f,Ground+2.3f,10.9f),new Color(1,.8f,.56f),5));
+   var lobbyDown=Lamp("Prologue lobby downlight",new Vector3(7.7f,Ground+2.28f,10.9f),new Color(1,.78f,.52f),6.5f,LightType.Spot);lobbyDown.transform.localRotation=Quaternion.Euler(90,0,0);lobbyDown.spotAngle=130;lobbyDown.innerSpotAngle=55;lobbyDown.shadows=LightShadows.Soft;stair.Add(lobbyDown);
    var frame=new GameObject("Prologue entrance door").transform;frame.SetParent(root,false);frame.localPosition=new Vector3(8.2f,Ground+1,12.65f);
    var hinge=new GameObject("Hinge").transform;hinge.SetParent(frame,false);hinge.localPosition=new Vector3(-.5f,-1,0);
    var leaf=GameObject.CreatePrimitive(PrimitiveType.Cube);leaf.name="Iron entrance door leaf";leaf.transform.SetParent(hinge,false);leaf.transform.localPosition=new Vector3(.5f,1,0);leaf.transform.localScale=new Vector3(1.0f,2.0f,.05f);leaf.GetComponent<Renderer>().sharedMaterial=Mat("KitchenPaint");
@@ -103,12 +129,23 @@ namespace Ataka.Editor {
    Box("Entrance canopy",new Vector3(8.2f,Ground+2.35f,13.1f),new Vector3(1.7f,.1f,.9f),"Concrete");var glass=Box("Entrance light glass",new Vector3(8.2f,Ground+2.22f,12.9f),new Vector3(.34f,.12f,.12f),"SodiumGlass",false);
    yard.Add(Lamp("Prologue entrance light",new Vector3(8.2f,Ground+2.15f,13.0f),new Color(1,.65f,.35f),6));
    // ---- the north facade, roof parapet, the yard
-   Span("North facade west",new Vector3(-1,Ground-.2f,12.75f),new Vector3(6.45f,3.0f,13.05f),"FacadeRender");Span("North facade east",new Vector3(8.95f,Ground-.2f,12.75f),new Vector3(13,3.0f,13.05f),"FacadeRender");
+   // pc29c: the block is as long as the yard (−24…40 m, several entrances), not a 14 m tower in the void
+   Span("North facade west",new Vector3(West,Ground-.2f,12.75f),new Vector3(6.45f,3.0f,13.05f),"FacadeRender");Span("North facade east",new Vector3(8.95f,Ground-.2f,12.75f),new Vector3(East,3.0f,13.05f),"FacadeRender");
+   foreach(float gx in new[]{West-.3f,East})Span("Block gable end",new Vector3(gx,Ground-.2f,8.5f),new Vector3(gx+.3f,3.35f,13.05f),"FacadeRender");
+   Span("North facade plinth west of entrance",new Vector3(West,Ground-.2f,13.05f),new Vector3(7.68f,Ground+.55f,13.2f),"FacadePlinth");Span("North facade plinth east of entrance",new Vector3(8.73f,Ground-.2f,13.05f),new Vector3(East,Ground+.55f,13.2f),"FacadePlinth");
+   foreach(float ex in new[]{-14.2f,27.8f}){Box("Other entrance closed door",new Vector3(ex,Ground+1,13.08f),new Vector3(1.0f,2.0f,.06f),"Metal",false);Box("Other entrance canopy",new Vector3(ex,Ground+2.35f,13.5f),new Vector3(1.7f,.1f,.9f),"Concrete",false);}
    Span("North facade over the stairwell",new Vector3(6.45f,2.7f,12.75f),new Vector3(8.95f,3.0f,13.05f),"FacadeRender");
-   Span("Roof parapet",new Vector3(-1,3.0f,12.7f),new Vector3(13,3.35f,13.1f),"FacadeRender");set.roofFigure=Mark("Roof edge over the entrance",new Vector3(8.2f,3.35f,12.85f),0);
-   for(int k=1;k<=5;k++)for(float x=0;x<12.5f;x+=2.2f){if(x>5.9f&&x<9.2f)continue;bool lit=((k*7+(int)x)%3)==0;Quad("North window",new Vector3(x,-(5-k)*H+1.5f,13.06f),Quaternion.Euler(0,180,0),new Vector2(1.2f,1.3f),Mat(lit?"WindowWarm":"WindowDark"));}
+   Span("Roof parapet",new Vector3(West,3.0f,12.7f),new Vector3(East,3.35f,13.1f),"FacadeRender");
+   // 3.3 the figure must read against something: the roof exit hut right behind it, its small window lit, and the glow
+   // of that window on the snowy air (additive, only while the prologue is on)
+   Span("Roof exit hut",new Vector3(7.3f,3.0f,9.6f),new Vector3(9.1f,5.3f,11.4f),"FacadeRender");Span("Roof exit hut roof",new Vector3(7.2f,5.3f,9.5f),new Vector3(9.2f,5.42f,11.5f),"Concrete",false);
+   Quad("Roof exit hut window (lit)",new Vector3(8.2f,4.55f,11.41f),Quaternion.Euler(0,180,0),new Vector2(1.1f,.9f),Mat("WindowWarm"));
+   var halo=Quad("Roof exit glow (prologue only)",new Vector3(8.2f,4.8f,12.8f),Quaternion.Euler(0,180,0),new Vector2(5.5f,4.2f),GlowMat("PrologueRoofGlow",SaveTexture("roof_glow.png",GlowTexture())));halo.SetActive(false);set.onlyDuring=new[]{halo};set.roofFigure=Mark("Roof edge over the entrance",new Vector3(8.2f,3.35f,12.85f),0);
+   for(int k=1;k<=5;k++)for(float x=West+1.2f;x<East-1f;x+=2.2f){if(x>5.9f&&x<9.2f)continue;if(Mathf.Abs(x+14.2f)<1.2f||Mathf.Abs(x-27.8f)<1.2f)continue;bool lit=((k*7+(int)x)%3)==0;Quad("North window",new Vector3(x,-(5-k)*H+1.5f,13.06f),Quaternion.Euler(0,180,0),new Vector2(1.2f,1.3f),Mat(lit?"WindowWarm":"WindowDark"));}
    Box("North yard ground",new Vector3(8,Ground-.1f,YardMid),new Vector3(64,.2f,YardLen),"Road");
-   var rng=new System.Random(29);for(int i=0;i<10;i++)Box("Dirty snowbank",new Vector3(-12+i*4.4f+(float)rng.NextDouble(),Ground+.02f,16+(float)rng.NextDouble()*2),new Vector3(2.6f,.07f,1.2f),"Snow",false);
+   // pc29c: scattered heaps, not a row along the facade (the row read as a hard light strip across the whole frame)
+   foreach(var (x,z,w,d,h,yaw) in new[]{(-6f,20f,3.1f,1.4f,.1f,12f),(-1f,35f,2.4f,1.0f,.07f,35f),(15.5f,23f,2.8f,1.3f,.12f,-8f),(17f,40f,2.0f,1.0f,.06f,25f),(-10f,45f,3.0f,1.2f,.09f,5f),(12f,50.5f,1.8f,.9f,.08f,-30f)})
+    Box("Dirty snow heap",new Vector3(x,Ground+h/2,z),new Vector3(w,h,d),"Snow",false).transform.localRotation=Quaternion.Euler(0,yaw,0);
    for(int i=0;i<6;i++){float x=-3+i*3.4f;Box("Garage",new Vector3(x,Ground+1.2f,49+Far),new Vector3(3.2f,2.4f,5.6f),"GaragePaint");Box("Garage door",new Vector3(x,Ground+1.0f,46.17f+Far),new Vector3(2.5f,2.0f,.06f),"Metal",false);}
    // the yard has edges: invisible walls so he cannot walk off the ground into the void
    foreach(var (c,sz) in new[]{(new Vector3(-24,Ground+1.5f,YardMid),new Vector3(.2f,3,YardLen)),(new Vector3(40,Ground+1.5f,YardMid),new Vector3(.2f,3,YardLen)),(new Vector3(8,Ground+1.5f,12.75f+YardLen),new Vector3(64,3,.2f))})Box("Yard boundary (invisible)",c,sz,"Concrete").GetComponent<Renderer>().enabled=false;
@@ -119,11 +156,12 @@ namespace Ataka.Editor {
    set.yardSnow=Mark("Yard snow emitter",new Vector3(8,Ground+8,32));set.swing=Mark("Swing (heard, no model)",new Vector3(-4,Ground+.5f,27));
    // the stairwell's stone echo for every sound heard inside it
    var zone=new GameObject("Stairwell echo").AddComponent<AudioReverbZone>();zone.transform.SetParent(root,false);zone.transform.localPosition=new Vector3(7.7f,-5,10);zone.minDistance=4;zone.maxDistance=8;zone.reverbPreset=AudioReverbPreset.StoneCorridor;
-   set.stairLights=stair.ToArray();set.stairIntensity=set.stairLights.Select(x=>x.name.Contains("lobby")?.55f:.43f).ToArray();set.yardLights=yard.ToArray();set.yardIntensity=set.yardLights.Select(x=>x.type==LightType.Spot?30f:3.5f).ToArray();
-   foreach(var r in root.GetComponentsInChildren<Renderer>())if(!r.transform.IsChildOf(frame))GameObjectUtility.SetStaticEditorFlags(r.gameObject,StaticEditorFlags.BatchingStatic); // the entrance door leaf moves
+   set.stairLights=stair.ToArray();set.stairIntensity=set.stairLights.Select(x=>x.type==LightType.Spot?(x.name.Contains("lobby")?7f:6f):(x.name.Contains("lobby")?1.2f:1f)).ToArray();set.blinkIntensity=1f;set.blinkSpotIntensity=6f;set.yardLights=yard.ToArray();set.yardIntensity=set.yardLights.Select(x=>x.type==LightType.Spot?30f:3.5f).ToArray();
+   MetreUVs();
+   foreach(var r in root.GetComponentsInChildren<Renderer>(true))if(!r.transform.IsChildOf(frame))GameObjectUtility.SetStaticEditorFlags(r.gameObject,StaticEditorFlags.BatchingStatic); // the entrance door leaf moves
    string after=string.Join("\n",accepted.Select(l=>EditorJsonUtility.ToJson(l)));if(before!=after||vhs!=EditorJsonUtility.ToJson(flat.look.vhs))throw new System.Exception("Accepted lighting/VHS changed");
    AssetDatabase.SaveAssets();EditorSceneManager.MarkSceneDirty(scene);EditorSceneManager.SaveScene(scene);
-   Directory.CreateDirectory("QA/Prologue");File.WriteAllText("QA/Prologue/install.txt","Prologue set: "+root.GetComponentsInChildren<Renderer>().Length+" renderers, "+(set.stairLights.Length+1)+" stair lights, "+set.yardLights.Length+" yard lights (all 0 until the prologue), ground "+Ground+", entrance door "+frame.position+", start "+set.start.position+", startв†’door "+Vector3.Distance(Flat(set.start.position),Flat(frame.position)).ToString("F1")+" m\n");
+   Directory.CreateDirectory("QA/Prologue");File.WriteAllText("QA/Prologue/install.txt","Prologue set: "+root.GetComponentsInChildren<Renderer>().Length+" renderers, "+(set.stairLights.Length+1)+" stair lights, "+set.yardLights.Length+" yard lights (all 0 until the prologue), ground "+Ground+", entrance door "+frame.position+", start "+set.start.position+", start→door "+Vector3.Distance(Flat(set.start.position),Flat(frame.position)).ToString("F1")+" m\n");
    Debug.Log("PROLOGUE_INSTALLED "+File.ReadAllText("QA/Prologue/install.txt"));
   }
  }

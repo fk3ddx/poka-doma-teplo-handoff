@@ -1,0 +1,26 @@
+{
+    "passed": true,
+    "installed": true,
+    "failures": 0,
+    "errors": 0,
+    "blinkSpread": 0.949999988079071,
+    "routeMetres": 77.08244323730469,
+    "stuckLegs": 0,
+    "yardPuffs": 3,
+    "fifthPuffs": 3,
+    "beats": [
+        "black",
+        "yard",
+        "roof",
+        "entrance",
+        "slam",
+        "notice",
+        "tv56",
+        "fifth",
+        "landing5",
+        "ring",
+        "open",
+        "inside"
+    ],
+    "absent": []
+}
