@@ -4,8 +4,10 @@ namespace Ataka.Scenario {
  public sealed class ScenarioTelevision:MonoBehaviour {
   public LoopDirector loop;public Camera feed;public Transform misha,visitor;public Renderer screen;public Material screenMaterial;
   RenderTexture texture;Material material;bool watched,turned;int lap;
+  public bool storyOn;public Color storyColor=new Color(.35f,.45f,.75f); // story broadcasts (4.8 news, 6 announcer): lit screen, no live feed
   void Start(){texture=new RenderTexture(320,240,16){name="Rubin live feed",filterMode=FilterMode.Bilinear};feed.targetTexture=texture;material=new Material(screenMaterial);screen.sharedMaterial=material;material.SetTexture("_BaseMap",texture);feed.cullingMask=(1<<0)|(1<<31);feed.GetComponent<UnityEngine.Rendering.Universal.UniversalAdditionalCameraData>().renderPostProcessing=false;}
   void LateUpdate(){
+   if(storyOn||(loop.story&&loop.story.OwnsFlat)){feed.enabled=false;misha.gameObject.SetActive(false);visitor.gameObject.SetActive(false);material.SetColor("_BaseColor",storyOn?storyColor:Color.black);return;}
    int n=loop.Progress.Lap;if(n!=lap){lap=n;watched=turned=false;}
    bool on=n==4&&!loop.Progress.EventComplete&&!loop.chase.Active;feed.enabled=on;misha.gameObject.SetActive(on);visitor.gameObject.SetActive(on&&!turned);material.SetColor("_BaseColor",on?new Color(.65f,.72f,.8f):Color.black);if(!on)return;
    var player=loop.flat.player;var direction=loop.flat.television.position-player.transform.position;direction.y=0;direction.Normalize();

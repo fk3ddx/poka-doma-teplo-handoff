@@ -72,7 +72,7 @@ namespace Ataka.Scenario {
    bool chase=loop.chase&&loop.chase.Active;bool death=loop.scenes.InDeath;bool hanging=loop.scenes.PlayingScene=="HangingVision";float sceneTime=loop.scenes.FrameTime;
    if(!calibrating&&!loop.Finished&&!death&&!DeathRecovery){
     if(chase){foreach(var module in loop.chase.pool)if(module.lamp.intensity>0&&(!loop.chase.Ending||module==loop.chase.Current))EnsureLoop("clock",module.clock.transform);if(!loop.chase.Ending){EnsureLoop("player_breath",listener);EnsureLoop("guest_breath",loop.flat.guest.transform);EnsureLoop("heartbeat",listener);}}
-    else if(clock&&!hanging)EnsureLoop("clock",clock);
+    else if(clock&&!hanging&&!loop.flat.clock.stopped)EnsureLoop("clock",clock); // a stopped grandfather clock is silent (evening before 4.6, 22:07)
     if(!chase&&!hanging&&(loop.Progress.Lap==2||loop.Progress.Lap==3))EnsureLoop("wind",loop.flat.balcony);
     if((hanging&&sceneTime<4.9f)||loop.HangingWaiting)EnsureLoop("rope",loop.flat.grandmother.transform);
    }
