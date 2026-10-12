@@ -54,3 +54,9 @@ License checked on each sound page when fetched. These are again public HQ MP3 p
 
 `radio_loop.wav` is a loop cut from the project's own `radio_original_waltz.wav` (`unity-game/tools/art/make_audio.py`), a temporary stand-in for the radio point.
 The 425 Hz busy tone and the 1 kHz test-card tone are generated at runtime in `ScenarioSound` because they are electronic signals; neither is a field recording.
+
+
+## Prologue recordings added 2026-10-12
+- `dog_bark.wav`: Joseph SARDIN & Axeline T, [Small dog behind a door, BigSoundBank 3537](https://bigsoundbank.com/petit-chien-aboie-derriere-porte-s3537.html), CC0. Edited source range 1.80–3.15 s, mono, short fades; source and exact processing/hashes in `art-source/prologue/SmallDogBehindDoor-3537.source.json` and `dog-bark-edit.json`.
+- `tv_laughter.wav`: cognito perceptu, [small audience laughter.wav, Freesound 17121](https://freesound.org/people/cognito%20perceptu/sounds/17121/), CC0-1.0. Source is the public HQ MP3 listening preview, not the login-only original WAV. Converted to mono, high-pass 180 Hz, two low-pass stages 2800 Hz, fades 30/140 ms, peak capped at -6 dBFS. Source and processing/hashes in `art-source/prologue/SmallAudience-17121-preview.source.json` and `tv-laughter-edit.json`; reproducible script `tools/audio/prepare_prologue_laughter.py`.
+Neither recording has received a listening/art approval. Automated capture mutes device output.

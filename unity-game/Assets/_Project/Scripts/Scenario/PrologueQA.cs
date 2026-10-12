@@ -59,7 +59,7 @@ namespace Ataka.Scenario {
    Directory.CreateDirectory(output);Application.logMessageReceived+=Log;Application.runInBackground=true;Application.targetFrameRate=60;
    yield return new WaitForSecondsRealtime(2);
    var loop=FindFirstObjectByType<LoopDirector>();var story=loop.story;var flat=loop.flat;var p=flat.player;var sound=loop.sound;
-   int barkCount=0;sound.CueStarted+=id=>{if(id=="dog_bark")barkCount++;};
+   int barkCount=0,laughterCount=0;sound.CueStarted+=id=>{if(id=="dog_bark")barkCount++;if(id=="tv_laughter")laughterCount++;};
    loop.testing=true;p.automating=true;loop.Pause(false);
    // Keep automated movement isolated from the human keyboard, in this player process only.
    InputSystem.settings.backgroundBehavior=InputSettings.BackgroundBehavior.IgnoreFocus;
@@ -98,7 +98,7 @@ namespace Ataka.Scenario {
     yield return Walk(p,"half landing → floor "+k+" (flight "+(2*k-1)+")",new Vector3(W,y-1.4f,Half),new Vector3(W,y,Land));
     if(k==3){float y3=y;yield return Walk(p,"third-floor landing",new Vector3(7.7f,y3,8.4f));Aim(p,new Vector3(8.25f,y3+2.2f,8.35f));float lo=float.MaxValue,hi=0;for(float t=0;t<1.5f;t+=Time.deltaTime){lo=Mathf.Min(lo,set.blinkLight.intensity);hi=Mathf.Max(hi,set.blinkLight.intensity);yield return null;}
      result.blinkSpread=hi-lo;Check(hi-lo>.2f,"3.6 the third-floor bulb flickers ("+lo.ToString("F2")+"–"+hi.ToString("F2")+")");yield return Shot("prologue-07-third-floor");yield return Walk(p,"back to the stairs",new Vector3(W,y3,Land));}
-    if(k==4){Aim(p,set.door56.position+Vector3.up*1.2f);yield return Wait(()=>story.QaPrologueBeats.Contains("tv56"),3);Check(story.QaPrologueBeats.Contains("tv56"),"3.6 the TV behind 56, heard on the way up: «…в квартире никто не проживал, однако на столе…»");yield return Shot("prologue-08-door56");}}
+    if(k==4){Aim(p,set.door56.position+Vector3.up*1.2f);yield return Wait(()=>story.QaPrologueBeats.Contains("tv56"),3);Check(story.QaPrologueBeats.Contains("tv56"),"3.6 the TV behind 56, heard on the way up: «…в квартире никто не проживал, однако на столе…»");yield return Shot("prologue-08-door56");if(Resources.Load<AudioClip>(StoryDirector.LaughterResource)){yield return Wait(()=>laughterCount>0,4);Check(laughterCount>0,"3.6 recorded tv_laughter cue emitted after the neighbour switches channels");}}}
    if(!Resources.Load<AudioClip>(StoryDirector.LaughterResource))absent.Add("audience laughter Resources/"+StoryDirector.LaughterResource+" (the channel switch is a click and a subtitle until then)");
    // 3.7 the fifth floor
    Check(story.QaPrologueBeats.Contains("fifth"),"3.7 the fifth floor");Aim(p,set.door59.position+Vector3.up*1.2f);yield return null;yield return Shot("prologue-09-fifth-floor");

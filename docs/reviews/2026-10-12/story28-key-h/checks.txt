@@ -1,0 +1,2 @@
+PASS Katcho rig layer ready (Back, Chest, Neck, Head, Arm_Upper/Lower, Hand L/R found)
+PASS door chain made from the ready Poly Haven ball chain (pull_chain_light_socket_chain)

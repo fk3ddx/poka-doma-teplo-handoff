@@ -1,0 +1,23 @@
+{
+  "author": "cognito perceptu",
+  "page": "https://freesound.org/people/cognito%20perceptu/sounds/17121/",
+  "media_url": "https://cdn.freesound.org/previews/17/17121_57789-hq.mp3",
+  "license": "CC0-1.0",
+  "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "source_kind": "public listening preview, NOT original download",
+  "file": "unity-game/Assets/_Project/Resources/Audio/tv_laughter.wav",
+  "bytes": 303902,
+  "sha256": "3494078c6b921735ee0345fbb843e26a472cd6f17809c57a396d85c1765f8a2b",
+  "audition": "pending, no speaker playback",
+  "checked": "2026-10-12",
+  "source_file": "art-source/prologue/SmallAudience-17121-preview.mp3",
+  "mono": true,
+  "samplerate": 44100,
+  "duration_seconds": 3.4451020408163266,
+  "filter": "one pole high pass 180 Hz, two one pole low passes 2800 Hz",
+  "attack_seconds": 0.03,
+  "release_seconds": 0.14,
+  "gain": 0.7938137079878554,
+  "peak_dbfs": -6.0000004906757844,
+  "validation": "finite samples, no clipping, zero fade endpoints"
+}
