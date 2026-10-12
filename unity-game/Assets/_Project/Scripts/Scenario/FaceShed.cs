@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
 namespace Ataka.Scenario {
  // 11.9, second by second, from geometry that is already in the game (no new model):
  //  - her head is rebuilt from her OWN Katcho triangles (bone Head, her 256 px atlas, same UV): the front ones become a
@@ -26,6 +25,10 @@ namespace Ataka.Scenario {
  //    bounds, layer, rendering layers, probes, shadows, her tint block): it is lit and skinned exactly as she is;
  //  - her face at the stove is lit from above (hair bright, face dark even on her own model): a warm scenic key on her
  //    head during 11.9 only, like the «Death fill light» of 11.10, so the face, the slide and the mouth read.
+ // pc28g (story28-face-i: the bit-5 key never reached her — at 0.9 her own face was as black as without it): the key
+ //    is no longer limited by a rendering layer but by geometry — a narrow 36° spot 0.8 m in front of her face whose range
+ //    ends 35 cm behind it, so the fridge (beside his camera, behind the light) and the walls stay as they were; QA
+ //    proves it with a key-on / key-off pair at 1.2.
  // pc28f (story28-face-audit-a/b/c: her ORIGINAL Lit face is dark too; a camera fill reads but burns the fridge):
  //  - the key is the kitchen's light bounced off the floor/table in front of her — low, warm, soft — and it lights ONLY
  //    her (and the Guest's head inside hers) through its own rendering layer (bit 5): the fridge, walls and the accepted
@@ -37,7 +40,6 @@ namespace Ataka.Scenario {
   GranRig rig;Transform root,follow,guestT,jawT;Quaternion offset;Matrix4x4 meshFromFrame;SkinnedMeshRenderer body,face;Mesh bodyMesh,faceless,faceMesh,guestMesh,jawMesh,fallMesh;
   Vector3[] mesh0,meshNow;int[] faceIdx,faceTriangles,liningTriangles;Vector3[] face0;int[] eye,temple;float skinTop,skinBottom;Vector3 jawPivot;Vector3 headScale0;
   Transform fallT;Vector3 fallVelocity;bool fallen;float fallDrop;Light key;MaterialPropertyBlock block;uint bodyLayers0;List<Vector3> headPts=new List<Vector3>();float renderedTop=float.NaN;
-  const uint HerLayer=1u<<5; // rendering layer of the 11.9 key: her renderers only
   public bool Ready{get;private set;}public bool Shown{get;private set;}public bool Fallen=>fallen;
   public int SkinTris,ScalpTris,GuestTris,JawTris;
   public float EyeDrop{get;private set;}public float SeamGap{get;private set;}public float Slide{get;private set;}public float JawAngle{get;private set;}
@@ -55,7 +57,7 @@ namespace Ataka.Scenario {
   public static FaceShed Create(GranRig rig,GameObject guest){var f=new GameObject("Finale face shed (11.9)").AddComponent<FaceShed>();f.rig=rig;f.Extract(guest);return f;}
   void Extract(GameObject guest){
    rig.Init();var g=rig.transform;root=g;var head=rig.head;var skin=g.GetComponentInChildren<SkinnedMeshRenderer>(true);if(!skin||!head)return;
-   body=skin;bodyMesh=skin.sharedMesh;headScale0=head.localScale;bodyLayers0=skin.renderingLayerMask;skin.renderingLayerMask=bodyLayers0|HerLayer;
+   body=skin;bodyMesh=skin.sharedMesh;headScale0=head.localScale;bodyLayers0=skin.renderingLayerMask;
    if(!bodyMesh.isReadable){Debug.LogError("FaceShed: her mesh must be readable: "+bodyMesh.name);return;}
    int hi=System.Array.IndexOf(skin.bones,head);if(hi<0||hi>=bodyMesh.bindposes.Length){Debug.LogWarning("FaceShed: Head is not one of her skin bones");return;}
    // her face frame inside the Head bone (bind pose): forward/up of her body expressed in head-bone space
@@ -134,8 +136,12 @@ namespace Ataka.Scenario {
   void Place(){var head=rig.head;follow.SetPositionAndRotation(head.position,head.rotation*offset);var ls=head.lossyScale;follow.localScale=Vector3.one*((Mathf.Abs(ls.x)+Mathf.Abs(ls.y)+Mathf.Abs(ls.z))/3);}
   // the key: the kitchen light bounced off the floor and the table in front of her — from his side, a little below her
   // face, warm and soft; it lights only her rendering layer (no fridge, no walls), 11.9 only
-  void Aim(){if(!key||!rig||!rig.head)return;var cam=Camera.main;float s=follow?follow.lossyScale.y:1;var h=rig.head.position+rig.head.rotation*offset*Vector3.up*(.12f*s);var from=cam?cam.transform.position:h+root.forward;var d=from-h;d.y=0;if(d.sqrMagnitude<1e-4f)d=root.forward;key.transform.position=h+d.normalized*1.0f+Vector3.down*.3f;key.transform.rotation=Quaternion.LookRotation(h-key.transform.position);}
-  public void KeyLight(float intensity){if(!key){var g=new GameObject("11.9 face key (kitchen bounce, her layer only)");g.transform.SetParent(transform,false);key=g.AddComponent<Light>();key.type=LightType.Spot;key.color=new Color(1,.8f,.62f);key.range=2.4f;key.spotAngle=48;key.innerSpotAngle=10;key.shadows=LightShadows.None;key.renderingLayerMask=(int)HerLayer;key.GetUniversalAdditionalLightData().renderingLayers=(RenderingLayerMask)HerLayer;}key.intensity=intensity;Aim();}
+  public Vector3 KeyTarget{get{float s=follow?follow.lossyScale.y:1;return rig.head.position+rig.head.rotation*offset*Vector3.up*(.1f*s);}}
+  void Aim(){if(!key||!rig||!rig.head)return;var cam=Camera.main;var h=KeyTarget;var from=cam?cam.transform.position:h+root.forward;var d=from-h;d.y=0;if(d.sqrMagnitude<1e-4f)d=root.forward;key.transform.position=h+d.normalized*.8f+Vector3.down*.12f;key.transform.rotation=Quaternion.LookRotation(h-key.transform.position);key.range=Vector3.Distance(key.transform.position,h)+.35f;}
+  public void KeyLight(float intensity){if(!key){var g=new GameObject("11.9 face key (narrow spot on her head, 11.9 only)");g.transform.SetParent(transform,false);key=g.AddComponent<Light>();key.type=LightType.Spot;key.color=new Color(1,.82f,.66f);key.spotAngle=36;key.innerSpotAngle=20;key.shadows=LightShadows.None;}key.intensity=intensity;Aim();}
+  // QA: where the key is and whether a point lies inside its cone and range
+  public string KeyReport(Vector3 p){if(!key)return "no key";var d=p-key.transform.position;float ang=Vector3.Angle(key.transform.forward,d);return "key pos "+key.transform.position.ToString("F2")+" I "+key.intensity.ToString("F2")+" range "+key.range.ToString("F2")+" cone "+key.spotAngle+"° → point at "+d.magnitude.ToString("F2")+" m, "+ang.ToString("F1")+"° off axis, inside="+(ang<=key.spotAngle/2&&d.magnitude<key.range)+", layers light "+key.renderingLayerMask+" / her "+(body?body.renderingLayerMask:0);}
+  public bool KeyCovers(Bounds b){if(!key)return false;for(int i=0;i<8;i++){var c=b.center+Vector3.Scale(b.extents,new Vector3((i&1)==0?-1:1,(i&2)==0?-1:1,(i&4)==0?-1:1));var d=c-key.transform.position;if(d.magnitude<key.range&&Vector3.Angle(key.transform.forward,d)<=key.spotAngle/2)return true;}var dc=b.center-key.transform.position;return dc.magnitude<key.range&&Vector3.Angle(key.transform.forward,dc)<=key.spotAngle/2;}
   // QA: the screen positions of her face skin's front-facing triangles (her own face before Show, the skin after), baked as drawn
   public List<Vector3> FaceSamples(Camera cam){var list=new List<Vector3>();if(!cam||!body||faceIdx==null)return list;var r=Shown&&!fallen&&face?face:body;var m=new Mesh();r.BakeMesh(m,true);var v=m.vertices;Destroy(m);
    var t=faceTriangles;for(int i=0;i<t.Length;i+=3){if(t[i+2]>=v.Length)continue;var a=r.transform.TransformPoint(v[t[i]]);var b=r.transform.TransformPoint(v[t[i+1]]);var c=r.transform.TransformPoint(v[t[i+2]]);var mid=(a+b+c)/3;if(Vector3.Dot(Vector3.Cross(b-a,c-a),cam.transform.position-mid)<=0)continue;var s=cam.WorldToScreenPoint(mid);if(s.z>0)list.Add(s);}return list;}
@@ -144,7 +150,7 @@ namespace Ataka.Scenario {
   public Bounds ScreenFace(Camera cam){var pts=FaceSamples(cam);var r=new Bounds();if(pts.Count==0)return r;var min=pts[0];var max=pts[0];foreach(var p in pts){min=Vector3.Min(min,p);max=Vector3.Max(max,p);}r.SetMinMax(new Vector3(min.x,min.y,0),new Vector3(max.x,max.y,0));return r;}
   // t = seconds into 11.9
   public void At(float t){
-   if(!Ready)return;KeyLight(.75f*Mathf.SmoothStep(0,1,Mathf.Clamp01(t/.8f)));
+   if(!Ready)return;KeyLight(.8f*Mathf.SmoothStep(0,1,Mathf.Clamp01(t/.8f)));
    if(t>=.95f)Show();if(!Shown)return;if(t>=1.3f&&guestT&&!guestT.gameObject.activeSelf){guestT.gameObject.SetActive(true);if(jawT)jawT.gameObject.SetActive(true);} // the grey head only once her skin splits
    float h=skinTop-skinBottom;EyeDrop=.035f*Mathf.SmoothStep(0,1,Mathf.Clamp01((t-1f)/.3f));SeamGap=.014f*Mathf.SmoothStep(0,1,Mathf.Clamp01((t-1.3f)/.12f));Slide=Mathf.SmoothStep(0,1,Mathf.Clamp01((t-1.5f)/.7f));JawAngle=38*Mathf.SmoothStep(0,1,Mathf.Clamp01((t-2f)/.25f));
    if(!fallen){

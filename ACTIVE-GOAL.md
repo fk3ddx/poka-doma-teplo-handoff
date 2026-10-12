@@ -291,3 +291,14 @@ Codex fd9a768 was pushed and ls-remote verified; Claude received exact I/H/J scr
 At1.2, same pose, camera and original materials. 06 default-layer camera point .8/range3 visibly lights face and overexposes fridge. 07 identical clone of pc28f key(.75,range2.4,spot48,layer32) remains dark. 08 point camera-side .75/range3 on layer32 also remains dark; 09 camera spot and10 point at original position likewise. Original body renderer mask33. Thus direction alone does not explain missing light: layer-isolated variants do not affect the image. Precise pipeline cause not yet proven. Test is diagnostic; no gameplay light change retained.
 
 Source build story28-audit-build-d. Exit0/errors0 means diagnostics completed, not art approval. QA-only FaceRenderAudit now emits10frames. Preserve Claude's FaceShed work; no conflict on gameplay code.
+
+
+# pc28g: light fixed, geometry still rejected
+
+Build story28-build-k exited 0. Face K exited 0, failures/errors 0. Face luma .345 with key versus .061 without; fridge-cone check passed. Original on/off images inspected: face readable and fridge not visibly washed out. Height 2.4402m. This is metric PASS, NOT art approval.
+
+At 2.30 the head still floats above a clearly visible band of background wall. Frozen-pose audit E at 2.3 confirms this with unlit original textures: 03 original whole model has a continuous neck; 04 reconstructed model has a gap and detached face skin on the chest. Therefore lighting alone does NOT explain the defect. Preserve neck/chin triangles or fix their deformation; verify same camera before claiming fixed. Do not weaken QA thresholds.
+
+Audit E completed/errors0, ten images. Filenames 08-10 retain historical word layered, but pc28g uses default rendering layers: do not use them as another layer32 test. Audit D remains the layer32 evidence. Legacy guestFacing=1 and seamError=0 do not prove rendered continuity.
+
+All output silently captured. No human visual/audio acceptance; no complete pc28g finale run yet. Story23/27 unchanged. Claude owns FaceShed correction next.

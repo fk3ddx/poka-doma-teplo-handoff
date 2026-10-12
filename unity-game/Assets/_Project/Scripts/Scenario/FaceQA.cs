@@ -11,7 +11,7 @@ namespace Ataka.Scenario {
  // and on her face. PNGs at fixed times + checks.txt (PASS/FAIL/ABSENT) + result.json; exit 0 = no FAIL.
  public sealed class FaceQA:MonoBehaviour {
   string output;readonly List<string> checks=new List<string>();int errors,failures;
-  [Serializable] class Result {public bool passed;public int failures,errors,skinTris,scalpTris,guestTris,jawTris;public float faceBase,skinFacing,guestFacing,faceDark,seamError,ownFaceLuma,faceLuma,mouthLuma,eyeDrop,seamGap,slide,jawAngle,grownTop,faceToHerFace;public bool standInInstalled,leftovers,mirrored,guestInside,skinBelowChin;}
+  [Serializable] class Result {public bool passed;public int failures,errors,skinTris,scalpTris,guestTris,jawTris;public float faceBase,skinFacing,guestFacing,faceDark,seamError,ownFaceLuma,faceLuma,mouthLuma,keyOnLuma,keyOffLuma,eyeDrop,seamGap,slide,jawAngle,grownTop,faceToHerFace;public bool standInInstalled,leftovers,mirrored,guestInside,skinBelowChin;}
   readonly Result result=new Result();
   [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]static void Boot(){
    var args=Environment.GetCommandLineArgs();int i=Array.IndexOf(args,"-face-qa");if(i<0||i+1>=args.Length)return;
@@ -60,6 +60,12 @@ namespace Ataka.Scenario {
       checks.Add("NOTE her head bone matrix mirrored: "+fs.Mirrored+"; Guest head scale in hers "+fs.GuestScale.ToString("F3")+" (bind space)");
       Check(result.skinFacing>=.55f,"1.2: her rebuilt face skin faces him ("+(result.skinFacing*100).ToString("F0")+" % of its triangles front-on) — not its back");
       Check(fs.GuestInside,"before the slide the Guest's head sits inside her head (no cap over the bun, nothing through her face)");}
+     // pc28g: proof that the 11.9 key reaches her face and nothing else — the same frozen frame with the key on and off
+     if(Mathf.Approximately(mark,1.2f)&&fs.QaKey){Time.timeScale=0;yield return Shot("face-1.20-key-on");var pts=fs.FaceSamples(cam);var on=FaceLuma(pts);fs.QaKey.enabled=false;yield return Shot("face-1.20-key-off");var off=FaceLuma(pts);fs.QaKey.enabled=true;Time.timeScale=1;
+      result.keyOnLuma=on.mean;result.keyOffLuma=off.mean;checks.Add("NOTE "+fs.KeyReport(fs.KeyTarget));
+      Check(on.mean-off.mean>=.04f,"1.2: the 11.9 key reaches her face (face luma key off "+off.mean.ToString("F3")+" → on "+on.mean.ToString("F3")+")");
+      bool fridgeLit=false;string fridges="";foreach(var r in FindObjectsByType<Renderer>(FindObjectsSortMode.None)){bool f=false;for(var t=r.transform;t&&!f;t=t.parent)f=t.name.ToLowerInvariant().Contains("fridge");if(f&&r.enabled&&r.gameObject.activeInHierarchy){fridges+=r.name+" ";fridgeLit|=fs.KeyCovers(r.bounds);}}
+      Check(fridges.Length>0&&!fridgeLit,"1.2: the key's cone and range do not reach the fridge ("+(fridges.Length>0?fridges.Trim():"no fridge renderer found")+")");}
      if(Mathf.Approximately(mark,1.45f)){result.seamGap=fs.SeamGap;Check(fs.SeamGap>=.012f,"1.3: the face skin splits at the temple ("+(fs.SeamGap*100).ToString("F1")+" cm)");}
      if(Mathf.Approximately(mark,2.3f)){result.slide=fs.Slide;result.jawAngle=fs.JawAngle;Vector3 v=Vector3.zero;bool seen=fs.QaGuestHead&&InFrame(p,fs.QaGuestHead.position,out v);
       Check(fs.Slide>.95f&&fs.JawAngle>=30,"1.5–2.25: the face skin has slid off the chin ("+fs.Slide.ToString("F2")+"), the Guest's jaw dropped "+fs.JawAngle.ToString("F0")+"°");Check(seen,"the grey head under her face is in his frame "+v.ToString("F2"));}
